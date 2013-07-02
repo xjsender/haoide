@@ -1,0 +1,95 @@
+// While you can edit this file, it's best to put your changes in
+// "User/Preferences.sublime-settings", which overrides the settings in here.
+//
+// Settings may also be placed in file type specific options files, for
+// example, in Packages/Python/Python.sublime-settings for python files.
+{
+    // Directory that place your components
+    // You an change the workspace value but not key
+    // If you change this workspace, then,  
+    // you must change the path in Sublime Apex.sublime-project accordingly
+
+    // // Pro-Exercise
+    "workspace": "d:/ForcedotcomWorkspace/pro-exercise",
+    "login_url": "https://login.salesforce.com",
+    "username": "mouse@exercise.com",
+    "password": "bp333333",
+
+    // Workbook columns
+    "workbook_field_describe_columns": [
+        "sobject", "label","name","type","length","unique","externalId","precision",
+        "picklistValues","calculatedFormula","defaultValue","controllerName",
+        "relationshipName","referenceTo","inlineHelpText","nillable",
+        "createable","custom","dependentPicklist"
+    ],
+
+    // Workflow Rule columns
+    "workflow_rule_columns": [
+        "sobject", "fullName", "triggerType", "active", "formula",
+        "booleanFilter", "criteriaItems", "actions", "description"
+    ],
+
+    // Workflow Field Update columns
+    "workflow_field_update_columns": [
+        "sobject", "name", "fullName", "field", "operation", 
+        "formula", "literalValue", "protected", 
+        "notifyAssignee", "description"
+    ],
+
+    // Workflow Email Alert columns
+    "workflow_email_alert_columns": [
+        "sobject", "fullName", "recipients", "template", 
+        "senderType", "protected", "description"
+    ],
+
+    // Workflow Email Alert columns
+    "workflow_outbound_message_columns": [
+        "sobject", "name", "fullName", "fields", 
+        "endpointUrl", "includeSessionId", "apiVersion", 
+        "integrationUser", "protected", "useDeadLetterQueue"
+    ],
+
+    // Workflow Email Alert columns
+    "workflow_task_columns": [
+        "sobject", "fullName", "assignedTo", "assignedToType", 
+        "description", "dueDateOffset", "notifyAssignee", 
+        "offsetFromField", "priority", "protected", 
+        "status", "subject"
+    ],
+
+    // Workflow Field Update columns
+    "validation_rule_columns": [
+        "sobject", "fullName", "errorConditionFormula", "errorMessage", "errorDisplayField", 
+        "active", "description"
+    ],
+
+    // Components Directory
+    "components": [ 
+        {
+            // Directory Name
+            "type": "ApexClass",
+            // Meatadata Name of Component
+            "body" : "Body", 
+            // Output File Extendsion
+            "extension": ".cls"
+        },
+
+        {
+            "type": "ApexTrigger",
+            "body" : "Body", 
+            "extension": ".trigger"
+        },
+
+        {
+            "type": "ApexComponent",
+            "body" : "Markup", 
+            "extension": ".component"
+        },
+
+        {
+            "type": "ApexPage",
+            "body" : "Markup", 
+            "extension": ".page"
+        }
+    ]
+}

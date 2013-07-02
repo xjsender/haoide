@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+public static testMethod void $1(){
+    $0
+}
+]]></content>
+    <tabTrigger>testmethod</tabTrigger>
+    <scope>source.java</scope>
+    <description>-->test method</description>
+</snippet>

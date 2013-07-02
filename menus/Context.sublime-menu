@@ -1,0 +1,60 @@
+[
+    {
+        "id": "SublimeApex",
+        "caption": "SublimeApex",
+        "children":
+        [
+            {
+                "id": "RefreshCurrentFromServer",
+                "caption": "Refresh Current from Server",
+                "command": "refreshcurrent"
+            },
+
+            {
+                "id": "DeployToServer",
+                "caption": "Deploy to Server",
+                "command": "deploy"
+            },
+             
+            {
+                "id": "DeleteFromServer",
+                "caption": "Delete from Server",
+                "command": "delete"
+            },
+             
+            { "caption": "-" },
+
+            {
+                "id": "executeanonymous",
+                "caption": "Execute Anonymous",
+                "command": "executeanonymous"
+            },
+
+            {
+                "id": "executeSOQLInSFDC",
+                "caption": "Execute SOQL",
+                "command": "executesoql"
+            },
+
+            {
+                "id": "reuntest",
+                "caption": "Run Test Class",
+                "command": "runtest"
+            },
+
+            { "caption": "-" },
+
+            {
+                "id": "viewidinsfdcweb",
+                "caption": "View Id in Salesforce Web",
+                "command": "viewidinsfdcweb"
+            },
+
+            {
+                "id": "showinsfdcweb",
+                "caption": "Show in Salesforce Web",
+                "command": "showinsfdcweb"
+            }
+        ]
+    }
+]

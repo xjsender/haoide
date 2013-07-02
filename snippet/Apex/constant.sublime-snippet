@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+public static final ${1:DATA-TYPE} ${2:CONSTANT-VARAIBLE-NAME} = ${3:};
+]]></content>
+    <tabTrigger>const</tabTrigger>
+    <scope>source.java</scope>
+    <description>--> constant variable</description>
+</snippet>

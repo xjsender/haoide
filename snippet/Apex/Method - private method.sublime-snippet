@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+private ${1:void} ${2:METHOD-NAME} () {
+    $0
+}
+]]></content>
+    <tabTrigger>private</tabTrigger>
+    <scope>source.java</scope>
+    <description>--> private method</description>
+</snippet>

@@ -1,0 +1,187 @@
+[
+    {
+        "id": "SublimeApex",
+        "caption": "SublimeApex",
+        "children":
+        [
+            {
+                "id": "RefreshFromServer",
+                "caption": "Refresh All",
+                "command": "refreshall"
+            },
+
+            {
+                "id": "retrieveall",
+                "caption": "Retrieve All",
+                "command": "retrieveall"
+            },
+
+            {
+                "id": "runonetest",
+                "caption": "Run Test",
+                "command": "runonetest"
+            },
+
+            { "caption": "-" },
+
+            {
+                "id": "describecustomfield",
+                "caption": "Describe CustomField",
+                "command": "describecustomfield"
+            },
+
+            {
+                "id": "describeglobal",
+                "caption": "Describe Global",
+                "command": "describeglobal"
+            },
+
+            {
+                "id": "describelayout",
+                "caption": "Describe Layout",
+                "command": "describelayout"
+            },
+
+            {
+                "id": "describesobject",
+                "caption": "Describe Sobject",
+                "command": "describesobject"
+            },
+
+            { "caption": "-" },
+
+            {
+                "id": "exportworkflow",
+                "caption": "Export Workflow",
+                "command": "exportworkflow"
+            },
+
+            {
+                "id": "exportvalidationrules",
+                "caption": "Export Validation Rule",
+                "command": "exportvalidationrules"
+            },
+
+            {
+                "id": "exportspecifiedworkbook",
+                "caption": "Export Specified Workbook",
+                "command": "exportspecifiedworkbook"
+            },
+
+            {
+                "id": "exportallworkbooks",
+                "caption": "Export All Workbooks",
+                "command": "exportallworkbooks"
+            },
+
+            { "caption": "-" },
+
+            {
+                "caption": "Login To",
+                "children": [
+                    {
+                        "id": "logintosfdc",
+                        "caption": "Home Page",
+                        "command": "loginintosfdc"
+                    },
+
+                    {
+                        "id": "logintosfdc",
+                        "caption": "Develop Console",
+                        "command": "loginintosfdc",
+                        "args": {
+                            "startURL": "/_ui/common/apex/debug/ApexCSIPage"
+                        }
+                    },
+
+                    {
+                        "id": "logintosfdc",
+                        "caption": "Debug Log",
+                        "command": "loginintosfdc",
+                        "args": {
+                            "startURL": "/setup/ui/listApexTraces.apexp"
+                        }
+                    },
+
+                    {
+                        "id": "logintosfdc",
+                        "caption": "Apex Job",
+                        "command": "loginintosfdc",
+                        "args": {
+                            "startURL": "/apexpages/setup/listAsyncApexJobs.apexp"
+                        }
+                    },
+
+                    {
+                        "id": "logintosfdc",
+                        "caption": "Create Object",
+                        "command": "loginintosfdc",
+                        "args": {
+                            "startURL": "/p/setup/custent/CustomObjectsPage?setupid=CustomObjects"
+                        }
+                    },
+
+                    {
+                        "id": "logintosfdc",
+                        "caption": "Workflow Rule",
+                        "command": "loginintosfdc",
+                        "args": {
+                            "startURL": "/01Q"
+                        }
+                    },
+
+                    {
+                        "id": "logintosfdc",
+                        "caption": "Apex Test Execution",
+                        "command": "loginintosfdc",
+                        "args": {
+                            "startURL": "/ui/setup/apex/ApexTestQueuePage"
+                        }
+                    }
+                ]
+            },
+
+            { "caption": "-" },
+
+            {
+                "id": "BulkApiQuery",
+                "caption": "Data Loader",
+                "command": "backupsobjects"
+            },
+
+            { "caption": "-" },
+
+            {
+                "command": "open_file", 
+                "args": {
+                    "file": "${packages}/SublimeApex/settings/toolingapi.sublime-settings"
+                },
+                "caption": "Settings – Default"
+            },
+
+            {
+                "command": "open_file", 
+                "args": {
+                    "file": "${packages}/user/toolingapi.sublime-settings"
+                },
+                "caption": "Settings – User"
+            },
+
+            {
+                "command": "open_file", 
+                "args": {
+                    "file": "${packages}/SublimeApex/keymap/Default (Windows).sublime-keymap"
+                },
+                "caption": "Key Bindings – Default"
+            },
+
+            { "caption": "-" },
+
+            {
+                "id": "about",
+                "caption": "About",
+                "command": "about"
+            }
+        ]
+    }
+]

@@ -1,0 +1,84 @@
+[
+    {
+        "keys": ["ctrl+f5"],
+        "command": "refreshall"
+    },
+
+    {
+        "keys": ["ctrl+alt+s"],
+        "command": "deploy",
+        "context": [{
+            "key": "selector",
+            "operator": "equal"
+        }]
+    },
+
+    {
+        "keys": ["ctrl+alt+s"],
+        "command": "deploy",
+        "context": [{
+            "key": "selector",
+            "operator": "equal",
+            "operand": "source.html"
+        }]
+    },
+
+    {
+        "keys": ["ctrl+alt+e"],
+        "command": "executeanonymous",
+        "context": [{
+            "key": "selector",
+            "operator": "equal"
+        }]
+    },
+
+    {
+        "keys": ["alt+r"],
+        "command": "runtest",
+        "context": [{
+            "key": "selector",
+            "operator": "equal"
+        }]
+    },
+
+    {
+        "keys": ["ctrl+alt+r"],
+        "command": "refreshcurrent",
+        "context": [{
+            "key": "selector",
+            "operator": "equal"
+        }]
+    },
+
+    {
+        "keys": ["ctrl+alt+q"],
+        "command": "executesoql",
+        "context": [{
+            "key": "selector",
+            "operator": "equal"
+        }]
+    },
+
+    {
+        "keys": ["alt+d"],
+        "command": "delete",
+        "context": [{
+            "key": "selector",
+            "operator": "equal"
+        }]
+    },
+
+    {
+        "keys": ["ctrl+alt+n"],
+        "command": "create"
+    },
+
+    {
+        "keys": ["f5"],
+        "command": "showinsfdcweb",
+        "context": [{
+            "key": "selector",
+            "operator": "equal"
+        }]
+    }
+]

@@ -1,0 +1,28 @@
+<snippet>
+    <content><![CDATA[
+# build.properties
+#
+
+# Specify the login credentials for the desired Salesforce organization
+sf.source.username = ${1:FULL-SANDBOX}
+sf.source.password = ${2:}
+
+sf.target.username = ${3:Production}
+sf.target.password = ${4:}
+
+#sf.pkgName = <Insert comma separated package names to be retrieved>
+#sf.zipFile = <Insert path of the zipfile to be retrieved>
+#sf.metadataType = <Insert metadata type name for which listMetadata or bulkRetrieve operations are to be performed>
+
+# Use 'https://login.salesforce.com' for production or developer edition (the default if not specified).
+# Use 'https://test.salesforce.com for sandbox.
+sf.source.serverurl = https://${5:test}.salesforce.com
+sf.target.serverurl = https://${6:test}.salesforce.com
+
+# If your network requires an HTTP proxy, see http://ant.apache.org/manual/proxy.html for configuration.
+#
+]]></content>
+    <tabTrigger>buildp</tabTrigger>
+    <scope>source.java</scope>
+    <description>--> build.properties</description>
+</snippet>

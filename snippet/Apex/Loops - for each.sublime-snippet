@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+for ($1: ${2:collection}) {
+    ${3:BODY}
+}
+]]></content>
+    <tabTrigger>foreach</tabTrigger>
+    <scope>source.java</scope>
+    <description>--> for each</description>
+</snippet>
