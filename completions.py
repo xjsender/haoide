@@ -1,8 +1,14 @@
 import sublime, sublime_plugin
 import re
 import time
-from . import context
-from .salesforce.metadata import metadata
+try:
+    # Python 3.x
+    from . import context
+    from .salesforce.metadata import metadata
+except:
+    # Python 2.x
+    import context
+    from salesforce.metadata import metadata
 
 class SobjectCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):

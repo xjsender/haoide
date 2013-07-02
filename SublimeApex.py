@@ -6,11 +6,13 @@ import re
 import os
 
 try:
+    # Python 3.x
     from . import processor
     from . import context
     from .salesforce import util, message
     from .salesforce import bulkapi
 except:
+    # Python 2.x
     import processor
     import context
     from salesforce import util, message, bulkapi
@@ -338,11 +340,20 @@ class loginintosfdcCommand(sublime_plugin.WindowCommand):
         toolingapi_settings = context.get_toolingapi_settings()
 
         # Combine Login URL
-        show_params = urllib.parse.urlencode({
-            "un": toolingapi_settings["username"],
-            "pw": toolingapi_settings["password"],
-            "startURL": startURL
-        })
+        try:
+            # Python 3.x
+            show_params = urllib.parse.urlencode({
+                "un": toolingapi_settings["username"],
+                "pw": toolingapi_settings["password"],
+                "startURL": startURL
+            })
+        except:
+            # Python 2.x
+            show_params = urllib.urlencode({
+                "un": toolingapi_settings["username"],
+                "pw": toolingapi_settings["password"],
+                "startURL": startURL
+            })
         show_url = toolingapi_settings["login_url"] + '?%s' % show_params
 
         # Open this component in salesforce web
@@ -534,7 +545,7 @@ class refreshallCommand(sublime_plugin.WindowCommand):
         # Handle Refresh All
         print(message.WAIT_FOR_A_MOMENT)
         processor.handle_refresh_components(toolingapi_settings, 5)
-        # processor.handle_initiate_sobjects_completions(5)
+        processor.handle_initiate_sobjects_completions(5)
 
 class refreshcurrentCommand(sublime_plugin.TextCommand):
     def run(self, view): 

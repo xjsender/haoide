@@ -3,8 +3,12 @@ import sublime_plugin
 import os
 import time
 
-from . import context
-from .salesforce import util
+try:
+    from . import context
+    from .salesforce import util
+except:
+    import context
+    from salesforce import util
 
 class BackupAfterSave(sublime_plugin.EventListener):
     """
@@ -15,7 +19,10 @@ class BackupAfterSave(sublime_plugin.EventListener):
     def on_post_save(self, view):
         # Get current file name and Read file content
         file_name = view.file_name()
-        body = open(file_name, encoding="utf-8").read()
+        try:
+            body = open(file_name, encoding="utf-8").read()
+        except:
+            body = open(file_name).read().encode("utf-8")
 
         # Get component_name amd component_type
         component_name = util.get_component_name(file_name)

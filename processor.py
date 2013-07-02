@@ -11,6 +11,7 @@ import zipfile
 import shutil
 
 try:
+    # Python 3.x
     import urllib.parse
     from . import requests
     from . import context
@@ -23,6 +24,7 @@ try:
     from .salesforce.util import getUniqueElementValueFromXmlString
     from .salesforce import bulkapi
 except:
+    # Python 2.x
     import urllib
     import requests
     import context

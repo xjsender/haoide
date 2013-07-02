@@ -63,7 +63,7 @@ def parse_test_result(result):
     """
 
     separate = "-" * 100
-    view_result = ' Test Result\n'
+    view_result = 'Test Result\n'
     class_name = ""
     for test_result in result:
         view_result += separate + "\n"
@@ -449,7 +449,10 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
 
     # Create new csv file for this workbook
     # fp = open(outputdir + "/" + sobject + ".csv", "wb", newline='')
-    fp = open(outputdir + "/" + sobject + ".csv", "w", newline='')
+    try:
+        fp = open(outputdir + "/" + sobject + ".csv", "w", newline='')
+    except:
+        fp = open(outputdir + "/" + sobject + ".csv", "w")
     
     #------------------------------------------------------------
     # Headers, all headers are capitalized
