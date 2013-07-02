@@ -7,6 +7,7 @@ import threading
 from xml.sax.saxutils import unescape
 
 try:
+    # Python 3.x
     from .login import soap_login
     from . import message
     from .util import getUniqueElementValueFromXmlString
@@ -14,6 +15,7 @@ try:
     from .. import context
     from .. import requests
 except:
+    # Python 2.x
     from login import soap_login
     import message
     from util import getUniqueElementValueFromXmlString

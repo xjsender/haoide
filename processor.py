@@ -9,6 +9,7 @@ import pprint
 import base64
 import zipfile
 import shutil
+import sys
 
 try:
     # Python 3.x
@@ -358,7 +359,10 @@ def handle_describe_customfield(sobject, timeout):
 
         # Open output csv
         output_file_dir = outputdir + "/" + sobject + ".csv"
-        fp = open(output_file_dir, "w", newline='')
+        if util.is_python3x():
+            fp = open(output_file_dir, "w", newline='')
+        else:
+            fp = open(output_file_dir, "wb")
 
         # Write list to csv
         util.list2csv(fp, result["records"])
@@ -375,7 +379,7 @@ def handle_describe_customfield(sobject, timeout):
     query = """SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName 
                FROM CustomField 
                WHERE TableEnumOrId='{sobject}'""".format(sobject=sobject)
-    thread = threading.Thread(target=api.query_all, args=(query, ))
+    thread = threading.Thread(target=api.query_all, args=(query, True,))
     thread.start()
     handle_thread(thread, 10)
 
@@ -403,7 +407,10 @@ def handle_describe_global():
 
         # Open output csv
         output_file_dir = outputdir + "/sobjects.csv"
-        fp = open(output_file_dir, "w", newline='')
+        if util.is_python3x():
+            fp = open(output_file_dir, "w", newline='')
+        else:
+            fp = open(output_file_dir, "wb")
 
         # Write list to csv
         util.list2csv(fp, result["sobjects"])
@@ -450,7 +457,11 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id):
 
         output_file_dir = outputdir + "/" + sobject + "-" + recordtype_name + ".csv"
 
-        util.parse_describe_layout_result(open(output_file_dir, "w", newline=''), result)
+        if util.is_python3x():
+            fp = open(output_file_dir, "w", newline='')
+        else:
+            fp = open(output_file_dir, "wb")
+        util.parse_describe_layout_result(fp, result)
         
         print("Layout describe outputdir: " + output_file_dir)
 

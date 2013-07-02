@@ -1,10 +1,12 @@
 import urllib
 
 try:
+    # Python 3.x
     from .. import requests
     from . import soap_bodies
     from .util import getUniqueElementValueFromXmlString
 except:
+    # Python 2.x
     import requests
     import soap_bodies
     from util import getUniqueElementValueFromXmlString

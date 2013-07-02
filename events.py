@@ -22,7 +22,7 @@ class BackupAfterSave(sublime_plugin.EventListener):
         try:
             body = open(file_name, encoding="utf-8").read()
         except:
-            body = open(file_name).read().encode("utf-8")
+            body = open(file_name, "rb").read()
 
         # Get component_name amd component_type
         component_name = util.get_component_name(file_name)

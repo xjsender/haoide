@@ -8,13 +8,6 @@
     // You an change the workspace value but not key
     // If you change this workspace, then,  
     // you must change the path in Sublime Apex.sublime-project accordingly
-
-    // // Pro-Exercise
-    "workspace": "d:/ForcedotcomWorkspace/pro-exercise",
-    "login_url": "https://login.salesforce.com",
-    "username": "mouse@exercise.com",
-    "password": "bp333333",
-
     // Workbook columns
     "workbook_field_describe_columns": [
         "sobject", "label","name","type","length","unique","externalId","precision",

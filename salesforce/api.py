@@ -5,6 +5,7 @@ import time
 import os
 
 try:
+    # Python 3.x
     import urllib.parse
     from .. import requests
     from .. import context
@@ -16,6 +17,7 @@ try:
     from .login import soap_login
     from .util import getUniqueElementValueFromXmlString
 except:
+    # Python 2.x
     import urllib
     import requests
     import context

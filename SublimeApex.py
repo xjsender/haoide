@@ -285,21 +285,8 @@ class viewidinsfdcwebCommand(sublime_plugin.TextCommand):
         startURL = "/" + record_id
         if record_id.startswith("012"):
             startURL = "/setup/ui/recordtypefields.jsp?id=" + record_id
-            
-        # Get toolingapi_settings
-        toolingapi_settings = context.get_toolingapi_settings()
         
-        # Combine Login URL
-        show_params = urllib.urlencode({
-            "un": toolingapi_settings["username"],
-            "pw": toolingapi_settings["password"],
-            "startURL": startURL
-        })
-        show_url = toolingapi_settings["login_url"] +\
-            '?%s' % show_params
-
-        # Open this component in salesforce web
-        webbrowser.open_new_tab(show_url)
+        self.view.window().run_command("loginintosfdc", {"startURL": startURL})
 
 class showinsfdcwebCommand(sublime_plugin.TextCommand):
     def run(self, view):
@@ -320,16 +307,9 @@ class showinsfdcwebCommand(sublime_plugin.TextCommand):
         # Get component_url and component_id
         component_url, component_id = util.get_component_url_and_id(file_name)
 
-        # Combine Login URL
-        show_params = urllib.parse.urlencode({
-            "un": toolingapi_settings["username"],
-            "pw": toolingapi_settings["password"],
-            "startURL": "/" + component_id
-        })
-        show_url = toolingapi_settings["login_url"] + '?%s' % show_params
-
         # Open this component in salesforce web
-        webbrowser.open_new_tab(show_url)
+        startURL = "/" + component_id
+        self.view.window().run_command("loginintosfdc", {"startURL": startURL})
 
 class loginintosfdcCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -340,14 +320,14 @@ class loginintosfdcCommand(sublime_plugin.WindowCommand):
         toolingapi_settings = context.get_toolingapi_settings()
 
         # Combine Login URL
-        try:
+        if util.is_python3x():
             # Python 3.x
             show_params = urllib.parse.urlencode({
                 "un": toolingapi_settings["username"],
                 "pw": toolingapi_settings["password"],
                 "startURL": startURL
             })
-        except:
+        else:
             # Python 2.x
             show_params = urllib.urlencode({
                 "un": toolingapi_settings["username"],

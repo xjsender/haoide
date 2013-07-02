@@ -5,13 +5,16 @@ import json
 import csv
 import urllib
 import pprint
+import sys
 import xml.dom.minidom
 
 try:
+    # Python 3.x
     from . import message
     from . import xmltodict
     from .. import context
 except:
+    # Python 2.x
     import message
     import xmltodict
     import context
@@ -53,6 +56,13 @@ def none_value(value):
         return ""
     return value
     
+def is_python3x():
+    """
+    If python version is 3.x, return True
+    """
+
+    return sys.version > '3'
+
 def parse_test_result(result):
     """
     format test result as specified format
@@ -98,7 +108,10 @@ def parse_validation_rule(toolingapi_settings, sobjects):
         os.makedirs(outputdir)
 
     # Create or Edit csv File
-    fp_validationrules = open(outputdir + "/validation rules.csv", "a", newline='')
+    if is_python3x():
+        fp_validationrules = open(outputdir + "/validation rules.csv", "ab", newline='')
+    else:
+        fp_validationrules = open(outputdir + "/validation rules.csv", "ab")
 
     # Initiate CSV Writer and Write headers
     columns = toolingapi_settings["validation_rule_columns"]
@@ -167,8 +180,13 @@ def parse_workflow_metadata(toolingapi_settings, sobject):
 
     # Initiate CSV Writer and Write headers
     columns = toolingapi_settings["workflow_rule_columns"]
-    fp = open(outputdir + "/" + sobject + " workflow rule.csv", "w", newline='')
-    dict_write = csv.DictWriter(fp, columns)
+    try:
+        # Python 3.x
+        fp = open(outputdir + "/" + sobject + " workflow rule.csv", "wt", newline='')
+    except:
+        # Python 2.x
+        fp = open(outputdir + "/" + sobject + " workflow rule.csv", "wb")
+    dict_write = csv.DictWriter(fp, columns, dialect=csv.excel)
     dict_write.writer.writerow([v.capitalize() for v in columns])
 
     # Write rows
@@ -187,7 +205,12 @@ def parse_workflow_metadata(toolingapi_settings, sobject):
 
     # Initiate CSV Writer and Write headers
     columns = toolingapi_settings["workflow_field_update_columns"]
-    fp = open(outputdir + "/" + sobject + " workflow field update.csv", "w", newline='')
+    try:
+        # Python 3.x
+        fp = open(outputdir + "/" + sobject + " workflow field update.csv", "wt", newline='')
+    except:
+        # Python 2.x
+        fp = open(outputdir + "/" + sobject + " workflow field update.csv", "wb")
     dict_write = csv.DictWriter(fp, columns)
     dict_write.writer.writerow([v.capitalize() for v in columns])
 
@@ -207,7 +230,12 @@ def parse_workflow_metadata(toolingapi_settings, sobject):
 
     # Initiate CSV Writer and Write headers
     columns = toolingapi_settings["workflow_email_alert_columns"]
-    fp = open(outputdir + "/" + sobject + " email alert.csv", "w", newline='')
+    try:
+        # Python 3.x
+        fp = open(outputdir + "/" + sobject + " email alert.csv", "wt", newline='')
+    except:
+        # Python 2.x
+        fp = open(outputdir + "/" + sobject + " email alert.csv", "wb")
     dict_write = csv.DictWriter(fp, columns)
     dict_write.writer.writerow([v.capitalize() for v in columns])
 
@@ -227,7 +255,12 @@ def parse_workflow_metadata(toolingapi_settings, sobject):
 
     # Initiate CSV Writer and Write headers
     columns = toolingapi_settings["workflow_outbound_message_columns"]
-    fp = open(outputdir + "/" + sobject + " outbound message.csv", "w", newline='')
+    try:
+        # Python 3.x
+        fp = open(outputdir + "/" + sobject + " outbound message.csv", "wt", newline='')
+    except:
+        # Python 2.x
+        fp = open(outputdir + "/" + sobject + " outbound message.csv", "wb")
     dict_write = csv.DictWriter(fp, columns)
     dict_write.writer.writerow([v.capitalize() for v in columns])
 
@@ -247,7 +280,12 @@ def parse_workflow_metadata(toolingapi_settings, sobject):
 
     # Initiate CSV Writer and Write headers
     columns = toolingapi_settings["workflow_task_columns"]
-    fp = open(outputdir + "/" + sobject + " task.csv", "w", newline='')
+    try:
+        # Python 3.x
+        fp = open(outputdir + "/" + sobject + " task.csv", "wt", newline='')
+    except:
+        # Python 2.x
+        fp = open(outputdir + "/" + sobject + " task.csv", "wb")
     dict_write = csv.DictWriter(fp, columns)
     dict_write.writer.writerow([v.capitalize() for v in columns])
 
@@ -317,13 +355,22 @@ def write_metadata_to_csv(dict_write, columns, metadata, sobject):
 
             else:
                 cell_value = "%s" % cell_value
-                cell_value = cell_value.replace("\r\n", ", ")
 
             # Unescape special code to normal
-            cell_value = urllib.parse.unquote(unescape(cell_value, {"&apos;": "'", "&quot;": '"'}))
+            try:
+                # Python 3.x
+                cell_value = urllib.parse.unquote(unescape(cell_value, 
+                    {"&apos;": "'", "&quot;": '"'}))
+            except:
+                # Python 2.x
+                cell_value = urllib.unquote(unescape(cell_value, 
+                    {"&apos;": "'", "&quot;": '"'}))
 
             # Append cell_value to list in order to write list to csv
-            row_value.append(cell_value)
+            if is_python3x():
+                row_value.append(cell_value)
+            else:
+                row_value.append(cell_value.encode("utf-8"))
 
         # Write row
         dict_write.writer.writerow(row_value)
@@ -393,6 +440,10 @@ def parse_describe_layout_result(fp, result):
             values.append(picklistValues["value"])
         elif isinstance(picklistValues, list):
             values = [p["value"] for p in picklistValues]
+
+        if not is_python3x():
+            values = [v.encode("utf-8") for v in values]
+
         value = "\n".join(values)
 
         # Write row
@@ -424,7 +475,14 @@ def parse_execute_anonymous_xml(result):
             " column " + column + "\n" + "-" * 100 + "\n" + debugLog
         print(view_result)
 
-    return urllib.parse.unquote(unescape(view_result, {"&apos;": "'", "&quot;": '"'}))
+    if is_python3x():
+        view_result = urllib.parse.unquote(unescape(view_result, 
+            {"&apos;": "'", "&quot;": '"'}))
+    else:
+        view_result = urllib.unquote(unescape(view_result, 
+            {"&apos;": "'", "&quot;": '"'}))
+
+    return view_result
 
 def generate_workbook(result, workspace, workbook_field_describe_columns):
     """
@@ -450,9 +508,9 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
     # Create new csv file for this workbook
     # fp = open(outputdir + "/" + sobject + ".csv", "wb", newline='')
     try:
-        fp = open(outputdir + "/" + sobject + ".csv", "w", newline='')
+        fp = open(outputdir + "/" + sobject + ".csv", "wt", newline='')
     except:
-        fp = open(outputdir + "/" + sobject + ".csv", "w")
+        fp = open(outputdir + "/" + sobject + ".csv", "wb")
     
     #------------------------------------------------------------
     # Headers, all headers are capitalized
@@ -489,9 +547,11 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
                 row_value = ""
             else:
                 row_value = "%s" % row_value
-                row_value.replace("\r\n", ", ")
 
-            row.append(row_value)
+            if  is_python3x():
+                row.append(row_value)
+            else:
+                row.append(row_value.encode('utf-8'))
 
         # Write row to csv
         dict_write.writer.writerow(row)
