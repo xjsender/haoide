@@ -226,7 +226,12 @@ class runtestCommand(sublime_plugin.WindowCommand):
     def run(self): 
         # Get current file name and Read file content
         file_name = self.window.active_view().file_name()
-        body = open(file_name, "rb").read().encode()
+        try:
+            # Python 3.x
+            body = open(file_name, encoding="utf-8").read()
+        except:
+            # Python 2.x
+            body = open(file_name).read().encode()
 
         if ".cls" not in file_name or "@isTest" not in body:
             sublime.error_message(message.INVALID_TEST_CLASS)
