@@ -294,8 +294,12 @@ class SalesforceApi():
         # Describe all common used sobjects describe
         sobjects_describe = []
         for sobject in sobjects:
-            sobject_describe = self.describe_sobject(sobject)
-            sobjects_describe.append(sobject_describe)
+            try:
+                sobject_describe = self.describe_sobject(sobject)
+                sobjects_describe.append(sobject_describe)
+            except:
+                # Need more process
+                pass
 
         self.result = sobjects_describe
         return sobjects_describe
@@ -372,9 +376,9 @@ class SalesforceApi():
         standard_sobjects = [
             "Account", "AccountContactRole", "Activity", "Asset", 
             "Campaign", "CampaignMember", "Case", "Contact", 
-            "ContentVersion", "Contract", "Event", "Lead", "Opportunity", 
-            "OpportunityLineItem", "Product2", "Question", 
-            "Solution", "Task", "User"
+            "Contract", "Event", "Lead", "Opportunity", 
+            "OpportunityLineItem", "Product2", 
+            "Task", "User"
         ]
 
         result = self.describe_global()
@@ -484,7 +488,6 @@ class SalesforceApi():
         # Firstly Login
         self.login(False)
 
-        # Detail in docs/soap_execute_anonymous.txt
         server_url = globals()[self.username + 'instance_url'] + "/services/Soap/s/27.0"
         # https://gist.github.com/richardvanhook/1245068
         headers = {
