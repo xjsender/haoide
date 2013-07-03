@@ -640,7 +640,8 @@ def handle_refresh_components(toolingapi_settings, timeout):
 
         # Save settings
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
-        sublime.message_dialog(message.DOWNLOAD_ALL_SUCCESSFULLY)
+        print (message.DOWNLOAD_ALL_SUCCESSFULLY)
+        sublime.status_message(message.DOWNLOAD_ALL_SUCCESSFULLY)
 
     api = SalesforceApi(toolingapi_settings)
     component_types = context.get_toolingapi_settings()["component_types"]
