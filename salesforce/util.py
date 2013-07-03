@@ -7,7 +7,7 @@ import urllib
 import pprint
 import sys
 import xml.dom.minidom
-
+ 
 try:
     # Python 3.x
     from . import message
@@ -109,7 +109,7 @@ def parse_validation_rule(toolingapi_settings, sobjects):
 
     # Create or Edit csv File
     if is_python3x():
-        fp_validationrules = open(outputdir + "/validation rules.csv", "ab", newline='')
+        fp_validationrules = open(outputdir + "/validation rules.csv", "a", newline='')
     else:
         fp_validationrules = open(outputdir + "/validation rules.csv", "ab")
 
@@ -135,12 +135,10 @@ def parse_validation_rule(toolingapi_settings, sobjects):
         ######################################
         try:
             rules = result["CustomObject"]["validationRules"]
+            write_metadata_to_csv(dict_write, columns, rules, sobject)
         except KeyError:
             # If one sobject doesn't have vr, We don't need do anything
             pass
-
-        # Write rows
-        write_metadata_to_csv(dict_write, columns, rules, sobject)
 
     # Close fp
     fp_validationrules.close()
