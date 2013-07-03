@@ -26,9 +26,27 @@ class SobjectCompletions(sublime_plugin.EventListener):
         if not setting.has(username):
             return
 
+        location = locations[0]
+        pt = locations[0] - len(prefix) - 1
+        ch = view.substr(sublime.Region(pt, pt + 1))
+
+        if ch != ".":
+            return
+
+        # Get the variable name
+        pt = pt - 1
+        variable_name = view.substr(view.word(pt))
+
+        # Get the matched region by variable name
+        matched_regions = view.find_all("\\w+\\s+" + variable_name + "\\s*[;=]")
+        matched_block = view.substr(matched_regions[0])
+        if len(matched_block) == 0: return
+
+        # Get the matched variable type
+        sobject = matched_block.split(" ")[0]
+
         # If username is in settings, get the sobject fields describe dict
         metadata = setting.get(username)
-        sobject = prefix
         completion_list = []
         if sobject in metadata:
             fields = metadata.get(sobject)
@@ -38,7 +56,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
             return
 
         for key in fields.keys():
-            completion_list.append((sobject + "." + key, sobject + "." + fields[key]))
+            completion_list.append((sobject + "." + key, fields[key]))
 
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
