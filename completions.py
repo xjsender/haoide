@@ -4,11 +4,11 @@ import time
 try:
     # Python 3.x
     from . import context
-    from .salesforce.metadata import metadata
+    from .salesforce.metadata import apex_completions
 except:
     # Python 2.x
     import context
-    from salesforce.metadata import metadata
+    from salesforce.metadata import apex_completions
 
 class SobjectCompletions(sublime_plugin.EventListener):
     """
@@ -67,19 +67,40 @@ class SobjectCompletions(sublime_plugin.EventListener):
 
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
-# class ApexCompletions(sublime_plugin.EventListener):
-#     def on_query_completions(self, view, prefix, locations):
-#         if not view.match_selector(locations[0], "source.java"):
-#             return []
+class ApexCompletions(sublime_plugin.EventListener):
+    def on_query_completions(self, view, prefix, locations):
+        if not view.match_selector(locations[0], "source.java"):
+            return []
 
-#         completion_list = []
-#         if prefix in metadata:
-#             metadata_key = metadata[prefix]
-#             for key in metadata_key.keys():
-#                 print (key)
-#                 completion_list.append((key, metadata_key[key]))
+        # Load sobjects compoletions
+        setting = sublime.load_settings("Apex.sublime-settings")
 
-#         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+        location = locations[0]
+        pt = locations[0] - len(prefix) - 1
+        ch = view.substr(sublime.Region(pt, pt + 1))
+
+        if ch != ".":
+            return
+
+        # Get the variable name
+        pt = pt - 1
+        variable_name = view.substr(view.word(pt))
+        print (variable_name)
+
+        completion_list = []
+        sobject = variable_name
+        if sobject in apex_completions:
+            fields = apex_completions.get(sobject)
+        elif sobject.capitalize() in apex_completions:
+            fields = apex_completions.get(sobject.lower().capitalize())
+        else: 
+            return
+
+        for key in fields.keys():
+            completion_list.append((key, fields[key]))
+
+        return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+
 
 # Extends Sublime Text autocompletion to find matches in all open
 # files. By default, Sublime only considers words from the current file.
@@ -168,9 +189,12 @@ class CrossViewCompletions(sublime_plugin.EventListener):
 
         return fixed_words
 
-# Provide completions that match just after typing an opening angle bracket
-# https://github.com/jairzh/sublime-sfdc-assist/blob/master/visualforce_completions.py
 class PageCompletions(sublime_plugin.EventListener):
+    """
+    Provide completions that match just after typing an opening angle bracket
+    https://github.com/jairzh/sublime-sfdc-assist/blob/master/visualforce_completions.py
+    """
+
     def on_query_completions(self, view, prefix, locations):
         # Only trigger within HTML
         if not view.match_selector(locations[0],
