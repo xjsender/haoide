@@ -57,7 +57,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
         completion_list = []
         if sobject in metadata:
             fields = metadata.get(sobject)
-        elif sobject.lower().capitalize() in metadata:
+        elif sobject.capitalize() in metadata:
             fields = metadata.get(sobject.lower().capitalize())
         else: 
             return
@@ -93,6 +93,10 @@ MAX_WORDS_PER_VIEW = 100
 MAX_FIX_TIME_SECS_PER_VIEW = 0.01
 
 class CrossViewCompletions(sublime_plugin.EventListener):
+    """
+    https://github.com/alienhard/SublimeAllAutocomplete/blob/master/all_views_completions.py
+    """
+
     def on_query_completions(self, view, prefix, locations):
         words = []
 

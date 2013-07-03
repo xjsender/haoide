@@ -616,7 +616,7 @@ class SalesforceApi():
         3. After the job is completed, issue a checkRetrieveStatus request to obtain the zipFile(base64) 
            in the retrieve result.
         4. Use Python Lib base64 to convert the base64 string to zip file.
-        5. Use Python Lib unzip to unzip the zip file to path
+        5. Use Python Lib zipFile to unzip the zip file to path
         """
         # Firstly Login
         self.login(False)
