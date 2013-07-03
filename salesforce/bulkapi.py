@@ -93,7 +93,7 @@ def check_job_status(job_id):
     return True
 
 # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId
-def check_batch_status(job_id, batch_id):
+def check_batch_status(job_id, batch_id, sobject):
     url = globals()["instance_url"] +\
         "/services/async/27.0/job/{job_id}/batch/{batch_id}".format(job_id = job_id,
             batch_id = batch_id)
@@ -111,9 +111,9 @@ def check_batch_status(job_id, batch_id):
         return False
 
     if batch_status != "Completed":
-        print(batch_id + " is not completed, please continue waiting...")
+        print(sobject + " is not completed, please continue waiting...")
         time.sleep(15)
-        check_batch_status(job_id, batch_id)
+        check_batch_status(job_id, batch_id, sobject)
 
     return True
 
@@ -198,7 +198,7 @@ def process_bulk_query(sobject, workspace):
     batch_id = create_batch(job_id, sobject, sobject_soql)
     
     # Check the batch status, if it is completed, continue
-    if check_batch_status(job_id, batch_id):
+    if check_batch_status(job_id, batch_id, sobject):
         # Get result id and get result by it
         result_id = get_batch_result_id(sobject, job_id, batch_id)
         result = get_batch_result(job_id, batch_id, result_id)
