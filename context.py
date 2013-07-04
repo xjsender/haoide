@@ -122,10 +122,10 @@ def get_component_sample(component_name, component_type, sobject_name):
     """
     metadata = {
         "ApexTrigger": "trigger " + component_name + " on " +\
-            sobject_name + "(before insert) {\n}",
-        "ApexClass": "public class " + component_name + " {\n}",
-        "ApexPage": "<apex:page></apex:Page>",
-        "ApexComponent": "<apex:component></apex:component>"
+            sobject_name + "(before insert) {\n    \n}",
+        "ApexClass": "public class " + component_name + " {\n    \n}",
+        "ApexPage": "<apex:page>\n    \n</apex:Page>",
+        "ApexComponent": "<apex:component>\n    \n</apex:component>"
     }
 
     return metadata.get(component_type)
