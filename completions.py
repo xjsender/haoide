@@ -87,9 +87,10 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         # Get the matched variable type
         matched_regions = view.find_all("\\w+\\s+" + variable_name + "\\s*[:;=]")
-        if len(matched_regions) == 0: return
-        matched_block = view.substr(matched_regions[0])
-        variable_type = matched_block.split(" ")[0]
+        variable_type = ""
+        if len(matched_regions) > 0:
+            matched_block = view.substr(matched_regions[0])
+            variable_type = matched_block.split(" ")[0]
 
         print (variable_name, variable_type)
         completion_list = []
