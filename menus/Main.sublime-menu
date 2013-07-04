@@ -63,15 +63,9 @@
             },
 
             {
-                "id": "exportspecifiedworkbook",
-                "caption": "Export Specified Workbook",
-                "command": "exportspecifiedworkbook"
-            },
-
-            {
-                "id": "exportallworkbooks",
-                "caption": "Export All Workbooks",
-                "command": "exportallworkbooks"
+                "id": "exportworkbook",
+                "caption": "Export Workbook",
+                "command": "exportworkbook"
             },
 
             { "caption": "-" },

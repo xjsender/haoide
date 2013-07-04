@@ -161,13 +161,13 @@ class describesobjectCommand(sublime_plugin.WindowCommand):
 
         processor.handle_retrieve_fields(sobjects[index], 10)
 
-class exportspecifiedworkbookCommand(sublime_plugin.WindowCommand):
+class exportworkbookCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(exportspecifiedworkbookCommand, self).__init__(*args, **kwargs)
+        super(exportworkbookCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.window.show_input_panel("Sobjects (Seprated by ;)", 
-            "Account;Contact;Opportunity;OpportunityLineItem", self.on_input, None, None)
+        self.window.show_input_panel("Sobjects(* means all, or sobjects seprated with semi-colon)", 
+            "*", self.on_input, None, None)
 
     def on_input(self, input):
         # Open Console
@@ -176,25 +176,12 @@ class exportspecifiedworkbookCommand(sublime_plugin.WindowCommand):
 
         # Display the fields in a new view
         input = input.replace(" ", "")
-        sobjects = input.split(";")
-        processor.handle_generate_specified_workbooks(sobjects, 10)
 
-class exportallworkbooksCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(exportallworkbooksCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        # Confirm Continue Action
-        print(message.GENERATE_ALL_WORKBOOKS_REQUEST_LIMIT_MESSAGE)
-        confirm = sublime.ok_cancel_dialog("Are you sure you really want to do it?")
-        if confirm == False:
-            return
-
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
-        processor.handle_generate_all_workbooks(10)
+        if input == "*":
+            processor.handle_generate_all_workbooks(5)
+        else:
+            sobjects = input.split(";")
+            processor.handle_generate_specified_workbooks(sobjects, 10)
 
 class runonetestCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
