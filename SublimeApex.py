@@ -278,7 +278,11 @@ class executeanonymousCommand(sublime_plugin.TextCommand):
 
 class viewidinsfdcwebCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        record_id = self.view.substr(self.view.sel()[0]).encode('utf-8')
+        if util.is_python3x():
+            record_id = self.view.substr(self.view.sel()[0])
+        else:
+            record_id = self.view.substr(self.view.sel()[0]).encode("utf-8")
+            
         if len(record_id) != 15 and len(record_id) != 18:
             sublime.error_message("Salesforce Id should be 15d or 18d")
             return
