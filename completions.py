@@ -72,9 +72,6 @@ class ApexCompletions(sublime_plugin.EventListener):
         if not view.match_selector(locations[0], "source.java"):
             return []
 
-        # Load sobjects compoletions
-        setting = sublime.load_settings("Apex.sublime-settings")
-
         location = locations[0]
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
@@ -83,21 +80,32 @@ class ApexCompletions(sublime_plugin.EventListener):
             return
 
         # Get the variable name
+        # Get the variable name
         pt = pt - 1
         variable_name = view.substr(view.word(pt))
         print (variable_name)
 
+        # Get the matched variable type
+        matched_regions = view.find_all("\\w+\\s+" + variable_name + "\\s*[:;=]")
+        if len(matched_regions) == 0: return
+        matched_block = view.substr(matched_regions[0])
+        variable_type = matched_block.split(" ")[0]
+
+        print (variable_name, variable_type)
         completion_list = []
-        sobject = variable_name
-        if sobject in apex_completions:
-            fields = apex_completions.get(sobject)
-        elif sobject.capitalize() in apex_completions:
-            fields = apex_completions.get(sobject.lower().capitalize())
+        if variable_name in apex_completions:
+            methods = apex_completions.get(variable_name)
+        elif variable_name.capitalize() in apex_completions:
+            methods = apex_completions.get(variable_name.capitalize())
+        elif variable_type in apex_completions:
+            methods = apex_completions.get(variable_type)
+        elif variable_type.capitalize() in apex_completions:
+            methods = apex_completions.get(variable_type.capitalize())
         else: 
             return
 
-        for key in fields.keys():
-            completion_list.append((key, fields[key]))
+        for key in methods.keys():
+            completion_list.append((key, methods[key]))
 
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
