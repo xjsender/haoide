@@ -41,3 +41,5 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
 6. Every time when you save the apex code, your local copy will be put into project/history path every minute.
 
 7. If you have two classes, the first one is the utility class of the second one, you'd better open the first class, and then you can see the variable completions when you edit the first one.
+
+8. When you run test, basically, you test result should be displayed as a new view, however, if there is no active view, the new view will not show up, so you should check the result in the console log.
