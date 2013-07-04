@@ -46,11 +46,10 @@ class SobjectCompletions(sublime_plugin.EventListener):
 
         # Get the matched region by variable name
         matched_regions = view.find_all("\\w+\\s+" + variable_name + "\\s*[:;=]")
-        if len(matched_regions) == 0: return
-        matched_block = view.substr(matched_regions[0])
-
-        # Get the matched variable type
-        sobject = matched_block.split(" ")[0]
+        sobject = ""
+        if len(matched_regions) > 0:
+            matched_block = view.substr(matched_regions[0])
+            sobject = matched_block.split(" ")[0]
 
         # If username is in settings, get the sobject fields describe dict
         metadata = setting.get(username)
@@ -59,6 +58,10 @@ class SobjectCompletions(sublime_plugin.EventListener):
             fields = metadata.get(sobject)
         elif sobject.capitalize() in metadata:
             fields = metadata.get(sobject.lower().capitalize())
+        elif variable_name in metadata:
+            fields = metadata.get(variable_name)
+        elif variable_name.capitalize() in metadata:
+            fields = metadata.get(variable_name.lower().capitalize())
         else: 
             return
 
