@@ -37,24 +37,6 @@ except:
     from salesforce.util import getUniqueElementValueFromXmlString
     from salesforce import bulkapi
 
-
-class ViewCommand(sublime_plugin.TextCommand):
-    """
-    Create a new view with specified input
-
-    @input: user specified input
-
-    Usage: 
-        sublime.active_window().run_command("view", {
-            "input": "Example"
-        })
-    """
-
-    def run(self, edit, input=""):
-        n = sublime.active_window().new_file()
-        n.set_scratch(True)
-        n.insert(edit, 0, input)
-
 def populate_classes():
     """
     Get dict (Class Name => Class Id) which NamespacePrefix is null in whole org

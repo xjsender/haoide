@@ -17,6 +17,23 @@ except:
     import context
     from salesforce import util, message, bulkapi
 
+class ViewCommand(sublime_plugin.TextCommand):
+    """
+    Create a new view with specified input
+
+    @input: user specified input
+
+    Usage: 
+        sublime.active_window().run_command("view", {
+            "input": "Example"
+        })
+    """
+
+    def run(self, edit, input=""):
+        n = sublime.active_window().new_file()
+        n.set_scratch(True)
+        n.insert(edit, 0, input)
+
 class refreshfolderCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(refreshfolderCommand, self).__init__(*args, **kwargs)
