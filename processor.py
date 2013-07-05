@@ -175,7 +175,7 @@ def handle_refresh_folder(component_type, timeout):
         print ("-" * 100)
 
         # Write Components to local
-        component_attributes = {}
+        components = {}
         for record in result["records"]:
             # Get Component Name of this record
             component_name = record['Name']
@@ -185,7 +185,7 @@ def handle_refresh_folder(component_type, timeout):
 
             # Write mapping of component_name with component_url
             # into component_metadata.sublime-settings
-            component_attributes[component_name] = {
+            components[component_name] = {
                 "component_url": component_url,
                 "component_id": component_id
             }
@@ -204,11 +204,12 @@ def handle_refresh_folder(component_type, timeout):
             sublime.status_message(component_name + " ["  + component_type + "] Downloaded")
 
         # Save Refreshed Component Attributes to component_metadata.sublime-settings
-        s = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
-        component_metadata = {
-            component_type: component_attributes
-        }
-        s.set(toolingapi_settings["username"], component_metadata)
+        s = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
+        username = toolingapi_settings["username"]
+        components_dict = s.get(username)
+        components_dict[component_type] = components
+        s.set(username, components_dict)
+
         sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
     print(message.WAIT_FOR_A_MOMENT)
