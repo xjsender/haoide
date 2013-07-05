@@ -212,7 +212,6 @@ class runonetestCommand(sublime_plugin.WindowCommand):
 
         classes = processor.populate_classes()
         class_names = sorted(list(classes.keys()))
-
         self.window.show_quick_panel(class_names, self.on_done)
 
     def on_done(self, index):
@@ -222,7 +221,7 @@ class runonetestCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        class_id = classes[class_names[index]]
+        class_id = classes[class_names[index]]["component_id"]
         processor.handle_run_test(class_id, 10)
 
 class runtestCommand(sublime_plugin.WindowCommand):
