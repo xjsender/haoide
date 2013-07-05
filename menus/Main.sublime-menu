@@ -11,6 +11,12 @@
             },
 
             {
+                "id": "RefreshFolder",
+                "caption": "Refresh Folder",
+                "command": "refreshfolder"
+            },
+
+            {
                 "id": "retrieveall",
                 "caption": "Retrieve All",
                 "command": "retrieveall"
