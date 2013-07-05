@@ -158,6 +158,74 @@ def populate_sobjects():
     globals()[username + "sobjects"] = sobjects
     return sobjects
 
+def handle_refresh_folder(component_type, timeout):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            return
+        elif api.result == None:
+            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            return
+
+        result = api.result
+
+        # Output component size
+        size = len(result["records"])
+        print (str(component_type) + " Size: " + str(size))
+        print ("-" * 100)
+
+        # Write Components to local
+        component_attributes = {}
+        for record in result["records"]:
+            # Get Component Name of this record
+            component_name = record['Name']
+            component_url = record['attributes']['url']
+            component_id = record["Id"]
+            print (str(component_type) + " ==> " + str(record['Name']))
+
+            # Write mapping of component_name with component_url
+            # into component_metadata.sublime-settings
+            component_attributes[component_name] = {
+                "component_url": component_url,
+                "component_id": component_id
+            }
+
+            # Write body to local file
+            fp = open(component_outputdir + "/" + component_name +\
+                component_extension, "wb")
+            
+            try:
+                body = bytes(record["component_body"], "UTF-8")
+            except:
+                body = record[component_body].encode("UTF-8")
+            fp.write(body)
+
+            # Set status_message
+            sublime.status_message(component_name + " ["  + component_type + "] Downloaded")
+
+        # Save Refreshed Component Attributes to component_metadata.sublime-settings
+        s = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
+        component_metadata = {
+            component_type: component_attributes
+        }
+        s.set(toolingapi_settings["username"], component_metadata)
+        sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
+
+    print(message.WAIT_FOR_A_MOMENT)
+    # Get toolingapi_settings
+    toolingapi_settings = context.get_toolingapi_settings()
+    api = SalesforceApi(toolingapi_settings)
+
+    # Get component attributes by component_type
+    component_type_attrs = toolingapi_settings[component_type]
+    component_outputdir = component_type_attrs["outputdir"]
+    component_body = component_type_attrs["body"]
+    component_extension = component_type_attrs["extension"]
+    component_soql = component_type_attrs["soql"]
+    thread = threading.Thread(target=api.query_all, args=(component_soql, ))
+    thread.start()
+    handle_thread(thread, timeout)
+
 def handle_backup_all_sobjects(timeout):
     """
     Firstly get all common used sobject names, and then use bulkapi to backup all

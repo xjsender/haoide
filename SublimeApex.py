@@ -17,6 +17,25 @@ except:
     import context
     from salesforce import util, message, bulkapi
 
+class refreshfolderCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(refreshfolderCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        global component_types
+        toolingapi_settings = context.get_toolingapi_settings()
+        component_types = toolingapi_settings["component_types"]
+        self.window.show_quick_panel(component_types, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        # Open Console
+        self.window.run_command("show_panel", 
+            {"panel": "console", "toggle": False})
+
+        processor.handle_refresh_folder(component_types[index], 120)
+
 class retrieveallCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(retrieveallCommand, self).__init__(*args, **kwargs)
