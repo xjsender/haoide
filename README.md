@@ -3,6 +3,7 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
 
 # Supported Feature: #
 + Apex Code CRUD
++ Apex Code Folder Refresh
 + Run Test Class
 + Apex Code Local History
 + Execute Anonymous
@@ -41,3 +42,5 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
 6. If you have two classes, the first one is the utility class of the second one, you'd better open the first class, and then you can see the variable completions when you edit the first one.
 
 7. When you run test, basically, you test result should be displayed as a new view, however, if there is no active view, the new view will not show up, so you should check the result in the console log.
+
+8. If you want to refresh all ApexTrigger, ApexClass, ApexPage or ApexComponent, you just need to click the SublimeApex > Refresh Folder and then choose the folder you want to refresh.
