@@ -703,10 +703,13 @@ def handle_create_component(data, component_name, component_type, timeout):
         
         # Save it to component.sublime-settings
         s = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
-        s.set(component_type + component_name, {
+        username = toolingapi_settings["username"]
+        components_dict = s.get(username)
+        components_dict[component_type][component_name] = {
             "component_id": component_id,
             "component_url": post_url + "/" + component_id
-        })
+        }
+        s.set(username, components_dict)
 
         # Save settings and show success message
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
