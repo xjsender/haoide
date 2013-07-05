@@ -33,5 +33,5 @@
 ]]></content>
     <tabTrigger>build</tabTrigger>
     <scope>source.java</scope>
-    <description>--> build.xml</description>
+    <description>build.xml</description>
 </snippet>

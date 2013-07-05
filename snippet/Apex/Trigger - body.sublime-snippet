@@ -31,5 +31,5 @@ trigger Trigger${1:Sobject-Name} on ${1:Sobject-Name} (before update, before ins
 ]]></content>
     <tabTrigger>trigger</tabTrigger>
     <scope>source.java</scope>
-    <description>--> trigger body</description>
+    <description>trigger body</description>
 </snippet>

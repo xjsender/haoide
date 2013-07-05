@@ -104,5 +104,5 @@ public class RollUpSummaryUtility {
 ]]></content>
     <tabTrigger>rollups</tabTrigger>
     <scope>source.java</scope>
-    <description>--> rollup summary utility</description>
+    <description>rollup summary utility</description>
 </snippet>

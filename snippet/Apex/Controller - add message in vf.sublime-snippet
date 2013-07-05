@@ -5,5 +5,5 @@ ApexPages.addMessage(new ApexPages.Message(ApexPages.severity.${1:INFO-ERROR-CON
 ]]></content>
     <tabTrigger>pagem</tabTrigger>
     <scope>source.java</scope>
-    <description>--> page message</description>
+    <description>page message</description>
 </snippet>

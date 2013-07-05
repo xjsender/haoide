@@ -5,5 +5,5 @@ RestRequest request = RestContext.request;
 ]]></content>
     <tabTrigger>restreq</tabTrigger>
     <scope>source.java</scope>
-    <description>--> rest request</description>
+    <description>rest request</description>
 </snippet>

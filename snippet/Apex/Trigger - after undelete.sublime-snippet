@@ -6,5 +6,5 @@ if (trigger.isAfter && trigger.isUndelete) {
 ]]></content>
     <tabTrigger>afterund</tabTrigger>
     <scope>source.java</scope>
-    <description>--> after undelete</description>
+    <description>after undelete</description>
 </snippet>

@@ -19,5 +19,5 @@ private class ${1:Class-Name-or-Trigger-Name}Test {
 ]]></content>
     <tabTrigger>testc</tabTrigger>
     <scope>source.java</scope>
-    <description>--> test class</description>
+    <description>test class</description>
 </snippet>

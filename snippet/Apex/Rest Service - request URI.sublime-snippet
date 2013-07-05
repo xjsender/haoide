@@ -6,5 +6,5 @@ String requestURI = request.requestURI;
 ]]></content>
     <tabTrigger>requestURI</tabTrigger>
     <scope>source.java</scope>
-    <description>--> requestURI</description>
+    <description>requestURI</description>
 </snippet>

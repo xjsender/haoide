@@ -6,5 +6,5 @@ public static ${1:RETURN-DATA-TYPE} ${2:METHOD-NAME}(${3:PARAMETERS}) {
 ]]></content>
     <tabTrigger>publics</tabTrigger>
     <scope>source.java</scope>
-    <description>--> public static method</description>
+    <description>public static method</description>
 </snippet>

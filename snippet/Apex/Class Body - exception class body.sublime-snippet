@@ -16,5 +16,5 @@ public class $1Exception extends Exception {
 ]]></content>
     <tabTrigger>exc</tabTrigger>
     <scope>source.java</scope>
-    <description>--> exception class</description>
+    <description>exception class</description>
 </snippet>

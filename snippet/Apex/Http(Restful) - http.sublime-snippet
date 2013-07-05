@@ -8,5 +8,5 @@ HttpResponse res = http.send(req);
 ]]></content>
     <tabTrigger>http</tabTrigger>
     <scope>source.java</scope>
-    <description>--> http process</description>
+    <description>http process</description>
 </snippet>

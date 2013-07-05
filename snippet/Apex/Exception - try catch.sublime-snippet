@@ -9,5 +9,5 @@ catch (${2:EXCEPTION-TYPE} e) {
 ]]></content>
     <tabTrigger>tryc</tabTrigger>
     <scope>source.java</scope>
-    <description>--> try catch</description>
+    <description>try catch</description>
 </snippet>

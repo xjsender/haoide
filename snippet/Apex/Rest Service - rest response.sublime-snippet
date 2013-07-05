@@ -5,5 +5,5 @@ RestResponse response = RestContext.response;
 ]]></content>
     <tabTrigger>restres</tabTrigger>
     <scope>source.java</scope>
-    <description>--> rest response</description>
+    <description>rest response</description>
 </snippet>

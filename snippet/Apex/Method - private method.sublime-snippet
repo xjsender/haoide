@@ -6,5 +6,5 @@ private ${1:void} ${2:METHOD-NAME} () {
 ]]></content>
     <tabTrigger>private</tabTrigger>
     <scope>source.java</scope>
-    <description>--> private method</description>
+    <description>private method</description>
 </snippet>

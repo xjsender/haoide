@@ -16,5 +16,5 @@ ${3:private | public | global} ${4:[virtual | abstract | with sharing | without 
 ]]></content>
     <tabTrigger>class</tabTrigger>
     <scope>source.java</scope>
-    <description>--> class template</description>
+    <description>class template</description>
 </snippet>

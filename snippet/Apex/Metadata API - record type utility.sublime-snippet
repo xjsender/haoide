@@ -104,5 +104,5 @@ public with sharing class UtilRecordType {
 ]]></content>
     <tabTrigger>recordtypeu</tabTrigger>
     <scope>source.java</scope>
-    <description>--> recordtype util</description>
+    <description>recordtype util</description>
 </snippet>

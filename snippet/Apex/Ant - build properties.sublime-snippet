@@ -24,5 +24,5 @@ sf.target.serverurl = https://${6:test}.salesforce.com
 ]]></content>
     <tabTrigger>buildp</tabTrigger>
     <scope>source.java</scope>
-    <description>--> build.properties</description>
+    <description>build.properties</description>
 </snippet>

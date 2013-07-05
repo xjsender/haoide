@@ -6,5 +6,5 @@ if (trigger.isAfter && trigger.isUpdate) {
 ]]></content>
     <tabTrigger>afteru</tabTrigger>
     <scope>source.java</scope>
-    <description>--> after update</description>
+    <description>after update</description>
 </snippet>

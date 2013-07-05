@@ -6,5 +6,5 @@ for (${1:SOBJECT-NAME} ${2:VARIABLE} : [SELECT Id, ${3} FROM ${1:SOBJECT-NAME} $
 ]]></content>
     <tabTrigger>fors</tabTrigger>
     <scope>source.java</scope>
-    <description>--> for soql</description>
+    <description>for soql</description>
 </snippet>

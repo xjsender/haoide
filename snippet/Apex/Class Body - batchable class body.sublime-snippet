@@ -32,5 +32,5 @@ global class ${1:BATCHABLE-CLASS-NAME} implements Database.Batchable<SObject> {
 ]]></content>
     <tabTrigger>batchc</tabTrigger>
     <scope>source.java</scope>
-    <description>--> batchable class</description>
+    <description>batchable class</description>
 </snippet>

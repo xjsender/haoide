@@ -4,5 +4,5 @@ List<${1:SOBJECT-NAME}> ${2:SOBJECT-VARIABLE-NAME}List = [SELECT Id FROM ${1:SOB
 ]]></content>
     <tabTrigger>soql[]</tabTrigger>
     <scope>source.java</scope>
-    <description>--> list = [soql]</description>
+    <description>list = [soql]</description>
 </snippet>

@@ -4,5 +4,5 @@ Set<${1:DATA-TYPE}> ${2:LIST-DATA-TYPE}Set = new Set<${1:DATA-TYPE}>();
 ]]></content>
     <tabTrigger>set</tabTrigger>
     <scope>source.java</scope>
-    <description>--> set variable</description>
+    <description>set variable</description>
 </snippet>

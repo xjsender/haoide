@@ -12,5 +12,5 @@ finally {
 ]]></content>
     <tabTrigger>tryf</tabTrigger>
     <scope>source.java</scope>
-    <description>--> try catch finally</description>
+    <description>try catch finally</description>
 </snippet>
