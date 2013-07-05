@@ -56,7 +56,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
         metadata = setting.get(username)
         completion_list = []
         if sobject in metadata:
-            fields = metadata.get(sobject)
+            sobject = sobject
         elif sobject.capitalize() in metadata:
             sobject = sobject.capitalize()
         elif variable_name in metadata:
