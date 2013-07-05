@@ -69,8 +69,9 @@ def populate_classes():
     username = toolingapi_settings["username"]
 
     # If sobjects is exist in globals()[], just return it
-    if (username + "classes") in globals(): 
-        return globals()[username + "classes"]
+    component_metadata = sublime.load_settings("component_metadata.sublime-settings")
+    if component_metadata.has(username):
+        return component_metadata.get(username).get("ApexClass")
 
     # If sobjects is not exist in globals(), post request to pouplate it
     api = SalesforceApi(toolingapi_settings)
@@ -137,9 +138,10 @@ def populate_sobjects():
     toolingapi_settings = context.get_toolingapi_settings()
     username = toolingapi_settings["username"]
 
-    # If sobjects is exist in globals()[], just return it
-    if (username + "sobjects") in globals(): 
-        return globals()[username + "sobjects"]
+    # If sobjects is exist in sobjects_completion.sublime-settings, just return it
+    sobjects_completions = sublime.load_settings("sobjects_completion.sublime-settings")
+    if sobjects_completions.has(username):
+        return sobjects_completions.get(username).keys()
 
     # If sobjects is not exist in globals(), post request to pouplate it
     api = SalesforceApi(toolingapi_settings)
@@ -654,14 +656,14 @@ def handle_refresh_components(toolingapi_settings, timeout):
             return
         
         # If succeed
-        result = api.result
-        # Load COMPONENT_METADATA_SETTINGS Settings and put all result into it
-        component_metadta = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
-        for component in result.keys():
-            component_metadta.set(component, result[component])
+        component_metadata = api.result
 
-        # Save settings
+        # Load COMPONENT_METADATA_SETTINGS Settings and put all result into it
+        # Every org has one local repository
+        component_metadta = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
+        component_metadta.set(toolingapi_settings["username"], component_metadata)
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
+        
         sublime.status_message(message.DOWNLOAD_ALL_SUCCESSFULLY)
 
     api = SalesforceApi(toolingapi_settings)

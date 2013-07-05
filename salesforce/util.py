@@ -824,14 +824,14 @@ def get_component_type(file_name):
 
     @return: component type
     """
-
+    print (file_name)
     location_of_last_backslash = file_name.rfind("\\")
     component_type = file_name[file_name[0 :\
         location_of_last_backslash - 1].rfind("\\") + 1 : location_of_last_backslash]
 
     return component_type
 
-def get_component_url_and_id(file_name):
+def get_component_url_and_id(username, file_name):
     """
     get the component name by file_name, and then get the component_url and component_id
     by component name and local settings
@@ -850,7 +850,7 @@ def get_component_url_and_id(file_name):
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
 
     # Get Component attribute by component_name
-    component_attribute = component_settings.get(component_type + component_name)
+    component_attribute = component_settings.get(username)[component_type][component_name]
     print(component_name + ": ", component_attribute)
 
     # If this component_name is not exist in component_settings

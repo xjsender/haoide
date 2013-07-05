@@ -148,7 +148,7 @@ class SalesforceApi():
         # This result is used for invoker
         return result
 
-    def query(self, soql, is_toolingapi=False, timeout=10):
+    def query(self, soql, is_toolingapi=False, timeout=120):
         # Firstly, login
         self.login(False)
 
@@ -227,8 +227,7 @@ class SalesforceApi():
         self.login(True)
 
         # Put totalSize at first item
-        component_metadata = {"totalSize": 0}
-        totalSize = 0
+        component_metadata = {}
         for component_type in component_types:
             component_type_attrs = self.toolingapi_settings[component_type]
             component_outputdir = component_type_attrs["outputdir"]
@@ -238,12 +237,12 @@ class SalesforceApi():
 
             result = self.query_all(component_soql)
             size = len(result["records"])
-            totalSize += size
             print (SEPRATE)
             print (str(component_type) + " Size: " + str(size))
             print (SEPRATE)
             records = result["records"]
 
+            component_attributes = {}
             for record in records:
                 # Get Component Name of this record
                 component_name = record['Name']
@@ -253,12 +252,10 @@ class SalesforceApi():
 
                 # Write mapping of component_name with component_url
                 # into metadata.sublime-settings
-                component_attributes = {
+                component_attributes[component_name] = {
                     "component_url": component_url,
                     "component_id": component_id
                 }
-                component_metadata[component_type + component_name] =\
-                    component_attributes
 
                 # Write body to local file
                 fp = open(component_outputdir + "/" + component_name +\
@@ -273,8 +270,7 @@ class SalesforceApi():
                 # Set status_message
                 util.sublime_status_message(component_name + " ["  + component_type + "] Downloaded")
 
-        # Save metadata.sublime-settings
-        component_metadata["totalSize"] = totalSize
+            component_metadata[component_type] = component_attributes
 
         # Self.result is used to keep thread result
         self.result = component_metadata

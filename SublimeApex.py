@@ -229,7 +229,9 @@ class runtestCommand(sublime_plugin.WindowCommand):
             {"panel": "console", "toggle": False})
 
         # Get component_url and component_id
-        component_url, class_id = util.get_component_url_and_id(file_name)
+        toolingapi_settings = context.get_toolingapi_settings()
+        username = toolingapi_settings["username"]
+        component_url, class_id = util.get_component_url_and_id(username, file_name)
 
         processor.handle_run_test(class_id, 10)
 
@@ -301,7 +303,8 @@ class showinsfdcwebCommand(sublime_plugin.TextCommand):
             return
 
         # Get component_url and component_id
-        component_url, component_id = util.get_component_url_and_id(file_name)
+        username = toolingapi_settings["username"]
+        component_url, component_id = util.get_component_url_and_id(username, file_name)
 
         # Open this component in salesforce web
         startURL = "/" + component_id
@@ -368,7 +371,8 @@ class deleteCommand(sublime_plugin.TextCommand):
             {"panel": "console", "toggle": False})
 
         # Get component_url and component_id
-        component_url, component_id = util.get_component_url_and_id(file_name)
+        username = toolingapi_settings["username"]
+        component_url, component_id = util.get_component_url_and_id(username, file_name)
 
         if component_id == None: return
         
@@ -492,7 +496,8 @@ class deployCommand(sublime_plugin.TextCommand):
         component_body = toolingapi_settings[component_type]["body"]
 
         # Get component_url and component_id
-        component_url, component_id = util.get_component_url_and_id(file_name)
+        username = toolingapi_settings["username"]
+        component_url, component_id = util.get_component_url_and_id(username, file_name)
 
         # "Name", "SaveClass" + id
         # For example {"name": "SaveClass<ClassId>"}
@@ -551,7 +556,9 @@ class refreshcurrentCommand(sublime_plugin.TextCommand):
         component_body = toolingapi_settings[component_type]["body"]
 
         # Get component_url and component_id
-        component_url, component_id = util.get_component_url_and_id(file_name)
+        username = toolingapi_settings["username"]
+        component_url, component_id = util.get_component_url_and_id(username ,
+            file_name)
 
         # If component_url is None, just alert message
         if component_url == None:
