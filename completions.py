@@ -34,6 +34,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
             return
 
         location = locations[0]
+        print (location)
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
 
@@ -57,14 +58,15 @@ class SobjectCompletions(sublime_plugin.EventListener):
         if sobject in metadata:
             fields = metadata.get(sobject)
         elif sobject.capitalize() in metadata:
-            fields = metadata.get(sobject.lower().capitalize())
+            sobject = sobject.capitalize()
         elif variable_name in metadata:
-            fields = metadata.get(variable_name)
-        elif variable_name.capitalize() in metadata:
-            fields = metadata.get(variable_name.lower().capitalize())
+            sobject = variable_name
+        elif  variable_name.capitalize() in metadata:
+            sobject = variable_name.capitalize()
         else: 
             return
 
+        fields = metadata.get(sobject)
         for key in fields.keys():
             completion_list.append((sobject + "." + key, fields[key]))
 
@@ -86,7 +88,6 @@ class ApexCompletions(sublime_plugin.EventListener):
         # Get the variable name
         pt = pt - 1
         variable_name = view.substr(view.word(pt))
-        print (variable_name)
 
         # Get the matched variable type
         matched_regions = view.find_all("\\w+\\s+" + variable_name + "\\s*[:;=]")
@@ -95,24 +96,24 @@ class ApexCompletions(sublime_plugin.EventListener):
             matched_block = view.substr(matched_regions[0])
             variable_type = matched_block.split(" ")[0]
 
-        print (variable_name, variable_type)
         completion_list = []
+        class_name = ""
         if variable_name in apex_completions:
-            methods = apex_completions.get(variable_name)
+            class_name = variable_name
         elif variable_name.capitalize() in apex_completions:
-            methods = apex_completions.get(variable_name.capitalize())
+            class_name = variable_name.capitalize()
         elif variable_type in apex_completions:
-            methods = apex_completions.get(variable_type)
+            class_name = variable_type
         elif variable_type.capitalize() in apex_completions:
-            methods = apex_completions.get(variable_type.capitalize())
+            class_name = variable_type.capitalize()
         else: 
             return
 
+        methods = apex_completions.get(class_name)
         for key in methods.keys():
             completion_list.append((key, methods[key]))
 
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
-
 
 # Extends Sublime Text autocompletion to find matches in all open
 # files. By default, Sublime only considers words from the current file.
