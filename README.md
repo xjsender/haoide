@@ -36,10 +36,8 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
 
 4. Before you want to export validation rule or workflow, you must retrieve all, because we export the validation rule and workflow by parsing the metadata file.
 
-5. When you Run Test, Describe CustomField, Describe Layout or Describe Sobject, you need to wait for three or five seconds util list is populated, when you click them again, you don't need to wait, because the list has been saved to local and no need to request from salesforce, however, every time when you restart the sublime, you need to wait for the population of list again.
+5. Every time when you save the apex code, your local copy will be put into project/history path every minute.
 
-6. Every time when you save the apex code, your local copy will be put into project/history path every minute.
+6. If you have two classes, the first one is the utility class of the second one, you'd better open the first class, and then you can see the variable completions when you edit the first one.
 
-7. If you have two classes, the first one is the utility class of the second one, you'd better open the first class, and then you can see the variable completions when you edit the first one.
-
-8. When you run test, basically, you test result should be displayed as a new view, however, if there is no active view, the new view will not show up, so you should check the result in the console log.
+7. When you run test, basically, you test result should be displayed as a new view, however, if there is no active view, the new view will not show up, so you should check the result in the console log.
