@@ -279,31 +279,6 @@ class SalesforceApi():
         # Self.result is used to keep thread result
         self.result = component_metadata
 
-    def initiate_sobject_completion(self):
-        """
-        Initiate sobject completion, this is executed in background after refresh all
-        """
-
-        # After code is downloaded, this function start running
-        time.sleep(20)
-
-        print (message.initiate_sobject_completion)
-        # Get all common used sobjects
-        sobjects = self.describe_global_common()
-
-        # Describe all common used sobjects describe
-        sobjects_describe = []
-        for sobject in sobjects:
-            try:
-                sobject_describe = self.describe_sobject(sobject)
-                sobjects_describe.append(sobject_describe)
-            except:
-                # Need more process
-                pass
-
-        self.result = sobjects_describe
-        return sobjects_describe
-
     def generate_workbook(self, sobject):
         result = self.describe_sobject(sobject)
 

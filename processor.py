@@ -182,22 +182,24 @@ def handle_backup_all_sobjects(timeout):
 def handle_initiate_sobjects_completions(timeout):
     """
     Save sobject describe to local which is used in completions
+
     """
 
-    def handle_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
-            return
-        elif api.result == None:
-            sublime.error_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
+    def handle_threads(apis, threads, timeout):
+        for thread in threads:
+            if thread.is_alive():
+                sublime.set_timeout(lambda: handle_threads(apis, threads, timeout), timeout)
+                return
         
-        # If succeed
-        result = api.result
-        s = sublime.load_settings("sobjects_completion.sublime-settings")
+        # If succeed, get the all sobject describe result
+        results = []
+        for api in apis:
+            results.append(api.result)
 
+        # Save all sobject describe result to sublime settings
+        s = sublime.load_settings("sobjects_completion.sublime-settings")
         sobjects_completion = {}
-        for sobject_describe in result:
+        for sobject_describe in results:
             # Combine fields dict
             fields_dict = {}
 
@@ -218,11 +220,31 @@ def handle_initiate_sobjects_completions(timeout):
         # Save settings
         sublime.save_settings("sobjects_completion.sublime-settings")
 
+    def handle_thread(api, thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)
+            return
+        elif api.result == None:
+            sublime.error_message(message.AUTHORIZATION_FAILED_MESSAGE)
+            return
+
+        sobjects = api.result
+        threads = []
+        apis = []
+        for sobject in sobjects:
+            api = SalesforceApi(toolingapi_settings)
+            thread = threading.Thread(target=api.describe_sobject, args=(sobject, ))
+            thread.start()
+            threads.append(thread)
+            apis.append(api)
+
+        handle_threads(apis, threads, 10)
+
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.initiate_sobject_completion, args=())
+    thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
-    handle_thread(thread, timeout)
+    handle_thread(api, thread, timeout)
 
 def handle_retrieve_all_thread(timeout):
     def handle_thread(thread, timeout):
@@ -640,7 +662,6 @@ def handle_refresh_components(toolingapi_settings, timeout):
 
         # Save settings
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
-        print (message.DOWNLOAD_ALL_SUCCESSFULLY)
         sublime.status_message(message.DOWNLOAD_ALL_SUCCESSFULLY)
 
     api = SalesforceApi(toolingapi_settings)
