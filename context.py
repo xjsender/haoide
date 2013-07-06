@@ -17,6 +17,9 @@ def get_toolingapi_settings():
     # Load sublime-settings
     # If we use Pererence.sublime-settings, we get the default settings
     s = sublime.load_settings(TOOLING_API_SETTINGS)
+    if not s.has("workspace"):
+        sublime.error_message("""Before you start work, you should config your settings by click [SublimeApex > Setting - Default]""")
+        return
 
     settings = {}
     settings["workspace"] = s.get("workspace") + "-" + time.strftime('%Y%m%d')
