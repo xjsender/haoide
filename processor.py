@@ -156,6 +156,7 @@ def handle_update_plugin(timeout):
             return
 
         # Extract this zip file into temp
+        print ("-" * 100)
         print ("Extracting zip file......")
         zip_dir = "SublimeApex.zip"
         f = zipfile.ZipFile(zip_dir, 'r')
