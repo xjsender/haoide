@@ -178,6 +178,12 @@
             { "caption": "-" },
 
             {
+                "id": "updateplugin",
+                "caption": "Update Me",
+                "command": "updateplugin"
+            },
+
+            {
                 "id": "about",
                 "caption": "About",
                 "command": "about"

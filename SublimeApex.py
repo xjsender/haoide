@@ -4,18 +4,56 @@ import webbrowser
 import urllib
 import re
 import os
+import sys
+import shutil
+import zipfile
 
 try:
     # Python 3.x
+    from . import requests
     from . import processor
     from . import context
     from .salesforce import util, message
     from .salesforce import bulkapi
 except:
     # Python 2.x
+    import requests
     import processor
     import context
     from salesforce import util, message, bulkapi
+
+class updatepluginCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(updatepluginCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        if not sublime.ok_cancel_dialog("Are you sure you want to update plugin?"):
+            return
+
+        # Get the newest plugin zip file in github
+        r = requests.get("https://github.com/xjsender/SublimeApex/archive/master.zip") 
+        with open("SublimeApex.zip", "wb") as code:
+            code.write(r.content)
+
+        # Extract this zip file into temp
+        zip_dir = "update/SublimeApex.zip"
+        f = zipfile.ZipFile(zip_dir, 'r')
+        f.extractall()
+        f.close()
+
+        # Move the extracted folder to packages path
+        root_src_dir = "SublimeApex-master"
+        root_dst_dir = sublime.packages_path() + "/SublimeApex"
+        for src_dir, dirs, files in os.walk(root_src_dir):
+            dst_dir = src_dir.replace(root_src_dir, root_dst_dir)
+            if not os.path.exists(dst_dir):
+                os.mkdir(dst_dir)
+            for file_ in files:
+                src_file = os.path.join(src_dir, file_)
+                dst_file = os.path.join(dst_dir, file_)
+                if os.path.exists(dst_file):
+                    os.remove(dst_file)
+                shutil.move(src_file, dst_dir)
 
 class ViewCommand(sublime_plugin.TextCommand):
     """
