@@ -22,6 +22,7 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
 + Quick View Apex Code in SFDC Web
 + Backup All or Specified Sobjects in Muti-thread (Very Fast)
 + Many common used snippets
++ Manually Update Plugin
 
 # Dependency Lib #
 + [requests](https://github.com/kennethreitz/requests)
@@ -44,3 +45,5 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
 7. When you run test, basically, you test result should be displayed as a new view, however, if there is no active view, the new view will not show up, so you should check the result in the console log.
 
 8. If you want to refresh all ApexTrigger, ApexClass, ApexPage or ApexComponent, you just need to click the SublimeApex > Refresh Folder and then choose the folder you want to refresh.
+
+9. Before you update plugin, you should move your customized settings in "Settings - Default" to "Settings - User"
