@@ -156,7 +156,6 @@ def handle_update_plugin(timeout):
             return
 
         # Extract this zip file into temp
-        print ("-" * 100)
         print ("Extracting zip file......")
         zip_dir = "SublimeApex.zip"
         f = zipfile.ZipFile(zip_dir, 'r')
@@ -184,6 +183,7 @@ def handle_update_plugin(timeout):
         os.remove("SublimeApex.zip")
 
     # Get the newest plugin zip file in github
+    print ("-" * 100)
     print ("Start to retrieve newest plugin zip file.....")
     thread = threading.Thread(target=retrieve_newest_zip, args=())
     thread.start()
