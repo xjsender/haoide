@@ -146,20 +146,17 @@ def retrieve_newest_zip():
     """
 
     r = requests.get("https://github.com/xjsender/SublimeApex/archive/master.zip") 
-    with open("update/SublimeApex.zip", "wb") as code:
+    with open("SublimeApex.zip", "wb") as code:
         code.write(r.content)
 
-def handle_update_plugin():
+def handle_update_plugin(timeout):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
-            return
 
         # Extract this zip file into temp
-        zip_dir = "update/SublimeApex.zip"
+        zip_dir = "SublimeApex.zip"
         f = zipfile.ZipFile(zip_dir, 'r')
         f.extractall()
         f.close()
@@ -178,10 +175,16 @@ def handle_update_plugin():
                     os.remove(dst_file)
                 shutil.move(src_file, dst_dir)
 
+        # After files in extract path are moved, 
+        # just remove the path tree and the zipfile
+        shutil.rmtree("SublimeApex-master")
+        os.remove("SublimeApex.zip")
+
     # Get the newest plugin zip file in github
+    print ("Start to retrieve newest plugin zip file.....")
     thread = threading.Thread(target=retrieve_newest_zip, args=())
     thread.start()
-    handle_thread(thread, 120)
+    handle_thread(thread, timeout)
 
 def handle_refresh_folder(component_type, timeout):
     def handle_thread(thread, timeout):
