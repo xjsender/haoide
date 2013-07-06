@@ -1,3 +1,16 @@
+create_job = """<?xml version="1.0" encoding="UTF-8"?>
+                <jobInfo xmlns="http://www.force.com/2009/06/asyncapi/dataload">
+                    <operation>{operation}</operation>
+                    <object>{sobject}</object>
+                    <concurrencyMode>Parallel</concurrencyMode>
+                    <contentType>CSV</contentType>
+                </jobInfo>"""
+
+close_job = """<?xml version="1.0" encoding="UTF-8"?>
+                <jobInfo xmlns="http://www.force.com/2009/06/asyncapi/dataload">
+                    <state>Closed</state>
+                </jobInfo>"""
+
 login_body = """<?xml version="1.0" encoding="utf-8" ?>
     <env:Envelope
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"

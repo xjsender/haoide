@@ -9,6 +9,7 @@ from xml.sax.saxutils import unescape
 try:
     # Python 3.x
     from .login import soap_login
+    from . import soap_bodies
     from . import message
     from .util import getUniqueElementValueFromXmlString
 
@@ -17,6 +18,7 @@ try:
 except:
     # Python 2.x
     from login import soap_login
+    from salesforce import soap_bodies
     import message
     from util import getUniqueElementValueFromXmlString
 
@@ -36,16 +38,7 @@ def login(toolingapi_settings, session_id_expired):
 # Post: https://instance.salesforce.com/services/async/27.0/job
 def create_job(sobject, operation):
     url = globals()["instance_url"] + "/services/async/27.0/job"
-
-    body = """<?xml version="1.0" encoding="UTF-8"?>
-                <jobInfo
-                    xmlns="http://www.force.com/2009/06/asyncapi/dataload">
-                  <operation>{operation}</operation>
-                  <object>{sobject}</object>
-                  <concurrencyMode>Parallel</concurrencyMode>
-                  <contentType>CSV</contentType>
-                </jobInfo>""".format(operation=operation, 
-                    sobject=sobject)
+    body = soap_bodies.create_job.format(operation=operation, sobject=sobject)
     headers = {
         "X-SFDC-Session": globals()["access_token"],
         "Content-Type": "application/xml; charset=UTF-8",
@@ -148,12 +141,7 @@ def get_batch_result(job_id, batch_id, result_id):
 
 def close_job(job_id):
     url = globals()["instance_url"] + "/services/async/27.0/job/" + job_id
-
-    body = """<?xml version="1.0" encoding="UTF-8"?>
-                <jobInfo
-                   xmlns="http://www.force.com/2009/06/asyncapi/dataload">
-                 <state>Closed</state>
-                </jobInfo>"""
+    body = soap_bodies.close_job
     headers = {
         "X-SFDC-Session": globals()["access_token"],
         "Content-Type": "application/xml; charset=UTF-8",
