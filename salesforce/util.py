@@ -63,6 +63,47 @@ def is_python3x():
 
     return sys.version > '3'
 
+def parse_method(classname, methods):
+    methods_dict = {}
+    for method in methods:
+        if not method["parameters"]:
+            methods_dict["[M]" + classname + "." +\
+                method["name"] + "()\t" + method["returnType"]] = method["name"] + "()$0"
+        else:
+            parameters = ''
+            for parameter in method["parameters"]:
+                parameters += parameter["type"] + " " + parameter["name"] + ", "
+            parameters = parameters[ : -2]
+            methods_dict["[M]" + classname + "." +\
+                method["name"] + "(" + parameters + ")\t" +\
+                method["returnType"]] = method["name"] + "($0)"
+
+    return methods_dict
+
+def parse_properties(classname, properties):
+    properties_dict = {}
+    for property in properties:
+        properties_dict["[P]" + classname + "." + property["name"]] = property["name"] + "$0"
+
+    return properties_dict
+
+def parse_all():
+    apex_completions = {}
+    for namespace in apex.keys():
+        for class_name in apex[namespace]:
+            class_detail = apex[namespace][class_name]
+
+            methods_dict = parse_method(class_name, class_detail["methods"])
+            all_dict = methods_dict
+            if class_detail["properties"]:
+                properties_dict = parse_properties(class_name, class_detail["properties"])
+                all_dict = dict(list(methods_dict.items()) + list(properties_dict.items()))
+
+            apex_completions[class_name] = all_dict
+
+    import pprint
+    pprint.pprint (apex_completions)
+
 def parse_test_result(result):
     """
     format test result as specified format
