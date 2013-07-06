@@ -156,12 +156,14 @@ def handle_update_plugin(timeout):
             return
 
         # Extract this zip file into temp
+        print ("Extracting zip file......")
         zip_dir = "SublimeApex.zip"
         f = zipfile.ZipFile(zip_dir, 'r')
         f.extractall()
         f.close()
 
         # Move the extracted folder to packages path
+        print ("Move extracted files to packages path......")
         root_src_dir = "SublimeApex-master"
         root_dst_dir = sublime.packages_path() + "/SublimeApex"
         for src_dir, dirs, files in os.walk(root_src_dir):
