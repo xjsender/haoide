@@ -7,6 +7,7 @@
     // In order to prevent plugin update override your toolingapi settings, 
     // you should save the workspace, login_url, username and password to user settings.
     // If you want to do this, you should click [Sublime > Setting - User], and copy these settings into it
+    // User Settings is prior to Default Settings, it's very important.
     // Pro-Exercise
     "workspace": "d:/ForcedotcomWorkspace/pro-exercise",
     "login_url": "https://login.salesforce.com",
