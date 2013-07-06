@@ -164,6 +164,7 @@ def handle_update_plugin(timeout):
 
         # Move the extracted folder to packages path
         print ("Move extracted files to packages path......")
+        print ("-" * 100)
         root_src_dir = "SublimeApex-master"
         root_dst_dir = sublime.packages_path() + "/SublimeApex"
         for src_dir, dirs, files in os.walk(root_src_dir):
