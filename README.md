@@ -1,5 +1,5 @@
 # Sceenshot #
-This plugin support ST2 and ST3, firstly, install sublime text and then extract the zip file into your sublime package path.
+Funcationality Screenshots shown as below,
 
 ###1. Sobject Field Completions
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/sobject%20field%20completions.png" />
