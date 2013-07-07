@@ -71,6 +71,6 @@ def retrieve_newest_zip():
     Retrieve the newest SublimeApex Plugin zip file
     """
 
-    r = requests.get("https://github.com/xjsender/SublimeApex/archive/master.zip") 
+    r = requests.get("https://github.com/xjsender/SublimeApex/archive/master.zip", verify=False) 
     with open("SublimeApex.zip", "wb") as code:
         code.write(r.content)
