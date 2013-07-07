@@ -1,3 +1,8 @@
+# Sceenshot #
+This plugin support ST2 and ST3, firstly, install sublime text and then extract the zip file into your sublime package path.
+1. Sobject Field Completions
+2. Apex Code Completions
+
 # Installation #
 This plugin support ST2 and ST3, firstly, install sublime text and then extract the zip file into your sublime package path.
 
