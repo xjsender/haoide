@@ -1,0 +1,14 @@
+<snippet>
+    <content><![CDATA[
+try {
+    delete ${1:sobjects};
+}
+catch (DMLException e) {
+    trigger.old[0].addError(e.getDMLMessage(0));
+    System.debug('$2 DML Exception: ' + e);
+}
+]]></content>
+    <tabTrigger>deleteso</tabTrigger>
+    <scope>source.java</scope>
+    <description>insert sobjects</description>
+</snippet>

@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+RestRequest request = RestContext.request;
+String requestURI = request.requestURI;
+&0
+]]></content>
+    <tabTrigger>requestURI</tabTrigger>
+    <scope>source.java</scope>
+    <description>requestURI</description>
+</snippet>

@@ -1,0 +1,108 @@
+<snippet>
+    <content><![CDATA[
+/*
+ * Name                 : UtilRecordType
+ * Object               : RecordType
+ * Requirement          : 1. Get Record Type Id by Name,
+ *                        2. Get Record Type Name by Id
+ *                        3. Get Record Type Ids of one Sobject
+ *                        4. Get Record Type Names of one Sobject
+ * Refer classes        : 
+ * Author               : Mouse Liu
+ * Create Date          : 
+ * Modify History       : 
+ * 
+ */
+public with sharing class UtilRecordType {
+    private static Map<Id, Schema.RecordTypeInfo> recordTypeInfoByIdMap = 
+        new Map<Id, Schema.RecordTypeInfo>();
+
+    private static Map<String, Schema.RecordTypeInfo> recordTypeInfoByNameMap = 
+        new Map<String, Schema.RecordTypeInfo>();
+
+    private static Set<String> sobjectsSet = new Set<String>();
+    
+    private static void populateRecordTypeMap(String sobjectName) {
+        // If sobjectSet doesn't contain sobjectName, we need to populate the 
+        // recordTypeByNameMap and recordTypeByIdMap of this sobject
+        if (sobjectsSet.contains(sobjectName)) {
+            return;
+        }
+        else {
+            sobjectsSet.add(sobjectName);
+        }
+        System.debug('Debug Output======> {' + sobjectsSet + '}');
+        
+        // Get SobjectType by sobjectName
+        Schema.SobjectType sobjectType = 
+            Schema.getGlobalDescribe().get(sobjectName);
+
+        // Populate the recordtypeInfoById and recordtypeInfoByName Map
+        recordTypeInfoByIdMap.putAll(
+            sobjectType.getDescribe().getRecordTypeInfosById());
+
+        recordTypeInfoByNameMap.putAll(
+            sobjectType.getDescribe().getRecordTypeInfosByName());
+    }
+
+    // Get the object record type Name by
+    // @Parameter: sobject Name
+    // @Parameter: record Type Id
+    public static String getRecordTypeNameById(String sobjectName, 
+        Id recordTypeId) {
+
+        populateRecordTypeMap(sobjectName);
+        return recordTypeInfoByIdMap.get(recordTypeId).getName();
+    }
+    
+    // Get the object record type id by
+    // @Parameter: sobject Name
+    // @Parameter: record Type Name
+    public static String getRecordTypeIdByName(String sobjectName, 
+        String recordTypeName) {
+
+        populateRecordTypeMap(sobjectName);
+        return recordTypeInfoByNameMap.get(recordTypeName).getRecordTypeId();
+    }
+
+    // Get the RecordTypeId Set by 
+    // @Parameter: sobject Name
+    public static Set<Id> getRecordTypeIdSetOfSobject(String sobjectName) {
+        // Get SobjectType by sobjectName
+        Schema.SobjectType sobjectType = 
+            Schema.getGlobalDescribe().get(sobjectName);
+
+        return sobjectType.getDescribe().getRecordTypeInfosById().keySet();
+    }
+
+    // Get the RecordTypeName Set by 
+    // @Parameter: sobject Name
+    public static Set<String> getRecordTypeNameSetOfSobject(String sobjectName) {
+        // Get SobjectType by sobjectName
+        Schema.SobjectType sobjectType = 
+            Schema.getGlobalDescribe().get(sobjectName);
+
+        return sobjectType.getDescribe().getRecordTypeInfosByName().keySet();
+    }
+
+    // Get the SelectOptions by
+    // @Parameter: sobject Name
+    public static List<SelectOption> getSelectOptionsOfSobject(String sobjectName) {
+        // Get SobjectType by sobjectName
+        populateRecordTypeMap(sobjectName);
+
+        List<SelectOption> optionList = new List<SelectOption>();
+        for (String recordTypeId : recordTypeInfoByIdMap.keySet()) {
+
+            optionList.add(new SelectOption(recordTypeId, 
+                recordTypeInfoByIdMap.get(recordTypeId).getName()));
+        }
+
+        return optionList;
+    }
+}
+]]></content>
+    <tabTrigger>recordtypeu</tabTrigger>
+    <scope>source.java</scope>
+    <description>recordtype util</description>
+</snippet>

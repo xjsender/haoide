@@ -1,0 +1,13 @@
+<snippet>
+    <content><![CDATA[
+${1:} schClass = new ${1:}();
+// Seconds Minutes Hours Day_of_month Month Day_of_week optional_year
+String sch = '0 30 16 14 6 ? 2013';
+String jobName = '${1}' + Math.rint(Math.random() * 1000000);
+System.schedule(jobName, sch, schClass);
+]]></content>
+    Optional: Set a tabTrigger to define how to trigger the snippet
+    <tabTrigger>schedule</tabTrigger>
+    <scope>source.java</scope>
+    <description>Test Schedule</description>
+</snippet>

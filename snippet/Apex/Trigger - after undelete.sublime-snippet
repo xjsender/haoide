@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+if (trigger.isAfter && trigger.isUndelete) {
+    $0
+}
+]]></content>
+    <tabTrigger>afterund</tabTrigger>
+    <scope>source.java</scope>
+    <description>after undelete</description>
+</snippet>

@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+String encoded = EncodingUtil.urlEncode($1, 'UTF-8');
+]]></content>
+    <tabTrigger>urle</tabTrigger>
+    <scope>source.java</scope>
+    <description>EncodingUtil.urlEncode</description>
+</snippet>

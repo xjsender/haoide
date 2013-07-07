@@ -1,0 +1,20 @@
+<snippet>
+    <content><![CDATA[
+/*
+ * Name                 : $1Exception
+ * Object               : 
+ * Requirement          : 
+ * Refer classes        : 
+ * Author               : Mouse Liu
+ * Create Date          : 
+ * Modify History       : 
+ *
+ */
+public class $1Exception extends Exception {
+    $0
+}
+]]></content>
+    <tabTrigger>exc</tabTrigger>
+    <scope>source.java</scope>
+    <description>exception class</description>
+</snippet>

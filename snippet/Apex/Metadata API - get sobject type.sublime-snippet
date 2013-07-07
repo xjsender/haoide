@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+SobjectType soType = Schema.globalDescribe().get('${1:Sobject Name}')
+]]></content>
+    <tabTrigger>sobjectt</tabTrigger>
+    <scope>source.java</scope>
+    <description>get sobject type</description>
+</snippet>

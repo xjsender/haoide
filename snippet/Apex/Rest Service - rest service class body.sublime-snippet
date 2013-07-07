@@ -1,0 +1,23 @@
+<snippet>
+    <content><![CDATA[
+/*
+ * Name                 : ${1:Class-Name}
+ * Object               : ${2:Sobject-Name}
+ * Requirement          : 
+ * Refer classes        : 
+ * Author               : Mouse Liu
+ * Create Date          : 
+ * Modify History       : 
+ *
+ */
+@RestResource(urlMapping='/${3:PATH-NAME}/*')
+global with sharing class ${1:Class-Name} {
+    ${4:@HttpGet - @HttpPost - @HttpDelete}
+    webservice static ${2:Sobject-Name} ${5:Method-Name}() {
+    }
+}
+]]></content>
+    <tabTrigger>restc</tabTrigger>
+    <scope>source.java</scope>
+    <description>rest class</description>
+</snippet>

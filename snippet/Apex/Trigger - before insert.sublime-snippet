@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+if (trigger.isBefore && trigger.isInsert) {
+    $0
+}
+]]></content>
+    <tabTrigger>beforei</tabTrigger>
+    <scope>source.java</scope>
+    <description>before insert</description>
+</snippet>

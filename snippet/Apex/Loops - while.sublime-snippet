@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+while (${1:CONDITION}) {
+    ${2:WHILE-BODY}
+}
+]]></content>
+    <tabTrigger>while</tabTrigger>
+    <scope>source.java</scope>
+    <description>while loop</description>
+</snippet>
