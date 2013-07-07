@@ -68,7 +68,7 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
 
 5. Every time you save the apex code, your local copy will be put into project/history path every minute.
 
-6. If you have two classes, the first one is the utility class of the second one, you'd better open the first class, and then you can see the variable completions when you edit the first one.
+6. If you have two classes, the first one of which is the utility class for the second one, it would be best to open the first class so that you can see the variable completions when you edit the first one.
 
 7. When you run test, basically, you test result should be displayed as a new view, however, if there is no active view, the new view will not show up, so you should check the result in the console log.
 
@@ -82,3 +82,6 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
     3. Everytime plugin is updated, we need to restart sublime in ST2 but no need in ST3
     4. ST3 console output is very fast but not in ST2.
     5. UnicodeError may happen in ST2 sometimes but not in ST3.
+
+# Contribution:
+Thanks to Lucas, Tony, Gavin Browne
