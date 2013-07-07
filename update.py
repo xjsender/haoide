@@ -15,7 +15,7 @@ class updatepluginCommand(sublime_plugin.WindowCommand):
         super(updatepluginCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        if not sublime.ok_cancel_dialog("Are you sure you want to update plugin?"):
+        if not sublime.ok_cancel_dialog("Are you sure you want to update plugin? \nST2 needs restart after updated."):
             return
 
         # Open Console
@@ -58,6 +58,7 @@ def handle_update_plugin(timeout):
         # just remove the path tree and the zipfile
         shutil.rmtree("SublimeApex-master")
         os.remove("SublimeApex.zip")
+        sublime.message_dialog("Your plugin is updated to newest.")
 
     # Get the newest plugin zip file in github
     print ("-" * 100)
