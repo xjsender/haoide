@@ -62,11 +62,11 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
 
 2. When you want to execute anonymous or query, you must choose any valid snippet in sublime and click the command.
 
-3. Actually, retrieve all just retrieve sobject and workflow metadata, because this process is largely consuming time.
+3. Actually, retrieve all just retrieve sobject and workflow metadata, because this process is largely time-consuming.
 
 4. Before you want to export validation rule or workflow, you must retrieve all, because we export the validation rule and workflow by parsing the metadata file.
 
-5. Every time when you save the apex code, your local copy will be put into project/history path every minute.
+5. Every time you save the apex code, your local copy will be put into project/history path every minute.
 
 6. If you have two classes, the first one is the utility class of the second one, you'd better open the first class, and then you can see the variable completions when you edit the first one.
 
@@ -76,9 +76,9 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
 
 9. Before you update plugin, you should move your customized settings in "Settings - Default" to "Settings - User"
 
-10. This plugin supports ST2 and ST3, ST2 is free generally but ST3 not, however, ST2 has much problem compared with ST3, list as below,
+10. This plugin supports ST2 and ST3, ST2 is free generally but ST3 not, however, ST2 has many problems compared with ST3, list as below,
     1. ST2 completions width is fixed, however, ST3 will adjust the completions width by content width.
     2. If no active view in the sublime window, we can't create new view in ST2 but ST3 somethimes can.
-    3. Everytime, when plugin is updated, we need to restart sublime in ST2 but no need in ST3
+    3. Everytime plugin is updated, we need to restart sublime in ST2 but no need in ST3
     4. ST3 console output is very fast but not in ST2.
     5. UnicodeError may happen in ST2 sometimes but not in ST3.
