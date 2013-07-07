@@ -58,30 +58,27 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
 + [AllViewCompletions](https://github.com/alienhard/SublimeAllAutocomplete/blob/master/all_views_completions.py)
 
 # Notes: #
-1. Every time when you refresh all apex code from server, you sobject field completions will be initiated at the same time.
+1. Every time when we refresh all apex code from server, the sobject field completions will be initiated at the same time.
 
-2. When you want to execute anonymous or query, you must choose any valid snippet in sublime and click the command.
+2. When we want to execute anonymous or query, we must choose any valid snippet in sublime and click the command.
 
 3. Actually, retrieve all just retrieve sobject and workflow metadata, because this process is largely time-consuming.
 
-4. Before you want to export validation rule or workflow, you must retrieve all, because we export the validation rule and workflow by parsing the metadata file.
+4. Before we want to export validation rule or workflow, we must retrieve all, because we export the validation rule and workflow by parsing the metadata file.
 
-5. Every time you save the apex code, your local copy will be put into project/history path every minute.
+5. Every time we save the apex code, your local copy will be put into project/history path every minute.
 
-6. If you have two classes, the first one of which is the utility class for the second one, it would be best to open the first class so that you can see the variable completions when you edit the first one.
+6. If we have two classes, the first one of which is the utility class for the second one, it would be best to open the first class so that we can see the variable completions when we edit the first one.
 
-7. When you run test, basically, you test result should be displayed as a new view, however, if there is no active view, the new view will not show up, so you should check the result in the console log.
+7. When we want to run test, basically, your test result should be displayed as a new view; however, if there is no active view, the new view will not show up, so we should check the result in the console log.
 
-8. If you want to refresh all ApexTrigger, ApexClass, ApexPage or ApexComponent, you just need to click the SublimeApex > Refresh Folder and then choose the folder you want to refresh.
+8. If we want to refresh all ApexTrigger, ApexClass, ApexPage or ApexComponent, we just need to click the SublimeApex > Refresh Folder and then choose the folder we want to refresh.
 
-9. Before you update plugin, you should move your customized settings in "Settings - Default" to "Settings - User"
+9. Before we update plugin, we should move your customized settings from "Settings - Default" to "Settings - User"
 
-10. This plugin supports ST2 and ST3, ST2 is free generally but ST3 not, however, ST2 has many problems compared with ST3, list as below,
-    1. ST2 completions width is fixed, however, ST3 will adjust the completions width by content width.
-    2. If no active view in the sublime window, we can't create new view in ST2 but ST3 somethimes can.
-    3. Everytime plugin is updated, we need to restart sublime in ST2 but no need in ST3
-    4. ST3 console output is very fast but not in ST2.
-    5. UnicodeError may happen in ST2 sometimes but not in ST3.
-
-# Contribution:
-Thanks to Lucas, Tony, Gavin Browne
+10. This plugin supports ST2 and ST3. ST2 is free generally but ST3 isn't. However, ST2 has many problems compared with ST3 as listed below:
+    1. ST2 completions width is fixed; however, ST3 will adjust the completions width by content width.
+    2. If there is no active view in the sublime window, we can't create a new view in ST2, but ST3 somethimes can.
+    3. Every time, when the plugin is updated, we need to restart sublime in ST2, but there is no need to in ST3.
+    4. ST3 console output is very fast, but not in ST2.
+    5. UnicodeError may sometimes happen in ST2, but not in ST3.
