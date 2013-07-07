@@ -49,7 +49,7 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
 9. Before you update plugin, you should move your customized settings in "Settings - Default" to "Settings - User"
 
 10. This plugin supports ST2 and ST3, ST2 is free generally but ST3 not, however, ST2 has much problem compared with ST3, list as below,
-    1. ST2 completions width is fixed, however, ST3 will adjust the completions width according to content width.
+    1. ST2 completions width is fixed, however, ST3 will adjust the completions width by content width.
     2. If no active view in the sublime window, we can't create new view in ST2 but ST3 somethimes can.
     3. Everytime, when plugin is updated, we need to restart sublime in ST2 but no need in ST3
     4. ST3 console output is very fast but not in ST2.
