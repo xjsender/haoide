@@ -1,5 +1,5 @@
 # urllib3/util.py
-# Copyright 2008-2012 Andrey Petrov and contributors (see CONTRIBUTORS.txt)
+# Copyright 2008-2013 Andrey Petrov and contributors (see CONTRIBUTORS.txt)
 #
 # This module is part of urllib3 and is released under
 # the MIT License: http://www.opensource.org/licenses/mit-license.php
@@ -30,7 +30,6 @@ try:  # Test for SSL features
     from ssl import HAS_SNI  # Has SNI?
 except ImportError:
     pass
-
 
 from .packages import six
 from .exceptions import LocationParseError, SSLError
@@ -340,6 +339,20 @@ def assert_fingerprint(cert, fingerprint):
         raise SSLError('Fingerprints did not match. Expected "{0}", got "{1}".'
                        .format(hexlify(fingerprint_bytes),
                                hexlify(cert_digest)))
+
+def is_fp_closed(obj):
+    """
+    Checks whether a given file-like object is closed.
+
+    :param obj:
+        The file-like object to check.
+    """
+    if hasattr(obj, 'fp'):
+        # Object is a container for another file-like object that gets released
+        # on exhaustion (e.g. HTTPResponse)
+        return obj.fp is None
+
+    return obj.closed
 
 
 if SSLContext is not None:  # Python 3.2+
