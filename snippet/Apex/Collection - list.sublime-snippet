@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[
-List<${1:DATA-TYPE}> ${2:LIST-DATA-TYPE}List = new List<${1:DATA-TYPE}>();
-]]></content>
-    <tabTrigger>list</tabTrigger>
-    <scope>source.java</scope>
-    <description>list variable</description>
-</snippet>

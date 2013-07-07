@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[
-Map<${1:Data-Type}, ${2:Data-Type}> ${3:Map-Variable-Name}Map = new Map<${1:Data-Type}, ${2:Data-Type}>();
-]]></content>
-    <tabTrigger>map</tabTrigger>
-    <scope>source.java</scope>
-    <description>map variable</description>
-</snippet>

@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[
-Integer ${1:VARIABLE-NAME}Count = [SELECT COUNT() FROM ${2:SOBJECT-NAME} WHERE ${3:FILTER}];
-]]></content>
-    <tabTrigger>soqlc</tabTrigger>
-    <scope>source.java</scope>
-    <description>int = [count()]</description>
-</snippet>

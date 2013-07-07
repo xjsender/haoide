@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[
-List<${1:SOBJECT-NAME}> ${2:SOBJECT-VARIABLE-NAME}List = [SELECT Id FROM ${1:SOBJECT-NAME} WHERE ${3:FILTER}];
-]]></content>
-    <tabTrigger>soql[]</tabTrigger>
-    <scope>source.java</scope>
-    <description>list = [soql]</description>
-</snippet>
