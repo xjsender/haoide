@@ -22,21 +22,6 @@ except:
     import context
     from salesforce import util, message, bulkapi
 
-class updatepluginCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(updatepluginCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        if not sublime.ok_cancel_dialog("Are you sure you want to update plugin?"):
-            return
-
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
-        # Start updating plugin
-        processor.handle_update_plugin(120)
-
 class ViewCommand(sublime_plugin.TextCommand):
     """
     Create a new view with specified input
