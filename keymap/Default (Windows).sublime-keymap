@@ -14,16 +14,6 @@
     },
 
     {
-        "keys": ["ctrl+alt+s"],
-        "command": "deploy",
-        "context": [{
-            "key": "selector",
-            "operator": "equal",
-            "operand": "source.html"
-        }]
-    },
-
-    {
         "keys": ["ctrl+alt+e"],
         "command": "executeanonymous",
         "context": [{
