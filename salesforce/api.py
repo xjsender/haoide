@@ -52,7 +52,7 @@ class SalesforceApi():
                 "Accept": "text/plain"
             }
     
-    def get(self, component_url, timeout=10):
+    def get(self, component_url, timeout=120):
         """
         Get component describe result according to component_url
 
@@ -87,7 +87,7 @@ class SalesforceApi():
         # This result is used for invoker
         return result
 
-    def post(self, post_url, data, timeout=10):
+    def post(self, post_url, data, timeout=120):
         # Firstly, login
         self.login(False)
 
@@ -118,7 +118,7 @@ class SalesforceApi():
         # This result is used for invoker
         return result
 
-    def delete(self, component_url, timeout=10):
+    def delete(self, component_url, timeout=120):
         # Firstly, login
         self.login(False)
 
