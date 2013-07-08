@@ -34,7 +34,6 @@ class SobjectCompletions(sublime_plugin.EventListener):
             return
 
         location = locations[0]
-        print (location)
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
 
@@ -42,7 +41,6 @@ class SobjectCompletions(sublime_plugin.EventListener):
             return
 
         # Get the variable name
-        pt = pt - 1
         variable_name = view.substr(view.word(pt))
 
         # Get the matched region by variable name
@@ -88,13 +86,29 @@ class ApexCompletions(sublime_plugin.EventListener):
         # Get the variable name
         pt = pt - 1
         variable_name = view.substr(view.word(pt))
+        print (variable_name)
 
-        # Get the matched variable type
-        matched_regions = view.find_all("\\w+\\s+" + variable_name + "\\s*[:;=]")
+        # Get the matched variable type 
+        # String str; 
+        # String str = 'abc';
+        # for (String str : strs) {}
+        # List<String> strs;
+        # Set<String> strs;
+        # Map<String> strs;
+        # matched_regions = view.find_all("(\\w+\\s+)" + variable_name + "\\s*[:;=]")
+        pattern = "((\\w+\\s+)|(map<\\w+>\\s+)|(set<\\w+>\\s+)|(list<\\w+>\\s+))" + variable_name + "\\s*[:;=]"
+        matched_regions = view.find_all(pattern, sublime.IGNORECASE)
         variable_type = ""
         if len(matched_regions) > 0:
             matched_block = view.substr(matched_regions[0])
-            variable_type = matched_block.split(" ")[0]
+            print (matched_block)
+            # If list, map, set
+            if "<" in matched_block and ">" in matched_block:
+                variable_type = matched_block.split("<")[0].strip()
+            # String str
+            # for (String str :)
+            else:
+                variable_type = matched_block.split(" ")[0]
 
         completion_list = []
         class_name = ""
@@ -106,9 +120,13 @@ class ApexCompletions(sublime_plugin.EventListener):
             class_name = variable_type
         elif variable_type.capitalize() in apex_completions:
             class_name = variable_type.capitalize()
-        else: 
+        else:
             return
 
+        # If class_name is "", it means not found in this view
+        if class_name == "": return []
+
+        # Get the methods by class_name
         methods = apex_completions.get(class_name)
         for key in methods.keys():
             completion_list.append((key, methods[key]))

@@ -41,14 +41,14 @@ apex_completions = {
         '[P]Address.zip' : 'zip$0'
     },
     'Answers' : {
-        '[M]Answers.findSimilar(SObject question)\tLIST<Id>' : 'findSimilar($0)',
+        '[M]Answers.findSimilar(SObject question)\tList<Id>' : 'findSimilar($0)',
         '[M]Answers.setBestReply(String questionId, String bestReplyId)\tvoid' : 'setBestReply($0)'
     },
     'ApexPages' : {
         '[M]ApexPages.addMessage(ApexPages.Message message)\tvoid' : 'addMessage($0)',
         '[M]ApexPages.addMessages(APEX_OBJECT ex)\tvoid' : 'addMessages($0)',
         '[M]ApexPages.currentPage()\tSystem.PageReference' : 'currentPage()$0',
-        '[M]ApexPages.getMessages()\tLIST<ApexPages.Message>' : 'getMessages()$0',
+        '[M]ApexPages.getMessages()\tList<ApexPages.Message>' : 'getMessages()$0',
         '[M]ApexPages.hasMessages()\tBoolean' : 'hasMessages()$0',
         '[M]ApexPages.hasMessages(ApexPages.Severity severity)\tBoolean' : 'hasMessages($0)'
     },
@@ -62,13 +62,13 @@ apex_completions = {
         '[M]AppExchange.getConfig(String section, String key)\tString' : 'getConfig($0)',
         '[M]AppExchange.getCookie(String name)\tString' : 'getCookie($0)',
         '[M]AppExchange.getCrossInstanceEncryptedHash(Double appVersion, String value)\tString' : 'getCrossInstanceEncryptedHash($0)',
-        '[M]AppExchange.getInstalledPackageVersions(String orgId)\tLIST<String>' : 'getInstalledPackageVersions($0)',
+        '[M]AppExchange.getInstalledPackageVersions(String orgId)\tList<String>' : 'getInstalledPackageVersions($0)',
         '[M]AppExchange.getOrgName(String orgId)\tString' : 'getOrgName($0)',
         '[M]AppExchange.getPackageManifest(String pkgVersionId)\tString' : 'getPackageManifest($0)',
         '[M]AppExchange.getPortalAdminId()\tString' : 'getPortalAdminId()$0',
         '[M]AppExchange.getPortalId()\tString' : 'getPortalId()$0',
         '[M]AppExchange.getSiteId()\tString' : 'getSiteId()$0',
-        '[M]AppExchange.getTrialTemplates(String callerOrgId, String lmPkgId, String username)\tLIST<TrialTemplate>' : 'getTrialTemplates($0)',
+        '[M]AppExchange.getTrialTemplates(String callerOrgId, String lmPkgId, String username)\tList<TrialTemplate>' : 'getTrialTemplates($0)',
         '[M]AppExchange.isDuplicateUserName(String username)\tBoolean' : 'isDuplicateUserName($0)',
         '[M]AppExchange.isGuestUser()\tBoolean' : 'isGuestUser()$0',
         '[M]AppExchange.movedPermanently(String location)\tvoid' : 'movedPermanently($0)',
@@ -87,7 +87,7 @@ apex_completions = {
         '[M]AppExchange.validateOrgUser(String username, String password)\tString' : 'validateOrgUser($0)'
     },
     'ApplicationReadWriteMode' : {
-        '[M]ApplicationReadWriteMode.values()\tLIST<system.ApplicationReadWriteMode>' : 'values()$0',
+        '[M]ApplicationReadWriteMode.values()\tList<system.ApplicationReadWriteMode>' : 'values()$0',
         '[P]ApplicationReadWriteMode.DEFAULT' : 'DEFAULT$0',
         '[P]ApplicationReadWriteMode.READ_ONLY' : 'READ_ONLY$0'
     },
@@ -142,7 +142,7 @@ apex_completions = {
         '[P]BasicTemplateAttachment.title' : 'title$0'
     },
     'Batchable' : {
-        '[M]Batchable.execute(Database.BatchableContext param1, LIST<ANY> param2)\tvoid' : 'execute($0)',
+        '[M]Batchable.execute(Database.BatchableContext param1, List<ANY> param2)\tvoid' : 'execute($0)',
         '[M]Batchable.finish(Database.BatchableContext param1)\tvoid' : 'finish($0)',
         '[M]Batchable.start(Database.BatchableContext param1)\tsystem.Iterable' : 'start($0)'
     },
@@ -198,7 +198,7 @@ apex_completions = {
         '[M]CalloutException.setMessage(String message)\tvoid' : 'setMessage($0)'
     },
     'CaseActorType' : {
-        '[M]CaseActorType.values()\tLIST<ConnectApi.CaseActorType>' : 'values()$0',
+        '[M]CaseActorType.values()\tList<ConnectApi.CaseActorType>' : 'values()$0',
         '[P]CaseActorType.Customer' : 'Customer$0',
         '[P]CaseActorType.CustomerService' : 'CustomerService$0'
     },
@@ -487,7 +487,7 @@ apex_completions = {
         '[P]CommentPage.total' : 'total$0'
     },
     'CommentType' : {
-        '[M]CommentType.values()\tLIST<ConnectApi.CommentType>' : 'values()$0',
+        '[M]CommentType.values()\tList<ConnectApi.CommentType>' : 'values()$0',
         '[P]CommentType.ContentComment' : 'ContentComment$0',
         '[P]CommentType.TextComment' : 'TextComment$0'
     },
@@ -519,7 +519,7 @@ apex_completions = {
         '[P]CommunityPage.total' : 'total$0'
     },
     'CommunityStatus' : {
-        '[M]CommunityStatus.values()\tLIST<ConnectApi.CommunityStatus>' : 'values()$0',
+        '[M]CommunityStatus.values()\tList<ConnectApi.CommunityStatus>' : 'values()$0',
         '[P]CommunityStatus.Inactive' : 'Inactive$0',
         '[P]CommunityStatus.Live' : 'Live$0',
         '[P]CommunityStatus.UnderConstruction' : 'UnderConstruction$0'
@@ -625,51 +625,51 @@ apex_completions = {
     'Database' : {
         '[M]Database.convertLead(Database.LeadConvert leadConvert)\tDatabase.LeadConvertResult' : 'convertLead($0)',
         '[M]Database.convertLead(Database.LeadConvert leadConvert, Boolean allOrNothing)\tDatabase.LeadConvertResult' : 'convertLead($0)',
-        '[M]Database.convertLead(LIST<Database.LeadConvert> leadConverts)\tLIST<Database.LeadConvertResult>' : 'convertLead($0)',
-        '[M]Database.convertLead(LIST<Database.LeadConvert> leadConverts, Boolean allOrNothing)\tLIST<Database.LeadConvertResult>' : 'convertLead($0)',
+        '[M]Database.convertLead(List<Database.LeadConvert> leadConverts)\tList<Database.LeadConvertResult>' : 'convertLead($0)',
+        '[M]Database.convertLead(List<Database.LeadConvert> leadConverts, Boolean allOrNothing)\tList<Database.LeadConvertResult>' : 'convertLead($0)',
         '[M]Database.countQuery(String query)\tInteger' : 'countQuery($0)',
         '[M]Database.delete(Id id)\tDatabase.DeleteResult' : 'delete($0)',
         '[M]Database.delete(Id id, Boolean allOrNothing)\tDatabase.DeleteResult' : 'delete($0)',
-        '[M]Database.delete(LIST<Id> ids)\tLIST<Database.DeleteResult>' : 'delete($0)',
-        '[M]Database.delete(LIST<Id> ids, Boolean allOrNothing)\tLIST<Database.DeleteResult>' : 'delete($0)',
-        '[M]Database.delete(LIST<SObject> sobjects)\tLIST<Database.DeleteResult>' : 'delete($0)',
-        '[M]Database.delete(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.DeleteResult>' : 'delete($0)',
+        '[M]Database.delete(List<Id> ids)\tList<Database.DeleteResult>' : 'delete($0)',
+        '[M]Database.delete(List<Id> ids, Boolean allOrNothing)\tList<Database.DeleteResult>' : 'delete($0)',
+        '[M]Database.delete(List<SObject> sobjects)\tList<Database.DeleteResult>' : 'delete($0)',
+        '[M]Database.delete(List<SObject> sobjects, Boolean allOrNothing)\tList<Database.DeleteResult>' : 'delete($0)',
         '[M]Database.delete(SObject sobject)\tDatabase.DeleteResult' : 'delete($0)',
         '[M]Database.delete(SObject sobject, Boolean allOrNothing)\tDatabase.DeleteResult' : 'delete($0)',
-        '[M]Database.emptyRecycleBin(LIST<Id> ids)\tLIST<Database.EmptyRecycleBinResult>' : 'emptyRecycleBin($0)',
-        '[M]Database.emptyRecycleBin(LIST<SObject> sobjects)\tLIST<Database.EmptyRecycleBinResult>' : 'emptyRecycleBin($0)',
+        '[M]Database.emptyRecycleBin(List<Id> ids)\tList<Database.EmptyRecycleBinResult>' : 'emptyRecycleBin($0)',
+        '[M]Database.emptyRecycleBin(List<SObject> sobjects)\tList<Database.EmptyRecycleBinResult>' : 'emptyRecycleBin($0)',
         '[M]Database.emptyRecycleBin(SObject sobject)\tDatabase.EmptyRecycleBinResult' : 'emptyRecycleBin($0)',
         '[M]Database.executeBatch(APEX_OBJECT batchable)\tString' : 'executeBatch($0)',
         '[M]Database.executeBatch(APEX_OBJECT batchable, Integer batchSize)\tString' : 'executeBatch($0)',
-        '[M]Database.getQueryLocator(LIST<SObject> query)\tDatabase.QueryLocator' : 'getQueryLocator($0)',
+        '[M]Database.getQueryLocator(List<SObject> query)\tDatabase.QueryLocator' : 'getQueryLocator($0)',
         '[M]Database.getQueryLocator(String query)\tDatabase.QueryLocator' : 'getQueryLocator($0)',
-        '[M]Database.insert(LIST<SObject> sobjects)\tLIST<Database.SaveResult>' : 'insert($0)',
-        '[M]Database.insert(LIST<SObject> sobjects, APEX_OBJECT DmlOptions)\tLIST<Database.SaveResult>' : 'insert($0)',
-        '[M]Database.insert(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.SaveResult>' : 'insert($0)',
+        '[M]Database.insert(List<SObject> sobjects)\tList<Database.SaveResult>' : 'insert($0)',
+        '[M]Database.insert(List<SObject> sobjects, APEX_OBJECT DmlOptions)\tList<Database.SaveResult>' : 'insert($0)',
+        '[M]Database.insert(List<SObject> sobjects, Boolean allOrNothing)\tList<Database.SaveResult>' : 'insert($0)',
         '[M]Database.insert(SObject sobject)\tDatabase.SaveResult' : 'insert($0)',
         '[M]Database.insert(SObject sobject, APEX_OBJECT DmlOptions)\tDatabase.SaveResult' : 'insert($0)',
         '[M]Database.insert(SObject sobject, Boolean allOrNothing)\tDatabase.SaveResult' : 'insert($0)',
-        '[M]Database.query(String query)\tLIST<SObject>' : 'query($0)',
+        '[M]Database.query(String query)\tList<SObject>' : 'query($0)',
         '[M]Database.rollback(System.Savepoint savepoint)\tvoid' : 'rollback($0)',
         '[M]Database.setSavepoint()\tSystem.Savepoint' : 'setSavepoint()$0',
         '[M]Database.undelete(Id id)\tDatabase.UndeleteResult' : 'undelete($0)',
         '[M]Database.undelete(Id id, Boolean allOrNothing)\tDatabase.UndeleteResult' : 'undelete($0)',
-        '[M]Database.undelete(LIST<Id> ids)\tLIST<Database.UndeleteResult>' : 'undelete($0)',
-        '[M]Database.undelete(LIST<Id> ids, Boolean allOrNothing)\tLIST<Database.UndeleteResult>' : 'undelete($0)',
-        '[M]Database.undelete(LIST<SObject> sobjects)\tLIST<Database.UndeleteResult>' : 'undelete($0)',
-        '[M]Database.undelete(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.UndeleteResult>' : 'undelete($0)',
+        '[M]Database.undelete(List<Id> ids)\tList<Database.UndeleteResult>' : 'undelete($0)',
+        '[M]Database.undelete(List<Id> ids, Boolean allOrNothing)\tList<Database.UndeleteResult>' : 'undelete($0)',
+        '[M]Database.undelete(List<SObject> sobjects)\tList<Database.UndeleteResult>' : 'undelete($0)',
+        '[M]Database.undelete(List<SObject> sobjects, Boolean allOrNothing)\tList<Database.UndeleteResult>' : 'undelete($0)',
         '[M]Database.undelete(SObject sobject)\tDatabase.UndeleteResult' : 'undelete($0)',
         '[M]Database.undelete(SObject sobject, Boolean allOrNothing)\tDatabase.UndeleteResult' : 'undelete($0)',
-        '[M]Database.update(LIST<SObject> sobjects)\tLIST<Database.SaveResult>' : 'update($0)',
-        '[M]Database.update(LIST<SObject> sobjects, APEX_OBJECT allOrNothing)\tLIST<Database.SaveResult>' : 'update($0)',
-        '[M]Database.update(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.SaveResult>' : 'update($0)',
+        '[M]Database.update(List<SObject> sobjects)\tList<Database.SaveResult>' : 'update($0)',
+        '[M]Database.update(List<SObject> sobjects, APEX_OBJECT allOrNothing)\tList<Database.SaveResult>' : 'update($0)',
+        '[M]Database.update(List<SObject> sobjects, Boolean allOrNothing)\tList<Database.SaveResult>' : 'update($0)',
         '[M]Database.update(SObject sobject)\tDatabase.SaveResult' : 'update($0)',
         '[M]Database.update(SObject sobject, APEX_OBJECT allOrNothing)\tDatabase.SaveResult' : 'update($0)',
         '[M]Database.update(SObject sobject, Boolean allOrNothing)\tDatabase.SaveResult' : 'update($0)',
-        '[M]Database.upsert(LIST<SObject> sobjects)\tLIST<Database.UpsertResult>' : 'upsert($0)',
-        '[M]Database.upsert(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.UpsertResult>' : 'upsert($0)',
-        '[M]Database.upsert(LIST<SObject> sobjects, Schema.SObjectField field)\tLIST<Database.UpsertResult>' : 'upsert($0)',
-        '[M]Database.upsert(LIST<SObject> sobjects, Schema.SObjectField field, Boolean allOrNothing)\tLIST<Database.UpsertResult>' : 'upsert($0)',
+        '[M]Database.upsert(List<SObject> sobjects)\tList<Database.UpsertResult>' : 'upsert($0)',
+        '[M]Database.upsert(List<SObject> sobjects, Boolean allOrNothing)\tList<Database.UpsertResult>' : 'upsert($0)',
+        '[M]Database.upsert(List<SObject> sobjects, Schema.SObjectField field)\tList<Database.UpsertResult>' : 'upsert($0)',
+        '[M]Database.upsert(List<SObject> sobjects, Schema.SObjectField field, Boolean allOrNothing)\tList<Database.UpsertResult>' : 'upsert($0)',
         '[M]Database.upsert(SObject sobject)\tDatabase.UpsertResult' : 'upsert($0)',
         '[M]Database.upsert(SObject sobject, Boolean allOrNothing)\tDatabase.UpsertResult' : 'upsert($0)',
         '[M]Database.upsert(SObject sobject, Schema.SObjectField field)\tDatabase.UpsertResult' : 'upsert($0)',
@@ -778,7 +778,7 @@ apex_completions = {
         '[M]Decimal.valueOf(String str)\tDecimal' : 'valueOf($0)'
     },
     'DisplayType' : {
-        '[M]DisplayType.values()\tLIST<Schema.DisplayType>' : 'values()$0',
+        '[M]DisplayType.values()\tList<Schema.DisplayType>' : 'values()$0',
         '[P]DisplayType.ANYTYPE' : 'ANYTYPE$0',
         '[P]DisplayType.BASE64' : 'BASE64$0',
         '[P]DisplayType.BOOLEAN' : 'BOOLEAN$0',
@@ -794,10 +794,10 @@ apex_completions = {
         '[P]DisplayType.ID' : 'ID$0',
         '[P]DisplayType.INTEGER' : 'INTEGER$0',
         '[P]DisplayType.LOCATION' : 'LOCATION$0',
-        '[P]DisplayType.MULTIPICKLIST' : 'MULTIPICKLIST$0',
+        '[P]DisplayType.MULTIPICKList' : 'MULTIPICKList$0',
         '[P]DisplayType.PERCENT' : 'PERCENT$0',
         '[P]DisplayType.PHONE' : 'PHONE$0',
-        '[P]DisplayType.PICKLIST' : 'PICKLIST$0',
+        '[P]DisplayType.PICKList' : 'PICKList$0',
         '[P]DisplayType.REFERENCE' : 'REFERENCE$0',
         '[P]DisplayType.STRING' : 'STRING$0',
         '[P]DisplayType.TEXTAREA' : 'TEXTAREA$0',
@@ -806,8 +806,8 @@ apex_completions = {
     },
     'DmlException' : {
         '[M]DmlException.getCause()\tException' : 'getCause()$0',
-        '[M]DmlException.getDmlFieldNames(Integer index)\tLIST<String>' : 'getDmlFieldNames($0)',
-        '[M]DmlException.getDmlFields(Integer index)\tLIST<Schema.SObjectField>' : 'getDmlFields($0)',
+        '[M]DmlException.getDmlFieldNames(Integer index)\tList<String>' : 'getDmlFieldNames($0)',
+        '[M]DmlException.getDmlFields(Integer index)\tList<Schema.SObjectField>' : 'getDmlFields($0)',
         '[M]DmlException.getDmlId(Integer index)\tString' : 'getDmlId($0)',
         '[M]DmlException.getDmlIndex(Integer index)\tInteger' : 'getDmlIndex($0)',
         '[M]DmlException.getDmlMessage(Integer index)\tString' : 'getDmlMessage($0)',
@@ -842,8 +842,8 @@ apex_completions = {
     'EmailAttachment' : {},
     'EmailException' : {
         '[M]EmailException.getCause()\tException' : 'getCause()$0',
-        '[M]EmailException.getDmlFieldNames(Integer index)\tLIST<String>' : 'getDmlFieldNames($0)',
-        '[M]EmailException.getDmlFields(Integer index)\tLIST<Schema.SObjectField>' : 'getDmlFields($0)',
+        '[M]EmailException.getDmlFieldNames(Integer index)\tList<String>' : 'getDmlFieldNames($0)',
+        '[M]EmailException.getDmlFields(Integer index)\tList<Schema.SObjectField>' : 'getDmlFields($0)',
         '[M]EmailException.getDmlId(Integer index)\tString' : 'getDmlId($0)',
         '[M]EmailException.getDmlIndex(Integer index)\tInteger' : 'getDmlIndex($0)',
         '[M]EmailException.getDmlMessage(Integer index)\tString' : 'getDmlMessage($0)',
@@ -947,7 +947,7 @@ apex_completions = {
         '[P]FeedFavorite.user' : 'user$0'
     },
     'FeedFavoriteType' : {
-        '[M]FeedFavoriteType.values()\tLIST<ConnectApi.FeedFavoriteType>' : 'values()$0',
+        '[M]FeedFavoriteType.values()\tList<ConnectApi.FeedFavoriteType>' : 'values()$0',
         '[P]FeedFavoriteType.ListView' : 'ListView$0',
         '[P]FeedFavoriteType.Search' : 'Search$0',
         '[P]FeedFavoriteType.Topic' : 'Topic$0'
@@ -1005,7 +1005,7 @@ apex_completions = {
         '[M]FeedItemAttachmentInput.toString()\tString' : 'toString()$0'
     },
     'FeedItemAttachmentType' : {
-        '[M]FeedItemAttachmentType.values()\tLIST<ConnectApi.FeedItemAttachmentType>' : 'values()$0',
+        '[M]FeedItemAttachmentType.values()\tList<ConnectApi.FeedItemAttachmentType>' : 'values()$0',
         '[P]FeedItemAttachmentType.Approval' : 'Approval$0',
         '[P]FeedItemAttachmentType.BasicTemplate' : 'BasicTemplate$0',
         '[P]FeedItemAttachmentType.CaseComment' : 'CaseComment$0',
@@ -1039,7 +1039,7 @@ apex_completions = {
         '[P]FeedItemPage.nextPageUrl' : 'nextPageUrl$0'
     },
     'FeedItemType' : {
-        '[M]FeedItemType.values()\tLIST<ConnectApi.FeedItemType>' : 'values()$0',
+        '[M]FeedItemType.values()\tList<ConnectApi.FeedItemType>' : 'values()$0',
         '[P]FeedItemType.ActivityEvent' : 'ActivityEvent$0',
         '[P]FeedItemType.ApprovalPost' : 'ApprovalPost$0',
         '[P]FeedItemType.AttachArticleEvent' : 'AttachArticleEvent$0',
@@ -1066,7 +1066,7 @@ apex_completions = {
         '[P]FeedItemType.UserStatus' : 'UserStatus$0'
     },
     'FeedItemVisibilityType' : {
-        '[M]FeedItemVisibilityType.values()\tLIST<ConnectApi.FeedItemVisibilityType>' : 'values()$0',
+        '[M]FeedItemVisibilityType.values()\tList<ConnectApi.FeedItemVisibilityType>' : 'values()$0',
         '[P]FeedItemVisibilityType.AllUsers' : 'AllUsers$0',
         '[P]FeedItemVisibilityType.InternalUsers' : 'InternalUsers$0'
     },
@@ -1099,12 +1099,12 @@ apex_completions = {
         '[P]FeedPollChoice.voteCountRatio' : 'voteCountRatio$0'
     },
     'FeedSortOrder' : {
-        '[M]FeedSortOrder.values()\tLIST<ConnectApi.FeedSortOrder>' : 'values()$0',
+        '[M]FeedSortOrder.values()\tList<ConnectApi.FeedSortOrder>' : 'values()$0',
         '[P]FeedSortOrder.CreatedDateDesc' : 'CreatedDateDesc$0',
         '[P]FeedSortOrder.LastModifiedDateDesc' : 'LastModifiedDateDesc$0'
     },
     'FeedType' : {
-        '[M]FeedType.values()\tLIST<ConnectApi.FeedType>' : 'values()$0',
+        '[M]FeedType.values()\tList<ConnectApi.FeedType>' : 'values()$0',
         '[P]FeedType.Bookmarks' : 'Bookmarks$0',
         '[P]FeedType.Company' : 'Company$0',
         '[P]FeedType.Files' : 'Files$0',
@@ -1222,7 +1222,7 @@ apex_completions = {
         '[P]GroupChatterSettings.emailFrequency' : 'emailFrequency$0'
     },
     'GroupEmailFrequency' : {
-        '[M]GroupEmailFrequency.values()\tLIST<ConnectApi.GroupEmailFrequency>' : 'values()$0',
+        '[M]GroupEmailFrequency.values()\tList<ConnectApi.GroupEmailFrequency>' : 'values()$0',
         '[P]GroupEmailFrequency.DailyDigest' : 'DailyDigest$0',
         '[P]GroupEmailFrequency.EachPost' : 'EachPost$0',
         '[P]GroupEmailFrequency.Never' : 'Never$0',
@@ -1282,7 +1282,7 @@ apex_completions = {
         '[P]GroupMembershipRequest.user' : 'user$0'
     },
     'GroupMembershipRequestStatus' : {
-        '[M]GroupMembershipRequestStatus.values()\tLIST<ConnectApi.GroupMembershipRequestStatus>' : 'values()$0',
+        '[M]GroupMembershipRequestStatus.values()\tList<ConnectApi.GroupMembershipRequestStatus>' : 'values()$0',
         '[P]GroupMembershipRequestStatus.Accepted' : 'Accepted$0',
         '[P]GroupMembershipRequestStatus.Declined' : 'Declined$0',
         '[P]GroupMembershipRequestStatus.Pending' : 'Pending$0'
@@ -1296,7 +1296,7 @@ apex_completions = {
         '[P]GroupMembershipRequests.total' : 'total$0'
     },
     'GroupMembershipType' : {
-        '[M]GroupMembershipType.values()\tLIST<ConnectApi.GroupMembershipType>' : 'values()$0',
+        '[M]GroupMembershipType.values()\tList<ConnectApi.GroupMembershipType>' : 'values()$0',
         '[P]GroupMembershipType.GroupManager' : 'GroupManager$0',
         '[P]GroupMembershipType.GroupOwner' : 'GroupOwner$0',
         '[P]GroupMembershipType.NotAMember' : 'NotAMember$0',
@@ -1304,7 +1304,7 @@ apex_completions = {
         '[P]GroupMembershipType.StandardMember' : 'StandardMember$0'
     },
     'GroupVisibilityType' : {
-        '[M]GroupVisibilityType.values()\tLIST<ConnectApi.GroupVisibilityType>' : 'values()$0',
+        '[M]GroupVisibilityType.values()\tList<ConnectApi.GroupVisibilityType>' : 'values()$0',
         '[P]GroupVisibilityType.PrivateAccess' : 'PrivateAccess$0',
         '[P]GroupVisibilityType.PublicAccess' : 'PublicAccess$0'
     },
@@ -1368,7 +1368,7 @@ apex_completions = {
         '[M]HttpResponse.getBodyAsBlob()\tBlob' : 'getBodyAsBlob()$0',
         '[M]HttpResponse.getBodyDocument()\tdom.Document' : 'getBodyDocument()$0',
         '[M]HttpResponse.getHeader(String key)\tString' : 'getHeader($0)',
-        '[M]HttpResponse.getHeaderKeys()\tLIST<String>' : 'getHeaderKeys()$0',
+        '[M]HttpResponse.getHeaderKeys()\tList<String>' : 'getHeaderKeys()$0',
         '[M]HttpResponse.getStatus()\tString' : 'getStatus()$0',
         '[M]HttpResponse.getStatusCode()\tInteger' : 'getStatusCode()$0',
         '[M]HttpResponse.getXmlStreamReader()\tSystem.XmlStreamReader' : 'getXmlStreamReader()$0',
@@ -1397,11 +1397,11 @@ apex_completions = {
         '[M]Id.valueOf(String str)\tId' : 'valueOf($0)'
     },
     'IdeaStandardController' : {
-        '[M]IdeaStandardController.addFields(LIST<String> fieldNames)\tvoid' : 'addFields($0)',
+        '[M]IdeaStandardController.addFields(List<String> fieldNames)\tvoid' : 'addFields($0)',
         '[M]IdeaStandardController.cancel()\tSystem.PageReference' : 'cancel()$0',
         '[M]IdeaStandardController.delete()\tSystem.PageReference' : 'delete()$0',
         '[M]IdeaStandardController.edit()\tSystem.PageReference' : 'edit()$0',
-        '[M]IdeaStandardController.getCommentList()\tLIST<IdeaComment>' : 'getCommentList()$0',
+        '[M]IdeaStandardController.getCommentList()\tList<IdeaComment>' : 'getCommentList()$0',
         '[M]IdeaStandardController.getId()\tString' : 'getId()$0',
         '[M]IdeaStandardController.getRecord()\tSObject' : 'getRecord()$0',
         '[M]IdeaStandardController.getSubject()\tSObject' : 'getSubject()$0',
@@ -1410,21 +1410,21 @@ apex_completions = {
         '[M]IdeaStandardController.view()\tSystem.PageReference' : 'view()$0'
     },
     'IdeaStandardSetController' : {
-        '[M]IdeaStandardSetController.addFields(LIST<String> fieldNames)\tvoid' : 'addFields($0)',
+        '[M]IdeaStandardSetController.addFields(List<String> fieldNames)\tvoid' : 'addFields($0)',
         '[M]IdeaStandardSetController.cancel()\tSystem.PageReference' : 'cancel()$0',
         '[M]IdeaStandardSetController.first()\tvoid' : 'first()$0',
         '[M]IdeaStandardSetController.getCompleteResult()\tBoolean' : 'getCompleteResult()$0',
         '[M]IdeaStandardSetController.getFilterId()\tString' : 'getFilterId()$0',
         '[M]IdeaStandardSetController.getHasNext()\tBoolean' : 'getHasNext()$0',
         '[M]IdeaStandardSetController.getHasPrevious()\tBoolean' : 'getHasPrevious()$0',
-        '[M]IdeaStandardSetController.getIdeaList()\tLIST<Idea>' : 'getIdeaList()$0',
-        '[M]IdeaStandardSetController.getListViewOptions()\tLIST<System.SelectOption>' : 'getListViewOptions()$0',
+        '[M]IdeaStandardSetController.getIdeaList()\tList<Idea>' : 'getIdeaList()$0',
+        '[M]IdeaStandardSetController.getListViewOptions()\tList<System.SelectOption>' : 'getListViewOptions()$0',
         '[M]IdeaStandardSetController.getPageNumber()\tInteger' : 'getPageNumber()$0',
         '[M]IdeaStandardSetController.getPageSize()\tInteger' : 'getPageSize()$0',
         '[M]IdeaStandardSetController.getRecord()\tSObject' : 'getRecord()$0',
-        '[M]IdeaStandardSetController.getRecords()\tLIST<SObject>' : 'getRecords()$0',
+        '[M]IdeaStandardSetController.getRecords()\tList<SObject>' : 'getRecords()$0',
         '[M]IdeaStandardSetController.getResultSize()\tInteger' : 'getResultSize()$0',
-        '[M]IdeaStandardSetController.getSelected()\tLIST<SObject>' : 'getSelected()$0',
+        '[M]IdeaStandardSetController.getSelected()\tList<SObject>' : 'getSelected()$0',
         '[M]IdeaStandardSetController.last()\tvoid' : 'last()$0',
         '[M]IdeaStandardSetController.next()\tvoid' : 'next()$0',
         '[M]IdeaStandardSetController.previous()\tvoid' : 'previous()$0',
@@ -1433,13 +1433,13 @@ apex_completions = {
         '[M]IdeaStandardSetController.setFilterId(String filterId)\tvoid' : 'setFilterId($0)',
         '[M]IdeaStandardSetController.setPageNumber(Integer pageNumber)\tvoid' : 'setPageNumber($0)',
         '[M]IdeaStandardSetController.setPageSize(Integer pageSize)\tvoid' : 'setPageSize($0)',
-        '[M]IdeaStandardSetController.setSelected(LIST<SObject> selected)\tvoid' : 'setSelected($0)'
+        '[M]IdeaStandardSetController.setSelected(List<SObject> selected)\tvoid' : 'setSelected($0)'
     },
     'Ideas' : {
-        '[M]Ideas.findSimilar(SObject idea)\tLIST<Id>' : 'findSimilar($0)',
-        '[M]Ideas.getAllRecentReplies(String userId, String communityId)\tLIST<Id>' : 'getAllRecentReplies($0)',
-        '[M]Ideas.getReadRecentReplies(String userId, String communityId)\tLIST<Id>' : 'getReadRecentReplies($0)',
-        '[M]Ideas.getUnreadRecentReplies(String userId, String communityId)\tLIST<Id>' : 'getUnreadRecentReplies($0)',
+        '[M]Ideas.findSimilar(SObject idea)\tList<Id>' : 'findSimilar($0)',
+        '[M]Ideas.getAllRecentReplies(String userId, String communityId)\tList<Id>' : 'getAllRecentReplies($0)',
+        '[M]Ideas.getReadRecentReplies(String userId, String communityId)\tList<Id>' : 'getReadRecentReplies($0)',
+        '[M]Ideas.getUnreadRecentReplies(String userId, String communityId)\tList<Id>' : 'getUnreadRecentReplies($0)',
         '[M]Ideas.markRead(String ideaId)\tvoid' : 'markRead($0)'
     },
     'InboundEmail' : {
@@ -1595,7 +1595,7 @@ apex_completions = {
         '[M]JSONParser.skipChildren()\tvoid' : 'skipChildren()$0'
     },
     'JSONToken' : {
-        '[M]JSONToken.values()\tLIST<system.JSONToken>' : 'values()$0',
+        '[M]JSONToken.values()\tList<system.JSONToken>' : 'values()$0',
         '[P]JSONToken.END_ARRAY' : 'END_ARRAY$0',
         '[P]JSONToken.END_OBJECT' : 'END_OBJECT$0',
         '[P]JSONToken.FIELD_NAME' : 'FIELD_NAME$0',
@@ -1611,7 +1611,7 @@ apex_completions = {
         '[P]JSONToken.VALUE_TRUE' : 'VALUE_TRUE$0'
     },
     'KnowledgeArticleVersionStandardController' : {
-        '[M]KnowledgeArticleVersionStandardController.addFields(LIST<String> fieldNames)\tvoid' : 'addFields($0)',
+        '[M]KnowledgeArticleVersionStandardController.addFields(List<String> fieldNames)\tvoid' : 'addFields($0)',
         '[M]KnowledgeArticleVersionStandardController.cancel()\tSystem.PageReference' : 'cancel()$0',
         '[M]KnowledgeArticleVersionStandardController.delete()\tSystem.PageReference' : 'delete()$0',
         '[M]KnowledgeArticleVersionStandardController.edit()\tSystem.PageReference' : 'edit()$0',
@@ -1624,25 +1624,25 @@ apex_completions = {
         '[M]KnowledgeArticleVersionStandardController.selectDataCategory(String categoryGroup, String category)\tvoid' : 'selectDataCategory($0)',
         '[M]KnowledgeArticleVersionStandardController.view()\tSystem.PageReference' : 'view()$0'
     },
-    'LIST' : {
-        '[M]LIST.add(ANY element)\tObject' : 'add($0)',
-        '[M]LIST.add(Integer index, ANY element)\tvoid' : 'add($0)',
-        '[M]LIST.addAll(LIST elements)\tvoid' : 'addAll($0)',
-        '[M]LIST.addAll(SET elements)\tvoid' : 'addAll($0)',
-        '[M]LIST.clear()\tvoid' : 'clear()$0',
-        '[M]LIST.clone()\tLIST<String>' : 'clone()$0',
-        '[M]LIST.deepClone()\tLIST<String>' : 'deepClone()$0',
-        '[M]LIST.deepClone(Boolean preserveId)\tLIST<String>' : 'deepClone($0)',
-        '[M]LIST.deepClone(Boolean preserveId, Boolean preserveReadOnlyTimestamps)\tLIST<String>' : 'deepClone($0)',
-        '[M]LIST.deepClone(Boolean preserveId, Boolean preserveReadOnlyTimestamps, Boolean preserveAutoNumbers)\tLIST<String>' : 'deepClone($0)',
-        '[M]LIST.get(Integer index)\tObject' : 'get($0)',
-        '[M]LIST.getSObjectType()\tSchema.SObjectType' : 'getSObjectType()$0',
-        '[M]LIST.isEmpty()\tBoolean' : 'isEmpty()$0',
-        '[M]LIST.iterator()\tsystem.ListIterator' : 'iterator()$0',
-        '[M]LIST.remove(Integer index)\tObject' : 'remove($0)',
-        '[M]LIST.set(Integer index, ANY value)\tvoid' : 'set($0)',
-        '[M]LIST.size()\tInteger' : 'size()$0',
-        '[M]LIST.sort()\tvoid' : 'sort()$0'
+    'List' : {
+        '[M]List.add(ANY element)\tObject' : 'add($0)',
+        '[M]List.add(Integer index, ANY element)\tvoid' : 'add($0)',
+        '[M]List.addAll(List elements)\tvoid' : 'addAll($0)',
+        '[M]List.addAll(SET elements)\tvoid' : 'addAll($0)',
+        '[M]List.clear()\tvoid' : 'clear()$0',
+        '[M]List.clone()\tList<String>' : 'clone()$0',
+        '[M]List.deepClone()\tList<String>' : 'deepClone()$0',
+        '[M]List.deepClone(Boolean preserveId)\tList<String>' : 'deepClone($0)',
+        '[M]List.deepClone(Boolean preserveId, Boolean preserveReadOnlyTimestamps)\tList<String>' : 'deepClone($0)',
+        '[M]List.deepClone(Boolean preserveId, Boolean preserveReadOnlyTimestamps, Boolean preserveAutoNumbers)\tList<String>' : 'deepClone($0)',
+        '[M]List.get(Integer index)\tObject' : 'get($0)',
+        '[M]List.getSObjectType()\tSchema.SObjectType' : 'getSObjectType()$0',
+        '[M]List.isEmpty()\tBoolean' : 'isEmpty()$0',
+        '[M]List.iterator()\tsystem.ListIterator' : 'iterator()$0',
+        '[M]List.remove(Integer index)\tObject' : 'remove($0)',
+        '[M]List.set(Integer index, ANY value)\tvoid' : 'set($0)',
+        '[M]List.size()\tInteger' : 'size()$0',
+        '[M]List.sort()\tvoid' : 'sort()$0'
     },
     'LeadConvert' : {},
     'LicenseException' : {
@@ -1701,7 +1701,7 @@ apex_completions = {
         '[M]ListException.setMessage(String message)\tvoid' : 'setMessage($0)'
     },
     'LoggingLevel' : {
-        '[M]LoggingLevel.values()\tLIST<system.LoggingLevel>' : 'values()$0',
+        '[M]LoggingLevel.values()\tList<system.LoggingLevel>' : 'values()$0',
         '[P]LoggingLevel.DEBUG' : 'DEBUG$0',
         '[P]LoggingLevel.ERROR' : 'ERROR$0',
         '[P]LoggingLevel.FINE' : 'FINE$0',
@@ -1730,11 +1730,11 @@ apex_completions = {
         '[M]Map.isEmpty()\tBoolean' : 'isEmpty()$0',
         '[M]Map.keySet()\tSET<String>' : 'keySet()$0',
         '[M]Map.put(ANY key, ANY value)\tString' : 'put($0)',
-        '[M]Map.putAll(LIST entries)\tvoid' : 'putAll($0)',
+        '[M]Map.putAll(List entries)\tvoid' : 'putAll($0)',
         '[M]Map.putAll(MAP entries)\tvoid' : 'putAll($0)',
         '[M]Map.remove(ANY key)\tString' : 'remove($0)',
         '[M]Map.size()\tInteger' : 'size()$0',
-        '[M]Map.values()\tLIST<String>' : 'values()$0'
+        '[M]Map.values()\tList<String>' : 'values()$0'
     },
     'MassEmailMessage' : {},
     'Matcher' : {
@@ -1883,7 +1883,7 @@ apex_completions = {
         '[M]MessageSegmentInput.toString()\tString' : 'toString()$0'
     },
     'MessageSegmentType' : {
-        '[M]MessageSegmentType.values()\tLIST<ConnectApi.MessageSegmentType>' : 'values()$0',
+        '[M]MessageSegmentType.values()\tList<ConnectApi.MessageSegmentType>' : 'values()$0',
         '[P]MessageSegmentType.EntityLink' : 'EntityLink$0',
         '[P]MessageSegmentType.FieldChange' : 'FieldChange$0',
         '[P]MessageSegmentType.FieldChangeName' : 'FieldChangeName$0',
@@ -1898,10 +1898,10 @@ apex_completions = {
     'Messaging' : {
         '[M]Messaging.reserveMassEmailCapacity(Integer count)\tvoid' : 'reserveMassEmailCapacity($0)',
         '[M]Messaging.reserveSingleEmailCapacity(Integer count)\tvoid' : 'reserveSingleEmailCapacity($0)',
-        '[M]Messaging.sendEmail(LIST<Messaging.Email> emailMessages)\tLIST<Messaging.SendEmailResult>' : 'sendEmail($0)',
-        '[M]Messaging.sendEmail(LIST<Messaging.Email> emailMessages, Boolean allOrNothing)\tLIST<Messaging.SendEmailResult>' : 'sendEmail($0)',
-        '[M]Messaging.sendEmailMessage(LIST<Id> emailMessagesIds)\tLIST<Messaging.SendEmailResult>' : 'sendEmailMessage($0)',
-        '[M]Messaging.sendEmailMessage(LIST<Id> emailMessagesIds, Boolean allOrNothing)\tLIST<Messaging.SendEmailResult>' : 'sendEmailMessage($0)'
+        '[M]Messaging.sendEmail(List<Messaging.Email> emailMessages)\tList<Messaging.SendEmailResult>' : 'sendEmail($0)',
+        '[M]Messaging.sendEmail(List<Messaging.Email> emailMessages, Boolean allOrNothing)\tList<Messaging.SendEmailResult>' : 'sendEmail($0)',
+        '[M]Messaging.sendEmailMessage(List<Id> emailMessagesIds)\tList<Messaging.SendEmailResult>' : 'sendEmailMessage($0)',
+        '[M]Messaging.sendEmailMessage(List<Id> emailMessagesIds, Boolean allOrNothing)\tList<Messaging.SendEmailResult>' : 'sendEmailMessage($0)'
     },
     'MobilePushNotification' : {
         '[M]MobilePushNotification.send(String application, SET<String> users)\tvoid' : 'send($0)',
@@ -1910,7 +1910,7 @@ apex_completions = {
     },
     'MobilePushPayload' : {
         '[M]MobilePushPayload.apple(String alert, String sound, Integer badgeCount, MAP<String,ANY> userData)\tMAP<String,ANY>' : 'apple($0)',
-        '[M]MobilePushPayload.apple(String alertBody, String actionLocKey, String locKey, LIST<String> locArgs, String launchImage, String sound, Integer badgeCount, MAP<String,ANY> userData)\tMAP<String,ANY>' : 'apple($0)'
+        '[M]MobilePushPayload.apple(String alertBody, String actionLocKey, String locKey, List<String> locArgs, String launchImage, String sound, Integer badgeCount, MAP<String,ANY> userData)\tMAP<String,ANY>' : 'apple($0)'
     },
     'MoreChangesSegment' : {
         '[M]MoreChangesSegment.equals(Object obj)\tBoolean' : 'equals($0)',
@@ -2016,11 +2016,11 @@ apex_completions = {
         '[M]PageReference.getRedirect()\tBoolean' : 'getRedirect()$0',
         '[M]PageReference.getUrl()\tString' : 'getUrl()$0',
         '[M]PageReference.setAnchor(String anchor)\tSystem.PageReference' : 'setAnchor($0)',
-        '[M]PageReference.setCookies(LIST<System.Cookie> cookies)\tvoid' : 'setCookies($0)',
+        '[M]PageReference.setCookies(List<System.Cookie> cookies)\tvoid' : 'setCookies($0)',
         '[M]PageReference.setRedirect(Boolean redirect)\tSystem.PageReference' : 'setRedirect($0)'
     },
     'ParameterType' : {
-        '[M]ParameterType.values()\tLIST<Process.PluginDescribeResult.ParameterType>' : 'values()$0',
+        '[M]ParameterType.values()\tList<Process.PluginDescribeResult.ParameterType>' : 'values()$0',
         '[P]ParameterType.BOOLEAN' : 'BOOLEAN$0',
         '[P]ParameterType.DATE' : 'DATE$0',
         '[P]ParameterType.DATETIME' : 'DATETIME$0',
@@ -2038,8 +2038,8 @@ apex_completions = {
         '[M]Pattern.matches(String regex, String input)\tBoolean' : 'matches($0)',
         '[M]Pattern.pattern()\tString' : 'pattern()$0',
         '[M]Pattern.quote(String s)\tString' : 'quote($0)',
-        '[M]Pattern.split(String input)\tLIST<String>' : 'split($0)',
-        '[M]Pattern.split(String input, Integer n)\tLIST<String>' : 'split($0)'
+        '[M]Pattern.split(String input)\tList<String>' : 'split($0)',
+        '[M]Pattern.split(String input, Integer n)\tList<String>' : 'split($0)'
     },
     'PhoneNumber' : {
         '[M]PhoneNumber.equals(Object obj)\tBoolean' : 'equals($0)',
@@ -2129,7 +2129,7 @@ apex_completions = {
     },
     'QueryLocatorChunkIterator' : {
         '[M]QueryLocatorChunkIterator.hasNext()\tBoolean' : 'hasNext()$0',
-        '[M]QueryLocatorChunkIterator.next()\tLIST<SObject>' : 'next()$0'
+        '[M]QueryLocatorChunkIterator.next()\tList<SObject>' : 'next()$0'
     },
     'QueryLocatorIterator' : {
         '[M]QueryLocatorIterator.hasNext()\tBoolean' : 'hasNext()$0',
@@ -2209,8 +2209,8 @@ apex_completions = {
         '[M]SObject.getSObject(Schema.SObjectField field)\tSObject' : 'getSObject($0)',
         '[M]SObject.getSObject(String field)\tSObject' : 'getSObject($0)',
         '[M]SObject.getSObjectType()\tSchema.SObjectType' : 'getSObjectType()$0',
-        '[M]SObject.getSObjects(Schema.SObjectField field)\tLIST<SObject>' : 'getSObjects($0)',
-        '[M]SObject.getSObjects(String field)\tLIST<SObject>' : 'getSObjects($0)',
+        '[M]SObject.getSObjects(Schema.SObjectField field)\tList<SObject>' : 'getSObjects($0)',
+        '[M]SObject.getSObjects(String field)\tList<SObject>' : 'getSObjects($0)',
         '[M]SObject.put(Schema.SObjectField field, Object value)\tObject' : 'put($0)',
         '[M]SObject.put(String field, Object value)\tObject' : 'put($0)',
         '[M]SObject.putSObject(Schema.SObjectField field, SObject value)\tSObject' : 'putSObject($0)',
@@ -2242,8 +2242,8 @@ apex_completions = {
         '[M]SchedulableContext.getTriggerId()\tId' : 'getTriggerId()$0'
     },
     'Schema' : {
-        '[M]Schema.describeDataCategoryGroupStructures(LIST<Schema.DataCategoryGroupSobjectTypePair> pairs, Boolean topCategoriesOnly)\tLIST<Schema.DescribeDataCategoryGroupStructureResult>' : 'describeDataCategoryGroupStructures($0)',
-        '[M]Schema.describeDataCategoryGroups(LIST<String> sobjects)\tLIST<Schema.DescribeDataCategoryGroupResult>' : 'describeDataCategoryGroups($0)',
+        '[M]Schema.describeDataCategoryGroupStructures(List<Schema.DataCategoryGroupSobjectTypePair> pairs, Boolean topCategoriesOnly)\tList<Schema.DescribeDataCategoryGroupStructureResult>' : 'describeDataCategoryGroupStructures($0)',
+        '[M]Schema.describeDataCategoryGroups(List<String> sobjects)\tList<Schema.DescribeDataCategoryGroupResult>' : 'describeDataCategoryGroups($0)',
         '[M]Schema.getAppDescribe(String appName)\tMAP<String,Schema.SObjectType>' : 'getAppDescribe($0)',
         '[M]Schema.getGlobalDescribe()\tMAP<String,Schema.SObjectType>' : 'getGlobalDescribe()$0',
         '[M]Schema.getModuleDescribe()\tMAP<String,Schema.SObjectType>' : 'getModuleDescribe()$0',
@@ -2288,30 +2288,30 @@ apex_completions = {
     },
     'Set' : {
         '[M]Set.add(ANY element)\tBoolean' : 'add($0)',
-        '[M]Set.addAll(LIST elements)\tBoolean' : 'addAll($0)',
+        '[M]Set.addAll(List elements)\tBoolean' : 'addAll($0)',
         '[M]Set.addAll(SET elements)\tBoolean' : 'addAll($0)',
         '[M]Set.clear()\tvoid' : 'clear()$0',
         '[M]Set.clone()\tSET<String>' : 'clone()$0',
         '[M]Set.contains(ANY element)\tBoolean' : 'contains($0)',
-        '[M]Set.containsAll(LIST elements)\tBoolean' : 'containsAll($0)',
+        '[M]Set.containsAll(List elements)\tBoolean' : 'containsAll($0)',
         '[M]Set.containsAll(SET elements)\tBoolean' : 'containsAll($0)',
         '[M]Set.isEmpty()\tBoolean' : 'isEmpty()$0',
         '[M]Set.iterator()\tsystem.ListIterator' : 'iterator()$0',
         '[M]Set.remove(ANY element)\tBoolean' : 'remove($0)',
-        '[M]Set.removeAll(LIST elements)\tBoolean' : 'removeAll($0)',
+        '[M]Set.removeAll(List elements)\tBoolean' : 'removeAll($0)',
         '[M]Set.removeAll(SET elements)\tBoolean' : 'removeAll($0)',
-        '[M]Set.retainAll(LIST elements)\tBoolean' : 'retainAll($0)',
+        '[M]Set.retainAll(List elements)\tBoolean' : 'retainAll($0)',
         '[M]Set.retainAll(SET elements)\tBoolean' : 'retainAll($0)',
         '[M]Set.size()\tInteger' : 'size()$0'
     },
     'SetupScope' : {
-        '[M]SetupScope.values()\tLIST<system.SetupScope>' : 'values()$0',
+        '[M]SetupScope.values()\tList<system.SetupScope>' : 'values()$0',
         '[P]SetupScope.ORGANIZATION' : 'ORGANIZATION$0',
         '[P]SetupScope.PROFILE' : 'PROFILE$0',
         '[P]SetupScope.USER' : 'USER$0'
     },
     'Severity' : {
-        '[M]Severity.values()\tLIST<ApexPages.Severity>' : 'values()$0',
+        '[M]Severity.values()\tList<ApexPages.Severity>' : 'values()$0',
         '[P]Severity.CONFIRM' : 'CONFIRM$0',
         '[P]Severity.ERROR' : 'ERROR$0',
         '[P]Severity.FATAL' : 'FATAL$0',
@@ -2347,7 +2347,7 @@ apex_completions = {
         '[M]Site.setPortalUserAsAuthProvider(SObject user, String accountId)\tvoid' : 'setPortalUserAsAuthProvider($0)'
     },
     'SoapType' : {
-        '[M]SoapType.values()\tLIST<Schema.SoapType>' : 'values()$0',
+        '[M]SoapType.values()\tList<Schema.SoapType>' : 'values()$0',
         '[P]SoapType.ANYTYPE' : 'ANYTYPE$0',
         '[P]SoapType.BASE64BINARY' : 'BASE64BINARY$0',
         '[P]SoapType.BOOLEAN' : 'BOOLEAN$0',
@@ -2371,7 +2371,7 @@ apex_completions = {
     },
     'SparkPlugApi' : {
         '[M]SparkPlugApi.describePlugin(String className)\tProcess.SparkPlugApi.SparkPlugDescribeResult' : 'describePlugin($0)',
-        '[M]SparkPlugApi.describePlugins()\tLIST<Process.SparkPlugApi.SparkPlugDescribeResult>' : 'describePlugins()$0',
+        '[M]SparkPlugApi.describePlugins()\tList<Process.SparkPlugApi.SparkPlugDescribeResult>' : 'describePlugins()$0',
         '[M]SparkPlugApi.invokePluginWithJson(String className, String parameters)\tString' : 'invokePluginWithJson($0)'
     },
     'SparkPlugDescribeResult' : {
@@ -2391,7 +2391,7 @@ apex_completions = {
         '[M]Stack.push(String item)\tvoid' : 'push($0)'
     },
     'StandardController' : {
-        '[M]StandardController.addFields(LIST<String> fieldNames)\tvoid' : 'addFields($0)',
+        '[M]StandardController.addFields(List<String> fieldNames)\tvoid' : 'addFields($0)',
         '[M]StandardController.cancel()\tSystem.PageReference' : 'cancel()$0',
         '[M]StandardController.delete()\tSystem.PageReference' : 'delete()$0',
         '[M]StandardController.edit()\tSystem.PageReference' : 'edit()$0',
@@ -2403,20 +2403,20 @@ apex_completions = {
         '[M]StandardController.view()\tSystem.PageReference' : 'view()$0'
     },
     'StandardSetController' : {
-        '[M]StandardSetController.addFields(LIST<String> fieldNames)\tvoid' : 'addFields($0)',
+        '[M]StandardSetController.addFields(List<String> fieldNames)\tvoid' : 'addFields($0)',
         '[M]StandardSetController.cancel()\tSystem.PageReference' : 'cancel()$0',
         '[M]StandardSetController.first()\tvoid' : 'first()$0',
         '[M]StandardSetController.getCompleteResult()\tBoolean' : 'getCompleteResult()$0',
         '[M]StandardSetController.getFilterId()\tString' : 'getFilterId()$0',
         '[M]StandardSetController.getHasNext()\tBoolean' : 'getHasNext()$0',
         '[M]StandardSetController.getHasPrevious()\tBoolean' : 'getHasPrevious()$0',
-        '[M]StandardSetController.getListViewOptions()\tLIST<System.SelectOption>' : 'getListViewOptions()$0',
+        '[M]StandardSetController.getListViewOptions()\tList<System.SelectOption>' : 'getListViewOptions()$0',
         '[M]StandardSetController.getPageNumber()\tInteger' : 'getPageNumber()$0',
         '[M]StandardSetController.getPageSize()\tInteger' : 'getPageSize()$0',
         '[M]StandardSetController.getRecord()\tSObject' : 'getRecord()$0',
-        '[M]StandardSetController.getRecords()\tLIST<SObject>' : 'getRecords()$0',
+        '[M]StandardSetController.getRecords()\tList<SObject>' : 'getRecords()$0',
         '[M]StandardSetController.getResultSize()\tInteger' : 'getResultSize()$0',
-        '[M]StandardSetController.getSelected()\tLIST<SObject>' : 'getSelected()$0',
+        '[M]StandardSetController.getSelected()\tList<SObject>' : 'getSelected()$0',
         '[M]StandardSetController.last()\tvoid' : 'last()$0',
         '[M]StandardSetController.next()\tvoid' : 'next()$0',
         '[M]StandardSetController.previous()\tvoid' : 'previous()$0',
@@ -2425,7 +2425,7 @@ apex_completions = {
         '[M]StandardSetController.setFilterId(String filterId)\tvoid' : 'setFilterId($0)',
         '[M]StandardSetController.setPageNumber(Integer pageNumber)\tvoid' : 'setPageNumber($0)',
         '[M]StandardSetController.setPageSize(Integer pageSize)\tvoid' : 'setPageSize($0)',
-        '[M]StandardSetController.setSelected(LIST<SObject> selected)\tvoid' : 'setSelected($0)'
+        '[M]StandardSetController.setSelected(List<SObject> selected)\tvoid' : 'setSelected($0)'
     },
     'StaticResourceCalloutMock' : {
         '[M]StaticResourceCalloutMock.respond(System.HttpRequest request)\tSystem.HttpResponse' : 'respond($0)',
@@ -2435,7 +2435,7 @@ apex_completions = {
         '[M]StaticResourceCalloutMock.setStatusCode(Integer code)\tvoid' : 'setStatusCode($0)'
     },
     'StatusCode' : {
-        '[M]StatusCode.values()\tLIST<system.StatusCode>' : 'values()$0',
+        '[M]StatusCode.values()\tList<system.StatusCode>' : 'values()$0',
         '[P]StatusCode.ALL_OR_NONE_OPERATION_ROLLED_BACK' : 'ALL_OR_NONE_OPERATION_ROLLED_BACK$0',
         '[P]StatusCode.ALREADY_IN_PROCESS' : 'ALREADY_IN_PROCESS$0',
         '[P]StatusCode.ASSIGNEE_TYPE_REQUIRED' : 'ASSIGNEE_TYPE_REQUIRED$0',
@@ -2536,7 +2536,7 @@ apex_completions = {
         '[P]StatusCode.INVALID_OAUTH_URL' : 'INVALID_OAUTH_URL$0',
         '[P]StatusCode.INVALID_OPERATION' : 'INVALID_OPERATION$0',
         '[P]StatusCode.INVALID_OPERATOR' : 'INVALID_OPERATOR$0',
-        '[P]StatusCode.INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST' : 'INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST$0',
+        '[P]StatusCode.INVALID_OR_NULL_FOR_RESTRICTED_PICKList' : 'INVALID_OR_NULL_FOR_RESTRICTED_PICKList$0',
         '[P]StatusCode.INVALID_OWNER' : 'INVALID_OWNER$0',
         '[P]StatusCode.INVALID_PACKAGE_VERSION' : 'INVALID_PACKAGE_VERSION$0',
         '[P]StatusCode.INVALID_PARTNER_NETWORK_STATUS' : 'INVALID_PARTNER_NETWORK_STATUS$0',
@@ -2656,9 +2656,9 @@ apex_completions = {
         '[M]String.escapeHtml4()\tString' : 'escapeHtml4()$0',
         '[M]String.escapeSingleQuotes(String s)\tString' : 'escapeSingleQuotes($0)',
         '[M]String.escapeXml()\tString' : 'escapeXml()$0',
-        '[M]String.format(String format, LIST<String> arguments)\tString' : 'format($0)',
-        '[M]String.fromCharArray(LIST<Integer> charArr)\tString' : 'fromCharArray($0)',
-        '[M]String.getCommonPrefix(LIST strings)\tString' : 'getCommonPrefix($0)',
+        '[M]String.format(String format, List<String> arguments)\tString' : 'format($0)',
+        '[M]String.fromCharArray(List<Integer> charArr)\tString' : 'fromCharArray($0)',
+        '[M]String.getCommonPrefix(List strings)\tString' : 'getCommonPrefix($0)',
         '[M]String.getLevenshteinDistance(String other)\tInteger' : 'getLevenshteinDistance($0)',
         '[M]String.getLevenshteinDistance(String other, Integer threshold)\tInteger' : 'getLevenshteinDistance($0)',
         '[M]String.hashCode()\tInteger' : 'hashCode()$0',
@@ -2709,10 +2709,10 @@ apex_completions = {
         '[M]String.right(Integer len)\tString' : 'right($0)',
         '[M]String.rightPad(Integer len)\tString' : 'rightPad($0)',
         '[M]String.rightPad(Integer len, String padStr)\tString' : 'rightPad($0)',
-        '[M]String.split(String regex)\tLIST<String>' : 'split($0)',
-        '[M]String.split(String regex, Integer limit)\tLIST<String>' : 'split($0)',
-        '[M]String.splitByCharacterType()\tLIST<String>' : 'splitByCharacterType()$0',
-        '[M]String.splitByCharacterTypeCamelCase()\tLIST<String>' : 'splitByCharacterTypeCamelCase()$0',
+        '[M]String.split(String regex)\tList<String>' : 'split($0)',
+        '[M]String.split(String regex, Integer limit)\tList<String>' : 'split($0)',
+        '[M]String.splitByCharacterType()\tList<String>' : 'splitByCharacterType()$0',
+        '[M]String.splitByCharacterTypeCamelCase()\tList<String>' : 'splitByCharacterTypeCamelCase()$0',
         '[M]String.startsWith(String str)\tBoolean' : 'startsWith($0)',
         '[M]String.startsWithIgnoreCase(String prefix)\tBoolean' : 'startsWithIgnoreCase($0)',
         '[M]String.stripHtmlTags()\tString' : 'stripHtmlTags()$0',
@@ -2782,7 +2782,7 @@ apex_completions = {
         '[M]System.isFuture()\tBoolean' : 'isFuture()$0',
         '[M]System.isScheduled()\tBoolean' : 'isScheduled()$0',
         '[M]System.now()\tDatetime' : 'now()$0',
-        '[M]System.process(LIST workitemIds, String action, String commments, String nextApprover)\tLIST<Id>' : 'process($0)',
+        '[M]System.process(List workitemIds, String action, String commments, String nextApprover)\tList<Id>' : 'process($0)',
         '[M]System.purgeOldAsyncJobs(Date date)\tInteger' : 'purgeOldAsyncJobs($0)',
         '[M]System.requestVersion()\tsystem.Version' : 'requestVersion()$0',
         '[M]System.resetPassword(Id userId, Boolean sendUserEmail)\tSystem.ResetPasswordResult' : 'resetPassword($0)',
@@ -2792,16 +2792,16 @@ apex_completions = {
         '[M]System.scheduleBatch(APEX_OBJECT batchable, String jobName, Integer minutesFromNow)\tString' : 'scheduleBatch($0)',
         '[M]System.scheduleBatch(APEX_OBJECT batchable, String jobName, Integer minutesFromNow, Integer scopeSize)\tString' : 'scheduleBatch($0)',
         '[M]System.setPassword(Id userId, String password)\tvoid' : 'setPassword($0)',
-        '[M]System.submit(LIST ids, String commments, String nextApprover)\tLIST<Id>' : 'submit($0)',
+        '[M]System.submit(List ids, String commments, String nextApprover)\tList<Id>' : 'submit($0)',
         '[M]System.today()\tDate' : 'today()$0'
     },
     'Test' : {
         '[M]Test.invokePage(System.PageReference p)\tComponent.apex.page' : 'invokePage($0)',
         '[M]Test.isRunningTest()\tBoolean' : 'isRunningTest()$0',
-        '[M]Test.loadData(Schema.SObjectType sobjectType, String staticResourceName)\tLIST<SObject>' : 'loadData($0)',
+        '[M]Test.loadData(Schema.SObjectType sobjectType, String staticResourceName)\tList<SObject>' : 'loadData($0)',
         '[M]Test.setCurrentPage(Object pageReference)\tvoid' : 'setCurrentPage($0)',
         '[M]Test.setCurrentPageReference(Object pageReference)\tvoid' : 'setCurrentPageReference($0)',
-        '[M]Test.setFixedSearchResults(LIST<String> searchResultsIds)\tvoid' : 'setFixedSearchResults($0)',
+        '[M]Test.setFixedSearchResults(List<String> searchResultsIds)\tvoid' : 'setFixedSearchResults($0)',
         '[M]Test.setMock(system.Type interfaceType, Object mock)\tvoid' : 'setMock($0)',
         '[M]Test.setReadOnlyApplicationMode(Boolean readOnlyApplicationMode)\tvoid' : 'setReadOnlyApplicationMode($0)',
         '[M]Test.startTest()\tvoid' : 'startTest()$0',
@@ -2913,7 +2913,7 @@ apex_completions = {
         '[M]Url.toExternalForm()\tString' : 'toExternalForm()$0'
     },
     'UrlRewriter' : {
-        '[M]UrlRewriter.generateUrlFor(LIST<System.PageReference> param1)\tLIST<System.PageReference>' : 'generateUrlFor($0)',
+        '[M]UrlRewriter.generateUrlFor(List<System.PageReference> param1)\tList<System.PageReference>' : 'generateUrlFor($0)',
         '[M]UrlRewriter.mapRequestUrl(System.PageReference param1)\tSystem.PageReference' : 'mapRequestUrl($0)'
     },
     'User' : {
@@ -3028,7 +3028,7 @@ apex_completions = {
         '[P]UserSummary.isActive' : 'isActive$0'
     },
     'UserType' : {
-        '[M]UserType.values()\tLIST<ConnectApi.UserType>' : 'values()$0',
+        '[M]UserType.values()\tList<ConnectApi.UserType>' : 'values()$0',
         '[P]UserType.ChatterGuest' : 'ChatterGuest$0',
         '[P]UserType.ChatterOnly' : 'ChatterOnly$0',
         '[P]UserType.Guest' : 'Guest$0',
@@ -3056,7 +3056,7 @@ apex_completions = {
         '[M]WebServiceMock.doInvoke(Object param1, Object param2, MAP<String,ANY> param3, String param4, String param5, String param6, String param7, String param8, String param9)\tvoid' : 'doInvoke($0)'
     },
     'WorkflowProcessStatus' : {
-        '[M]WorkflowProcessStatus.values()\tLIST<ConnectApi.WorkflowProcessStatus>' : 'values()$0',
+        '[M]WorkflowProcessStatus.values()\tList<ConnectApi.WorkflowProcessStatus>' : 'values()$0',
         '[P]WorkflowProcessStatus.Approved' : 'Approved$0',
         '[P]WorkflowProcessStatus.Fault' : 'Fault$0',
         '[P]WorkflowProcessStatus.Held' : 'Held$0',
@@ -3087,8 +3087,8 @@ apex_completions = {
         '[M]XmlNode.getAttributeValue(String key, String keyNamespace)\tString' : 'getAttributeValue($0)',
         '[M]XmlNode.getAttributeValueNs(String key, String keyNamespace)\tString' : 'getAttributeValueNs($0)',
         '[M]XmlNode.getChildElement(String name, String namespace)\tdom.XmlNode' : 'getChildElement($0)',
-        '[M]XmlNode.getChildElements()\tLIST<dom.XmlNode>' : 'getChildElements()$0',
-        '[M]XmlNode.getChildren()\tLIST<dom.XmlNode>' : 'getChildren()$0',
+        '[M]XmlNode.getChildElements()\tList<dom.XmlNode>' : 'getChildElements()$0',
+        '[M]XmlNode.getChildren()\tList<dom.XmlNode>' : 'getChildren()$0',
         '[M]XmlNode.getName()\tString' : 'getName()$0',
         '[M]XmlNode.getNamespace()\tString' : 'getNamespace()$0',
         '[M]XmlNode.getNamespaceFor(String prefix)\tString' : 'getNamespaceFor($0)',
@@ -3103,7 +3103,7 @@ apex_completions = {
         '[M]XmlNode.setNamespace(String prefix, String namespace)\tvoid' : 'setNamespace($0)'
     },
     'XmlNodeType' : {
-        '[M]XmlNodeType.values()\tLIST<Dom.XmlNodeType>' : 'values()$0',
+        '[M]XmlNodeType.values()\tList<Dom.XmlNodeType>' : 'values()$0',
         '[P]XmlNodeType.COMMENT' : 'COMMENT$0',
         '[P]XmlNodeType.ELEMENT' : 'ELEMENT$0',
         '[P]XmlNodeType.TEXT' : 'TEXT$0'
@@ -3160,7 +3160,7 @@ apex_completions = {
         '[M]XmlStreamWriter.writeStartElement(String prefix, String localName, String namesapceURI)\tvoid' : 'writeStartElement($0)'
     },
     'XmlTag' : {
-        '[M]XmlTag.values()\tLIST<system.XmlTag>' : 'values()$0',
+        '[M]XmlTag.values()\tList<system.XmlTag>' : 'values()$0',
         '[P]XmlTag.ATTRIBUTE' : 'ATTRIBUTE$0',
         '[P]XmlTag.CDATA' : 'CDATA$0',
         '[P]XmlTag.CHARACTERS' : 'CHARACTERS$0',
