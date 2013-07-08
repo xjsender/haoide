@@ -67,7 +67,7 @@ class retrieveallCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        processor.handle_retrieve_all_thread(10)
+        processor.handle_retrieve_all_thread(120)
         
 class exportvalidationrulesCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -84,7 +84,7 @@ class exportvalidationrulesCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        processor.handle_parse_validation_rule(10)
+        processor.handle_parse_validation_rule(120)
 
 class exportworkflowCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -100,7 +100,7 @@ class exportworkflowCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        processor.handle_parse_workflow(10)
+        processor.handle_parse_workflow(120)
 
 class describecustomfieldCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -119,7 +119,7 @@ class describecustomfieldCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        processor.handle_describe_customfield(sobjects[index], 10)
+        processor.handle_describe_customfield(sobjects[index], 120)
         
 class describeglobalCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -200,7 +200,7 @@ class describesobjectCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        processor.handle_retrieve_fields(sobjects[index], 10)
+        processor.handle_retrieve_fields(sobjects[index], 120)
 
 class exportworkbookCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -222,7 +222,7 @@ class exportworkbookCommand(sublime_plugin.WindowCommand):
             processor.handle_generate_all_workbooks(5)
         else:
             sobjects = input.split(";")
-            processor.handle_generate_specified_workbooks(sobjects, 10)
+            processor.handle_generate_specified_workbooks(sobjects, 120)
 
 class runonetestCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -244,7 +244,7 @@ class runonetestCommand(sublime_plugin.WindowCommand):
             {"panel": "console", "toggle": False})
 
         class_id = classes[class_names[index]]["component_id"]
-        processor.handle_run_test(class_id, 10)
+        processor.handle_run_test(class_id, 120)
 
 class runtestCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -273,7 +273,7 @@ class runtestCommand(sublime_plugin.WindowCommand):
         username = toolingapi_settings["username"]
         component_url, class_id = util.get_component_url_and_id(username, file_name)
 
-        processor.handle_run_test(class_id, 10)
+        processor.handle_run_test(class_id, 120)
 
 class executesoqlCommand(sublime_plugin.TextCommand):
     def run(self, view):
@@ -288,7 +288,7 @@ class executesoqlCommand(sublime_plugin.TextCommand):
             {"panel": "console", "toggle": False})
 
         # Handle
-        processor.handle_execute_query(selection, 10)
+        processor.handle_execute_query(selection, 120)
 
 class executeanonymousCommand(sublime_plugin.TextCommand):
     def run(self, view):
@@ -303,7 +303,7 @@ class executeanonymousCommand(sublime_plugin.TextCommand):
             {"panel": "console", "toggle": False})
 
         # Handle
-        processor.handle_execute_anonymous(selection, 10)
+        processor.handle_execute_anonymous(selection, 120)
 
 class viewidinsfdcwebCommand(sublime_plugin.TextCommand):
     def run(self, view):
@@ -417,7 +417,7 @@ class deleteCommand(sublime_plugin.TextCommand):
         if component_id == None: return
         
         # Handle Delete
-        processor.handle_delete_component(component_url, file_name, 10)
+        processor.handle_delete_component(component_url, file_name, 120)
 
 class createCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -497,7 +497,7 @@ class createCommand(sublime_plugin.WindowCommand):
             }
 
         processor.handle_create_component(data, component_name, 
-            component_type, 10)
+            component_type, 120)
 
 class deployCommand(sublime_plugin.TextCommand):
     def run(self, view):
@@ -544,7 +544,7 @@ class deployCommand(sublime_plugin.TextCommand):
         data = {"name": "Save" + component_type[4 : len(component_type)] + component_id}
 
         # Handle Save Current Component
-        processor.handle_save_component(data, component_type, component_id, body, 10)
+        processor.handle_save_component(data, component_type, component_id, body, 120)
 
 class refreshallCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -606,4 +606,4 @@ class refreshcurrentCommand(sublime_plugin.TextCommand):
 
         # Handle Refresh Current Component
         processor.handle_refresh_component(component_url, file_name, 
-            component_body, 10)
+            component_body, 120)
