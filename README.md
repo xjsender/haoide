@@ -6,6 +6,9 @@ Funcationality Screenshots shown as below,
 
 ###2. Apex Code Completions
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/Apex%20code%20completions.png" />
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/map%20completions.png" />
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/set%20completions.png" />
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/list%20completions.png" />
 
 ###3. Cross View Completions
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/cross%20view%20completions.png" />
