@@ -334,6 +334,8 @@ class showinsfdcwebCommand(sublime_plugin.TextCommand):
         # Get current file name
         file_name = self.view.file_name()
 
+        print (file_name)
+
         # Get component type
         component_type = util.get_component_type(file_name)
 
@@ -565,8 +567,8 @@ class refreshallCommand(sublime_plugin.WindowCommand):
 
         # Handle Refresh All
         print(message.WAIT_FOR_A_MOMENT)
-        processor.handle_refresh_components(toolingapi_settings, 5)
-        processor.handle_initiate_sobjects_completions(5)
+        processor.handle_refresh_components(toolingapi_settings, 120)
+        processor.handle_initiate_sobjects_completions(120)
 
 class refreshcurrentCommand(sublime_plugin.TextCommand):
     def run(self, view): 
