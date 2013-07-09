@@ -15,10 +15,10 @@ def get_toolingapi_settings():
     """
 
     # Load sublime-settings
-    # If we use Pererence.sublime-settings, we get the default settings
     s = sublime.load_settings(TOOLING_API_SETTINGS)
     if not s.has("workspace"):
-        sublime.error_message("""Before you start work, you should config your settings by click [SublimeApex > Setting - Default]""")
+        sublime.error_message("""Before you start work, you should config your settings by 
+            click [SublimeApex > Setting - Default]""")
         return
 
     settings = {}
@@ -79,22 +79,30 @@ def make_component(input):
 
     @input: user input, for example,
         1. TestTrigger.trigger, sobject_name
-        2. TestClass,
-        3. TestPage,
+        2. TestClass
+        3. TestPage
         4. TestComponent
     """
 
     # Repace space in user input to empty
     input = input.replace(" ", "")
 
-    # input format: component_name.extension, sobject_name
-    component_name_extension, sobject_name =\
-        input.split(",")[0].split("."), input.split(",")[1]
-    component_name, component_extension =\
-        component_name_extension[0], "." + component_name_extension[1]
-
-    toolingapi_settings = get_toolingapi_settings()
+    # ApexClass, ApexComponent, ApexPage
+    if "," not in input:
+        component_name, component_extension = input.split(".")
+        component_extension = "." + component_extension
+        sobject_name = ""
+    # If ApexTrigger
+    else:
+        component_name_extension, sobject_name =\
+            input.split(",")[0].split("."), input.split(",")[1]
+        component_name, component_extension =\
+            component_name_extension[0], "." + component_name_extension[1]
+    
     # judge whether component_extension is valid
+    toolingapi_settings = get_toolingapi_settings()
+    print (component_extension)
+    print (toolingapi_settings["component_extensions"])
     if component_extension not in toolingapi_settings["component_extensions"]:
         return False, None, None
 

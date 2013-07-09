@@ -431,7 +431,7 @@ class createCommand(sublime_plugin.WindowCommand):
 
     def on_input(self, input):
         # Valid user input
-        if "." not in input or "," not in input:
+        if "." not in input:
             sublime.error_message(message.INVALID_NEW_COMPONENT_FORMAT)
             return
 
