@@ -44,10 +44,11 @@ class SobjectCompletions(sublime_plugin.EventListener):
         variable_name = view.substr(view.word(pt))
 
         # Get the matched region by variable name
-        # 1. Account acc;
-        # 2. Account acc = new Account()
-        # 3. for (Account acc : accs)
-        # 4. public static void updateAccount(Account acc)
+        # 1. Account.
+        # 2. Account acc;
+        # 3. Account acc = new Account()
+        # 4. for (Account acc : accs)
+        # 5. public static void updateAccount(Account acc)
         matched_regions = view.find_all("\\w+\\s+" + variable_name + "\\s*[:;=)]")
         sobject = ""
         if len(matched_regions) > 0:
@@ -99,7 +100,7 @@ class ApexCompletions(sublime_plugin.EventListener):
         # Set<String> strs;
         # Map<String> strs;
         # matched_regions = view.find_all("(\\w+\\s+)" + variable_name + "\\s*[:;=]")
-        pattern = "((\\w+\\s+)|(map<\\w+>\\s+)|(set<\\w+>\\s+)|(list<\\w+>\\s+))" + variable_name + "\\s*[:;=]"
+        pattern = "((\\w+\\s+)|(map<\\w+>\\s+)|(set<\\w+>\\s+)|(list<\\w+>\\s+))" + variable_name + "\\s*[:;=)]"
         matched_regions = view.find_all(pattern, sublime.IGNORECASE)
         variable_type = ""
         if len(matched_regions) > 0:
