@@ -86,7 +86,6 @@ class ApexCompletions(sublime_plugin.EventListener):
         # Get the variable name
         pt = pt - 1
         variable_name = view.substr(view.word(pt))
-        print (variable_name)
 
         # Get the matched variable type 
         # String str; 
@@ -101,7 +100,6 @@ class ApexCompletions(sublime_plugin.EventListener):
         variable_type = ""
         if len(matched_regions) > 0:
             matched_block = view.substr(matched_regions[0])
-            print (matched_block)
             # If list, map, set
             if "<" in matched_block and ">" in matched_block:
                 variable_type = matched_block.split("<")[0].strip()
