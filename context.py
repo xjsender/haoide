@@ -22,14 +22,18 @@ def get_toolingapi_settings():
         return
 
     settings = {}
+
+    # User Settings Part
     settings["workspace"] = s.get("workspace") + "-" + time.strftime('%Y%m%d')
     settings["username"] = s.get("username")
     settings["password"] = s.get("password")
-
     login_url = s.get("login_url")
     settings["login_url"] = login_url
     settings["soap_login_url"] = login_url + "/services/Soap/u/v27.0"
     settings["login_url"] = s.get("login_url")
+
+    # Trace Flag
+    settings["trace_flag"] = s.get("trace_flag")
 
     # Workbook columns
     settings["workbook_field_describe_columns"] = s.get("workbook_field_describe_columns")

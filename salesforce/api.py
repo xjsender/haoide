@@ -43,9 +43,10 @@ class SalesforceApi():
 
     def login(self, session_id_expired):
         if self.username + "access_token" not in globals() or session_id_expired:
-            instance_url, access_token, server_url = soap_login(self.toolingapi_settings)
+            instance_url, access_token, server_url, user_id = soap_login(self.toolingapi_settings)
             globals()[self.username + "access_token"] = access_token
             globals()[self.username + "instance_url"] = instance_url
+            globals()[self.username + "user_id"] = user_id
             globals()[self.username + "headers"] = {
                 "Authorization": "OAuth " + access_token,
                 "Content-Type": "application/json; charset=UTF-8",
@@ -56,15 +57,15 @@ class SalesforceApi():
         """
         Get component describe result according to component_url
 
-        :component_url: Component URL, for exmaple, /services/data/v27.0/sobjects/Contact/describe
+        :component_url: Component URL, for exmaple, /services/data/v28.0/sobjects/Contact/describe
         """
         # Firstly, login
         self.login(False)
 
         headers = globals()[self.username + "headers"]
         response = requests.get(globals()[self.username + 'instance_url'] + component_url, 
-            data = None, verify = False, headers = headers, timeout=timeout)
-
+            data=None, verify=False, headers=headers, timeout=timeout)
+        print (response.text)
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
@@ -78,7 +79,10 @@ class SalesforceApi():
             result["errorCode"] = response_result.get("errorCode")
             result["message"] = response_result.get("message")
         else:
-            result = response.json()
+            try:
+                result = response.json()
+            except:
+                result = response.text
         result["status_code"] = status_code
         
         # Self.result is used to keep thread result
@@ -162,7 +166,7 @@ class SalesforceApi():
         if is_toolingapi:
             url = instance_url + '/services/data/v28.0/tooling/query?%s' % soql
         else:
-            url = instance_url + '/services/data/v27.0/query?%s' % soql
+            url = instance_url + '/services/data/v28.0/query?%s' % soql
 
         response = requests.get(url, data = None, verify = False, timeout=timeout, 
             headers = globals()[self.username + "headers"])
@@ -217,76 +221,6 @@ class SalesforceApi():
         # This result is used for invoker
         return result
 
-    def refresh_components(self, component_types):
-        """
-        Download the specified components
-
-        @component_types: just support ApexPage, ApexComponent, ApexTrigger and ApexClass
-        """
-        # Firstly Login
-        self.login(True)
-
-        # Put totalSize at first item
-        component_metadata = {}
-        for component_type in component_types:
-            component_type_attrs = self.toolingapi_settings[component_type]
-            component_outputdir = component_type_attrs["outputdir"]
-            component_body = component_type_attrs["body"]
-            component_extension = component_type_attrs["extension"]
-            component_soql = component_type_attrs["soql"]
-
-            result = self.query_all(component_soql)
-            size = len(result["records"])
-            print (SEPRATE)
-            print (str(component_type) + " Size: " + str(size))
-            print (SEPRATE)
-            records = result["records"]
-
-            component_attributes = {}
-            for record in records:
-                # Get Component Name of this record
-                component_name = record['Name']
-                component_url = record['attributes']['url']
-                component_id = record["Id"]
-                print (str(component_type) + " ==> " + str(record['Name']))
-
-                # Write mapping of component_name with component_url
-                # into metadata.sublime-settings
-                component_attributes[component_name] = {
-                    "component_url": component_url,
-                    "component_id": component_id
-                }
-
-                # Write body to local file
-                fp = open(component_outputdir + "/" + component_name +\
-                    component_extension, "wb")
-                
-                try:
-                    body = bytes(record["component_body"], "UTF-8")
-                except:
-                    body = record[component_body].encode("UTF-8")
-                fp.write(body)
-
-                # Set status_message
-                util.sublime_status_message(component_name + " ["  + component_type + "] Downloaded")
-
-            component_metadata[component_type] = component_attributes
-
-        # Self.result is used to keep thread result
-        self.result = component_metadata
-
-    def generate_workbook(self, sobject):
-        result = self.describe_sobject(sobject)
-
-        if result["status_code"] > 399:
-            sublime.set_timeout(lambda:sublime.status_message(result["message"]), 10)
-        else:
-            workspace = self.toolingapi_settings.get("workspace")
-            outputdir = util.generate_workbook(result, workspace, 
-                self.toolingapi_settings.get("workbook_field_describe_columns")) + \
-                "/" + sobject + ".csv"
-            print (sobject + " workbook outputdir: " + outputdir)
-
     def describe_sobject(self, sobject):
         """
         Sends a GET request. Return sobject describe result
@@ -295,7 +229,7 @@ class SalesforceApi():
         """
 
         print ("describing " + sobject + "......")
-        url = "/services/data/v27.0/sobjects/" + sobject + "/describe"
+        url = "/services/data/v28.0/sobjects/" + sobject + "/describe"
         result = self.get(url)
 
         # Self.result is used to keep thread result
@@ -312,7 +246,7 @@ class SalesforceApi():
         :return type: dict
         """
 
-        url = "/services/data/v27.0/sobjects/"
+        url = "/services/data/v28.0/sobjects/"
         result = self.get(url)
 
         # Self.result is used to keep thread result
@@ -360,12 +294,45 @@ class SalesforceApi():
         self.result = common_sobjects
         return common_sobjects
 
-    def run_test(self, class_id):
+    def create_trace_flag(self, traced_entity_id):
+        """
+        Create Debug Log Trace by traced_entity_id
+
+        :traced_entity_id: Component Id or User Id
+        """
+
+        trace_flag = self.toolingapi_settings["trace_flag"]
+        trace_flag["TracedEntityId"] = traced_entity_id
+        trace_flag["ExpirationDate"] = time.strftime("%Y-%m-%d", time.localtime())
+
+        post_url = "/services/data/v28.0/tooling/sobjects/TraceFlag"
+        self.result = self.post(post_url, trace_flag)
+
+    def get_debug_log(self, log_id, timeout=120):
+        """
+        Retrieve a raw log by ID
+
+        :log_id: ApexLogId
+        :return: raw data of log
+        """
+
+        url = "/services/data/v28.0/tooling/sobjects/ApexLog/%s/Body" % log_id
+        headers = globals()[self.username + "headers"]
+        response = requests.get(globals()[self.username + 'instance_url'] + url, 
+            verify=False, headers=headers, timeout=timeout)
+
+        return response.text
+
+    def run_test(self, class_id, traced_entity_id=None):
         """
         Run Test according to test class_id, return error if has
 
         :class_id: Apex Test Class Id
+        :traced_entity_id: Component Id or User Id
         """
+        # Firstly create trace flag
+        self.create_trace_flag(traced_entity_id)
+
         post_url = "/services/data/v28.0/sobjects/ApexTestQueueItem"
         data = {"ApexClassId": class_id}
         result = self.post(post_url, data)
@@ -398,10 +365,20 @@ class SalesforceApi():
             TestTimestamp FROM ApexTestResult 
             WHERE QueueItemId = '%s'""" % queue_item_id
 
-         # After Test is finished, return result
+         # After Test is finished, get result
         result = self.query(test_result_soql)
+        pprint.pprint (result)
         result = result["records"]
-        self.result = result
+
+        # Get Debug Log
+        log_id = result[0]["ApexLogId"]
+        debug_log = self.get_debug_log(log_id)
+        
+        # Combine these two result
+        self.result = {
+            "test_result": result,
+            "debug_log": debug_log
+        }
 
     def describe_layout(self, sobject, recordtype_id):
         """
@@ -642,6 +619,76 @@ class SalesforceApi():
         result = self.check_retrieve_status(async_process_id)
         self.result = result
 
+    def refresh_components(self, component_types):
+        """
+        Download the specified components
+
+        @component_types: just support ApexPage, ApexComponent, ApexTrigger and ApexClass
+        """
+        # Firstly Login
+        self.login(True)
+
+        # Put totalSize at first item
+        component_metadata = {}
+        for component_type in component_types:
+            component_type_attrs = self.toolingapi_settings[component_type]
+            component_outputdir = component_type_attrs["outputdir"]
+            component_body = component_type_attrs["body"]
+            component_extension = component_type_attrs["extension"]
+            component_soql = component_type_attrs["soql"]
+
+            result = self.query_all(component_soql)
+            size = len(result["records"])
+            print (SEPRATE)
+            print (str(component_type) + " Size: " + str(size))
+            print (SEPRATE)
+            records = result["records"]
+
+            component_attributes = {}
+            for record in records:
+                # Get Component Name of this record
+                component_name = record['Name']
+                component_url = record['attributes']['url']
+                component_id = record["Id"]
+                print (str(component_type) + " ==> " + str(record['Name']))
+
+                # Write mapping of component_name with component_url
+                # into metadata.sublime-settings
+                component_attributes[component_name] = {
+                    "component_url": component_url,
+                    "component_id": component_id
+                }
+
+                # Write body to local file
+                fp = open(component_outputdir + "/" + component_name +\
+                    component_extension, "wb")
+                
+                try:
+                    body = bytes(record["component_body"], "UTF-8")
+                except:
+                    body = record[component_body].encode("UTF-8")
+                fp.write(body)
+
+                # Set status_message
+                util.sublime_status_message(component_name + " ["  + component_type + "] Downloaded")
+
+            component_metadata[component_type] = component_attributes
+
+        # Self.result is used to keep thread result
+        self.result = component_metadata
+
+    def generate_workbook(self, sobject):
+        result = self.describe_sobject(sobject)
+
+        if result["status_code"] > 399:
+            sublime.set_timeout(lambda:sublime.status_message(result["message"]), 10)
+        else:
+            workspace = self.toolingapi_settings.get("workspace")
+            outputdir = util.generate_workbook(result, workspace, 
+                self.toolingapi_settings.get("workbook_field_describe_columns")) + \
+                "/" + sobject + ".csv"
+            print (sobject + " workbook outputdir: " + outputdir)
+
     def save_component(self, data, component_type, component_id, body):
         """
         This method contains 5 steps:
@@ -668,7 +715,7 @@ class SalesforceApi():
 
         """
         # Get MetadataContainerId
-        url = '/services/data/v27.0/tooling/sobjects/MetadataContainer'
+        url = '/services/data/v28.0/tooling/sobjects/MetadataContainer'
         result = self.post(url, data)
         print ("MetadataContainer Response: ", result)
 
@@ -684,7 +731,7 @@ class SalesforceApi():
                 # and then, restart it again
                 error_message = result["message"]
                 container_id = error_message[error_message.rindex("1dc"): len(error_message)]
-                url = '/services/data/v27.0/tooling/sobjects/MetadataContainer/' + container_id
+                url = '/services/data/v28.0/tooling/sobjects/MetadataContainer/' + container_id
 
                 delete_result = self.delete(url)
                 status_code = delete_result["status_code"]
@@ -703,7 +750,7 @@ class SalesforceApi():
             "MetadataContainerId": container_id,
             "Body": body
         }
-        url = "/services/data/v27.0/tooling/sobjects/" + component_type + "Member"
+        url = "/services/data/v28.0/tooling/sobjects/" + component_type + "Member"
 
         result = self.post(url, data)
         print ("Post ApexComponentMember: ", result)
@@ -713,13 +760,13 @@ class SalesforceApi():
             "MetadataContainerId": container_id,
             "isCheckOnly": False
         }
-        url = '/services/data/v27.0/tooling/sobjects/ContainerAsyncRequest'
+        url = '/services/data/v28.0/tooling/sobjects/ContainerAsyncRequest'
         result = self.post(url, data)
         request_id = result.get("id")
         print ("Post ContainerAsyncRequest: ", result)
 
         # Get ContainerAsyncRequest Result
-        url = '/services/data/v27.0/tooling/sobjects/ContainerAsyncRequest/' + request_id
+        url = '/services/data/v28.0/tooling/sobjects/ContainerAsyncRequest/' + request_id
 
         result = self.get(url)
         state = result["State"]
@@ -765,7 +812,7 @@ class SalesforceApi():
                 sublime.message_dialog(error_message)
 
         # Whatever succeed or failed, just delete MetadataContainerId
-        url = '/services/data/v27.0/tooling/sobjects/MetadataContainer/' + container_id
+        url = '/services/data/v28.0/tooling/sobjects/MetadataContainer/' + container_id
         result = self.delete(url)
 
         status_code = result["status_code"]

@@ -34,15 +34,13 @@ def soap_login(settings):
         raise SalesforceAuthenticationFailed('%s: %s' % (except_code,
                                                          except_msg))
 
-    session_id = getUniqueElementValueFromXmlString(response.content,
-                                                    'sessionId')
+    session_id = getUniqueElementValueFromXmlString(response.content, 'sessionId')
     print("session_id: " + session_id)
-    server_url = getUniqueElementValueFromXmlString(response.content,
-                                                    'serverUrl')
-
+    server_url = getUniqueElementValueFromXmlString(response.content, 'serverUrl')
     sf_instance = server_url[ : server_url.find('/services')]
+    user_id = getUniqueElementValueFromXmlString(response.content, 'userId')
 
-    return sf_instance, session_id, server_url
+    return sf_instance, session_id, server_url, user_id
 
 
 class SalesforceAuthenticationFailed(Exception):
