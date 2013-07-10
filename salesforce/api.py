@@ -229,7 +229,6 @@ class SalesforceApi():
         :sobject: sObjectType
         """
 
-        print ("describing " + sobject + "......")
         url = "/services/data/v28.0/sobjects/" + sobject + "/describe"
         result = self.get(url)
 
@@ -677,14 +676,27 @@ class SalesforceApi():
                     "component_id": component_id
                 }
 
+                # Get the body
+                body = record[component_body]
+
+                # Judge Component is Test Class or not
+                if component_type == "ApexClass":
+                    if "@isTest" in body or "testMethod" in body or\
+                        "testmethod" in body or "test" in component_name or\
+                        "Test" in component_name:
+                        
+                        component_attributes[component_name]["is_test"] = True
+                    else:
+                        component_attributes[component_name]["is_test"] = False
+
                 # Write body to local file
                 fp = open(component_outputdir + "/" + component_name +\
                     component_extension, "wb")
                 
                 try:
-                    body = bytes(record["component_body"], "UTF-8")
+                    body = bytes(body, "UTF-8")
                 except:
-                    body = record[component_body].encode("UTF-8")
+                    body = body.encode("UTF-8")
                 fp.write(body)
 
                 # Set status_message

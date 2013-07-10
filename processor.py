@@ -285,6 +285,7 @@ def handle_initiate_sobjects_completions(timeout):
         threads = []
         apis = []
         for sobject in sobjects:
+            print ("describing " + sobject + "......")
             api = SalesforceApi(toolingapi_settings)
             thread = threading.Thread(target=api.describe_sobject, args=(sobject, ))
             thread.start()

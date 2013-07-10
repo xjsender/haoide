@@ -232,8 +232,10 @@ class runonetestCommand(sublime_plugin.WindowCommand):
         global classes
         global class_names
 
-        classes = processor.populate_classes()
-        class_names = sorted(list(classes.keys()))
+        classes_attr = processor.populate_classes()
+        classes = classes_attr.keys()
+        classes = [c for c in classes if classes_attr[c]["is_test"]]
+        class_names = sorted(list(classes))
         self.window.show_quick_panel(class_names, self.on_done)
 
     def on_done(self, index):
