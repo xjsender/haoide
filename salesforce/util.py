@@ -113,26 +113,35 @@ def parse_test_result(result):
     :return: formated string
     """
 
+    # Parse Test Result
+    test_result = result["test_result"]
     separate = "-" * 100
-    view_result = 'Test Result\n'
-    class_name = ""
-    for test_result in result:
-        view_result += separate + "\n"
-        view_result += "% 30s    " % "MethodName: "
-        view_result += "%-30s" % none_value(test_result["MethodName"]) + "\n"
-        view_result += "% 30s    " % "TestTimestamp: "
-        view_result += "%-30s" % none_value(test_result["TestTimestamp"]) + "\n"
-        view_result += "% 30s    " % "ApexClass: "
-        class_name = test_result["ApexClass"]["Name"]
-        view_result += "%-30s" % class_name + "\n"
-        view_result += "% 30s    " % "Pass/Fail: "
-        view_result += "%-30s" % none_value(test_result["Outcome"]) + "\n"
-        view_result += "% 30s    " % "Error Message: "
-        view_result += "%-30s" % none_value(test_result["Message"]) + "\n"
-        view_result += "% 30s    " % "Stack Trace: "
-        view_result += "%-30s" % none_value(test_result["StackTrace"]) + "\n"
+    test_result_desc = ' Test Result\n'
+    test_result_content = ""
+    for record in test_result:
+        test_result_content += separate + "\n"
+        test_result_content += "% 30s    " % "MethodName: "
+        test_result_content += "%-30s" % none_value(record["MethodName"]) + "\n"
+        test_result_content += "% 30s    " % "TestTimestamp: "
+        test_result_content += "%-30s" % none_value(record["TestTimestamp"]) + "\n"
+        test_result_content += "% 30s    " % "ApexClass: "
+        class_name = record["ApexClass"]["Name"]
+        test_result_content += "%-30s" % class_name + "\n"
+        test_result_content += "% 30s    " % "Pass/Fail: "
+        test_result_content += "%-30s" % none_value(record["Outcome"]) + "\n"
+        test_result_content += "% 30s    " % "Error Message: "
+        test_result_content += "%-30s" % none_value(record["Message"]) + "\n"
+        test_result_content += "% 30s    " % "Stack Trace: "
+        test_result_content += "%-30s" % none_value(record["StackTrace"]) + "\n"
 
-    return class_name + view_result
+    return_result = class_name + test_result_desc + test_result_content + "\n"
+
+    # Parse Debug Log Detail
+    debug_log_desc = separate + "\nDebug Log Detail\n" + separate + "\n"
+    debug_log_content = result["debug_log"]
+    return_result += debug_log_desc + debug_log_content
+
+    return return_result
 
 def parse_validation_rule(toolingapi_settings, sobjects):
     """

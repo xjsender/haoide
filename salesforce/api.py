@@ -66,7 +66,7 @@ class SalesforceApi():
         headers = globals()[self.username + "headers"]
         response = requests.get(globals()[self.username + 'instance_url'] + component_url, 
             data=None, verify=False, headers=headers, timeout=timeout)
-        print (response.text)
+
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
