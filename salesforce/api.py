@@ -2,6 +2,7 @@ import sublime
 import pprint
 import json
 import time
+import datetime
 import os
 
 try:
@@ -294,19 +295,30 @@ class SalesforceApi():
         self.result = common_sobjects
         return common_sobjects
 
-    def create_trace_flag(self, traced_entity_id):
+    def create_trace_flag(self, traced_entity_id=None):
         """
         Create Debug Log Trace by traced_entity_id
 
         :traced_entity_id: Component Id or User Id
         """
-
+        while traced_entity_id == None and (self.username + "user_id" not in globals()):
+            self.login(True)
+            traced_entity_id = globals()[self.username + "user_id"]
+            
+        # Create Trace Flag
         trace_flag = self.toolingapi_settings["trace_flag"]
         trace_flag["TracedEntityId"] = traced_entity_id
-        trace_flag["ExpirationDate"] = time.strftime("%Y-%m-%d", time.localtime())
+
+        # We must set the expiration date to next day, 
+        # otherwise, the debug log record will not be created 
+        nextday = datetime.date.today() + datetime.timedelta(1)
+        nextday_str = datetime.datetime.strftime(nextday, "%Y-%m-%d")
+        trace_flag["ExpirationDate"] = nextday_str
 
         post_url = "/services/data/v28.0/tooling/sobjects/TraceFlag"
-        self.result = self.post(post_url, trace_flag)
+        result = self.post(post_url, trace_flag)
+        
+        return result
 
     def get_debug_log(self, log_id, timeout=120):
         """
@@ -315,7 +327,7 @@ class SalesforceApi():
         :log_id: ApexLogId
         :return: raw data of log
         """
-
+        print ("log_id", log_id)
         url = "/services/data/v28.0/tooling/sobjects/ApexLog/%s/Body" % log_id
         headers = globals()[self.username + "headers"]
         response = requests.get(globals()[self.username + 'instance_url'] + url, 
@@ -330,9 +342,15 @@ class SalesforceApi():
         :class_id: Apex Test Class Id
         :traced_entity_id: Component Id or User Id
         """
-        # Firstly create trace flag
+        # Firstly Login
+        self.login(False)
+
+        # Create trace flag
+        traced_entity_id = globals()[self.username + "user_id"]
+        print ("Start creating debug log...")
         self.create_trace_flag(traced_entity_id)
 
+        print ("Start running test...")
         post_url = "/services/data/v28.0/sobjects/ApexTestQueueItem"
         data = {"ApexClassId": class_id}
         result = self.post(post_url, data)
@@ -367,10 +385,10 @@ class SalesforceApi():
 
          # After Test is finished, get result
         result = self.query(test_result_soql)
-        pprint.pprint (result)
         result = result["records"]
 
         # Get Debug Log
+        print ("Start retrieve debug log detail...")
         log_id = result[0]["ApexLogId"]
         debug_log = self.get_debug_log(log_id)
         
