@@ -316,7 +316,8 @@ class SalesforceApi():
 
         post_url = "/services/data/v28.0/tooling/sobjects/TraceFlag"
         result = self.post(post_url, trace_flag)
-        
+        print ("Create TraceFlag Result: ", result)
+
         return result
 
     def get_debug_log(self, log_id, timeout=120):
@@ -350,6 +351,7 @@ class SalesforceApi():
         self.create_trace_flag(traced_entity_id)
 
         print ("Start running test...")
+        time.sleep(2)
         post_url = "/services/data/v28.0/sobjects/ApexTestQueueItem"
         data = {"ApexClassId": class_id}
         result = self.post(post_url, data)
@@ -390,7 +392,10 @@ class SalesforceApi():
         print ("Start retrieve debug log detail...")
         time.sleep(3)
         log_id = result[0]["ApexLogId"]
-        debug_log = self.get_debug_log(log_id)
+        if log_id == None:
+            debug_log = "Something Happened"
+        else:
+            debug_log = self.get_debug_log(log_id)
         
         # Combine these two result
         self.result = {
