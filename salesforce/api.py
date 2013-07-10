@@ -51,7 +51,7 @@ class SalesforceApi():
             globals()[self.username + "headers"] = {
                 "Authorization": "OAuth " + access_token,
                 "Content-Type": "application/json; charset=UTF-8",
-                "Accept": "text/plain"
+                "Accept": "application/json"
             }
     
     def get(self, component_url, timeout=120):
@@ -326,8 +326,8 @@ class SalesforceApi():
         :log_id: ApexLogId
         :return: raw data of log
         """
-        print ("log_id", log_id)
-        url = "/services/data/v28.0/tooling/sobjects/ApexLog/%s/Body" % log_id
+
+        url = "/services/data/v28.0/sobjects/ApexLog/" + log_id + "/Body"
         headers = globals()[self.username + "headers"]
         response = requests.get(globals()[self.username + 'instance_url'] + url, 
             verify=False, headers=headers, timeout=timeout)
@@ -388,6 +388,7 @@ class SalesforceApi():
 
         # Get Debug Log
         print ("Start retrieve debug log detail...")
+        time.sleep(3)
         log_id = result[0]["ApexLogId"]
         debug_log = self.get_debug_log(log_id)
         

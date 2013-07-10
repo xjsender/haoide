@@ -22,19 +22,20 @@ except:
     import context
     from salesforce import util, message, bulkapi
 
-class ViewCommand(sublime_plugin.TextCommand):
+class newviewCommand(sublime_plugin.TextCommand):
     """
     Create a new view with specified input
 
     @input: user specified input
 
     Usage: 
-        sublime.active_window().run_command("view", {
+        sublime.active_window().run_command("newview", {
             "input": "Example"
         })
     """
 
     def run(self, edit, input=""):
+        print ("Open new file...")
         n = sublime.active_window().new_file()
         n.set_scratch(True)
         n.insert(edit, 0, input)
