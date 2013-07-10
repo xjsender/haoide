@@ -229,7 +229,7 @@ class runonetestCommand(sublime_plugin.WindowCommand):
         super(runonetestCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        global classes
+        global classes_attr
         global class_names
 
         classes_attr = processor.populate_classes()
@@ -245,7 +245,7 @@ class runonetestCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        class_id = classes[class_names[index]]["component_id"]
+        class_id = classes_attr[class_names[index]]["component_id"]
         processor.handle_run_test(class_id, 120)
 
 class runtestCommand(sublime_plugin.WindowCommand):
