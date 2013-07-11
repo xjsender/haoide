@@ -724,16 +724,22 @@ def handle_refresh_components(toolingapi_settings, timeout):
             sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
             return
         
-        # If succeed
-        component_metadata = api.result
+        # If succeed, something may happen,
+        # for example, user password is expired
+        if "status_code" in api.result and api.result["status_code"] > 399:
+            util.sublime_error_message(api.result)
+            return
 
         # Load COMPONENT_METADATA_SETTINGS Settings and put all result into it
         # Every org has one local repository
+        component_metadata = api.result
         component_metadta = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
         component_metadta.set(toolingapi_settings["username"], component_metadata)
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
-        
         sublime.status_message(message.DOWNLOAD_ALL_SUCCESSFULLY)
+
+        # After Refresh all succeed, start initiate sobject completions
+        handle_initiate_sobjects_completions(120)
 
     api = SalesforceApi(toolingapi_settings)
     component_types = context.get_toolingapi_settings()["component_types"]

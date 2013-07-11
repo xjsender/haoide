@@ -661,6 +661,12 @@ class SalesforceApi():
             component_soql = component_type_attrs["soql"]
 
             result = self.query_all(component_soql)
+            # The users password has expired, you must call SetPassword 
+            # before attempting any other API operations
+            if result["status_code"] > 399:
+                self.result = result
+                return
+
             size = len(result["records"])
             print (SEPRATE)
             print (str(component_type) + " Size: " + str(size))

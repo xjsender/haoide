@@ -593,7 +593,6 @@ class refreshallCommand(sublime_plugin.WindowCommand):
         # Handle Refresh All
         print(message.WAIT_FOR_A_MOMENT)
         processor.handle_refresh_components(toolingapi_settings, 120)
-        processor.handle_initiate_sobjects_completions(120)
 
 class refreshcurrentCommand(sublime_plugin.TextCommand):
     def run(self, view): 
