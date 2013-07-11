@@ -16,7 +16,7 @@
             "workspace": "d:/ForcedotcomWorkspace/sandbox-sample-cdev",
             "login_url": "https://test.salesforce.com",
             "username": "mouse@sample.com.cdev",
-            "password": "*****",
+            "password": "*****"
         },
 
         "Exercise-Pro": {
