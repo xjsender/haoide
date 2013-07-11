@@ -30,14 +30,16 @@ class switchprojectCommand(sublime_plugin.WindowCommand):
         global projects
         toolingapi_settings = context.get_toolingapi_settings()
         projects = toolingapi_settings["projects"]
-        projects = list(projects.keys())
+        projects = ["(" + str(projects[p]["default"]) + ") " + p for p in projects]
+        projects = sorted(projects, reverse=True)
         self.window.show_quick_panel(projects, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
 
         # Change the chosen project as default
-        default_project = projects[index]
+        # Split with ") " and get the second project name
+        default_project = projects[index].split(") ")[1]
         context.switch_project(default_project)
 
 class newviewCommand(sublime_plugin.TextCommand):
