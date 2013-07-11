@@ -70,8 +70,8 @@
 
     // Workflow Field Update columns
     "validation_rule_columns": [
-        "sobject", "fullName", "errorConditionFormula", "errorMessage", "errorDisplayField", 
-        "active", "description"
+        "sobject", "fullName", "errorConditionFormula", "errorMessage", 
+        "errorDisplayField", "active", "description"
     ],
 
     // Components Directory
