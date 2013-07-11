@@ -22,6 +22,24 @@ except:
     import context
     from salesforce import util, message, bulkapi
 
+class switchprojectCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(switchprojectCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        global projects
+        toolingapi_settings = context.get_toolingapi_settings()
+        projects = toolingapi_settings["projects"]
+        projects = list(projects.keys())
+        self.window.show_quick_panel(projects, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        # Change the chosen project as default
+        default_project = projects[index]
+        context.switch_project(default_project)
+
 class newviewCommand(sublime_plugin.TextCommand):
     """
     Create a new view with specified input
@@ -379,6 +397,7 @@ class loginintosfdcCommand(sublime_plugin.WindowCommand):
                 "pw": toolingapi_settings["password"],
                 "startURL": startURL
             })
+
         show_url = toolingapi_settings["login_url"] + '?%s' % show_params
 
         # Open this component in salesforce web

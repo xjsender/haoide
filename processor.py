@@ -55,9 +55,12 @@ def populate_classes():
     if component_metadata.has(username):
         return component_metadata.get(username).get("ApexClass")
 
+    if username + "classes" in globals():
+        return globals()[username + "classes"]
+
     # If sobjects is not exist in globals(), post request to pouplate it
     api = SalesforceApi(toolingapi_settings)
-    query = "SELECT Id, Name FROM ApexClass WHERE NamespacePrefix = null"
+    query = "SELECT Id, Name, Body FROM ApexClass WHERE NamespacePrefix = null"
     thread = threading.Thread(target=api.query_all, args=(query, ))
     thread.start()
 
@@ -66,8 +69,18 @@ def populate_classes():
 
     classes = {}
     for record in api.result["records"]:
-        classes[record["Name"]] = record["Id"]
-    
+        name = record["Name"]
+        body = record["Body"]
+        component_attr = {"component_id": record["Id"]}
+        if "@isTest" in body or "testMethod" in body or\
+            "testmethod" in body or "test" in name or "Test" in name:
+            
+            component_attr["is_test"] = True
+        else:
+            component_attr["is_test"] = False
+
+        classes[name] = component_attr
+
     globals()[username + "classes"] = classes
     return classes
 

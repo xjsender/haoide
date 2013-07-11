@@ -1,0 +1,35 @@
+<snippet>
+    <content><![CDATA[
+/******************************************************************************
+ * Name                 : Trigger${1:Sobject-Name}
+ * Object               : ${1:Sobject-Name}
+ * Requirement          : 
+ * Purpose              : 
+ * Refer classes        : 
+ * Author               : Mouse Liu
+ * Create Date          : 
+ * Modify History       : 
+ *
+*******************************************************************************/
+trigger Trigger${1:Sobject-Name} on ${1:Sobject-Name} (before update, before insert, after insert, after update) {
+    if (trigger.isInsert && trigger.isBefore) {
+        Util${1:Sobject-Name}
+    }
+
+    if (trigger.isInsert && trigger.isAfter) {
+        Util${1:Sobject-Name}
+    }
+
+    if (trigger.isUpdate && trigger.isBefore) {
+        Util${1:Sobject-Name}
+    }
+
+    if (trigger.isUpdate && trigger.isAfter) {
+        Util${1:Sobject-Name}
+    }
+}
+]]></content>
+    <tabTrigger>trigger</tabTrigger>
+    <scope>source.java</scope>
+    <description>trigger body</description>
+</snippet>

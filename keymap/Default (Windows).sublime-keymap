@@ -1,5 +1,10 @@
 [
     {
+        "keys": ["alt+s"],
+        "command": "switchproject"
+    },
+
+    {
         "keys": ["ctrl+f5"],
         "command": "refreshall"
     },

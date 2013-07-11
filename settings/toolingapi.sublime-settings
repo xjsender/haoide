@@ -8,11 +8,25 @@
     // you should save the workspace, login_url, username and password to user settings.
     // If you want to do this, you should click [Sublime > Setting - User], and copy these settings into it
     // User Settings is prior to Default Settings, it's very important.
-    // Pro-Exercise
-    "workspace": "d:/ForcedotcomWorkspace/pro-exercise",
-    "login_url": "https://login.salesforce.com",
-    "username": "mouse@exercise.com",
-    "password": "bp333333",
+    // You should have only one default project
+    // Every time you switch the projects, the update projects settings will be saved to user settings.
+    "projects": {
+        "Sample": {
+            "default": false,
+            "workspace": "d:/ForcedotcomWorkspace/sandbox-sample-cdev",
+            "login_url": "https://test.salesforce.com",
+            "username": "mouse@sample.com.cdev",
+            "password": "*****",
+        },
+
+        "Exercise-Pro": {
+            "default": true,
+            "login_url": "https://login.salesforce.com",
+            "password": "bp333333",
+            "username": "mouse@exercise.com",
+            "workspace": "d:/ForcedotcomWorkspace/pro-exercise"
+        }
+    },
 
     // TraceFlag Debug Log Level
     "trace_flag": {

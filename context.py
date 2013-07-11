@@ -16,21 +16,33 @@ def get_toolingapi_settings():
 
     # Load sublime-settings
     s = sublime.load_settings(TOOLING_API_SETTINGS)
-    if not s.has("workspace"):
-        sublime.error_message("""Before you start work, you should config your settings by 
-            click [SublimeApex > Setting - Default]""")
-        return
-
     settings = {}
 
+    if not s.has("projects"):
+        sublime.error_message("You should set your user credentials.")
+        return
+
+    projects = s.get("projects")
+
+    default_project = None
+    for project_name in projects.keys():
+        project_attr = projects[project_name]
+        if project_attr["default"]: 
+            default_project = project_attr
+
+    if default_project == None:
+        sublime.error_message("You should has one default project at least.")
+        return
+
     # User Settings Part
-    settings["workspace"] = s.get("workspace") + "-" + time.strftime('%Y%m%d')
-    settings["username"] = s.get("username")
-    settings["password"] = s.get("password")
-    login_url = s.get("login_url")
+    settings["projects"] = projects
+    settings["workspace"] = default_project.get("workspace") + "-" + time.strftime('%Y%m%d')
+    settings["username"] = default_project.get("username")
+    settings["password"] = default_project.get("password")
+    
+    login_url = default_project.get("login_url")
     settings["login_url"] = login_url
     settings["soap_login_url"] = login_url + "/services/Soap/u/v27.0"
-    settings["login_url"] = s.get("login_url")
 
     # Trace Flag
     settings["trace_flag"] = s.get("trace_flag")
@@ -160,3 +172,21 @@ def make_dir():
     for component_outputdir in component_outputdirs:
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
+
+
+def switch_project(chosen_project):
+    s = sublime.load_settings(TOOLING_API_SETTINGS)
+    projects = s.get("projects")
+
+    # Set the chosen project as default and others as not default
+    for project in projects:
+        project_attr = projects[project]
+        if chosen_project == project:
+            project_attr["default"] = True
+        else:
+            project_attr["default"] = False
+
+    # Save the updated settings
+    s.set("projects", projects)
+    sublime.save_settings(TOOLING_API_SETTINGS)
+

@@ -5,6 +5,12 @@
         "children":
         [
             {
+                "id": "SwitchProject",
+                "caption": "Switch Project",
+                "command": "switchproject"
+            },
+
+            {
                 "id": "RefreshFromServer",
                 "caption": "Refresh All",
                 "command": "refreshall"
