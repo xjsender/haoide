@@ -1,38 +1,42 @@
 # Sceenshot #
 Funcationality Screenshots shown as below,
 
-###1. Sobject Field Completions
+###Switch Project
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/switch%20project.png" />
+
+###Sobject Field Completions
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/sobject%20field%20completions.png" />
 
-###2. Apex Code Completions
+###Apex Code Completions
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/Apex%20code%20completions.png" />
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/map%20completions.png" />
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/set%20completions.png" />
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/list%20completions.png" />
 
-###3. Cross View Completions
+###Cross View Completions
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/cross%20view%20completions.png" />
 
-###4. Visualforce Page Completions
+###Visualforce Page Completions
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/visualforce%20page%20completions.png" />
 
-###5. Run Test
+###Run Test
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/choose%20test%20class.png" />
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/test%20result.png" />
 
-###6. Refresh Folder
+###Refresh Folder
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/refresh%20folder.png" />
 
-###7. Execute Anonymous
+###Execute Anonymous
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/execute%20anonymous.png" />
 
-###8. Execute Query
+###Execute Query
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/execute%20query.png" />
 
 # Installation #
 This plugin support ST2 and ST3, firstly, install sublime text and then extract the zip file into your sublime package path.
 
 # Supported Feature: #
++ Muti-project management
 + Apex Code CRUD
 + Apex Code Folder Refresh
 + Run Test Class
