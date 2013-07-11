@@ -34,9 +34,10 @@ class newviewCommand(sublime_plugin.TextCommand):
         })
     """
 
-    def run(self, edit, input=""):
+    def run(self, edit, name="", input=""):
         print ("Open new file...")
         n = sublime.active_window().new_file()
+        n.set_name(name)
         n.set_scratch(True)
         n.insert(edit, 0, input)
 

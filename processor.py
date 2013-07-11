@@ -566,6 +566,7 @@ def handle_execute_query(soql, timeout):
 
         # No error, just display log in a new view
         sublime.set_timeout_async(lambda: self.view.run_command("newview", {
+            "name": "Execute Query Result",
             "input": util.parse_execute_query_result(result)
         }), 100)
 
@@ -594,6 +595,7 @@ def handle_execute_anonymous(apex_string, timeout):
 
         # No error, just display log in a new view
         sublime.active_window().run_command("newview", {
+            "name": "Execute Anonymous Result",
             "input": util.parse_execute_anonymous_xml(result)
         })
 
@@ -626,6 +628,7 @@ def handle_run_test(class_id, timeout):
         # Sometimes, the test result will not show
         print (test_result)
         sublime.active_window().run_command("newview", {
+            "name": "Test Result",
             "input": test_result
         })
             
@@ -654,6 +657,7 @@ def handle_retrieve_fields(sobject, timeout):
 
         # No error, just display log in a new view
         sublime.active_window().run_command("newview", {
+            "name": sobject + " Describe Result",
             "input": util.parse_sobject_field_result(result)
         })
 
