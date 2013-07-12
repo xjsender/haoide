@@ -578,7 +578,7 @@ def handle_execute_query(soql, timeout):
             return None
 
         # No error, just display log in a new view
-        sublime.set_timeout_async(lambda: self.view.run_command("newview", {
+        sublime.set_timeout_async(lambda: sublime.active_window().run_command("newview", {
             "name": "Execute Query Result",
             "input": util.parse_execute_query_result(result)
         }), 100)
