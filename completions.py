@@ -62,10 +62,6 @@ class SobjectCompletions(sublime_plugin.EventListener):
             sobject = sobject
         elif sobject.capitalize() in metadata:
             sobject = sobject.capitalize()
-        elif variable_name in metadata:
-            sobject = variable_name
-        elif  variable_name.capitalize() in metadata:
-            sobject = variable_name.capitalize()
         else: 
             return
 
