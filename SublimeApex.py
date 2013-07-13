@@ -385,20 +385,15 @@ class loginintosfdcCommand(sublime_plugin.WindowCommand):
         toolingapi_settings = context.get_toolingapi_settings()
 
         # Combine Login URL
+        show_params = {
+            "un": toolingapi_settings["username"],
+            "pw": toolingapi_settings["password"],
+            "startURL": startURL
+        }
         if util.is_python3x():
-            # Python 3.x
-            show_params = urllib.parse.urlencode({
-                "un": toolingapi_settings["username"],
-                "pw": toolingapi_settings["password"],
-                "startURL": startURL
-            })
+            show_params = urllib.parse.urlencode(show_params)
         else:
-            # Python 2.x
-            show_params = urllib.urlencode({
-                "un": toolingapi_settings["username"],
-                "pw": toolingapi_settings["password"],
-                "startURL": startURL
-            })
+            show_params = urllib.urlencode(show_params)
 
         show_url = toolingapi_settings["login_url"] + '?%s' % show_params
 
@@ -504,24 +499,16 @@ class createCommand(sublime_plugin.WindowCommand):
         component_body = toolingapi_settings[component_type]["body"]
 
         # Compose data
+        data = {
+            "name": component_name,
+            component_body: body,
+        }
         if component_type == "ApexClass":
-            data = {
-                "name": component_name,
-                component_body: body,
-                "IsValid": True
-            }
+            data["IsValid"] = True
         elif component_type == "ApexTrigger":
-            data = {
-                "name": component_name,
-                "TableEnumOrId": sobject_name,
-                component_body: body
-            }
+            data["TableEnumOrId"] = sobject_name
         elif component_type in ["ApexPage", "ApexComponent"]:
-            data = {
-                "name": component_name,
-                "MasterLabel": component_name,
-                component_body: body
-            }
+            data["MasterLabel"] = component_name,
 
         processor.handle_create_component(data, component_name, 
             component_type, 120)
@@ -591,7 +578,6 @@ class refreshallCommand(sublime_plugin.WindowCommand):
         toolingapi_settings = context.get_toolingapi_settings()
 
         # Handle Refresh All
-        print(message.WAIT_FOR_A_MOMENT)
         processor.handle_refresh_components(toolingapi_settings, 120)
 
 class refreshcurrentCommand(sublime_plugin.TextCommand):

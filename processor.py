@@ -741,6 +741,7 @@ def handle_refresh_components(toolingapi_settings, timeout):
         # After Refresh all succeed, start initiate sobject completions
         handle_initiate_sobjects_completions(120)
 
+    print(message.WAIT_FOR_A_MOMENT)
     api = SalesforceApi(toolingapi_settings)
     component_types = context.get_toolingapi_settings()["component_types"]
     thread = threading.Thread(target=api.refresh_components, 
