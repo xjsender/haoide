@@ -10,6 +10,8 @@
                 "command": "switchproject"
             },
 
+            { "caption": "-" },
+
             {
                 "id": "RefreshFromServer",
                 "caption": "Refresh All",
@@ -83,6 +85,14 @@
             { "caption": "-" },
 
             {
+                "id": "BulkApiQuery",
+                "caption": "Data Loader",
+                "command": "backupsobjects"
+            },
+
+            { "caption": "-" },
+
+            {
                 "caption": "Login To",
                 "children": [
                     {
@@ -150,14 +160,6 @@
             { "caption": "-" },
 
             {
-                "id": "BulkApiQuery",
-                "caption": "Data Loader",
-                "command": "backupsobjects"
-            },
-
-            { "caption": "-" },
-
-            {
                 "command": "open_file", 
                 "args": {
                     "file": "${packages}/SublimeApex/settings/toolingapi.sublime-settings"
@@ -172,6 +174,8 @@
                 },
                 "caption": "Settings – User"
             },
+            
+            { "caption": "-" },
 
             {
                 "command": "open_file", 
