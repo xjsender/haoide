@@ -34,7 +34,11 @@ def handle_update_plugin(timeout):
         # Extract this zip file into temp
         print ("Extracting zip file......")
         zip_dir = "SublimeApex.zip"
-        f = zipfile.ZipFile(zip_dir, 'r')
+        try:
+            f = zipfile.ZipFile(zip_dir, 'r')
+        except IOError as ie:
+            sublime.error_message("Update Failed, please try it again.")
+            return
         f.extractall()
         f.close()
 
