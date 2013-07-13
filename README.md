@@ -3,7 +3,7 @@ Funcationality Screenshots shown as below,
 
 ###Menus
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/main%20menu.png" />
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/sidebar%20menu.png" />
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/siderbar%20menu.png" />
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/context%20menu.png" />
 
 ###Switch Project
