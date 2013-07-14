@@ -24,27 +24,30 @@ def soap_login(settings):
     }
 
     response = requests.post(settings["soap_login_url"], login_soap_request_body, 
-        verify = False, headers = login_soap_request_headers)
+        verify=False, headers=login_soap_request_headers)
 
+    result = {}
     if response.status_code != 200:
         except_code = getUniqueElementValueFromXmlString(response.content,
                                                          'sf:exceptionCode')
         except_msg = getUniqueElementValueFromXmlString(response.content,
                                                         'sf:exceptionMessage')
-        raise SalesforceAuthenticationFailed('%s: %s' % (except_code,
-                                                         except_msg))
+        result["errorCode"] = except_code
+        result["message"] = except_msg
+        result["status_code"] = response.status_code
+        return result
 
     session_id = getUniqueElementValueFromXmlString(response.content, 'sessionId')
-    print("session_id: " + session_id)
     server_url = getUniqueElementValueFromXmlString(response.content, 'serverUrl')
     sf_instance = server_url[ : server_url.find('/services')]
     user_id = getUniqueElementValueFromXmlString(response.content, 'userId')
 
-    return sf_instance, session_id, server_url, user_id
-
-
-class SalesforceAuthenticationFailed(Exception):
-    '''
-    Thrown to indicate that authentication with Salesforce failed.
-    '''
-    pass
+    print ("session_id", session_id)
+    result = {
+        "session_id": session_id,
+        "server_url": server_url,
+        "instance_url": sf_instance,
+        "user_id": user_id,
+        "status_code": response.status_code
+    }
+    return result
