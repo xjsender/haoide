@@ -37,7 +37,7 @@ def handle_update_plugin(timeout):
         try:
             f = zipfile.ZipFile(zip_dir, 'r')
         except IOError as ie:
-            sublime.error_message("Update Failed, please try it again.")
+            sublime.error_message("I/O error: {0}".format(ie))
             return
         f.extractall()
         f.close()
@@ -76,6 +76,14 @@ def retrieve_newest_zip():
     Retrieve the newest SublimeApex Plugin zip file
     """
 
-    r = requests.get("https://github.com/xjsender/SublimeApex/archive/master.zip", verify=False) 
+    try:
+        r = requests.get("https://github.com/xjsender/SublimeApex/archive/master.zip", verify=False) 
+    except (requests.ConnectionError, ce):
+        sublime.error_message("I/O error: {0}".format(ce))
+        return
+    except (requests.Timeout, to):
+        sublime.error_message("I/O error: {0}".format(to))
+        return
+
     with open("SublimeApex.zip", "wb") as code:
         code.write(r.content)
