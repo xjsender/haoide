@@ -30,11 +30,11 @@ SEPARATE = "-" * 100
 
 def login(toolingapi_settings, session_id_expired):
     if "access_token" not in globals() or session_id_expired:
-        instance_url, access_token, server_url, user_id = soap_login(toolingapi_settings)
-        globals()["access_token"] = access_token
-        globals()["instance_url"] = instance_url
-        globals()["server_url"] = server_url
-        globals()["user_id"] = user_id
+        result = soap_login(toolingapi_settings)
+        globals()["access_token"] = result["session_id"]
+        globals()["instance_url"] = result["instance_url"]
+        globals()["server_url"] = result["server_url"]
+        globals()["user_id"] = result["user_id"]
 
 # Post: https://instance.salesforce.com/services/async/27.0/job
 def create_job(sobject, operation):
