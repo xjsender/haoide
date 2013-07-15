@@ -79,7 +79,7 @@ def check_job_status(job_id):
     response = requests.get(url, data = None, verify = False, headers = headers)
     job_status = getUniqueElementValueFromXmlString(response.content, "state")
 
-    if job_status != "Completed":
+    while job_status != "Completed":
         print(job_id + " is not completed, please continue waiting...")
         time.sleep(15)
         check_job_status(job_id)
@@ -104,7 +104,7 @@ def check_batch_status(job_id, batch_id, sobject):
         print(batch_id + " failed, because " + error_message)
         return False
 
-    if batch_status != "Completed":
+    while batch_status != "Completed":
         print(sobject + " is not completed, please continue waiting...")
         time.sleep(15)
         check_batch_status(job_id, batch_id, sobject)
