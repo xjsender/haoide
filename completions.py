@@ -97,7 +97,7 @@ class ApexCompletions(sublime_plugin.EventListener):
         # Set<String> strs;
         # Map<String> strs;
         # matched_regions = view.find_all("(\\w+\\s+)" + variable_name + "\\s*[:;=]")
-        pattern = "((\\w+\\s+)|(map<\\w+>\\s+)|(set<\\w+>\\s+)|(list<\\w+>\\s+))" + variable_name + "\\s*[:;=)]"
+        pattern = "((\\w+\\s+)|(map<\\w+>\\s+)|(set<\\w+>\\s+)|(list<\\w+>\\s+))" + variable_name + "\\s*[:;=)\s]"
         matched_regions = view.find_all(pattern, sublime.IGNORECASE)
         variable_type = ""
         if len(matched_regions) > 0:
