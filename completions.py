@@ -49,7 +49,8 @@ class SobjectCompletions(sublime_plugin.EventListener):
         # 3. Account acc = new Account()
         # 4. for (Account acc : accs)
         # 5. public static void updateAccount(Account acc)
-        matched_regions = view.find_all("\\w+\\s+" + variable_name + "\\s*[:;=)]")
+        # 6. public Account acc {get; set;}
+        matched_regions = view.find_all("\\w+\\s+" + variable_name + "\\s*[:;=)\s]")
         sobject = ""
         if len(matched_regions) > 0:
             matched_block = view.substr(matched_regions[0])
