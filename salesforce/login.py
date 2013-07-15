@@ -12,7 +12,7 @@ except:
     from util import getUniqueElementValueFromXmlString
 
 # https://github.com/xjsender/simple-salesforce/blob/master/simple_salesforce/login.py
-def soap_login(settings):
+def soap_login(settings, timeout=120):
     login_soap_request_body = soap_bodies.login_body.format(
         username = settings["username"], 
         password = settings["password"])
@@ -24,7 +24,7 @@ def soap_login(settings):
     }
 
     response = requests.post(settings["soap_login_url"], login_soap_request_body, 
-        verify=False, headers=login_soap_request_headers)
+        verify=False, headers=login_soap_request_headers, timeout=timeout)
 
     result = {}
     if response.status_code != 200:
