@@ -286,7 +286,7 @@ class SalesforceApi():
             "Account", "AccountContactRole", "Activity", "Asset", 
             "Campaign", "CampaignMember", "Case", "Contact", 
             "Contract", "Event", "Lead", "Opportunity", 
-            "OpportunityLineItem", "Product2", 
+            "OpportunityLineItem", "Product2", "UserRole", 
             "Task", "User", "CampaignMemberStatus"
         ]
 
