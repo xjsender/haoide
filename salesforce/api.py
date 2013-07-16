@@ -396,6 +396,7 @@ class SalesforceApi():
         # Get Debug Log
         print ("Start retrieve debug log detail...")
         time.sleep(3)
+
         log_id = result[0]["ApexLogId"]
         if log_id == None:
             debug_log = "Something Happened"
@@ -608,7 +609,7 @@ class SalesforceApi():
         }
 
         # Populate the soap_body with actual session id
-        soap_body = soap_bodies.retrieve_sobjects_workflow_task_body.format(
+        soap_body = soap_bodies.retrieve_all_task_body.format(
             session_id=globals()[self.username]["session_id"])
 
         response = requests.post(server_url, soap_body, verify=False, 
@@ -844,10 +845,10 @@ class SalesforceApi():
 
             for compile_error in compile_errors:
                 # Parse compile_error
-                extend = compile_error["extent"]
-                line = compile_error["line"]
-                problem = compile_error["problem"]
-                name = compile_error["name"]
+                extend = util.none_value(compile_error["extent"])
+                line = util.none_value(compile_error["line"])
+                problem = util.none_value(compile_error["problem"])
+                name = util.none_value(compile_error["name"])
                 error_message = extend + ": " + name + " has problem: " +\
                     problem + " at line " + str(line)
                 error_message = unescape(error_message, {"&apos;": "'", "&quot;": '"'})
