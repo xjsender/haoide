@@ -4,6 +4,8 @@ import threading
 import zipfile
 import os
 import shutil
+import time
+import sys
 
 try:
     from . import requests
@@ -77,12 +79,13 @@ def retrieve_newest_zip():
     """
 
     try:
-        r = requests.get("https://github.com/xjsender/SublimeApex/archive/master.zip", verify=False) 
-    except (requests.ConnectionError, ce):
-        sublime.error_message("I/O error: {0}".format(ce))
+        r = requests.get("https://github.com/xjsender/SublimeApex/archive/master.zip", 
+            verify=False)
+    except requests.ConnectionError as ce:
+        sublime.error_message("ConnectionError: {0}".format(ce))
         return
-    except (requests.Timeout, to):
-        sublime.error_message("I/O error: {0}".format(to))
+    except requests.Timeout as to:
+        sublime.error_message("TimeoutError: {0}".format(to))
         return
 
     with open("SublimeApex.zip", "wb") as code:
