@@ -525,6 +525,11 @@ class deployCommand(sublime_plugin.TextCommand):
         file_name = self.view.file_name()
         print(file_name)
 
+        # Sometimes this will have problem, need to retry
+        if file_name == None:
+            sublime.error_message("Please try to save again.")
+            return
+        
         # Read file content
         try:
             body = open(file_name, encoding="utf-8").read()
