@@ -256,7 +256,7 @@ class runonetestCommand(sublime_plugin.WindowCommand):
 
         classes_attr = processor.populate_classes()
         classes = classes_attr.keys()
-        classes = [c for c in classes if classes_attr[c]["is_test"]]
+        classes = [c for c in classes if "is_test" in classes_attr[c] and classes_attr[c]["is_test"]]
         class_names = sorted(list(classes))
         self.window.show_quick_panel(class_names, self.on_done)
 

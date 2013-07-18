@@ -365,7 +365,7 @@ def handle_retrieve_all_thread(timeout):
         f.close()
 
         # Remove this zip file
-        os.remove(zipdir)
+        # os.remove(zipdir)
 
         # Output package path
         print("Your objects and workflows are exported to: " + outputdir)
@@ -783,7 +783,8 @@ def handle_create_component(data, component_name, component_type, timeout):
         components_dict = s.get(username)
         components_dict[component_type][component_name] = {
             "component_id": component_id,
-            "component_url": post_url + "/" + component_id
+            "component_url": post_url + "/" + component_id,
+            "is_test": False
         }
         s.set(username, components_dict)
 
