@@ -181,18 +181,31 @@ def handle_refresh_folder(component_type, timeout=120):
             # Write mapping of component_name with component_url
             # into component_metadata.sublime-settings
             components[component_name] = {
-                "component_url": component_url,
-                "component_id": component_id
+                "url": component_url,
+                "id": component_id,
+                "type": component_type,
+                "body": component_body,
+                "extension": component_extension
             }
+            
+            # Judge Component is Test Class or not
+            body = record[component_body]
+            if component_type == "ApexClass":
+                if "@isTest" in body or "testMethod" in body or\
+                    "testmethod" in body or "test" in component_name or\
+                    "Test" in component_name:
+                    
+                    components[component_name]["is_test"] = True
+                else:
+                    components[component_name]["is_test"] = False
 
             # Write body to local file
             fp = open(component_outputdir + "/" + component_name +\
                 component_extension, "wb")
-            
             try:
-                body = bytes(record["component_body"], "UTF-8")
+                body = bytes(body, "UTF-8")
             except:
-                body = record[component_body].encode("UTF-8")
+                body = body.encode("UTF-8")
             fp.write(body)
 
             # Set status_message
