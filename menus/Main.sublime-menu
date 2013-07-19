@@ -185,6 +185,14 @@
                 "caption": "Key Bindings – Default"
             },
 
+            {
+                "command": "open_file", 
+                "args": {
+                    "file": "${packages}/user/Default (Windows).sublime-keymap"
+                },
+                "caption": "Key Bindings – User"
+            },
+
             { "caption": "-" },
 
             {
