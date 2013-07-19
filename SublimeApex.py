@@ -78,7 +78,7 @@ class refreshfolderCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        processor.handle_refresh_folder(component_types[index], 120)
+        processor.handle_refresh_folder(component_types[index])
 
 class retrieveallCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -89,7 +89,7 @@ class retrieveallCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        processor.handle_retrieve_all_thread(120)
+        processor.handle_retrieve_all_thread()
         
 class exportvalidationrulesCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -106,7 +106,7 @@ class exportvalidationrulesCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        processor.handle_parse_validation_rule(120)
+        processor.handle_parse_validation_rule()
 
 class exportworkflowCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -122,7 +122,7 @@ class exportworkflowCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        processor.handle_parse_workflow(120)
+        processor.handle_parse_workflow()
 
 class describecustomfieldCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -141,7 +141,7 @@ class describecustomfieldCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        processor.handle_describe_customfield(sobjects[index], 120)
+        processor.handle_describe_customfield(sobjects[index])
         
 class describeglobalCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -222,7 +222,7 @@ class describesobjectCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        processor.handle_retrieve_fields(sobjects[index], 120)
+        processor.handle_retrieve_fields(sobjects[index])
 
 class exportworkbookCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -244,7 +244,7 @@ class exportworkbookCommand(sublime_plugin.WindowCommand):
             processor.handle_generate_all_workbooks(5)
         else:
             sobjects = input.split(";")
-            processor.handle_generate_specified_workbooks(sobjects, 120)
+            processor.handle_generate_specified_workbooks(sobjects)
 
 class runonetestCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -268,7 +268,7 @@ class runonetestCommand(sublime_plugin.WindowCommand):
             {"panel": "console", "toggle": False})
 
         class_id = classes_attr[class_names[index]]["component_id"]
-        processor.handle_run_test(class_id, 120)
+        processor.handle_run_test(class_id)
 
 class runtestCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -295,9 +295,10 @@ class runtestCommand(sublime_plugin.WindowCommand):
         # Get component_url and component_id
         toolingapi_settings = context.get_toolingapi_settings()
         username = toolingapi_settings["username"]
-        component_url, class_id = util.get_component_url_and_id(username, file_name)
+        component_attribute = util.get_component_attribute(username, file_name)
+        if component_attribute == None: return
 
-        processor.handle_run_test(class_id, 120)
+        processor.handle_run_test(component_attribute["id"])
 
 class executesoqlCommand(sublime_plugin.TextCommand):
     def run(self, view):
@@ -312,7 +313,7 @@ class executesoqlCommand(sublime_plugin.TextCommand):
             {"panel": "console", "toggle": False})
 
         # Handle
-        processor.handle_execute_query(selection, 120)
+        processor.handle_execute_query(selection)
 
 class executeanonymousCommand(sublime_plugin.TextCommand):
     def run(self, view):
@@ -327,7 +328,7 @@ class executeanonymousCommand(sublime_plugin.TextCommand):
             {"panel": "console", "toggle": False})
 
         # Handle
-        processor.handle_execute_anonymous(selection, 120)
+        processor.handle_execute_anonymous(selection)
 
 class viewidinsfdcwebCommand(sublime_plugin.TextCommand):
     def run(self, view):
@@ -370,10 +371,11 @@ class showinsfdcwebCommand(sublime_plugin.TextCommand):
 
         # Get component_url and component_id
         username = toolingapi_settings["username"]
-        component_url, component_id = util.get_component_url_and_id(username, file_name)
+        component_attribute = util.get_component_attribute(username, file_name)
+        if component_attribute == None: return
 
         # Open this component in salesforce web
-        startURL = "/" + component_id
+        startURL = "/" + component_attribute["id"]
         self.view.window().run_command("loginintosfdc", {"startURL": startURL})
 
 class loginintosfdcCommand(sublime_plugin.WindowCommand):
@@ -434,12 +436,11 @@ class deleteCommand(sublime_plugin.TextCommand):
 
         # Get component_url and component_id
         username = toolingapi_settings["username"]
-        component_url, component_id = util.get_component_url_and_id(username, file_name)
-
-        if component_id == None: return
+        component_attribute = util.get_component_attribute(username, file_name)
+        if component_attribute == None: return
         
         # Handle Delete
-        processor.handle_delete_component(component_url, file_name, 120)
+        processor.handle_delete_component(component_attribute["url"], file_name)
 
 class createCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -510,8 +511,7 @@ class createCommand(sublime_plugin.WindowCommand):
         elif component_type in ["ApexPage", "ApexComponent"]:
             data["MasterLabel"] = component_name,
 
-        processor.handle_create_component(data, component_name, 
-            component_type, 120)
+        processor.handle_create_component(data, component_name, component_type)
 
 class deployCommand(sublime_plugin.TextCommand):
     def run(self, view):
@@ -523,7 +523,6 @@ class deployCommand(sublime_plugin.TextCommand):
         toolingapi_settings = context.get_toolingapi_settings()
 
         file_name = self.view.file_name()
-        print(file_name)
 
         # Sometimes this will have problem, need to retry
         if file_name == None:
@@ -537,9 +536,8 @@ class deployCommand(sublime_plugin.TextCommand):
             body = open(file_name).read()
         
         # Get component_name (Class Name, Trigger Name, etc.)
-        component_name = util.get_component_name(file_name)
-
         # Get component type
+        component_name = util.get_component_name(file_name)
         component_type = util.get_component_type(file_name)
 
         # If component type is not in range, just show error message
@@ -551,28 +549,19 @@ class deployCommand(sublime_plugin.TextCommand):
         self.view.window().run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        # Get Component body name in response
-        component_body = toolingapi_settings[component_type]["body"]
-
         # Get component_url and component_id
         username = toolingapi_settings["username"]
-        component_url, component_id = util.get_component_url_and_id(username, file_name)
-
-        # "Name", "SaveClass" + id
-        # For example {"name": "SaveClass<ClassId>"}
-        data = {"name": "Save" + component_type[4 : len(component_type)] + component_id}
+        component_attribute = util.get_component_attribute(username, file_name)
+        if component_attribute == None: return
 
         # Handle Save Current Component
-        processor.handle_save_component(data, component_type, component_id, body, 120)
+        processor.handle_save_component(component_name, component_attribute, body)
 
 class refreshallCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(refreshallCommand, self).__init__(*args, **kwargs)
 
     def run(self): 
-        # Open Project
-        self.window.run_command("open_project")
-
         # Create Project Directory
         context.make_dir()
 
@@ -580,10 +569,8 @@ class refreshallCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        toolingapi_settings = context.get_toolingapi_settings()
-
         # Handle Refresh All
-        processor.handle_refresh_components(toolingapi_settings, 120)
+        processor.handle_refresh_components(context.get_toolingapi_settings())
 
 class refreshcurrentCommand(sublime_plugin.TextCommand):
     def run(self, view): 
@@ -592,12 +579,10 @@ class refreshcurrentCommand(sublime_plugin.TextCommand):
 
         # Get file_name
         file_name = self.view.file_name()
-        print(file_name)
-        
-        # Get component_name (Class Name, Trigger Name, etc.)
-        component_name = util.get_component_name(file_name)
 
+        # Get component_name (Class Name, Trigger Name, etc.)
         # Get component_type
+        component_name = util.get_component_name(file_name)
         component_type = util.get_component_type(file_name)
 
         # If component type is not in range, just show error message
@@ -608,19 +593,11 @@ class refreshcurrentCommand(sublime_plugin.TextCommand):
         # Open Console
         self.view.window().run_command("show_panel", 
             {"panel": "console", "toggle": False})
-        
-        # Get Component body name in response
-        component_body = toolingapi_settings[component_type]["body"]
 
         # Get component_url and component_id
         username = toolingapi_settings["username"]
-        component_url, component_id = util.get_component_url_and_id(username ,
-            file_name)
-
-        # If component_url is None, just alert message
-        if component_url == None:
-            return
+        component_attribute = util.get_component_attribute(username, file_name)
+        if component_attribute == None: return
 
         # Handle Refresh Current Component
-        processor.handle_refresh_component(component_url, file_name, 
-            component_body, 120)
+        processor.handle_refresh_component(component_attribute, file_name)

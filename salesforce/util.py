@@ -881,7 +881,7 @@ def get_component_type(file_name):
 
     return component_type
 
-def get_component_url_and_id(username, file_name):
+def get_component_attribute(username, file_name):
     """
     get the component name by file_name, and then get the component_url and component_id
     by component name and local settings
@@ -889,7 +889,14 @@ def get_component_url_and_id(username, file_name):
     @file_name: local component full file name, for example:
     D:\ForcedotcomWorkspace\pro-exercise-20130625\ApexClass\AccountChartController.cls
 
-    @return: tuple(component_url, component_id)
+    @return: for example, component_attribute = {
+        "body": "Body",
+        "extension": ".cls",
+        "id": "01pO00000009isEIAQ",
+        "is_test": false,
+        "type": "ApexClass",
+        "url": "/services/data/v28.0/sobjects/ApexClass/01pO00000009isEIAQ"
+    }
     """
 
     # Get component type and component name
@@ -901,16 +908,12 @@ def get_component_url_and_id(username, file_name):
 
     # Get Component attribute by component_name
     component_attribute = component_settings.get(username)[component_type][component_name]
-    print(component_name + ": ", component_attribute)
+    print (component_name + ": ", component_attribute)
 
     # If this component_name is not exist in component_settings
     if component_attribute == None:
         sublime.error_message(message.DOWNLOAD_ALL_FIRST)
-        return None, None
-
-    # Get metadata Id and metadata get_component_url_and_idRL
-    component_url = component_attribute.get("component_url")
-    component_id = component_attribute.get("component_id")
+        return None
 
     # Return tuple
-    return component_url, component_id
+    return component_attribute

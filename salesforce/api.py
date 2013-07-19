@@ -690,12 +690,17 @@ class SalesforceApi():
                 # Write mapping of component_name with component_url
                 # into metadata.sublime-settings
                 component_attributes[component_name] = {
-                    "component_url": component_url,
-                    "component_id": component_id
+                    "url": component_url,
+                    "id": component_id
                 }
 
                 # Get the body
                 body = record[component_body]
+
+                # Save Component Body, Component Type to attribute
+                component_attributes[component_name]["body"] = component_body
+                component_attributes[component_name]["extension"] = component_extension
+                component_attributes[component_name]["type"] = component_type
 
                 # Judge Component is Test Class or not
                 if component_type == "ApexClass":
@@ -737,7 +742,7 @@ class SalesforceApi():
                 "/" + sobject + ".csv"
             print (sobject + " workbook outputdir: " + outputdir)
 
-    def save_component(self, data, component_type, component_id, body):
+    def save_component(self, component_attribute, body):
         """
         This method contains 5 steps:
         1. Post classid to get MetadataContainerId
@@ -749,45 +754,39 @@ class SalesforceApi():
         Notes: Because if ContainerAsyncRequest has problem, we can't reuse the 
             MetadataContainerId, so we need to delete it and get it every time.
 
-        @data: {
-            "name":  "[SaveClass, SaveTrigger, SaveComponent, SavePage]<ComponentId>"
-        }
-
-        @component_type: [SaveClass, SaveTrigger, SaveComponent, SavePage]
-
-        @component_id: component_id
-
-        @body: component body
-
-        @Return: No return result
+        @component_attribute
+        @body: Code content
 
         """
+        # Component Attribute
+        component_type = component_attribute["type"]
+        component_id = component_attribute["id"]
+        component_body = component_attribute["body"]
+
         # Get MetadataContainerId
-        url = '/services/data/v28.0/tooling/sobjects/MetadataContainer'
-        result = self.post(url, data)
+        data = {  
+            "name": "Save" + component_type[4 : len(component_type)] + component_id
+        }
+        container_url = '/services/data/v28.0/tooling/sobjects/MetadataContainer'
+        result = self.post(container_url, data)
         print ("MetadataContainer Response: ", result)
 
         # If status_code < 399, it means post succeed
-        status_code = result["status_code"]
-        if status_code < 399:
+        if result["status_code"] < 399:
             container_id = result.get("id")
         else:
             # If status_code < 399, it means post failed, 
             # If DUPLICATE Container Id, just delete it and restart this function
             if result["errorCode"] == "DUPLICATE_VALUE":
-                # If there has duplicate container_id, just delete it
-                # and then, restart it again
                 error_message = result["message"]
                 container_id = error_message[error_message.rindex("1dc"): len(error_message)]
-                url = '/services/data/v28.0/tooling/sobjects/MetadataContainer/' + container_id
-
-                delete_result = self.delete(url)
-                status_code = delete_result["status_code"]
-                if status_code < 399:
+                delete_result = self.delete(container_url + "/" + container_id)
+                if delete_result["status_code"] < 399:
                     util.sublime_status_message("container_id is deleted.")
                 
-                # Restart this function
-                self.save_component(data, component_type, component_id, body)
+                # We can't reuse the container_id which caused error
+                # Post Request to get MetadataContainerId
+                return self.save_component(component_attribute, body)
             else:
                 util.sublime_error_message(result)
                 return
@@ -799,7 +798,6 @@ class SalesforceApi():
             "Body": body
         }
         url = "/services/data/v28.0/tooling/sobjects/" + component_type + "Member"
-
         result = self.post(url, data)
         print ("Post ApexComponentMember: ", result)
 
@@ -808,62 +806,58 @@ class SalesforceApi():
             "MetadataContainerId": container_id,
             "isCheckOnly": False
         }
-        url = '/services/data/v28.0/tooling/sobjects/ContainerAsyncRequest'
-        result = self.post(url, data)
+        sync_request_url = '/services/data/v28.0/tooling/sobjects/ContainerAsyncRequest'
+        result = self.post(sync_request_url, data)
         request_id = result.get("id")
         print ("Post ContainerAsyncRequest: ", result)
 
         # Get ContainerAsyncRequest Result
-        url = '/services/data/v28.0/tooling/sobjects/ContainerAsyncRequest/' + request_id
-
-        result = self.get(url)
+        result = self.get(sync_request_url + "/" + request_id)
         state = result["State"]
-        print ("Get ContainerAsyncRequest: ")
-        pprint.pprint (result)
+        print ("Get ContainerAsyncRequest: ", result)
 
+        return_result = {}
         if state == "Completed":
-            sublime.message_dialog(message.DEPLOY_SUCCESSFULLY)
-        elif state == "Queued":
-            while (state == "Queued"):
-                print ("Async Request is queued, please wait for 5 seconds.....")
-                time.sleep(5)
+            return_result = {
+                "success": True 
+            }
 
-                result = self.get(url)
-                state = result["State"]
-                print ("async_request_get_response State: ", state)
+        while state == "Queued":
+            print ("Async Request is queued, please wait for 5 seconds...")
+            time.sleep(5)
 
-                if state == "Completed":
-                    sublime.message_dialog(message.DEPLOY_SUCCESSFULLY)
+            result = self.get(url)
+            state = result["State"]
+            if state == "Completed":
+                return_result = {
+                    "success": True 
+                }
 
         if state == "Failed":
             # This error need more process, because of confused single quote
             compile_errors = unescape(result["CompilerErrors"])
-            print ("compile_errors: ", compile_errors)
-
-            # encode compile_errors from unicode to json format
             compile_errors = json.loads(compile_errors)
+            compile_error = compile_errors[0]
 
-            for compile_error in compile_errors:
-                # Parse compile_error
-                extend = util.none_value(compile_error["extent"])
-                line = util.none_value(compile_error["line"])
-                problem = util.none_value(compile_error["problem"])
-                name = util.none_value(compile_error["name"])
-                error_message = extend + ": " + name + " has problem: " +\
-                    problem + " at line " + str(line)
-                error_message = unescape(error_message, {"&apos;": "'", "&quot;": '"'})
-
-                # Show message
-                print (SEPRATE)
-                print (error_message)
-                print (SEPRATE + "\n")
-                sublime.message_dialog(error_message)
+            # Parse compile_error
+            extend = util.none_value(compile_error["extent"])
+            line = util.none_value(compile_error["line"])
+            problem = util.none_value(compile_error["problem"])
+            name = util.none_value(compile_error["name"])
+            error_message = extend + ": " + name + " has problem: " +\
+                problem + " at line " + str(line)
+            error_message = unescape(error_message, {"&apos;": "'", "&quot;": '"'})
+            
+            return_result = {
+                "success": False,
+                "message": error_message
+            }
 
         # Whatever succeed or failed, just delete MetadataContainerId
-        url = '/services/data/v28.0/tooling/sobjects/MetadataContainer/' + container_id
-        result = self.delete(url)
-
-        status_code = result["status_code"]
-        print ("Delete MetadataContainerId: ", status_code)
+        delete_result = self.delete(container_url + "/" + container_id)
+        status_code = delete_result["status_code"]
         if status_code < 399:
             util.sublime_status_message("container_id is deleted.")
+
+        # Result used in thread invoke
+        self.result = return_result
