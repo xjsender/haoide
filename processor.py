@@ -71,7 +71,7 @@ def populate_classes():
     for record in api.result["records"]:
         name = record["Name"]
         body = record["Body"]
-        component_attr = {"component_id": record["Id"]}
+        component_attr = {"id": record["Id"]}
         if "@isTest" in body or "testMethod" in body or\
             "testmethod" in body or "test" in name or "Test" in name:
             

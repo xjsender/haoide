@@ -267,7 +267,7 @@ class runonetestCommand(sublime_plugin.WindowCommand):
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        class_id = classes_attr[class_names[index]]["component_id"]
+        class_id = classes_attr[class_names[index]]["id"]
         processor.handle_run_test(class_id)
 
 class runtestCommand(sublime_plugin.WindowCommand):
