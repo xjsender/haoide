@@ -180,7 +180,7 @@
             {
                 "command": "open_file", 
                 "args": {
-                    "file": "${packages}/SublimeApex/keymap/Default (Windows).sublime-keymap"
+                    "file": "${packages}/SublimeApex/keymap/Default ($platform).sublime-keymap"
                 },
                 "caption": "Key Bindings – Default"
             },
@@ -188,7 +188,7 @@
             {
                 "command": "open_file", 
                 "args": {
-                    "file": "${packages}/user/Default (Windows).sublime-keymap"
+                    "file": "${packages}/user/Default ($platform).sublime-keymap"
                 },
                 "caption": "Key Bindings – User"
             },
