@@ -874,7 +874,6 @@ def get_component_type(file_name):
 
     @return: component type
     """
-    print (file_name)
     location_of_last_backslash = file_name.rfind("\\")
     component_type = file_name[file_name[0 :\
         location_of_last_backslash - 1].rfind("\\") + 1 : location_of_last_backslash]
@@ -908,7 +907,6 @@ def get_component_attribute(username, file_name):
 
     # Get Component attribute by component_name
     component_attribute = component_settings.get(username)[component_type][component_name]
-    print (component_name + ": ", component_attribute)
 
     # If this component_name is not exist in component_settings
     if component_attribute == None:

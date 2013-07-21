@@ -270,13 +270,21 @@ class runonetestCommand(sublime_plugin.WindowCommand):
         class_id = classes_attr[class_names[index]]["id"]
         processor.handle_run_test(class_id)
 
-class runtestCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(runtestCommand, self).__init__(*args, **kwargs)
+class runtestCommand(sublime_plugin.TextCommand):
+    def run(self, view):
+        # Open Console
+        self.view.run_command("show_panel", 
+            {"panel": "console", "toggle": False})
 
-    def run(self): 
+        # Get component_attribute by file_name
+        component_attribute = get_component_attribute(self.view.file_name())[0]
+
+        # Process run test
+        processor.handle_run_test(component_attribute["id"])
+
+    def is_enabled(self):
         # Get current file name and Read file content
-        file_name = self.window.active_view().file_name()
+        file_name = self.view.file_name()
         try:
             # Python 3.x
             body = open(file_name, encoding="utf-8").read()
@@ -285,44 +293,31 @@ class runtestCommand(sublime_plugin.WindowCommand):
             body = open(file_name).read().encode()
 
         if ".cls" not in file_name or "@isTest" not in body:
-            sublime.error_message(message.INVALID_TEST_CLASS)
-            return
+            return False
 
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
-        # Get component_url and component_id
-        toolingapi_settings = context.get_toolingapi_settings()
-        username = toolingapi_settings["username"]
-        component_attribute = util.get_component_attribute(username, file_name)
-        if component_attribute == None: return
-
-        processor.handle_run_test(component_attribute["id"])
+        return True
 
 class executesoqlCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        selection = self.view.substr(self.view.sel()[0]).encode('utf-8')
-
-        if selection == "" or not selection.upper().startswith(b"SELECT"):
-            sublime.error_message("Not Valid SOQL.")
-            return
-
         # Open Console
         self.view.window().run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
         # Handle
-        processor.handle_execute_query(selection)
+        processor.handle_execute_query(self.selection)
+
+    def is_enabled(self):
+        # Selection must start SELECT, 
+        # otherwise you can't see this command
+        self.selection = self.view.substr(self.view.sel()[0]).encode('utf-8')
+
+        if not self.selection or not self.selection.upper().startswith(b"SELECT"):
+            return False
+
+        return True
 
 class executeanonymousCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        selection = self.view.substr(self.view.sel()[0])
-
-        if selection == "":
-            sublime.error_message("Apex Snippet can't be empty.")
-            return
-
         # Open Console
         self.view.window().run_command("show_panel", 
             {"panel": "console", "toggle": False})
@@ -330,53 +325,49 @@ class executeanonymousCommand(sublime_plugin.TextCommand):
         # Handle
         processor.handle_execute_anonymous(selection)
 
+    def is_enabled(self):
+        # You must select some snippets, otherwise
+        # you can't see this command
+        self.selection = self.view.substr(self.view.sel()[0]).encode('utf-8')
+        if not self.selection:
+            return False
+
+        return True
+
 class viewidinsfdcwebCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        if util.is_python3x():
-            record_id = self.view.substr(self.view.sel()[0])
-        else:
-            record_id = self.view.substr(self.view.sel()[0]).encode("utf-8")
-            
-        if len(record_id) != 15 and len(record_id) != 18:
-            sublime.error_message("Salesforce Id should be 15d or 18d")
-            return
-
-        if not re.compile(r'^[a-zA-Z0-9]*$').match(record_id):
-            sublime.error_message("Invalid Salesforce Id")
-            return
-
-        startURL = "/" + record_id
-        if record_id.startswith("012"):
-            startURL = "/setup/ui/recordtypefields.jsp?id=" + record_id
+        startURL = "/" + self.record_id
+        if self.record_id.startswith("012"):
+            startURL = "/setup/ui/recordtypefields.jsp?id=" + self.record_id
         
         self.view.window().run_command("loginintosfdc", {"startURL": startURL})
 
+    def is_enabled(self):
+        # Choose the valid Id, you will see this command
+        if util.is_python3x():
+            self.record_id = self.view.substr(self.view.sel()[0])
+        else:
+            self.record_id = self.view.substr(self.view.sel()[0]).encode("utf-8")
+            
+        if len(self.record_id) != 15 and len(self.record_id) != 18:
+            return False
+
+        if not re.compile(r'^[a-zA-Z0-9]*$').match(self.record_id):
+            return False
+
+        return True
+
 class showinsfdcwebCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        # Get toolingapi settings
-        toolingapi_settings = context.get_toolingapi_settings()
-
-        # Get current file name
-        file_name = self.view.file_name()
-
-        print (file_name)
-
-        # Get component type
-        component_type = util.get_component_type(file_name)
-
-        # If component type is not in range, just show error message
-        if component_type not in toolingapi_settings["component_types"]:
-            sublime.error_message(message.INVALID_COMPONENT)
-            return
-
-        # Get component_url and component_id
-        username = toolingapi_settings["username"]
-        component_attribute = util.get_component_attribute(username, file_name)
-        if component_attribute == None: return
+        # Get file_name and component_attribute
+        component_attribute = get_component_attribute(self.view.file_name())[0]
 
         # Open this component in salesforce web
         startURL = "/" + component_attribute["id"]
         self.view.window().run_command("loginintosfdc", {"startURL": startURL})
+
+    def is_enabled(self):
+        return check_visible(self.view.file_name())
 
 class loginintosfdcCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -411,19 +402,9 @@ class aboutCommand(sublime_plugin.WindowCommand):
 
 class deleteCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        # Get toolingapi settings
-        toolingapi_settings = context.get_toolingapi_settings()
-
-        # Get current file name
+        # Get file_name and component_attribute
         file_name = self.view.file_name()
-
-        # Get component type
-        component_type = util.get_component_type(file_name)
-
-        # If component type is not in range, just show error message
-        if component_type not in toolingapi_settings["component_types"]:
-            sublime.error_message(message.INVALID_COMPONENT)
-            return
+        component_attribute = get_component_attribute(file_name)[0]
 
         # Confirm Delete Action
         confirm = sublime.ok_cancel_dialog(message.DELETE_CONFIRM_MESSAGE)
@@ -433,14 +414,12 @@ class deleteCommand(sublime_plugin.TextCommand):
         # Open Console
         self.view.window().run_command("show_panel", 
             {"panel": "console", "toggle": False})
-
-        # Get component_url and component_id
-        username = toolingapi_settings["username"]
-        component_attribute = util.get_component_attribute(username, file_name)
-        if component_attribute == None: return
         
         # Handle Delete
         processor.handle_delete_component(component_attribute["url"], file_name)
+
+    def is_enabled(self):
+        return check_visible(self.view.file_name())
 
 class createCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -518,44 +497,26 @@ class deployCommand(sublime_plugin.TextCommand):
         # Automatically save current file if dirty
         if self.view.is_dirty():
             self.view.run_command("save")
-
-        # Get toolingapi settings
-        toolingapi_settings = context.get_toolingapi_settings()
-
+            
+        # Get file_name and component_attribute
         file_name = self.view.file_name()
+        component_attribute, component_name = get_component_attribute(file_name)
 
-        # Sometimes this will have problem, need to retry
-        if file_name == None:
-            sublime.error_message("Please try to save again.")
-            return
-        
         # Read file content
         try:
             body = open(file_name, encoding="utf-8").read()
         except:
             body = open(file_name).read()
-        
-        # Get component_name (Class Name, Trigger Name, etc.)
-        # Get component type
-        component_name = util.get_component_name(file_name)
-        component_type = util.get_component_type(file_name)
-
-        # If component type is not in range, just show error message
-        if component_type not in toolingapi_settings["component_types"]:
-            sublime.error_message(message.INVALID_COMPONENT)
-            return
 
         # Open Console
         self.view.window().run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
-        # Get component_url and component_id
-        username = toolingapi_settings["username"]
-        component_attribute = util.get_component_attribute(username, file_name)
-        if component_attribute == None: return
-
         # Handle Save Current Component
         processor.handle_save_component(component_name, component_attribute, body)
+
+    def is_enabled(self):
+        return check_visible(self.view.file_name())
 
 class refreshallCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -574,30 +535,63 @@ class refreshallCommand(sublime_plugin.WindowCommand):
 
 class refreshcurrentCommand(sublime_plugin.TextCommand):
     def run(self, view): 
-        # Get toolingapi settings
-        toolingapi_settings = context.get_toolingapi_settings()
-
-        # Get file_name
+        # Get file_name and component_attribute
         file_name = self.view.file_name()
-
-        # Get component_name (Class Name, Trigger Name, etc.)
-        # Get component_type
-        component_name = util.get_component_name(file_name)
-        component_type = util.get_component_type(file_name)
-
-        # If component type is not in range, just show error message
-        if component_type not in toolingapi_settings["component_types"]:
-            sublime.error_message(message.INVALID_COMPONENT)
-            return
+        component_attribute = get_component_attribute(file_name)[0]
 
         # Open Console
-        self.view.window().run_command("show_panel", 
+        self.view.run_command("show_panel", 
             {"panel": "console", "toggle": False})
-
-        # Get component_url and component_id
-        username = toolingapi_settings["username"]
-        component_attribute = util.get_component_attribute(username, file_name)
-        if component_attribute == None: return
 
         # Handle Refresh Current Component
         processor.handle_refresh_component(component_attribute, file_name)
+
+    def is_enabled(self):
+        return check_visible(self.view.file_name())
+
+def get_component_attribute(file_name):
+    # Get toolingapi settings
+    toolingapi_settings = context.get_toolingapi_settings()
+
+    # Get component type
+    component_name = util.get_component_name(file_name)
+    component_type = util.get_component_type(file_name)
+
+    # If component type is not in range, just show error message
+    if component_type not in toolingapi_settings["component_types"]:
+        return
+
+    # Get component_url and component_id
+    username = toolingapi_settings["username"]
+    component_attribute = util.get_component_attribute(username, file_name)
+
+    return (component_attribute, component_name)
+
+def check_visible(file_name):
+    """
+    Check whether file is ApexTrigger, ApexComponent, ApexPage or ApexClass
+
+    Parameters:
+        file_name: current file name
+
+    Return: 
+        Bool
+    """
+
+    # Get toolingapi settings
+    toolingapi_settings = context.get_toolingapi_settings()
+
+    # Get component_type
+    component_type = util.get_component_type(file_name)
+
+    # If component type is not in range, just show error message
+    if component_type not in toolingapi_settings["component_types"]:
+        return False
+
+    # Get component_url and component_id
+    username = toolingapi_settings["username"]
+    component_attribute = util.get_component_attribute(username, file_name)
+    if component_attribute == None: 
+        return False
+
+    return True
