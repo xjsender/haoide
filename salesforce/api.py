@@ -812,9 +812,11 @@ class SalesforceApi():
         print ("Post ContainerAsyncRequest: ", result)
 
         # Get ContainerAsyncRequest Result
+        
         result = self.get(sync_request_url + "/" + request_id)
         state = result["State"]
-        print ("Get ContainerAsyncRequest: ", result)
+        print ("Get ContainerAsyncRequest: ")
+        pprint.pprint(result)
 
         return_result = {}
         if state == "Completed":
@@ -826,7 +828,7 @@ class SalesforceApi():
             print ("Async Request is queued, please wait for 5 seconds...")
             time.sleep(5)
 
-            result = self.get(url)
+            result = self.get(sync_request_url + "/" + request_id)
             state = result["State"]
             if state == "Completed":
                 return_result = {
