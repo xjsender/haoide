@@ -95,9 +95,9 @@ def make_component(input):
 
     @input: user input, for example,
         1. TestTrigger.trigger, sobject_name
-        2. TestClass
-        3. TestPage
-        4. TestComponent
+        2. TestClass.cls
+        3. TestPage.page
+        4. TestComponent.component
     """
 
     # Repace space in user input to empty
