@@ -282,7 +282,7 @@ def handle_initiate_sobjects_completions(timeout=120):
             # Combine fields dict
             fields_dict = {}
 
-            if "fields" not in sobject_describe:
+            if sobject_describe != None and "fields" not in sobject_describe:
                 print ("Things need to check......: " + sobject_describe)
                 continue
 
