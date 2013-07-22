@@ -273,7 +273,7 @@ class runonetestCommand(sublime_plugin.WindowCommand):
 class runtestCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Open Console
-        self.view.run_command("show_panel", 
+        self.view.window().run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
         # Get component_attribute by file_name
