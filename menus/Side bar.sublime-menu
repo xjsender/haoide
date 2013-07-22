@@ -1,60 +1,7 @@
 [
-    {"id": "side-bar-files-open-with",
-        "children":
-        [           
-            // Open Excel
-            {
-                "caption": "Excel",
-                "id": "side-bar-files-open-with-excel",
-
-                "command": "side_bar_files_open_with",
-                "args": {
-                    "paths": [],
-                    "application": "C:/Program Files/Microsoft Office/Office14/EXCEL.EXE",
-                    "extensions":"xlsx|xls|csv"  //any file with these extensions
-                }
-            }
-        ]
-    },
-
     {
-        "id": "SublimeApex",
-        "caption": "SublimeApex",
-        "children":
-        [
-            {
-                "id": "RefreshCurrentFromServer",
-                "caption": "Refresh Current from Server",
-                "command": "refreshcurrent"
-            },
-
-            {
-                "id": "DeployToServer",
-                "caption": "Deploy to Server",
-                "command": "deploy"
-            },
-
-            {
-                "id": "DeleteFromServer",
-                "caption": "Delete from Server",
-                "command": "delete"
-            },
-
-            { "caption": "-" },
-
-            {
-                "id": "SaveNewToServer",
-                "caption": "Create New Component",
-                "command": "create"
-            },
-
-            { "caption": "-" },
-
-            {
-                "id": "showinsfdcweb",
-                "caption": "Show in Salesforce Web",
-                "command": "showinsfdcweb"
-            }
-        ]
+        "id": "SaveNewToServer",
+        "caption": "Create New Component",
+        "command": "create"
     }
 ]
