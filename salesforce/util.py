@@ -104,7 +104,7 @@ def parse_all():
     import pprint
     pprint.pprint (apex_completions)
 
-def parse_test_result(result):
+def parse_test_result(test_result):
     """
     format test result as specified format
 
@@ -114,7 +114,6 @@ def parse_test_result(result):
     """
 
     # Parse Test Result
-    test_result = result["test_result"]
     separate = "-" * 100
     test_result_desc = ' Test Result\n'
     test_result_content = ""
@@ -138,7 +137,10 @@ def parse_test_result(result):
 
     # Parse Debug Log Part
     debug_log_desc = separate + "\nYou can choose LogId and view it in SFDC\n" + separate + "\n"
-    debug_log_content = "LogId: " + result["log_id"]
+    debug_log_content = "LogId: "
+    if len(test_result) > 0 and test_result[0]["ApexLogId"] != None:
+        debug_log_content += test_result[0]["ApexLogId"]
+
     return_result += debug_log_desc + debug_log_content
 
     return return_result

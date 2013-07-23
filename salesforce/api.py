@@ -392,13 +392,9 @@ class SalesforceApi():
          # After Test is finished, get result
         result = self.query(test_result_soql)
         result = result["records"]
-        log_id = result[0]["ApexLogId"]
         
         # Combine these two result
-        self.result = {
-            "test_result": result,
-            "log_id": log_id
-        }
+        self.result = result
 
     def describe_layout(self, sobject, recordtype_id):
         """
