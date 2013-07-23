@@ -324,12 +324,15 @@ class executeanonymousCommand(sublime_plugin.TextCommand):
             {"panel": "console", "toggle": False})
 
         # Handle
-        processor.handle_execute_anonymous(selection)
+        processor.handle_execute_anonymous(self.selection)
 
     def is_enabled(self):
         # You must select some snippets, otherwise
         # you can't see this command
-        self.selection = self.view.substr(self.view.sel()[0]).encode('utf-8')
+        self.selection = self.view.substr(self.view.sel()[0])
+        if not util.is_python3x():
+            self.selection = self.view.substr(self.view.sel()[0]).encode('utf-8')
+        
         if not self.selection:
             return False
 
