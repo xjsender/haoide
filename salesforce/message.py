@@ -9,16 +9,13 @@ DELETE_CONFIRM_MESSAGE = "Are you sure you really want to delete this?"
 APEXTRIGGER_BUG_MESSAGE = "Tooling API has bug on creating ApexTrigger, do you want to continue."
 CREATE_SUCCESSFULLY = "Create Successfully"
 INVALID_NEW_COMPONENT_FORMAT = "invalid new component format"
-WAIT_MESSAGE = "Please wait util success message is popup......"
 INVALID_TEST_CLASS = "Invalid Test Class"
 WAIT_FOR_A_MOMENT = """
 -------------------------------------------------------------------------
 Please wait for a moment....
 -------------------------------------------------------------------------
 """
-TEST_SUCCESSFULLY = "Test Successfully"
 DOWNLOAD_ALL_FIRST = "Please Refresh All Firstly"
-
 GENERATE_ALL_WORKBOOKS_REQUEST_LIMIT_MESSAGE = """
 Are you sure you really want to do it, this will consume your hundreds of API requests, more detail refer to
 http://login.salesforce.com/help/doc/en/integrate_api_rate_limiting.htm
