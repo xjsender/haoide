@@ -392,21 +392,12 @@ class SalesforceApi():
          # After Test is finished, get result
         result = self.query(test_result_soql)
         result = result["records"]
-
-        # Get Debug Log
-        print ("Start retrieve debug log detail...")
-        time.sleep(3)
-
         log_id = result[0]["ApexLogId"]
-        if log_id == None:
-            debug_log = "Something Happened"
-        else:
-            debug_log = self.get_debug_log(log_id)
         
         # Combine these two result
         self.result = {
             "test_result": result,
-            "debug_log": debug_log
+            "log_id": log_id
         }
 
     def describe_layout(self, sobject, recordtype_id):
@@ -839,15 +830,16 @@ class SalesforceApi():
             # This error need more process, because of confused single quote
             compile_errors = unescape(result["CompilerErrors"])
             compile_errors = json.loads(compile_errors)
-            compile_error = compile_errors[0]
-
-            # Parse compile_error
-            extend = util.none_value(compile_error["extent"])
-            line = util.none_value(compile_error["line"])
-            problem = util.none_value(compile_error["problem"])
-            name = util.none_value(compile_error["name"])
-            error_message = extend + ": " + name + " has problem: " +\
-                problem + " at line " + str(line)
+            if len(compile_errors) > 0:
+                compile_error = compile_errors[0]
+                extend = util.none_value(compile_error["extent"])
+                line = util.none_value(compile_error["line"])
+                problem = util.none_value(compile_error["problem"])
+                name = util.none_value(compile_error["name"])
+                error_message = extend + ": " + name + " has problem: " +\
+                    problem + " at line " + str(line)
+            else:
+                error_message = result["ErrorMsg"]
             error_message = unescape(error_message, {"&apos;": "'", "&quot;": '"'})
             
             return_result = {

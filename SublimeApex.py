@@ -50,13 +50,13 @@ class newviewCommand(sublime_plugin.TextCommand):
 
     Usage: 
         sublime.active_window().run_command("newview", {
+            "name": "ViewName",
             "input": "Example"
         })
     """
 
     def run(self, edit, name="", input=""):
-        print ("Open new file...")
-        n = sublime.active_window().new_file()
+        n = self.view.window().new_file()
         n.set_name(name)
         n.set_scratch(True)
         n.insert(edit, 0, input)
@@ -285,6 +285,7 @@ class runtestCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         # Get current file name and Read file content
         file_name = self.view.file_name()
+        if file_name == None: return False
         try:
             # Python 3.x
             body = open(file_name, encoding="utf-8").read()
@@ -339,6 +340,9 @@ class viewidinsfdcwebCommand(sublime_plugin.TextCommand):
         startURL = "/" + self.record_id
         if self.record_id.startswith("012"):
             startURL = "/setup/ui/recordtypefields.jsp?id=" + self.record_id
+
+        if self.record_id.startswith("07L"):
+            startURL = "/p/setup/layout/ApexDebugLogDetailEdit/d?apex_log_id=" + self.record_id
         
         self.view.window().run_command("loginintosfdc", {"startURL": startURL})
 
@@ -383,6 +387,7 @@ class loginintosfdcCommand(sublime_plugin.WindowCommand):
             "pw": toolingapi_settings["password"],
             "startURL": startURL
         }
+
         if util.is_python3x():
             show_params = urllib.parse.urlencode(show_params)
         else:
@@ -577,6 +582,8 @@ def check_visible(file_name):
     Return: 
         Bool
     """
+    if file_name == None:
+        return False
 
     # Get toolingapi settings
     toolingapi_settings = context.get_toolingapi_settings()

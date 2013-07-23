@@ -657,7 +657,7 @@ def handle_run_test(class_id, timeout=120):
             "name": "Test Result",
             "input": test_result
         })
-            
+
     print (message.WAIT_FOR_A_MOMENT)
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)

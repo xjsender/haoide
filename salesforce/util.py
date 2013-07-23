@@ -136,9 +136,9 @@ def parse_test_result(result):
 
     return_result = class_name + test_result_desc + test_result_content + "\n"
 
-    # Parse Debug Log Detail
-    debug_log_desc = separate + "\nDebug Log Detail\n" + separate + "\n"
-    debug_log_content = result["debug_log"]
+    # Parse Debug Log Part
+    debug_log_desc = separate + "\nYou can choose LogId and view it in SFDC\n" + separate + "\n"
+    debug_log_content = "LogId: " + result["log_id"]
     return_result += debug_log_desc + debug_log_content
 
     return return_result
