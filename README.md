@@ -25,8 +25,14 @@ Funcationality Screenshots shown as below,
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/visualforce%20page%20completions.png" />
 
 ###Run Test
+1. Choose Test Class
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/choose%20test%20class.png" />
+
+2. View Test Result
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/test%20result.png" />
+
+3. Choose the LogId and view detail in SFDC
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/view%20debug%20log.png" />
 
 ###Refresh Folder
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/refresh%20folder.png" />
@@ -87,10 +93,3 @@ This plugin support ST2 and ST3, firstly, install sublime text and then extract 
 8. If we want to refresh all ApexTrigger, ApexClass, ApexPage or ApexComponent, we just need to click the SublimeApex > Refresh Folder and then choose the folder we want to refresh.
 
 9. Before we update plugin, we should move your customized settings from "Settings - Default" to "Settings - User"
-
-10. This plugin supports ST2 and ST3. ST2 is free generally but ST3 isn't. However, ST2 has many problems compared with ST3 as listed below:
-    1. ST2 completions width is fixed; however, ST3 will adjust the completions width by content width.
-    2. If there is no active view in the sublime window, we can't create a new view in ST2, but ST3 somethimes can.
-    3. Every time, when the plugin is updated, we need to restart sublime in ST2, but there is no need to in ST3.
-    4. ST3 console output is very fast, but not in ST2.
-    5. UnicodeError may sometimes happen in ST2, but not in ST3.
