@@ -56,7 +56,7 @@ class newviewCommand(sublime_plugin.TextCommand):
     """
 
     def run(self, edit, name="", input=""):
-        n = self.view.window().new_file()
+        n = sublime.active_window().new_file()
         n.set_name(name)
         n.set_scratch(True)
         n.insert(edit, 0, input)
@@ -430,6 +430,14 @@ class deleteCommand(sublime_plugin.TextCommand):
         return check_visible(self.view.file_name())
 
 class createCommand(sublime_plugin.WindowCommand):
+    """
+    user input, for example,
+        1. TestTrigger.trigger, sobject_name
+        2. TestClass.cls
+        3. TestPage.page
+        4. TestComponent.component
+    """
+
     def __init__(self, *args, **kwargs):
         super(createCommand, self).__init__(*args, **kwargs)
 

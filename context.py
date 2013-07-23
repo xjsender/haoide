@@ -117,8 +117,6 @@ def make_component(input):
     
     # judge whether component_extension is valid
     toolingapi_settings = get_toolingapi_settings()
-    print (component_extension)
-    print (toolingapi_settings["component_extensions"])
     if component_extension not in toolingapi_settings["component_extensions"]:
         return False, None, None
 
@@ -172,7 +170,6 @@ def make_dir():
     for component_outputdir in component_outputdirs:
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
-
 
 def switch_project(chosen_project):
     s = sublime.load_settings(TOOLING_API_SETTINGS)
