@@ -813,8 +813,8 @@ def handle_create_component(data, component_name, component_type, timeout=120):
         components_dict[component_type][component_name] = {
             "id": component_id,
             "url": post_url + "/" + component_id,
-            "body": toolingapi_settings[component_type]["component_body"],
-            "extension": toolingapi_settings[component_type]["component_extension"],
+            "body": toolingapi_settings[component_type]["body"],
+            "extension": toolingapi_settings[component_type]["extension"],
             "type": component_type,
             "is_test": False
         }
