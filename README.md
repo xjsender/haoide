@@ -55,7 +55,7 @@ You can setup your projects follow below sample by clicking "Setting - User" in 
 When you initiate your settings, you can have more than one project in "projects", however, only one project default can be true.
 
 Every time you want to switch the project, you can click [SublimeApex > Switch Project] in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
-
+``` 
 {
     "Project1 Name": {
         "default": true,
@@ -72,6 +72,7 @@ Every time you want to switch the project, you can click [SublimeApex > Switch P
         "workspace": "d:/ForcedotcomWorkspace/sandbox-b"
     }
 }
+```
 
 # Supported Feature: #
 + Muti-project management
