@@ -58,21 +58,21 @@ When you initiate your settings, you can have more than one project in "projects
 Every time you want to switch the project, you can click [SublimeApex > Switch Project] in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
 ``` 
 {
+    "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
         "Project1 Name": {
             "default": true,
             "login_url": "https://test.salesforce.com",
             "password": "a",
-            "username": "a@a.com",
-            "workspace": "d:/ForcedotcomWorkspace/sandbox-a"
+            "username": "a@a.com"
         },
         "Project2 Name": {
             "default": false,
             "login_url": "https://test.salesforce.com",
             "password": "b",
-            "username": "b@b.com",
-            "workspace": "d:/ForcedotcomWorkspace/sandbox-b"
+            "username": "b@b.com"
         }
+        ......
     }
 }
 ```

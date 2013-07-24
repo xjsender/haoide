@@ -25,9 +25,11 @@ def get_toolingapi_settings():
     projects = s.get("projects")
 
     default_project = None
+    default_project_name = None
     for project_name in projects.keys():
         project_attr = projects[project_name]
         if project_attr["default"]: 
+            default_project_name = project_name
             default_project = project_attr
 
     if default_project == None:
@@ -36,7 +38,7 @@ def get_toolingapi_settings():
 
     # User Settings Part
     settings["projects"] = projects
-    settings["workspace"] = default_project.get("workspace") + "-" + time.strftime('%Y%m%d')
+    settings["workspace"] = s.get("workspace") + "/" + default_project_name + "-" + time.strftime('%Y%m%d')
     settings["username"] = default_project.get("username")
     settings["password"] = default_project.get("password")
     
