@@ -49,7 +49,7 @@ Package Name in sublime should be SublimeApex, for example, "D:\Sublime347\Data\
 
 Before start coding, you should initiate your project settings, you can keep your settings in Default Setting or User Setting, however, [User Settings] is prior to [Default Settings].
 
-In order to prevent plugin update overriding your toolingapi settings, you should keep your custom settings into [Setting - User] by clicking [Sublime > Setting - User].
+In order to prevent plugin update overriding your toolingapi settings, you should keep your custom settings into [Setting - User] by clicking [SublimeApex > Setting - User].
 
 You can setup your projects follow below sample by clicking "Setting - User" in the main menu.
 
