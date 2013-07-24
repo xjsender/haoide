@@ -44,8 +44,8 @@ Funcationality Screenshots shown as below,
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/execute%20query.png" />
 
 # Installation #
-This plugin support ST2 and ST3, firstly, install sublime text and then extract the zip file into your sublime package path. 
-Package Name in sublime should be SublimeApex
+This plugin support ST2 and ST3, firstly, install sublime text and then extract the zip file into your sublime package path.
+Package Name in sublime should be SublimeApex, for example, "D:\Sublime347\Data\Packages\SublimeApex" is my installation path.
 
 Before start coding, you should initiate your project settings, you can keep your settings in Default Setting or User Setting, however, [User Settings] is prior to [Default Settings].
 
