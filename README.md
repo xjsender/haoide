@@ -51,26 +51,28 @@ Before start coding, you should initiate your project settings, you can keep you
 
 In order to prevent plugin update overriding your toolingapi settings, you should keep your custom settings into [Setting - User] by clicking [SublimeApex > Setting - User].
 
-You can setup your projects follow below sample by clicking "Setting - User" in the main menu.
+You can setup your projects follow below sample by clicking "Setting - User" in the main menu, projects must be included in {}.
 
 When you initiate your settings, you can have more than one project in "projects", however, only one project default can be true.
 
 Every time you want to switch the project, you can click [SublimeApex > Switch Project] in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
 ``` 
 {
-    "Project1 Name": {
-        "default": true,
-        "login_url": "https://test.salesforce.com",
-        "password": "a",
-        "username": "a@a.com",
-        "workspace": "d:/ForcedotcomWorkspace/sandbox-a"
-    },
-    "Project2 Name": {
-        "default": false,
-        "login_url": "https://test.salesforce.com",
-        "password": "b",
-        "username": "b@b.com",
-        "workspace": "d:/ForcedotcomWorkspace/sandbox-b"
+    "projects": {
+        "Project1 Name": {
+            "default": true,
+            "login_url": "https://test.salesforce.com",
+            "password": "a",
+            "username": "a@a.com",
+            "workspace": "d:/ForcedotcomWorkspace/sandbox-a"
+        },
+        "Project2 Name": {
+            "default": false,
+            "login_url": "https://test.salesforce.com",
+            "password": "b",
+            "username": "b@b.com",
+            "workspace": "d:/ForcedotcomWorkspace/sandbox-b"
+        }
     }
 }
 ```
