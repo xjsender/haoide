@@ -56,10 +56,10 @@ class newviewCommand(sublime_plugin.TextCommand):
     """
 
     def run(self, edit, name="", input=""):
-        n = sublime.active_window().new_file()
-        n.set_name(name)
-        n.set_scratch(True)
-        n.insert(edit, 0, input)
+        view = sublime.active_window().active_view()
+        view.set_scratch(True)
+        view.set_name(name)
+        view.insert(edit, 0, input)
 
 class refreshfolderCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
