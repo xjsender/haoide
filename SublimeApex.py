@@ -556,7 +556,7 @@ class refreshcurrentCommand(sublime_plugin.TextCommand):
         component_attribute = get_component_attribute(file_name)[0]
 
         # Open Console
-        self.view.run_command("show_panel", 
+        self.view.window().run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
         # Handle Refresh Current Component
