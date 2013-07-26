@@ -218,6 +218,11 @@ class SalesforceApi():
                 return get_all_result(result)
 
         result = self.query(soql, is_toolingapi=is_toolingapi)
+        # Database.com not support ApexComponent
+        if result["status_code"] > 399: 
+            self.result = result
+            return result
+
         all_result = get_all_result(result)
 
         # Self.result is used to keep thread result
@@ -656,9 +661,9 @@ class SalesforceApi():
             result = self.query_all(component_soql)
             # The users password has expired, you must call SetPassword 
             # before attempting any other API operations
+            # Database.com not support ApexComponent
             if result["status_code"] > 399:
-                self.result = result
-                return
+                continue
 
             size = len(result["records"])
             print (SEPRATE)
