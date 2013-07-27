@@ -31,7 +31,7 @@
     {"keys": ["ctrl+alt+q"], "command": "executesoql"},
 
     // Delete the current Component
-    {"keys": ["alt+d"], "command": "delete"},
+    {"keys": ["ctrl+alt+d"], "command": "delete"},
 
     // Create new component
     {"keys": ["ctrl+alt+n"], "command": "create"},
