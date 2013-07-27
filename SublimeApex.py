@@ -80,9 +80,9 @@ class refreshfolderCommand(sublime_plugin.WindowCommand):
 
         processor.handle_refresh_folder(component_types[index])
 
-class retrieveallCommand(sublime_plugin.WindowCommand):
+class retrievemetadataCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(retrieveallCommand, self).__init__(*args, **kwargs)
+        super(retrievemetadataCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         # Open Console
