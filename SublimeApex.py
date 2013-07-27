@@ -542,12 +542,28 @@ class refreshallCommand(sublime_plugin.WindowCommand):
         # Create Project Directory
         context.make_dir()
 
+        # Get toolingapi_settings
+        toolingapi_settings = context.get_toolingapi_settings()
+
+        # Add new project folder to workspace
+        project_data = sublime.active_window().project_data()
+        folders = []
+        if "folders" in project_data:
+            folders = project_data["folders"]
+
+        folders.append({
+            "path": toolingapi_settings["workspace"]
+        })
+
+        project_data["folders"] = folders
+        sublime.active_window().set_project_data(project_data)
+
         # Open Console
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
         # Handle Refresh All
-        processor.handle_refresh_components(context.get_toolingapi_settings())
+        processor.handle_refresh_components(toolingapi_settings)
 
 class refreshcurrentCommand(sublime_plugin.TextCommand):
     def run(self, view): 
