@@ -72,14 +72,14 @@
         }
     },
 
-    // Login To Debug Log
+    // Login To Workflow Rule
     {"keys": ["alt+d", "alt+l"], "command": "loginintosfdc", 
         "args": {
             "startURL": "/01Q"
         }
     },
 
-    // Login To Debug Log
+    // Login To Apex Test Execution
     {"keys": ["alt+t", "alt+q"], "command": "loginintosfdc",
         "args": {
             "startURL": "/ui/setup/apex/ApexTestQueuePage"
