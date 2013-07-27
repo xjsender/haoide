@@ -28,13 +28,13 @@ Funcationality Screenshots shown as below,
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/visualforce%20page%20completions.png" />
 
 ###Run Test
-1. Choose Test Class
++ 1. Choose Test Class <br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/choose%20test%20class.png" />
 
-2. View Test Result
++ 2. View Test Result<br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/test%20result.png" />
 
-3. Choose the LogId and view detail in SFDC
++ 3. Choose the LogId and view detail in SFDC<br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/view%20debug%20log.png" />
 
 ###Refresh Folder
