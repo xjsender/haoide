@@ -2,11 +2,11 @@
 Funcationality Screenshots shown as below,
 
 ###Menus
-Main Menu:
++ Main Menu:<br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/main%20menu.png" /><br/>
-Siderbar Menu:
++ Siderbar Menu:<br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/siderbar%20menu.png" /><br/>
-Context Menu:
++ Context Menu:<br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/context%20menu.png" />
 
 ###Switch Project
