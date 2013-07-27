@@ -3,26 +3,26 @@
     {"keys": ["alt+s"], "command": "switchproject"},
 
     // Download all code and save them to new project
-    {"keys": ["ctrl+f5"], "command": "refreshall"},
+    {"keys": ["alt+f5"], "command": "refreshall"},
 
     // Refresh Folder
-    {"keys": ["ctrl+r","ctrl+f"], "command": "refreshfolder"},
+    {"keys": ["alt+r","alt+f"], "command": "refreshfolder"},
 
     // Save current component to server
     {"keys": ["ctrl+alt+s"],"command": "deploy"},
 
     // Retrieve all metadata, just like ant or force.com IDE
-    {"keys": ["ctrl+r","ctrl+m"],"command": "retrievemetadata"},
+    {"keys": ["alt+r","alt+m"],"command": "retrievemetadata"},
 
     // Choose a test class in the list and run test class
-    {"keys": ["ctrl+r","ctrl+t"],"command": "runonetest"},
+    {"keys": ["alt+r","alt+t"],"command": "runonetest"},
 
     // Execute chosen anonymous code snippet
     {"keys": ["ctrl+alt+e"], "command": "executeanonymous"},
 
     // Run current Test Class in edit mode, it's Context Menu Item
     // Problem here, don't know why?
-    {"keys": [""], "comamnd": "runtest"},
+    {"keys": ["alt+r","alt+c"], "comamnd": "runtest"},
  
     // Refresh current component in edit mode
     {"keys": ["ctrl+alt+r"], "command": "refreshcurrent"},
