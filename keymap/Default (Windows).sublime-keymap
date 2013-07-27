@@ -43,44 +43,44 @@
     {"keys": ["f5"], "command": "showinsfdcweb"},
 
     // Login To Home Page
-    {"keys": ["ctrl+h", "ctrl+p"], "command": "loginintosfdc"},
+    {"keys": ["alt+h", "alt+p"], "command": "loginintosfdc"},
 
     // Login To Develop Console
-    {"keys": ["ctrl+d", "ctrl+c"], "command": "loginintosfdc", 
+    {"keys": ["alt+d", "alt+c"], "command": "loginintosfdc", 
         "args": {
             "startURL": "/_ui/common/apex/debug/ApexCSIPage"
         }
     },
     // Login To Debug Log
-    {"keys": ["ctrl+d", "ctrl+e"], "command": "loginintosfdc", 
+    {"keys": ["alt+d", "alt+e"], "command": "loginintosfdc", 
         "args": {
             "startURL": "/setup/ui/listApexTraces.apexp"
         }
     },
 
     // Login To Apex Job
-    {"keys": ["ctrl+a", "ctrl+j"], "command": "loginintosfdc", 
+    {"keys": ["alt+a", "alt+j"], "command": "loginintosfdc", 
         "args": {
             "startURL": "/apexpages/setup/listAsyncApexJobs.apexp"
         }
     },
 
     // Login To Custom Object Page
-    {"keys": ["ctrl+o", "ctrl+b"], "command": "loginintosfdc", 
+    {"keys": ["alt+o", "alt+b"], "command": "loginintosfdc", 
         "args": {
             "startURL": "/p/setup/custent/CustomObjectsPage?setupid=CustomObjects"
         }
     },
 
     // Login To Debug Log
-    {"keys": ["ctrl+d", "ctrl+l"], "command": "loginintosfdc", 
+    {"keys": ["alt+d", "alt+l"], "command": "loginintosfdc", 
         "args": {
             "startURL": "/01Q"
         }
     },
 
     // Login To Debug Log
-    {"keys": ["ctrl+t", "ctrl+q"], "command": "loginintosfdc",
+    {"keys": ["alt+t", "alt+q"], "command": "loginintosfdc",
         "args": {
             "startURL": "/ui/setup/apex/ApexTestQueuePage"
         }
