@@ -56,10 +56,10 @@ class newviewCommand(sublime_plugin.TextCommand):
     """
 
     def run(self, edit, name="", input=""):
-        n = sublime.active_window().new_file()
-        n.set_name(name)
-        n.set_scratch(True)
-        n.insert(edit, 0, input)
+        view = sublime.active_window().active_view()
+        view.set_scratch(True)
+        view.set_name(name)
+        view.insert(edit, 0, input)
 
 class refreshfolderCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -80,9 +80,9 @@ class refreshfolderCommand(sublime_plugin.WindowCommand):
 
         processor.handle_refresh_folder(component_types[index])
 
-class retrieveallCommand(sublime_plugin.WindowCommand):
+class retrievemetadataCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(retrieveallCommand, self).__init__(*args, **kwargs)
+        super(retrievemetadataCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         # Open Console
@@ -542,12 +542,32 @@ class refreshallCommand(sublime_plugin.WindowCommand):
         # Create Project Directory
         context.make_dir()
 
+        # Get toolingapi_settings
+        toolingapi_settings = context.get_toolingapi_settings()
+
+        # Add new project folder to workspace
+        try:
+            # Just ST3 supports, ST2 is not
+            project_data = sublime.active_window().project_data()
+            folders = []
+            if "folders" in project_data:
+                folders = project_data["folders"]
+
+            folders.append({
+                "path": toolingapi_settings["workspace"]
+            })
+
+            project_data["folders"] = folders
+            sublime.active_window().set_project_data(project_data)
+        except:
+            pass
+
         # Open Console
         self.window.run_command("show_panel", 
             {"panel": "console", "toggle": False})
 
         # Handle Refresh All
-        processor.handle_refresh_components(context.get_toolingapi_settings())
+        processor.handle_refresh_components(toolingapi_settings)
 
 class refreshcurrentCommand(sublime_plugin.TextCommand):
     def run(self, view): 

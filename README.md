@@ -2,8 +2,11 @@
 Funcationality Screenshots shown as below,
 
 ###Menus
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/main%20menu.png" />
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/siderbar%20menu.png" />
++ Main Menu:<br/>
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/main%20menu.png" /><br/>
++ Siderbar Menu:<br/>
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/siderbar%20menu.png" /><br/>
++ Context Menu:<br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/context%20menu.png" />
 
 ###Switch Project
@@ -13,9 +16,9 @@ Funcationality Screenshots shown as below,
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/sobject%20field%20completions.png" />
 
 ###Apex Code Completions
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/Apex%20code%20completions.png" />
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/map%20completions.png" />
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/set%20completions.png" />
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/Apex%20code%20completions.png" /><br/>
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/map%20completions.png" /><br/>
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/set%20completions.png" /><br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/list%20completions.png" />
 
 ###Cross View Completions
@@ -25,13 +28,13 @@ Funcationality Screenshots shown as below,
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/visualforce%20page%20completions.png" />
 
 ###Run Test
-1. Choose Test Class
++ Choose Test Class <br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/choose%20test%20class.png" />
 
-2. View Test Result
++ View Test Result<br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/test%20result.png" />
 
-3. Choose the LogId and view detail in SFDC
++ Choose the LogId and view detail in SFDC<br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/view%20debug%20log.png" />
 
 ###Refresh Folder
