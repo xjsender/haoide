@@ -27,7 +27,7 @@
             {
                 "id": "retrieveall",
                 "caption": "Retrieve Metadata",
-                "command": "retrieveall"
+                "command": "retrievemetadata"
             },
 
             {
