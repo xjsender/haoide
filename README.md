@@ -18,15 +18,17 @@ Funcationality Screenshots shown as below,
 + Project Folder Name Convention: the project name set in user settings append with date literal of today, for example,
 if user settings is 
 ```
+{
     "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
-        "<b>Exercise-Pro</b>": {
+        "Exercise-Pro": {
             "default": true,
             "login_url": "https://login.salesforce.com",
             "password": "bp333333",
             "username": "mouse@exercise.com"
         }
-    },
+    }
+}
 ```
 today is 2013/07/30, your project folder name should be Exercise-Pro-20130730
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/new%20project.png" />
