@@ -32,6 +32,7 @@ if user settings is
 }
 ```
 today is 2013/07/30, your project folder name should be Exercise-Pro-20130730
+
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/new%20project.png" />
 
 ###Sobject Field Completions
