@@ -22,8 +22,8 @@
 
     // Run current Test Class in edit mode, it's Context Menu Item
     // Problem here, don't know why?
-    {"keys": ["alt+r","alt+c"], "comamnd": "runtest"},
- 
+    {"keys": ["alt+r"], "command": "runtest"},
+
     // Refresh current component in edit mode
     {"keys": ["ctrl+alt+r"], "command": "refreshcurrent"},
 
