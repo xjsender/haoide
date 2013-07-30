@@ -17,6 +17,7 @@ Funcationality Screenshots shown as below,
 + Once click this command, a new project will be downloaded and appeared in the sidebar
 + Project Folder Name Convention: the project name set in user settings append with date literal of today, for example,
 if user settings is 
+
 ```
 {
     "workspace": "d:/ForcedotcomWorkspace",
@@ -24,7 +25,7 @@ if user settings is
         "Exercise-Pro": {
             "default": true,
             "login_url": "https://login.salesforce.com",
-            "password": "bp333333",
+            "password": "******",
             "username": "mouse@exercise.com"
         }
     }
