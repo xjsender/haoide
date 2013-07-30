@@ -16,7 +16,7 @@ Funcationality Screenshots shown as below,
 + This command is used to download or update your project
 + Once click this command, a new project will be downloaded and appeared in the sidebar
 + Project Folder Name Convention: the project name set in user settings append with date literal of today, for example,
-if user settings is 
+if today is 2013/07/30 and user settings is 
 
 ```
 {
@@ -31,7 +31,7 @@ if user settings is
     }
 }
 ```
-today is 2013/07/30, your project folder name should be Exercise-Pro-20130730
+your project folder name should be Exercise-Pro-20130730
 
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/new%20project.png" />
 
