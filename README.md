@@ -12,6 +12,25 @@ Funcationality Screenshots shown as below,
 ###Switch Project
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/switch%20project.png" />
 
+###New Project
++ This command is used to download or update your project
++ Once click this command, a new project will be downloaded and appeared in the sidebar
++ Project Folder Name Convention: the project name set in user settings append with date literal of today, for example,
+if user settings is 
+```
+    "workspace": "d:/ForcedotcomWorkspace",
+    "projects": {
+        "<b>Exercise-Pro</b>": {
+            "default": true,
+            "login_url": "https://login.salesforce.com",
+            "password": "bp333333",
+            "username": "mouse@exercise.com"
+        }
+    },
+```
+today is 2013/07/30, your project folder name should be Exercise-Pro-20130730
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/new%20project.png" />
+
 ###Sobject Field Completions
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/sobject%20field%20completions.png" />
 
@@ -41,10 +60,17 @@ Funcationality Screenshots shown as below,
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/refresh%20folder.png" />
 
 ###Execute Anonymous
++ After any snippet is chosen, the Execute Anonymous command is enabled.
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/execute%20anonymous.png" />
 
 ###Execute Query
++ Just any snippet which start with SELECT is chosen, the Execute Query command is enabled
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/execute%20query.png" />
+
+###Deploy component
++ This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
++ After component is updated, click SublimeApex > Deploy to Server
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/deploy%20component.png" />
 
 # Installation #
 This plugin support ST2 and ST3, firstly, install sublime text and then extract the zip file into your sublime package path.
