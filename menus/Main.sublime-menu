@@ -37,64 +37,66 @@
             },
 
             { "caption": "-" },
-
             {
-                "id": "describecustomfield",
-                "caption": "Describe CustomField",
-                "command": "describecustomfield"
+                "caption": "Describe",
+                "children": [
+                    {
+                        "id": "describecustomfield",
+                        "caption": "Describe CustomField",
+                        "command": "describecustomfield"
+                    },
+
+                    {
+                        "id": "describeglobal",
+                        "caption": "Describe Global",
+                        "command": "describeglobal"
+                    },
+
+                    {
+                        "id": "describelayout",
+                        "caption": "Describe Layout",
+                        "command": "describelayout"
+                    },
+
+                    {
+                        "id": "describesobject",
+                        "caption": "Describe Sobject",
+                        "command": "describesobject"
+                    }
+                ]
             },
 
             {
-                "id": "describeglobal",
-                "caption": "Describe Global",
-                "command": "describeglobal"
+                "caption": "Export",
+                "children": [
+                    {
+                        "id": "exportworkflow",
+                        "caption": "Export Workflow",
+                        "command": "exportworkflow"
+                    },
+
+                    {
+                        "id": "exportvalidationrules",
+                        "caption": "Export Validation Rule",
+                        "command": "exportvalidationrules"
+                    },
+
+                    {
+                        "id": "exportworkbook",
+                        "caption": "Export Workbook",
+                        "command": "exportworkbook"
+                    }
+                ]
             },
-
-            {
-                "id": "describelayout",
-                "caption": "Describe Layout",
-                "command": "describelayout"
-            },
-
-            {
-                "id": "describesobject",
-                "caption": "Describe Sobject",
-                "command": "describesobject"
-            },
-
-            { "caption": "-" },
-
-            {
-                "id": "exportworkflow",
-                "caption": "Export Workflow",
-                "command": "exportworkflow"
-            },
-
-            {
-                "id": "exportvalidationrules",
-                "caption": "Export Validation Rule",
-                "command": "exportvalidationrules"
-            },
-
-            {
-                "id": "exportworkbook",
-                "caption": "Export Workbook",
-                "command": "exportworkbook"
-            },
-
-            { "caption": "-" },
-
-            {
-                "id": "BulkApiQuery",
-                "caption": "Data Loader",
-                "command": "backupsobjects"
-            },
-
-            { "caption": "-" },
 
             {
                 "caption": "Login To",
                 "children": [
+                    {
+                        "id": "ViewComponentInSFDC",
+                        "caption": "Apex Code",
+                        "command": "viewcommponentinsfdc"
+                    },
                     {
                         "id": "logintosfdc",
                         "caption": "Home Page",
@@ -157,6 +159,12 @@
                 ]
             },
 
+            {
+                "id": "BulkApiQuery",
+                "caption": "Data Loader",
+                "command": "backupsobjects"
+            },
+            
             { "caption": "-" },
 
             {

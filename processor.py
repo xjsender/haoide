@@ -37,6 +37,30 @@ except:
     from salesforce.util import getUniqueElementValueFromXmlString
     from salesforce import bulkapi
 
+def populate_components():
+    """
+    Get all components which NamespacePrefix is null in whole org
+    """
+
+    # Get username
+    toolingapi_settings = context.get_toolingapi_settings()
+    username = toolingapi_settings["username"]
+
+    # If sobjects is exist in globals()[], just return it
+    component_metadata = sublime.load_settings("component_metadata.sublime-settings")
+    if not component_metadata.has(username):
+        return []
+
+    return_component_attributes = {}
+    for component_type in component_metadata.get(username).keys():
+        component_attributes = component_metadata.get(username)[component_type]
+        for component_name in component_attributes.keys():
+            component_id = component_attributes[component_name]["id"]
+            component_type = component_attributes[component_name]["type"]
+            return_component_attributes[component_type + "-->" + component_name] = component_id
+
+    return return_component_attributes
+
 def populate_classes():
     """
     Get dict (Class Name => Class Id) which NamespacePrefix is null in whole org

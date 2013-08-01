@@ -45,6 +45,9 @@
     // Login To Home Page
     {"keys": ["alt+h", "alt+p"], "command": "loginintosfdc"},
 
+    // Login To Specified Apex Code
+    {"keys": ["ctrl+alt+g"], "command": "viewcommponentinsfdc"},
+
     // Login To Develop Console
     {"keys": ["alt+d", "alt+c"], "command": "loginintosfdc", 
         "args": {

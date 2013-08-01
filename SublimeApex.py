@@ -246,6 +246,34 @@ class exportworkbookCommand(sublime_plugin.WindowCommand):
             sobjects = input.split(";")
             processor.handle_generate_specified_workbooks(sobjects)
 
+class viewcommponentinsfdcCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(viewcommponentinsfdcCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        global all_components
+        global all_components_name
+
+        all_components = processor.populate_components()
+
+        if len(all_components) == 0:
+            sublime.message_dialog("Please click 'New Project' Firstly.")
+            return
+
+        all_components_name = sorted(list(all_components.keys()))
+        self.window.show_quick_panel(all_components_name, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        # Open Console
+        self.window.run_command("show_panel", 
+            {"panel": "console", "toggle": False})
+
+        class_id = all_components[all_components_name[index]]
+        startURL = "/" + class_id
+        self.window.run_command("loginintosfdc", {"startURL": startURL})
+
 class runonetestCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(runonetestCommand, self).__init__(*args, **kwargs)
