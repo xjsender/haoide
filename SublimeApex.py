@@ -532,7 +532,7 @@ class createCommand(sublime_plugin.WindowCommand):
         elif component_type == "ApexTrigger":
             data["TableEnumOrId"] = sobject_name
         elif component_type in ["ApexPage", "ApexComponent"]:
-            data["MasterLabel"] = component_name,
+            data["MasterLabel"] = component_name
 
         processor.handle_create_component(data, component_name, component_type)
 
