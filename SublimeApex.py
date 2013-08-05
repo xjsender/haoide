@@ -656,7 +656,11 @@ def check_visible(file_name):
 
     # Get component_url and component_id
     username = toolingapi_settings["username"]
-    component_attribute = util.get_component_attribute(username, file_name)
+    try:
+        component_attribute = util.get_component_attribute(username, file_name)
+    except KeyError as err:
+        return False
+
     if component_attribute == None: 
         return False
 
