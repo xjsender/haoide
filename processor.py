@@ -802,7 +802,8 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
         result = api.result
         print (result)
         if "success" in result and result["success"]:
-            sublime.message_dialog(message.DEPLOY_SUCCESSFULLY)
+            print (message.DEPLOY_SUCCESSFULLY)
+            sublime.status_message(message.DEPLOY_SUCCESSFULLY)
         elif "message" in result:
             print (result["message"])
             sublime.error_message(result["message"])
