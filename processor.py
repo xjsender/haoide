@@ -884,7 +884,8 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
             body = result[component_body].encode("UTF-8")
 
         fp.write(body)
-        sublime.message_dialog(message.GET_SUCCESSFULLY)
+        print (message.GET_SUCCESSFULLY)
+        sublime.status_message(message.GET_SUCCESSFULLY)
 
     print (message.WAIT_FOR_A_MOMENT)
     toolingapi_settings = context.get_toolingapi_settings()
