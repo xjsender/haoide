@@ -40,8 +40,12 @@ def get_toolingapi_settings():
     settings["projects"] = projects
     settings["workspace"] = s.get("workspace") + "/" + default_project_name + "-" + time.strftime('%Y%m%d')
     settings["username"] = default_project.get("username")
-    settings["password"] = default_project.get("password")
-    
+    settings["password"] = default_project["password"]
+    if "security_token" in default_project:
+        settings["security_token"] = default_project["security_token"]
+    else:
+        settings["security_token"] = ""
+
     login_url = default_project.get("login_url")
     settings["login_url"] = login_url
     settings["soap_login_url"] = login_url + "/services/Soap/u/v27.0"

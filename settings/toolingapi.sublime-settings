@@ -16,7 +16,9 @@
             "default": true,
             "login_url": "https://login.salesforce.com",
             "password": "bp333333",
-            "username": "mouse@exercise.com"
+            "username": "mouse@exercise.com",
+            // If you don't need security token, just delete below row
+            "security_token": ""
         }
     },
 
@@ -34,7 +36,7 @@
 
     // Workbook columns
     "workbook_field_describe_columns": [
-        "sobject", "label","name","type","length","unique","externalId","precision",
+        "label","name","type","length","unique","externalId","precision",
         "picklistValues","calculatedFormula","defaultValue","controllerName",
         "relationshipName","referenceTo","inlineHelpText","nillable",
         "createable","custom","dependentPicklist"

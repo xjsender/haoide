@@ -261,6 +261,7 @@ class viewcommponentinsfdcCommand(sublime_plugin.WindowCommand):
             return
 
         all_components_name = sorted(list(all_components.keys()))
+        print (all_components_name)
         self.window.show_quick_panel(all_components_name, self.on_done)
 
     def on_done(self, index):
