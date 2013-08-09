@@ -1,5 +1,5 @@
 AUTHORIZATION_FAILED_MESSAGE = "Connecting to Salesforce Failed"
-DEPLOY_SUCCESSFULLY = "Deploy Successfully"
+DEPLOY_SUCCESSFULLY = "Save Successfully"
 DELETE_SUCCESSFULLY = "Delete Successfully"
 GET_SUCCESSFULLY = "Refresh Successfully"
 REFRESH_ALL_SUCCESSFULLY = "Refresh All Successfully"
