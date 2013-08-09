@@ -557,9 +557,9 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
 
     # Create new csv file for this workbook
     # fp = open(outputdir + "/" + sobject + ".csv", "wb", newline='')
-    try:
-        fp = open(outputdir + "/" + sobject + ".csv", "wt", newline='')
-    except:
+    if is_python3x():
+        fp = open(outputdir + "/" + sobject + ".csv", "w", newline='')
+    else:
         fp = open(outputdir + "/" + sobject + ".csv", "wb")
     
     #------------------------------------------------------------

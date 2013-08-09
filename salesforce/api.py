@@ -292,7 +292,8 @@ class SalesforceApi():
             "Campaign", "CampaignMember", "Case", "Contact", 
             "Contract", "Event", "Lead", "Opportunity", 
             "OpportunityLineItem", "Product2", "UserRole", 
-            "Task", "User", "CampaignMemberStatus", 'Attachment'
+            "Task", "User", "CampaignMemberStatus", 'Attachment',
+            "OpportunityLineItemSchedule"
         ]
 
         result = self.describe_global()

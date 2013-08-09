@@ -641,7 +641,9 @@ def handle_execute_anonymous(apex_string, timeout=120):
         result = api.result
         # If error
         if result["status_code"] > 399:
-            sublime.error_message(result["errorCode"] + "\n" + result["message"])
+            errorCode = util.none_value(result["errorCode"])
+            message = util.none_value(result["message"])
+            sublime.error_message(errorCode + "\n" + message)
             return
 
         # No error, just display log in a new view

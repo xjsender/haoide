@@ -304,6 +304,14 @@ retrieve_all_task_body = """
                       <met:members>*</met:members>
                       <name>Workflow</name>
                   </met:types>
+                  <met:types>
+                      <met:members>*</met:members>
+                      <name>ownerRules</name>
+                  </met:types>
+                  <met:types>
+                      <met:members>*</met:members>
+                      <name>criteriaBasedRules</name>
+                  </met:types>
                   <met:version>28.0</met:version>
               </met:unpackaged>
            </met:retrieveRequest>
