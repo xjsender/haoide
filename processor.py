@@ -808,7 +808,7 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
             sublime.status_message(message.DEPLOY_SUCCESSFULLY)
         elif "message" in result:
             print (result["message"])
-            sublime.error_message(result["message"])
+            sublime.status_message(result["message"])
 
     print (message.WAIT_FOR_A_MOMENT)
     toolingapi_settings = context.get_toolingapi_settings()
