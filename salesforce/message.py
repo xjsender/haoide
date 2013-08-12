@@ -1,13 +1,42 @@
-AUTHORIZATION_FAILED_MESSAGE = "Connecting to Salesforce Failed"
-DEPLOY_SUCCESSFULLY = "Save Successfully"
-DELETE_SUCCESSFULLY = "Delete Successfully"
-GET_SUCCESSFULLY = "Refresh Successfully"
-REFRESH_ALL_SUCCESSFULLY = "Refresh All Successfully"
+AUTHORIZATION_FAILED_MESSAGE = """
+-------------------------------------------------------------------------
+Connecting to Salesforce Failed
+-------------------------------------------------------------------------
+"""
+
+DEPLOY_SUCCESSFULLY = """
+-------------------------------------------------------------------------
+Save Successfully
+-------------------------------------------------------------------------
+"""
+
+DELETE_SUCCESSFULLY = """
+-------------------------------------------------------------------------
+Delete Successfully
+-------------------------------------------------------------------------
+"""
+
+GET_SUCCESSFULLY = """
+-------------------------------------------------------------------------
+Refresh Successfully
+-------------------------------------------------------------------------
+"""
+
+CREATE_SUCCESSFULLY = """
+-------------------------------------------------------------------------
+Create Successfully
+-------------------------------------------------------------------------
+"""
+
+REFRESH_ALL_SUCCESSFULLY = """
+-------------------------------------------------------------------------
+Refresh All Successfully
+-------------------------------------------------------------------------
+"""
 TOOLING_API_CONNECTING_FAILED = "Tooling API Connecting Failed"
 INVALID_COMPONENT = "It's an invalid salesforce component"
 DELETE_CONFIRM_MESSAGE = "Are you sure you really want to delete this?"
 APEXTRIGGER_BUG_MESSAGE = "Tooling API has bug on creating ApexTrigger, do you want to continue."
-CREATE_SUCCESSFULLY = "Create Successfully"
 INVALID_NEW_COMPONENT_FORMAT = "invalid new component format"
 INVALID_TEST_CLASS = "Invalid Test Class"
 WAIT_FOR_A_MOMENT = """

@@ -802,7 +802,6 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
             return
 
         result = api.result
-        print (result)
         if "success" in result and result["success"]:
             print (message.DEPLOY_SUCCESSFULLY)
             sublime.status_message(message.DEPLOY_SUCCESSFULLY)
@@ -916,7 +915,8 @@ def handle_delete_component(component_url, file_name, timeout=120):
 
         os.remove(file_name)
         sublime.active_window().run_command("close")
-        sublime.message_dialog(message.DELETE_SUCCESSFULLY)
+        print (message.DELETE_SUCCESSFULLY)
+        sublime.status_message(message.DELETE_SUCCESSFULLY)
 
     print (message.WAIT_FOR_A_MOMENT)
     toolingapi_settings = context.get_toolingapi_settings()
