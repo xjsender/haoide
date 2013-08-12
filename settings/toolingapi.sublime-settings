@@ -17,7 +17,7 @@
             "login_url": "https://login.salesforce.com",
             "password": "bp333333",
             "username": "mouse@exercise.com",
-            // If you don't need security token, just delete below row
+            // If you don't need security token, just leave it as below
             "security_token": ""
         }
     },
