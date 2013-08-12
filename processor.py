@@ -852,7 +852,8 @@ def handle_create_component(data, component_name, component_type, timeout=120):
 
         # Save settings and show success message
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
-        sublime.message_dialog(message.CREATE_SUCCESSFULLY)
+        print (message.CREATE_SUCCESSFULLY)
+        sublime.status_message(message.CREATE_SUCCESSFULLY)
                 
     print (message.WAIT_FOR_A_MOMENT)
     toolingapi_settings = context.get_toolingapi_settings()

@@ -130,6 +130,10 @@ def make_component(input):
     component_type = toolingapi_settings[component_extension]
     component_outputdir = toolingapi_settings[component_type]["outputdir"]
 
+    if not os.path.exists(component_outputdir):
+        os.makedirs(component_outputdir)
+        add_project_to_workspace(toolingapi_settings["workspace"])
+
     file_name = component_outputdir + "/" + component_name + component_extension
 
     # Write body to local file
@@ -193,3 +197,23 @@ def switch_project(chosen_project):
     s.set("projects", projects)
     sublime.save_settings(TOOLING_API_SETTINGS)
 
+def add_project_to_workspace(workspace):
+    """
+    Add new project folder to workspace
+    """
+
+    try:
+        # Just ST3 supports, ST2 is not
+        project_data = sublime.active_window().project_data()
+        folders = []
+        if "folders" in project_data:
+            folders = project_data["folders"]
+
+        folders.append({
+            "path": workspace
+        })
+
+        project_data["folders"] = folders
+        sublime.active_window().set_project_data(project_data)
+    except:
+        pass

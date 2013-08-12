@@ -573,23 +573,7 @@ class refreshallCommand(sublime_plugin.WindowCommand):
 
         # Get toolingapi_settings
         toolingapi_settings = context.get_toolingapi_settings()
-
-        # Add new project folder to workspace
-        try:
-            # Just ST3 supports, ST2 is not
-            project_data = sublime.active_window().project_data()
-            folders = []
-            if "folders" in project_data:
-                folders = project_data["folders"]
-
-            folders.append({
-                "path": toolingapi_settings["workspace"]
-            })
-
-            project_data["folders"] = folders
-            sublime.active_window().set_project_data(project_data)
-        except:
-            pass
+        context.add_project_to_workspace(toolingapi_settings["workspace"])
 
         # Open Console
         self.window.run_command("show_panel", 
