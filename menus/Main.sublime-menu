@@ -19,6 +19,12 @@
             },
 
             {
+                "id": "SaveNewToServer",
+                "caption": "New Component",
+                "command": "create"
+            },
+
+            {
                 "id": "RefreshFolder",
                 "caption": "Refresh Folder",
                 "command": "refreshfolder"
