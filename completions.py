@@ -112,8 +112,6 @@ class ApexCompletions(sublime_plugin.EventListener):
                 variable_type = matched_block.split(" ")[0]
 
         completion_list = []
-        print (variable_type)
-        print (variable_name)
         class_name = ""
         if variable_name in apex_completions:
             class_name = variable_name
@@ -290,7 +288,7 @@ class PageCompletions(sublime_plugin.EventListener):
             ('apex:pageBlockSection\tVisualforce Page', 'apex:pageBlockSection title="$1" columns="$2">\n\t$3\n</apex:pageBlockSection>'),
             ('apex:pageBlockSectionItem\tVisualforce Page', 'apex:pageBlockSectionItem>\n\t$1\n</apex:pageBlockSectionItem>'),
             ('apex:pageBlockTable\tVisualforce Page', 'apex:pageBlockTable value="$1" var="$2">\n\t$3\n</apex:pageBlockTable>'),
-            ('apex:pageMessage\tVisualforce Page', 'apex:pageMessage summary="$1" serverity="$2" strength=\"${3:3}\"/>'),
+            ('apex:pageMessage\tVisualforce Page', 'apex:pageMessage summary="$1" srverity="$2" strength=\"${3:3}\"/>'),
             ('apex:pageMessages\tVisualforce Page', 'apex:pageMessages />'),
             ('apex:panelBar\tVisualforce Page', 'apex:panelBar>\n\t$1\n</apex:panelBar>'),
             ('apex:panelBarItem\tVisualforce Page', 'apex:panelBarItem label="$1">$2<apex:panelBarItem/>'),
