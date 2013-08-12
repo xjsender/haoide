@@ -33,7 +33,7 @@ def get_toolingapi_settings():
             default_project = project_attr
 
     if default_project == None:
-        sublime.error_message("You should has one default project at least.")
+        sublime.error_message("You should has one default project at least. please check you settings.")
         return
 
     # User Settings Part
