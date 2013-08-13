@@ -323,6 +323,9 @@ def handle_initiate_sobjects_completions(timeout=120):
         # Save settings
         sublime.save_settings("sobjects_completion.sublime-settings")
 
+        # Output message
+        print (message.SEPRATE.format('Sobjects completions local history are initiated.'))
+
     def handle_thread(api, thread, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)
@@ -779,6 +782,7 @@ def handle_refresh_components(toolingapi_settings, timeout=120):
         component_metadta = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
         component_metadta.set(toolingapi_settings["username"], component_metadata)
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
+        print (message.SEPRATE.format('All code are Downloaded.'))
         sublime.status_message(message.DOWNLOAD_ALL_SUCCESSFULLY)
 
         # After Refresh all succeed, start initiate sobject completions

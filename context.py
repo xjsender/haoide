@@ -4,6 +4,11 @@ import pprint
 import os
 import time
 
+try:
+    from .salesforce import message
+except:
+    from salesforce import message
+
 COMPONENT_METADATA_SETTINGS = "component_metadata.sublime-settings"
 TOOLING_API_SETTINGS = "toolingapi.sublime-settings"
 
@@ -196,6 +201,7 @@ def switch_project(chosen_project):
     # Save the updated settings
     s.set("projects", projects)
     sublime.save_settings(TOOLING_API_SETTINGS)
+    print (message.SEPRATE.format(chosen_project + " is default project now."))
 
 def add_project_to_workspace(workspace):
     """

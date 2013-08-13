@@ -545,6 +545,7 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
     """
     # Get sobject name
     sobject = result.get("name")
+    print ("sobject name: " + sobject)
 
     # Get fields
     fields = result.get("fields")
