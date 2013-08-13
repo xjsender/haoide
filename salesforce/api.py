@@ -602,7 +602,7 @@ class SalesforceApi():
         }
 
         # Populate the soap_body with actual session id
-        soap_body = soap_bodies.retrieve_all_task_body.format(
+        soap_body = soap_bodies.retrieve_sobjects_workflow_task_body.format(
             session_id=globals()[self.username]["session_id"])
 
         response = requests.post(server_url, soap_body, verify=False, 

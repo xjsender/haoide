@@ -30,7 +30,7 @@ class BackupAfterSave(sublime_plugin.EventListener):
 
         # If this file is not ApexTrigger, ApexComponent, 
         # ApexPage or ApexClass, just return
-        if component_type not in ["ApexClass", "ApexPage", "ApexComponent", "ApexTrigger"]:
+        if component_type not in ["ApexClass", "ApexPage", "ApexComponent", "ApexTrigger", "StaticResource"]:
             return
 
         # Get toolingapi settings

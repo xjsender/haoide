@@ -913,7 +913,6 @@ def handle_delete_component(component_url, file_name, timeout=120):
 
         # If succeed
         result = api.result
-        print (result)
         if result["status_code"] > 399:
             util.sublime_error_message(result)
             return
@@ -929,3 +928,55 @@ def handle_delete_component(component_url, file_name, timeout=120):
     thread = threading.Thread(target=api.delete, args=(component_url, ))
     thread.start()
     handle_thread(thread, timeout)
+
+def handle_push_topic(sobject, timeout=120):      
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+        elif api.result == None:
+            sublime.error_message(message.AUTHORIZATION_FAILED_MESSAGE)
+            return
+
+        # If succeed
+        result = api.result
+        if result["status_code"] > 399:
+            util.sublime_error_message(result)
+            return
+
+        print (result)
+
+    print (message.WAIT_FOR_A_MOMENT)
+    toolingapi_settings = context.get_toolingapi_settings()
+    api = SalesforceApi(toolingapi_settings)
+    post_url = "/services/data/v28.0/sobjects/PushTopic"
+    post_data = {
+        "Name": sobject + "PushTopic",
+        "Query": get_sobject_soql(toolingapi_settings["username"], sobject),
+        "ApiVersion": "28.0",
+        "NotifyForOperations": "All",
+        "NotifyForFields": "Referenced"
+    }
+    thread = threading.Thread(target=api.post, args=(post_url, post_data, ))
+    thread.start()
+    handle_thread(thread, timeout)
+
+def get_sobject_soql(username, sobject):
+    sobject_fields = get_sobject_fields(username, sobject)
+    sobject_soql = 'SELECT ' + ",".join(sobject_fields) + " FROM " + sobject
+    return sobject_soql
+
+def get_sobject_fields(username, sobject):
+    # If sobjects is exist in globals()[], just return it
+    sobjects_completions = sublime.load_settings("sobjects_completion.sublime-settings")
+    if not sobjects_completions.has(username):
+        return ['Id', 'Name']
+
+    sobject_fields_describe = sobjects_completions.get(username)[sobject].keys()
+    sobject_fields = []
+    for des in sobject_fields_describe:
+        field_name, field_type = tuple(des.split("\t"))
+        if field_type in ["textarea", "location"]: continue
+        sobject_fields.append(field_name)
+
+    return sobject_fields
