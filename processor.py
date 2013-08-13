@@ -807,10 +807,10 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
 
         result = api.result
         if "success" in result and result["success"]:
-            print (message.DEPLOY_SUCCESSFULLY)
+            print (message.SEPRATE.format(message.DEPLOY_SUCCESSFULLY))
             sublime.status_message(message.DEPLOY_SUCCESSFULLY)
         elif "message" in result:
-            print (result["message"])
+            print (message.SEPRATE.format(result["message"]))
             sublime.status_message(result["message"])
 
     print (message.WAIT_FOR_A_MOMENT)
@@ -856,7 +856,7 @@ def handle_create_component(data, component_name, component_type, timeout=120):
 
         # Save settings and show success message
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
-        print (message.CREATE_SUCCESSFULLY)
+        print (message.SEPRATE.format(message.CREATE_SUCCESSFULLY))
         sublime.status_message(message.CREATE_SUCCESSFULLY)
                 
     print (message.WAIT_FOR_A_MOMENT)
@@ -890,7 +890,7 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
             body = result[component_body].encode("UTF-8")
 
         fp.write(body)
-        print (message.GET_SUCCESSFULLY)
+        print (message.SEPRATE.format(message.GET_SUCCESSFULLY))
         sublime.status_message(message.GET_SUCCESSFULLY)
 
     print (message.WAIT_FOR_A_MOMENT)
@@ -920,7 +920,7 @@ def handle_delete_component(component_url, file_name, timeout=120):
 
         os.remove(file_name)
         sublime.active_window().run_command("close")
-        print (message.DELETE_SUCCESSFULLY)
+        print (message.SEPRATE.format(message.DELETE_SUCCESSFULLY))
         sublime.status_message(message.DELETE_SUCCESSFULLY)
 
     print (message.WAIT_FOR_A_MOMENT)
