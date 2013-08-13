@@ -201,7 +201,7 @@ def switch_project(chosen_project):
     # Save the updated settings
     s.set("projects", projects)
     sublime.save_settings(TOOLING_API_SETTINGS)
-    print (message.SEPRATE.format(chosen_project + " is default project now."))
+    print (message.SEPRATE.format(chosen_project + " is the default project now."))
 
 def add_project_to_workspace(workspace):
     """

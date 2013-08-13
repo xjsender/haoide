@@ -10,35 +10,16 @@ Connecting to Salesforce Failed
 -------------------------------------------------------------------------
 """
 
-DEPLOY_SUCCESSFULLY = """
--------------------------------------------------------------------------
-Save Successfully
--------------------------------------------------------------------------
-"""
+DEPLOY_SUCCESSFULLY = "Save Successfully"
 
-DELETE_SUCCESSFULLY = """
--------------------------------------------------------------------------
-Delete Successfully
--------------------------------------------------------------------------
-"""
+DELETE_SUCCESSFULLY = "Delete Successfully"
 
-GET_SUCCESSFULLY = """
--------------------------------------------------------------------------
-Refresh Successfully
--------------------------------------------------------------------------
-"""
+GET_SUCCESSFULLY = "Refresh Successfully"
 
-CREATE_SUCCESSFULLY = """
--------------------------------------------------------------------------
-Create Successfully
--------------------------------------------------------------------------
-"""
+CREATE_SUCCESSFULLY = "Create Successfully"
 
-REFRESH_ALL_SUCCESSFULLY = """
--------------------------------------------------------------------------
-Refresh All Successfully
--------------------------------------------------------------------------
-"""
+REFRESH_ALL_SUCCESSFULLY = "Refresh All Successfully"
+
 TOOLING_API_CONNECTING_FAILED = "Tooling API Connecting Failed"
 INVALID_COMPONENT = "It's an invalid salesforce component"
 DELETE_CONFIRM_MESSAGE = "Are you sure you really want to delete this?"
