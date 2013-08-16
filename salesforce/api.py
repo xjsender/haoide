@@ -293,7 +293,7 @@ class SalesforceApi():
             "Contract", "Event", "Lead", "Opportunity", 
             "OpportunityLineItem", "Product2", "UserRole", 
             "Task", "User", "CampaignMemberStatus", 'Attachment',
-            "OpportunityLineItemSchedule"
+            "OpportunityLineItemSchedule", "Profile"
         ]
 
         result = self.describe_global()
@@ -808,8 +808,7 @@ class SalesforceApi():
         
         result = self.get(sync_request_url + "/" + request_id)
         state = result["State"]
-        print ("Get ContainerAsyncRequest: ")
-        pprint.pprint(result)
+        print ("Get ContainerAsyncRequest: ", result)
 
         return_result = {}
         if state == "Completed":
