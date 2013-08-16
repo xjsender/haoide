@@ -53,7 +53,7 @@ def get_toolingapi_settings():
 
     login_url = default_project.get("login_url")
     settings["login_url"] = login_url
-    settings["soap_login_url"] = login_url + "/services/Soap/u/v27.0"
+    settings["soap_login_url"] = login_url + "/services/Soap/u/v28.0"
 
     # Trace Flag
     settings["trace_flag"] = s.get("trace_flag")

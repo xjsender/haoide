@@ -414,7 +414,7 @@ class SalesforceApi():
         self.login(False)
 
         # Combine server_url and headers and soap_body
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/u/27.0"
+        server_url = globals()[self.username]['instance_url'] + "/services/Soap/u/28.0"
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
@@ -458,7 +458,7 @@ class SalesforceApi():
         # Firstly Login
         self.login(False)
 
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/s/27.0"
+        server_url = globals()[self.username]['instance_url'] + "/services/Soap/s/28.0"
         # https://gist.github.com/richardvanhook/1245068
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",

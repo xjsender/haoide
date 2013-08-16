@@ -722,7 +722,7 @@ def handle_retrieve_fields(sobject, timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT)
     # Combine sobject url
-    sobject_url = "/services/data/v27.0/sobjects/" + sobject+ "/describe"
+    sobject_url = "/services/data/v28.0/sobjects/" + sobject+ "/describe"
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.get, args=(sobject_url, ))

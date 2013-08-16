@@ -40,10 +40,10 @@ DOWNLOAD_ALL_SUCCESSFULLY = "Refresh All Successfully"
 
 # Metadata api part
 WORKFLOW_PATH_CHECK = """
-Before you export workflows, you should retrieve all firstly
+Before you export workflows, you should Retrieve Metadata firstly
 """
 SOBJECTS_PATH_CHECK = """
-Before you export validation rules, you should retrieve all firstly
+Before you export validation rules, you should Retrieve Metadata firstly
 """
 initiate_sobject_completion = """
 Start initiate sobject completions.....
