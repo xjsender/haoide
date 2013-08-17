@@ -12,9 +12,9 @@ try:
 except:
     import requests
 
-class updatepluginCommand(sublime_plugin.WindowCommand):
+class UpdatePluginCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(updatepluginCommand, self).__init__(*args, **kwargs)
+        super(UpdatePluginCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         if not sublime.ok_cancel_dialog("Are you sure you want to update plugin?" +\

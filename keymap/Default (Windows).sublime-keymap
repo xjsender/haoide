@@ -1,89 +1,89 @@
 [
     // Switch Project
-    {"keys": ["alt+s"], "command": "switchproject"},
+    {"keys": ["alt+s"], "command": "switch_project"},
 
     // Download all code and save them to new project
-    {"keys": ["alt+f5"], "command": "refreshall"},
+    {"keys": ["alt+f5"], "command": "refresh_all"},
 
     // Refresh Folder
-    {"keys": ["alt+r","alt+f"], "command": "refreshfolder"},
+    {"keys": ["alt+r","alt+f"], "command": "refresh_folder"},
 
     // Save current component to server 
-    {"keys": ["ctrl+alt+s"], "command": "deploy"},
+    {"keys": ["ctrl+alt+s"], "command": "save_component"},
 
     // Retrieve all metadata, just like ant or force.com IDE
-    {"keys": ["alt+r","alt+m"],"command": "retrievemetadata"},
+    {"keys": ["alt+r","alt+m"],"command": "retrieve_metadata"},
 
     // Choose a test class in the list and run test class
-    {"keys": ["alt+r","alt+t"],"command": "runonetest"},
+    {"keys": ["alt+r","alt+t"],"command": "run_one_test"},
 
     // Execute chosen anonymous code snippet
-    {"keys": ["ctrl+alt+e"], "command": "executeanonymous"},
+    {"keys": ["ctrl+alt+e"], "command": "execute_anonymous"},
 
     // Run current Test Class in edit mode, it's Context Menu Item
     // Problem here, don't know why?
-    {"keys": ["ctrl+alt+t"], "command": "runtest"},
+    {"keys": ["ctrl+alt+t"], "command": "run_test"},
 
     // Refresh current component in edit mode
-    {"keys": ["ctrl+alt+r"], "command": "refreshcurrent"},
+    {"keys": ["ctrl+alt+r"], "command": "refresh_component"},
 
     // Execute chosen valid SOQL
-    {"keys": ["ctrl+alt+q"], "command": "executesoql"},
+    {"keys": ["ctrl+alt+q"], "command": "execute_soql"},
 
     // Delete the current Component
-    {"keys": ["ctrl+alt+d"], "command": "delete"},
+    {"keys": ["ctrl+alt+d"], "command": "delete_component"},
 
     // Create new component
-    {"keys": ["ctrl+alt+n"], "command": "create"},
+    {"keys": ["ctrl+alt+n"], "command": "create_component"},
 
     // View the chosen valid SFDC Id in Web
-    {"keys": ["ctrl+i", "ctrl+d"], "command": "viewidinsfdcweb"},
+    {"keys": ["ctrl+i", "ctrl+d"], "command": "view_id_in_sfdc_web"},
 
     // Open Current Component in SFDC Web
-    {"keys": ["f5"], "command": "showinsfdcweb"},
+    {"keys": ["f5"], "command": "show_in_sfdc_web"},
 
     // Login To Home Page
-    {"keys": ["alt+h", "alt+p"], "command": "loginintosfdc"},
+    {"keys": ["alt+h", "alt+p"], "command": "login_to_sfdc"},
 
     // Login To Specified Apex Code
-    {"keys": ["ctrl+alt+g"], "command": "viewcommponentinsfdc"},
+    {"keys": ["ctrl+alt+g"], "command": "view_component_in_sfdc"},
 
     // Login To Develop Console
-    {"keys": ["alt+d", "alt+c"], "command": "loginintosfdc", 
+    {"keys": ["alt+d", "alt+c"], "command": "login_to_sfdc", 
         "args": {
             "startURL": "/_ui/common/apex/debug/ApexCSIPage"
         }
     },
     // Login To Debug Log
-    {"keys": ["alt+d", "alt+e"], "command": "loginintosfdc", 
+    {"keys": ["alt+d", "alt+e"], "command": "login_to_sfdc", 
         "args": {
             "startURL": "/setup/ui/listApexTraces.apexp"
         }
     },
 
     // Login To Apex Job
-    {"keys": ["alt+a", "alt+j"], "command": "loginintosfdc", 
+    {"keys": ["alt+a", "alt+j"], "command": "login_to_sfdc", 
         "args": {
             "startURL": "/apexpages/setup/listAsyncApexJobs.apexp"
         }
     },
 
     // Login To Custom Object Page
-    {"keys": ["alt+o", "alt+b"], "command": "loginintosfdc", 
+    {"keys": ["alt+o", "alt+b"], "command": "login_to_sfdc", 
         "args": {
             "startURL": "/p/setup/custent/CustomObjectsPage?setupid=CustomObjects"
         }
     },
 
     // Login To Workflow Rule
-    {"keys": ["alt+d", "alt+l"], "command": "loginintosfdc", 
+    {"keys": ["alt+d", "alt+l"], "command": "login_to_sfdc", 
         "args": {
             "startURL": "/01Q"
         }
     },
 
     // Login To Apex Test Execution
-    {"keys": ["alt+t", "alt+q"], "command": "loginintosfdc",
+    {"keys": ["alt+t", "alt+q"], "command": "login_to_sfdc",
         "args": {
             "startURL": "/ui/setup/apex/ApexTestQueuePage"
         }

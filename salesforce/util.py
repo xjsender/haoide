@@ -104,6 +104,27 @@ def parse_all():
     import pprint
     pprint.pprint (apex_completions)
 
+def mark_overlays(view, lines):
+    mark_line_numbers(view, lines, "dot", "overlay")
+
+def write_overlays(view, overlay_result):
+    result = json.loads(overlay_result)
+    if result["totalSize"] > 0:
+        for r in result["records"]:
+            sublime.set_timeout(lambda: mark_line_numbers(view, [int(r["Line"])], "dot", "overlay"), 100)
+
+def mark_line_numbers(view, lines, icon="dot", mark_type="compile_issue"):
+    points = [view.text_point(l - 1, 0) for l in lines]
+    regions = [sublime.Region(p, p) for p in points]
+    view.add_regions(mark_type, regions, "operation.fail", icon, sublime.HIDDEN | sublime.DRAW_EMPTY)
+
+def clear_marked_line_numbers(view, mark_type="compile_issue"):
+    try:
+        sublime.set_timeout(lambda: view.erase_regions(mark_type), 100)
+    except Exception as e:
+        print(e.message)
+        print('no regions to clean up')
+
 def parse_test_result(test_result):
     """
     format test result as specified format

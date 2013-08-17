@@ -7,39 +7,53 @@
             {
                 "id": "RefreshFromServer",
                 "caption": "Refresh from Server",
-                "command": "refreshcurrent"
+                "command": "refresh_component"
             },
 
             {
                 "id": "SaveToServer",
                 "caption": "Save to Server",
-                "command": "deploy"
+                "command": "save_component"
             },
              
             {
                 "id": "DeleteFromServer",
                 "caption": "Delete from Server",
-                "command": "delete"
+                "command": "delete_component"
             },
              
             { "caption": "-" },
 
             {
+                "id": "SetCheckPoint",
+                "caption": "Set Check Point",
+                "command": "set_check_point"
+            },
+
+            {
+                "id": "removecheckpoint",
+                "caption": "Remove Check Point",
+                "command": "remove_check_point"
+            },
+
+            { "caption": "-" },
+            
+            {
                 "id": "executeanonymous",
                 "caption": "Execute Anonymous",
-                "command": "executeanonymous"
+                "command": "execute_anonymous"
             },
 
             {
                 "id": "executeSOQLInSFDC",
                 "caption": "Execute SOQL",
-                "command": "executesoql"
+                "command": "execute_soql"
             },
 
             {
                 "id": "reuntest",
                 "caption": "Run Test Class",
-                "command": "runtest"
+                "command": "run_test"
             },
 
             { "caption": "-" },
@@ -47,13 +61,13 @@
             {
                 "id": "viewidinsfdcweb",
                 "caption": "View Id in Salesforce Web",
-                "command": "viewidinsfdcweb"
+                "command": "view_id_in_sfdc_web"
             },
 
             {
                 "id": "showinsfdcweb",
                 "caption": "Show in Salesforce Web",
-                "command": "showinsfdcweb"
+                "command": "show_in_sfdc_web"
             }
         ]
     }

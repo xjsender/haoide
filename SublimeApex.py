@@ -22,9 +22,20 @@ except:
     import context
     from salesforce import util, message, bulkapi
 
-class switchprojectCommand(sublime_plugin.WindowCommand):
+class SetCheckPointCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        mark = [s for s in self.view.sel()]
+        self.view.add_regions("mark", mark, "mark", "circle",
+            sublime.HIDDEN | sublime.PERSISTENT)
+        print (self.view.full_line(self.view.get_regions("mark")[0]))
+
+class RemoveCheckPointCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        self.view.erase_regions('mark')
+
+class SwitchProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(switchprojectCommand, self).__init__(*args, **kwargs)
+        super(SwitchProjectCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         global projects
@@ -42,14 +53,14 @@ class switchprojectCommand(sublime_plugin.WindowCommand):
         default_project = projects[index].split(") ")[1]
         context.switch_project(default_project)
 
-class newviewCommand(sublime_plugin.TextCommand):
+class NewViewCommand(sublime_plugin.TextCommand):
     """
     Create a new view with specified input
 
     @input: user specified input
 
     Usage: 
-        sublime.active_window().run_command("newview", {
+        sublime.active_window().run_command("new_view", {
             "name": "ViewName",
             "input": "Example"
         })
@@ -61,9 +72,9 @@ class newviewCommand(sublime_plugin.TextCommand):
         view.set_name(name)
         view.insert(edit, 0, input)
 
-class refreshfolderCommand(sublime_plugin.WindowCommand):
+class RefreshFolderCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(refreshfolderCommand, self).__init__(*args, **kwargs)
+        super(RefreshFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         global component_types
@@ -80,9 +91,9 @@ class refreshfolderCommand(sublime_plugin.WindowCommand):
 
         processor.handle_refresh_folder(component_types[index])
 
-class retrievemetadataCommand(sublime_plugin.WindowCommand):
+class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(retrievemetadataCommand, self).__init__(*args, **kwargs)
+        super(RetrieveMetadataCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         # Open Console
@@ -91,9 +102,9 @@ class retrievemetadataCommand(sublime_plugin.WindowCommand):
 
         processor.handle_retrieve_all_thread()
         
-class exportvalidationrulesCommand(sublime_plugin.WindowCommand):
+class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(exportvalidationrulesCommand, self).__init__(*args, **kwargs)
+        super(ExportValidationRulesCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         toolingapi_settings = context.get_toolingapi_settings()
@@ -108,9 +119,9 @@ class exportvalidationrulesCommand(sublime_plugin.WindowCommand):
 
         processor.handle_parse_validation_rule()
 
-class exportworkflowCommand(sublime_plugin.WindowCommand):
+class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(exportworkflowCommand, self).__init__(*args, **kwargs)
+        super(ExportWorkflowsCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         toolingapi_settings = context.get_toolingapi_settings()
@@ -124,9 +135,9 @@ class exportworkflowCommand(sublime_plugin.WindowCommand):
 
         processor.handle_parse_workflow()
 
-class describecustomfieldCommand(sublime_plugin.WindowCommand):
+class DescribeCustomFieldCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(describecustomfieldCommand, self).__init__(*args, **kwargs)
+        super(DescribeCustomFieldCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         global sobjects
@@ -143,9 +154,9 @@ class describecustomfieldCommand(sublime_plugin.WindowCommand):
 
         processor.handle_describe_customfield(sobjects[index])
         
-class describeglobalCommand(sublime_plugin.WindowCommand):
+class DescribeGlobalCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(describeglobalCommand, self).__init__(*args, **kwargs)
+        super(DescribeGlobalCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         # Open Console
@@ -154,9 +165,9 @@ class describeglobalCommand(sublime_plugin.WindowCommand):
 
         processor.handle_describe_global()
 
-class describelayoutCommand(sublime_plugin.WindowCommand):
+class DescribeLayoutCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(describelayoutCommand, self).__init__(*args, **kwargs)
+        super(DescribeLayoutCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         global sobject_recordtypes_attr
@@ -183,9 +194,9 @@ class describelayoutCommand(sublime_plugin.WindowCommand):
         print (sobject, recordtype_id)
         processor.handle_describe_layout(sobject, recordtype_name, recordtype_id)
 
-class backupsobjectsCommand(sublime_plugin.WindowCommand):
+class BackupSobjectsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(backupsobjectsCommand, self).__init__(*args, **kwargs)
+        super(BackupSobjectsCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         self.window.show_input_panel("Sobjects(* means all, or sobjects seprated with semi-colon)", 
@@ -205,9 +216,9 @@ class backupsobjectsCommand(sublime_plugin.WindowCommand):
             sobjects = input.split(";")
             bulkapi.handle_bulkapi_query(sobjects)
 
-class describesobjectCommand(sublime_plugin.WindowCommand):
+class DescribeSobjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(describesobjectCommand, self).__init__(*args, **kwargs)
+        super(DescribeSobjectCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         global sobjects
@@ -224,9 +235,9 @@ class describesobjectCommand(sublime_plugin.WindowCommand):
 
         processor.handle_retrieve_fields(sobjects[index])
 
-class exportworkbookCommand(sublime_plugin.WindowCommand):
+class ExportWorkbookCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(exportworkbookCommand, self).__init__(*args, **kwargs)
+        super(ExportWorkbookCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         self.window.show_input_panel("Sobjects(* means all, or sobjects seprated with semi-colon)", 
@@ -246,9 +257,9 @@ class exportworkbookCommand(sublime_plugin.WindowCommand):
             sobjects = input.split(";")
             processor.handle_generate_specified_workbooks(sobjects)
 
-class viewcommponentinsfdcCommand(sublime_plugin.WindowCommand):
+class ViewComponentInSfdcCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(viewcommponentinsfdcCommand, self).__init__(*args, **kwargs)
+        super(ViewComponentInSfdcCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         global all_components
@@ -273,11 +284,11 @@ class viewcommponentinsfdcCommand(sublime_plugin.WindowCommand):
 
         class_id = all_components[all_components_name[index]]
         startURL = "/" + class_id
-        self.window.run_command("loginintosfdc", {"startURL": startURL})
+        self.window.run_command("login_to_sfdc", {"startURL": startURL})
 
-class runonetestCommand(sublime_plugin.WindowCommand):
+class RunOneTestCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(runonetestCommand, self).__init__(*args, **kwargs)
+        super(RunOneTestCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         global classes_attr
@@ -299,7 +310,7 @@ class runonetestCommand(sublime_plugin.WindowCommand):
         class_id = classes_attr[class_names[index]]["id"]
         processor.handle_run_test(class_id)
 
-class runtestCommand(sublime_plugin.TextCommand):
+class RunTestCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Open Console
         self.view.window().run_command("show_panel", 
@@ -327,7 +338,7 @@ class runtestCommand(sublime_plugin.TextCommand):
 
         return True
 
-class executesoqlCommand(sublime_plugin.TextCommand):
+class ExecuteSoqlCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Open Console
         self.view.window().run_command("show_panel", 
@@ -346,7 +357,7 @@ class executesoqlCommand(sublime_plugin.TextCommand):
 
         return True
 
-class executeanonymousCommand(sublime_plugin.TextCommand):
+class ExecuteAnonymousCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Open Console
         self.view.window().run_command("show_panel", 
@@ -367,7 +378,7 @@ class executeanonymousCommand(sublime_plugin.TextCommand):
 
         return True
 
-class viewidinsfdcwebCommand(sublime_plugin.TextCommand):
+class ViewIdInSfdcWebCommand(sublime_plugin.TextCommand):
     def run(self, view):
         startURL = "/" + self.record_id
         if self.record_id.startswith("012"):
@@ -376,7 +387,7 @@ class viewidinsfdcwebCommand(sublime_plugin.TextCommand):
         if self.record_id.startswith("07L"):
             startURL = "/p/setup/layout/ApexDebugLogDetailEdit/d?apex_log_id=" + self.record_id
         
-        self.view.window().run_command("loginintosfdc", {"startURL": startURL})
+        self.view.window().run_command("login_to_sfdc", {"startURL": startURL})
 
     def is_enabled(self):
         # Choose the valid Id, you will see this command
@@ -393,21 +404,21 @@ class viewidinsfdcwebCommand(sublime_plugin.TextCommand):
 
         return True
 
-class showinsfdcwebCommand(sublime_plugin.TextCommand):
+class ShowInSfdcWebCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Get file_name and component_attribute
         component_attribute = get_component_attribute(self.view.file_name())[0]
 
         # Open this component in salesforce web
         startURL = "/" + component_attribute["id"]
-        self.view.window().run_command("loginintosfdc", {"startURL": startURL})
+        self.view.window().run_command("login_to_sfdc", {"startURL": startURL})
 
     def is_enabled(self):
         return check_visible(self.view.file_name())
 
-class loginintosfdcCommand(sublime_plugin.WindowCommand):
+class LoginToSfdcCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(loginintosfdcCommand, self).__init__(*args, **kwargs)
+        super(LoginToSfdcCommand, self).__init__(*args, **kwargs)
 
     def run(self, startURL=""):
         # Get toolingapi settings
@@ -430,14 +441,14 @@ class loginintosfdcCommand(sublime_plugin.WindowCommand):
         # Open this component in salesforce web
         webbrowser.open_new_tab(show_url)
 
-class aboutCommand(sublime_plugin.WindowCommand):
+class AboutCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(aboutCommand, self).__init__(*args, **kwargs)
+        super(AboutCommand, self).__init__(*args, **kwargs)
 
     def run(self): 
         webbrowser.open_new_tab("https://github.com/xjsender/SublimeApex")
 
-class deleteCommand(sublime_plugin.TextCommand):
+class DeleteComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Get file_name and component_attribute
         file_name = self.view.file_name()
@@ -458,7 +469,7 @@ class deleteCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         return check_visible(self.view.file_name())
 
-class createCommand(sublime_plugin.WindowCommand):
+class CreateComponentCommand(sublime_plugin.WindowCommand):
     """
     user input, for example,
         1. TestTrigger.trigger, sobject_name
@@ -468,7 +479,7 @@ class createCommand(sublime_plugin.WindowCommand):
     """
 
     def __init__(self, *args, **kwargs):
-        super(createCommand, self).__init__(*args, **kwargs)
+        super(CreateComponentCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         self.window.show_input_panel("component_name.extension, Sobject_Name:", 
@@ -537,7 +548,7 @@ class createCommand(sublime_plugin.WindowCommand):
 
         processor.handle_create_component(data, component_name, component_type)
 
-class deployCommand(sublime_plugin.TextCommand):
+class SaveComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Automatically save current file if dirty
         if self.view.is_dirty():
@@ -563,9 +574,9 @@ class deployCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         return check_visible(self.view.file_name())
 
-class refreshallCommand(sublime_plugin.WindowCommand):
+class RefreshAllCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(refreshallCommand, self).__init__(*args, **kwargs)
+        super(RefreshAllCommand, self).__init__(*args, **kwargs)
 
     def run(self): 
         # Create Project Directory
@@ -582,7 +593,7 @@ class refreshallCommand(sublime_plugin.WindowCommand):
         # Handle Refresh All
         processor.handle_refresh_components(toolingapi_settings)
 
-class refreshcurrentCommand(sublime_plugin.TextCommand):
+class RefreshComponentCommand(sublime_plugin.TextCommand):
     def run(self, view): 
         # Get file_name and component_attribute
         file_name = self.view.file_name()

@@ -7,7 +7,7 @@
             {
                 "id": "SwitchProject",
                 "caption": "Switch Project",
-                "command": "switchproject"
+                "command": "switch_project"
             },
 
             { "caption": "-" },
@@ -15,31 +15,31 @@
             {
                 "id": "RefreshFromServer",
                 "caption": "New Project",
-                "command": "refreshall"
+                "command": "refresh_all"
             },
 
             {
-                "id": "SaveNewToServer",
+                "id": "createcomponent",
                 "caption": "New Component",
-                "command": "create"
+                "command": "create_component"
             },
 
             {
                 "id": "RefreshFolder",
                 "caption": "Refresh Folder",
-                "command": "refreshfolder"
+                "command": "refresh_folder"
             },
 
             {
                 "id": "retrieveall",
                 "caption": "Retrieve Metadata",
-                "command": "retrievemetadata"
+                "command": "retrieve_metadata"
             },
 
             {
                 "id": "runonetest",
                 "caption": "Run Test",
-                "command": "runonetest"
+                "command": "run_one_test"
             },
 
             { "caption": "-" },
@@ -49,25 +49,25 @@
                     {
                         "id": "describecustomfield",
                         "caption": "Describe CustomField",
-                        "command": "describecustomfield"
+                        "command": "describe_custom_field"
                     },
 
                     {
                         "id": "describeglobal",
                         "caption": "Describe Global",
-                        "command": "describeglobal"
+                        "command": "describe_global"
                     },
 
                     {
                         "id": "describelayout",
                         "caption": "Describe Layout",
-                        "command": "describelayout"
+                        "command": "describe_layout"
                     },
 
                     {
                         "id": "describesobject",
                         "caption": "Describe Sobject",
-                        "command": "describesobject"
+                        "command": "describe_sobject"
                     }
                 ]
             },
@@ -78,19 +78,19 @@
                     {
                         "id": "exportworkflow",
                         "caption": "Export Workflow",
-                        "command": "exportworkflow"
+                        "command": "export_workflows"
                     },
 
                     {
                         "id": "exportvalidationrules",
                         "caption": "Export Validation Rule",
-                        "command": "exportvalidationrules"
+                        "command": "export_validation_rules"
                     },
 
                     {
                         "id": "exportworkbook",
                         "caption": "Export Workbook",
-                        "command": "exportworkbook"
+                        "command": "export_workbook"
                     }
                 ]
             },
@@ -101,18 +101,18 @@
                     {
                         "id": "ViewComponentInSFDC",
                         "caption": "Apex Code",
-                        "command": "viewcommponentinsfdc"
+                        "command": "view_component_in_sfdc"
                     },
                     {
                         "id": "logintosfdc",
                         "caption": "Home Page",
-                        "command": "loginintosfdc"
+                        "command": "login_to_sfdc"
                     },
 
                     {
                         "id": "logintosfdc",
                         "caption": "Develop Console",
-                        "command": "loginintosfdc",
+                        "command": "login_to_sfdc",
                         "args": {
                             "startURL": "/_ui/common/apex/debug/ApexCSIPage"
                         }
@@ -121,7 +121,7 @@
                     {
                         "id": "logintosfdc",
                         "caption": "Debug Log",
-                        "command": "loginintosfdc",
+                        "command": "login_to_sfdc",
                         "args": {
                             "startURL": "/setup/ui/listApexTraces.apexp"
                         }
@@ -130,7 +130,7 @@
                     {
                         "id": "logintosfdc",
                         "caption": "Apex Job",
-                        "command": "loginintosfdc",
+                        "command": "login_to_sfdc",
                         "args": {
                             "startURL": "/apexpages/setup/listAsyncApexJobs.apexp"
                         }
@@ -139,7 +139,7 @@
                     {
                         "id": "logintosfdc",
                         "caption": "Create Object",
-                        "command": "loginintosfdc",
+                        "command": "login_to_sfdc",
                         "args": {
                             "startURL": "/p/setup/custent/CustomObjectsPage?setupid=CustomObjects"
                         }
@@ -148,7 +148,7 @@
                     {
                         "id": "logintosfdc",
                         "caption": "Workflow Rule",
-                        "command": "loginintosfdc",
+                        "command": "login_to_sfdc",
                         "args": {
                             "startURL": "/01Q"
                         }
@@ -157,7 +157,7 @@
                     {
                         "id": "logintosfdc",
                         "caption": "Apex Test Execution",
-                        "command": "loginintosfdc",
+                        "command": "login_to_sfdc",
                         "args": {
                             "startURL": "/ui/setup/apex/ApexTestQueuePage"
                         }
@@ -168,7 +168,7 @@
             {
                 "id": "BulkApiQuery",
                 "caption": "Data Loader",
-                "command": "backupsobjects"
+                "command": "backup_sobjects"
             },
             
             { "caption": "-" },
@@ -212,7 +212,7 @@
             {
                 "id": "updateplugin",
                 "caption": "Update Me",
-                "command": "updateplugin"
+                "command": "update_plugin"
             },
 
             {
