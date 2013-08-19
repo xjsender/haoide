@@ -2,6 +2,6 @@
     {
         "id": "SaveNewToServer",
         "caption": "Create New Component",
-        "command": "create"
+        "command": "create_component"
     }
 ]
