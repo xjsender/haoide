@@ -1,6 +1,6 @@
 <snippet>
     <content><![CDATA[
-List<$1> $2 = new List<$1>()
+List<$1> $2 = new List<$1>();
 ]]></content>
     <tabTrigger>list</tabTrigger>
     <scope>source.apex</scope>
