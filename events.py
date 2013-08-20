@@ -10,13 +10,18 @@ except:
     import context
     from salesforce import util
 
-class BackupAfterSave(sublime_plugin.EventListener):
-    """
-    Every time when you save your ApexPage, ApexTrigger, ApexClass, ApexComponent, 
-    this class will make a copy with the time_stamp in the history path of current project
-    """
+class SFDCEventListener(sublime_plugin.EventListener):
+    def on_new(self, view):
+        """
+        Eveytime when you open a new view, default syntax is Apex
+        """
+        view.set_syntax_file("Packages/SublimeApex/syntaxes/Apex.tmLanguage")
 
     def on_post_save(self, view):
+        """
+        Every time when you save your ApexPage, ApexTrigger, ApexClass, ApexComponent, 
+        this class will make a copy with the time_stamp in the history path of current project
+        """
         # Get current file name and Read file content
         file_name = view.file_name()
         try:
