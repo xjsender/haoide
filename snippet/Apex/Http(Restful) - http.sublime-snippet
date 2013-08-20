@@ -7,6 +7,6 @@ req.setMethod(${2:DELETE-GET-HEAD-POST-PUT-TRACE});
 HttpResponse res = http.send(req);
 ]]></content>
     <tabTrigger>http</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>http process</description>
 </snippet>

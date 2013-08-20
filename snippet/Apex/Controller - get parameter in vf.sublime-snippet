@@ -3,6 +3,6 @@
 String $1 = ApexPages.currentPage().getParameters().get('${2:Parameter-Name}');
 ]]></content>
     <tabTrigger>getp</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>get parameter</description>
 </snippet>

@@ -103,6 +103,6 @@ public class RollUpSummaryUtility {
 }
 ]]></content>
     <tabTrigger>rollups</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>rollup summary utility</description>
 </snippet>

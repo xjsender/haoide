@@ -5,6 +5,6 @@ $0
 Database.rollback(sp);
 ]]></content>
     <tabTrigger>transaction</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>事务处理</description>
 </snippet>

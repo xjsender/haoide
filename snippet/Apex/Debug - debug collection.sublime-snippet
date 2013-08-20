@@ -5,6 +5,6 @@ for (${1:DATA-TYPE} variable : ${2:COLLECTOIN}) {
 }
 ]]></content>
     <tabTrigger>debugc</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>output collection</description>
 </snippet>

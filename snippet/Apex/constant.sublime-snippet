@@ -4,6 +4,6 @@ public static final $1 = $2;
 $3
 ]]></content>
     <tabTrigger>const</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>constant variable</description>
 </snippet>

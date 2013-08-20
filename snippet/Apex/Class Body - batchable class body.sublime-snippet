@@ -31,6 +31,6 @@ global class ${1:BATCHABLE-CLASS-NAME} implements Database.Batchable<SObject> {
 }
 ]]></content>
     <tabTrigger>batchc</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>batchable class</description>
 </snippet>

@@ -4,7 +4,7 @@ for ($1 : $2) {
     $0
 }]]></content>
     <tabTrigger>for</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <scope>source.cls</scope>
     <description>for block</description>
 </snippet>

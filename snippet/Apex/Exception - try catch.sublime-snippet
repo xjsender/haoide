@@ -8,6 +8,6 @@ catch (${2:EXCEPTION-TYPE} e) {
 }
 ]]></content>
     <tabTrigger>tryc</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>try catch</description>
 </snippet>

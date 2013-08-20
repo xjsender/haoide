@@ -6,6 +6,6 @@ do {
 while (${2:CONDITION}});
 ]]></content>
     <tabTrigger>dow</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>do while</description>
 </snippet>

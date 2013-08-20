@@ -5,6 +5,6 @@ if (trigger.isBefore && trigger.isInsert) {
 }
 ]]></content>
     <tabTrigger>beforei</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>before insert</description>
 </snippet>

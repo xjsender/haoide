@@ -26,6 +26,6 @@
 </Package>
 ]]></content>
     <tabTrigger>package</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>package.xml</description>
 </snippet>

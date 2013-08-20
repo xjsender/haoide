@@ -4,6 +4,6 @@ RestRequest request = RestContext.request;
 &0
 ]]></content>
     <tabTrigger>restreq</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>rest request</description>
 </snippet>

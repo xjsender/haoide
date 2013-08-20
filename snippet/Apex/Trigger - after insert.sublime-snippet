@@ -5,6 +5,6 @@ if (trigger.isAfter && trigger.isInsert) {
 }
 ]]></content>
     <tabTrigger>afteri</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>after insert</description>
 </snippet>

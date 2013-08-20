@@ -4,6 +4,6 @@ RestResponse response = RestContext.response;
 &0
 ]]></content>
     <tabTrigger>restres</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>rest response</description>
 </snippet>

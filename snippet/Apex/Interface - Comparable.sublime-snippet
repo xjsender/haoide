@@ -13,6 +13,6 @@ public class ${1} implements Comparable {
 }
 ]]></content>
     <tabTrigger>compare interface</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>Comparable Interface</description>
 </snippet>

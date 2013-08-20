@@ -17,6 +17,6 @@ global class ${1:SCHEDULE-CLASS-NAME} implements Schedulable {
 }
 ]]></content>
     <tabTrigger>schedulec</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>schedule class</description>
 </snippet>

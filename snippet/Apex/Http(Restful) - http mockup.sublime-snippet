@@ -31,6 +31,6 @@ global class ${1:MockHttpResponseGenerator} implements HttpCalloutMock {
 }
 ]]></content>
     <tabTrigger>mockup</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.apex</scope>
     <description>http mockup</description>
 </snippet>
