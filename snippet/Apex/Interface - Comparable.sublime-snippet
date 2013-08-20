@@ -1,0 +1,18 @@
+<snippet>
+    <content><![CDATA[
+public class ${1} implements Comparable {
+    ${0}
+    public ${1}() {
+        
+    }
+
+    // Implement the compareTo() method
+    global Integer compareTo(Object compareTo) {
+        
+    }
+}
+]]></content>
+    <tabTrigger>compare interface</tabTrigger>
+    <scope>source.java</scope>
+    <description>Comparable Interface</description>
+</snippet>

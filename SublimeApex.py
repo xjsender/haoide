@@ -27,7 +27,6 @@ class SetCheckPointCommand(sublime_plugin.TextCommand):
         mark = [s for s in self.view.sel()]
         self.view.add_regions("mark", mark, "mark", "circle",
             sublime.HIDDEN | sublime.PERSISTENT)
-        print (self.view.full_line(self.view.get_regions("mark")[0]))
 
 class RemoveCheckPointCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -654,7 +653,7 @@ def check_visible(file_name):
     username = toolingapi_settings["username"]
     try:
         component_attribute = util.get_component_attribute(username, file_name)
-    except KeyError as err:
+    except:
         return False
 
     if component_attribute == None: 
