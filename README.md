@@ -88,6 +88,8 @@ You can setup your projects follow below sample by clicking "Setting - User" in 
 
 When you initiate your settings, you can have more than one project in "projects", however, only one project default can be true.
 
+If your project need security token, just put it follow "username".
+
 Every time you want to switch the project, you can click [SublimeApex > Switch Project] in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
 ``` 
 {
@@ -97,7 +99,9 @@ Every time you want to switch the project, you can click [SublimeApex > Switch P
             "default": true,
             "login_url": "https://test.salesforce.com",
             "password": "a",
-            "username": "a@a.com"
+            "username": "a@a.com",
+            // If you have security token, just put it here
+            "security_token": "12sad3223adfas"
         },
         "Project2 Name": {
             "default": false,
@@ -157,3 +161,5 @@ Every time you want to switch the project, you can click [SublimeApex > Switch P
 8. If we want to refresh all ApexTrigger, ApexClass, ApexPage or ApexComponent, we just need to click the SublimeApex > Refresh Folder and then choose the folder we want to refresh.
 
 9. Before we update plugin, we should move your customized settings from "Settings - Default" to "Settings - User"
+
+10. Every time when you create a new view, it's default syntax is Apex
