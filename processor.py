@@ -191,8 +191,7 @@ def handle_refresh_folder(component_type, timeout=120):
 
         # Output component size
         size = len(result["records"])
-        print ("\n" + str(component_type) + " Size: " + str(size))
-        print ("-" * 100)
+        print (message.SEPRATE.format(str(component_type) + " Size: " + str(size)))
 
         # Write Components to local
         components = {}

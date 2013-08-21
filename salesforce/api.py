@@ -665,9 +665,7 @@ class SalesforceApi():
                 continue
 
             size = len(result["records"])
-            print (SEPRATE)
-            print ("\n" + str(component_type) + " Size: " + str(size))
-            print (SEPRATE)
+            print (message.SEPRATE.format(str(component_type) + " Size: " + str(size)))
             records = result["records"]
 
             component_attributes = {}
