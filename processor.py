@@ -180,7 +180,7 @@ def populate_sobjects():
 def handle_refresh_folder(component_type, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -267,7 +267,7 @@ def handle_backup_all_sobjects(timeout=120):
 
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -293,7 +293,7 @@ def handle_initiate_sobjects_completions(timeout=120):
     def handle_threads(apis, threads, timeout):
         for thread in threads:
             if thread.is_alive():
-                print (">", end=''); time.sleep(0.2)
+                print (">", end=''); time.sleep(0.3)
                 sublime.set_timeout(lambda: handle_threads(apis, threads, timeout), timeout)
                 return
         
@@ -331,7 +331,7 @@ def handle_initiate_sobjects_completions(timeout=120):
 
     def handle_thread(api, thread, timeout=120):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)
             return
         elif api.result == None:
@@ -360,7 +360,7 @@ def handle_initiate_sobjects_completions(timeout=120):
 def handle_retrieve_all_thread(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -425,7 +425,7 @@ def handle_retrieve_all_thread(timeout=120):
 def handle_parse_workflow(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -450,7 +450,7 @@ def handle_parse_workflow(timeout=120):
 def handle_parse_validation_rule(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -474,7 +474,7 @@ def handle_parse_validation_rule(timeout=120):
 def handle_describe_customfield(sobject, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -523,7 +523,7 @@ def handle_describe_customfield(sobject, timeout=120):
 def handle_describe_global(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -566,7 +566,7 @@ def handle_describe_global(timeout=120):
 def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -614,7 +614,7 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
 def handle_execute_query(soql, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -645,7 +645,7 @@ def handle_execute_query(soql, timeout=120):
 def handle_execute_anonymous(apex_string, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -678,7 +678,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
 def handle_run_test(class_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -696,7 +696,6 @@ def handle_run_test(class_id, timeout=120):
         test_result = util.parse_test_result(result)
 
         # Sometimes, the test result will not show
-        print (test_result)
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "Test Result",
@@ -713,7 +712,7 @@ def handle_run_test(class_id, timeout=120):
 def handle_retrieve_fields(sobject, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -756,7 +755,7 @@ def handle_generate_specified_workbooks(sobjects, timeout=120):
 def handle_generate_all_workbooks(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -779,7 +778,7 @@ def handle_generate_all_workbooks(timeout=120):
 def handle_refresh_components(toolingapi_settings, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -815,7 +814,7 @@ def handle_refresh_components(toolingapi_settings, timeout=120):
 def handle_save_component(component_name, component_attribute, body, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -839,7 +838,7 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
 def handle_create_component(data, component_name, component_type, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -887,7 +886,7 @@ def handle_create_component(data, component_name, component_type, timeout=120):
 def handle_refresh_component(component_attribute, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -923,7 +922,7 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
 def handle_delete_component(component_url, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -951,7 +950,7 @@ def handle_delete_component(component_url, file_name, timeout=120):
 def handle_push_topic(sobject, timeout=120):      
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(0.2)
+            print (">", end=''); time.sleep(0.3)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:

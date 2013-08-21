@@ -330,7 +330,6 @@ class SalesforceApi():
 
         post_url = "/services/data/v28.0/tooling/sobjects/TraceFlag"
         result = self.post(post_url, trace_flag)
-        print ("Create TraceFlag Result: ", result)
 
         return result
 
@@ -362,10 +361,8 @@ class SalesforceApi():
 
         # Create trace flag
         traced_entity_id = globals()[self.username]["user_id"]
-        print ("Start creating debug log...")
         self.create_trace_flag(traced_entity_id)
 
-        print ("Start running test...")
         time.sleep(2)
         post_url = "/services/data/v28.0/sobjects/ApexTestQueueItem"
         data = {"ApexClassId": class_id}
@@ -376,7 +373,6 @@ class SalesforceApi():
             return
         
         # Wait for the ApexTestQueueItem is over
-        print ("Test is in Queue, please wait for 10 seconds......")
         time.sleep(10)
         queue_item_id = result["id"]
         queue_item_soql = """SELECT Id, Status FROM ApexTestQueueItem 
@@ -390,7 +386,6 @@ class SalesforceApi():
         # If totalSize is Zero, it means we need to wait
         # Until Test is finished
         while result["totalSize"] == 0 or result["records"][0]["Status"] == "Queued":
-            print ("Test is still in queued, please continue waiting for 10 seconds.")
             time.sleep(10)
             result = self.query(queue_item_soql)
 
