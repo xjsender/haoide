@@ -42,7 +42,6 @@ def soap_login(settings, timeout=120):
     sf_instance = server_url[ : server_url.find('/services')]
     user_id = getUniqueElementValueFromXmlString(response.content, 'userId')
 
-    print ("session_id", session_id)
     result = {
         "session_id": session_id,
         "server_url": server_url,

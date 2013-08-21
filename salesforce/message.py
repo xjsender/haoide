@@ -4,9 +4,9 @@ SEPRATE = """
 -------------------------------------------------------------------------
 """
 
-AUTHORIZATION_FAILED_MESSAGE = """
+WAIT_FOR_A_MOMENT = """
 -------------------------------------------------------------------------
-Connecting to Salesforce Failed
+Please wait for a moment....
 -------------------------------------------------------------------------
 """
 
@@ -18,19 +18,19 @@ GET_SUCCESSFULLY = "Refresh Successfully"
 
 CREATE_SUCCESSFULLY = "Create Successfully"
 
-REFRESH_ALL_SUCCESSFULLY = "Refresh All Successfully"
-
 TOOLING_API_CONNECTING_FAILED = "Tooling API Connecting Failed"
 INVALID_COMPONENT = "It's an invalid salesforce component"
 DELETE_CONFIRM_MESSAGE = "Are you sure you really want to delete this?"
 APEXTRIGGER_BUG_MESSAGE = "Tooling API has bug on creating ApexTrigger, do you want to continue."
 INVALID_NEW_COMPONENT_FORMAT = "invalid new component format"
 INVALID_TEST_CLASS = "Invalid Test Class"
-WAIT_FOR_A_MOMENT = """
+
+AUTHORIZATION_FAILED_MESSAGE = """
 -------------------------------------------------------------------------
-Please wait for a moment....
+Connecting to Salesforce Failed
 -------------------------------------------------------------------------
 """
+
 DOWNLOAD_ALL_FIRST = "Please Refresh All Firstly"
 GENERATE_ALL_WORKBOOKS_REQUEST_LIMIT_MESSAGE = """
 Are you sure you really want to do it, this will consume your hundreds of API requests, more detail refer to

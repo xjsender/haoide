@@ -497,8 +497,7 @@ class SalesforceApi():
         result["compiled"] = getUniqueElementValueFromXmlString(content, "compiled")
         result["line"] = getUniqueElementValueFromXmlString(content, "line")
         result["success"] = getUniqueElementValueFromXmlString(content, "success")
-        pprint.pprint (result)
-
+        
         # Self.result is used to keep thread result
         self.result = result
 
@@ -668,7 +667,7 @@ class SalesforceApi():
 
             size = len(result["records"])
             print (SEPRATE)
-            print (str(component_type) + " Size: " + str(size))
+            print ("\n" + str(component_type) + " Size: " + str(size))
             print (SEPRATE)
             records = result["records"]
 
@@ -762,7 +761,7 @@ class SalesforceApi():
         }
         container_url = '/services/data/v28.0/tooling/sobjects/MetadataContainer'
         result = self.post(container_url, data)
-        print ("MetadataContainer Response: ", result)
+        # print ("MetadataContainer Response: ", result)
 
         # If status_code < 399, it means post succeed
         if result["status_code"] < 399:
@@ -792,7 +791,7 @@ class SalesforceApi():
         }
         url = "/services/data/v28.0/tooling/sobjects/" + component_type + "Member"
         result = self.post(url, data)
-        print ("Post ApexComponentMember: ", result)
+        # print ("Post ApexComponentMember: ", result)
 
         # Post ContainerAsyncRequest
         data = {
@@ -802,13 +801,13 @@ class SalesforceApi():
         sync_request_url = '/services/data/v28.0/tooling/sobjects/ContainerAsyncRequest'
         result = self.post(sync_request_url, data)
         request_id = result.get("id")
-        print ("Post ContainerAsyncRequest: ", result)
+        # print ("Post ContainerAsyncRequest: ", result)
 
         # Get ContainerAsyncRequest Result
         
         result = self.get(sync_request_url + "/" + request_id)
         state = result["State"]
-        print ("Get ContainerAsyncRequest: ", result)
+        # print ("Get ContainerAsyncRequest: ", result)
 
         return_result = {}
         if state == "Completed":
@@ -817,7 +816,7 @@ class SalesforceApi():
             }
 
         while state == "Queued":
-            print ("Async Request is queued, please wait for 5 seconds...")
+            # print ("Async Request is queued, please wait for 5 seconds...")
             time.sleep(5)
 
             result = self.get(sync_request_url + "/" + request_id)

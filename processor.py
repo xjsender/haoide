@@ -180,6 +180,7 @@ def populate_sobjects():
 def handle_refresh_folder(component_type, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -190,7 +191,7 @@ def handle_refresh_folder(component_type, timeout=120):
 
         # Output component size
         size = len(result["records"])
-        print (str(component_type) + " Size: " + str(size))
+        print ("\n" + str(component_type) + " Size: " + str(size))
         print ("-" * 100)
 
         # Write Components to local
@@ -244,7 +245,7 @@ def handle_refresh_folder(component_type, timeout=120):
 
         sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     # Get toolingapi_settings
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
@@ -266,6 +267,7 @@ def handle_backup_all_sobjects(timeout=120):
 
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -275,7 +277,7 @@ def handle_backup_all_sobjects(timeout=120):
         sobjects = api.result
         bulkapi.handle_bulkapi_query(sobjects)
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
@@ -291,6 +293,7 @@ def handle_initiate_sobjects_completions(timeout=120):
     def handle_threads(apis, threads, timeout):
         for thread in threads:
             if thread.is_alive():
+                print (">", end=''); time.sleep(0.2)
                 sublime.set_timeout(lambda: handle_threads(apis, threads, timeout), timeout)
                 return
         
@@ -328,6 +331,7 @@ def handle_initiate_sobjects_completions(timeout=120):
 
     def handle_thread(api, thread, timeout=120):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)
             return
         elif api.result == None:
@@ -356,6 +360,7 @@ def handle_initiate_sobjects_completions(timeout=120):
 def handle_retrieve_all_thread(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -410,7 +415,7 @@ def handle_retrieve_all_thread(timeout=120):
         # Output package path
         print("Your objects and workflows are exported to: " + outputdir)
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.retrieve_all, args=())
@@ -420,6 +425,7 @@ def handle_retrieve_all_thread(timeout=120):
 def handle_parse_workflow(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -434,7 +440,7 @@ def handle_parse_workflow(timeout=120):
         print("Your workflows are exported to " +\
             toolingapi_settings["workspace"] + "/describe/workflows/")
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
@@ -444,6 +450,7 @@ def handle_parse_workflow(timeout=120):
 def handle_parse_validation_rule(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -457,7 +464,7 @@ def handle_parse_validation_rule(timeout=120):
         print("Your validation rules are exported to " +\
             toolingapi_settings["workspace"] + "/describe/validation rules/validation rules.csv")
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
@@ -467,6 +474,7 @@ def handle_parse_validation_rule(timeout=120):
 def handle_describe_customfield(sobject, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -500,9 +508,9 @@ def handle_describe_customfield(sobject, timeout=120):
         fp.close()
 
         # Output log
-        print(output_file_dir)
+        print (message.SEPRATE.format(output_file_dir))
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     query = """SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName 
@@ -515,6 +523,7 @@ def handle_describe_customfield(sobject, timeout=120):
 def handle_describe_global(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -545,9 +554,9 @@ def handle_describe_global(timeout=120):
         util.list2csv(fp, result["sobjects"])
 
         # Output log
-        print("global describe csv outputdir: " + output_file_dir)
+        print (message.SEPRATE.format("global describe csv outputdir: " + output_file_dir))
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global, args=())
@@ -557,6 +566,7 @@ def handle_describe_global(timeout=120):
 def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -592,9 +602,9 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
             fp = open(output_file_dir, "wb")
         util.parse_describe_layout_result(fp, result)
         
-        print("Layout describe outputdir: " + output_file_dir)
+        print (message.SEPRATE.format("Layout describe outputdir: " + output_file_dir))
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_layout, args=(sobject, recordtype_id, ))
@@ -604,6 +614,7 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
 def handle_execute_query(soql, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -624,7 +635,7 @@ def handle_execute_query(soql, timeout=120):
             "input": util.parse_execute_query_result(result)
         })
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.query, args=(soql, ))
@@ -634,6 +645,7 @@ def handle_execute_query(soql, timeout=120):
 def handle_execute_anonymous(apex_string, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -656,7 +668,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
             "input": util.parse_execute_anonymous_xml(result)
         })
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.execute_anonymous, args=(apex_string, ))
@@ -666,6 +678,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
 def handle_run_test(class_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -690,7 +703,7 @@ def handle_run_test(class_id, timeout=120):
             "input": test_result
         })
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.run_test, args=(class_id, ))
@@ -700,6 +713,7 @@ def handle_run_test(class_id, timeout=120):
 def handle_retrieve_fields(sobject, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -720,7 +734,7 @@ def handle_retrieve_fields(sobject, timeout=120):
             "input": util.parse_sobject_field_result(result)
         })
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     # Combine sobject url
     sobject_url = "/services/data/v28.0/sobjects/" + sobject+ "/describe"
     toolingapi_settings = context.get_toolingapi_settings()
@@ -730,7 +744,7 @@ def handle_retrieve_fields(sobject, timeout=120):
     handle_new_view_thread(thread, timeout)
 
 def handle_generate_specified_workbooks(sobjects, timeout=120):
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     threads = []
@@ -742,6 +756,7 @@ def handle_generate_specified_workbooks(sobjects, timeout=120):
 def handle_generate_all_workbooks(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -754,7 +769,7 @@ def handle_generate_all_workbooks(timeout=120):
             thread = threading.Thread(target=api.generate_workbook, args=(sobject, ))
             thread.start()
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
@@ -764,6 +779,7 @@ def handle_generate_all_workbooks(timeout=120):
 def handle_refresh_components(toolingapi_settings, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -788,7 +804,7 @@ def handle_refresh_components(toolingapi_settings, timeout=120):
         # After Refresh all succeed, start initiate sobject completions
         handle_initiate_sobjects_completions(120)
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     api = SalesforceApi(toolingapi_settings)
     component_types = context.get_toolingapi_settings()["component_types"]
     thread = threading.Thread(target=api.refresh_components, 
@@ -799,6 +815,7 @@ def handle_refresh_components(toolingapi_settings, timeout=120):
 def handle_save_component(component_name, component_attribute, body, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -807,13 +824,12 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
 
         result = api.result
         if "success" in result and result["success"]:
-            print (message.SEPRATE.format(message.DEPLOY_SUCCESSFULLY))
-            sublime.status_message(message.DEPLOY_SUCCESSFULLY)
+            print (message.SEPRATE.format(message.DEPLOY_SUCCESSFULLY), end='')
         elif "message" in result:
             print (message.SEPRATE.format(result["message"]))
             sublime.status_message(result["message"])
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.save_component, args=(component_attribute, body, ))
@@ -823,6 +839,7 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
 def handle_create_component(data, component_name, component_type, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -859,7 +876,7 @@ def handle_create_component(data, component_name, component_type, timeout=120):
         print (message.SEPRATE.format(message.CREATE_SUCCESSFULLY))
         sublime.status_message(message.CREATE_SUCCESSFULLY)
                 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     post_url = "/services/data/v27.0/sobjects/" + component_type
@@ -870,6 +887,7 @@ def handle_create_component(data, component_name, component_type, timeout=120):
 def handle_refresh_component(component_attribute, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -893,7 +911,7 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
         print (message.SEPRATE.format(message.GET_SUCCESSFULLY))
         sublime.status_message(message.GET_SUCCESSFULLY)
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     component_body = component_attribute["body"]
@@ -905,6 +923,7 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
 def handle_delete_component(component_url, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -922,7 +941,7 @@ def handle_delete_component(component_url, file_name, timeout=120):
         print (message.SEPRATE.format(message.DELETE_SUCCESSFULLY))
         sublime.status_message(message.DELETE_SUCCESSFULLY)
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.delete, args=(component_url, ))
@@ -932,6 +951,7 @@ def handle_delete_component(component_url, file_name, timeout=120):
 def handle_push_topic(sobject, timeout=120):      
     def handle_thread(thread, timeout):
         if thread.is_alive():
+            print (">", end=''); time.sleep(0.2)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -946,7 +966,7 @@ def handle_push_topic(sobject, timeout=120):
 
         print (result)
 
-    print (message.WAIT_FOR_A_MOMENT)
+    print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
     post_url = "/services/data/v28.0/sobjects/PushTopic"
