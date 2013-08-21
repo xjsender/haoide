@@ -56,6 +56,10 @@ class SalesforceApi():
             }
             globals()[self.username] = result
 
+        # Integration env., we need to reuse this session id in other purpose
+        if self.toolingapi_settings["output_session_info"]:
+            pprint.pprint(globals()[self.username])
+
         return True
     
     def get(self, component_url, timeout=120):

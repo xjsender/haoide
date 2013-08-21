@@ -22,6 +22,9 @@
         }
     },
 
+    // indicate whether print session id
+    "output_session_info": false,
+
     // TraceFlag Debug Log Level
     "trace_flag": {
         "ApexCode": "Debug",

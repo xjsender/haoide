@@ -55,6 +55,9 @@ def get_toolingapi_settings():
     settings["login_url"] = login_url
     settings["soap_login_url"] = login_url + "/services/Soap/u/v28.0"
 
+    # This flag indicate whether output session id
+    settings["output_session_info"] = s.get("output_session_info", False)
+
     # Trace Flag
     settings["trace_flag"] = s.get("trace_flag")
 
