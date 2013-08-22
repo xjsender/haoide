@@ -57,8 +57,7 @@ your project folder name should be Exercise-Pro-20130730
 + View Test Result<br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/test%20result.png" />
 
-+ You can click "View Debug Log Detail" to view log in sublime, however, if log is too large and time-consuming,
-+ you can click "View Id In Salesforce Web" to view log.
++ You can click "View Debug Log Detail" to view log in sublime, however, if log is too large and time-consuming, you can click "View Id In Salesforce Web" to view log.<br/>
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/view%20debug%20log.png" />
 
 ###Refresh Folder
