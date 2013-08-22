@@ -22,6 +22,11 @@ class SFDCEventListener(sublime_plugin.EventListener):
         Every time when you save your ApexPage, ApexTrigger, ApexClass, ApexComponent, 
         this class will make a copy with the time_stamp in the history path of current project
         """
+        settings = context.get_toolingapi_settings()
+
+        # Check whether need to keep history
+        if not settings["keep_local_change_history"]: return
+
         # Get current file name and Read file content
         file_name = view.file_name()
         try:
@@ -35,7 +40,7 @@ class SFDCEventListener(sublime_plugin.EventListener):
 
         # If this file is not ApexTrigger, ApexComponent, 
         # ApexPage or ApexClass, just return
-        if component_type not in ["ApexClass", "ApexPage", "ApexComponent", "ApexTrigger", "StaticResource"]:
+        if component_type not in settings["component_types"]:
             return
 
         # Get toolingapi settings

@@ -58,6 +58,12 @@ def get_toolingapi_settings():
     # This flag indicate whether output session id
     settings["output_session_info"] = s.get("output_session_info", False)
 
+    # Indicate whether keep local change history
+    settings["keep_local_change_history"] = s.get("keep_local_change_history", True)
+
+    # The thread wait interval time
+    settings["thread_sleep_time_of_waiting"] = s.get("thread_sleep_time_of_waiting", 0.05)
+
     # Trace Flag
     settings["trace_flag"] = s.get("trace_flag")
 
