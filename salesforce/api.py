@@ -333,13 +333,15 @@ class SalesforceApi():
 
         return result
 
-    def get_debug_log(self, log_id, timeout=120):
+    def get_debug_log_detail(self, log_id, timeout=120):
         """
         Retrieve a raw log by ID
 
         :log_id: ApexLogId
         :return: raw data of log
         """
+        # Firstly Login
+        self.login(False)
 
         url = "/services/data/v28.0/sobjects/ApexLog/" + log_id + "/Body"
         headers = globals()[self.username]["headers"]
@@ -347,6 +349,12 @@ class SalesforceApi():
         response = requests.get(instance_url + url, 
             verify=False, headers=headers, timeout=timeout)
 
+        # Check whether session_id is expired
+        if "INVALID_SESSION_ID" in response.text:
+            self.login(True)
+            return self.get_debug_log_detail(log_id)
+
+        self.result = response.text
         return response.text
 
     def run_test(self, class_id, traced_entity_id=None):

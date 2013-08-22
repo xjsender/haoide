@@ -180,8 +180,6 @@ def populate_sobjects():
 def handle_refresh_folder(component_type, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
@@ -247,8 +245,8 @@ def handle_refresh_folder(component_type, timeout=120):
         sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
     print (message.WAIT_FOR_A_MOMENT, end='')
-    # Get toolingapi_settings
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
 
     # Get component attributes by component_type
@@ -268,8 +266,6 @@ def handle_backup_all_sobjects(timeout=120):
 
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
@@ -282,6 +278,7 @@ def handle_backup_all_sobjects(timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
@@ -296,8 +293,6 @@ def handle_initiate_sobjects_completions(timeout=120):
     def handle_threads(apis, threads, timeout):
         for thread in threads:
             if thread.is_alive():
-                # You can change the sleep time in sublime settings
-                sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
                 print (">", end=''); time.sleep(sleep_time)
                 sublime.set_timeout(lambda: handle_threads(apis, threads, timeout), timeout)
                 return
@@ -336,8 +331,6 @@ def handle_initiate_sobjects_completions(timeout=120):
 
     def handle_thread(api, thread, timeout=120):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)
             return
@@ -359,6 +352,7 @@ def handle_initiate_sobjects_completions(timeout=120):
         handle_threads(apis, threads, 10)
 
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
@@ -367,8 +361,6 @@ def handle_initiate_sobjects_completions(timeout=120):
 def handle_retrieve_all_thread(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
@@ -426,6 +418,7 @@ def handle_retrieve_all_thread(timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.retrieve_all, args=())
     thread.start()
@@ -434,8 +427,6 @@ def handle_retrieve_all_thread(timeout=120):
 def handle_parse_workflow(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
@@ -453,6 +444,7 @@ def handle_parse_workflow(timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
@@ -461,8 +453,6 @@ def handle_parse_workflow(timeout=120):
 def handle_parse_validation_rule(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
@@ -479,6 +469,7 @@ def handle_parse_validation_rule(timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
@@ -487,8 +478,6 @@ def handle_parse_validation_rule(timeout=120):
 def handle_describe_customfield(sobject, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
@@ -527,6 +516,7 @@ def handle_describe_customfield(sobject, timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     query = """SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName 
                FROM CustomField 
@@ -538,8 +528,6 @@ def handle_describe_customfield(sobject, timeout=120):
 def handle_describe_global(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
@@ -575,6 +563,7 @@ def handle_describe_global(timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
@@ -583,8 +572,6 @@ def handle_describe_global(timeout=120):
 def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
@@ -625,6 +612,7 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_layout, args=(sobject, recordtype_id, ))
     thread.start()
@@ -633,8 +621,6 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
 def handle_execute_query(soql, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
@@ -658,6 +644,7 @@ def handle_execute_query(soql, timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.query, args=(soql, ))
     thread.start()
@@ -665,8 +652,6 @@ def handle_execute_query(soql, timeout=120):
 
 def handle_execute_anonymous(apex_string, timeout=120):
     def handle_new_view_thread(thread, timeout):
-        # You can change the sleep time in sublime settings
-        sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
         print (">", end=''); time.sleep(sleep_time)
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
@@ -693,16 +678,39 @@ def handle_execute_anonymous(apex_string, timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.execute_anonymous, args=(apex_string, ))
     thread.start()
     handle_new_view_thread(thread, timeout)
 
+def handle_get_debug_log_detail(log_id, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            print (">", end=''); time.sleep(sleep_time)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            return
+        elif api.result == None:
+            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            return
+        
+        view = sublime.active_window().new_file()
+        view.run_command("new_view", {
+            "name": "Debug Log Detail",
+            "input": api.result
+        })
+
+    print (message.WAIT_FOR_A_MOMENT, end='')
+    toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
+    api = SalesforceApi(toolingapi_settings)
+    thread = threading.Thread(target=api.get_debug_log_detail, args=(log_id, ))
+    thread.start()
+    handle_thread(thread, timeout)
+
 def handle_run_test(class_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
@@ -719,8 +727,6 @@ def handle_run_test(class_id, timeout=120):
 
         # No error, just display log in a new view
         test_result = util.parse_test_result(result)
-
-        # Sometimes, the test result will not show
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "Test Result",
@@ -729,6 +735,7 @@ def handle_run_test(class_id, timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.run_test, args=(class_id, ))
     thread.start()
@@ -737,8 +744,6 @@ def handle_run_test(class_id, timeout=120):
 def handle_retrieve_fields(sobject, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
@@ -761,10 +766,10 @@ def handle_retrieve_fields(sobject, timeout=120):
         })
 
     print (message.WAIT_FOR_A_MOMENT, end='')
-    # Combine sobject url
-    sobject_url = "/services/data/v28.0/sobjects/" + sobject+ "/describe"
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
+    sobject_url = "/services/data/v28.0/sobjects/" + sobject+ "/describe"
     thread = threading.Thread(target=api.get, args=(sobject_url, ))
     thread.start()
     handle_new_view_thread(thread, timeout)
@@ -772,6 +777,7 @@ def handle_retrieve_fields(sobject, timeout=120):
 def handle_generate_specified_workbooks(sobjects, timeout=120):
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     threads = []
     for sobject in sobjects:
@@ -782,8 +788,6 @@ def handle_generate_specified_workbooks(sobjects, timeout=120):
 def handle_generate_all_workbooks(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
@@ -799,6 +803,7 @@ def handle_generate_all_workbooks(timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
@@ -807,8 +812,6 @@ def handle_generate_all_workbooks(timeout=120):
 def handle_refresh_components(toolingapi_settings, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
@@ -835,6 +838,7 @@ def handle_refresh_components(toolingapi_settings, timeout=120):
         handle_initiate_sobjects_completions(120)
 
     print (message.WAIT_FOR_A_MOMENT, end='')
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     component_types = context.get_toolingapi_settings()["component_types"]
     thread = threading.Thread(target=api.refresh_components, 
@@ -845,8 +849,6 @@ def handle_refresh_components(toolingapi_settings, timeout=120):
 def handle_save_component(component_name, component_attribute, body, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
@@ -863,6 +865,7 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.save_component, args=(component_attribute, body, ))
     thread.start()
@@ -871,8 +874,6 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
 def handle_create_component(data, component_name, component_type, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
@@ -912,6 +913,7 @@ def handle_create_component(data, component_name, component_type, timeout=120):
                 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     post_url = "/services/data/v27.0/sobjects/" + component_type
     thread = threading.Thread(target=api.post, args=(post_url, data, ))
@@ -921,8 +923,6 @@ def handle_create_component(data, component_name, component_type, timeout=120):
 def handle_refresh_component(component_attribute, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
@@ -949,6 +949,7 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     component_body = component_attribute["body"]
     component_url = component_attribute["url"]
@@ -959,8 +960,6 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
 def handle_delete_component(component_url, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
@@ -981,6 +980,7 @@ def handle_delete_component(component_url, file_name, timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.delete, args=(component_url, ))
     thread.start()
@@ -989,8 +989,6 @@ def handle_delete_component(component_url, file_name, timeout=120):
 def handle_push_topic(sobject, timeout=120):      
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            # You can change the sleep time in sublime settings
-            sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
@@ -1008,6 +1006,7 @@ def handle_push_topic(sobject, timeout=120):
 
     print (message.WAIT_FOR_A_MOMENT, end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     post_url = "/services/data/v28.0/sobjects/PushTopic"
     post_data = {

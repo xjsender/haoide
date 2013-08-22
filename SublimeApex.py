@@ -337,6 +337,27 @@ class RunTestCommand(sublime_plugin.TextCommand):
 
         return True
 
+class ViewDebugLogDetail(sublime_plugin.TextCommand):
+    def run(self, view):
+        # Open Console
+        self.view.window().run_command("show_panel", 
+            {"panel": "console", "toggle": False})
+
+        processor.handle_get_debug_log_detail(self.log_id)
+
+    def is_visible(self):
+        # Choose the valid Id, you will see this command
+        if util.is_python3x():
+            self.log_id = self.view.substr(self.view.sel()[0])
+        else:
+            self.log_id = self.view.substr(self.view.sel()[0]).encode("utf-8")
+
+        if len(self.log_id) != 15 and len(self.log_id) != 18: return False
+        if not re.compile(r'^[a-zA-Z0-9]*$').match(self.log_id): return False
+        if not self.log_id.startswith("07L"): return False
+
+        return True
+
 class ExecuteSoqlCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Open Console

@@ -36,6 +36,9 @@
     // Create new component
     {"keys": ["ctrl+alt+n"], "command": "create_component"},
 
+    // View the debug log detail by chosen log id
+    {"keys": ["alt+d", "alt+l"], "command": "view_debug_log_detail"},
+
     // View the chosen valid SFDC Id in Web
     {"keys": ["ctrl+i", "ctrl+d"], "command": "view_id_in_sfdc_web"},
 
@@ -76,7 +79,7 @@
     },
 
     // Login To Workflow Rule
-    {"keys": ["alt+d", "alt+l"], "command": "login_to_sfdc", 
+    {"keys": ["alt+w", "alt+r"], "command": "login_to_sfdc", 
         "args": {
             "startURL": "/01Q"
         }

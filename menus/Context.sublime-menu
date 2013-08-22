@@ -59,6 +59,12 @@
             { "caption": "-" },
 
             {
+                "id": "viewdebuglogdetail",
+                "caption": "View Debug Log Detail",
+                "command": "view_debug_log_detail"
+            },
+
+            {
                 "id": "viewidinsfdcweb",
                 "caption": "View Id in Salesforce Web",
                 "command": "view_id_in_sfdc_web"
