@@ -77,7 +77,7 @@ your project folder name should be Exercise-Pro-20130730
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/deploy%20component.png" />
 
 # Installation #
-This plugin support ST2 and ST3, firstly, install sublime text and then extract the zip file into your sublime package path.
+This plugin support Sublime Text 3, firstly, install sublime text and then extract the zip file into your sublime package path.
 Package Name in sublime should be SublimeApex, for example, "D:\Sublime347\Data\Packages\SublimeApex" is my installation path.
 
 Before start coding, you should initiate your project settings, you can keep your settings in Default Setting or User Setting, however, [User Settings] is prior to [Default Settings].
@@ -156,10 +156,14 @@ Every time you want to switch the project, you can click [SublimeApex > Switch P
 
 6. If we have two classes, the first one of which is the utility class for the second one, it would be best to open the first class so that we can see the variable completions when we edit the first one.
 
-7. When we want to run test, basically, your test result should be displayed as a new view; however, if there is no active view, the new view will not show up, so we should check the result in the console log.
+7. When we want to run test, basically, your test result should be displayed as a new view.
 
-8. If we want to refresh all ApexTrigger, ApexClass, ApexPage or ApexComponent, we just need to click the SublimeApex > Refresh Folder and then choose the folder we want to refresh.
+8. If we want to refresh the folder, we just need to click the SublimeApex > Refresh Folder and then choose the folder we want to refresh.
 
 9. Before we update plugin, we should move your customized settings from "Settings - Default" to "Settings - User"
 
-10. Every time when you create a new view, it's default syntax is Apex
+10. Every time when you create a new view, it's default syntax is Apex.
+
+11. If you don't want to keep the local history change, you can set keep_local_change_history to false in the settings.
+
+12. If you want to output the session info, you can set output_session_info to true in the settings.
