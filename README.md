@@ -74,7 +74,7 @@ your project folder name should be Exercise-Pro-20130730
 ###Deploy component
 + This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
 + After component is updated, click SublimeApex > Deploy to Server
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/deploy%20component.png" />
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/deploy%20code.png" />
 
 # Installation #
 This plugin support Sublime Text 3, firstly, install sublime text and then extract the zip file into your sublime package path.
