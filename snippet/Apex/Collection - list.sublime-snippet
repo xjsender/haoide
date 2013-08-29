@@ -3,6 +3,6 @@
 List<$1> $2 = new List<$1>();
 ]]></content>
     <tabTrigger>list</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>list variable</description>
 </snippet>

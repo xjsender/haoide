@@ -6,6 +6,6 @@
 $0
 ]]></content>
     <tabTrigger>ajax apex</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>AJAX apex library</description>
 </snippet>

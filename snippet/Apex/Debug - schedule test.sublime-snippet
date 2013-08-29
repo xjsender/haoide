@@ -8,6 +8,6 @@ System.schedule(jobName, sch, schClass);
 ]]></content>
     Optional: Set a tabTrigger to define how to trigger the snippet
     <tabTrigger>schedule</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>Test Schedule</description>
 </snippet>

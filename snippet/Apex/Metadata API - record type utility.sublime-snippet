@@ -103,6 +103,6 @@ public with sharing class UtilRecordType {
 }
 ]]></content>
     <tabTrigger>recordtypeu</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>recordtype util</description>
 </snippet>

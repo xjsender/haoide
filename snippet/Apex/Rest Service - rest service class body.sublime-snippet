@@ -18,6 +18,6 @@ global with sharing class ${1:Class-Name} {
 }
 ]]></content>
     <tabTrigger>restc</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>rest class</description>
 </snippet>

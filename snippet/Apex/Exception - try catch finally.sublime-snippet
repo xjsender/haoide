@@ -11,6 +11,6 @@ finally {
 }
 ]]></content>
     <tabTrigger>tryf</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>try catch finally</description>
 </snippet>

@@ -3,6 +3,6 @@
 String decode = EncodingUtil.urlDecode($1, 'UTF-8');
 ]]></content>
     <tabTrigger>urld</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>EncodingUtil.urlDecode</description>
 </snippet>

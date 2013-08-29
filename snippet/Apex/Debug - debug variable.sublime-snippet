@@ -3,6 +3,6 @@
 System.debug('Debug Output ======> {' + $0 + '}');
 ]]></content>
     <tabTrigger>debug</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>variable debug</description>
 </snippet>

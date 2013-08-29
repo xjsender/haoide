@@ -32,6 +32,6 @@
 </project>
 ]]></content>
     <tabTrigger>build</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>build.xml</description>
 </snippet>

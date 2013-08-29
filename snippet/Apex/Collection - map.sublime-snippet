@@ -3,6 +3,6 @@
 Map<$1> $2 = new Map<$1>();
 ]]></content>
     <tabTrigger>map</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>map variable</description>
 </snippet>

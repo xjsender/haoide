@@ -9,6 +9,6 @@ catch (DMLException e) {
 }
 ]]></content>
     <tabTrigger>insertso</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>insert sobjects</description>
 </snippet>

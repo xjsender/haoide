@@ -140,6 +140,6 @@ Public class UtilTestData {
 }
 ]]></content>
     <tabTrigger>testu</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>test data utility</description>
 </snippet>

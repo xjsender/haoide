@@ -5,6 +5,6 @@ if (trigger.isBefore && trigger.isUpdate) {
 }
 ]]></content>
     <tabTrigger>beforeu</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>before update</description>
 </snippet>

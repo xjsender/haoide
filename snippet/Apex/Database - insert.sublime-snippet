@@ -3,6 +3,6 @@
 Database.insert($1);
 ]]></content>
     <tabTrigger>databasei</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>database insert</description>
 </snippet>

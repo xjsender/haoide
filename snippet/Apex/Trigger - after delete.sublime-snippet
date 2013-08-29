@@ -5,6 +5,6 @@ if (trigger.isAfter && trigger.isDelete) {
 }
 ]]></content>
     <tabTrigger>afterd</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>after delete</description>
 </snippet>

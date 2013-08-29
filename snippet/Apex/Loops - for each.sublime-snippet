@@ -5,6 +5,6 @@ for ($1: ${2:collection}) {
 }
 ]]></content>
     <tabTrigger>foreach</tabTrigger>
-    <scope>source.apex</scope>
+    <scope>source.java</scope>
     <description>for each</description>
 </snippet>
