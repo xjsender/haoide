@@ -19,7 +19,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
     """
 
     def on_query_completions(self, view, prefix, locations):
-        if not view.match_selector(locations[0], "source.apex"):
+        if not view.match_selector(locations[0], "source.java"):
             return []
 
         # Load sobjects compoletions
@@ -74,7 +74,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
 
 class ApexCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
-        if not view.match_selector(locations[0], "source.apex"):
+        if not view.match_selector(locations[0], "source.java"):
             return []
 
         location = locations[0]
