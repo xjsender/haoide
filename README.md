@@ -1,4 +1,4 @@
-# Salesforce development tool for Sublime Text 3
+# Sublime IDE for salesforce
 This plugin support Sublime Text 3 for windows.
 
 # Sceenshot #

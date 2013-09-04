@@ -31,7 +31,7 @@
             },
 
             {
-                "id": "retrieveall",
+                "id": "retrievemetadata",
                 "caption": "Retrieve Metadata",
                 "command": "retrieve_metadata"
             },
