@@ -5,7 +5,7 @@
     "margin": 3,
     "is_widget": true,
     "word_wrap": true,
-    "wrap_width": 100,
+    "wrap_width": 120,
     "auto_match_enabled": true,
     "scroll_past_end": false,
     "draw_indent_guides": false,

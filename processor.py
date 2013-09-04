@@ -184,7 +184,7 @@ def handle_refresh_folder(component_type, timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
 
         result = api.result
@@ -244,7 +244,7 @@ def handle_refresh_folder(component_type, timeout=120):
 
         sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -270,13 +270,13 @@ def handle_backup_all_sobjects(timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
 
         sobjects = api.result
         bulkapi.handle_bulkapi_query(sobjects)
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -361,7 +361,6 @@ def handle_initiate_sobjects_completions(timeout=120):
 def handle_retrieve_all_thread(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -416,7 +415,7 @@ def handle_retrieve_all_thread(timeout=120):
         # Output package path
         print("Your objects and workflows are exported to: " + outputdir)
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -431,7 +430,7 @@ def handle_parse_workflow(timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed
@@ -439,10 +438,10 @@ def handle_parse_workflow(timeout=120):
         for sobject in sobjects:
             util.parse_workflow_metadata(toolingapi_settings, sobject)
 
-        print("Your workflows are exported to " +\
-            toolingapi_settings["workspace"] + "/describe/workflows/")
+        print (message.SEPRATE.format("Your workflows are exported to " +\
+            toolingapi_settings["workspace"] + "/describe/workflows/"))
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -457,17 +456,17 @@ def handle_parse_validation_rule(timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
 
         # If succeed
         sobjects = api.result
         util.parse_validation_rule(toolingapi_settings, sobjects)
 
-        print("Your validation rules are exported to " +\
-            toolingapi_settings["workspace"] + "/describe/validation rules/validation rules.csv")
+        print (message.SEPRATE.format("Your validation rules are exported to " +\
+            toolingapi_settings["workspace"] + "/describe/validation rules/validation rules.csv"))
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -482,7 +481,7 @@ def handle_describe_customfield(sobject, timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed
@@ -514,7 +513,7 @@ def handle_describe_customfield(sobject, timeout=120):
         # Output log
         print (message.SEPRATE.format(output_file_dir))
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -532,7 +531,7 @@ def handle_describe_global(timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed
@@ -561,7 +560,7 @@ def handle_describe_global(timeout=120):
         # Output log
         print (message.SEPRATE.format("global describe csv outputdir: " + output_file_dir))
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -576,7 +575,7 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed
@@ -610,7 +609,7 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
         
         print (message.SEPRATE.format("Layout describe outputdir: " + output_file_dir))
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -625,7 +624,7 @@ def handle_execute_query(soql, timeout=120):
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed
@@ -642,7 +641,7 @@ def handle_execute_query(soql, timeout=120):
             "input": util.parse_execute_query_result(result)
         })
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -657,7 +656,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed
@@ -676,7 +675,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
             "input": util.parse_execute_anonymous_xml(result)
         })
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -691,7 +690,7 @@ def handle_get_debug_log_detail(log_id, timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         view = sublime.active_window().new_file()
@@ -700,7 +699,7 @@ def handle_get_debug_log_detail(log_id, timeout=120):
             "input": api.result
         })
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -715,7 +714,7 @@ def handle_run_test(class_id, timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed
@@ -733,7 +732,7 @@ def handle_run_test(class_id, timeout=120):
             "input": test_result
         })
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -748,7 +747,7 @@ def handle_retrieve_fields(sobject, timeout=120):
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed
@@ -765,7 +764,7 @@ def handle_retrieve_fields(sobject, timeout=120):
             "input": util.parse_sobject_field_result(result)
         })
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -775,7 +774,7 @@ def handle_retrieve_fields(sobject, timeout=120):
     handle_new_view_thread(thread, timeout)
 
 def handle_generate_specified_workbooks(sobjects, timeout=120):
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -792,7 +791,7 @@ def handle_generate_all_workbooks(timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed
@@ -801,7 +800,7 @@ def handle_generate_all_workbooks(timeout=120):
             thread = threading.Thread(target=api.generate_workbook, args=(sobject, ))
             thread.start()
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -816,7 +815,7 @@ def handle_refresh_components(toolingapi_settings, timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
-            sublime.status_message(message.TOOLING_API_CONNECTING_FAILED)
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed, something may happen,
@@ -837,7 +836,7 @@ def handle_refresh_components(toolingapi_settings, timeout=120):
         # After Refresh all succeed, start initiate sobject completions
         handle_initiate_sobjects_completions(120)
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     component_types = context.get_toolingapi_settings()["component_types"]
@@ -857,13 +856,13 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
             return
 
         result = api.result
+        file_base_name = component_name + component_attribute["extension"]
         if "success" in result and result["success"]:
-            print (message.SEPRATE.format(message.DEPLOY_SUCCESSFULLY), end='')
+            print (message.SEPRATE.format(message.SAVE_SUCCESSFULLY.format(file_base_name)))
         elif "message" in result:
             print (message.SEPRATE.format(result["message"]))
-            sublime.status_message(result["message"])
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -883,14 +882,20 @@ def handle_create_component(data, component_name, component_type, timeout=120):
         
         # If create Succeed
         result = api.result
-        status_code = result["status_code"]
-        
-        if status_code > 399:
-            util.sublime_error_message(result)
+        if result["status_code"] > 399:
+            error_message = "% 20s " % "Name: "
+            error_message += "%-20s " % component_name + "\n"
+            error_message += "% 20s " % "Problem: "
+            error_message += "%-20s " % util.none_value(result["errorCode"]) + "\n"
+            error_message += "% 20s " % "Line: "
+            error_message += "%-20s " % util.none_value(result["message"])
+            print (message.SEPRATE.format(error_message))
             return
         
         # Get the created component id
         component_id = result.get("id")
+        body = toolingapi_settings[component_type]["body"]
+        extension = toolingapi_settings[component_type]["extension"]
         
         # Save it to component.sublime-settings
         s = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
@@ -899,8 +904,8 @@ def handle_create_component(data, component_name, component_type, timeout=120):
         components_dict[component_type][component_name] = {
             "id": component_id,
             "url": post_url + "/" + component_id,
-            "body": toolingapi_settings[component_type]["body"],
-            "extension": toolingapi_settings[component_type]["extension"],
+            "body": body,
+            "extension": extension,
             "type": component_type,
             "is_test": False
         }
@@ -908,10 +913,10 @@ def handle_create_component(data, component_name, component_type, timeout=120):
 
         # Save settings and show success message
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
-        print (message.SEPRATE.format(message.CREATE_SUCCESSFULLY))
-        sublime.status_message(message.CREATE_SUCCESSFULLY)
+        file_base_name = component_name + extension
+        print (message.SEPRATE.format(message.CREATE_SUCCESSFULLY.format(file_base_name)))
                 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -934,7 +939,13 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
         status_code = result["status_code"]
         
         if status_code > 399:
-            util.sublime_error_message(result)
+            error_message = "% 20s " % "Name: "
+            error_message += "%-20s " % component_name + "\n"
+            error_message += "% 20s " % "Problem: "
+            error_message += "%-20s " % util.none_value(result["errorCode"]) + "\n"
+            error_message += "% 20s " % "Line: "
+            error_message += "%-20s " % util.none_value(result["message"])
+            print (message.SEPRATE.format(error_message))
             return
 
         fp = open(file_name, "wb")
@@ -944,10 +955,10 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
             body = result[component_body].encode("UTF-8")
 
         fp.write(body)
-        print (message.SEPRATE.format(message.GET_SUCCESSFULLY))
-        sublime.status_message(message.GET_SUCCESSFULLY)
+        file_base_name = os.path.basename(file_name)
+        print (message.SEPRATE.format(message.REFRESH_SUCCESSFULLY.format(file_base_name)))
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -969,16 +980,24 @@ def handle_delete_component(component_url, file_name, timeout=120):
 
         # If succeed
         result = api.result
+
+        # Get the base name
+        file_base_name = os.path.basename(file_name) 
+
         if result["status_code"] > 399:
-            util.sublime_error_message(result)
-            return
+            error_message = "% 20s " % "Name: "
+            error_message += "%-20s " % file_base_name + "\n"
+            error_message += "% 20s " % "Problem: "
+            error_message += "%-20s " % util.none_value(result["errorCode"]) + "\n"
+            error_message += "% 20s " % "Line: "
+            error_message += "%-20s " % util.none_value(result["message"])
+            print (message.SEPRATE.format(error_message))
+        else:
+            os.remove(file_name)
+            sublime.active_window().run_command("close")
+            print (message.SEPRATE.format(message.DELETE_SUCCESSFULLY.format(file_base_name)))
 
-        os.remove(file_name)
-        sublime.active_window().run_command("close")
-        print (message.SEPRATE.format(message.DELETE_SUCCESSFULLY))
-        sublime.status_message(message.DELETE_SUCCESSFULLY)
-
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -1004,7 +1023,7 @@ def handle_push_topic(sobject, timeout=120):
 
         print (result)
 
-    print (message.WAIT_FOR_A_MOMENT, end='')
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)

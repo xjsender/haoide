@@ -1,6 +1,5 @@
 // While you can edit this file, it's best to put your changes in
 // "User/Preferences.sublime-settings", which overrides the settings in here.
-//
 // Settings may also be placed in file type specific options files, for
 // example, in Packages/Python/Python.sublime-settings for python files.
 {
@@ -29,7 +28,7 @@
     "keep_local_change_history": true,
 
     // sleep time of waiting interval time
-    "thread_sleep_time_of_waiting": 0.3,
+    "thread_sleep_time_of_waiting": 0.05,
 
     // TraceFlag Debug Log Level
     "trace_flag": {

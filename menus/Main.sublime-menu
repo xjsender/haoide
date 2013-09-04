@@ -13,9 +13,9 @@
             { "caption": "-" },
 
             {
-                "id": "RefreshFromServer",
+                "id": "NewProject",
                 "caption": "New Project",
-                "command": "refresh_all"
+                "command": "new_project"
             },
 
             {

@@ -1,3 +1,6 @@
+# Salesforce development tool for Sublime Text 3
+This plugin support Sublime Text 3 for windows.
+
 # Sceenshot #
 Funcationality Screenshots shown as below,
 
@@ -77,7 +80,7 @@ your project folder name should be Exercise-Pro-20130730
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/deploy%20code.png" />
 
 # Installation #
-This plugin support Sublime Text 3, firstly, install sublime text and then extract the zip file into your sublime package path.
+Firstly, install sublime text and then extract the zip file into your sublime package path.
 Package Name in sublime should be SublimeApex, for example, "D:\Sublime347\Data\Packages\SublimeApex" is my installation path.
 
 Before start coding, you should initiate your project settings, you can keep your settings in Default Setting or User Setting, however, [User Settings] is prior to [Default Settings].

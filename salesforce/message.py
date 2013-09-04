@@ -1,29 +1,34 @@
 SEPRATE = """
--------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 {0}
--------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 """
 
-WAIT_FOR_A_MOMENT = """
--------------------------------------------------------------------------
-Please wait for a moment....
--------------------------------------------------------------------------
-"""
+WAIT_FOR_A_MOMENT = "Please wait for a moment...."
 
-DEPLOY_SUCCESSFULLY = "Save Successfully"
+SAVE_SUCCESSFULLY = "{0} is saved successfully"
+DELETE_SUCCESSFULLY = "{0} is deleted successfully"
+REFRESH_SUCCESSFULLY = "{0} is refreshed successfully"
+CREATE_SUCCESSFULLY = "{0} is created successfully"
 
-DELETE_SUCCESSFULLY = "Delete Successfully"
+SAVE_FAILED = """Save {0} failed, due to 
+Error Message:  {1}"""
 
-GET_SUCCESSFULLY = "Refresh Successfully"
+DELETE_FAILED = """Delete {0} failed, due to
+Error Code:     {1}
+Error Message:  {2}"""
 
-CREATE_SUCCESSFULLY = "Create Successfully"
+Refresh_FAILED = """Refresh {0} failed, due to
+Error Code:     {1}
+Error Message:  {2}"""
 
-TOOLING_API_CONNECTING_FAILED = "Tooling API Connecting Failed"
+Refresh_FAILED = """Refresh {0} failed, due to
+Error Code:     {1}
+Error Message:  {2}"""
+
 INVALID_COMPONENT = "It's an invalid salesforce component"
 DELETE_CONFIRM_MESSAGE = "Are you sure you really want to delete this?"
-APEXTRIGGER_BUG_MESSAGE = "Tooling API has bug on creating ApexTrigger, do you want to continue."
 INVALID_NEW_COMPONENT_FORMAT = "invalid new component format"
-INVALID_TEST_CLASS = "Invalid Test Class"
 
 AUTHORIZATION_FAILED_MESSAGE = """
 -------------------------------------------------------------------------
@@ -31,7 +36,6 @@ Connecting to Salesforce Failed
 -------------------------------------------------------------------------
 """
 
-DOWNLOAD_ALL_FIRST = "Please Refresh All Firstly"
 GENERATE_ALL_WORKBOOKS_REQUEST_LIMIT_MESSAGE = """
 Are you sure you really want to do it, this will consume your hundreds of API requests, more detail refer to
 http://login.salesforce.com/help/doc/en/integrate_api_rate_limiting.htm

@@ -21,7 +21,7 @@ except:
 
 from xml.sax.saxutils import unescape
 
-def sublime_error_message(result):
+def get_error_message(result):
     message = ''
     if "errorCode" in result:
         message += "Error Code: " + result["errorCode"] + "\n"
@@ -40,7 +40,6 @@ def sublime_error_message(result):
             }))
 
     message += "Error Message: " + parsed_result
-    sublime.set_timeout(lambda:sublime.error_message(message), 10)
     
 def sublime_status_message(message):
     sublime.set_timeout(lambda:sublime.status_message(message), 10)
@@ -907,11 +906,6 @@ def get_component_attribute(username, file_name):
 
     # Get Component attribute by component_name
     component_attribute = component_settings.get(username)[component_type][component_name]
-
-    # If this component_name is not exist in component_settings
-    if component_attribute == None:
-        sublime.error_message(message.DOWNLOAD_ALL_FIRST)
-        return None
 
     # Return tuple
     return component_attribute

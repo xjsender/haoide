@@ -271,7 +271,6 @@ class ViewComponentInSfdcCommand(sublime_plugin.WindowCommand):
             return
 
         all_components_name = sorted(list(all_components.keys()))
-        print (all_components_name)
         self.window.show_quick_panel(all_components_name, self.on_done)
 
     def on_done(self, index):
@@ -434,7 +433,7 @@ class ShowInSfdcWebCommand(sublime_plugin.TextCommand):
         self.view.window().run_command("login_to_sfdc", {"startURL": startURL})
 
     def is_enabled(self):
-        return check_visible(self.view.file_name())
+        return check_enabled(self.view.file_name())
 
 class LoginToSfdcCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -468,26 +467,49 @@ class AboutCommand(sublime_plugin.WindowCommand):
     def run(self): 
         webbrowser.open_new_tab("https://github.com/xjsender/SublimeApex")
 
+class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DeleteSelectedComponentsCommand, self).__init__(*args, **kwargs)
+
+    def run(self, files):
+        delete_components(files)
+
+    def is_enabled(self, files):
+        """
+        1. You must have selected one file or more
+        2. All selected file should be visible
+        """
+
+        if len(files) == 0: return False
+        for file in files:
+            if not check_enabled(file):
+                return False
+
+        return True
+
 class DeleteComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Get file_name and component_attribute
-        file_name = self.view.file_name()
-        component_attribute = get_component_attribute(file_name)[0]
-
-        # Confirm Delete Action
-        confirm = sublime.ok_cancel_dialog(message.DELETE_CONFIRM_MESSAGE)
-        if confirm == False:
-            return
-
-        # Open Console
-        self.view.window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-        
-        # Handle Delete
-        processor.handle_delete_component(component_attribute["url"], file_name)
+        files = []
+        files.append(self.view.file_name());
+        delete_components(files)
 
     def is_enabled(self):
-        return check_visible(self.view.file_name())
+        return check_enabled(self.view.file_name())
+
+def delete_components(files):
+    # Confirm Delete Action
+    confirm = sublime.ok_cancel_dialog(message.DELETE_CONFIRM_MESSAGE)
+    if confirm == False: return
+
+    # Open Console
+    sublime.active_window().run_command("show_panel", 
+        {"panel": "console", "toggle": False})
+    
+    # Handle Delete
+    for f in files:
+        component_attribute = get_component_attribute(f)[0]
+        processor.handle_delete_component(component_attribute["url"], f)
 
 class CreateComponentCommand(sublime_plugin.WindowCommand):
     """
@@ -592,11 +614,11 @@ class SaveComponentCommand(sublime_plugin.TextCommand):
         processor.handle_save_component(component_name, component_attribute, body)
 
     def is_enabled(self):
-        return check_visible(self.view.file_name())
+        return check_enabled(self.view.file_name())
 
-class RefreshAllCommand(sublime_plugin.WindowCommand):
+class NewProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(RefreshAllCommand, self).__init__(*args, **kwargs)
+        super(NewProjectCommand, self).__init__(*args, **kwargs)
 
     def run(self): 
         # Create Project Directory
@@ -614,7 +636,7 @@ class RefreshAllCommand(sublime_plugin.WindowCommand):
         processor.handle_refresh_components(toolingapi_settings)
 
 class RefreshComponentCommand(sublime_plugin.TextCommand):
-    def run(self, view): 
+    def run(self, view):
         # Get file_name and component_attribute
         file_name = self.view.file_name()
         component_attribute = get_component_attribute(file_name)[0]
@@ -627,7 +649,24 @@ class RefreshComponentCommand(sublime_plugin.TextCommand):
         processor.handle_refresh_component(component_attribute, file_name)
 
     def is_enabled(self):
-        return check_visible(self.view.file_name())
+        return check_enabled(self.view.file_name())
+
+class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RefreshSelectedComponentsCommand, self).__init__(*args, **kwargs)
+
+    def run(self, files):
+        sublime.active_window().run_command("show_panel", {"panel": "console", "toggle": False})
+        for file in files:
+            component_attribute = get_component_attribute(file)[0]
+            processor.handle_refresh_component(component_attribute, file)
+
+    def is_enabled(self, files):
+        if len(files) == 0: return False
+        for file in files: 
+            if not check_enabled(file): return False
+
+        return True
 
 def get_component_attribute(file_name):
     # Get toolingapi settings
@@ -647,7 +686,7 @@ def get_component_attribute(file_name):
 
     return (component_attribute, component_name)
 
-def check_visible(file_name):
+def check_enabled(file_name):
     """
     Check whether file is ApexTrigger, ApexComponent, ApexPage or ApexClass
 

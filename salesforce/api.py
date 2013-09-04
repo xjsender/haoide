@@ -152,8 +152,8 @@ class SalesforceApi():
 
         if response.status_code > 399:
             response_result = response.json()[0]
-            result["errorCode"] = response_result.get("errorCode")
-            result["message"] = response_result.get("message")
+            result["message"] = response_result["message"]
+            result["errorCode"] = response_result["errorCode"]
         
         # Self.result is used to keep thread result
         self.result = result
@@ -837,12 +837,12 @@ class SalesforceApi():
             compile_errors = json.loads(compile_errors)
             if len(compile_errors) > 0:
                 compile_error = compile_errors[0]
-                extend = util.none_value(compile_error["extent"])
-                line = util.none_value(compile_error["line"])
-                problem = util.none_value(compile_error["problem"])
-                name = util.none_value(compile_error["name"])
-                error_message = extend + ": " + name + " has problem: " +\
-                    problem + " at line " + str(line)
+                error_message = "% 20s " % "Name: "
+                error_message += "%-20s " % util.none_value(compile_error["name"]) + "\n"
+                error_message += "% 20s " % "Problem: "
+                error_message += "%-20s " % util.none_value(compile_error["problem"]) + "\n"
+                error_message += "% 20s " % "Line: "
+                error_message += "%-20s " % str(util.none_value(compile_error["line"]))
             else:
                 error_message = result["ErrorMsg"]
             error_message = unescape(error_message, {"&apos;": "'", "&quot;": '"'})
