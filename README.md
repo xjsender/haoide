@@ -79,6 +79,16 @@ your project folder name should be Exercise-Pro-20130730
 + After component is updated, click SublimeApex > Deploy to Server
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/deploy%20code.png" />
 
+###New Component #
+Press Ctrl+Alt+N to invoke the input panel, and then input the new component info according to guide as below
+```
+1. Create new trigger: Trigger-Name.trigger, Sobject-Name
+2. Create new class: Class-Name.cls
+3. Create new component: Component-Name.component
+4. Create new Page: Page-Name.page
+```
+<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/new%20component.png" />
+
 # Installation #
 Firstly, install sublime text and then extract the zip file into your sublime package path.
 Package Name in sublime should be SublimeApex, for example, "D:\Sublime347\Data\Packages\SublimeApex" is my installation path.

@@ -524,7 +524,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         super(CreateComponentCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.window.show_input_panel("component_name.extension, Sobject_Name:", 
+        self.window.show_input_panel("Follow [Name.trigger,Sobject | Name.page | Name.cls | Name.component]", 
             "", self.on_input, None, None)
 
     def on_input(self, input):
