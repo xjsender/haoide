@@ -883,11 +883,11 @@ def handle_create_component(data, component_name, component_type, timeout=120):
         # If create Succeed
         result = api.result
         if result["status_code"] > 399:
-            error_message = "% 20s " % "Name: "
+            error_message = "% 20s " % "Component Name: "
             error_message += "%-20s " % component_name + "\n"
-            error_message += "% 20s " % "Problem: "
+            error_message += "% 20s " % "Error Code: "
             error_message += "%-20s " % util.none_value(result["errorCode"]) + "\n"
-            error_message += "% 20s " % "Line: "
+            error_message += "% 20s " % "Error Message: "
             error_message += "%-20s " % util.none_value(result["message"])
             print (message.SEPRATE.format(error_message))
             return
@@ -939,11 +939,11 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
         status_code = result["status_code"]
         
         if status_code > 399:
-            error_message = "% 20s " % "Name: "
+            error_message = "% 20s " % "Component Name: "
             error_message += "%-20s " % component_name + "\n"
-            error_message += "% 20s " % "Problem: "
+            error_message += "% 20s " % "Error Code: "
             error_message += "%-20s " % util.none_value(result["errorCode"]) + "\n"
-            error_message += "% 20s " % "Line: "
+            error_message += "% 20s " % "Error Message: "
             error_message += "%-20s " % util.none_value(result["message"])
             print (message.SEPRATE.format(error_message))
             return
@@ -985,11 +985,11 @@ def handle_delete_component(component_url, file_name, timeout=120):
         file_base_name = os.path.basename(file_name) 
 
         if result["status_code"] > 399:
-            error_message = "% 20s " % "Name: "
+            error_message = "% 20s " % "Component Name: "
             error_message += "%-20s " % file_base_name + "\n"
-            error_message += "% 20s " % "Problem: "
+            error_message += "% 20s " % "Error Code: "
             error_message += "%-20s " % util.none_value(result["errorCode"]) + "\n"
-            error_message += "% 20s " % "Line: "
+            error_message += "% 20s " % "Error Message: "
             error_message += "%-20s " % util.none_value(result["message"])
             print (message.SEPRATE.format(error_message))
         else:
