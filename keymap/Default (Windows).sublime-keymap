@@ -51,6 +51,12 @@
     // Login To Specified Apex Code
     {"keys": ["ctrl+alt+g"], "command": "view_component_in_sfdc"},
 
+    // Set Check Point
+    {"keys": ["f6"], "command": "set_check_point"},
+
+    // Remove Check Point
+    {"keys": ["f7"], "command": "remove_check_point"},
+
     // Login To Develop Console
     {"keys": ["alt+d", "alt+c"], "command": "login_to_sfdc", 
         "args": {

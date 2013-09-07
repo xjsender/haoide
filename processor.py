@@ -36,6 +36,21 @@ except:
     from xml.sax.saxutils import unescape
     from salesforce.util import getUniqueElementValueFromXmlString
     from salesforce import bulkapi
+    
+animation = """
+             \     /
+         \    o ^ o    /
+           \ (     ) /
+____________(&&&&&&&)____________
+(     /   / )&&&&&&&(  \   \     )
+(___/___/__/           \__\___\___)
+  (     /  /(&&&&&&&)\  \     )
+   (__/___/ (&&&&&&&) \___\__)
+           /(       )\\
+         /   (&&&&&)   \\
+              (&&&)
+                !
+"""
 
 def populate_components():
     """
