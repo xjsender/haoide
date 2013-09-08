@@ -53,7 +53,7 @@ def get_toolingapi_settings():
 
     login_url = default_project.get("login_url")
     settings["login_url"] = login_url
-    settings["soap_login_url"] = login_url + "/services/Soap/u/v28.0"
+    settings["soap_login_url"] = login_url + "/services/Soap/u/v{0}.0".format(s.get("api_version", "28"))
 
     # This flag indicate whether output session id
     settings["output_session_info"] = s.get("output_session_info", False)
@@ -68,7 +68,7 @@ def get_toolingapi_settings():
     settings["trace_flag"] = s.get("trace_flag")
 
     # Set API Version
-    settings["api_version"] = s.get("api_version")
+    settings["api_version"] = s.get("api_version", "28")
 
     # Workbook columns
     settings["workbook_field_describe_columns"] = s.get("workbook_field_describe_columns")

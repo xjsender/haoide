@@ -95,13 +95,13 @@ retrieve_sobjects_workflow_task_body = """
   xmlns:met="http://soap.sforce.com/2006/04/metadata">
      <soapenv:Header>
         <met:SessionHeader>
-           <met:sessionId>{session_id}</met:sessionId>
+           <met:sessionId>{0}</met:sessionId>
         </met:SessionHeader>
      </soapenv:Header>
      <soapenv:Body>
         <met:retrieve>
            <met:retrieveRequest>
-              <met:apiVersion>28.0</met:apiVersion>
+              <met:apiVersion>{1}.0</met:apiVersion>
               <met:unpackaged>
                   <met:types>
                       <met:members>*</met:members>
@@ -141,7 +141,7 @@ retrieve_sobjects_workflow_task_body = """
                       <met:members>*</met:members>
                       <name>Workflow</name>
                   </met:types>
-                  <met:version>28.0</met:version>
+                  <met:version>{1}.0</met:version>
               </met:unpackaged>
            </met:retrieveRequest>
         </met:retrieve>
@@ -153,13 +153,13 @@ retrieve_all_task_body = """
   xmlns:met="http://soap.sforce.com/2006/04/metadata">
      <soapenv:Header>
         <met:SessionHeader>
-           <met:sessionId>{session_id}</met:sessionId>
+           <met:sessionId>{0}</met:sessionId>
         </met:SessionHeader>
      </soapenv:Header>
      <soapenv:Body>
         <met:retrieve>
            <met:retrieveRequest>
-              <met:apiVersion>28.0</met:apiVersion>
+              <met:apiVersion>{1}.0</met:apiVersion>
               <met:unpackaged>
                   <met:types>
                     <met:members>*</met:members>
@@ -312,7 +312,7 @@ retrieve_all_task_body = """
                       <met:members>*</met:members>
                       <name>criteriaBasedRules</name>
                   </met:types>
-                  <met:version>28.0</met:version>
+                  <met:version>{1}.0</met:version>
               </met:unpackaged>
            </met:retrieveRequest>
         </met:retrieve>

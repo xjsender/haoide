@@ -31,7 +31,7 @@
     "thread_sleep_time_of_waiting": 0.05,
 
     // API version
-    "api_version": 25,
+    "api_version": 28,
 
     // TraceFlag Debug Log Level
     "trace_flag": {
