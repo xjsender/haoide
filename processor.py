@@ -192,6 +192,41 @@ def populate_sobjects():
     globals()[username + "sobjects"] = sobjects
     return sobjects
 
+def handle_view_code_coverage(component_name, component_attribute, body, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            print (">", end=''); time.sleep(sleep_time)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            return
+        elif api.result == None:
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
+            return
+
+        result = api.result
+        if result["status_code"] > 399:
+            error_message = "% 30s\t" % "Component Name: "
+            error_message += "%-30s\t" % component_name + "\n"
+            error_message += "% 30s\t" % "Error Code: "
+            error_message += "%-30s\t" % util.none_value(result["errorCode"]) + "\n"
+            error_message += "% 30s\t" % "Error Message: "
+            error_message += "%-30s\t" % util.none_value(result["message"])
+
+        view = sublime.active_window().new_file()
+        view.run_command("new_view", {
+            "name": component_name + " Code Coverage",
+            "input": error_message
+        })
+
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
+    toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
+    api = SalesforceApi(toolingapi_settings)
+    query = "SELECT Coverage FROM CodeCoverageAggregate " +\
+        "WHERE ApexClassOrTrigger = '{0}'".format(component_attribute["id"])
+    thread = threading.Thread(target=api.query, args=(query, ))
+    thread.start()
+    handle_thread(thread, timeout)
+
 def handle_refresh_folder(component_type, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -782,8 +817,9 @@ def handle_retrieve_fields(sobject, timeout=120):
     print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
+    api_version = toolingapi_settings["api_version"]
     api = SalesforceApi(toolingapi_settings)
-    sobject_url = "/services/data/v28.0/sobjects/" + sobject+ "/describe"
+    sobject_url = "/services/data/v{0}.0/sobjects/".format(api_version) + sobject+ "/describe"
     thread = threading.Thread(target=api.get, args=(sobject_url, ))
     thread.start()
     handle_new_view_thread(thread, timeout)
@@ -935,7 +971,7 @@ def handle_create_component(data, component_name, component_type, timeout=120):
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
-    post_url = "/services/data/v27.0/sobjects/" + component_type
+    post_url = "/services/data/v{0}.0/sobjects/".format(toolingapi_settings["api_version"]) + component_type
     thread = threading.Thread(target=api.post, args=(post_url, data, ))
     thread.start()
     handle_thread(thread, timeout)
@@ -1040,13 +1076,14 @@ def handle_push_topic(sobject, timeout=120):
 
     print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    api_version = toolingapi_settings["api_version"]
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
-    post_url = "/services/data/v28.0/sobjects/PushTopic"
+    post_url = "/services/data/v{0}.0/sobjects/PushTopic".format(api_version)
     post_data = {
         "Name": sobject + "PushTopic",
         "Query": get_sobject_soql(toolingapi_settings["username"], sobject),
-        "ApiVersion": "28.0",
+        "ApiVersion": "{0}.0".format(api_version),
         "NotifyForOperations": "All",
         "NotifyForFields": "Referenced"
     }

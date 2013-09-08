@@ -37,6 +37,7 @@ SEPRATE = "-" * 100
 class SalesforceApi():
     def __init__(self, toolingapi_settings, **kwargs):
         self.toolingapi_settings = toolingapi_settings
+        self.api_version = toolingapi_settings["api_version"]
         self.username = toolingapi_settings["username"]
         self.result = None
 
@@ -173,9 +174,9 @@ class SalesforceApi():
 
         # Just API 28 support CustomField
         if is_toolingapi:
-            url = instance_url + '/services/data/v28.0/tooling/query?%s' % soql
+            url = instance_url + '/services/data/v{0}.0/tooling/query?{1}'.format(self.api_version, soql)
         else:
-            url = instance_url + '/services/data/v28.0/query?%s' % soql
+            url = instance_url + '/services/data/v{0}.0/query?{1}'.format(self.api_version, soql)
 
         headers = globals()[self.username]["headers"]
         response = requests.get(url, data=None, verify=False, timeout=timeout, 
@@ -242,7 +243,7 @@ class SalesforceApi():
         :sobject: sObjectType
         """
 
-        url = "/services/data/v28.0/sobjects/" + sobject + "/describe"
+        url = "/services/data/v{0}.0/sobjects/".format(self.api_version) + sobject + "/describe"
         result = self.get(url)
 
         # Self.result is used to keep thread result
@@ -259,7 +260,7 @@ class SalesforceApi():
         :return type: dict
         """
 
-        url = "/services/data/v28.0/sobjects/"
+        url = "/services/data/v{0}.0/sobjects/".format(self.api_version)
         result = self.get(url)
 
         # Self.result is used to keep thread result
@@ -328,7 +329,7 @@ class SalesforceApi():
         nextday_str = datetime.datetime.strftime(nextday, "%Y-%m-%d")
         trace_flag["ExpirationDate"] = nextday_str
 
-        post_url = "/services/data/v28.0/tooling/sobjects/TraceFlag"
+        post_url = "/services/data/v{0}.0/tooling/sobjects/TraceFlag".format(self.api_version)
         result = self.post(post_url, trace_flag)
 
         return result
@@ -343,7 +344,7 @@ class SalesforceApi():
         # Firstly Login
         self.login(False)
 
-        url = "/services/data/v28.0/sobjects/ApexLog/" + log_id + "/Body"
+        url = "/services/data/v{0}.0/sobjects/ApexLog/".format(self.api_version) + log_id + "/Body"
         headers = globals()[self.username]["headers"]
         instance_url = globals()[self.username]['instance_url']
         response = requests.get(instance_url + url, 
@@ -372,7 +373,7 @@ class SalesforceApi():
         self.create_trace_flag(traced_entity_id)
 
         time.sleep(2)
-        post_url = "/services/data/v28.0/sobjects/ApexTestQueueItem"
+        post_url = "/services/data/v{0}.0/sobjects/ApexTestQueueItem".format(self.api_version)
         data = {"ApexClassId": class_id}
         result = self.post(post_url, data)
         
@@ -421,7 +422,7 @@ class SalesforceApi():
         self.login(False)
 
         # Combine server_url and headers and soap_body
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/u/28.0"
+        server_url = globals()[self.username]['instance_url'] + "/services/Soap/u/{0}.0".format(self.api_version)
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
@@ -465,7 +466,7 @@ class SalesforceApi():
         # Firstly Login
         self.login(False)
 
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/s/28.0"
+        server_url = globals()[self.username]['instance_url'] + "/services/Soap/s/{0}.0".format(self.api_version)
         # https://gist.github.com/richardvanhook/1245068
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
@@ -522,7 +523,7 @@ class SalesforceApi():
         time.sleep(30)
 
         # Check the status of retrieve job
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/28.0"
+        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/{0}.0".format(self.api_version)
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
@@ -563,7 +564,7 @@ class SalesforceApi():
 
         @async_process_id: retrieve request asyncProcessId
         """
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/28.0"
+        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/{0}.0".format(self.api_version)
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
@@ -601,7 +602,7 @@ class SalesforceApi():
         self.login(False)
 
         # 1. Issue a retrieve request to start the asynchronous retrieval
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/28.0"
+        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/{0}.0".format(self.api_version)
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
@@ -764,7 +765,7 @@ class SalesforceApi():
         data = {  
             "name": "Save" + component_type[4 : len(component_type)] + component_id
         }
-        container_url = '/services/data/v28.0/tooling/sobjects/MetadataContainer'
+        container_url = '/services/data/v{0}.0/tooling/sobjects/MetadataContainer'.format(self.api_version)
         result = self.post(container_url, data)
         # print ("MetadataContainer Response: ", result)
 
@@ -794,7 +795,7 @@ class SalesforceApi():
             "MetadataContainerId": container_id,
             "Body": body
         }
-        url = "/services/data/v28.0/tooling/sobjects/" + component_type + "Member"
+        url = "/services/data/v{0}.0/tooling/sobjects/".format(self.api_version) + component_type + "Member"
         result = self.post(url, data)
         # print ("Post ApexComponentMember: ", result)
 
@@ -803,7 +804,7 @@ class SalesforceApi():
             "MetadataContainerId": container_id,
             "isCheckOnly": False
         }
-        sync_request_url = '/services/data/v28.0/tooling/sobjects/ContainerAsyncRequest'
+        sync_request_url = '/services/data/v{0}.0/tooling/sobjects/ContainerAsyncRequest'.format(self.api_version)
         result = self.post(sync_request_url, data)
         request_id = result.get("id")
         # print ("Post ContainerAsyncRequest: ", result)

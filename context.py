@@ -67,6 +67,9 @@ def get_toolingapi_settings():
     # Trace Flag
     settings["trace_flag"] = s.get("trace_flag")
 
+    # Set API Version
+    settings["api_version"] = s.get("api_version")
+
     # Workbook columns
     settings["workbook_field_describe_columns"] = s.get("workbook_field_describe_columns")
     settings["workflow_rule_columns"] = s.get("workflow_rule_columns")

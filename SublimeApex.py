@@ -25,12 +25,34 @@ except:
 class SetCheckPointCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         mark = [s for s in self.view.sel()]
-        self.view.add_regions("mark", mark, "mark", "circle",
-            sublime.HIDDEN | sublime.PERSISTENT)
+        self.view.add_regions("mark", mark, "red", 'circle',
+            sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE | sublime.DRAW_STIPPLED_UNDERLINE)
 
 class RemoveCheckPointCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         self.view.erase_regions('mark')
+
+class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        # Get file_name and component_attribute
+        file_name = self.view.file_name()
+        component_attribute, component_name = get_component_attribute(file_name)
+
+        # Read file content
+        try:
+            body = open(file_name, encoding="utf-8").read()
+        except:
+            body = open(file_name).read()
+
+        # Open Console
+        self.view.window().run_command("show_panel", 
+            {"panel": "console", "toggle": False})
+
+        # Handle Save Current Component
+        processor.handle_view_code_coverage(component_name, component_attribute, body)
+
+    def is_enabled(self):
+        return check_enabled(self.view.file_name())
 
 class SwitchProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

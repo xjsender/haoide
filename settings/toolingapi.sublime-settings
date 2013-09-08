@@ -30,6 +30,9 @@
     // sleep time of waiting interval time
     "thread_sleep_time_of_waiting": 0.05,
 
+    // API version
+    "api_version": 25,
+
     // TraceFlag Debug Log Level
     "trace_flag": {
         "ApexCode": "Debug",
