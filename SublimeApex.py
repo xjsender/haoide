@@ -724,14 +724,20 @@ def check_enabled(file_name):
     # Get toolingapi settings
     toolingapi_settings = context.get_toolingapi_settings()
 
-    # Get component_type
+    # Check Component Type
     component_type = util.get_component_type(file_name)
-
-    # If component type is not in range, just show error message
     if component_type not in toolingapi_settings["component_types"]:
         return False
 
-    # Get component_url and component_id
+    # Check whether project of current file is active project
+    try:
+        project_of_current_file = [p for p in toolingapi_settings["projects"].keys() if p in file_name]
+        return toolingapi_settings["projects"][project_of_current_file[0]]["default"]
+    except:
+        print (message.format('Current Project' + project_of_current_file))
+        return False
+
+    # Check whether active component is in active project
     username = toolingapi_settings["username"]
     try:
         component_attribute = util.get_component_attribute(username, file_name)
