@@ -62,7 +62,7 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
         global projects
         toolingapi_settings = context.get_toolingapi_settings()
         projects = toolingapi_settings["projects"]
-        projects = ["(" + (projects[p]["default"] and 'Active' or 'Inactive') + ") " + p for p in projects]
+        projects = ["(" + ('Active' if projects[p]["default"] else 'Inactive') + ") " + p for p in projects]
         projects = sorted(projects, reverse=False)
         self.window.show_quick_panel(projects, self.on_done)
 
