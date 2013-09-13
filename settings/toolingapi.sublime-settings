@@ -27,11 +27,17 @@
     // Indicate whether keep local history history
     "keep_local_change_history": true,
 
-    // sleep time of waiting interval time
+    // Sleep time of waiting interval time
     "thread_sleep_time_of_waiting": 0.05,
 
     // API version
-    "api_version": 28,
+    "api_version": 29,
+
+    // Trace Flag Headers, used for list all debug log for specified user
+    "trace_flag_headers": [
+        "Id", "Request", "Application", "Status", "LogLength", 
+        "DurationMilliseconds"//,"LogUserId", "StartTime", "Operation"
+    ],
 
     // TraceFlag Debug Log Level
     "trace_flag": {

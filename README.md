@@ -74,9 +74,9 @@ your project folder name should be Exercise-Pro-20130730
 + Just any snippet which start with SELECT is chosen, the Execute Query command is enabled
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/execute%20query.png" />
 
-###Deploy component
+###Save component
 + This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
-+ After component is updated, click SublimeApex > Deploy to Server
++ After component is updated, click SublimeApex > Save to Server
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/deploy%20code.png" />
 
 ###New Component #

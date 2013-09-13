@@ -67,6 +67,9 @@ def get_toolingapi_settings():
     # Trace Flag
     settings["trace_flag"] = s.get("trace_flag")
 
+    # Trace Flag Headers
+    settings["trace_flag_headers"] = s.get("trace_flag_headers")
+
     # Set API Version
     settings["api_version"] = s.get("api_version", "28")
 

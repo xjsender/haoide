@@ -47,7 +47,7 @@ class SalesforceApi():
 
             # If login succeed, display error and return False
             if result["status_code"] > 399:
-                util.sublime_error_message(result)
+                print (message.SEPRATE.format(util.get_error_message(result)))
                 return False
 
             result["headers"] = {

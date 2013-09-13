@@ -52,6 +52,47 @@ ____________(&&&&&&&)____________
                 !
 """
 
+def populate_users():
+    """
+    Get dict (LastName + FirstName => UserId) in whole org
+
+    @return: {
+        username + users: {
+            LastName + FirstName => UserId
+        }
+        ...
+    }
+    """
+
+    # Get username
+    toolingapi_settings = context.get_toolingapi_settings()
+    username = toolingapi_settings["username"]
+
+    # If sobjects is exist in globals()[], just return it
+    if (username + "users") in globals(): 
+        return globals()[username + "users"]
+
+    # If sobjects is not exist in globals(), post request to pouplate it
+    api = SalesforceApi(toolingapi_settings)
+    query = "SELECT Id, FirstName, LastName FROM User WHERE LastName != null AND FirstName != null"
+    thread = threading.Thread(target=api.query_all, args=(query, ))
+    thread.start()
+
+    while thread.is_alive() or api.result == None:
+        time.sleep(1)
+
+    print (api.result)
+    records = api.result["records"]
+    users = {}
+    for user in records:
+        user_first_name = user["FirstName"]
+        user_last_name = user["LastName"]
+        user_id = user["Id"]
+        users[user_last_name + " " + user_first_name] = user_id
+
+    globals()[username + "users"] = users
+    return users  
+
 def populate_components():
     """
     Get all components which NamespacePrefix is null in whole org
@@ -210,20 +251,43 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
             error_message += "%-30s\t" % util.none_value(result["errorCode"]) + "\n"
             error_message += "% 30s\t" % "Error Message: "
             error_message += "%-30s\t" % util.none_value(result["message"])
+            print (message.SEPRATE.format(error_message))
+            return
+
+        if result["totalSize"] == 0:
+            print (message.SEPRATE.format("You should run test class firstly."))
+            return
 
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": component_name + " Code Coverage",
-            "input": error_message
+            "input": body
         })
+
+        uncovered_lines = result["records"][0]["Coverage"]["uncoveredLines"]
+        covered_lines = result["records"][0]["Coverage"]["coveredLines"]
+        all_region_by_line = view.lines(sublime.Region(0, view.size()))
+        uncovered_region = []
+        for region in all_region_by_line:
+            line = view.rowcol(region.begin() + 1)[0] + 1
+            if line in uncovered_lines:
+                uncovered_region.append(region)
+
+        view.add_regions("mark", uncovered_region, "bookmark", 'cross',
+            sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE | sublime.DRAW_STIPPLED_UNDERLINE)
+
+        covered_count = len(covered_lines)
+        total_count = len(covered_lines) + len(uncovered_lines)
+        coverage = covered_count / total_count * 100
+        print (message.SEPRATE.format("The coverage is %.2f%%(%s/%s)" % (coverage, covered_count, total_count)))
 
     print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
-    query = "SELECT Coverage FROM CodeCoverageAggregate " +\
-        "WHERE ApexClassOrTrigger = '{0}'".format(component_attribute["id"])
-    thread = threading.Thread(target=api.query, args=(query, ))
+    query = "SELECT Coverage FROM ApexCodeCoverageAggregate " +\
+        "WHERE ApexClassOrTriggerId = '{0}'".format(component_attribute["id"])
+    thread = threading.Thread(target=api.query, args=(query, True, ))
     thread.start()
     handle_thread(thread, timeout)
 
@@ -732,6 +796,60 @@ def handle_execute_anonymous(apex_string, timeout=120):
     thread = threading.Thread(target=api.execute_anonymous, args=(apex_string, ))
     thread.start()
     handle_new_view_thread(thread, timeout)
+
+def handle_list_debug_logs(user_id, timeout=120):
+    def handle_thread(thread, timeout):
+        print (">", end=''); time.sleep(sleep_time)
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            return
+        elif api.result == None:
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
+            return
+
+        result = api.result
+        debug_logs_table = util.format_debug_logs(toolingapi_settings, result)
+        view = sublime.active_window().new_file()
+        view.run_command("new_view", {
+            "name": "Debug Logs",
+            "input": debug_logs_table
+        })
+
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
+    toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
+    api = SalesforceApi(toolingapi_settings)
+    query = "SELECT Id,LogUserId,LogLength,Request,Operation,Application," +\
+            "Status,DurationMilliseconds,StartTime,Location FROM ApexLog " +\
+            "WHERE LogUserId='{0}'".format(user_id)
+    thread = threading.Thread(target=api.query_all, args=(query, ))
+    thread.start()
+    handle_thread(thread, timeout)    
+
+def handle_create_debug_log(user_id, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            print (">", end=''); time.sleep(sleep_time)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            return
+        elif api.result == None:
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
+            return
+
+        result = api.result
+        if result["status_code"] > 399:
+            error_message = util.get_error_message(result)
+            print (message.SEPRATE.format(error_message))
+        else:
+            print (message.SEPRATE.format("Create Debug Log Succeed."))
+
+    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
+    toolingapi_settings = context.get_toolingapi_settings()
+    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
+    api = SalesforceApi(toolingapi_settings)
+    thread = threading.Thread(target=api.create_trace_flag, args=(user_id, ))
+    thread.start()
+    handle_thread(thread, timeout)
 
 def handle_get_debug_log_detail(log_id, timeout=120):
     def handle_thread(thread, timeout):

@@ -358,6 +358,52 @@ class RunTestCommand(sublime_plugin.TextCommand):
 
         return True
 
+class CreateDebugLogCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateDebugLogCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        global users
+        global users_name
+        users = processor.populate_users()
+        users_name = sorted(users.keys(), reverse=False)
+        self.window.show_quick_panel(users_name, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        # Change the chosen project as default
+        # Split with ") " and get the second project name
+        user_id = users[users_name[index]]
+        sublime.active_window().run_command("show_panel", 
+            {"panel": "console", "toggle": False})
+        processor.handle_create_debug_log(user_id)
+
+class ListDebugLogsCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ListDebugLogsCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        # Open Console
+        sublime.active_window().run_command("show_panel", 
+            {"panel": "console", "toggle": False})
+
+        global users
+        global users_name
+        users = processor.populate_users()
+        users_name = sorted(users.keys(), reverse=False)
+        self.window.show_quick_panel(users_name, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        # Change the chosen project as default
+        # Split with ") " and get the second project name
+        user_id = users[users_name[index]]
+        sublime.active_window().run_command("show_panel", 
+            {"panel": "console", "toggle": False})
+        processor.handle_list_debug_logs(user_id)
+
 class ViewDebugLogDetail(sublime_plugin.TextCommand):
     def run(self, view):
         # Open Console

@@ -35,6 +35,20 @@
                 "caption": "Retrieve Metadata",
                 "command": "retrieve_metadata"
             },
+            
+            { "caption": "-" },
+
+            {
+                "id": "createdebuglog",
+                "caption": "Create Debug Log",
+                "command": "create_debug_log"
+            },
+
+            {
+                "id": "listdebuglogs",
+                "caption": "List Debug Logs",
+                "command": "list_debug_logs"
+            },
 
             {
                 "id": "runonetest",
@@ -43,6 +57,7 @@
             },
 
             { "caption": "-" },
+
             {
                 "caption": "Describe",
                 "children": [
