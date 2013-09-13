@@ -129,6 +129,10 @@ Every time you want to switch the project, you can click [SublimeApex > Switch P
 
 # Supported Feature: #
 + Muti-project management
++ Configurable API Version
++ View Code Coverage
++ Create Debug Log
++ Retrieve Debug Logs of Specified User
 + Apex Code CRUD
 + Apex Code Folder Refresh
 + Run Test Class
