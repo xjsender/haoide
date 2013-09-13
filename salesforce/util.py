@@ -21,17 +21,15 @@ except:
 
 from xml.sax.saxutils import unescape
 
-def format_debug_logs(toolingapi_settings, result):
+def format_debug_logs(toolingapi_settings, records):
     # Headers
     headers = ""
     trace_flag_headers = toolingapi_settings["trace_flag_headers"]
-    print (trace_flag_headers)
     for header in trace_flag_headers:
         headers += "%-20s" % (header)
 
     # Content
     content = ""
-    records = result["records"]
     for record in records:
         for header in trace_flag_headers:
             content += "%-20s" % (record[header])

@@ -374,10 +374,11 @@ class CreateDebugLogCommand(sublime_plugin.WindowCommand):
 
         # Change the chosen project as default
         # Split with ") " and get the second project name
-        user_id = users[users_name[index]]
+        user_name = users_name[index]
+        user_id = users[user_name]
         sublime.active_window().run_command("show_panel", 
             {"panel": "console", "toggle": False})
-        processor.handle_create_debug_log(user_id)
+        processor.handle_create_debug_log(user_id, user_name)
 
 class ListDebugLogsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

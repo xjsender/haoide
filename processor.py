@@ -81,7 +81,6 @@ def populate_users():
     while thread.is_alive() or api.result == None:
         time.sleep(1)
 
-    print (api.result)
     records = api.result["records"]
     users = {}
     for user in records:
@@ -808,7 +807,8 @@ def handle_list_debug_logs(user_id, timeout=120):
             return
 
         result = api.result
-        debug_logs_table = util.format_debug_logs(toolingapi_settings, result)
+        records = result["records"]
+        debug_logs_table = util.format_debug_logs(toolingapi_settings, records)
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "Debug Logs",
@@ -826,7 +826,7 @@ def handle_list_debug_logs(user_id, timeout=120):
     thread.start()
     handle_thread(thread, timeout)    
 
-def handle_create_debug_log(user_id, timeout=120):
+def handle_create_debug_log(user_id, user_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             print (">", end=''); time.sleep(sleep_time)
@@ -841,7 +841,7 @@ def handle_create_debug_log(user_id, timeout=120):
             error_message = util.get_error_message(result)
             print (message.SEPRATE.format(error_message))
         else:
-            print (message.SEPRATE.format("Create Debug Log Succeed."))
+            print (message.SEPRATE.format("Create Debug Log for '{0}' Succeed.".format(user_name)))
 
     print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
