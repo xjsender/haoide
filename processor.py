@@ -24,6 +24,7 @@ try:
     from xml.sax.saxutils import unescape
     from .salesforce.util import getUniqueElementValueFromXmlString
     from .salesforce import bulkapi
+    from .thread_progress import ThreadProgress
 except:
     # Python 2.x
     import urllib
@@ -36,6 +37,7 @@ except:
     from xml.sax.saxutils import unescape
     from salesforce.util import getUniqueElementValueFromXmlString
     from salesforce import bulkapi
+    from thread_progress import ThreadProgress
     
 animation = """
              \     /
@@ -1097,7 +1099,6 @@ def handle_create_component(data, component_name, component_type, timeout=120):
 def handle_refresh_component(component_attribute, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -1135,6 +1136,7 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
     component_url = component_attribute["url"]
     thread = threading.Thread(target=api.get, args=(component_url, ))
     thread.start()
+    ThreadProgress(thread, 'Refresh Component', 'Refresh Succeed')
     handle_thread(thread, timeout)
 
 def handle_delete_component(component_url, file_name, timeout=120):

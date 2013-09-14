@@ -709,11 +709,7 @@ class RefreshComponentCommand(sublime_plugin.TextCommand):
         # Get file_name and component_attribute
         file_name = self.view.file_name()
         component_attribute = get_component_attribute(file_name)[0]
-
-        # Open Console
-        self.view.window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
+        
         # Handle Refresh Current Component
         processor.handle_refresh_component(component_attribute, file_name)
 
