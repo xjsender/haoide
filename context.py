@@ -41,6 +41,10 @@ def get_toolingapi_settings():
         sublime.error_message("You should has one default project at least. please check you settings.")
         return
 
+    # Default Project Part
+    settings["active_project"] = default_project
+    settings["active_project_name"] = default_project_name
+
     # User Settings Part
     settings["projects"] = projects
     settings["workspace"] = s.get("workspace") + "/" + default_project_name + "-" + time.strftime('%Y%m%d')

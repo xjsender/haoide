@@ -17,6 +17,11 @@ class SFDCEventListener(sublime_plugin.EventListener):
         """
         view.set_syntax_file("Packages/SublimeApex/syntaxes/Apex.tmLanguage")
 
+    def on_load_async(self, view):
+        toolingapi_settings = context.get_toolingapi_settings()
+        display_message = "Active Project ▄︻┻═┳一 " + toolingapi_settings["active_project_name"]
+        view.set_status('active_project', display_message)
+
     def on_post_save(self, view):
         """
         Every time when you save your ApexPage, ApexTrigger, ApexClass, ApexComponent, 
