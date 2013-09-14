@@ -670,8 +670,12 @@ class SalesforceApi():
             # The users password has expired, you must call SetPassword 
             # before attempting any other API operations
             # Database.com not support ApexComponent
-            if result["status_code"] > 399:
+            if result["status_code"] > 399 and component_type == "ApexComponent":
                 continue
+
+            if result["status_code"] > 399:
+                self.result = result
+                return
 
             size = len(result["records"])
             print (message.SEPRATE.format(str(component_type) + " Size: " + str(size)))

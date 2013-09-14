@@ -990,7 +990,7 @@ def handle_refresh_components(toolingapi_settings, timeout=120):
         # If succeed, something may happen,
         # for example, user password is expired
         if "status_code" in api.result and api.result["status_code"] > 399:
-            util.sublime_error_message(api.result)
+            print (message.SEPRATE.format(util.format_error_message(api.result)))
             return
 
         # Load COMPONENT_METADATA_SETTINGS Settings and put all result into it
