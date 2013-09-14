@@ -168,11 +168,6 @@ class DescribeCustomFieldCommand(sublime_plugin.WindowCommand):
 
     def on_done(self, index):
         if index == -1: return
-
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
         processor.handle_describe_customfield(sobjects[index])
         
 class DescribeGlobalCommand(sublime_plugin.WindowCommand):
@@ -180,10 +175,6 @@ class DescribeGlobalCommand(sublime_plugin.WindowCommand):
         super(DescribeGlobalCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
         processor.handle_describe_global()
 
 class DescribeLayoutCommand(sublime_plugin.WindowCommand):
@@ -249,12 +240,7 @@ class DescribeSobjectCommand(sublime_plugin.WindowCommand):
 
     def on_done(self, index):
         if index == -1: return
-
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
-        processor.handle_retrieve_fields(sobjects[index])
+        processor.handle_describe_sobject(sobjects[index])
 
 class ExportWorkbookCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

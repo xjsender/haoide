@@ -1,5 +1,5 @@
 import sublime
-
+from .salesforce import message
 
 class ThreadProgress():
     """
@@ -15,7 +15,8 @@ class ThreadProgress():
         The message to display once the thread is complete
     """
 
-    def __init__(self, thread, message, success_message):
+    def __init__(self, api, thread, message, success_message):
+        self.api = api
         self.thread = thread
         self.message = message
         self.success_message = success_message
@@ -28,7 +29,11 @@ class ThreadProgress():
             if hasattr(self.thread, 'result') and not self.thread.result:
                 sublime.status_message('')
                 return
-            sublime.status_message(self.success_message)
+            if self.api.result["status_code"] > 399:
+                print (message.SEPRATE.format("Error Message: " + self.api.result["message"]))
+                sublime.status_message(self.api.result["message"])
+            else:
+                sublime.status_message(self.success_message)
             return
 
         before = i % self.size

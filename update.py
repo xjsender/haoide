@@ -43,8 +43,6 @@ def handle_update_plugin(timeout):
         f.close()
 
         # Move the extracted folder to packages path
-        print ("Move extracted files to packages path......")
-        print ("-" * 100)
         root_src_dir = "SublimeApex-master"
         root_dst_dir = sublime.packages_path() + "/SublimeApex"
         for src_dir, dirs, files in os.walk(root_src_dir):
@@ -71,7 +69,7 @@ def handle_update_plugin(timeout):
     # Get the newest plugin zip file in github
     thread = threading.Thread(target=retrieve_newest_zip, args=())
     thread.start()
-    ThreadProgress(thread, 'Update SublimeApex', 'Update Succeed')
+    ThreadProgress(api, thread, 'Update SublimeApex', 'Update Succeed')
     handle_thread(thread, timeout)
 
 def retrieve_newest_zip():

@@ -592,7 +592,6 @@ def handle_parse_validation_rule(timeout=120):
 def handle_describe_customfield(sobject, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -602,13 +601,8 @@ def handle_describe_customfield(sobject, timeout=120):
         # If succeed
         result = api.result
         # If error
-        if result["status_code"] > 399 :
-            util.sublime_error_message(result)
-            return
+        if result["status_code"] > 399 : return
 
-        # Get output csv dir
-        workspace = context.get_toolingapi_settings().get("workspace")
-        outputdir = workspace + "/describe/customfield"
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
 
@@ -628,37 +622,33 @@ def handle_describe_customfield(sobject, timeout=120):
         # Output log
         print (message.SEPRATE.format(output_file_dir))
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
+    workspace = context.get_toolingapi_settings().get("workspace")
+    outputdir = workspace + "/describe/customfield"
     api = SalesforceApi(toolingapi_settings)
     query = """SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName 
                FROM CustomField 
                WHERE TableEnumOrId='{sobject}'""".format(sobject=sobject)
     thread = threading.Thread(target=api.query_all, args=(query, True,))
     thread.start()
+    ThreadProgress(api, thread, 'Describe CustomField of ' + sobject, 
+        'Outputdir: ' + outputdir + "/" + sobject + ".csv")
     handle_thread(thread, 10)
 
 def handle_describe_global(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
             sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
-        # If succeed
         result = api.result
-        # If error
-        if result["status_code"] > 399 :
-            util.sublime_error_message(result)
-            return
 
-        # Get output csv dir
-        workspace = context.get_toolingapi_settings().get("workspace")
-        outputdir = workspace + "/describe/global"
+        # Error Message are prcoessed in ThreadProgress
+        if result["status_code"] > 399 :return
+
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
 
@@ -672,15 +662,17 @@ def handle_describe_global(timeout=120):
         # Write list to csv
         util.list2csv(fp, result["sobjects"])
 
-        # Output log
-        print (message.SEPRATE.format("global describe csv outputdir: " + output_file_dir))
+        # Console Log
+        print ("Output Directory: " + outputdir + "sobjects.csv")
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
+    workspace = context.get_toolingapi_settings().get("workspace")
+    outputdir = workspace + "/describe/global"
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
+    ThreadProgress(api, thread, 'Describe Global...', "Output Directory: " + outputdir + "sobjects.csv")
     handle_thread(thread, timeout)
 
 def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120):
@@ -910,10 +902,9 @@ def handle_run_test(class_id, timeout=120):
     thread.start()
     handle_thread(thread, timeout)
 
-def handle_retrieve_fields(sobject, timeout=120):
+def handle_describe_sobject(sobject, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -922,10 +913,9 @@ def handle_retrieve_fields(sobject, timeout=120):
         
         # If succeed
         result = api.result
-        # If error
-        if result["status_code"] > 399:
-            util.sublime_error_message(result)
-            return
+        
+        # Error Message are prcoessed in ThreadProgress
+        if result["status_code"] > 399: return
 
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
@@ -934,14 +924,13 @@ def handle_retrieve_fields(sobject, timeout=120):
             "input": util.parse_sobject_field_result(result)
         })
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api_version = toolingapi_settings["api_version"]
     api = SalesforceApi(toolingapi_settings)
-    sobject_url = "/services/data/v{0}.0/sobjects/".format(api_version) + sobject+ "/describe"
+    sobject_url = "/services/data/v{0}.0/sobjects/".format(api_version) + sobject + "/describe"
     thread = threading.Thread(target=api.get, args=(sobject_url, ))
     thread.start()
+    ThreadProgress(api, thread, 'Describe ' + sobject, 'Describe ' + sobject + ' Succeed')
     handle_new_view_thread(thread, timeout)
 
 def handle_generate_specified_workbooks(sobjects, timeout=120):
@@ -1108,15 +1097,8 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
         result = api.result
         status_code = result["status_code"]
         
-        if status_code > 399:
-            error_message = "% 20s " % "Component Name: "
-            error_message += "%-20s " % component_name + "\n"
-            error_message += "% 20s " % "Error Code: "
-            error_message += "%-20s " % util.none_value(result["errorCode"]) + "\n"
-            error_message += "% 20s " % "Error Message: "
-            error_message += "%-20s " % util.none_value(result["message"])
-            print (message.SEPRATE.format(error_message))
-            return
+        # If error, just skip, error is processed in ThreadProgress
+        if status_code > 399: return
 
         fp = open(file_name, "wb")
         try:
@@ -1128,7 +1110,6 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
         file_base_name = os.path.basename(file_name)
         print (message.SEPRATE.format(message.REFRESH_SUCCESSFULLY.format(file_base_name)))
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -1136,7 +1117,7 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
     component_url = component_attribute["url"]
     thread = threading.Thread(target=api.get, args=(component_url, ))
     thread.start()
-    ThreadProgress(thread, 'Refresh Component', 'Refresh Succeed')
+    ThreadProgress(api, thread, 'Refresh Component', 'Refresh Succeed')
     handle_thread(thread, timeout)
 
 def handle_delete_component(component_url, file_name, timeout=120):
@@ -1189,7 +1170,7 @@ def handle_push_topic(sobject, timeout=120):
         # If succeed
         result = api.result
         if result["status_code"] > 399:
-            util.sublime_error_message(result)
+            print (message.SEPRATE.format(util.format_error_message(result)))
             return
 
         print (result)
