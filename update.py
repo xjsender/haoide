@@ -37,7 +37,7 @@ def handle_update_plugin(timeout):
         try:
             f = zipfile.ZipFile(zip_dir, 'r')
         except IOError as ie:
-            sublime.error_message("I/O error: {0}".format(ie))
+            sublime.status_message("I/O error: {0}".format(ie))
             return
         f.extractall()
         f.close()
@@ -62,6 +62,11 @@ def handle_update_plugin(timeout):
         # just remove the path tree and the zipfile
         shutil.rmtree("SublimeApex-master")
         os.remove("SublimeApex.zip")
+        message = """
+        Your plugin is updated to newest. 
+        In order to ensure plugin is working, please restart your sublime.
+        """
+        sublime.message_dialog(message)
 
     # Get the newest plugin zip file in github
     thread = threading.Thread(target=retrieve_newest_zip, args=())
@@ -78,10 +83,10 @@ def retrieve_newest_zip():
         r = requests.get("https://github.com/xjsender/SublimeApex/archive/master.zip", 
             verify=False)
     except requests.ConnectionError as ce:
-        sublime.error_message("ConnectionError: {0}".format(ce))
+        sublime.status_message("ConnectionError: {0}".format(ce))
         return
     except requests.Timeout as to:
-        sublime.error_message("TimeoutError: {0}".format(to))
+        sublime.status_message("TimeoutError: {0}".format(to))
         return
 
     with open("SublimeApex.zip", "wb") as code:
