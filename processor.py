@@ -280,7 +280,6 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
 def handle_refresh_folder(component_type, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -344,7 +343,6 @@ def handle_refresh_folder(component_type, timeout=120):
 
         sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -357,6 +355,8 @@ def handle_refresh_folder(component_type, timeout=120):
     component_soql = component_type_attrs["soql"]
     thread = threading.Thread(target=api.query_all, args=(component_soql, ))
     thread.start()
+    ThreadProgress(api, thread, "Refreshing " + component_type, 
+        "Refreshing " + component_type + " Succeed")
     handle_thread(thread, timeout)
 
 def handle_backup_all_sobjects(timeout=120):
@@ -678,8 +678,6 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
 
-        output_file_dir = outputdir + "/" + sobject + "-" + recordtype_name + ".csv"
-
         if util.is_python3x():
             fp = open(output_file_dir, "w", newline='')
         else:
@@ -690,11 +688,13 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
 
     toolingapi_settings = context.get_toolingapi_settings()
     outputdir = toolingapi_settings["workspace"] + "/describe/layout"
+    output_file_dir = outputdir + "/" + sobject + "-" + recordtype_name + ".csv"
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_layout, args=(sobject, recordtype_id, ))
     thread.start()
-    ThreadProgress(api, thread, "Desicrbing Layout of " + sobject, "Describe " + sobject + " Succeed")
+    ThreadProgress(api, thread, "Desicrbing Layout of " + sobject, 
+        "Outputdir: " + output_file_dir)
     handle_thread(thread, 120)
 
 def handle_execute_query(soql, timeout=120):
@@ -805,7 +805,7 @@ def handle_create_debug_log(user_name, user_id, timeout=120):
         "Create Debug Log for " + user_name + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_get_debug_log_detail(log_id, timeout=120):
+def handle_view_debug_log_detail(log_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -857,7 +857,7 @@ def handle_run_test(class_name, class_id, timeout=120):
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.run_test, args=(class_id, ))
     thread.start()
-    ThreadProgress(api, thread, "Test Class " + class_name, "Run Test for " + class_name + " Succeed")
+    ThreadProgress(api, thread, "Run Test Class " + class_name, "Run Test for " + class_name + " Succeed")
     handle_thread(thread, timeout)
 
 def handle_describe_sobject(sobject, timeout=120):
@@ -991,7 +991,6 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
 def handle_create_component(data, component_name, component_type, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -1000,15 +999,7 @@ def handle_create_component(data, component_name, component_type, timeout=120):
         
         # If create Succeed
         result = api.result
-        if result["status_code"] > 399:
-            error_message = "% 20s " % "Component Name: "
-            error_message += "%-20s " % component_name + "\n"
-            error_message += "% 20s " % "Error Code: "
-            error_message += "%-20s " % util.none_value(result["errorCode"]) + "\n"
-            error_message += "% 20s " % "Error Message: "
-            error_message += "%-20s " % util.none_value(result["message"])
-            print (message.SEPRATE.format(error_message))
-            return
+        if result["status_code"] > 399: return
         
         # Get the created component id
         component_id = result.get("id")
@@ -1034,13 +1025,14 @@ def handle_create_component(data, component_name, component_type, timeout=120):
         file_base_name = component_name + extension
         print (message.SEPRATE.format(message.CREATE_SUCCESSFULLY.format(file_base_name)))
                 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     post_url = "/services/data/v{0}.0/sobjects/".format(toolingapi_settings["api_version"]) + component_type
     thread = threading.Thread(target=api.post, args=(post_url, data, ))
     thread.start()
+    ThreadProgress(api, thread, "Creating Component " + component_name, 
+        "Creating Component " + component_name + " Succeed")
     handle_thread(thread, timeout)
 
 def handle_refresh_component(component_attribute, file_name, timeout=120):

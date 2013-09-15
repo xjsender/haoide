@@ -7,7 +7,7 @@ from . import context
 from .salesforce import util
 
 class SFDCEventListener(sublime_plugin.EventListener):
-    def on_new(self, view):
+    def on_new_async(self, view):
         """
         Eveytime when you open a new view, default syntax is Apex
         """
@@ -19,10 +19,10 @@ class SFDCEventListener(sublime_plugin.EventListener):
 
     def display_active_project(self, view):
         toolingapi_settings = context.get_toolingapi_settings()
-        display_message = "Active Project ▄︻┻═┳一 " + toolingapi_settings["active_project_name"]
-        view.set_status('active_project', display_message)
+        display_message = "Default Project ▄︻┻═┳一 " + toolingapi_settings["default_project_name"]
+        view.set_status('default_project', display_message)
 
-    def on_post_save(self, view):
+    def on_post_save_async(self, view):
         """
         Every time when you save your ApexPage, ApexTrigger, ApexClass, ApexComponent, 
         this class will make a copy with the time_stamp in the history path of current project

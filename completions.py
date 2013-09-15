@@ -4,7 +4,8 @@ import time
 
 from . import context
 from .salesforce.metadata import apex_completions
-
+from .salesforce import vf
+            
 class SobjectCompletions(sublime_plugin.EventListener):
     """
     When you refresh all, your sobject completions will updated at the same time
@@ -61,7 +62,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
         elif variable_name in metadata:
             sobject = variable_name
         elif variable_name.capitalize() in metadata:
-            sobject = variable_name
+            sobject = variable_name.capitalize()
         else: 
             return
 

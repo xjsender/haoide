@@ -86,11 +86,11 @@ class NewViewCommand(sublime_plugin.TextCommand):
         })
     """
 
-    def run(self, edit, name="", input=""):
+    def run(self, edit, point=0, name="", input=""):
         view = sublime.active_window().active_view()
         view.set_scratch(True)
         view.set_name(name)
-        view.insert(edit, 0, input)
+        view.insert(edit, point, input)
 
 class RefreshFolderCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -104,11 +104,6 @@ class RefreshFolderCommand(sublime_plugin.WindowCommand):
 
     def on_done(self, index):
         if index == -1: return
-
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
         processor.handle_refresh_folder(component_types[index])
 
 class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
@@ -366,11 +361,7 @@ class ListDebugLogsCommand(sublime_plugin.WindowCommand):
 
 class ViewDebugLogDetail(sublime_plugin.TextCommand):
     def run(self, view):
-        # Open Console
-        self.view.window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
-        processor.handle_get_debug_log_detail(self.log_id)
+        processor.handle_view_debug_log_detail(self.log_id)
 
     def is_visible(self):
         # Choose the valid Id, you will see this command
@@ -554,10 +545,6 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         if is_success == False:
             sublime.error_message(message.INVALID_NEW_COMPONENT_FORMAT)
             return
-
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
 
         self.window.open_file(file_name)
 

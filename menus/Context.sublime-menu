@@ -4,83 +4,24 @@
         "caption": "SublimeApex",
         "children":
         [
-            {
-                "id": "RefreshFromServer",
-                "caption": "Refresh from Server",
-                "command": "refresh_component"
-            },
+            {"caption": "Refresh from Server", "command": "refresh_component"},
+            {"caption": "Save to Server", "command": "save_component"},
+            {"caption": "Delete from Server", "command": "delete_component"},
 
-            {
-                "id": "SaveToServer",
-                "caption": "Save to Server",
-                "command": "save_component"
-            },
-             
-            {
-                "id": "DeleteFromServer",
-                "caption": "Delete from Server",
-                "command": "delete_component"
-            },
-             
-            { "caption": "-" },
+            {"caption": "-"},
+            {"caption": "Set Check Point", "command": "set_check_point"},
+            {"caption": "Remove Check Point", "command": "remove_check_point"},
 
-            {
-                "id": "SetCheckPoint",
-                "caption": "Set Check Point",
-                "command": "set_check_point"
-            },
+            {"caption": "-"},
+            {"caption": "Execute Anonymous","command": "execute_anonymous"},
+            {"caption": "Execute SOQL","command": "execute_soql"},
+            {"caption": "Run Test Class","command": "run_test"},
+            {"caption": "View Code Coverage","command": "view_code_coverage"},
 
-            {
-                "id": "removecheckpoint",
-                "caption": "Remove Check Point",
-                "command": "remove_check_point"
-            },
-
-            { "caption": "-" },
-            
-            {
-                "id": "executeanonymous",
-                "caption": "Execute Anonymous",
-                "command": "execute_anonymous"
-            },
-
-            {
-                "id": "executeSOQLInSFDC",
-                "caption": "Execute SOQL",
-                "command": "execute_soql"
-            },
-
-            {
-                "id": "reuntest",
-                "caption": "Run Test Class",
-                "command": "run_test"
-            },
-
-            {
-                "id": "ViewCodeCoverage",
-                "caption": "View Code Coverage",
-                "command": "view_code_coverage"
-            },
-
-            { "caption": "-" },
-
-            {
-                "id": "viewdebuglogdetail",
-                "caption": "View Debug Log Detail",
-                "command": "view_debug_log_detail"
-            },
-
-            {
-                "id": "viewidinsfdcweb",
-                "caption": "View Id in Salesforce Web",
-                "command": "view_id_in_sfdc_web"
-            },
-
-            {
-                "id": "showinsfdcweb",
-                "caption": "Show in Salesforce Web",
-                "command": "show_in_sfdc_web"
-            }
+            {"caption": "-"},
+            {"caption": "View Debug Log Detail","command": "view_debug_log_detail"},
+            {"caption": "View Id in Salesforce Web","command": "view_id_in_sfdc_web"},
+            {"caption": "Show in Salesforce Web","command": "show_in_sfdc_web"}
         ]
     }
 ]

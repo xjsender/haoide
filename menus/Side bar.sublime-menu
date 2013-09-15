@@ -5,23 +5,15 @@
         "caption": "SublimeApex",
         "children":
         [
-            {
-                "id": "SaveNewToServer",
-                "caption": "Create New Component",
-                "command": "create_component"
-            },
+            {"caption": "Create New Component", "command": "create_component"},
 
             {
-                "id": "RefreshSelectedComponents",
-                "caption": "Refresh Selected Components",
-                "command": "refresh_selected_components",
+                "caption": "Refresh Selected Components", "command": "refresh_selected_components",
                 "args": {"files": []}
             },
 
             {
-                "id": "DeleteSelectedComponents",
-                "caption": "Delete Selected Components",
-                "command": "delete_selected_components",
+                "caption": "Delete Selected Components", "command": "delete_selected_components",
                 "args": {"files": []}
             }
         ]

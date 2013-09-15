@@ -39,8 +39,8 @@ def get_toolingapi_settings():
         return
 
     # Default Project Part
-    settings["active_project"] = default_project
-    settings["active_project_name"] = default_project_name
+    settings["default_project"] = default_project
+    settings["default_project_name"] = default_project_name
 
     # User Settings Part
     settings["projects"] = projects
