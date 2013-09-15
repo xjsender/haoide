@@ -302,7 +302,7 @@ class RunOneTestCommand(sublime_plugin.WindowCommand):
 class RunTestCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Get component_attribute by file_name
-        component_name = util.get_component_name(file_name)
+        component_name = util.get_component_name(self.view.file_name())
         component_attribute = get_component_attribute(self.view.file_name())[0]
 
         # Process run test
