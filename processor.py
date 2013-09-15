@@ -1108,7 +1108,6 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
 
         fp.write(body)
         file_base_name = os.path.basename(file_name)
-        print (message.SEPRATE.format(message.REFRESH_SUCCESSFULLY.format(file_base_name)))
 
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
@@ -1123,7 +1122,6 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
 def handle_delete_component(component_url, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -1132,22 +1130,9 @@ def handle_delete_component(component_url, file_name, timeout=120):
 
         # If succeed
         result = api.result
-
-        # Get the base name
-        file_base_name = os.path.basename(file_name) 
-
-        if result["status_code"] > 399:
-            error_message = "% 20s " % "Component Name: "
-            error_message += "%-20s " % file_base_name + "\n"
-            error_message += "% 20s " % "Error Code: "
-            error_message += "%-20s " % util.none_value(result["errorCode"]) + "\n"
-            error_message += "% 20s " % "Error Message: "
-            error_message += "%-20s " % util.none_value(result["message"])
-            print (message.SEPRATE.format(error_message))
-        else:
-            os.remove(file_name)
-            sublime.active_window().run_command("close")
-            print (message.SEPRATE.format(message.DELETE_SUCCESSFULLY.format(file_base_name)))
+        if result["status_code"] > 399: return
+        os.remove(file_name)
+        sublime.active_window().run_command("close")
 
     print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
@@ -1155,6 +1140,8 @@ def handle_delete_component(component_url, file_name, timeout=120):
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.delete, args=(component_url, ))
     thread.start()
+    file_base_name = os.path.basename(file_name)
+    ThreadProgress(api, thread, "Deleting " + file_base_name, "Delete " + file_base_name + " Succeed")
     handle_thread(thread, timeout)
 
 def handle_push_topic(sobject, timeout=120):      

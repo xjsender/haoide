@@ -1,5 +1,6 @@
 import sublime
 from .salesforce import message
+from .salesforce import util
 
 class ThreadProgress():
     """
@@ -21,7 +22,7 @@ class ThreadProgress():
         self.message = message
         self.success_message = success_message
         self.addend = 1
-        self.size = 8
+        self.size = 15
         sublime.set_timeout(lambda: self.run(0), 100)
 
     def run(self, i):
@@ -30,8 +31,9 @@ class ThreadProgress():
                 sublime.status_message('')
                 return
             if self.api.result["status_code"] > 399:
-                print (message.SEPRATE.format("Error Message: " + self.api.result["message"]))
-                sublime.status_message(self.api.result["message"])
+                sublime.active_window().run_command("show_panel", 
+                    {"panel": "console", "toggle": False})
+                print (message.SEPRATE.format(util.format_error_message(self.api.result)))
             else:
                 sublime.status_message(self.success_message)
             return

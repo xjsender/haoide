@@ -556,10 +556,6 @@ def delete_components(files):
     # Confirm Delete Action
     confirm = sublime.ok_cancel_dialog(message.DELETE_CONFIRM_MESSAGE)
     if confirm == False: return
-
-    # Open Console
-    sublime.active_window().run_command("show_panel", 
-        {"panel": "console", "toggle": False})
     
     # Handle Delete
     for f in files:
