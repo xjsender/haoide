@@ -69,7 +69,7 @@ def handle_update_plugin(timeout):
     # Get the newest plugin zip file in github
     thread = threading.Thread(target=retrieve_newest_zip, args=())
     thread.start()
-    ThreadProgress(api, thread, 'Update SublimeApex', 'Update Succeed')
+    ThreadProgress(None, thread, 'Update SublimeApex', 'Update Succeed')
     handle_thread(thread, timeout)
 
 def retrieve_newest_zip():

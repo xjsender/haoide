@@ -30,7 +30,7 @@ class ThreadProgress():
             if hasattr(self.thread, 'result') and not self.thread.result:
                 sublime.status_message('')
                 return
-            if self.api.result["status_code"] > 399:
+            if self.api != None and self.api.result["status_code"] > 399:
                 sublime.active_window().run_command("show_panel", 
                     {"panel": "console", "toggle": False})
                 print (message.SEPRATE.format(util.format_error_message(self.api.result)))
