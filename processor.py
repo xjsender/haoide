@@ -828,10 +828,11 @@ def handle_get_debug_log_detail(log_id, timeout=120):
             sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
+        if api.result["status_code"] > 399: return
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "Debug Log Detail",
-            "input": api.result
+            "input": api.result["result"]
         })
 
     toolingapi_settings = context.get_toolingapi_settings()

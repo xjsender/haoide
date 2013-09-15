@@ -340,8 +340,12 @@ class SalesforceApi():
             self.login(True)
             return self.get_debug_log_detail(log_id)
 
-        self.result = response.text
-        return response.text
+        result = {
+            "status_code": response.status_code,
+            "result": response.text
+        }
+        self.result = result
+        return result
 
     def run_test(self, class_id, traced_entity_id=None):
         """
