@@ -186,15 +186,10 @@ class DescribeLayoutCommand(sublime_plugin.WindowCommand):
         global sobject_recordtypes
         sobject_recordtypes_attr = processor.populate_sobject_recordtypes()
         sobject_recordtypes = sorted(list(sobject_recordtypes_attr.keys()))
-
         self.window.show_quick_panel(sobject_recordtypes, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
-
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
 
         # Get chosen item, sobject name and recordtype id
         sobject_recordtype = sobject_recordtypes[index]
@@ -203,7 +198,6 @@ class DescribeLayoutCommand(sublime_plugin.WindowCommand):
         recordtype_id = sobject_recordtypes_attr[sobject_recordtype]
 
         # handle this describe requst
-        print (sobject, recordtype_id)
         processor.handle_describe_layout(sobject, recordtype_name, recordtype_id)
 
 class BackupSobjectsCommand(sublime_plugin.WindowCommand):

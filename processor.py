@@ -678,7 +678,6 @@ def handle_describe_global(timeout=120):
 def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -687,20 +686,12 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
         
         # If succeed
         result = api.result
-        
-        # If error
-        if result["status_code"] > 399 :
-            util.sublime_error_message(result)
-            return
+        if result["status_code"] > 399 : return
 
         # If totalSize is 0
         if "totalSize" in result and result["totalSize"] == 0 :
             util.sublime_error_message(result)
             return
-
-        # Get output csv dir
-        toolingapi_settings = context.get_toolingapi_settings()
-        outputdir = toolingapi_settings["workspace"] + "/describe/layout"
 
         # If outputdir is not exist, just make it
         if not os.path.exists(outputdir):
@@ -716,12 +707,13 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
         
         print (message.SEPRATE.format("Layout describe outputdir: " + output_file_dir))
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
+    outputdir = toolingapi_settings["workspace"] + "/describe/layout"
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_layout, args=(sobject, recordtype_id, ))
     thread.start()
+    ThreadProgress(api, thread, "Desicrbing Layout of " + sobject, "Describe " + sobject + " Succeed")
     handle_thread(thread, 120)
 
 def handle_execute_query(soql, timeout=120):
