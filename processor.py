@@ -523,10 +523,9 @@ def handle_retrieve_all_thread(timeout=120):
     thread.start()
     handle_thread(thread, timeout)
 
-def handle_parse_workflow(timeout=120):
+def handle_export_workflows(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -538,21 +537,19 @@ def handle_parse_workflow(timeout=120):
         for sobject in sobjects:
             util.parse_workflow_metadata(toolingapi_settings, sobject)
 
-        print (message.SEPRATE.format("Your workflows are exported to " +\
-            toolingapi_settings["workspace"] + "/describe/workflows/"))
+        print (message.SEPRATE.format("Outputdir: " + outputdir))
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
+    outputdir = toolingapi_settings["workspace"] + "/describe/workflows/"
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
+    ThreadProgress(api, thread, "Export All Workflows", "Outputdir: " + outputdir)
     handle_thread(thread, 10)
 
-def handle_parse_validation_rule(timeout=120):
+def handle_export_validation_rules(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -563,15 +560,14 @@ def handle_parse_validation_rule(timeout=120):
         sobjects = api.result
         util.parse_validation_rule(toolingapi_settings, sobjects)
 
-        print (message.SEPRATE.format("Your validation rules are exported to " +\
-            toolingapi_settings["workspace"] + "/describe/validation rules/validation rules.csv"))
+        print (message.SEPRATE.format("Outputdir: " + outputdir))
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
+    outputdir = toolingapi_settings["workspace"] + "/describe/validation rules/validation rules.csv"
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
+    ThreadProgress(api, thread, "Export All Validation Rules", "Outputdir: " + outputdir)
     handle_thread(thread, 10)
 
 def handle_describe_customfield(sobject, timeout=120):
@@ -704,7 +700,6 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
 def handle_execute_query(soql, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -713,10 +708,7 @@ def handle_execute_query(soql, timeout=120):
         
         # If succeed
         result = api.result
-        # If error
-        if result["status_code"] > 399:
-            util.sublime_error_message(result)
-            return None
+        if result["status_code"] > 399: return
 
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
@@ -725,17 +717,16 @@ def handle_execute_query(soql, timeout=120):
             "input": util.parse_execute_query_result(result)
         })
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.query, args=(soql, ))
     thread.start()
+    ThreadProgress(api, thread, "Execute Query", "Execute Query Succeed")
     handle_new_view_thread(thread, timeout)
 
 def handle_execute_anonymous(apex_string, timeout=120):
     def handle_new_view_thread(thread, timeout):
-        print (">", end=''); time.sleep(sleep_time)
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
@@ -745,12 +736,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
         
         # If succeed
         result = api.result
-        # If error
-        if result["status_code"] > 399:
-            errorCode = util.none_value(result["errorCode"])
-            message = util.none_value(result["message"])
-            sublime.error_message(errorCode + "\n" + message)
-            return
+        if result["status_code"] > 399: return
 
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
@@ -759,12 +745,12 @@ def handle_execute_anonymous(apex_string, timeout=120):
             "input": util.parse_execute_anonymous_xml(result)
         })
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.execute_anonymous, args=(apex_string, ))
     thread.start()
+    ThreadProgress(api, thread, "Execute Anonymous", "Execute Anonymous Succeed")
     handle_new_view_thread(thread, timeout)
 
 def handle_list_debug_logs(user_full_name, user_id, timeout=120):
@@ -1113,7 +1099,8 @@ def handle_delete_component(component_url, file_name, timeout=120):
     thread = threading.Thread(target=api.delete, args=(component_url, ))
     thread.start()
     file_base_name = os.path.basename(file_name)
-    ThreadProgress(api, thread, "Deleting " + file_base_name, "Delete " + file_base_name + " Succeed")
+    ThreadProgress(api, thread, "Deleting " + file_base_name,
+        "Delete " + file_base_name + " Succeed")
     handle_thread(thread, timeout)
 
 def handle_push_topic(sobject, timeout=120):      

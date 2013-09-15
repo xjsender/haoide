@@ -482,8 +482,13 @@ class SalesforceApi():
         content = response.content
         result = {"status_code": response.status_code}
         if response.status_code > 399:
-            result["errorCode"] = getUniqueElementValueFromXmlString(content, "errorCode")
-            result["message"] = getUniqueElementValueFromXmlString(content, "message")
+            if response.status_code == 500:
+                result["errorCode"] = getUniqueElementValueFromXmlString(content, "faultcode")
+                result["message"] = getUniqueElementValueFromXmlString(content, "faultstring")
+            else:
+                result["errorCode"] = getUniqueElementValueFromXmlString(content, "errorCode")
+                result["message"] = getUniqueElementValueFromXmlString(content, "message")
+
             self.result = result
             return result
         

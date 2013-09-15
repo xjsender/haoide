@@ -34,7 +34,9 @@ def format_error_message(result):
     error_message += "% 30s\t" % "Error Code: "
     error_message += "%-30s\t" % none_value(result["errorCode"]) + "\n"
     error_message += "% 30s\t" % "Error Message: "
-    error_message += "%-30s\t" % none_value(result["message"])
+    error_message += "%-30s\t" % none_value(result["message"]) + "\n"
+    error_message += "% 30s\t" % "Status Code: "
+    error_message += "%-30s\t" % result["status_code"]
 
     return error_message
 

@@ -12,8 +12,12 @@ class SFDCEventListener(sublime_plugin.EventListener):
         Eveytime when you open a new view, default syntax is Apex
         """
         view.set_syntax_file("Packages/SublimeApex/syntaxes/Apex.tmLanguage")
+        self.display_active_project(view)
 
     def on_load_async(self, view):
+        self.display_active_project(view)
+
+    def display_active_project(self, view):
         toolingapi_settings = context.get_toolingapi_settings()
         display_message = "Active Project ▄︻┻═┳一 " + toolingapi_settings["active_project_name"]
         view.set_status('active_project', display_message)

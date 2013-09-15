@@ -24,6 +24,13 @@ class RemoveCheckPointCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         self.view.erase_regions('mark')
 
+class ListCodeCoverageCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ListCodeCoverageCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        pass
+
 class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         # Get file_name and component_attribute
@@ -126,11 +133,7 @@ class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
             sublime.error_message(message.SOBJECTS_PATH_CHECK)
             return
 
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
-        processor.handle_parse_validation_rule()
+        processor.handle_export_validation_rules()
 
 class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -143,10 +146,7 @@ class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
             sublime.error_message(message.WORKFLOW_PATH_CHECK)
             return
 
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
-        processor.handle_parse_workflow()
+        processor.handle_export_workflows()
 
 class DescribeCustomFieldCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -387,18 +387,12 @@ class ViewDebugLogDetail(sublime_plugin.TextCommand):
 
 class ExecuteSoqlCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        # Open Console
-        self.view.window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
-        # Handle
         processor.handle_execute_query(self.selection)
 
     def is_enabled(self):
         # Selection must start SELECT, 
         # otherwise you can't see this command
         self.selection = self.view.substr(self.view.sel()[0]).encode('utf-8')
-
         if not self.selection or not self.selection.upper().startswith(b"SELECT"):
             return False
 
@@ -406,11 +400,6 @@ class ExecuteSoqlCommand(sublime_plugin.TextCommand):
 
 class ExecuteAnonymousCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        # Open Console
-        self.view.window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
-        # Handle
         processor.handle_execute_anonymous(self.selection)
 
     def is_enabled(self):
