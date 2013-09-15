@@ -8,17 +8,9 @@ import pprint
 import sys
 import xml.dom.minidom
  
-try:
-    # Python 3.x
-    from . import message
-    from . import xmltodict
-    from .. import context
-except:
-    # Python 2.x
-    import message
-    import xmltodict
-    import context
-
+from . import message
+from . import xmltodict
+from .. import context
 from xml.sax.saxutils import unescape
 
 def format_debug_logs(toolingapi_settings, records):

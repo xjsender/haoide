@@ -6,24 +6,12 @@ import os
 import threading
 from xml.sax.saxutils import unescape
 
-try:
-    # Python 3.x
-    from .login import soap_login
-    from . import soap_bodies
-    from . import message
-    from .util import getUniqueElementValueFromXmlString
-
-    from .. import context
-    from .. import requests
-except:
-    # Python 2.x
-    from login import soap_login
-    from salesforce import soap_bodies
-    import message
-    from util import getUniqueElementValueFromXmlString
-
-    import context
-    import requests
+from .login import soap_login
+from . import soap_bodies
+from . import message
+from .util import getUniqueElementValueFromXmlString
+from .. import context
+from .. import requests
 
 # Used in output log
 SEPARATE = "-" * 100

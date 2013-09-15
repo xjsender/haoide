@@ -4,6 +4,8 @@ from .salesforce import util
 
 class ThreadProgress():
     """
+    Stolen from Package Control Source Code, ni dong de
+    
     Animates an indicator, [=   ], in the status area while a thread runs
 
     :param thread:

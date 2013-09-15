@@ -8,19 +8,11 @@ import sys
 import shutil
 import zipfile
 
-try:
-    # Python 3.x
-    from . import requests
-    from . import processor
-    from . import context
-    from .salesforce import util, message
-    from .salesforce import bulkapi
-except:
-    # Python 2.x
-    import requests
-    import processor
-    import context
-    from salesforce import util, message, bulkapi
+from . import requests
+from . import processor
+from . import context
+from .salesforce import util, message
+from .salesforce import bulkapi
 
 class SetCheckPointCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -303,24 +295,18 @@ class RunOneTestCommand(sublime_plugin.WindowCommand):
     def on_done(self, index):
         if index == -1: return
 
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
-        class_id = classes_attr[class_names[index]]["id"]
-        processor.handle_run_test(class_id)
+        class_name = class_names[index]
+        class_id = classes_attr[class_name]["id"]
+        processor.handle_run_test(class_name, class_id)
 
 class RunTestCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        # Open Console
-        self.view.window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
         # Get component_attribute by file_name
+        component_name = util.get_component_name(file_name)
         component_attribute = get_component_attribute(self.view.file_name())[0]
 
         # Process run test
-        processor.handle_run_test(component_attribute["id"])
+        processor.handle_run_test(component_name, component_attribute["id"])
 
     def is_enabled(self):
         # Get current file name and Read file content
@@ -356,19 +342,13 @@ class CreateDebugLogCommand(sublime_plugin.WindowCommand):
         # Split with ") " and get the second project name
         user_name = users_name[index]
         user_id = users[user_name]
-        sublime.active_window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-        processor.handle_create_debug_log(user_id, user_name)
+        processor.handle_create_debug_log(user_name, user_id)
 
 class ListDebugLogsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ListDebugLogsCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        # Open Console
-        sublime.active_window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
         global users
         global users_name
         users = processor.populate_users()
@@ -380,10 +360,9 @@ class ListDebugLogsCommand(sublime_plugin.WindowCommand):
 
         # Change the chosen project as default
         # Split with ") " and get the second project name
-        user_id = users[users_name[index]]
-        sublime.active_window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-        processor.handle_list_debug_logs(user_id)
+        user_name = users_name[index]
+        user_id = users[user_name]
+        processor.handle_list_debug_logs(user_name, user_id)
 
 class ViewDebugLogDetail(sublime_plugin.TextCommand):
     def run(self, view):

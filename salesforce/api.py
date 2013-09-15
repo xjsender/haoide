@@ -5,31 +5,16 @@ import time
 import datetime
 import os
 
-try:
-    # Python 3.x
-    import urllib.parse
-    from .. import requests
-    from .. import context
+import urllib.parse
+from .. import requests
+from .. import context
 
-    from . import xmltodict
-    from . import soap_bodies
-    from . import message
-    from . import util
-    from .login import soap_login
-    from .util import getUniqueElementValueFromXmlString
-except:
-    # Python 2.x
-    import urllib
-    import requests
-    import context
-
-    import xmltodict
-    import soap_bodies
-    import message
-    import util
-    from login import soap_login
-    from util import getUniqueElementValueFromXmlString
-
+from . import xmltodict
+from . import soap_bodies
+from . import message
+from . import util
+from .login import soap_login
+from .util import getUniqueElementValueFromXmlString
 from xml.sax.saxutils import unescape
 from xml.sax.saxutils import quoteattr
 

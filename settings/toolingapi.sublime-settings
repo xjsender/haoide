@@ -31,7 +31,7 @@
     "thread_sleep_time_of_waiting": 0.05,
 
     // API version
-    "api_version": 28,
+    "api_version": 29,
 
     // Trace Flag Headers, used for list all debug log for specified user
     "trace_flag_headers": [

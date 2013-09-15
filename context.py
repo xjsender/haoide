@@ -4,10 +4,7 @@ import pprint
 import os
 import time
 
-try:
-    from .salesforce import message
-except:
-    from salesforce import message
+from .salesforce import message
 
 COMPONENT_METADATA_SETTINGS = "component_metadata.sublime-settings"
 TOOLING_API_SETTINGS = "toolingapi.sublime-settings"

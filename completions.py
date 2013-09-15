@@ -1,14 +1,9 @@
 import sublime, sublime_plugin
 import re
 import time
-try:
-    # Python 3.x
-    from . import context
-    from .salesforce.metadata import apex_completions
-except:
-    # Python 2.x
-    import context
-    from salesforce.metadata import apex_completions
+
+from . import context
+from .salesforce.metadata import apex_completions
 
 class SobjectCompletions(sublime_plugin.EventListener):
     """

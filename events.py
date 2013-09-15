@@ -3,12 +3,8 @@ import sublime_plugin
 import os
 import time
 
-try:
-    from . import context
-    from .salesforce import util
-except:
-    import context
-    from salesforce import util
+from . import context
+from .salesforce import util
 
 class SFDCEventListener(sublime_plugin.EventListener):
     def on_new(self, view):

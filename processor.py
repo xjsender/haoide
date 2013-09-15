@@ -11,33 +11,18 @@ import zipfile
 import shutil
 import sys
 
-try:
-    # Python 3.x
-    import urllib.parse
-    from . import requests
-    from . import context
-    from .salesforce import util
+import urllib.parse
+from . import requests
+from . import context
+from .salesforce import util
 
-    from .context import COMPONENT_METADATA_SETTINGS
-    from .salesforce import message
-    from .salesforce.api import SalesforceApi
-    from xml.sax.saxutils import unescape
-    from .salesforce.util import getUniqueElementValueFromXmlString
-    from .salesforce import bulkapi
-    from .thread_progress import ThreadProgress
-except:
-    # Python 2.x
-    import urllib
-    import requests
-    import context
-    from salesforce import util
-    from context import COMPONENT_METADATA_SETTINGS
-    from salesforce import message
-    from salesforce.api import SalesforceApi
-    from xml.sax.saxutils import unescape
-    from salesforce.util import getUniqueElementValueFromXmlString
-    from salesforce import bulkapi
-    from thread_progress import ThreadProgress
+from .context import COMPONENT_METADATA_SETTINGS
+from .salesforce import message
+from .salesforce.api import SalesforceApi
+from xml.sax.saxutils import unescape
+from .salesforce.util import getUniqueElementValueFromXmlString
+from .salesforce import bulkapi
+from .thread_progress import ThreadProgress
     
 animation = """
              \     /
@@ -782,9 +767,8 @@ def handle_execute_anonymous(apex_string, timeout=120):
     thread.start()
     handle_new_view_thread(thread, timeout)
 
-def handle_list_debug_logs(user_id, timeout=120):
+def handle_list_debug_logs(user_full_name, user_id, timeout=120):
     def handle_thread(thread, timeout):
-        print (">", end=''); time.sleep(sleep_time)
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
@@ -801,7 +785,6 @@ def handle_list_debug_logs(user_id, timeout=120):
             "input": debug_logs_table
         })
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -810,12 +793,13 @@ def handle_list_debug_logs(user_id, timeout=120):
             "WHERE LogUserId='{0}'".format(user_id)
     thread = threading.Thread(target=api.query_all, args=(query, ))
     thread.start()
+    ThreadProgress(api, thread, "List Debug Logs for " + user_full_name, 
+        "List Debug Logs for " + user_full_name + " Succeed")
     handle_thread(thread, timeout)    
 
-def handle_create_debug_log(user_id, user_name, timeout=120):
+def handle_create_debug_log(user_name, user_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -823,24 +807,21 @@ def handle_create_debug_log(user_id, user_name, timeout=120):
             return
 
         result = api.result
-        if result["status_code"] > 399:
-            error_message = util.get_error_message(result)
-            print (message.SEPRATE.format(error_message))
-        else:
-            print (message.SEPRATE.format("Create Debug Log for '{0}' Succeed.".format(user_name)))
+        if result["status_code"] > 399: return
+        print (message.SEPRATE.format("Create Debug Log for '{0}' Succeed.".format(user_name)))
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.create_trace_flag, args=(user_id, ))
     thread.start()
+    ThreadProgress(api, thread, "Create Debug Log for " + user_name, 
+        "Create Debug Log for " + user_name + " Succeed")
     handle_thread(thread, timeout)
 
 def handle_get_debug_log_detail(log_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -853,18 +834,18 @@ def handle_get_debug_log_detail(log_id, timeout=120):
             "input": api.result
         })
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.get_debug_log_detail, args=(log_id, ))
     thread.start()
+    ThreadProgress(api, thread, "Get Log Detail of " + log_id, 
+        "Get Log Detail of " + log_id + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_run_test(class_id, timeout=120):
+def handle_run_test(class_name, class_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -874,9 +855,7 @@ def handle_run_test(class_id, timeout=120):
         # If succeed
         result = api.result
         # If error
-        if "status_code" in result and result["status_code"] > 399:
-            util.sublime_error_message(result)
-            return
+        if "status_code" in result and result["status_code"] > 399: return
 
         # No error, just display log in a new view
         test_result = util.parse_test_result(result)
@@ -886,12 +865,12 @@ def handle_run_test(class_id, timeout=120):
             "input": test_result
         })
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.run_test, args=(class_id, ))
     thread.start()
+    ThreadProgress(api, thread, "Test Class " + class_name, "Run Test for " + class_name + " Succeed")
     handle_thread(thread, timeout)
 
 def handle_describe_sobject(sobject, timeout=120):
