@@ -8,9 +8,9 @@
             {"caption": "Save to Server", "command": "save_component"},
             {"caption": "Delete from Server", "command": "delete_component"},
 
-            {"caption": "-"},
-            {"caption": "Set Check Point", "command": "set_check_point"},
-            {"caption": "Remove Check Point", "command": "remove_check_point"},
+            // {"caption": "-"},
+            // {"caption": "Set Check Point", "command": "set_check_point"},
+            // {"caption": "Remove Check Point", "command": "remove_check_point"},
 
             {"caption": "-"},
             {"caption": "Execute Anonymous","command": "execute_anonymous"},
