@@ -966,7 +966,6 @@ def handle_refresh_components(toolingapi_settings, timeout=120):
 def handle_save_component(component_name, component_attribute, body, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -977,15 +976,14 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
         file_base_name = component_name + component_attribute["extension"]
         if "success" in result and result["success"]:
             print (message.SEPRATE.format(message.SAVE_SUCCESSFULLY.format(file_base_name)))
-        elif "message" in result:
-            print (message.SEPRATE.format(result["message"]))
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.save_component, args=(component_attribute, body, ))
     thread.start()
+    ThreadProgress(api, thread, "Save Component " + component_name,
+        "Save Component " + component_name + " Succeed")
     handle_thread(thread, timeout)
 
 def handle_create_component(data, component_name, component_type, timeout=120):

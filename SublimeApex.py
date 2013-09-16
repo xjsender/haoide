@@ -606,10 +606,6 @@ class SaveComponentCommand(sublime_plugin.TextCommand):
         except:
             body = open(file_name).read()
 
-        # Open Console
-        self.view.window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
         # Handle Save Current Component
         processor.handle_save_component(component_name, component_attribute, body)
 

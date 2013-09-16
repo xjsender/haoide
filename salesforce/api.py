@@ -816,7 +816,7 @@ class SalesforceApi():
         return_result = {}
         if state == "Completed":
             return_result = {
-                "success": True 
+                "success": True,
             }
 
         while state == "Queued":
@@ -827,7 +827,7 @@ class SalesforceApi():
             state = result["State"]
             if state == "Completed":
                 return_result = {
-                    "success": True 
+                    "success": True,
                 }
 
         if state == "Failed":
@@ -853,9 +853,6 @@ class SalesforceApi():
 
         # Whatever succeed or failed, just delete MetadataContainerId
         delete_result = self.delete(container_url + "/" + container_id)
-        status_code = delete_result["status_code"]
-        if status_code < 399:
-            util.sublime_status_message("container_id is deleted.")
 
         # Result used in thread invoke
         self.result = return_result
