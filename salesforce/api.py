@@ -32,7 +32,7 @@ class SalesforceApi():
 
             # If login succeed, display error and return False
             if result["status_code"] > 399:
-                print (message.SEPRATE.format(util.get_error_message(result)))
+                print (message.SEPRATE.format(util.format_error_message(result)))
                 return False
 
             result["headers"] = {
@@ -207,6 +207,7 @@ class SalesforceApi():
                 # Continue the recursion
                 return get_all_result(result)
 
+        if (not self.login(False)): return
         result = self.query(soql, is_toolingapi=is_toolingapi)
         # Database.com not support ApexComponent
         if result["status_code"] > 399: 
@@ -603,7 +604,7 @@ class SalesforceApi():
         }
 
         # Populate the soap_body with actual session id
-        soap_body = soap_bodies.retrieve_sobjects_workflow_task_body.format(
+        soap_body = soap_bodies.retrieve_all_task_body.format(
             globals()[self.username]["session_id"], self.api_version)
 
         response = requests.post(server_url, soap_body, verify=False, 
@@ -664,6 +665,7 @@ class SalesforceApi():
             # The users password has expired, you must call SetPassword 
             # before attempting any other API operations
             # Database.com not support ApexComponent
+            if result == None: return
             if result["status_code"] > 399 and component_type == "ApexComponent":
                 continue
 
