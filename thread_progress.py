@@ -34,7 +34,7 @@ class ThreadProgress():
                 return
 
             # Invoked in update.py
-            if api == None: return
+            if self.api == None: return
 
             # After thread is end, display feedback to end user
             # according to response
