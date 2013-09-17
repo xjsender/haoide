@@ -6,6 +6,7 @@ import csv
 import urllib
 import pprint
 import sys
+import time
 import xml.dom.minidom
  
 from . import message
@@ -13,18 +14,36 @@ from . import xmltodict
 from .. import context
 from xml.sax.saxutils import unescape
 
+debug_log_headers = [    
+    "Id", "Request", "Application", "Status", 
+    "LogLength", "DurationMilliseconds", "StartTime"
+]
+debug_log_headers_width = {
+    "Id": 20, 
+    "Request": 12, 
+    "Application": 12, 
+    "Status": 10, 
+    "LogLength": 10, 
+    "DurationMilliseconds": 10,
+    "StartTime": 22
+}
 def format_debug_logs(toolingapi_settings, records):
     # Headers
     headers = ""
-    trace_flag_headers = toolingapi_settings["trace_flag_headers"]
-    for header in trace_flag_headers:
-        headers += "%-20s" % (header)
+    for header in debug_log_headers:
+        header_parse = "Duration" if header == "DurationMilliseconds" else header
+        headers += "%-*s" % (debug_log_headers_width[header], header_parse)
 
     # Content
     content = ""
+    records = sorted(records, key=lambda k : k['StartTime'])
     for record in records:
-        for header in trace_flag_headers:
-            content += "%-20s" % (record[header])
+        for header in debug_log_headers:
+            if header == "StartTime":
+                content += "%-*s" % (debug_log_headers_width[header], 
+                    record[header][0:19])
+                continue
+            content += "%-*s" % (debug_log_headers_width[header], record[header])
         content += "\n"
 
     return headers + "\n" + content

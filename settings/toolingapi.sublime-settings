@@ -36,12 +36,6 @@
     // API version
     "api_version": 28,
 
-    // Trace Flag Headers, used for list all debug log for specified user
-    "trace_flag_headers": [
-        "Id", "Request", "Application", "Status", "LogLength", 
-        "DurationMilliseconds"//,"LogUserId", "StartTime", "Operation"
-    ],
-
     // TraceFlag Debug Log Level
     "trace_flag": {
         "ApexCode": "Debug",

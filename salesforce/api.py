@@ -664,9 +664,9 @@ class SalesforceApi():
             result = self.query_all(component_soql)
             # The users password has expired, you must call SetPassword 
             # before attempting any other API operations
-            # Database.com not support ApexComponent
+            # Database.com not support ApexComponent and ApexPage
             if result == None: return
-            if result["status_code"] > 399 and component_type == "ApexComponent":
+            if result["status_code"] > 399 and component_type in ["ApexComponent", "ApexPage"]:
                 continue
 
             if result["status_code"] > 399:

@@ -36,6 +36,9 @@
     // Create new component
     {"keys": ["ctrl+alt+n"], "command": "create_component"},
 
+    // View Code Coverage
+    {"keys": ["ctrl+alt+c"], "command": "view_code_coverage"},
+
     // View the debug log detail by chosen log id
     {"keys": ["alt+d", "alt+l"], "command": "view_debug_log_detail"},
 

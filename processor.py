@@ -222,7 +222,6 @@ def populate_sobjects():
 def handle_view_code_coverage(component_name, component_attribute, body, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -240,6 +239,8 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
             print (message.SEPRATE.format(error_message))
             return
 
+        sublime.active_window().run_command("show_panel", 
+            {"panel": "console", "toggle": False})
         if result["totalSize"] == 0:
             print (message.SEPRATE.format("You should run test class firstly."))
             return
@@ -267,7 +268,6 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         coverage = covered_count / total_count * 100
         print (message.SEPRATE.format("The coverage is %.2f%%(%s/%s)" % (coverage, covered_count, total_count)))
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -275,6 +275,8 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         "WHERE ApexClassOrTriggerId = '{0}'".format(component_attribute["id"])
     thread = threading.Thread(target=api.query, args=(query, True, ))
     thread.start()
+    ThreadProgress(api, thread, "View Code Coverage of " + component_name,
+        "View Code Coverage of " + component_name + " Succeed")
     handle_thread(thread, timeout)
 
 def handle_refresh_folder(component_type, timeout=120):
@@ -442,7 +444,6 @@ def handle_initiate_sobjects_completions(timeout=120):
         threads = []
         apis = []
         for sobject in sobjects:
-            print ("describing " + sobject + "......")
             api = SalesforceApi(toolingapi_settings)
             thread = threading.Thread(target=api.describe_sobject, args=(sobject, ))
             thread.start()

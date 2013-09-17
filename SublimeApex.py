@@ -43,10 +43,6 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         except:
             body = open(file_name).read()
 
-        # Open Console
-        self.view.window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
         # Handle Save Current Component
         processor.handle_view_code_coverage(component_name, component_attribute, body)
 
