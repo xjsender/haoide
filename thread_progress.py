@@ -33,19 +33,22 @@ class ThreadProgress():
                 sublime.status_message('')
                 return
 
+            # Invoked in update.py
+            if api == None: return
+
             # After thread is end, display feedback to end user
             # according to response
             result = self.api.result
-            if self.api != None and isinstance(result, dict) \
-                and "status_code" in result and result["status_code"] > 399:
-
+            if isinstance(result, dict) and "status_code" in result and result["status_code"] > 399:
                 sublime.active_window().run_command("show_panel", 
                     {"panel": "console", "toggle": False})
                 print (message.SEPRATE.format(util.format_error_message(result)))
-            elif self.api != None and "success" in result and result["success"] == False:
+
+            elif "success" in result and result["success"] == False:
                 sublime.active_window().run_command("show_panel", 
                     {"panel": "console", "toggle": False})
                 print (message.SEPRATE.format(result["message"]))
+                
             else:
                 sublime.status_message(self.success_message)
             return
