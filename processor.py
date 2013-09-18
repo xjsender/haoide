@@ -396,7 +396,6 @@ def handle_initiate_sobjects_completions(timeout=120):
     def handle_threads(apis, threads, timeout):
         for thread in threads:
             if thread.is_alive():
-                print (">", end=''); time.sleep(sleep_time)
                 sublime.set_timeout(lambda: handle_threads(apis, threads, timeout), timeout)
                 return
         
@@ -434,7 +433,6 @@ def handle_initiate_sobjects_completions(timeout=120):
 
     def handle_thread(api, thread, timeout=120):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)
             return
         elif api.result == None:
@@ -451,6 +449,7 @@ def handle_initiate_sobjects_completions(timeout=120):
             threads.append(thread)
             apis.append(api)
 
+        ThreadsProgress(threads, "Describe All Sobjects", "Describe All Sobjects Succeed")
         handle_threads(apis, threads, 10)
 
     toolingapi_settings = context.get_toolingapi_settings()
@@ -458,6 +457,7 @@ def handle_initiate_sobjects_completions(timeout=120):
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
+    ThreadProgress(api, thread, "Global Describe", "Global Describe Succeed")
     handle_thread(api, thread, timeout)
 
 def handle_retrieve_all_thread(timeout=120):

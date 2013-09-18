@@ -110,7 +110,7 @@ class ThreadsProgress():
 
         sublime.set_timeout(lambda: self.run(i), 100)
 
-    def is_threads_end(threads):
+    def is_threads_end(self, threads):
         """
         Indicate whether all threads are end
 
