@@ -76,6 +76,11 @@ def get_toolingapi_settings():
     # whether the console will be hidden automatically
     settings["hidden_console_on_modify"] = s.get("hidden_console_on_modify", True)
 
+    # Indicate whether download StaticResource body, it is very time-consuming.
+    # If you open this functionality and your StaticResources are very large
+    # It may stop your work
+    settings["get_static_resource_body"] = s.get("get_static_resource_body", True)
+
     # Set API Version
     settings["api_version"] = s.get("api_version", "28")
 

@@ -704,8 +704,9 @@ class SalesforceApi():
                 # If Component Type is StaticResource,
                 if component_type == "StaticResource":
                     component_attributes[component_name]["ContentType"] = record['ContentType']
-                    # Here need more action
-                    body = self.get(record["attributes"]["url"] + "/body")
+                    # Need more action
+                    if self.toolingapi_settings["get_static_resource_body"]:
+                        body = self.get(record["attributes"]["url"] + "/body")
 
                 # Judge Component is Test Class or not
                 if component_type == "ApexClass":
