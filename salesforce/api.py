@@ -79,6 +79,7 @@ class SalesforceApi():
                 result = response.json()
             except:
                 result = response.text
+                return result
         result["status_code"] = status_code
         
         # Self.result is used to keep thread result
@@ -699,6 +700,12 @@ class SalesforceApi():
                 component_attributes[component_name]["body"] = component_body
                 component_attributes[component_name]["extension"] = component_extension
                 component_attributes[component_name]["type"] = component_type
+
+                # If Component Type is StaticResource,
+                if component_type == "StaticResource":
+                    component_attributes[component_name]["ContentType"] = record['ContentType']
+                    # Here need more action
+                    body = self.get(record["attributes"]["url"] + "/body")
 
                 # Judge Component is Test Class or not
                 if component_type == "ApexClass":

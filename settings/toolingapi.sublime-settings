@@ -120,6 +120,12 @@
             "type": "ApexPage",
             "body" : "Markup", 
             "extension": ".page"
+        },
+
+        {
+            "type": "StaticResource",
+            "body" : "Body", 
+            "extension": ".resource"
         }
     ]
 }

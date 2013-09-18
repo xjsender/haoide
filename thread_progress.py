@@ -66,3 +66,60 @@ class ThreadProgress():
         i += self.addend
 
         sublime.set_timeout(lambda: self.run(i), 100)
+
+class ThreadsProgress():
+    """
+    Stolen from Package Control Source Code, ni dong de
+    
+    Animates an indicator, [=       ], in the status area while a thread runs
+
+    :param threads:
+        The threads to track for activity
+
+    :param message:
+        The message to display next to the activity indicator
+
+    :param success_message:
+        The message to display once the thread is complete
+    """
+
+    def __init__(self, threads, message, success_message):
+        self.threads = threads
+        self.message = message
+        self.success_message = success_message
+        self.addend = 1
+        self.size = 15
+        sublime.set_timeout(lambda: self.run(0), 100)
+
+    def run(self, i):
+        if self.is_threads_end(self.threads):
+            sublime.status_message(self.success_message)
+            return
+
+        before = i % self.size
+        after = (self.size - 1) - before
+
+        sublime.status_message('%s [%s=%s]' % \
+            (self.message, ' ' * before, ' ' * after))
+
+        if not after:
+            self.addend = -1
+        if not before:
+            self.addend = 1
+        i += self.addend
+
+        sublime.set_timeout(lambda: self.run(i), 100)
+
+    def is_threads_end(threads):
+        """
+        Indicate whether all threads are end
+
+        @threads: Threads
+        @return: Bool
+        """
+
+        is_alive = True
+        for thread in threads:
+            if thread.is_alive(): is_alive = False
+
+        return is_alive

@@ -23,6 +23,7 @@ from xml.sax.saxutils import unescape
 from .salesforce.util import getUniqueElementValueFromXmlString
 from .salesforce import bulkapi
 from .thread_progress import ThreadProgress
+from .thread_progress import ThreadsProgress
     
 animation = """
              \     /
@@ -893,7 +894,6 @@ def handle_describe_sobject(sobject, timeout=120):
     handle_new_view_thread(thread, timeout)
 
 def handle_generate_specified_workbooks(sobjects, timeout=120):
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -906,7 +906,6 @@ def handle_generate_specified_workbooks(sobjects, timeout=120):
 def handle_generate_all_workbooks(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -919,18 +918,17 @@ def handle_generate_all_workbooks(timeout=120):
             thread = threading.Thread(target=api.generate_workbook, args=(sobject, ))
             thread.start()
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
+    ThreadProgress(api, thread, "Global Describe Common", "Global Describe Common Succeed")
     handle_thread(thread, timeout)
 
-def handle_refresh_components(toolingapi_settings, timeout=120):
+def handle_new_project(toolingapi_settings, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         elif api.result == None:
@@ -939,13 +937,12 @@ def handle_refresh_components(toolingapi_settings, timeout=120):
         
         # If succeed, something may happen,
         # for example, user password is expired
-        if "status_code" in api.result and api.result["status_code"] > 399:
-            print (message.SEPRATE.format(util.format_error_message(api.result)))
-            return
+        result = api.result
+        if "status_code" in result and result["status_code"] > 399: return
 
         # Load COMPONENT_METADATA_SETTINGS Settings and put all result into it
         # Every org has one local repository
-        component_metadata = api.result
+        component_metadata = result
         component_metadta = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
         component_metadta.set(toolingapi_settings["username"], component_metadata)
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
@@ -955,13 +952,13 @@ def handle_refresh_components(toolingapi_settings, timeout=120):
         # After Refresh all succeed, start initiate sobject completions
         handle_initiate_sobjects_completions(120)
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     component_types = context.get_toolingapi_settings()["component_types"]
     thread = threading.Thread(target=api.refresh_components, 
         args=(component_types, ))
     thread.start()
+    ThreadProgress(api, thread, "Initiate Project, Please Wait...", "New Project Succeed")
     handle_thread(thread, timeout)
 
 def handle_save_component(component_name, component_attribute, body, timeout=120):

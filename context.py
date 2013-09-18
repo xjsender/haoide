@@ -98,6 +98,7 @@ def get_toolingapi_settings():
         # Combine soql
         component_body = component["body"]
         component_soql = "SELECT Id, Name, " + component_body +\
+            (", ContentType" if component_type == "StaticResource" else "") +\
             " FROM " + component_type +\
             " WHERE NamespacePrefix = null ORDER BY Name"
 

@@ -228,10 +228,6 @@ class ExportWorkbookCommand(sublime_plugin.WindowCommand):
             "*", self.on_input, None, None)
 
     def on_input(self, input):
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
         # Display the fields in a new view
         input = input.replace(" ", "")
 
@@ -260,11 +256,6 @@ class ViewComponentInSfdcCommand(sublime_plugin.WindowCommand):
 
     def on_done(self, index):
         if index == -1: return
-
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
         class_id = all_components[all_components_name[index]]
         startURL = "/" + class_id
         self.window.run_command("login_to_sfdc", {"startURL": startURL})
@@ -625,7 +616,7 @@ class NewProjectCommand(sublime_plugin.WindowCommand):
             {"panel": "console", "toggle": False})
 
         # Handle Refresh All
-        processor.handle_refresh_components(toolingapi_settings)
+        processor.handle_new_project(toolingapi_settings)
 
 class RefreshComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
