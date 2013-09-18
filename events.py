@@ -35,6 +35,7 @@ class SFDCEventListener(sublime_plugin.EventListener):
         toolingapi_settings = context.get_toolingapi_settings() 
 
         # If it is not SFDC Component, just return
+        if view.file_name() == None: return
         component_type = util.get_component_type(view.file_name())
         if component_type not in toolingapi_settings["component_types"]: return
 
