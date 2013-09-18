@@ -33,6 +33,11 @@
     // Every operation will need wait for response, it's the interval time
     "thread_sleep_time_of_waiting": 0.05,
 
+    // Every time when you save component and error happened, the console will be open.
+    // When you edit the code according to the error message, this flag used to indicate
+    // whether the console will be hidden automatically
+    "hidden_console_on_modify": true,
+
     // API version
     "api_version": 28,
 

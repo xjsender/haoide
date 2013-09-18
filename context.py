@@ -71,6 +71,11 @@ def get_toolingapi_settings():
     # Trace Flag Headers
     settings["trace_flag_headers"] = s.get("trace_flag_headers")
 
+    # Every time when you save component and error happened, the console will be open.
+    # When you edit the code according to the error message, this flag used to indicate
+    # whether the console will be hidden automatically
+    settings["hidden_console_on_modify"] = s.get("hidden_console_on_modify", True)
+
     # Set API Version
     settings["api_version"] = s.get("api_version", "28")
 

@@ -9,18 +9,33 @@ from .salesforce import util
 class SFDCEventListener(sublime_plugin.EventListener):
     def on_new_async(self, view):
         """
-        Eveytime when you open a new view, default syntax is Apex
+        1. Eveytime when you open a new view, default syntax is Apex
+        2. Set Status with current default project
         """
         view.set_syntax_file("Packages/SublimeApex/syntaxes/Apex.tmLanguage")
         self.display_active_project(view)
 
     def on_load_async(self, view):
+        """
+        1. Set Status with current default project
+        """
+
         self.display_active_project(view)
 
     def display_active_project(self, view):
         toolingapi_settings = context.get_toolingapi_settings()
         display_message = "Default Project ▄︻┻═┳一 " + toolingapi_settings["default_project_name"]
         view.set_status('default_project', display_message)
+
+    def on_modified_async(self, view):
+        """
+        Every time when you modified the context, just hide the console, 
+        you can close it in sublime settings
+        """
+        toolingapi_settings = context.get_toolingapi_settings()
+        if not toolingapi_settings["hidden_console_on_modify"]: return
+        sublime.active_window().run_command("hide_panel", 
+            {"panel": "console", "toggle": False})
 
     def on_post_save_async(self, view):
         """
