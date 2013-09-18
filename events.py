@@ -32,8 +32,16 @@ class SFDCEventListener(sublime_plugin.EventListener):
         Every time when you modified the context, just hide the console, 
         you can close it in sublime settings
         """
-        toolingapi_settings = context.get_toolingapi_settings()
+        toolingapi_settings = context.get_toolingapi_settings() 
+
+        # If it is not SFDC Component, just return
+        component_type = util.get_component_type(view.file_name())
+        if component_type not in toolingapi_settings["component_types"]: return
+
+        # If functionality is close, just return
         if not toolingapi_settings["hidden_console_on_modify"]: return
+
+        # Hidden Console
         sublime.active_window().run_command("hide_panel", 
             {"panel": "console", "toggle": False})
 
