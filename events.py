@@ -13,19 +13,14 @@ class SFDCEventListener(sublime_plugin.EventListener):
         2. Set Status with current default project
         """
         view.set_syntax_file("Packages/SublimeApex/syntaxes/Apex.tmLanguage")
-        self.display_active_project(view)
+        context.display_active_project(view)
 
     def on_load_async(self, view):
         """
         1. Set Status with current default project
         """
 
-        self.display_active_project(view)
-
-    def display_active_project(self, view):
-        toolingapi_settings = context.get_toolingapi_settings()
-        display_message = "Default Project ▄︻┻═┳一 " + toolingapi_settings["default_project_name"]
-        view.set_status('default_project', display_message)
+        context.display_active_project(view)
 
     def on_modified_async(self, view):
         """

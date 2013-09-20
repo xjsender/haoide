@@ -213,6 +213,11 @@ def make_dir():
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
 
+def display_active_project(view):
+    toolingapi_settings = get_toolingapi_settings()
+    display_message = "Default Project ▄︻┻═┳一 " + toolingapi_settings["default_project_name"]
+    view.set_status('default_project', display_message)
+
 def switch_project(chosen_project):
     s = sublime.load_settings(TOOLING_API_SETTINGS)
     projects = s.get("projects")
@@ -229,6 +234,10 @@ def switch_project(chosen_project):
     s.set("projects", projects)
     sublime.save_settings(TOOLING_API_SETTINGS)
     print (message.SEPRATE.format(chosen_project + " is the default project now."))
+
+    # Set all active views status with "default project"
+    for view in sublime.active_window().views():
+        display_active_project(view)
 
 def add_project_to_workspace(workspace):
     """
