@@ -75,6 +75,7 @@ debug_log_headers_width = {
     "StartTime": 22
 }
 def format_debug_logs(toolingapi_settings, records):
+    if len(records) == 0: return "No available logs."
     # Headers
     headers = ""
     for header in debug_log_headers:
