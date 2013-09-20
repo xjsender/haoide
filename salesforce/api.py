@@ -321,17 +321,17 @@ class SalesforceApi():
 
         return result
 
-    def get_debug_log_detail(self, log_id, timeout=120):
+    def retrieve_body(self, url, timeout=120):
         """
         Retrieve a raw log by ID
 
-        :log_id: ApexLogId
+        :url: url
         :return: raw data of log
         """
         # Firstly Login
         self.login(False)
 
-        url = "/services/data/v{0}.0/sobjects/ApexLog/".format(self.api_version) + log_id + "/Body"
+        url = url.format(self.api_version)
         headers = globals()[self.username]["headers"]
         instance_url = globals()[self.username]['instance_url']
         response = requests.get(instance_url + url, 
@@ -340,7 +340,7 @@ class SalesforceApi():
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
-            return self.get_debug_log_detail(log_id)
+            return self.retrieve_body(url)
 
         result = {
             "status_code": response.status_code,
@@ -704,16 +704,10 @@ class SalesforceApi():
                 # If Component Type is StaticResource,
                 if component_type == "StaticResource":
                     component_attributes[component_name]["ContentType"] = record['ContentType']
-                    # Need more action
-                    if self.toolingapi_settings["get_static_resource_body"]:
-                        body = self.get(record["attributes"]["url"] + "/body")
 
                 # Judge Component is Test Class or not
                 if component_type == "ApexClass":
-                    if "@isTest" in body or "testMethod" in body or\
-                        "testmethod" in body or "test" in component_name or\
-                        "Test" in component_name:
-                        
+                    if "@isTest" in body or "testMethod" in body or "testmethod" in body:
                         component_attributes[component_name]["is_test"] = True
                     else:
                         component_attributes[component_name]["is_test"] = False
@@ -722,11 +716,15 @@ class SalesforceApi():
                 fp = open(component_outputdir + "/" + component_name +\
                     component_extension, "wb")
                 
-                try:
-                    body = bytes(body, "UTF-8")
-                except:
-                    body = body.encode("UTF-8")
-                fp.write(body)
+                flag = self.toolingapi_settings["get_static_resource_body"]
+                if component_type == "StaticResource" and flag:
+                    body = self.get(record["attributes"]["url"] + "/body")
+                else:
+                    try:
+                        body = bytes(body, "UTF-8")
+                    except:
+                        body = body.encode("UTF-8")
+                    fp.write(body)
 
                 # Set status_message
                 util.sublime_status_message(component_name + " ["  + component_type + "] Downloaded")

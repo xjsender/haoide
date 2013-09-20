@@ -6,10 +6,6 @@ import json
 import threading
 import time
 import pprint
-import base64
-import zipfile
-import shutil
-import sys
 
 import urllib.parse
 from . import requests
@@ -219,6 +215,41 @@ def populate_sobjects():
 
     globals()[username + "sobjects"] = sobjects
     return sobjects
+
+def handle_retrieve_static_resource_body(file, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            return
+        elif api.result == None:
+            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
+            return
+
+        result = api.result
+        print (result)
+        workspace = toolingapi_settings["workspace"]
+        if component_attribute["ContentType"] == "application/zip":
+            outputdir = workspace + "/StaticResource/" + component_name
+            zipdir = outputdir + "/" + component_name + ".zip"
+            util.extract_zip(result, zipdir, outputdir)
+        else:
+            fp = open(file, "wb")
+            try:
+                body = bytes(result, "UTF-8")
+            except:
+                body = result.encode("UTF-8")
+
+            fp.write(body)
+
+    toolingapi_settings = context.get_toolingapi_settings()
+    api = SalesforceApi(toolingapi_settings)
+    component_attribute, component_name = util.get_component_attribute(file)
+    url = "/services/data/v{0}.0/sobjects/StaticResource/" + component_attribute["id"] + "/Body"
+    thread = threading.Thread(target=api.retrieve_body, args=(url, True, ))
+    thread.start()
+    handle_thread(thread, timeout)
+    ThreadProgress(api, thread, "Retrieve StaticResource Body", 
+        "Retrieve StaticResource Body Succeed")
 
 def handle_view_code_coverage(component_name, component_attribute, body, timeout=120):
     def handle_thread(thread, timeout):
@@ -476,40 +507,17 @@ def handle_retrieve_all_thread(timeout=120):
             util.sublime_error_message(result)
             return
 
-        base64String = result["zipFile"]
+        # Mkdir for output dir of zip file
         outputdir = toolingapi_settings["workspace"] + "/metadata"
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
 
-        output_file_dir = outputdir + "/sobjects.zip"
-        with open(output_file_dir, "wb") as fout:
-            fout.write(base64.b64decode(base64String))
-            fout.close()
-
-        # Unzip sobjects.zip to file
-        zipdir = toolingapi_settings["workspace"] + "/metadata/sobjects.zip"
+        # Define zip file path and extracted zip file path
+        zipdir = outputdir + "/sobjects.zip"
         outputdir = toolingapi_settings["workspace"] + "/metadata"
-        f = zipfile.ZipFile(zipdir, 'r')
-        for fileinfo in f.infolist():
-            path = outputdir
-            directories = fileinfo.filename.split('/')
-            for directory in directories:
-                # replace / to &, because there has problem in open method
-                try:
-                    quoted_dir = urllib.parse.unquote(directory).replace("/", "&")
-                except:
-                    quoted_dir = urllib.unquote(directory).replace("/", "&")
-                path = os.path.join(path, quoted_dir)
-                if directory == directories[-1]: break # the file
-                if not os.path.exists(path):
-                    os.makedirs(path)
 
-            outputfile = open(path, "wb")
-            shutil.copyfileobj(f.open(fileinfo.filename), outputfile)
-            outputfile.close()
-
-        # Close zipFile opener
-        f.close()
+        # Extract zip
+        util.extract_zip(result["zipFile"], zipdir, outputdir)
 
         # Remove this zip file
         # os.remove(zipdir)
@@ -826,7 +834,8 @@ def handle_view_debug_log_detail(log_id, timeout=120):
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.get_debug_log_detail, args=(log_id, ))
+    url = "/services/data/v{0}.0/sobjects/ApexLog/" + log_id + "/Body"
+    thread = threading.Thread(target=api.retrieve_body, args=(url, ))
     thread.start()
     ThreadProgress(api, thread, "Get Log Detail of " + log_id, 
         "Get Log Detail of " + log_id + " Succeed")

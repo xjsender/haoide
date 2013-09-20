@@ -4,6 +4,7 @@
         "caption": "SublimeApex",
         "children":
         [
+            // {"caption": "Retrieve StaticResource Body", "command": "retrieve_static_resource_body"},
             {"caption": "Refresh from Server", "command": "refresh_component"},
             {"caption": "Save to Server", "command": "save_component"},
             {"caption": "Delete from Server", "command": "delete_component"},

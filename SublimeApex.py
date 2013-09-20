@@ -35,7 +35,7 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         # Get file_name and component_attribute
         file_name = self.view.file_name()
-        component_attribute, component_name = get_component_attribute(file_name)
+        component_attribute, component_name = util.get_component_attribute(file_name)
 
         # Read file content
         try:
@@ -285,7 +285,7 @@ class RunTestCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Get component_attribute by file_name
         component_name = util.get_component_name(self.view.file_name())
-        component_attribute = get_component_attribute(self.view.file_name())[0]
+        component_attribute = util.get_component_attribute(self.view.file_name())[0]
 
         # Process run test
         processor.handle_run_test(component_name, component_attribute["id"])
@@ -421,7 +421,7 @@ class ViewIdInSfdcWebCommand(sublime_plugin.TextCommand):
 class ShowInSfdcWebCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Get file_name and component_attribute
-        component_attribute = get_component_attribute(self.view.file_name())[0]
+        component_attribute = util.get_component_attribute(self.view.file_name())[0]
 
         # Open this component in salesforce web
         startURL = "/" + component_attribute["id"]
@@ -499,7 +499,7 @@ def delete_components(files):
     
     # Handle Delete
     for f in files:
-        component_attribute = get_component_attribute(f)[0]
+        component_attribute = util.get_component_attribute(f)[0]
         processor.handle_delete_component(component_attribute["url"], f)
 
 class CreateComponentCommand(sublime_plugin.WindowCommand):
@@ -585,7 +585,7 @@ class SaveComponentCommand(sublime_plugin.TextCommand):
             
         # Get file_name and component_attribute
         file_name = self.view.file_name()
-        component_attribute, component_name = get_component_attribute(file_name)
+        component_attribute, component_name = util.get_component_attribute(file_name)
 
         # Read file content
         try:
@@ -595,6 +595,13 @@ class SaveComponentCommand(sublime_plugin.TextCommand):
 
         # Handle Save Current Component
         processor.handle_save_component(component_name, component_attribute, body)
+
+    def is_enabled(self):
+        return check_enabled(self.view.file_name())
+
+class RetrieveStaticResourceBodyCommand(sublime_plugin.TextCommand):
+    def run(self, view):
+        processor.handle_retrieve_static_resource_body(self.view.file_name())
 
     def is_enabled(self):
         return check_enabled(self.view.file_name())
@@ -622,7 +629,7 @@ class RefreshComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Get file_name and component_attribute
         file_name = self.view.file_name()
-        component_attribute = get_component_attribute(file_name)[0]
+        component_attribute = util.get_component_attribute(file_name)[0]
         
         # Handle Refresh Current Component
         processor.handle_refresh_component(component_attribute, file_name)
@@ -637,7 +644,7 @@ class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
     def run(self, files):
         sublime.active_window().run_command("show_panel", {"panel": "console", "toggle": False})
         for file in files:
-            component_attribute = get_component_attribute(file)[0]
+            component_attribute = util.get_component_attribute(file)[0]
             processor.handle_refresh_component(component_attribute, file)
 
     def is_enabled(self, files):
@@ -646,24 +653,6 @@ class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
             if not check_enabled(file): return False
 
         return True
-
-def get_component_attribute(file_name):
-    # Get toolingapi settings
-    toolingapi_settings = context.get_toolingapi_settings()
-
-    # Get component type
-    component_name = util.get_component_name(file_name)
-    component_type = util.get_component_type(file_name)
-
-    # If component type is not in range, just show error message
-    if component_type not in toolingapi_settings["component_types"]:
-        return
-
-    # Get component_url and component_id
-    username = toolingapi_settings["username"]
-    component_attribute = util.get_component_attribute(username, file_name)
-
-    return (component_attribute, component_name)
 
 def check_enabled(file_name):
     """
@@ -675,16 +664,17 @@ def check_enabled(file_name):
     Return: 
         Bool
     """
-    if file_name == None:
-        return False
+    if file_name == None: return False
 
     # Get toolingapi settings
     toolingapi_settings = context.get_toolingapi_settings()
 
     # Check Component Type
     component_type = util.get_component_type(file_name)
-    if component_type not in toolingapi_settings["component_types"]:
-        return False
+    if component_type not in toolingapi_settings["component_types"]: return False
+
+    # StaticResource is exclude
+    # if component_type == "StaticResource": return False
 
     # Check whether project of current file is active project
     try:
@@ -697,11 +687,9 @@ def check_enabled(file_name):
     # Check whether active component is in active project
     username = toolingapi_settings["username"]
     try:
-        component_attribute = util.get_component_attribute(username, file_name)
+        component_attribute, component_name = util.get_component_attribute(file_name)
     except:
         return False
 
-    if component_attribute == None: 
-        return False
-
+    if component_attribute == None: return False
     return True

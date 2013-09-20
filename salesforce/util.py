@@ -7,12 +7,59 @@ import urllib
 import pprint
 import sys
 import time
+import base64
+import zipfile
+import shutil
 import xml.dom.minidom
  
 from . import message
 from . import xmltodict
 from .. import context
 from xml.sax.saxutils import unescape
+
+def decode_base64String_to_zip(base64String, zipdir):
+    """
+    decode base64String to zip
+    """
+    
+    if not os.path.exists(zipdir):
+        os.makedirs(zipdir)
+
+    with open(zipdir, "wb") as fout:
+        fout.write(base64.b64decode(base64String))
+        fout.close()
+
+def extract_zip(base64String, zipdir, outputdir):
+    """
+    1. Decode base64String to zip
+    2. Extract zip to files
+    """
+
+    # Decode base64String to zip
+    decode_base64String_to_zip(base64String, zipdir)
+
+    # Unzip sobjects.zip to file
+    f = zipfile.ZipFile(zipdir, 'r')
+    for fileinfo in f.infolist():
+        path = outputdir
+        directories = fileinfo.filename.split('/')
+        for directory in directories:
+            # replace / to &, because there has problem in open method
+            try:
+                quoted_dir = urllib.parse.unquote(directory).replace("/", "&")
+            except:
+                quoted_dir = urllib.unquote(directory).replace("/", "&")
+            path = os.path.join(path, quoted_dir)
+            if directory == directories[-1]: break # the file
+            if not os.path.exists(path):
+                os.makedirs(path)
+
+        outputfile = open(path, "wb")
+        shutil.copyfileobj(f.open(fileinfo.filename), outputfile)
+        outputfile.close()
+
+    # Close zipFile opener
+    f.close()
 
 debug_log_headers = [    
     "Id", "Request", "Application", "Status", 
@@ -151,6 +198,7 @@ def parse_test_result(test_result):
     """
 
     # Parse Test Result
+    if len(test_result) == 0: return "It's not test class"
     separate = "-" * 100
     test_result_desc = ' Test Result\n'
     test_result_content = ""
@@ -691,7 +739,10 @@ def parse_execute_query_result(result):
                 if row_value == None:
                     row_value = ""
 
-                row_value = "%-30s" % row_value
+                if isinstance(row_value, dict):
+                    row_value = str(len(row_value["records"]))
+                else:
+                    row_value = "%-30s" % row_value
                 row += row_value
             view_result += row + "\n"
             
@@ -917,7 +968,7 @@ def get_component_type(file_name):
 
     return component_type
 
-def get_component_attribute(username, file_name):
+def get_component_attribute(file_name):
     """
     get the component name by file_name, and then get the component_url and component_id
     by component name and local settings
@@ -934,11 +985,20 @@ def get_component_attribute(username, file_name):
         "url": "/services/data/v28.0/sobjects/ApexClass/01pO00000009isEIAQ"
     }
     """
+    # Get toolingapi settings
+    toolingapi_settings = context.get_toolingapi_settings()
 
-    # Get component type and component name
+    # Get component type
+    component_name = get_component_name(file_name)
     component_type = get_component_type(file_name)
-    component_name =  get_component_name(file_name)
 
+    # If component type is not in range, just show error message
+    if component_type not in toolingapi_settings["component_types"]:
+        return
+
+    # Get username
+    username = toolingapi_settings["username"]
+    
     # Load metadata settings
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
 
@@ -946,4 +1006,4 @@ def get_component_attribute(username, file_name):
     component_attribute = component_settings.get(username)[component_type][component_name]
 
     # Return tuple
-    return component_attribute
+    return (component_attribute, component_name)

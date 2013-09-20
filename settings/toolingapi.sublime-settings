@@ -9,7 +9,6 @@
     // User Settings is prior to Default Settings, it's very important.
     // You should have more than one project in "projects", however, only one project can be default
     // Every time you switch the project, the update projects settings will be saved to user settings.
-    "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
         "Exercise-Pro": {
             "default": true,
@@ -104,7 +103,7 @@
     // Indicate whether download StaticResource body, it is very time-consuming.
     // If you open this functionality and your StaticResources are very large
     // It may stop your work
-    "get_static_resource_body": true,
+    "get_static_resource_body": false,
 
     // Components Directory
     "components": [ 
