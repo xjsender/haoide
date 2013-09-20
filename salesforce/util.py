@@ -68,7 +68,7 @@ debug_log_headers = [
 debug_log_headers_width = {
     "Id": 20, 
     "Request": 12, 
-    "Application": 12, 
+    "Application": 12,
     "Status": 10, 
     "LogLength": 10, 
     "DurationMilliseconds": 10,

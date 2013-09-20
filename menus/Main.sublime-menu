@@ -39,24 +39,27 @@
             { "caption": "-" },
 
             {
-                "id": "createdebuglog",
-                "caption": "Create Debug Log",
-                "command": "create_debug_log"
-            },
+                "caption": "Apex Test",
+                "children": [
+                    {
+                        "id": "createdebuglog",
+                        "caption": "Create Debug Log",
+                        "command": "create_debug_log"
+                    },
 
-            {
-                "id": "listdebuglogs",
-                "caption": "List Debug Logs",
-                "command": "list_debug_logs"
-            },
+                    {
+                        "id": "listdebuglogs",
+                        "caption": "List Debug Logs",
+                        "command": "list_debug_logs"
+                    },
 
-            {
-                "id": "runonetest",
-                "caption": "Run Test",
-                "command": "run_one_test"
+                    {
+                        "id": "runonetest",
+                        "caption": "Run Test",
+                        "command": "run_one_test"
+                    }
+                ]
             },
-
-            { "caption": "-" },
 
             {
                 "caption": "Describe",

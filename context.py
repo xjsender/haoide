@@ -1,6 +1,5 @@
 import sublime
 import sublime_plugin
-import pprint
 import os
 import time
 

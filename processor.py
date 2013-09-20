@@ -58,7 +58,10 @@ def populate_users():
 
     # If sobjects is not exist in globals(), post request to pouplate it
     api = SalesforceApi(toolingapi_settings)
-    query = "SELECT Id, FirstName, LastName FROM User WHERE LastName != null AND FirstName != null"
+    query = """SELECT Id, FirstName, LastName 
+               FROM User WHERE LastName != null 
+               AND FirstName != null
+               AND IsActive = true"""
     thread = threading.Thread(target=api.query_all, args=(query, ))
     thread.start()
 
@@ -135,9 +138,7 @@ def populate_classes():
         name = record["Name"]
         body = record["Body"]
         component_attr = {"id": record["Id"]}
-        if "@isTest" in body or "testMethod" in body or\
-            "testmethod" in body or "test" in name or "Test" in name:
-            
+        if "@isTest" in body or "testMethod" in body or "testmethod" in body:
             component_attr["is_test"] = True
         else:
             component_attr["is_test"] = False
@@ -264,10 +265,7 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         if result["status_code"] > 399:
             error_message = "% 30s\t" % "Component Name: "
             error_message += "%-30s\t" % component_name + "\n"
-            error_message += "% 30s\t" % "Error Code: "
-            error_message += "%-30s\t" % util.none_value(result["errorCode"]) + "\n"
-            error_message += "% 30s\t" % "Error Message: "
-            error_message += "%-30s\t" % util.none_value(result["message"])
+            error_message += util.format_error_message(result)
             print (message.SEPRATE.format(error_message))
             return
 
@@ -348,10 +346,7 @@ def handle_refresh_folder(component_type, timeout=120):
             # Judge Component is Test Class or not
             body = record[component_body]
             if component_type == "ApexClass":
-                if "@isTest" in body or "testMethod" in body or\
-                    "testmethod" in body or "test" in component_name or\
-                    "Test" in component_name:
-                    
+                if "@isTest" in body or "testMethod" in body or "testmethod" in body:
                     components[component_name]["is_test"] = True
                 else:
                     components[component_name]["is_test"] = False
