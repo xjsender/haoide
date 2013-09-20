@@ -446,7 +446,8 @@ def handle_initiate_sobjects_completions(timeout=120):
                 print ("Things need to check......: " + sobject_describe)
                 continue
 
-            for f in sobject_describe["fields"]:
+            fields = sobject_describe["fields"]
+            for f in fields:
                 fields_dict[f["name"] + "\t" + f["type"] + "(" + format(f["length"]) + ")"] = f["name"]
             
             # Combine sobject fields dict

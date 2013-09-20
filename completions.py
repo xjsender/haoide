@@ -33,8 +33,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
 
-        if ch != ".":
-            return
+        if ch != ".": return[]
 
         # Get the variable name
         variable_name = view.substr(view.word(pt))
@@ -67,8 +66,8 @@ class SobjectCompletions(sublime_plugin.EventListener):
             return
 
         fields = metadata.get(sobject)
-        for key in fields.keys():
-            completion_list.append((sobject + "." + key, fields[key]))
+        for key in sorted(fields.keys()):
+            completion_list.append((key, fields[key]))
 
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
@@ -129,7 +128,7 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         # Get the methods by class_name
         methods = apex_completions.get(class_name)
-        for key in methods.keys():
+        for key in sorted(methods.keys()):
             completion_list.append((key, methods[key]))
 
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)

@@ -151,14 +151,14 @@ def parse_method(classname, methods):
     methods_dict = {}
     for method in methods:
         if not method["parameters"]:
-            methods_dict["[M]" + classname + "." +\
+            methods_dict["[M]" +\
                 method["name"] + "()\t" + method["returnType"]] = method["name"] + "()$0"
         else:
             parameters = ''
             for parameter in method["parameters"]:
                 parameters += parameter["type"] + " " + parameter["name"] + ", "
             parameters = parameters[ : -2]
-            methods_dict["[M]" + classname + "." +\
+            methods_dict["[M]" +\
                 method["name"] + "(" + parameters + ")\t" +\
                 method["returnType"]] = method["name"] + "($0)"
 
@@ -167,11 +167,20 @@ def parse_method(classname, methods):
 def parse_properties(classname, properties):
     properties_dict = {}
     for property in properties:
-        properties_dict["[P]" + classname + "." + property["name"]] = property["name"] + "$0"
+        properties_dict["[P]" + property["name"]] = property["name"] + "$0"
 
     return properties_dict
 
-def parse_all():
+def parse_all(apex):
+    """
+    Usage:
+        from .salesforce import util
+        import json
+        apex_json = util.parse_all(apex)
+        json.dump(apex_json, open("c:/text.json",'w'))
+
+    """
+
     apex_completions = {}
     for namespace in apex.keys():
         for class_name in apex[namespace]:
@@ -185,8 +194,7 @@ def parse_all():
 
             apex_completions[class_name] = all_dict
 
-    import pprint
-    pprint.pprint (apex_completions)
+    return apex_completions
 
 def parse_test_result(test_result):
     """
