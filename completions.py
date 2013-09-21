@@ -98,7 +98,6 @@ class ApexCompletions(sublime_plugin.EventListener):
         pattern = "(\\w+\\s+|map<\\w+[\\D\\d]*>|list<\\w+[\\D\\d]*>|set<\\w+[\\D\\d]*>)\\s*" +\
             variable_name + "\\s*[:;=)\\s]"
         matched_regions = view.find_all(pattern, sublime.IGNORECASE)
-        print (matched_regions)
         variable_type = ""
 
         if len(matched_regions) > 0:
@@ -113,14 +112,10 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         completion_list = []
         class_name = ""
-        if variable_name in apex_completions:
-            class_name = variable_name
-        elif variable_name.capitalize() in apex_completions:
-            class_name = variable_name.capitalize()
-        elif variable_type in apex_completions:
-            class_name = variable_type
-        elif variable_type.capitalize() in apex_completions:
-            class_name = variable_type.capitalize()
+        if variable_name.lower() in apex_completions:
+            class_name = variable_name.lower()
+        elif variable_type.lower() in apex_completions:
+            class_name = variable_type.lower()
         else:
             return
 
