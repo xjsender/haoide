@@ -4,7 +4,6 @@ import time
 
 from . import context
 from .salesforce.metadata import apex_completions
-from .salesforce import vf
             
 class SobjectCompletions(sublime_plugin.EventListener):
     """
