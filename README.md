@@ -1,5 +1,5 @@
 # Sublime IDE for salesforce
-This plugin support Sublime Text 3 for windows.
+This plugin support Sublime Text 3 for windows. full docs refer to [SublimeApex User Guide](https://github.com/xjsender/SublimeApex/blob/master/docs/SublimeApex%20Guide.docx)
 
 # Sceenshot #
 Funcationality Screenshots shown as below,
