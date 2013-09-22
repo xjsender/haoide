@@ -19,8 +19,7 @@ class UpdatePluginCommand(sublime_plugin.WindowCommand):
         super(UpdatePluginCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        if not sublime.ok_cancel_dialog("Are you sure you want to update plugin?" +\
-                "\nST2 needs restart after updated."):
+        if not sublime.ok_cancel_dialog("Are you sure you want to update plugin?"):
             return
 
         # Start updating plugin
