@@ -7,23 +7,17 @@ import shutil
 import time
 import sys
 
-try:
-    from . import requests
-    from .thread_progress import ThreadProgress
-except:
-    import requests
-    from thread_progress import ThreadProgress
+from . import requests
+from .thread_progress import ThreadProgress
 
 class UpdatePluginCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(UpdatePluginCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        if not sublime.ok_cancel_dialog("Are you sure you want to update plugin?"):
-            return
-
-        # Start updating plugin
-        handle_update_plugin(120)
+        if sublime.ok_cancel_dialog("Are you sure you want to update plugin?"):
+            # Start updating plugin
+            handle_update_plugin(120)
 
 def handle_update_plugin(timeout):
     def handle_thread(thread, timeout):
@@ -66,7 +60,7 @@ def handle_update_plugin(timeout):
     # Get the newest plugin zip file in github
     thread = threading.Thread(target=retrieve_newest_zip, args=())
     thread.start()
-    ThreadProgress(None, thread, 'Update SublimeApex', 'Update Succeed')
+    ThreadProgress(None, thread, 'Update SublimeApex Plugin', 'Update Succeed')
     handle_thread(thread, timeout)
 
 def retrieve_newest_zip():
