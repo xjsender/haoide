@@ -36,6 +36,11 @@ class ThreadProgress():
             # Invoked in update.py
             if self.api == None: return
 
+            # If result is None, it means timeout
+            if self.api.result == None: 
+                sublime.error_message("Your request timeout.")
+                return
+
             # After thread is end, display feedback to end user
             # according to response
             result = self.api.result
