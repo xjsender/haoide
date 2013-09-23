@@ -22,6 +22,9 @@
         }
     },
 
+    // Indicate whether add project name time suffix
+    "keep_project_name_time_suffix": true,
+
     // Indicate whether print session id, maybe you need this session id
     // for other purpose
     "output_session_info": false,
@@ -34,7 +37,7 @@
     "thread_sleep_time_of_waiting": 0.05,
 
     // Every time when you save component and error happened, the console will be open.
-    // When you edit the code according to the error message, this flag used to indicate
+    // When you edit the code according to the error message, this flag is used to indicate
     // whether the console will be hidden automatically
     "hidden_console_on_modify": true,
 

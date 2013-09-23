@@ -18,7 +18,6 @@ from .util import getUniqueElementValueFromXmlString
 from xml.sax.saxutils import unescape
 from xml.sax.saxutils import quoteattr
 
-SEPRATE = "-" * 100
 class SalesforceApi():
     def __init__(self, toolingapi_settings, **kwargs):
         self.toolingapi_settings = toolingapi_settings

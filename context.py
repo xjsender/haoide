@@ -43,7 +43,8 @@ def get_toolingapi_settings():
 
     # User Settings Part
     settings["projects"] = projects
-    settings["workspace"] = s.get("workspace") + "/" + default_project_name + "-" + time.strftime('%Y%m%d')
+    settings["workspace"] = s.get("workspace") + "/" + default_project_name +\
+        ("-" + time.strftime('%Y%m%d') if s.get("keep_project_name_time_suffix") else "")
     settings["username"] = default_project.get("username")
     settings["password"] = default_project["password"]
     if "security_token" in default_project:
