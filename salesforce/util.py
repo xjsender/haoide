@@ -506,6 +506,7 @@ def write_metadata_to_csv(dict_write, columns, metadata, sobject):
         # Write row
         dict_write.writer.writerow(row_value)
 
+NOT_INCLUDED_COLUMNS = ["urls", "attributes"]
 def list2csv(fp, records):
     """
     convert simple dict in list to csv
@@ -515,20 +516,10 @@ def list2csv(fp, records):
     # If records size is 0, just return
     if len(records) == 0: return "No Custom Fields"
     
-    fields_key = records[0].keys()
-    sorted(fields_key)
-
-    # Initate CSV Write
-    dict_write = csv.DictWriter(fp, fields_key, quoting=csv.QUOTE_ALL)
-
-    # Headers Part, capitalize all headers
-    headers = [column.capitalize() for column in fields_key]
-    dict_write.writer.writerow(headers)
-
-    # Body Part
+    writer = csv.DictWriter(fp, [k.capitalize() for k in records[0] if k not in NOT_INCLUDED_COLUMNS])
+    writer.writeheader()
     for record in records:
-        # If v is None, assign "" to it, and then convert it to str, and then encode it with utf-8
-        dict_write.writerow(dict((k, ('%s' % (v and v or ""))) for k, v in record.items()))
+        writer.writerow(dict((k.capitalize(), v) for k, v in record.items() if k not in NOT_INCLUDED_COLUMNS))
 
     # Release fp
     fp.close()
