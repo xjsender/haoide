@@ -726,7 +726,8 @@ class SalesforceApi():
                     fp.write(body)
 
                 # Set status_message
-                util.sublime_status_message(component_name + " ["  + component_type + "] Downloaded")
+                sublime.set_timeout(lambda:sublime.status_message(component_name +\
+                    " ["  + component_type + "] Downloaded"), 10)
 
             component_metadata[component_type] = component_attributes
 
@@ -785,7 +786,7 @@ class SalesforceApi():
                 container_id = error_message[error_message.rindex("1dc"): len(error_message)]
                 delete_result = self.delete(container_url + "/" + container_id)
                 if delete_result["status_code"] < 399:
-                    util.sublime_status_message("container_id is deleted.")
+                    sublime.set_timeout(lambda:sublime.status_message("container_id is deleted."), 10)
                 
                 # We can't reuse the container_id which caused error
                 # Post Request to get MetadataContainerId

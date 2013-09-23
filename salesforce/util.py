@@ -97,35 +97,23 @@ def format_debug_logs(toolingapi_settings, records):
     return headers + "\n" + content
 
 def format_error_message(result):
+    """
+    Format message as below format
+           message:     The requested resource does not exist   
+               url:     url
+         errorCode:     NOT_FOUND                       
+       status_code:     404     
+
+    @result: dict error when request status code > 399
+    @return: formated error message   
+    """
+
     error_message = ""
     for key in result:
         error_message += "% 20s\t" % "{0}: ".format(key)
         error_message += "%-30s\t" % none_value(result[key]) + "\n"
 
     return error_message[:len(error_message)-1]
-
-def get_error_message(result):
-    message = ''
-    if "errorCode" in result:
-        message += "Error Code: " + result["errorCode"] + "\n"
-
-    try:
-        parsed_result = urllib.parse.unquote(
-            unescape(result["message"], {
-                "&apos;": "'", 
-                "&quot;": '"'
-            }))
-    except:
-        parsed_result = urllib.unquote(
-            unescape(result["message"], {
-                "&apos;": "'", 
-                "&quot;": '"'
-            }))
-
-    message += "Error Message: " + parsed_result
-    
-def sublime_status_message(message):
-    sublime.set_timeout(lambda:sublime.status_message(message), 10)
 
 def none_value(value):
     """
@@ -145,6 +133,9 @@ def is_python3x():
 
     return sys.version > '3'
 
+"""
+Below three functions are used to parse completions out of box.
+"""
 def parse_method(classname, methods):
     methods_dict = {}
     for method in methods:
@@ -199,8 +190,7 @@ def parse_test_result(test_result):
     format test result as specified format
 
     @result: Run Test Request result
-
-    :return: formated string
+    @return: formated string
     """
 
     # Parse Test Result
