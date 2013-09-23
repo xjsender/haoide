@@ -98,14 +98,11 @@ def format_debug_logs(toolingapi_settings, records):
 
 def format_error_message(result):
     error_message = ""
-    error_message += "% 30s\t" % "Error Code: "
-    error_message += "%-30s\t" % none_value(result["errorCode"]) + "\n"
-    error_message += "% 30s\t" % "Error Message: "
-    error_message += "%-30s\t" % none_value(result["message"]) + "\n"
-    error_message += "% 30s\t" % "Status Code: "
-    error_message += "%-30s\t" % result["status_code"]
+    for key in result:
+        error_message += "% 20s\t" % "{0}: ".format(key)
+        error_message += "%-30s\t" % none_value(result[key]) + "\n"
 
-    return error_message
+    return error_message[:len(error_message)-1]
 
 def get_error_message(result):
     message = ''

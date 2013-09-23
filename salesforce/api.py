@@ -71,8 +71,8 @@ class SalesforceApi():
         status_code = response.status_code
         if status_code > 399:
             response_result = response.json()[0]
-            result["errorCode"] = response_result.get("errorCode")
-            result["message"] = response_result.get("message")
+            result = response_result
+            result["url"] = instance_url + component_url
         else:
             try:
                 result = response.json()
@@ -106,8 +106,8 @@ class SalesforceApi():
         status_code = response.status_code
         if status_code > 399:
             response_result = response.json()[0]
-            result["errorCode"] = response_result.get("errorCode")
-            result["message"] = response_result.get("message")
+            result = response_result
+            result["url"] = instance_url + post_url
         else:
             result = response.json()
         result["status_code"] = status_code
@@ -122,9 +122,9 @@ class SalesforceApi():
         # Firstly, login
         self.login(False)
 
-        url = globals()[self.username]['instance_url'] + component_url
+        instance_url = globals()[self.username]['instance_url']
         headers = globals()[self.username]["headers"]
-        response = requests.delete(url, data=None, 
+        response = requests.delete(instance_url + component_url, data=None, 
             verify=False, headers=headers, timeout=timeout)
 
         # Check whether session_id is expired
@@ -138,8 +138,8 @@ class SalesforceApi():
 
         if response.status_code > 399:
             response_result = response.json()[0]
-            result["message"] = response_result["message"]
-            result["errorCode"] = response_result["errorCode"]
+            result = response_result
+            result["url"] = instance_url + component_url
         
         # Self.result is used to keep thread result
         self.result = result
@@ -177,8 +177,8 @@ class SalesforceApi():
         status_code = response.status_code
         if status_code > 399:
             response_result = response.json()[0]
-            result["errorCode"] = response_result.get("errorCode")
-            result["message"] = response_result.get("message")
+            result = response_result
+            result["url"] = url
         else:
             result = response.json()
         
