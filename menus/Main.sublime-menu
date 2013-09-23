@@ -206,6 +206,14 @@
                 },
                 "caption": "Settings – User"
             },
+
+            {
+                "command": "open_file", 
+                "args": {
+                    "file": "${packages}/SublimeApex/settings/Widget.sublime-settings"
+                },
+                "caption": "Settings – Console"
+            },
             
             { "caption": "-" },
 
