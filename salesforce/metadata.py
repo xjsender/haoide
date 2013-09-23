@@ -1,17 +1,17 @@
 apex_completions = {
     "trigger": {
-        "isExecuting()\tBoolean": "isExecuting()$0",
-        "isInsert()\tBoolean": "isInsert()$0",
-        "isUpdate()\tBoolean": "isUpdate()$0",
-        "isDelete()\tBoolean": "isDelete()$0",
-        "isBefore()\tBoolean": "isBefore()$0",
-        "isAfter()\tBoolean": "isAfter()$0",
-        "isUndelete()\tBoolean": "isUndelete()$0",
+        "isExecuting\tBoolean": "isExecuting$0",
+        "isInsert\tBoolean": "isInsert$0",
+        "isUpdate\tBoolean": "isUpdate$0",
+        "isDelete\tBoolean": "isDelete$0",
+        "isBefore\tBoolean": "isBefore$0",
+        "isAfter\tBoolean": "isAfter$0",
+        "isUndelete\tBoolean": "isUndelete$0",
         "new\tList<Sobject>": "new$0",
         "newMap\tMap<Id, Sobject>": "newMap$0",
         "old\tList<Sobject>": "old$0",
         "oldMap\tMap<Id, Sobject>": "oldMap$0",
-        "size()\tInteger": "size()$0"
+        "size\tInteger": "size$0"
     },
     "communitypage" : {
         "equals(Object obj)\tBoolean" : "equals($0)",
