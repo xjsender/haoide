@@ -43,7 +43,7 @@
 
                     {
                         "id": "deploymetadata",
-                        "caption": "Deploy Metadata",
+                        "caption": "Deploy Metadata(Ongoing...)",
                         "command": "deploy_metadata"
                     }
                 ]
