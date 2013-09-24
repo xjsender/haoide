@@ -29,15 +29,25 @@
                 "caption": "Refresh Folder",
                 "command": "refresh_folder"
             },
-
-            {
-                "id": "retrievemetadata",
-                "caption": "Retrieve Metadata",
-                "command": "retrieve_metadata"
-            },
             
             { "caption": "-" },
 
+            {
+                "caption": "Migration",
+                "children": [
+                    {
+                        "id": "retrievemetadata",
+                        "caption": "Retrieve Metadata",
+                        "command": "retrieve_metadata"
+                    },
+
+                    {
+                        "id": "deploymetadata",
+                        "caption": "Deploy Metadata",
+                        "command": "deploy_metadata"
+                    }
+                ]
+            },
             {
                 "caption": "Apex Test",
                 "children": [

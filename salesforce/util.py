@@ -140,25 +140,38 @@ def parse_method(classname, methods):
     methods_dict = {}
     for method in methods:
         if not method["parameters"]:
-            methods_dict["[M]" +\
-                method["name"] + "()\t" + method["returnType"]] = method["name"] + "()$0"
+            methods_dict[method["name"] + "()\t" + method["returnType"]] = method["name"] + "()$0"
         else:
             parameters = ''
             for parameter in method["parameters"]:
                 parameters += parameter["type"] + " " + parameter["name"] + ", "
             parameters = parameters[ : -2]
-            methods_dict["[M]" +\
-                method["name"] + "(" + parameters + ")\t" +\
+            methods_dict[method["name"] + "(" + parameters + ")\t" +\
                 method["returnType"]] = method["name"] + "($0)"
 
     return methods_dict
 
 def parse_properties(classname, properties):
+    if not properties: return {}
     properties_dict = {}
     for property in properties:
-        properties_dict["[P]" + property["name"]] = property["name"] + "$0"
+        properties_dict[property["name"]] = property["name"] + "$0"
 
     return properties_dict
+
+def parse_constructors(classname, constructors):
+    if not constructors: return {}
+    constructors_dict = {}
+    for constructor in constructors:
+        if constructor["name"] == None: continue
+        if not constructor["parameters"]:
+            constructors_dict[constructor["name"] + "()"] = constructor["name"] + "()$0"
+        else:
+            parameters = ''
+            for parameter in constructor["parameters"]:
+                parameters += parameter["type"] + " " + parameter["name"] + ", "
+            parameters = parameters[ : -2]
+            constructors_dict[constructor["name"] + "(" + parameters + ")"] = constructor["name"] + "($0)"
 
 def parse_all(apex):
     """
@@ -175,14 +188,20 @@ def parse_all(apex):
         for class_name in apex[namespace]:
             class_detail = apex[namespace][class_name]
 
+            constructors_dict = parse_constructors(class_name, class_detail["constructors"])
             methods_dict = parse_method(class_name, class_detail["methods"])
-            all_dict = methods_dict
-            if class_detail["properties"]:
-                properties_dict = parse_properties(class_name, class_detail["properties"])
-                all_dict = dict(list(methods_dict.items()) + list(properties_dict.items()))
+            properties_dict = parse_properties(class_name, class_detail["properties"])
+            # all_dict = dict(list(methods_dict.items()) + list(properties_dict.items()))
 
-            apex_completions[class_name] = all_dict
+            # Parse constructor, methods and properties
+            apex_completions[class_name.lower()] = {}
+            apex_completions[class_name.lower()]["constructors"] = constructors_dict
+            apex_completions[class_name.lower()]["methods"] = methods_dict
+            apex_completions[class_name.lower()]["properties"] = properties_dict
 
+            # Class Name Full Name Attribute
+            apex_completions[class_name.lower()]["name"] = class_name
+            
     return apex_completions
 
 def parse_test_result(test_result):

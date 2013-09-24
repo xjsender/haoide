@@ -112,7 +112,14 @@ class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
             {"panel": "console", "toggle": False})
 
         processor.handle_retrieve_all_thread()
-        
+
+class DeployMetadataCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DeployMetadataCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        pass
+
 class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ExportValidationRulesCommand, self).__init__(*args, **kwargs)

@@ -126,9 +126,14 @@ class ApexCompletions(sublime_plugin.EventListener):
             if class_name == "": return []
 
             # Get the methods by class_name
-            methods = apex_completions.get(class_name)
+            methods = apex_completions[class_name]["methods"]
             for key in sorted(methods.keys()):
                 completion_list.append((key, methods[key]))
+
+            # Get the properties by class_name
+            properties = apex_completions[class_name]["properties"]
+            for key in (properties.keys()):
+                completion_list.append((key, properties[key]))
 
         # After input <, list all sobjects and class
         elif ch == "<":
@@ -139,12 +144,11 @@ class ApexCompletions(sublime_plugin.EventListener):
 
             # Add all apex class to <> completions
             for key in apex_completions:
-                key = key.capitalize()
-                completion_list.append((key + "\t", key))
+                class_name = apex_completions[key]["name"]
+                completion_list.append((class_name + "\t", class_name))
 
-            # Sort tuple list by the first element of tuple
-            completion_list.sort(key=lambda tup: tup[1])
-
+        # Sort tuple list by the first element of tuple
+        completion_list.sort(key=lambda tup:tup[1])
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
 # Extends Sublime Text autocompletion to find matches in all open
