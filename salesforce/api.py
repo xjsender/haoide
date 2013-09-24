@@ -132,15 +132,13 @@ class SalesforceApi():
             self.login(True)
             return self.delete(component_url)
 
-        result = {
-            "status_code": response.status_code
-        }
-
+        result = {}
         if response.status_code > 399:
             response_result = response.json()[0]
             result = response_result
             result["url"] = instance_url + component_url
-        
+        result["status_code"] = response.status_code
+
         # Self.result is used to keep thread result
         self.result = result
 
