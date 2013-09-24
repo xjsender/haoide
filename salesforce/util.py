@@ -94,7 +94,7 @@ def format_debug_logs(toolingapi_settings, records):
             content += "%-*s" % (debug_log_headers_width[header], record[header])
         content += "\n"
 
-    return headers + "\n" + content
+    return headers + "\n" + content[:len(content)-1]
 
 def format_error_message(result):
     """
