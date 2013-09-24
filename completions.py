@@ -4,7 +4,21 @@ import time
 
 from . import context
 from .salesforce.metadata import apex_completions
-            
+
+def get_sobject_completions():
+    # Load sobjects compoletions
+    setting = sublime.load_settings("sobjects_completion.sublime-settings")
+
+    # Load sobjects field meatadata
+    toolingapi_settings = context.get_toolingapi_settings()
+    username = toolingapi_settings["username"]
+
+    # If current username is in settings, it means project is initiated
+    if not setting.has(username):
+        return {}
+
+    return setting.get(username)
+
 class SobjectCompletions(sublime_plugin.EventListener):
     """
     When you refresh all, your sobject completions will updated at the same time
@@ -16,17 +30,6 @@ class SobjectCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
         if not view.match_selector(locations[0], "source.java"):
             return []
-
-        # Load sobjects compoletions
-        setting = sublime.load_settings("sobjects_completion.sublime-settings")
-
-        # Load sobjects field meatadata
-        toolingapi_settings = context.get_toolingapi_settings()
-        username = toolingapi_settings["username"]
-
-        # If current username is in settings, it means project is initiated
-        if not setting.has(username):
-            return
 
         location = locations[0]
         pt = locations[0] - len(prefix) - 1
@@ -51,7 +54,9 @@ class SobjectCompletions(sublime_plugin.EventListener):
             sobject = matched_block.split(" ")[0]
 
         # If username is in settings, get the sobject fields describe dict
-        metadata = setting.get(username)
+        metadata = get_sobject_completions()
+        if not metadata: return
+
         completion_list = []
         if sobject in metadata:
             sobject = sobject
@@ -79,52 +84,66 @@ class ApexCompletions(sublime_plugin.EventListener):
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
 
-        if ch != ".":
-            return
-
-        # Get the variable name
-        # Get the variable name
-        pt = pt - 1
-        variable_name = view.substr(view.word(pt))
-
-        # Get the matched variable type 
-        # String str; 
-        # String str = 'abc';
-        # for (String str : strs) {}
-        # List<String> strs;
-        # Set<String> strs;
-        # Map<String> strs;
-        pattern = "(\\w+\\s+|map<\\w+[\\D\\d]*>|list<\\w+[\\D\\d]*>|set<\\w+[\\D\\d]*>)\\s*" +\
-            variable_name + "\\s*[:;=)\\s]"
-        matched_regions = view.find_all(pattern, sublime.IGNORECASE)
-        variable_type = ""
-
-        if len(matched_regions) > 0:
-            matched_block = view.substr(matched_regions[0])
-            # If list, map, set
-            if "<" in matched_block and ">" in matched_block:
-                variable_type = matched_block.split("<")[0].strip()
-            # String str
-            # for (String str :)
-            else:
-                variable_type = matched_block.split(" ")[0]
-
         completion_list = []
-        class_name = ""
-        if variable_name.lower() in apex_completions:
-            class_name = variable_name.lower()
-        elif variable_type.lower() in apex_completions:
-            class_name = variable_type.lower()
-        else:
-            return
+        if ch == ".":
+            # Get the variable name
+            # Get the variable name
+            pt = pt - 1
+            variable_name = view.substr(view.word(pt))
 
-        # If class_name is "", it means not found in this view
-        if class_name == "": return []
+            # Get the matched variable type 
+            # String str; 
+            # String str = 'abc';
+            # for (String str : strs) {}
+            # List<String> strs;
+            # Set<String> strs;
+            # Map<String> strs;
+            pattern = "(\\w+\\s+|map<\\w+[<>\\w,]*>|list<\\w+[<>\\w,]*>|set<\\w+[<>\\w,]*>)\\s+" +\
+                variable_name + "\\s*[:;=)\\s]"
+            matched_regions = view.find_all(pattern, sublime.IGNORECASE)
 
-        # Get the methods by class_name
-        methods = apex_completions.get(class_name)
-        for key in sorted(methods.keys()):
-            completion_list.append((key, methods[key]))
+            variable_type = ""
+
+            if len(matched_regions) > 0:
+                matched_block = view.substr(matched_regions[0])
+                # If list, map, set
+                if "<" in matched_block and ">" in matched_block:
+                    variable_type = matched_block.split("<")[0].strip()
+                # String str
+                # for (String str :)
+                else:
+                    variable_type = matched_block.split(" ")[0]
+
+            class_name = ""
+            if variable_name.lower() in apex_completions:
+                class_name = variable_name.lower()
+            elif variable_type.lower() in apex_completions:
+                class_name = variable_type.lower()
+            else:
+                return
+
+            # If class_name is "", it means not found in this view
+            if class_name == "": return []
+
+            # Get the methods by class_name
+            methods = apex_completions.get(class_name)
+            for key in sorted(methods.keys()):
+                completion_list.append((key, methods[key]))
+
+        # After input <, list all sobjects and class
+        elif ch == "<":
+            # Add all sobjects to <> completions
+            metadata = get_sobject_completions()
+            for key in metadata:
+                completion_list.append((key + "\t", key))
+
+            # Add all apex class to <> completions
+            for key in apex_completions:
+                key = key.capitalize()
+                completion_list.append((key + "\t", key))
+
+            # Sort tuple list by the first element of tuple
+            completion_list.sort(key=lambda tup: tup[1])
 
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
