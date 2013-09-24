@@ -39,11 +39,15 @@ your project folder name should be Exercise-Pro-20130730
 <img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/new%20project.png" />
 
 ##Completions:
-If you want to display the completions after dot, you should add below setting to Perference > User - Setting
+If you want to display the completions after dot and the sobjects and class after <, you should add below setting to Perference > User - Setting
 ```
     "auto_complete_triggers": [
         {
             "characters": ".",
+            "selector": "source.java"
+        },
+        {
+            "characters": "<",
             "selector": "source.java"
         }
     ]
