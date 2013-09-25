@@ -398,3 +398,30 @@ retrieve_all_task_body = """
             </met:retrieve>
         </soapenv:Body>
     </soapenv:Envelope>"""
+
+deploy_package = """
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:met="http://soap.sforce.com/2006/04/metadata">
+        <soapenv:Header>
+            <met:SessionHeader>
+               <met:sessionId>{0}</met:sessionId>
+            </met:SessionHeader>
+        </soapenv:Header>
+       <soapenv:Body>
+          <met:deploy>
+             <met:ZipFile>{1}</met:ZipFile>
+             <met:DeployOptions>
+                <met:allowMissingFiles>{2}</met:allowMissingFiles>
+                <met:autoUpdatePackage>{3}</met:autoUpdatePackage>
+                <met:checkOnly>{4}</met:checkOnly>
+                <met:ignoreWarnings>{5}</met:ignoreWarnings>
+                <met:performRetrieve>{6}</met:performRetrieve>
+                <met:purgeOnDelete>{7}</met:purgeOnDelete>
+                <met:rollbackOnError>{8}</met:rollbackOnError>
+                <met:runAllTests>{9}</met:runAllTests>
+                <met:runTests>{10}</met:runTests>
+                <met:singlePackage>{11}</met:singlePackage>
+             </met:DeployOptions>
+          </met:deploy>
+       </soapenv:Body>
+    </soapenv:Envelope>"""

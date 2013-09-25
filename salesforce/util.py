@@ -17,26 +17,25 @@ from . import xmltodict
 from .. import context
 from xml.sax.saxutils import unescape
 
-def decode_base64String_to_zip(base64String, zipdir):
-    """
-    decode base64String to zip
-    """
-    
-    if not os.path.exists(zipdir):
-        os.makedirs(zipdir)
+def base64_zip(zipfile):
+    with open(zipfile, "rb") as f:
+        bytes = f.read()
+        base64String = base64.b64encode(bytes)
 
-    with open(zipdir, "wb") as fout:
-        fout.write(base64.b64decode(base64String))
-        fout.close()
+    return base64String.decode('UTF-8')
 
-def extract_zip(base64String, zipdir, outputdir):
+def extract_zip(base64String, outputdir):
     """
     1. Decode base64String to zip
     2. Extract zip to files
     """
 
     # Decode base64String to zip
-    decode_base64String_to_zip(base64String, zipdir)
+    if not os.path.exists(outputdir): os.makedirs(outputdir)
+    zipdir = outputdir + "/sobjects.zip"
+    with open(zipdir, "wb") as fout:
+        fout.write(base64.b64decode(base64String))
+        fout.close()
 
     # Unzip sobjects.zip to file
     f = zipfile.ZipFile(zipdir, 'r')
@@ -111,6 +110,14 @@ def format_error_message(result):
     error_message = ""
     for key in result:
         error_message += "% 20s\t" % "{0}: ".format(key)
+        error_message += "%-30s\t" % none_value(result[key]) + "\n"
+
+    return error_message[:len(error_message)-1]
+
+def format_waiting_message(result, header=""):
+    error_message = header + "\n" + "-" * 150 + "\n"
+    for key in result:
+        error_message += "% 30s\t" % "{0}: ".format(key)
         error_message += "%-30s\t" % none_value(result[key]) + "\n"
 
     return error_message[:len(error_message)-1]

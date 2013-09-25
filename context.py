@@ -84,6 +84,9 @@ def get_toolingapi_settings():
     # Set API Version
     settings["api_version"] = s.get("api_version", "28")
 
+    # Deploy Option
+    settings["deploy_options"] = s.get("deploy_options")
+
     # Workbook columns
     settings["workbook_field_describe_columns"] = s.get("workbook_field_describe_columns")
     settings["workflow_rule_columns"] = s.get("workflow_rule_columns")

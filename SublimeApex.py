@@ -88,6 +88,32 @@ class NewViewCommand(sublime_plugin.TextCommand):
         view.set_name(name)
         view.insert(edit, point, input)
 
+class NewDynamicViewCommand(sublime_plugin.TextCommand):
+    """
+    Create a new view with specified input
+
+    @input: user specified input
+
+    Usage: 
+        sublime.active_window().run_command("new_view", {
+            "name": "ViewName",
+            "input": "Example"
+        })
+    """
+
+    def run(self, edit, view_id=None, view_name="", input="", erase_all=False):
+        # Get the view which name match the name paramter
+        view = sublime.active_window().active_view()
+        if view_id and not view.id() == view_id:
+            for v in sublime.active_window().views():
+                if v.id() == view_id: 
+                    view = v
+
+        view.set_scratch(True)
+        view.set_name(view_name)
+        if erase_all: view.erase(edit, sublime.Region(0, view.size()))
+        view.insert(edit, 0, input)
+
 class RefreshFolderCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(RefreshFolderCommand, self).__init__(*args, **kwargs)
@@ -107,10 +133,6 @@ class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
         super(RetrieveMetadataCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
         processor.handle_retrieve_all_thread()
 
 class DeployMetadataCommand(sublime_plugin.WindowCommand):
@@ -118,7 +140,14 @@ class DeployMetadataCommand(sublime_plugin.WindowCommand):
         super(DeployMetadataCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        pass
+        self.window.show_input_panel("Input Zip File Path:", 
+            "", self.on_input, None, None)
+
+    def on_input(self, input):
+        if not input.endswith('.zip'):
+            sublime.error_message("Invalid Zip File")
+            return
+        processor.handle_deploy_metadata_thread(input)
 
 class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

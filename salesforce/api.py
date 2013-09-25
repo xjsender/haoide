@@ -427,7 +427,6 @@ class SalesforceApi():
             self.login(True)
             return self.describe_layout(sobject, recordtype_name)
 
-        # If status_code is > 399, which means it has error
         content = response.content
         result = xmltodict.parse(content)
         try:
@@ -511,9 +510,6 @@ class SalesforceApi():
 
         @async_process_id: retrieve request asyncProcessId
         """
-        # Thread sleep for 10 seconds
-        print ("Retrieve is in progress, please wait for 30 seconds.")
-        time.sleep(30)
 
         # Check the status of retrieve job
         server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/{0}.0".format(self.api_version)
@@ -530,24 +526,25 @@ class SalesforceApi():
 
         # If status_code is > 399, which means it has error
         content = response.content
-        result = {"status_code": response.status_code}
+        result = {}
         if response.status_code > 399:
             result["errorCode"] = getUniqueElementValueFromXmlString(content, "errorCode")
             result["message"] = getUniqueElementValueFromXmlString(content, "message")
             result["done"] = "Failed"
+            result["status_code"] = response.status_code
             return result
 
-        # Get the retrieve status
-        done = getUniqueElementValueFromXmlString(content, "done")
+        content = response.content
+        result = xmltodict.parse(content)
+        try:
+            result = result["soapenv:Envelope"]["soapenv:Body"]["checkStatusResponse"]["result"]
+        except (KeyError):
+            result = {
+                "errorCode": "Convert Xml to Dict Exception",
+                "message": 'body["checkStatusResponse"]["result"] KeyError'
+            }
 
-        # If retrieve is not done, sleep 10s and check again
-        if done == "false":
-            return self.check_status(async_process_id)
-
-        # If retrieve is done
-        result["done"] = True
-        result["state"] = getUniqueElementValueFromXmlString(content, "state")
-
+        result["status_code"] = response.status_code
         return result
 
     def check_retrieve_status(self, async_process_id):
@@ -629,16 +626,109 @@ class SalesforceApi():
         # 2. issue a check status loop request to assure the async
         # process is done
         result = self.check_status(async_process_id)
-
+        result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+        view = sublime.active_window().new_file()
+        header = "Retrieve Metadata Status(Keep This View Active, Auto Refreshed Every 5s)"
+        view.run_command("new_dynamic_view", {
+            "view_name": "Retrieve Metadata Status",
+            "input": util.format_waiting_message(result, header)
+        })
+        while result["done"] == "false":
+            time.sleep(10)
+            result = self.check_status(async_process_id)
+            result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+            view.run_command("new_dynamic_view", {
+                "view_id": view.id(),
+                "view_name": "Retrieve Metadata Status",
+                "input": util.format_waiting_message(result, header),
+                "erase_all": True
+            })
         # If check status request failed, this will not be done
-        print (result)
         if result["done"] == "Failed":
             self.result = result
             return
 
         # 3 Obtain zipFile(base64)
-        print ("Downloading zipFile in this retrieve result...")
+        sublime.set_timeout(lambda:sublime.status_message("Downloading zipFile"), 10)
         result = self.check_retrieve_status(async_process_id)
+        self.result = result
+
+    def check_deploy_status(self, async_process_id):
+        pass
+        
+    def deploy_metadata(self, zipfile):
+        # Firstly Login
+        self.login(False)
+
+        # 1. Issue a retrieve request to start the asynchronous retrieval
+        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/{0}.0".format(self.api_version)
+        headers = {
+            "Content-Type": "text/xml;charset=UTF-8",
+            "SOAPAction": '""'
+        }
+
+        # Populate the soap_body with actual session id
+        deploy_options = self.toolingapi_settings["deploy_options"]
+        soap_body = soap_bodies.deploy_package.format(
+            globals()[self.username]["session_id"], 
+            util.base64_zip(zipfile),
+            deploy_options["allowMissingFiles"],
+            deploy_options["autoUpdatePackage"],
+            deploy_options["checkOnly"],
+            deploy_options["ignoreWarnings"],
+            deploy_options["performRetrieve"],
+            deploy_options["purgeOnDelete"],
+            deploy_options["rollbackOnError"],
+            deploy_options["runAllTests"],
+            deploy_options["runTests"],
+            deploy_options["singlePackage"])
+        response = requests.post(server_url, soap_body, verify=False, 
+            headers=headers)
+
+        # Check whether session_id is expired
+        if "INVALID_SESSION_ID" in response.text:
+            self.login(True)
+            return self.deploy_metadata()
+
+        # If status_code is > 399, which means it has error
+        content = response.content
+        result = {"status_code": response.status_code}
+        if response.status_code > 399:
+            if response.status_code == 500:
+                result["errorCode"] = getUniqueElementValueFromXmlString(content, "faultcode")
+                result["message"] = getUniqueElementValueFromXmlString(content, "faultstring")
+            else:
+                result["errorCode"] = getUniqueElementValueFromXmlString(content, "errorCode")
+                result["message"] = getUniqueElementValueFromXmlString(content, "message")
+            self.result = result
+            return
+
+        # Get async process id
+        async_process_id = getUniqueElementValueFromXmlString(content, "id")
+        print ("asyncProcessId: " + async_process_id)
+
+        # 2. issue a check status loop request to assure the async
+        # process is done
+        result = self.check_status(async_process_id)
+        result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+        view = sublime.active_window().new_file()
+        header = "Deploy Metadata Status(Keep This View Active, Auto Refreshed Every 5s)"
+        view.run_command("new_dynamic_view", {
+            "view_id": view.id(),
+            "view_name": "Deploy Metadata Status",
+            "input": util.format_waiting_message(result, header)
+        })
+        while result["done"] == "false":
+            time.sleep(5)
+            result = self.check_status(async_process_id)
+            result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+            view.run_command("new_dynamic_view", {
+                "view_id": view.id(),
+                "view_name": "Deploy Metadata Status",
+                "input": util.format_waiting_message(result, header),
+                "erase_all": True
+            })
+
         self.result = result
 
     def refresh_components(self, component_types):

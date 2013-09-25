@@ -50,6 +50,20 @@
     // API version
     "api_version": 28,
 
+    // Deploy Options
+    "deploy_options": {
+        "allowMissingFiles": false,
+        "autoUpdatePackage": false,
+        "checkOnly": false,
+        "ignoreWarnings": false,
+        "performRetrieve": false,
+        "purgeOnDelete": false,
+        "rollbackOnError": true,
+        "runAllTests": false,
+        "runTests": "",
+        "singlePackage": true
+    },
+
     // TraceFlag Debug Log Level
     "trace_flag": {
         "ApexCode": "Debug",

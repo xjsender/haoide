@@ -222,17 +222,13 @@ def handle_retrieve_static_resource_body(file, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
 
         result = api.result
         print (result)
         workspace = toolingapi_settings["workspace"]
         if component_attribute["ContentType"] == "application/zip":
             outputdir = workspace + "/StaticResource/" + component_name
-            zipdir = outputdir + "/" + component_name + ".zip"
-            util.extract_zip(result, zipdir, outputdir)
+            util.extract_zip(result, outputdir)
         else:
             fp = open(file, "wb")
             try:
@@ -256,9 +252,6 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
 
         result = api.result
@@ -313,9 +306,6 @@ def handle_refresh_folder(component_type, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
 
         result = api.result
@@ -398,9 +388,6 @@ def handle_backup_all_sobjects(timeout=120):
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
 
         sobjects = api.result
         bulkapi.handle_bulkapi_query(sobjects)
@@ -462,9 +449,6 @@ def handle_initiate_sobjects_completions(timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.error_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
 
         sobjects = api.result
         threads = []
@@ -487,33 +471,44 @@ def handle_initiate_sobjects_completions(timeout=120):
     ThreadProgress(api, thread, "Global Describe", "Global Describe Succeed")
     handle_thread(api, thread, timeout)
 
+def handle_deploy_metadata_thread(zipfile, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+        
+        result = api.result
+        status_code = result["status_code"]
+        if status_code > 399: return
+        print (message.SEPRATE.format("Deploy Metadata Succeed"))
+
+    toolingapi_settings = context.get_toolingapi_settings()
+    api = SalesforceApi(toolingapi_settings)
+    thread = threading.Thread(target=api.deploy_metadata, args=(zipfile, ))
+    thread.start()
+    ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
+    handle_thread(thread, timeout)
+
 def handle_retrieve_all_thread(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.error_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
         
-        result = api.result
-        status_code = result["status_code"]
-        
-        if status_code > 399:
-            util.sublime_error_message(result)
-            return
+        if api.result == None: return
+        if api.result["status_code"] > 399: return
 
         # Mkdir for output dir of zip file
+        result = api.result
         outputdir = toolingapi_settings["workspace"] + "/metadata"
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
 
         # Define zip file path and extracted zip file path
-        zipdir = outputdir + "/sobjects.zip"
         outputdir = toolingapi_settings["workspace"] + "/metadata"
 
         # Extract zip
-        util.extract_zip(result["zipFile"], zipdir, outputdir)
+        util.extract_zip(result["zipFile"], outputdir)
 
         # Remove this zip file
         # os.remove(zipdir)
@@ -521,21 +516,18 @@ def handle_retrieve_all_thread(timeout=120):
         # Output package path
         print("Your objects and workflows are exported to: " + outputdir)
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.retrieve_all, args=())
     thread.start()
+    ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
     handle_thread(thread, timeout)
 
 def handle_export_workflows(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed
@@ -558,9 +550,6 @@ def handle_export_validation_rules(timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
 
         # If succeed
         sobjects = api.result
@@ -580,9 +569,6 @@ def handle_describe_customfield(sobject, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed
@@ -627,10 +613,7 @@ def handle_describe_global(timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
-        
+
         result = api.result
 
         # Error Message are prcoessed in ThreadProgress
@@ -666,9 +649,6 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed
@@ -708,9 +688,6 @@ def handle_execute_query(soql, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
         
         # If succeed
         result = api.result
@@ -736,9 +713,6 @@ def handle_execute_anonymous(apex_string, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
         
         # If succeed
         result = api.result
@@ -763,9 +737,6 @@ def handle_list_debug_logs(user_full_name, user_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
 
         result = api.result
@@ -794,9 +765,6 @@ def handle_create_debug_log(user_name, user_id, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
 
         result = api.result
         if result["status_code"] > 399: return
@@ -815,9 +783,6 @@ def handle_view_debug_log_detail(log_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         if api.result["status_code"] > 399: return
@@ -842,10 +807,7 @@ def handle_run_test(class_name, class_id, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
-        
+
         # If succeed
         result = api.result
         # If error
@@ -872,10 +834,7 @@ def handle_describe_sobject(sobject, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
-        
+
         # If succeed
         result = api.result
         
@@ -913,9 +872,6 @@ def handle_generate_all_workbooks(timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
         
         # If succeed
         result = api.result
@@ -935,9 +891,6 @@ def handle_new_project(toolingapi_settings, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-        elif api.result == None:
-            sublime.status_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If succeed, something may happen,
@@ -971,9 +924,6 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.error_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
 
         result = api.result
         file_base_name = component_name + component_attribute["extension"]
@@ -993,9 +943,6 @@ def handle_create_component(data, component_name, component_type, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
-            return
-        elif api.result == None:
-            sublime.error_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
         
         # If create Succeed
@@ -1041,9 +988,6 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.error_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
         
         result = api.result
         status_code = result["status_code"]
@@ -1075,9 +1019,6 @@ def handle_delete_component(component_url, file_name, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
-        elif api.result == None:
-            sublime.error_message(message.AUTHORIZATION_FAILED_MESSAGE)
-            return
 
         # If succeed
         result = api.result
@@ -1085,7 +1026,6 @@ def handle_delete_component(component_url, file_name, timeout=120):
         os.remove(file_name)
         sublime.active_window().run_command("close")
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
@@ -1101,9 +1041,6 @@ def handle_push_topic(sobject, timeout=120):
         if thread.is_alive():
             print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
-            return
-        elif api.result == None:
-            sublime.error_message(message.AUTHORIZATION_FAILED_MESSAGE)
             return
 
         # If succeed
