@@ -54,8 +54,6 @@ You should add below setting to Perference > User - Setting, then you will have 
     ]
 ```
 
-+ You can click "View Debug Log Detail" to view log in sublime, however, if log is too large and time-consuming, you can click "View Id In Salesforce Web" to view log.<br/>
-
 ###Execute Anonymous
 + After any snippet is chosen, the Execute Anonymous command is enabled.
 
