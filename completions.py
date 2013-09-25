@@ -157,8 +157,8 @@ class ApexCompletions(sublime_plugin.EventListener):
 
 class PageCompletions(sublime_plugin.EventListener):
     """
+    vf.py is stolen from https://github.com/joeferraro/MavensMate-SublimeText/blob/master/lib/vf.py
     Provide completions that match just after typing an opening angle bracket
-    https://github.com/jairzh/sublime-sfdc-assist/blob/master/visualforce_completions.py
     """
 
     def on_query_completions(self, view, prefix, locations):
@@ -188,76 +188,3 @@ class PageCompletions(sublime_plugin.EventListener):
                 completion_list.append((key + '\t' + value['type'], key+'="$1" $0'))
 
         return (completion_list)
-
-        # # Not include chart component
-        # return ([
-        #     ('apex:actionFunction\tVisualforce Page', 'apex:actionFunction name="$1" action="$2" rerender="$3" status="$4"/>'),
-        #     ('apex:actionPoller\tVisualforce Page', 'apex:actionPoller action="$1" rerender="$2" interval="$3"/>'),
-        #     ('apex:actionRegion\tVisualforce Page', 'apex:actionRegion>\n\t$1\n</apex:actionRegion>'),
-        #     ('apex:actionStatus\tVisualforce Page', 'apex:actionStatus id="$1"/>'),
-        #     ('apex:actionSupport\tVisualforce Page', 'apex:actionSupport event="$1" action="$2" rerender="$3" status="$4"/>'),
-        #     ('apex:attribute\tVisualforce Page', 'apex:attribute name="$1" description="$2" type="$3" required=\"${4:true}\"/>'),
-        #     ('apex:column\tVisualforce Page', 'apex:column value="$1"/>'),
-        #     ('apex:commandButton\tVisualforce Page', 'apex:commandButton action="$1" value="$2" id="$3"/>'),
-        #     ('apex:commandLink\tVisualforce Page', 'apex:commandLink action="$1" value="$2" id="$3"/>'),
-        #     ('apex:component\tVisualforce Page', 'apex:component>\n\t$1\n</apex:component>'),
-        #     ('apex:componentBody\tVisualforce Page', 'apex:componentBody />'),
-        #     ('apex:composition\tVisualforce Page', 'apex:composition template="$1">\n\t$2\n</apex:composition>'),
-        #     ('apex:dataList\tVisualforce Page', 'apex:dataList value="$1" var="$2" id="$3">\n\t$4\n</apex:dataList>'),
-        #     ('apex:dataTable\tVisualforce Page', 'apex:dataTable value="$1" var="$2" id="$3">\n\t$4\n</apex:dataTable>'),
-        #     ('apex:define\tVisualforce Page', 'apex:define name="$1"/>'),
-        #     ('apex:detail\tVisualforce Page', 'apex:detail subject="$1" relatedList=\"${2:false}\" title=\"${3:false}\"/>'),
-        #     ('apex:dynamicComponent\tVisualforce Page', 'apex:dynamicComponent componentValue="$1"/>'),
-        #     ('apex:emailPublisher\tVisualforce Page', 'apex:emailPublisher />'),
-        #     ('apex:enhancedList\tVisualforce Page', 'apex:enhancedList type="$1" height="$2" rowsPerPage="$3" id="$4"/>'),
-        #     ('apex:facet\tVisualforce Page', 'apex:facet name="$1">$2<apex:facet/>'),
-        #     ('apex:flash\tVisualforce Page', 'apex:flash src="$1" height="$2" width="$3"/>'),
-        #     ('apex:form\tVisualforce Page', 'apex:form id="$1">\n\t$2\n</apex:form>'),
-        #     ('apex:iframe\tVisualforce Page', 'apex:iframe src="$1" scrolling="$2" id="$3"/>'),
-        #     ('apex:image\tVisualforce Page', 'apex:image id="$1" value="$2" width="$3" height="$4"/>'),
-        #     ('apex:include\tVisualforce Page', 'apex:include pageName="$1"/>'),
-        #     ('apex:includeScript\tVisualforce Page', 'apex:includeScript value="$1"/>'),
-        #     ('apex:inlineEditSupport\tVisualforce Page', 'apex:inlineEditSupport showOnEdit="$1" cancelButton="$2" hideOnEdit="$3" event="$4"/>'),
-        #     ('apex:inputCheckbox\tVisualforce Page', 'apex:inputCheckbox value="$1"/>'),
-        #     ('apex:inputField\tVisualforce Page', 'apex:inputField value="$1"/>'),
-        #     ('apex:inputHidden\tVisualforce Page', 'apex:inputHidden value="$1"/>'),
-        #     ('apex:inputSecret\tVisualforce Page', 'apex:inputSecret value="$1"/>'),
-        #     ('apex:inputText\tVisualforce Page', 'apex:inputText value="$1"/>'),
-        #     ('apex:inputTextarea\tVisualforce Page', 'apex:inputTextarea value="$1"/>'),
-        #     ('apex:insert\tVisualforce Page', 'apex:insert name="$1"/>'),
-        #     ('apex:listViews\tVisualforce Page', 'apex:listViews name="$1"/>'),
-        #     ('apex:message\tVisualforce Page', 'apex:message for="$1"/>'),
-        #     ('apex:messages\tVisualforce Page', 'apex:messages />'),
-        #     ('apex:outputField\tVisualforce Page', 'apex:outputField value="$1"/>'),
-        #     ('apex:outputLabel\tVisualforce Page', 'apex:outputLabel value="$1" for="$2"/>'),
-        #     ('apex:outputLink\tVisualforce Page', 'apex:outputLink value="$1"/>'),
-        #     ('apex:outputPanel\tVisualforce Page', 'apex:outputPanel id="$1">\n\t$2\n</apex:outputPanel>'),
-        #     ('apex:outputText\tVisualforce Page', 'apex:outputText value="$1"/>'),
-        #     ('apex:page\tVisualforce Page', 'apex:page id="$1">\n\t$2\n</apex:page>'),
-        #     ('apex:pageBlock\tVisualforce Page', 'apex:pageBlock mode=\"${1:detail}\">\n\t$2\n</apex:pageBlock>'),
-        #     ('apex:pageBlockButtons\tVisualforce Page', 'apex:pageBlockButtons>\n\t$1\n</apex:pageBlockButtons>'),
-        #     ('apex:pageBlockSection\tVisualforce Page', 'apex:pageBlockSection title="$1" columns="$2">\n\t$3\n</apex:pageBlockSection>'),
-        #     ('apex:pageBlockSectionItem\tVisualforce Page', 'apex:pageBlockSectionItem>\n\t$1\n</apex:pageBlockSectionItem>'),
-        #     ('apex:pageBlockTable\tVisualforce Page', 'apex:pageBlockTable value="$1" var="$2">\n\t$3\n</apex:pageBlockTable>'),
-        #     ('apex:pageMessage\tVisualforce Page', 'apex:pageMessage summary="$1" srverity="$2" strength=\"${3:3}\"/>'),
-        #     ('apex:pageMessages\tVisualforce Page', 'apex:pageMessages />'),
-        #     ('apex:panelBar\tVisualforce Page', 'apex:panelBar>\n\t$1\n</apex:panelBar>'),
-        #     ('apex:panelBarItem\tVisualforce Page', 'apex:panelBarItem label="$1">$2<apex:panelBarItem/>'),
-        #     ('apex:panelGrid\tVisualforce Page', 'apex:panelGrid columns="$1">\n\t$2\n</apex:panelGrid>'),
-        #     ('apex:panelGroup\tVisualforce Page', 'apex:panelGroup id="$1">\n\t$2\n</apex:panelGroup>'),
-        #     ('apex:param\tVisualforce Page', 'apex:param value="$1"/>'),
-        #     ('apex:relatedList\tVisualforce Page', 'apex:relatedList list="$1"/>'),
-        #     ('apex:repeat\tVisualforce Page', 'apex:repeat value="$1" var="$2">\n\t$3\n</apex:repeat>'),
-        #     ('apex:selectCheckboxes\tVisualforce Page', 'apex:selectCheckboxes value="$1">\n\t$2\n</apex:selectCheckboxes>'),
-        #     ('apex:selectList\tVisualforce Page', 'apex:selectList value="$1" size="$2">\n\t$3\n</apex:selectList>'),
-        #     ('apex:selectOption\tVisualforce Page', 'apex:selectOption itemValue="$1" itemLabel="$2"/>'),
-        #     ('apex:selectOptions\tVisualforce Page', 'apex:selectOptions value="$1"/>'),
-        #     ('apex:selectRadio\tVisualforce Page', 'apex:selectRadio value="$1">\n\t$2\n</apex:selectRadio>'),
-        #     ('apex:stylesheet\tVisualforce Page', 'apex:stylesheet value="$1"/>'),
-        #     ('apex:tab\tVisualforce Page', 'apex:tab label="$1" name="$2"/>'),
-        #     ('apex:tabPanel\tVisualforce Page', 'apex:tabPanel>\n\t$2\n</apex:tabPanel>'),
-        #     ('apex:toolbarGroup\tVisualforce Page', 'apex:toolbarGroup itemSeparator="$1" id="$2">\n\t$3\n</apex:toolbarGroup>'),
-        #     ('apex:variable\tVisualforce Page', 'apex:variable var="$1" value="$2"/>'),
-        #     ('apex:vote\tVisualforce Page', 'apex:vote objectId="$1"/>')
-
-        # ], sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
