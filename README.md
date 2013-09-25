@@ -1,20 +1,6 @@
 # Sublime IDE for salesforce
 This plugin support Sublime Text 3 for windows. full docs refer to [SublimeApex User Guide](https://github.com/xjsender/SublimeApex/blob/master/docs/SublimeApex%20Guide.docx)
 
-# Sceenshot #
-Funcationality Screenshots shown as below,
-
-###Menus
-+ Main Menu:<br/>
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/main%20menu.png" /><br/>
-+ Siderbar Menu:<br/>
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/siderbar%20menu.png" /><br/>
-+ Context Menu:<br/>
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/context%20menu.png" />
-
-###Switch Project
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/switch%20project.png" />
-
 ###New Project
 + This command is used to download or update your project
 + Once click this command, a new project will be downloaded and appeared in the sidebar
@@ -36,12 +22,15 @@ if today is 2013/07/30 and user settings is
 ```
 your project folder name should be Exercise-Pro-20130730
 
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/new%20project.png" />
-
 ##Completions:
-If you want to display the completions after dot and the sobjects and class after <, you should add below setting to Perference > User - Setting
+You should add below setting to Perference > User - Setting, then you will have auto completions functionality.
+1. After input dot in apex code, show sobject field and apex class completions
+2. After List<, Set<, Map< in apex code, show sobject and apex class
+3. Input < in visualforce page, show all components.
+4. Input <apex:page and space, show all attributes of this component.
 ```
-    "auto_complete_triggers": [
+    "auto_complete_triggers":
+    [
         {
             "characters": ".",
             "selector": "source.java"
@@ -49,50 +38,33 @@ If you want to display the completions after dot and the sobjects and class afte
         {
             "characters": "<",
             "selector": "source.java"
+        },
+        {
+            "characters": "<",
+            "selector": "text.html - source"
+        },
+        {
+            "characters": ":",
+            "selector": "text.html - source"
+        },
+        {
+            "characters": " ",
+            "selector": "text.html - source"
         }
     ]
 ```
 
-###Sobject Field Completions
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/sobject%20field%20completions.png" />
-
-###Apex Code Completions
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/Apex%20code%20completions.png" /><br/>
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/map%20completions.png" /><br/>
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/set%20completions.png" /><br/>
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/list%20completions.png" />
-
-###Cross View Completions
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/cross%20view%20completions.png" />
-
-###Visualforce Page Completions
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/visualforce%20page%20completions.png" />
-
-###Run Test
-+ Choose Test Class <br/>
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/choose%20test%20class.png" />
-
-+ View Test Result<br/>
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/test%20result.png" />
-
 + You can click "View Debug Log Detail" to view log in sublime, however, if log is too large and time-consuming, you can click "View Id In Salesforce Web" to view log.<br/>
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/view%20debug%20log.png" />
-
-###Refresh Folder
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/refresh%20folder.png" />
 
 ###Execute Anonymous
 + After any snippet is chosen, the Execute Anonymous command is enabled.
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/execute%20anonymous.png" />
 
 ###Execute Query
 + Just any snippet which start with SELECT is chosen, the Execute Query command is enabled
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/execute%20query.png" />
 
 ###Save component
 + This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
 + After component is updated, click SublimeApex > Save to Server
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/deploy%20code.png" />
 
 ###New Component #
 Press Ctrl+Alt+N to invoke the input panel, and then input the new component info according to guide as below
@@ -102,7 +74,6 @@ Press Ctrl+Alt+N to invoke the input panel, and then input the new component inf
 3. Create new component: Component-Name.component
 4. Create new Page: Page-Name.page
 ```
-<img src="https://raw.github.com/xjsender/SublimeApex/master/screenshot/new%20component.png" />
 
 # Installation #
 Firstly, install sublime text and then extract the zip file into your sublime package path.
