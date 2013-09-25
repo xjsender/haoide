@@ -399,6 +399,21 @@ retrieve_all_task_body = """
         </soapenv:Body>
     </soapenv:Envelope>"""
 
+check_deploy_status = """
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:met="http://soap.sforce.com/2006/04/metadata">
+       <soapenv:Header>
+          <met:SessionHeader>
+             <met:sessionId>{0}</met:sessionId>
+          </met:SessionHeader>
+       </soapenv:Header>
+       <soapenv:Body>
+          <met:checkDeployStatus>
+             <met:asyncProcessId>{1}</met:asyncProcessId>
+          </met:checkDeployStatus>
+       </soapenv:Body>
+    </soapenv:Envelope>"""
+
 deploy_package = """
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
     xmlns:met="http://soap.sforce.com/2006/04/metadata">

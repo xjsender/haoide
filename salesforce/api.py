@@ -575,7 +575,6 @@ class SalesforceApi():
             return result
 
         result["zipFile"] = getUniqueElementValueFromXmlString(content, "zipFile")
-
         return result
 
     def retrieve_all(self):
@@ -653,8 +652,41 @@ class SalesforceApi():
         result = self.check_retrieve_status(async_process_id)
         self.result = result
 
-    def check_deploy_status(self, async_process_id):
-        pass
+    def check_deploy_status(self, async_process_id): 
+        """
+        After async process is done, post a checkDeployResult to get the deploy result
+
+        @async_process_id: retrieve request asyncProcessId
+        """
+        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/{0}.0".format(self.api_version)
+        headers = {
+            "Content-Type": "text/xml;charset=UTF-8",
+            "SOAPAction": '""'
+        }
+        soap_body = soap_bodies.check_deploy_status.format(
+            globals()[self.username]["session_id"], async_process_id)
+        response = requests.post(server_url, soap_body, verify=False, 
+            headers=headers)
+
+        # If status_code is > 399, which means it has error
+        content = response.content
+        result = {"status_code": response.status_code}
+        if response.status_code > 399:
+            result["errorCode"] = getUniqueElementValueFromXmlString(content, "errorCode")
+            result["message"] = getUniqueElementValueFromXmlString(content, "message")
+            return result
+
+        result = xmltodict.parse(content)
+        try:
+            result = result["soapenv:Envelope"]["soapenv:Body"]["checkDeployStatusResponse"]["result"]
+        except (KeyError):
+            result = {
+                "errorCode": "Convert Xml to Dict Exception",
+                "message": 'body["checkDeployStatusResponse"]["result"] KeyError'
+            }
+
+        result["status_code"] = response.status_code
+        return result
         
     def deploy_metadata(self, zipfile):
         # Firstly Login
@@ -730,6 +762,15 @@ class SalesforceApi():
             })
 
         self.result = result
+
+        # Display Deploy Result
+        result = self.check_deploy_status(async_process_id)
+        pprint.pprint(result)
+        view.run_command("new_dynamic_view", {
+            "view_id": view.id(),
+            "view_name": "Deploy Metadata Status",
+            "input": util.format_waiting_message(result, "Deploy Result") + "\n"
+        })
 
     def refresh_components(self, component_types):
         """

@@ -117,10 +117,22 @@ def format_error_message(result):
 def format_waiting_message(result, header=""):
     error_message = header + "\n" + "-" * 150 + "\n"
     for key in result:
+        if isinstance(result[key], list): continue
         error_message += "% 30s\t" % "{0}: ".format(key)
         error_message += "%-30s\t" % none_value(result[key]) + "\n"
 
-    return error_message[:len(error_message)-1]
+    if "messages" in result:
+        messages = result["messages"]
+        error_message += message.SEPRATE.format("Deploy Messages")
+        for key in messages[0].keys():
+            error_message += "%-30s" % key.capitalize()
+        error_message += "\n"
+        for msg in messages:
+            for key in msg:
+                error_message += "%-30s" % none_value(msg[key])
+            error_message += "\n"
+
+    return error_message
 
 def none_value(value):
     """
@@ -129,8 +141,7 @@ def none_value(value):
     @value: value
     """
 
-    if value == None:
-        return ""
+    if value == None: return ""
     return value
     
 def is_python3x():

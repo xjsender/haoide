@@ -141,7 +141,7 @@ class DeployMetadataCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         self.window.show_input_panel("Input Zip File Path:", 
-            "", self.on_input, None, None)
+            "C:/Users/Administrator/Dropbox/workspace/pro-exericse-20130924/metadata/src.zip", self.on_input, None, None)
 
     def on_input(self, input):
         if not input.endswith('.zip'):
