@@ -99,14 +99,12 @@ class ApexCompletions(sublime_plugin.EventListener):
             # List<String> strs;
             # Set<String> strs;
             # Map<String> strs;
-            pattern = "(\\w+\\s+|map<\\w+,[\\s<]*\\w+[>]*>|list<\\w+[<>\\w]*>|set<\\w+[<>\\w]*>)\\s+" +\
-                variable_name + "\\s*[:;=)\\s]"
+            pattern = "(\\w+|(map|list|set)[<,\\s>\w]*)\\s+" + variable_name + "[;\\s:=){]"
             matched_regions = view.find_all(pattern, sublime.IGNORECASE)
-
             variable_type = ""
 
             if len(matched_regions) > 0:
-                matched_block = view.substr(matched_regions[0])
+                matched_block = view.substr(matched_regions[0]).strip()
                 # If list, map, set
                 if "<" in matched_block and ">" in matched_block:
                     variable_type = matched_block.split("<")[0].strip()
