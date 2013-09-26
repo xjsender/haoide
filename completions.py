@@ -182,6 +182,6 @@ class PageCompletions(sublime_plugin.EventListener):
             # Combine the attr of matched tag
             def_entry = vf.tag_defs[matched_tag]
             for key, value in def_entry['attribs'].items():
-                completion_list.append((key + '\t' + value['type'], key+'="$1" $0'))
+                completion_list.append((key + '\t' + value['type'], key+'="$1"$0'))
 
         return (completion_list)
