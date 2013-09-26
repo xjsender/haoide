@@ -141,12 +141,12 @@ class ApexCompletions(sublime_plugin.EventListener):
             # Add all sobjects to <> completions
             metadata = get_sobject_completions()
             for key in metadata:
-                completion_list.append((key + "\t", key))
+                completion_list.append((key + "\t" + "Sobject", key))
 
             # Add all apex class to <> completions
             for key in apex_completions:
                 class_name = apex_completions[key]["name"]
-                completion_list.append((class_name + "\t", class_name))
+                completion_list.append((class_name + "\t" + "Class", class_name))
 
         # Sort tuple list by the first element of tuple
         completion_list.sort(key=lambda tup:tup[1])
