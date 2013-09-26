@@ -138,6 +138,12 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         # After input <, list all sobjects and class
         elif ch == "<":
+            # If list<, map< or set<, continue
+            begin = view.full_line(pt).begin()
+            matched_region = view.find("(list|map|set)<", begin, sublime.IGNORECASE)
+            if not matched_region: return []
+            if matched_region.begin() > begin: return
+
             # Add all sobjects to <> completions
             metadata = get_sobject_completions()
             for key in metadata:
