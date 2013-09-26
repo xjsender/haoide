@@ -61,19 +61,22 @@ def extract_zip(base64String, outputdir):
     f.close()
 
 debug_log_headers = [    
-    "Id", "Request", "Application", "Status", 
-    "LogLength", "DurationMilliseconds", "StartTime"
+    "Id", "StartTime", "Request", "Application", "Status", 
+    "LogLength", "DurationMilliseconds", 
+    "Operation"
 ]
 debug_log_headers_width = {
     "Id": 20, 
+    "StartTime": 22,
     "Request": 12, 
     "Application": 12,
     "Status": 10, 
     "LogLength": 10, 
     "DurationMilliseconds": 10,
-    "StartTime": 22
+    "Operation": 200
 }
 def format_debug_logs(toolingapi_settings, records):
+    print (records)
     if len(records) == 0: return "No available logs."
     # Headers
     headers = ""
@@ -83,7 +86,7 @@ def format_debug_logs(toolingapi_settings, records):
 
     # Content
     content = ""
-    records = sorted(records, key=lambda k : k['StartTime'])
+    records = reversed(sorted(records, key=lambda k : k['StartTime']))
     for record in records:
         for header in debug_log_headers:
             if header == "StartTime":
