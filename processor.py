@@ -464,7 +464,6 @@ def handle_initiate_sobjects_completions(timeout=120):
         handle_threads(apis, threads, 10)
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
@@ -514,7 +513,7 @@ def handle_retrieve_all_thread(timeout=120):
         # os.remove(zipdir)
 
         # Output package path
-        print("Your objects and workflows are exported to: " + outputdir)
+        sublime.status_message("Your objects and workflows are exported to: " + outputdir)
 
     toolingapi_settings = context.get_toolingapi_settings()
     sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
@@ -572,8 +571,7 @@ def handle_describe_customfield(sobject, timeout=120):
             return
         
         # If succeed
-        result = api.result
-        # If error
+        result = api.resultp
         if result["status_code"] > 399 : return
 
         if not os.path.exists(outputdir):
@@ -939,7 +937,7 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
         "Save Component " + component_name + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_create_component(data, component_name, component_type, timeout=120):
+def handle_create_component(data, component_name, component_type, view_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -947,7 +945,12 @@ def handle_create_component(data, component_name, component_type, timeout=120):
         
         # If create Succeed
         result = api.result
-        if result["status_code"] > 399: return
+
+        # If created failed, just remove it
+        if result["status_code"] > 399:
+            os.remove(view.file_name())
+            view.run_command("close")
+            return
         
         # Get the created component id
         component_id = result.get("id")

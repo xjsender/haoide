@@ -627,7 +627,7 @@ class SalesforceApi():
         result = self.check_status(async_process_id)
         result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         view = sublime.active_window().new_file()
-        header = "Retrieve Metadata Status(Keep This View Active, Auto Refreshed Every 5s)"
+        header = "Retrieve Metadata Status(Keep This View Open, Auto Refreshed Every 5s)"
         view.run_command("new_dynamic_view", {
             "view_name": "Retrieve Metadata Status",
             "input": util.format_waiting_message(result, header)
@@ -649,6 +649,12 @@ class SalesforceApi():
 
         # 3 Obtain zipFile(base64)
         sublime.set_timeout(lambda:sublime.status_message("Downloading zipFile"), 10)
+        view.run_command("new_dynamic_view", {
+            "view_id": view.id(),
+            "view_name": "Retrieve Metadata Status",
+            "input": message.SEPRATE.format("Downloading the zipFile, it will be very time-consuming"),
+            "point": view.size()
+        })
         result = self.check_retrieve_status(async_process_id)
         self.result = result
 
@@ -744,7 +750,7 @@ class SalesforceApi():
         result = self.check_status(async_process_id)
         result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         view = sublime.active_window().new_file()
-        header = "Deploy Metadata Status(Keep This View Active, Auto Refreshed Every 5s)"
+        header = "Deploy Metadata Status(Keep This View Open, Auto Refreshed Every 5s)"
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
             "view_name": "Deploy Metadata Status",
@@ -769,7 +775,8 @@ class SalesforceApi():
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
             "view_name": "Deploy Metadata Status",
-            "input": util.format_waiting_message(result, "Deploy Result") + "\n"
+            "input": util.format_waiting_message(result, "Deploy Result") + "\n",
+            "point": view.size()
         })
 
     def refresh_components(self, component_types):

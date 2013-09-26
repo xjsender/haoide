@@ -17,6 +17,21 @@ from . import xmltodict
 from .. import context
 from xml.sax.saxutils import unescape
 
+def get_view_by_id(view_id):
+    """
+    Get the view in the active window by the view_id
+
+    @view_id: id of view
+    @return: view
+    """
+
+    view = None
+    for v in sublime.active_window().views():
+        if v.id() == view_id:
+            view = v
+
+    return view
+
 def base64_zip(zipfile):
     with open(zipfile, "rb") as f:
         bytes = f.read()

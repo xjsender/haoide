@@ -101,7 +101,7 @@ class NewDynamicViewCommand(sublime_plugin.TextCommand):
         })
     """
 
-    def run(self, edit, view_id=None, view_name="", input="", erase_all=False):
+    def run(self, edit, view_id=None, view_name="", input="", point=0, erase_all=False):
         # Get the view which name match the name paramter
         view = sublime.active_window().active_view()
         if view_id and not view.id() == view_id:
@@ -112,7 +112,7 @@ class NewDynamicViewCommand(sublime_plugin.TextCommand):
         view.set_scratch(True)
         view.set_name(view_name)
         if erase_all: view.erase(edit, sublime.Region(0, view.size()))
-        view.insert(edit, 0, input)
+        view.insert(edit, point, input)
 
 class RefreshFolderCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -578,7 +578,6 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
 
         # Get Current File Name
         file_name = self.view.file_name()
-        print(file_name)
 
         # Read file content
         body = open(file_name).read()
@@ -611,7 +610,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         elif component_type in ["ApexPage", "ApexComponent"]:
             data["MasterLabel"] = component_name
 
-        processor.handle_create_component(data, component_name, component_type)
+        processor.handle_create_component(data, component_name, component_type, self.view.id())
 
 class SaveComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
