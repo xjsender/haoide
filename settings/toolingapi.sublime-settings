@@ -76,6 +76,46 @@
         "Workflow": "Info"
     },
 
+    // Used to list debug logs as below format
+    "debug_log_headers": [
+        "Id", "Request", "Application", "Status",
+        "DurationMilliseconds", "LogLength", "StartTime", "Operation"
+    ],
+    "debug_log_headers_properties": {
+        "Id" : {
+            "width" : 20,
+            "label" : "Log Id"
+        },
+        "StartTime" : {
+            "width" : 22,
+            "label" : "Start Time"
+        },
+        "Request" : {
+            "width" : 13,
+            "label" : "Request Type"
+        },
+        "Application" : {
+            "width" : 12,
+            "label" : "Application"
+        },
+        "Status" : {
+            "width" : 10,
+            "label" : "Status"
+        },
+        "LogLength" : {
+            "width" : 8,
+            "label" : "Size(b)"
+        },
+        "DurationMilliseconds" : {
+            "width" : 13,
+            "label" : "Duration(ms)"
+        },
+        "Operation" : {
+            "width" : 200,
+            "label" : "Operation"
+        }
+    },
+
     // Sobject Workbook columns
     "workbook_field_describe_columns": [
         "label","name","type","length","unique","externalId","precision",

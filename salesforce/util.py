@@ -60,29 +60,18 @@ def extract_zip(base64String, outputdir):
     # Close zipFile opener
     f.close()
 
-debug_log_headers = [    
-    "Id", "StartTime", "Request", "Application", "Status", 
-    "LogLength", "DurationMilliseconds", 
-    "Operation"
-]
-debug_log_headers_width = {
-    "Id": 20, 
-    "StartTime": 22,
-    "Request": 12, 
-    "Application": 12,
-    "Status": 10, 
-    "LogLength": 10, 
-    "DurationMilliseconds": 10,
-    "Operation": 200
-}
 def format_debug_logs(toolingapi_settings, records):
-    print (records)
     if len(records) == 0: return "No available logs."
+
+    # Get debug_log_headers and debug_log_headers_properties
+    debug_log_headers = toolingapi_settings["debug_log_headers"]
+    debug_log_headers_properties = toolingapi_settings["debug_log_headers_properties"]
+
     # Headers
     headers = ""
     for header in debug_log_headers:
-        header_parse = "Duration" if header == "DurationMilliseconds" else header
-        headers += "%-*s" % (debug_log_headers_width[header], header_parse)
+        headers += "%-*s" % (debug_log_headers_properties[header]["width"], 
+            debug_log_headers_properties[header]["label"])
 
     # Content
     content = ""
@@ -90,10 +79,10 @@ def format_debug_logs(toolingapi_settings, records):
     for record in records:
         for header in debug_log_headers:
             if header == "StartTime":
-                content += "%-*s" % (debug_log_headers_width[header], 
-                    record[header][0:19])
+                content += "%-*s" % (debug_log_headers_properties[header]["width"],
+                    record[header][0:19].replace('T', ' '))
                 continue
-            content += "%-*s" % (debug_log_headers_width[header], record[header])
+            content += "%-*s" % (debug_log_headers_properties[header]["width"], record[header])
         content += "\n"
 
     return headers + "\n" + content[:len(content)-1]
