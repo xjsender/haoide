@@ -150,10 +150,7 @@ class SalesforceApi():
         self.login(False)
 
         instance_url = globals()[self.username]['instance_url']
-        try:
-            soql = urllib.parse.urlencode({'q' : soql})
-        except:
-            soql = urllib.urlencode({'q' : soql})
+        soql = urllib.parse.urlencode({'q' : soql})
 
         # Just API 28 support CustomField
         if is_toolingapi:
@@ -205,7 +202,7 @@ class SalesforceApi():
                 # Continue the recursion
                 return get_all_result(result)
 
-        if (not self.login(False)): return
+        if not self.login(False): return
         result = self.query(soql, is_toolingapi=is_toolingapi)
         # Database.com not support ApexComponent
         if result["status_code"] > 399: 
