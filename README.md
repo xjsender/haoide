@@ -28,6 +28,7 @@ You should add below setting to Perference > User - Setting, then you will have 
 + 2. After List<, Set<, Map< in apex code, show sobject and apex class
 + 3. Input < in visualforce page, show all components.
 + 4. Input <apex:page and space, show all attributes of this component.
+
 ```
     "auto_complete_triggers":
     [
