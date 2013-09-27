@@ -24,10 +24,10 @@ your project folder name should be Exercise-Pro-20130730
 
 ##Completions:
 You should add below setting to Perference > User - Setting, then you will have auto completions functionality.
-1. After input dot in apex code, show sobject field and apex class completions
-2. After List<, Set<, Map< in apex code, show sobject and apex class
-3. Input < in visualforce page, show all components.
-4. Input <apex:page and space, show all attributes of this component.
++ 1. After input dot in apex code, show sobject field and apex class completions
++ 2. After List<, Set<, Map< in apex code, show sobject and apex class
++ 3. Input < in visualforce page, show all components.
++ 4. Input <apex:page and space, show all attributes of this component.
 ```
     "auto_complete_triggers":
     [
