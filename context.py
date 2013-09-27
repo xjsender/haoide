@@ -219,7 +219,7 @@ def make_dir():
 
 def display_active_project(view):
     toolingapi_settings = get_toolingapi_settings()
-    display_message = "Default Project ▄︻┻═┳一 " + toolingapi_settings["default_project_name"]
+    display_message = "Default Project => " + toolingapi_settings["default_project_name"]
     view.set_status('default_project', display_message)
 
 def switch_project(chosen_project):
