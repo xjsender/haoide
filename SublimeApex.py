@@ -14,6 +14,15 @@ from . import context
 from .salesforce import util, message
 from .salesforce import bulkapi
 
+class GotoComponentCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        sel = self.view.sel()[0]
+        sel_text = self.view.substr(sel)
+        if sel_text == "": sel_text = self.view.substr(self.view.word(sel.begin()))
+        locations = self.view.window().lookup_symbol_in_index(sel_text)
+        if len(locations) == 0: return
+        self.view.window().open_file(locations[0][0])
+
 class SetCheckPointCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         mark = [s for s in self.view.sel()]
