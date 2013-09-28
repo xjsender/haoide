@@ -243,6 +243,14 @@
                 "caption": "Key Bindings – User"
             },
 
+            {
+                "command": "open_file", 
+                "args": {
+                    "file": "${packages}/SublimeApex/mousemap/Default ($platform).sublime-mousemap"
+                },
+                "caption": "Key Bindings – Mousemap"
+            },
+
             { "caption": "-" },
 
             {

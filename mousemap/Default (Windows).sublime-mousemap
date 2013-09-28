@@ -1,6 +1,7 @@
 [
+    // Press Shift and Click Left Mouse will open class file
     {
-        "button": "button1", "count": 1, "modifiers": ["ctrl"],
+        "button": "button1", "count": 1, "modifiers": ["shift"],
         "press_command": "goto_component"
     }
 ]

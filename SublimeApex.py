@@ -15,6 +15,11 @@ from .salesforce import util, message
 from .salesforce import bulkapi
 
 class GotoComponentCommand(sublime_plugin.TextCommand):
+    """
+    Move the cursor to the class name, press shift key and left mouse, 
+    the class file will be open, you can custom the bind key in mousemap path
+    """
+
     def run(self, edit):
         sel = self.view.sel()[0]
         sel_text = self.view.substr(sel)
