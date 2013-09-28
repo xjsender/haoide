@@ -7,6 +7,45 @@ from .salesforce.metadata import apex_completions
 from .salesforce.metadata import apex_namespaces
 from .salesforce import vf
 
+class symbol_table_completions(sublime_plugin.EventListener):
+    """
+    Just when utility class is open, completions list will show up
+    """
+
+    def on_query_completions(self, view, prefix, locations):
+        if not view.match_selector(locations[0], "source.java"):
+            return []
+
+        location = locations[0]
+        pt = locations[0] - len(prefix) - 1
+        ch = view.substr(sublime.Region(pt, pt + 1))
+        if ch != ".": return
+
+        # Get the variable name
+        variable_name = view.substr(view.word(pt))
+        window = sublime.active_window()
+        symbol_locations = window.lookup_symbol_in_index(variable_name)
+        if len(symbol_locations) == 0: return
+        view = window.find_open_file(symbol_locations[0][0])
+        completion_list = []
+        for s in view.symbols():
+            region, func = s
+
+            # Remove the space
+            func = func.strip()
+
+            func_name = func.split("(")[0]
+
+            # Exclude if and class notation
+            if func.startswith('if') or func.startswith('class'): continue
+
+            if "()" in func: 
+                completion_list.append((func, func_name + "()$0"))
+            else:
+                completion_list.append((func, func_name + "($0)"))
+
+        return completion_list
+
 def get_sobject_completions():
     # Load sobjects compoletions
     setting = sublime.load_settings("sobjects_completion.sublime-settings")
