@@ -4,6 +4,7 @@ import time
 
 from . import context
 from .salesforce.metadata import apex_completions
+from .salesforce.metadata import apex_namespaces
 from .salesforce import vf
 
 def get_sobject_completions():
@@ -92,6 +93,14 @@ class ApexCompletions(sublime_plugin.EventListener):
             pt = pt - 1
             variable_name = view.substr(view.word(pt))
 
+            # If variable_name is namespace, just display classes of this namespace
+            # Strange Class: System, ApexPages, Database, Schema, Site, Messaging
+            # these class has the same name with namespace, so just put these namespace classes
+            # to class property
+            if variable_name in apex_namespaces:
+                completion_list = [(c, c) for c in apex_namespaces[variable_name]]
+                return completion_list
+
             # Get the matched variable type 
             # String str; 
             # String str = 'abc';
@@ -131,8 +140,13 @@ class ApexCompletions(sublime_plugin.EventListener):
 
             # Get the properties by class_name
             properties = apex_completions[class_name]["properties"]
-            for key in (properties.keys()):
-                completion_list.append((key, properties[key]))
+            print (properties)
+            if isinstance(properties, list):
+                for p in sorted(properties): 
+                    completion_list.append((p + "\t NameSpace Class", p))
+            elif isinstance(properties, dict):
+                for key in sorted(properties.keys()): 
+                    completion_list.append((key + "\tProperty", properties[key]))
 
         # After input <, list all sobjects and class
         elif ch == "<":
@@ -144,16 +158,16 @@ class ApexCompletions(sublime_plugin.EventListener):
 
             # Add all sobjects to <> completions
             metadata = get_sobject_completions()
-            for key in metadata:
+            for key in sorted(metadata.keys()):
                 completion_list.append((key + "\t" + "Sobject", key))
 
             # Add all apex class to <> completions
-            for key in apex_completions:
+            for key in sorted(apex_completions):
                 class_name = apex_completions[key]["name"]
                 completion_list.append((class_name + "\t" + "Class", class_name))
 
         # Sort tuple list by the first element of tuple
-        completion_list.sort(key=lambda tup:tup[1])
+        # completion_list.sort(key=lambda tup:tup[1])
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
 class PageCompletions(sublime_plugin.EventListener):

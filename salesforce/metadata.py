@@ -1,8 +1,48 @@
+apex_namespaces = {
+    # "Schema" : ["SoapType", "SObjectField", "DisplayType", "SObjectType", "DataCategoryGroupSobjectTypePair"],
+    "Process" : ["Plugin", "PluginResult", "PluginRequest", "ParameterType", "SparkPlugDescribeResult", "OutputParameter", "SparkPlugApi", "SparkPlugParameter", "InputParameter", "PluginDescribeResult"],
+    "dom" : ["XmlNode", "Document", "XmlNodeType"],
+    # "Database" : ["AssignmentRuleHeader", "QueryLocatorIterator", "BatchableContext", "Batchable", "QueryLocator", "BatchableContextImpl", "QueryLocatorChunkIterator", "LeadConvert", "DMLOptions", "EmailHeader"],
+    # "Messaging" : ["BinaryAttachment", "EmailFileAttachment", "Header", "TextAttachment", "MassEmailMessage", "EmailToSalesforceHandler", "InboundEmailResult", "SingleEmailMessage", "InboundEmail", "EmailAttachment", "InboundEnvelope", "InboundEmailHandler"],
+    "Flow" : ["Interview"],
+    # "Site" : ["UrlRewriter"],
+    "ConnectApi" : ["FeedItemAttachmentType", "PollAttachmentInput", "ChatterGroupPage", "MentionSegmentInput", "Address", "MessageSegment", "TextSegment", "FollowingCounts", "ChatterGroupDetail", "FollowerPage", "ChatterGroups", "ChatterActivity", "GroupInformation", "UnauthenticatedUser", "ConnectApiException", "Community", "Motif", "ContentAttachment", "ChatterLikePage", "Actor", "Features", "MoreChangesSegment", "ChatterLike", "ApprovalAttachment", "WorkflowProcessStatus", "ChatterFavorites", "MessageSegmentType", "Records", "BinaryInput", "FeedModifiedInfo", "Communities", "ChatterUsers", "NewFileAttachmentInput", "FeedItemInput", "FollowingPage", "UserChatterSettings", "Reference", "ComplexSegment", "CaseComment", "GroupMembershipRequestStatus", "MessageSegmentInput", "FeedSortOrder", "TextSegmentInput", "ChatterGroupInput", "ActorWithId", "ChatterFeeds", "FeedType", "ClientInfo", "ApprovalPostTemplateField", "Organization", "OrganizationSettings", "FeedItemType", "DashboardComponentAttachment", "FeedItemVisibilityType", "GroupVisibilityType", "GroupMembershipRequest", "FeedPoll", "BasicTemplateAttachment", "UserDetail", "FeedItem", "Chatter", "ChatterGroupSummary", "CommentInput", "FeedFavorite", "RecordSummary", "FieldChangeNameSegment", "User", "ChatterGroup", "GroupEmailFrequency", "UserPage", "GroupMembershipRequests", "CommentPage", "ContentAttachmentInput", "UserSummary", "UserGroupPage", "MentionSegment", "MessageBodyInput", "GroupMemberPage", "CommentType", "Icon", "Photo", "FieldChangeSegment", "FeedFavoriteType", "FileSummary", "CaseActorType", "HashtagSegment", "FeedBody", "PhoneNumber", "FeedItemPage", "LinkSegmentInput", "LinkSegment", "UserSettings", "MessageBody", "Feed", "GroupChatterSettings", "HashtagSegmentInput", "RateLimitException", "EntityLinkSegment", "GroupMember", "LinkAttachmentInput", "UserType", "FeedItemAttachment", "FieldChangeValueSegment", "FeedItemAttachmentInput", "CommunityPage", "Subscription", "ResourceLinkSegment", "NotFoundException", "GroupInformationInput", "FeedFavorites", "Comment", "FeedPollChoice", "GroupMembershipType", "AbstractMessageBody", "LinkAttachment", "GlobalInfluence", "CommunityStatus"],
+    "MobilePNS" : ["MobilePushNotification", "MobilePushPayload"],
+    # "System" : ["CalloutException", "Iterator", "InvalidParameterValueException", "BusinessHours", "NoSuchElementException", "LoggingLevel", "System", "XmlTag", "NonePointerException", "WebServiceMock", "TimeZone", "Site", "NoAccessException", "HttpCalloutMock", "Datetime", "TouchHandledException", "String", "DmlException", "Integer", "RestContext", "Map", "JSONGenerator", "XmlException", "ListException", "ApexPages", "ProcedureException", "Cases", "SetupScope", "StringException", "NoDataFoundException", "SerializationException", "JSONToken", "Id", "SearchException", "InvalidReadOnlyUserDmlException", "SchedulableContext", "Cookie", "InvalidHeaderException", "Set", "StatusCode", "CURRENCY", "JSONException", "Database", "AssertException", "EncodingUtil", "Test", "RestRequest", "Boolean", "EmailException", "FinalException", "Date", "UnexpectedException", "Exception", "Schedulable", "Type", "Version", "PageReference", "Long", "Comparable", "Math", "Blob", "Answers", "AppExchange", "Schema", "HandledException", "RequiredFeatureMissingException", "Iterable", "JSON", "HttpResponse", "Time", "MathException", "LimitException", "Communities", "RestResponse", "SelectOption", "SObjectException", "XmlStreamReader", "JSONParser", "MultiStaticResourceCalloutMock", "Double", "SecurityException", "Url", "TypeException", "Network", "FlowException", "Crypto", "LIST", "Decimal", "SObject", "UnsupportedOperationException", "AsyncException", "Http", "XmlStreamWriter", "Matcher", "StaticResourceCalloutMock", "ApplicationReadWriteMode", "Messaging", "VisualforceException", "QueryException", "LicenseException", "Pattern", "HttpRequest", "Ideas", "UserInfo"],
+    "KbManagement" : ["PublishingService"],
+    "Support" : ["EmailToCaseHandler", "EmailTemplateSelector"],
+    # "ApexPages" : ["IdeaStandardSetController", "Component", "StandardController", "IdeaStandardController", "KnowledgeArticleVersionStandardController", "ComponentIteration", "StandardSetController", "Message", "Severity", "Action"],
+    "Apex" : ["Stack", "EmptyStackException"]
+}
+
 apex_completions = {
+    "singleemailmessage": {
+        "name": "SingleEmailMessage",
+        "constructors": {},
+        "properties": {},
+        "customize": True,
+        "methods": {
+            "setBccAddresses(String[])\tvoid": "setBccAddresses($0)",
+            "setCcAddresses(String[])\tvoid": "setCcAddresses($0)",
+            "setCharset(String)\tvoid": "setCharset($0)",
+            "setDocumentAttachments(ID[])\tvoid": "setDocumentAttachments($0)",
+            "setFileAttachments(EmailFileAttachment[])\tvoid": "setFileAttachments($0)",
+            "setHtmlBody(String)\tvoid": "setHtmlBody($0)",
+            "setInReplyTo(String)\tvoid": "setInReplyTo($0)",
+            "setPlainTextBody(String)\tvoid": "setPlainTextBody($0)",
+            "setOrgWideEmailAddressId(ID)\tvoid": "setOrgWideEmailAddressId($0)",
+            "setReferences(String)\tvoid": "setReferences($0)",
+            "setSubject(String)\tvoid": "setSubject($0)",
+            "setTargetObjectId(ID)\tvoid": "setTargetObjectId($0)",
+            "setToAddresses(String[])\tvoid": "setToAddresses($0)",
+            "setWhatId()\tvoid": "setWhatId($0)"
+        }
+    },
     "trigger": {
         "name": "Trigger",
         "constructors": {},
         "methods": {},
+        "customize": True,
         "properties": {
             "isExecuting\tBoolean": "isExecuting$0",
             "isInsert\tBoolean": "isInsert$0",
@@ -1842,7 +1882,11 @@ apex_completions = {
     "apexpages": {
         "name": "ApexPages",
         "constructors": {},
-        "properties": {},
+        "properties": [
+            "IdeaStandardSetController", "Component", "StandardController", 
+            "IdeaStandardController", "KnowledgeArticleVersionStandardController", 
+            "ComponentIteration", "StandardSetController", "Message", "Severity", "Action"
+        ],
         "methods": {
             "addMessage(ApexPages.Message message)\tvoid": "addMessage($0)",
             "getMessages()\tLIST<ApexPages.Message>": "getMessages()$0",
@@ -2859,7 +2903,32 @@ apex_completions = {
     "system": {
         "name": "System",
         "constructors": {},
-        "properties": {},
+        "properties": [
+            "CalloutException", "Iterator", "InvalidParameterValueException", 
+            "BusinessHours", "NoSuchElementException", "LoggingLevel", "System", 
+            "XmlTag", "NonePointerException", "WebServiceMock", "TimeZone", 
+            "Site", "NoAccessException", "HttpCalloutMock", "Datetime", 
+            "TouchHandledException", "String", "DmlException", "Integer", 
+            "RestContext", "Map", "JSONGenerator", "XmlException", "ListException", 
+            "ApexPages", "ProcedureException", "Cases", "SetupScope", "StringException", 
+            "NoDataFoundException", "SerializationException", "JSONToken", "Id", 
+            "SearchException", "InvalidReadOnlyUserDmlException", "SchedulableContext", 
+            "Cookie", "InvalidHeaderException", "Set", "StatusCode", "CURRENCY", 
+            "JSONException", "Database", "AssertException", "EncodingUtil", 
+            "Test", "RestRequest", "Boolean", "EmailException", "FinalException", 
+            "Date", "UnexpectedException", "Exception", "Schedulable", "Type", 
+            "Version", "PageReference", "Long", "Comparable", "Math", "Blob", 
+            "Answers", "AppExchange", "Schema", "HandledException", 
+            "RequiredFeatureMissingException", "Iterable", "JSON", "HttpResponse", 
+            "Time", "MathException", "LimitException", "Communities", "RestResponse", 
+            "SelectOption", "SObjectException", "XmlStreamReader", "JSONParser", 
+            "MultiStaticResourceCalloutMock", "Double", "SecurityException", "Url", 
+            "TypeException", "Network", "FlowException", "Crypto", "LIST", "Decimal", 
+            "SObject", "UnsupportedOperationException", "AsyncException", "Http", 
+            "XmlStreamWriter", "Matcher", "StaticResourceCalloutMock", "ApplicationReadWriteMode", 
+            "Messaging", "VisualforceException", "QueryException", "LicenseException", 
+            "Pattern", "HttpRequest", "Ideas", "UserInfo"
+        ],
         "methods": {
             "isBatch()\tBoolean": "isBatch()$0",
             "assertEquals(ANY expected, ANY actual)\tvoid": "assertEquals($0)",
@@ -3356,7 +3425,7 @@ apex_completions = {
     "site": {
         "name": "Site",
         "constructors": {},
-        "properties": {},
+        "properties": ["UrlRewriter"],
         "methods": {
             "getErrorMessage()\tString": "getErrorMessage()$0",
             "changePassword(String newPassword, String verifyNewPassword, String oldPassword)\tSystem.PageReference": "changePassword($0)",
@@ -3683,7 +3752,7 @@ apex_completions = {
     "schema": {
         "name": "Schema",
         "constructors": {},
-        "properties": {},
+        "properties": ["SoapType", "SObjectField", "DisplayType", "SObjectType", "DataCategoryGroupSobjectTypePair"],
         "methods": {
             "getAppDescribe(String appName)\tMAP<String,Schema.SObjectType>": "getAppDescribe($0)",
             "getModuleDescribe(String moduleName)\tMAP<String,Schema.SObjectType>": "getModuleDescribe($0)",
@@ -3749,7 +3818,10 @@ apex_completions = {
     "messaging": {
         "name": "Messaging",
         "constructors": {},
-        "properties": {},
+        "properties": ["EmailAttachment", "MassEmailMessage", "EmailFileAttachment", 
+            "EmailToSalesforceHandler", "Header", "InboundEmailResult", "SingleEmailMessage", 
+            "InboundEnvelope", "InboundEmailHandler", "BinaryAttachment", "InboundEmail", "TextAttachment"
+        ],
         "methods": {
             "sendEmailMessage(LIST<Id> emailMessagesIds, Boolean allOrNothing)\tLIST<Messaging.SendEmailResult>": "sendEmailMessage($0)",
             "sendEmailMessage(LIST<Id> emailMessagesIds)\tLIST<Messaging.SendEmailResult>": "sendEmailMessage($0)",
@@ -4272,17 +4344,10 @@ apex_completions = {
             "values()\tLIST<ConnectApi.FeedItemAttachmentType>": "values()$0"
         }
     },
-    "singleemailmessage": {
-        "name": "SingleEmailMessage",
-        "constructors": {},
-        "properties": {},
-        "methods": {}
-
-    },
     "database": {
         "name": "Database",
         "constructors": {},
-        "properties": {},
+        "properties": ["AssignmentRuleHeader", "QueryLocatorIterator", "BatchableContext", "Batchable", "QueryLocator", "BatchableContextImpl", "QueryLocatorChunkIterator", "LeadConvert", "DMLOptions", "EmailHeader"],
         "methods": {
             "undelete(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.UndeleteResult>": "undelete($0)",
             "executeBatch(APEX_OBJECT batchable)\tString": "executeBatch($0)",
