@@ -53,7 +53,7 @@ def handle_update_plugin(timeout):
         # just remove the path tree and the zipfile
         shutil.rmtree("SublimeApex-master")
         os.remove("SublimeApex.zip")
-        message = "Your plugin is updated to newest. \n" +\
+        message = "Your plugin is updated to latest. \n" +\
             "In order to ensure plugin is working, please restart your sublime."
         sublime.message_dialog(message)
 
