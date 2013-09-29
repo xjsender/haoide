@@ -28,17 +28,12 @@ class symbol_table_completions(sublime_plugin.EventListener):
         if len(symbol_locations) == 0: return
         view = window.find_open_file(symbol_locations[0][0])
         completion_list = []
-        for s in view.symbols():
-            region, func = s
-
-            # Remove the space
+        for region, func in view.symbols():
             func = func.strip()
-
             func_name = func.split("(")[0]
 
             # Exclude if and class notation
             if func.startswith('if') or func.startswith('class'): continue
-
             if "()" in func: 
                 completion_list.append((func, func_name + "()$0"))
             else:
@@ -190,10 +185,10 @@ class ApexCompletions(sublime_plugin.EventListener):
         # After input <, list all sobjects and class
         elif ch == "<":
             # If list<, map< or set<, continue
-            begin = view.full_line(pt).begin()
-            matched_region = view.find("(list|map|set)<", begin, sublime.IGNORECASE)
+            full_line = view.full_line(pt)
+            matched_region = view.find("(list|map|set)<", full_line.begin(), sublime.IGNORECASE)
             if not matched_region: return []
-            if matched_region.begin() > begin: return
+            if not full_line.contains(matched_region): return []
 
             # Add all sobjects to <> completions
             metadata = get_sobject_completions()
