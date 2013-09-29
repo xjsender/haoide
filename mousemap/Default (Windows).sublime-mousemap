@@ -1,7 +1,7 @@
 [
-    // Press Shift and Click Left Mouse will open class file
+    // Press Shift and Click Left Mouse for twice will open class file
     {
-        "button": "button1", "count": 1, "modifiers": ["shift"],
+        "button": "button1", "count": 2, "modifiers": ["shift"],
         "press_command": "goto_component"
     }
 ]
