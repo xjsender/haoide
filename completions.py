@@ -236,4 +236,5 @@ class PageCompletions(sublime_plugin.EventListener):
             for key, value in def_entry['attribs'].items():
                 completion_list.append((key + '\t' + value['type'], key+'="$1"$0'))
 
+        completion_list.sort(key=lambda tup:tup[1])
         return (completion_list)
