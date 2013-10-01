@@ -20,14 +20,15 @@ if today is 2013/07/30 and user settings is
     }
 }
 ```
-your project folder name should be Exercise-Pro-20130730
+your project folder name should be Exercise-Pro-20130730, you can close this time suffix feature by setting keep_project_name_time_suffix to false
 
 ##Completions:
 You should add below setting to Perference > User - Setting, then you will have auto completions functionality.
 + 1. After input dot in apex code, show sobject field and apex class completions
-+ 2. After List<, Set<, Map< in apex code, show sobject and apex class
++ 2. After List< and Set< in apex code, show sobject and apex class
 + 3. Input < in visualforce page, show all components.
-+ 4. Input <apex:page and space, show all attributes of this component.
++ 4. Input <apex:page and space to show all attributes of this component.
++ 5. Input <apex: or something standard library to show all component suffix.
 
 ```
     "auto_complete_triggers":
