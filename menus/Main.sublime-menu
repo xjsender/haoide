@@ -193,6 +193,8 @@
                 ]
             },
 
+            { "caption": "-" },
+
             {
                 "id": "BulkApiQuery",
                 "caption": "Data Loader",
@@ -200,57 +202,63 @@
             },
             
             { "caption": "-" },
-
-            {
-                "command": "open_file", 
-                "args": {
-                    "file": "${packages}/SublimeApex/settings/toolingapi.sublime-settings"
-                },
-                "caption": "Settings – Default"
-            },
-
-            {
-                "command": "open_file", 
-                "args": {
-                    "file": "${packages}/user/toolingapi.sublime-settings"
-                },
-                "caption": "Settings – User"
-            },
-
-            {
-                "command": "open_file", 
-                "args": {
-                    "file": "${packages}/SublimeApex/settings/Widget.sublime-settings"
-                },
-                "caption": "Settings – Console"
-            },
             
-            { "caption": "-" },
-
             {
-                "command": "open_file", 
-                "args": {
-                    "file": "${packages}/SublimeApex/keymap/Default ($platform).sublime-keymap"
-                },
-                "caption": "Key Bindings – Default"
-            },
+                "caption": "Settings",
+                "children": [
+                    {
+                        "command": "open_file", 
+                        "args": {
+                            "file": "${packages}/SublimeApex/settings/toolingapi.sublime-settings"
+                        },
+                        "caption": "Settings – Default"
+                    },
 
+                    {
+                        "command": "open_file", 
+                        "args": {
+                            "file": "${packages}/user/toolingapi.sublime-settings"
+                        },
+                        "caption": "Settings – User"
+                    },
+
+                    {
+                        "command": "open_file", 
+                        "args": {
+                            "file": "${packages}/SublimeApex/settings/Widget.sublime-settings"
+                        },
+                        "caption": "Settings – Console"
+                    }
+                ]
+            },
             {
-                "command": "open_file", 
-                "args": {
-                    "file": "${packages}/user/Default ($platform).sublime-keymap"
-                },
-                "caption": "Key Bindings – User"
-            },
+                "caption": "Key Bindings",
+                "children": [
+                    {
+                        "command": "open_file", 
+                        "args": {
+                            "file": "${packages}/SublimeApex/keymap/Default ($platform).sublime-keymap"
+                        },
+                        "caption": "Key Bindings – Default"
+                    },
 
-            {
-                "command": "open_file", 
-                "args": {
-                    "file": "${packages}/SublimeApex/mousemap/Default ($platform).sublime-mousemap"
-                },
-                "caption": "Key Bindings – Mousemap"
-            },
+                    {
+                        "command": "open_file", 
+                        "args": {
+                            "file": "${packages}/user/Default ($platform).sublime-keymap"
+                        },
+                        "caption": "Key Bindings – User"
+                    },
 
+                    {
+                        "command": "open_file", 
+                        "args": {
+                            "file": "${packages}/SublimeApex/mousemap/Default ($platform).sublime-mousemap"
+                        },
+                        "caption": "Key Bindings – Mousemap"
+                    }
+                ]
+            },
             { "caption": "-" },
 
             {
