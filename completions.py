@@ -223,6 +223,13 @@ class PageCompletions(sublime_plugin.EventListener):
         if ch == "<":
             for tag in vf.tag_defs:
                 completion_list.append((tag, tag))
+                
+        elif ch == ":":
+            tag_prefix = view.substr(view.word(pt))
+            if tag_prefix not in vf.tag_names: return []
+            for tag_name in vf.tag_names[tag_prefix]:
+                completion_list.append((tag_name + "\t" + tag_prefix, tag_name))
+
         elif ch == " ":
             # Find the match tag
             begin = view.full_line(pt).begin()

@@ -51,6 +51,10 @@ You should add below setting to Perference > User - Setting, then you will have 
         {
             "characters": " ",
             "selector": "text.html - source"
+        },
+        {
+            "characters": ":",
+            "selector": "text.html - source"
         }
     ]
 ```
