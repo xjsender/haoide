@@ -13,8 +13,7 @@ class symbol_table_completions(sublime_plugin.EventListener):
     """
 
     def on_query_completions(self, view, prefix, locations):
-        if not view.match_selector(locations[0], "source.java"):
-            return []
+        if not view.match_selector(locations[0], "source.java"): return []
 
         location = locations[0]
         pt = locations[0] - len(prefix) - 1
@@ -27,18 +26,30 @@ class symbol_table_completions(sublime_plugin.EventListener):
         symbol_locations = window.lookup_symbol_in_index(variable_name)
         if len(symbol_locations) == 0: return
         view = window.find_open_file(symbol_locations[0][0])
+        if view == None: return
+        
         completion_list = []
         for region, func in view.symbols():
             func = func.strip()
             func_name = func.split("(")[0]
 
+            # Exclude private method and not static method
+            full_line = view.full_line(region)
+            full_line_text = view.substr(full_line)
+            if "private" in full_line_text: continue
+            if "static" not in full_line_text: continue
+
             # Exclude if and class notation
             if func.startswith('if') or func.startswith('class'): continue
-            if "()" in func: 
-                completion_list.append((func, func_name + "()$0"))
-            else:
-                completion_list.append((func, func_name + "($0)"))
+            matched_func_type_region = view.find("\\w+\\s+" + func_name, full_line.begin())
+            matched_region_text = view.substr(matched_func_type_region)
+            func_type = matched_region_text.split(' ')[0]
 
+            # If no parameter, put the foucs at the end
+            completion_list.append((func + "\t" + func_type, 
+                func_name +  ("()$0" if "()" in func else "($0)")))
+
+        completion_list.sort(key=lambda tup:tup[1])
         return completion_list
 
 def get_sobject_completions():
