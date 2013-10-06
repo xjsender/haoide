@@ -6,8 +6,8 @@ import json
 import threading
 import time
 import pprint
-
 import urllib.parse
+
 from . import requests
 from . import context
 from .salesforce import util
@@ -421,19 +421,26 @@ def handle_initiate_sobjects_completions(timeout=120):
         s = sublime.load_settings("sobjects_completion.sublime-settings")
         sobjects_completion = {}
         for sobject_describe in results:
+            # Initiate Sobject completions
+            sobject_name = sobject_describe["name"]
+            sobjects_completion[sobject_name] = {}
+
             # Combine fields dict
             fields_dict = {}
-
-            if sobject_describe != None and "fields" not in sobject_describe:
-                print ("Things need to check......: " + sobject_describe)
-                continue
-
-            fields = sobject_describe["fields"]
-            for f in fields:
+            if sobject_describe and "fields" not in sobject_describe: continue
+            for f in sobject_describe["fields"]:
                 fields_dict[f["name"] + "\t" + f["type"] + "(" + format(f["length"]) + ")"] = f["name"]
             
-            # Combine sobject fields dict
-            sobjects_completion[sobject_describe["name"]] = fields_dict
+            # Child Relationship dict
+            child_relationship_dict = {}
+            if sobject_describe and not sobject_describe["childRelationships"]: continue
+            for f in sobject_describe["childRelationships"]:
+                if not f["relationshipName"]: continue
+                child_relationship_dict[f["relationshipName"] + "\t" + f["childSObject"]] = f["relationshipName"]
+
+            # Combine sobject fields dict and sobject child relationship dict
+            sobjects_completion[sobject_name]["fields"] = fields_dict
+            sobjects_completion[sobject_name]["childRelationships"] = child_relationship_dict
 
         # Every project has unique username
         username = toolingapi_settings["username"]

@@ -116,9 +116,15 @@ class SobjectCompletions(sublime_plugin.EventListener):
         else: 
             return
 
-        fields = metadata.get(sobject)
-        for key in sorted(fields.keys()):
-            completion_list.append((key, fields[key]))
+        sobject_describe = metadata.get(sobject)
+
+        # Fields Describe
+        for key in sorted(sobject_describe["fields"]):
+            completion_list.append((key, sobject_describe["fields"][key]))
+
+        # Child Relationship Describe
+        for key in sorted(sobject_describe["childRelationships"]):
+            completion_list.append((key, sobject_describe["childRelationships"][key]))           
 
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
