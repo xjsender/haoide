@@ -22,6 +22,8 @@ class symbol_table_completions(sublime_plugin.EventListener):
 
         # Get the variable name
         variable_name = view.substr(view.word(pt))
+
+        # Get the symbols in open view
         window = sublime.active_window()
         symbol_locations = window.lookup_symbol_in_index(variable_name)
         if len(symbol_locations) == 0: return
@@ -114,7 +116,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
         elif variable_name.capitalize() in metadata:
             sobject = variable_name.capitalize()
         else: 
-            return
+            return []
 
         sobject_describe = metadata.get(sobject)
 
@@ -141,9 +143,7 @@ class ApexCompletions(sublime_plugin.EventListener):
         completion_list = []
         if ch == ".":
             # Get the variable name
-            # Get the variable name
-            pt = pt - 1
-            variable_name = view.substr(view.word(pt))
+            variable_name = view.substr(view.word(pt - 1))
 
             # If variable_name is namespace, just display classes of this namespace
             # Strange Class: System, ApexPages, Database, Schema, Site, Messaging
@@ -224,7 +224,13 @@ class ApexCompletions(sublime_plugin.EventListener):
 class PageCompletions(sublime_plugin.EventListener):
     """
     vf.py is stolen from https://github.com/joeferraro/MavensMate-SublimeText/blob/master/lib/vf.py
-    Provide completions that match just after typing an opening angle bracket
+    html.py is stolen from https://github.com/sergeche/emmet-sublime/blob/master/emmet_completions/meta.py
+    
+    1. input <, list all tag
+    2. input : list all suffix of all visualforce Components
+    3. input space, list all attributes of tags, if tag attribute has predefined values, 
+       output attr, otherwise, output attr="$1"
+    4. input =, list all values of this corresponding attribute
     """
 
     def on_query_completions(self, view, prefix, locations):
