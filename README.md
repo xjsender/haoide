@@ -23,13 +23,16 @@ if today is 2013/07/30 and user settings is
 your project folder name should be Exercise-Pro-20130730, you can close this time suffix feature by setting keep_project_name_time_suffix to false
 
 ##Completions:
-You should add below setting to Perference > User - Setting, then you will have auto completions functionality.
-+ 1. After input dot in apex code, show sobject field and apex class completions
-+ 2. After List< and Set< in apex code, show sobject and apex class
-+ 3. Input < in visualforce page, show all components.
-+ 4. Input <apex:page and space to show all attributes of this component.
-+ 5. Input <apex: or something standard library to show all component suffix.
++ 1. Input ., show all methods of class
++ 2. Input ., show all fields and child relationship names
++ 3. Input ., show all public methods of custom class if corresponding class view is open
++ 4. Input < after list or set, list all sobjects and apex classes
++ 5. input <, list all tag
++ 6. input :, list all suffix of all visualforce Components
++ 7. input  , list all attributes of tags, if tag attribute has predefined values, output attr, otherwise, output attr="$1"
++ 8. input =, list all values of this corresponding attribute
 
+You should add below setting to Perference > User - Setting, then you will have auto completions functionality.
 ```
     "auto_complete_triggers":
     [
@@ -56,6 +59,10 @@ You should add below setting to Perference > User - Setting, then you will have 
         {
             "characters": ":",
             "selector": "text.html - source"
+        },
+        {
+            "characters": "=",
+            "selector": "text.html - source"
         }
     ]
 ```
@@ -70,6 +77,14 @@ You should add below setting to Perference > User - Setting, then you will have 
 + This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
 + After component is updated, click SublimeApex > Save to Server
 
+###Refresh component
++ This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
++ After component is updated in UI or other IDE, click SublimeApex > Refresh From Server
+
+###Delete component
++ This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
++ If component is useless and you want to delete it from server, click SublimeApex > Delete From Server
+
 ###New Component #
 Press Ctrl+Alt+N to invoke the input panel, and then input the new component info according to guide as below
 ```
@@ -78,6 +93,31 @@ Press Ctrl+Alt+N to invoke the input panel, and then input the new component inf
 3. Create new component: Component-Name.component
 4. Create new Page: Page-Name.page
 ```
+
+###Create Debug Log
++ If you want to track the log of any user, click SublimeApex > Apex Test > Create Debug Log, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
+
+###List Debug Log
++ If you want to see the log list of any user, click SublimeApex > Apex Test > List Debug Logs, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
+
+###Run Test
+There are two methods to run test, one is by Main Menu, other is in the context menu
++ 1. By Main Menu: click SublimeApex > Apex Test > Run Test, choose the test class and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
++ 2. By Context Menu: in the context of opened class, click SublimeApex > Run Test Class, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
+
+###Refresh Folder
+Click SublimeApex > Refresh Folder to refresh folder
+
+### Refresh Multiply Components
+Choose the components you want to refresh, and then Click SublimeApex > Refresh Selected Components in the Sidebar Menu
+
+###Delete Multiply Components
+Choose the components you want to delete, and then Click SublimeApex > Delete Selected Components in the Sidebar Menu
+
+###Proxy
+Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanced/#proxies)
+
+...
 
 # Installation #
 Firstly, install sublime text and then extract the zip file into your sublime package path.
