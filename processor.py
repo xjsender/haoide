@@ -578,7 +578,7 @@ def handle_describe_customfield(sobject, timeout=120):
             return
         
         # If succeed
-        result = api.resultp
+        result = api.result
         if result["status_code"] > 399 : return
 
         if not os.path.exists(outputdir):
