@@ -3344,7 +3344,12 @@ tag_defs = {
                 "type": "String"
             },
             "location": {
-                "type": "String"
+                "type": "String",
+                "values": [
+                    "both",
+                    "bottom",
+                    "top"
+                ]
             },
             "onclick": {
                 "type": "String"

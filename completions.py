@@ -3,9 +3,9 @@ import re
 import time
 
 from . import context
-from .salesforce.metadata import apex_completions
-from .salesforce.metadata import apex_namespaces
+from .salesforce import metadata as apex
 from .salesforce import vf
+from .salesforce import html
 
 class symbol_table_completions(sublime_plugin.EventListener):
     """
@@ -126,7 +126,8 @@ class SobjectCompletions(sublime_plugin.EventListener):
         for key in sorted(sobject_describe["childRelationships"]):
             completion_list.append((key, sobject_describe["childRelationships"][key]))           
 
-        return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+        return (completion_list, 
+            sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
 class ApexCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
@@ -148,8 +149,8 @@ class ApexCompletions(sublime_plugin.EventListener):
             # Strange Class: System, ApexPages, Database, Schema, Site, Messaging
             # these class has the same name with namespace, so just put these namespace classes
             # to class property
-            if variable_name in apex_namespaces:
-                completion_list = [(c, c) for c in apex_namespaces[variable_name]]
+            if variable_name in apex.apex_namespaces:
+                completion_list = [(c, c) for c in apex.apex_namespaces[variable_name]]
                 return completion_list
 
             # Get the matched variable type 
@@ -174,9 +175,9 @@ class ApexCompletions(sublime_plugin.EventListener):
                     variable_type = matched_block.split(" ")[0]
 
             class_name = ""
-            if variable_name.lower() in apex_completions:
+            if variable_name.lower() in apex.apex_completions:
                 class_name = variable_name.lower()
-            elif variable_type.lower() in apex_completions:
+            elif variable_type.lower() in apex.apex_completions:
                 class_name = variable_type.lower()
             else:
                 return
@@ -185,13 +186,12 @@ class ApexCompletions(sublime_plugin.EventListener):
             if class_name == "": return []
 
             # Get the methods by class_name
-            methods = apex_completions[class_name]["methods"]
+            methods = apex.apex_completions[class_name]["methods"]
             for key in sorted(methods.keys()):
                 completion_list.append((key, methods[key]))
 
             # Get the properties by class_name
-            properties = apex_completions[class_name]["properties"]
-            print (properties)
+            properties = apex.apex_completions[class_name]["properties"]
             if isinstance(properties, list):
                 for p in sorted(properties): 
                     completion_list.append((p + "\t NameSpace Class", p))
@@ -213,8 +213,8 @@ class ApexCompletions(sublime_plugin.EventListener):
                 completion_list.append((key + "\t" + "Sobject", key))
 
             # Add all apex class to <> completions
-            for key in sorted(apex_completions):
-                class_name = apex_completions[key]["name"]
+            for key in sorted(apex.apex_completions):
+                class_name = apex.apex_completions[key]["name"]
                 completion_list.append((class_name + "\t" + "Class", class_name))
 
         # Sort tuple list by the first element of tuple
@@ -238,27 +238,80 @@ class PageCompletions(sublime_plugin.EventListener):
 
         completion_list = []
         if ch == "<":
-            for tag in vf.tag_defs:
+            # Visualforce Standard Components
+            for tag in sorted(vf.tag_defs):
+                completion_list.append((tag, tag))
+
+            # Html Elements
+            for tag in sorted(html.HTML_ELEMENTS_ATTRIBUTES):
                 completion_list.append((tag, tag))
                 
         elif ch == ":":
+            # Just Visualforce Component contains :
             tag_prefix = view.substr(view.word(pt))
             if tag_prefix not in vf.tag_names: return []
             for tag_name in vf.tag_names[tag_prefix]:
                 completion_list.append((tag_name + "\t" + tag_prefix, tag_name))
 
         elif ch == " ":
-            # Find the match tag
+            # Get the begin point of current line
             begin = view.full_line(pt).begin()
+
+            ##########################################
+            # Visualforce Attribute Completions
+            ##########################################
             matched_region = view.find("<\\w+:\\w+", begin)
-            if not matched_region: return []
-            matched_tag = view.substr(matched_region)[1:]
-            print (matched_tag)
+            if matched_region:
+                matched_tag = view.substr(matched_region)[1:]
 
-            # Combine the attr of matched tag
-            def_entry = vf.tag_defs[matched_tag]
-            for key, value in def_entry['attribs'].items():
-                completion_list.append((key + '\t' + value['type'], key+'="$1"$0'))
+                # Combine the attr of matched visualforce tag
+                if matched_tag in vf.tag_defs:
+                    def_entry = vf.tag_defs[matched_tag]
+                    for key, value in def_entry['attribs'].items():
+                        if "values" in value:
+                            completion_list.append((key + '\t' + value['type'], key))
+                        else:
+                            completion_list.append((key + '\t' + value['type'], key+'="$1"$0'))
 
-        completion_list.sort(key=lambda tup:tup[1])
+            ##########################################
+            # HTML Element Attribute Completions
+            ##########################################
+            matched_region = view.find("<\\w+\\s+", begin)
+            if matched_region:
+                matched_tag = view.substr(matched_region)[1:].strip()
+                if matched_tag in html.HTML_ELEMENTS_ATTRIBUTES:
+                    def_entry = html.HTML_ELEMENTS_ATTRIBUTES[matched_tag]
+                    for attr_name in sorted(def_entry):
+                        if attr_name in html.HTML_ATTRIBUTES_VALUES and html.HTML_ATTRIBUTES_VALUES[attr_name]:
+                            completion_list.append((attr_name, attr_name))
+                        else:
+                            completion_list.append((attr_name, attr_name+'="$1"$0'))
+
+        elif ch == "=":
+            # Get the begin point of current line
+            begin = view.full_line(pt).begin()
+
+            ##########################################
+            # Visualforce Attribute Values Completions
+            ##########################################
+            matched_region = view.find("<\\w+:\\w+", begin)
+            if matched_region:
+                # Get the Tag Name and Tag Attribute Name
+                matched_tag = view.substr(matched_region)[1:]
+                matched_attr_region = view.find("\\s\\w+=", begin)
+                matched_attr_name = view.substr(view.word(pt - 1))
+
+                # Get the Attribute Values
+                if matched_tag in vf.tag_defs and\
+                        matched_attr_name in vf.tag_defs[matched_tag]["attribs"] and\
+                        "values" in vf.tag_defs[matched_tag]["attribs"][matched_attr_name]:
+                    for value in vf.tag_defs[matched_tag]["attribs"][matched_attr_name]["values"]:
+                        completion_list.append((value + "\t" + matched_attr_name, '"%s"' % value))
+
+            # Process Attribute Value of HTML Element
+            matched_attr_name = view.substr(view.word(pt - 1))
+            if matched_attr_name in html.HTML_ATTRIBUTES_VALUES:
+                for attr_value in html.HTML_ATTRIBUTES_VALUES[matched_attr_name]:
+                    completion_list.append((attr_value + "\t" + matched_attr_name, '"%s"' % attr_value))
+
         return (completion_list)
