@@ -68,10 +68,10 @@ You should add below setting to Perference > User - Setting, then you will have 
 ```
 
 ###Execute Anonymous
-+ After any snippet is chosen, the Execute Anonymous command is enabled.
+After any snippet is chosen, the Execute Anonymous command is enabled.
 
 ###Execute Query
-+ Just any snippet which start with SELECT is chosen, the Execute Query command is enabled
+Just any snippet which start with SELECT is chosen, the Execute Query command is enabled
 
 ###Save component
 + This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
@@ -95,10 +95,10 @@ Press Ctrl+Alt+N to invoke the input panel, and then input the new component inf
 ```
 
 ###Create Debug Log
-+ If you want to track the log of any user, click SublimeApex > Apex Test > Create Debug Log, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
+If you want to track the log of any user, click SublimeApex > Apex Test > Create Debug Log, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
 
 ###List Debug Log
-+ If you want to see the log list of any user, click SublimeApex > Apex Test > List Debug Logs, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
+If you want to see the log list of any user, click SublimeApex > Apex Test > List Debug Logs, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
 
 ###Run Test
 There are two methods to run test, one is by Main Menu, other is in the context menu
