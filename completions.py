@@ -254,10 +254,24 @@ class PageCompletions(sublime_plugin.EventListener):
                 
         elif ch == ":":
             # Just Visualforce Component contains :
-            tag_prefix = view.substr(view.word(pt))
-            if tag_prefix not in vf.tag_names: return []
-            for tag_name in vf.tag_names[tag_prefix]:
-                completion_list.append((tag_name + "\t" + tag_prefix, tag_name))
+            matched_tag_prefix = view.substr(view.word(pt))
+
+            # Combine components
+            tag_names = {}
+            for tag_name in vf.tag_defs:
+                tag_prefix, tag_suffix = tuple(tag_name.split(':'))
+
+                if tag_prefix in tag_names:
+                    tag_names[tag_prefix].append(tag_suffix)
+                else:
+                    tag_names[tag_prefix] = [tag_suffix]
+
+            # If it's not valid tag prefix, just return
+            if not matched_tag_prefix in tag_names: return []
+
+            # Populate completion list  
+            for tag_name in tag_names[matched_tag_prefix]:
+                completion_list.append((tag_name + "\t" + matched_tag_prefix, tag_name))
 
         elif ch == " ":
             # Get the begin point of current line
@@ -293,6 +307,9 @@ class PageCompletions(sublime_plugin.EventListener):
                         else:
                             completion_list.append((attr_name, attr_name+'="$1"$0'))
 
+            # Sort the completion_list by first element
+            completion_list.sort(key=lambda tup:tup[1])
+
         elif ch == "=":
             # Get the begin point of current line
             begin = view.full_line(pt).begin()
@@ -314,10 +331,15 @@ class PageCompletions(sublime_plugin.EventListener):
                     for value in vf.tag_defs[matched_tag]["attribs"][matched_attr_name]["values"]:
                         completion_list.append((value + "\t" + matched_attr_name, '"%s"' % value))
 
-            # Process Attribute Value of HTML Element
+            ##########################################
+            # HTML Element Attribute Values Completions
+            ##########################################
             matched_attr_name = view.substr(view.word(pt - 1))
             if matched_attr_name in html.HTML_ATTRIBUTES_VALUES:
                 for attr_value in html.HTML_ATTRIBUTES_VALUES[matched_attr_name]:
                     completion_list.append((attr_value + "\t" + matched_attr_name, '"%s"' % attr_value))
+
+            # Sort the completion_list by first element
+            completion_list.sort(key=lambda tup:tup[1])
 
         return (completion_list)

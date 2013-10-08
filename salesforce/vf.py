@@ -1,105 +1,356 @@
-tag_names = {
-    'apex': [
-        'selectOption',
-        'image',
-        'includeScript',
-        'gaugeSeries',
-        'commandLink',
-        'toolbar',
-        'panelBarItem',
-        'pageBlockButtons',
-        'inputText',
-        'flash',
-        'param',
-        'scatterSeries',
-        'message',
-        'scontrol',
-        'legend',
-        'column',
-        'dataTable',
-        'enhancedList',
-        'panelGrid',
-        'inputField',
-        'inputHidden',
-        'tabPanel',
-        'messages',
-        'barSeries',
-        'radarSeries',
-        'dynamicComponent',
-        'pageBlockSection',
-        'inlineEditSupport',
-        'pageBlockSectionItem',
-        'commandButton',
-        'pageBlock',
-        'panelBar',
-        'outputLabel',
-        'inputCheckbox',
-        'page',
-        'sectionHeader',
-        'composition',
-        'lineSeries',
-        'toolbarGroup',
-        'chartTips',
-        'relatedList',
-        'actionFunction',
-        'actionSupport',
-        'listViews',
-        'outputText',
-        'include',
-        'chartLabel',
-        'axis',
-        'selectOptions',
-        'stylesheet',
-        'pageBlockTable',
-        'iframe',
-        'insert',
-        'actionRegion',
-        'define',
-        'outputPanel',
-        'actionStatus',
-        'chart',
-        'vote',
-        'form',
-        'outputField',
-        'selectCheckboxes',
-        'inputSecret',
-        'repeat',
-        'pieSeries',
-        'tab',
-        'selectList',
-        'canvasApp',
-        'outputLink',
-        'actionPoller',
-        'areaSeries',
-        'panelGroup',
-        'dataList',
-        'pageMessage',
-        'selectRadio',
-        'inputFile',
-        'facet',
-        'detail',
-        'inputTextarea',
-        'variable',
-        'pageMessages'
-    ],
-    'c': ['sitepoweredby', 'sitefooter', 'siteheader', 'sitelogin'],
-    'chatter': ['followers',
-        'feedWithFollowers',
-        'userPhotoUpload',
-        'follow',
-        'newsfeed',
-        'feed'
-    ],
-    'flow': ['interview'],
-    'ideas': ['detailOutputLink', 'profileListOutputLink', 'listOutputLink'],
-    'messaging': ['attachment', 'emailHeader', 'emailTemplate', 'htmlEmailBody', 'plainTextEmailBody'],
-    'site': ['previewAsAdmin', 'googleAnalyticsTracking'],
-    'social': ['profileViewer'],
-    'support': ['clickToDial'],
-    'analytics': ['reportChart']
-}
-
 tag_defs = {
+    # ChatterAnswer
+    "chatteranswers:aboutme": {
+        "simple": False,
+        "attribs": {
+            "communityId": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "noSignIn": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:allfeeds": {
+        "simple": False,
+        "attribs": {
+            "articleLanguage": {
+                "type": "String"
+            },
+            "communityId": {
+                "type": "id"
+            },
+            "filterOptions": {
+                "type": "Picklist",
+                "values":[
+                    'AllQuestions', 'UnansweredQuestions', 
+                    'UnsolvedQuestions', 'SolvedQuestions', 
+                    'MyQuestions', 'MostPopular', 
+                    'DatePosted', 'RecentActivity'
+                ]
+            },
+            "forceSecureCustomWebAddress": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "id": {
+                "type": "String"
+            },
+            "jsApiVersion": {
+                "type": "Double"
+            },
+            "noSignIn": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "useUrlRewriter": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:changepassword": {
+        "simple": False,
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:datacategoryfilter": {
+        "simple": False,
+        "attribs": {
+            "communityId": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:feedfilter": {
+        "simple": False,
+        "attribs": {
+            "filterOptions": {
+                "type": "Picklist",
+                "values":[
+                    'AllQuestions', 'UnansweredQuestions', 
+                    'UnsolvedQuestions', 'SolvedQuestions', 
+                    'MyQuestions', 'MostPopular', 
+                    'DatePosted', 'RecentActivity'
+                ]
+            },
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:feeds": {
+        "simple": False,
+        "attribs": {
+            "articleLanguage": {
+                "type": "String"
+            },
+            "communityId": {
+                "type": "id"
+            },
+            "id": {
+                "type": "String"
+            },
+            "jsApiVersion": {
+                "type": "Double"
+            },
+            "noSignIn": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "useUrlRewriter": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:forgotpassword": {
+        "simple": False,
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "useUrlRewriter": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:forgotpasswordconfirm": {
+        "simple": False,
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "useUrlRewriter": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:guestsignin": {
+        "simple": False,
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "useUrlRewriter": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:help": {
+        "simple": False,
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:login": {
+        "simple": False,
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "useUrlRewriter": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:registration": {
+        "simple": False,
+        "attribs": {
+            "hideTerms": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "id": {
+                "type": "String"
+            },
+            "profileId": {
+                "type": "id"
+            },
+            "registrationClassName": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "useUrlRewriter": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:searchask": {
+        "simple": False,
+        "attribs": {
+            "communityId": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "noSignIn": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "searchLanguage": {
+                "type": "String"
+            },
+            "useUrlRewriter": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "chatteranswers:singleitemfeed": {
+        "simple": False,
+        "attribs": {
+            "entityId": {
+                "type": "id"
+            },
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
     # Messaging part
     "messaging:attachment": {
         "simple": False,
