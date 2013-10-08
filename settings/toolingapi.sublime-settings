@@ -47,6 +47,11 @@
     // whether the console will be hidden automatically
     "hidden_console_on_modify": true,
 
+    // Sometimes, you may want to develop package, so you need to just download the code 
+    // in the allowed packages, because package name is unique in the whole salesforce org, 
+    // so I put it here but not in project property
+    "allowed_packages": ["sinaweibo", "twitter", "facebook"],
+
     // API version
     "api_version": 28,
 

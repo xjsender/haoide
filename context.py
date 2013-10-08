@@ -97,6 +97,13 @@ def get_toolingapi_settings():
     settings["workflow_outbound_message_columns"] = s.get("workflow_outbound_message_columns")
     settings["validation_rule_columns"] = s.get("validation_rule_columns")
 
+    # Combine the allowed packages SOQL expression
+    allowed_packages = s.get("allowed_packages", [])
+    allowed_packages_soql = '('
+    for pa in allowed_packages:
+        allowed_packages_soql += "'%s'" % pa + ","
+    allowed_packages_soql = allowed_packages_soql[:-1] + ")"
+
     # Populate all global variables
     component_types = []
     component_extensions = []
@@ -114,7 +121,9 @@ def get_toolingapi_settings():
         component_soql = "SELECT Id, Name, " + component_body +\
             (", ContentType" if component_type == "StaticResource" else "") +\
             " FROM " + component_type +\
-            " WHERE NamespacePrefix = null ORDER BY Name"
+            " WHERE NamespacePrefix = null " +\
+            (" OR NamespacePrefix in " + allowed_packages_soql if allowed_packages else "") +\
+            " ORDER BY Name"
 
         settings[component_type] =  {
             "body" : component["body"],
