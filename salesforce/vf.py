@@ -3737,7 +3737,10 @@ tag_defs = {
                 ]
             },
             "severity": {
-                "type": "String"
+                "type": "String",
+                "values": [
+                    'CONFIRM', 'INFO', 'WARNING', 'ERROR'
+                ]
             },
             "strength": {
                 "type": "Integer"
