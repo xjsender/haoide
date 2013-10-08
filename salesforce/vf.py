@@ -92,12 +92,147 @@ tag_names = {
     ],
     'flow': ['interview'],
     'ideas': ['detailOutputLink', 'profileListOutputLink', 'listOutputLink'],
+    'messaging': ['attachment', 'emailHeader', 'emailTemplate', 'htmlEmailBody', 'plainTextEmailBody'],
     'site': ['previewAsAdmin', 'googleAnalyticsTracking'],
     'social': ['profileViewer'],
-    'support': ['clickToDial']
+    'support': ['clickToDial'],
+    'analytics': ['reportChart']
 }
 
 tag_defs = {
+    # Messaging part
+    "messaging:attachment": {
+        "simple": False,
+        "attribs": {
+            "filename": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "inline": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "renderAs": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+    "messaging:emailHeader": {
+        "simple": False,
+        "attribs": {
+            "name": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+    "messaging:emailTemplate": {
+        "simple": False,
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "language": {
+                "type": "String"
+            },
+            "recipientType": {
+                "type": "String"
+            },
+            "relatedToType": {
+                "type": "String"
+            },
+            "replyTo": {
+                "type": "String"
+            },
+            "subject": {
+                "type": "String"
+            }
+        }
+    },
+    "messaging:htmlEmailBody": {
+        "simple": False,
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+    "messaging:plainTextEmailBody": {
+        "simple": False,
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    # analytics part
+    "analytics:reportChart": {
+        "simple": False,
+        "attribs": {
+            "filter": {
+                "type": "json",
+                "values":[
+                    '{"column": $1, "operator": $2, "value": $3}'
+                ]
+            },
+            "hideOnError": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "reportId": {
+                "type": "String"
+            },
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+
     "apex:actionFunction": {
         "simple": True,
         "attribs": {
