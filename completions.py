@@ -96,7 +96,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
         # 4. for (Account acc : accs)
         # 5. public static void updateAccount(Account acc)
         # 6. public Account acc {get; set;}
-        matched_regions = view.find_all("\\w+\\s+" + variable_name + "\\s*[:;=)\s]")
+        matched_regions = view.find_all("[a-zA-Z]+\\s+" + variable_name + "\\s*[:;=)\\s]")
         sobject = ""
         if len(matched_regions) > 0:
             matched_block = view.substr(matched_regions[0])
@@ -160,7 +160,7 @@ class ApexCompletions(sublime_plugin.EventListener):
             # List<String> strs;
             # Set<String> strs;
             # Map<String> strs;
-            pattern = "(\\w+|(map|list|set)[<,\\s>\w]*)\\s+" + variable_name + "[;\\s:=){]"
+            pattern = "([a-zA-Z]+[\\[\\]]*|(map|list|set)[<,\\s>a-zA-Z]*)\\s+" + variable_name + "[;\\s:=){]"
             matched_regions = view.find_all(pattern, sublime.IGNORECASE)
             variable_type = ""
 
@@ -169,8 +169,10 @@ class ApexCompletions(sublime_plugin.EventListener):
                 # If list, map, set
                 if "<" in matched_block and ">" in matched_block:
                     variable_type = matched_block.split("<")[0].strip()
-                # String str
-                # for (String str :)
+                # String[] strs;
+                elif "[]" in matched_block:
+                    variable_type = 'list'
+                # String str;
                 else:
                     variable_type = matched_block.split(" ")[0]
 
