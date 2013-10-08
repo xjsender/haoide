@@ -103,7 +103,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
 
-        if ch != ".": return[]
+        if ch != ".": return []
 
         # Get the variable name
         variable_name = view.substr(view.word(pt))
@@ -123,7 +123,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
 
         # If username is in settings, get the sobject fields describe dict
         metadata = get_sobject_completions()
-        if not metadata: return
+        if not metadata: return []
 
         completion_list = []
         if sobject in metadata:
@@ -157,13 +157,18 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
 
-        if ch != ".": return[]
+        if ch != ".": return []
 
         # Get the variable name
         relationship_name = view.substr(view.word(pt))
 
+        # Get all sobject describe of current user
         metadata = get_sobject_completions()
-        if not metadata: return
+        if not metadata: return []
+
+        # If relationship_name is not only Foreign Key Name but also Sobject Name,
+        # In order to prevent duplicate, so just skip
+        if relationship_name in metadata: return []
 
         completion_list = []
         for sobject in metadata:
