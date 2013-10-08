@@ -427,20 +427,41 @@ def handle_initiate_sobjects_completions(timeout=120):
 
             # Combine fields dict
             fields_dict = {}
+            parent_relationship_dict = {}
             if sobject_describe and "fields" not in sobject_describe: continue
             for f in sobject_describe["fields"]:
                 fields_dict[f["name"] + "\t" + f["type"] + "(" + format(f["length"]) + ")"] = f["name"]
+
+                # List all Reference Field Relationship Name as fields
+                # Some fields has two more references, we can't list the fields of it
+                if not len(f["referenceTo"]) == 1: continue
+                if not f["relationshipName"]: continue
+                parent_relationship_dict[f["relationshipName"]] = {
+                    "parentSobject": f["referenceTo"][0],
+                    "relationshipName": f["relationshipName"],
+                    "field": f["name"]
+                }
             
             # Child Relationship dict
             child_relationship_dict = {}
             if sobject_describe and not sobject_describe["childRelationships"]: continue
             for f in sobject_describe["childRelationships"]:
                 if not f["relationshipName"]: continue
-                child_relationship_dict[f["relationshipName"] + "\t" + f["childSObject"]] = f["relationshipName"]
+
+                child_relationship_dict[f["relationshipName"]] = {
+                    "childSobject": f["childSObject"],
+                    "field": f["field"],
+                    "relationshipName": f["relationshipName"]
+                }
 
             # Combine sobject fields dict and sobject child relationship dict
             sobjects_completion[sobject_name]["fields"] = fields_dict
+            sobjects_completion[sobject_name]["parentRelationships"] = parent_relationship_dict
             sobjects_completion[sobject_name]["childRelationships"] = child_relationship_dict
+
+        from .salesforce import util
+        import json
+        json.dump(sobjects_completion, open("c:/sobjects_completion.json",'w'))
 
         # Every project has unique username
         username = toolingapi_settings["username"]
