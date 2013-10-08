@@ -261,7 +261,10 @@ class ApexCompletions(sublime_plugin.EventListener):
                     completion_list.append((p + "\t NameSpace Class", p))
             elif isinstance(properties, dict):
                 for key in sorted(properties.keys()): 
-                    completion_list.append((key + "\tProperty", properties[key]))
+                    if "\t" in key:
+                        completion_list.append((key, properties[key]))
+                    else:
+                        completion_list.append((key + "\tProperty", properties[key]))
 
         # After input <, list all sobjects and class
         elif ch == "<":
