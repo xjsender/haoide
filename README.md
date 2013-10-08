@@ -27,10 +27,10 @@ your project folder name should be Exercise-Pro-20130730, you can close this tim
 + 2. Input ., show all fields and child relationship names
 + 3. Input ., show all public methods of custom class if corresponding class view is open
 + 4. Input < after list or set, list all sobjects and apex classes
-+ 5. input <, list all tag
++ 5. input <, list all tag, including Visualforce Components and HTML Elements
 + 6. input :, list all suffix of all visualforce Components
-+ 7. input  , list all attributes of tags, if tag attribute has predefined values, output attr, otherwise, output attr="$1"
-+ 8. input =, list all values of this corresponding attribute
++ 7. input space, list all attributes of tags, if tag attribute has predefined values, output attr, otherwise, output attr="$1"
++ 8. input =, list all values of this corresponding attributes
 
 You should add below setting to Perference > User - Setting, then you will have auto completions functionality.
 ```
