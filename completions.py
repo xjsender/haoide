@@ -173,22 +173,26 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
         completion_list = []
         for sobject in metadata:
             sobject_describe = metadata[sobject]
-            if "childRelationships" in sobject_describe and\
-                relationship_name in sobject_describe["childRelationships"]:
+            if "childRelationships" in sobject_describe:
+                if relationship_name.capitalize() in sobject_describe["childRelationships"]:
+                    relationship_name = relationship_name.capitalize()
 
-                child_sobject = sobject_describe["childRelationships"][relationship_name]["childSobject"]
-                if child_sobject in metadata:
-                    completion_list = get_sobject_completion_list(metadata[child_sobject])
-                    break
+                if relationship_name in sobject_describe["childRelationships"]:
+                    child_sobject = sobject_describe["childRelationships"][relationship_name]["childSobject"]
+                    if child_sobject in metadata:
+                        completion_list = get_sobject_completion_list(metadata[child_sobject])
+                        break
 
             sobject_describe = metadata[sobject]
-            if "parentRelationships" in sobject_describe and\
-                relationship_name in sobject_describe["parentRelationships"]:
+            if "parentRelationships" in sobject_describe:
+                if relationship_name.capitalize() in sobject_describe["parentRelationships"]:
+                    relationship_name = relationship_name.capitalize()
 
-                parent_sobject = sobject_describe["parentRelationships"][relationship_name]["parentSobject"]
-                if parent_sobject in metadata:
-                    completion_list = get_sobject_completion_list(metadata[parent_sobject])
-                    break
+                if relationship_name in sobject_describe["parentRelationships"]:
+                    parent_sobject = sobject_describe["parentRelationships"][relationship_name]["parentSobject"]
+                    if parent_sobject in metadata:
+                        completion_list = get_sobject_completion_list(metadata[parent_sobject])
+                        break
 
         return (completion_list, 
             sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
