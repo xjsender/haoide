@@ -20,7 +20,7 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
     the class file will be open, you can custom the bind key in mousemap path
     """
 
-    def run(self, edit):
+    def run(self, edit, is_background=False):
         sel = self.view.sel()[0]
         sel_text = self.view.substr(sel)
         if sel_text == "": sel_text = self.view.substr(self.view.word(sel.begin()))
@@ -28,9 +28,10 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
 
             project_folder = os.path.split(os.path.split(self.view.file_name())[0])[0]
             target_file = project_folder + "/ApexClass/%s.cls" % sel_text
-            print (target_file)
             if os.path.isfile(target_file):
                 self.view.window().open_file(target_file)
+
+            if is_background: self.view.window().focus_view(self.view)
         except:
             pass
 
