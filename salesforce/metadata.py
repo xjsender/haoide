@@ -16,6 +16,17 @@ apex_namespaces = {
 }
 
 apex_completions = {
+    "saveresult": {
+        "name": "SaveResult",
+        "constructors": {},
+        "properties": {},
+        "customize": True,
+        "methods": {
+            "getErrors()\tDatabase.Error[]": "getErrors()$0",
+            "getId()\tId": "getId()$0",
+            "isSuccess()\tBoolean": "isSuccess()$0"
+        }
+    },
     "singleemailmessage": {
         "name": "SingleEmailMessage",
         "constructors": {},
