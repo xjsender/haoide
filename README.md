@@ -106,6 +106,10 @@ There are two methods to run test, one is by Main Menu, other is in the context 
 + 1. By Main Menu: click SublimeApex > Apex Test > Run Test, choose the test class and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
 + 2. By Context Menu: in the context of opened class, click SublimeApex > Run Test Class, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
 
+###View Code Coverage
+This feature just works when api version is >= 29.0
+In the context menu of open class or trigger, click Right Mouse > SublimeApex > View Code Coverage, after the thread is over, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
+
 ###Refresh Folder
 Click SublimeApex > Refresh Folder to refresh folder
 
@@ -114,6 +118,15 @@ Choose the components you want to refresh, and then Click SublimeApex > Refresh 
 
 ###Delete Multiply Components
 Choose the components you want to delete, and then Click SublimeApex > Delete Selected Components in the Sidebar Menu
+
+###Quick Goto Component
+Put the focus in the Class Name, and then, press shift and double click left mouse, the class file will be open if this class file is exist
+
+###Retrieve All Metadata
+Click SublimeApex > Retrieve Metadata in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
+
+###Deploy Metadata
+This funcationality is not perfect now, but it can work now.
 
 ###Proxy
 Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanced/#proxies)
