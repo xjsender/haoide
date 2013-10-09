@@ -428,7 +428,6 @@ def handle_initiate_sobjects_completions(timeout=120):
             # Combine fields dict
             fields_dict = {}
             parent_relationship_dict = {}
-            if sobject_describe and "fields" not in sobject_describe: continue
             for f in sobject_describe["fields"]:
                 fields_dict[f["name"] + "\t" + f["type"] + "(" + format(f["length"]) + ")"] = f["name"]
 
@@ -444,7 +443,6 @@ def handle_initiate_sobjects_completions(timeout=120):
             
             # Child Relationship dict
             child_relationship_dict = {}
-            if sobject_describe and not sobject_describe["childRelationships"]: continue
             for f in sobject_describe["childRelationships"]:
                 if not f["relationshipName"]: continue
 
