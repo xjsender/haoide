@@ -1,7 +1,7 @@
 # Sublime IDE for salesforce
 This plugin support ```Sublime Text 3``` for windows. full docs refer to [SublimeApex User Guide](https://github.com/xjsender/SublimeApex/blob/master/docs/SublimeApex%20Guide.docx)
 
-###New Project
+## New Project
 + This command is used to download or update your project
 + Once click this command, a new project will be downloaded and appeared in the sidebar
 + Project Folder Name Convention: the project name set in user settings append with date literal of today, for example,
@@ -20,9 +20,9 @@ if today is ```2013/07/30``` and user settings is
     }
 }
 ```
-your project folder name should be Exercise-Pro-20130730, you can close this time suffix feature by setting ```keep_project_name_time_suffix``` to false
+your project folder name should be ```Exercise-Pro-20130730```, you can close this time suffix feature by setting ```keep_project_name_time_suffix``` to false
 
-##Completions:
+## Completions:
 + 1. ```Input .```, show all methods of class
 + 2. ```Input .```, show all fields, parent relationship name and child relationship names
 + 3. ```Input .``` after sobject relationship name, show all fields of this relationship name
@@ -35,6 +35,8 @@ your project folder name should be Exercise-Pro-20130730, you can close this tim
 
 You should add below setting to ```Perference > User - Setting```, then you will have auto completions functionality.
 ```json
+{
+    // Auto Completions characters
     "auto_complete_triggers":
     [
         {
@@ -65,28 +67,35 @@ You should add below setting to ```Perference > User - Setting```, then you will
             "characters": "=",
             "selector": "text.html - source"
         }
-    ]
+    ],
+
+    // Other setting
+    "tab_completion": false,
+    "theme": "Soda Dark 3.sublime-theme",
+    "translate_tabs_to_spaces": true,
+    ...
+}
 ```
 
-###Execute Anonymous
+## Execute Anonymous
 After any snippet is chosen, the Execute Anonymous command is enabled.
 
-###Execute Query
+## Execute Query
 Just any snippet which start with SELECT is chosen, the Execute Query command is enabled
 
-###Save component
+## Save component
 + This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
-+ After component is updated, click SublimeApex > Save to Server
++ After component is updated, click ```SublimeApex > Save to Server```
 
-###Refresh component
+## Refresh component
 + This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
-+ After component is updated in UI or other IDE, click SublimeApex > Refresh From Server
++ After component is updated in UI or other IDE, click ```SublimeApex > Refresh From Server```
 
-###Delete component
+## Delete component
 + This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
-+ If component is useless and you want to delete it from server, click SublimeApex > Delete From Server
++ If component is useless and you want to delete it from server, click ```SublimeApex > Delete From Server```
 
-###New Component #
+## New Component #
 Press Ctrl+Alt+N to invoke the input panel, and then input the new component info according to guide as below
 ```
 1. Create new trigger: Trigger-Name.trigger, Sobject-Name
@@ -95,47 +104,47 @@ Press Ctrl+Alt+N to invoke the input panel, and then input the new component inf
 4. Create new Page: Page-Name.page
 ```
 
-###Create Debug Log
-If you want to track the log of any user, click SublimeApex > Apex Test > Create Debug Log, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
+## Create Debug Log
+If you want to track the log of any user, click ```SublimeApex > Apex Test > Create Debug Log```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
 
-###List Debug Log
-If you want to see the log list of any user, click SublimeApex > Apex Test > List Debug Logs, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
+## List Debug Log
+If you want to see the log list of any user, click ```SublimeApex > Apex Test > List Debug Logs```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
 
-###Run Test
+## Run Test
 There are two methods to run test, one is by Main Menu, other is in the context menu
-+ 1. By Main Menu: click SublimeApex > Apex Test > Run Test, choose the test class and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
-+ 2. By Context Menu: in the context of opened class, click SublimeApex > Run Test Class, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
++ 1. By Main Menu: click ```SublimeApex > Apex Test > Run Test```, choose the test class and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
++ 2. By Context Menu: in the context of opened class, click ```SublimeApex > Run Test Class```, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
 
-###View Code Coverage
+## View Code Coverage
 This feature just works when api version is >= 29.0
-In the context menu of open class or trigger, click Right Mouse > SublimeApex > View Code Coverage, after the thread is over, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
+In the context menu of open class or trigger, click ```button1 > SublimeApex > View Code Coverage```, after the thread is over, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
 
-###Refresh Folder
+## Refresh Folder
 Click SublimeApex > Refresh Folder to refresh folder
 
-### Refresh Multiply Components
-Choose the components you want to refresh, and then Click SublimeApex > Refresh Selected Components in the Sidebar Menu
+## Refresh Multiply Components
+Choose the components you want to refresh, and then Click ```SublimeApex > Refresh Selected Components``` in the Sidebar Menu
 
-###Delete Multiply Components
-Choose the components you want to delete, and then Click SublimeApex > Delete Selected Components in the Sidebar Menu
+## Delete Multiply Components
+Choose the components you want to delete, and then Click ```SublimeApex > Delete Selected Components``` in the Sidebar Menu
 
-###Quick Goto Component
-Put the focus in the Class Name, and then, press shift and double click left mouse, the class file will be open if this class file is exist
+## Quick Goto Component
+Put the focus in the Class Name, and then, press ```shift``` and ```button1```, the class file will be open if this class file is exist
 
-###Retrieve All Metadata
-Click SublimeApex > Retrieve Metadata in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
+## Retrieve All Metadata
+Click ```SublimeApex > Retrieve Metadata``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
 
-###Deploy Metadata
+## Deploy Metadata
 This functionality is not perfect now, but it can work now.
 
-###Proxy
+## Proxy
 Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanced/#proxies)
 
 ...
 
 # Installation #
 Firstly, install sublime text and then extract the zip file into your sublime package path.
-Package Name in sublime should be SublimeApex, for example, "D:\Sublime347\Data\Packages\SublimeApex" is my installation path.
+Package Name in sublime should be SublimeApex, for example, ```D:\Sublime347\Data\Packages\SublimeApex``` is my installation path.
 
 Before start coding, you should initiate your project settings, you can keep your settings in Default Setting or User Setting, however, [User Settings] is prior to [Default Settings].
 
