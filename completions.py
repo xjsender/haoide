@@ -174,7 +174,8 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
         if relationship_name in ["Parent", "parent"]:
             # If relationship_name is Parent or parent, 
             # just get fields of Account, Case, Campaign
-            for sobject in ['Account', 'Campaign', 'Case'] and sobject in metadata:
+            for sobject in ['Account', 'Campaign', 'Case']:
+                if sobject not in metadata: continue
                 completion_list.extend(get_sobject_completion_list(metadata[sobject], 
                     sobject_prefix=sobject+"."))
         else:
