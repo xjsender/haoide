@@ -457,10 +457,6 @@ def handle_initiate_sobjects_completions(timeout=120):
             sobjects_completion[sobject_name]["parentRelationships"] = parent_relationship_dict
             sobjects_completion[sobject_name]["childRelationships"] = child_relationship_dict
 
-        from .salesforce import util
-        import json
-        json.dump(sobjects_completion, open("c:/sobjects_completion.json",'w'))
-
         # Every project has unique username
         username = toolingapi_settings["username"]
         s.set(username, sobjects_completion)
@@ -715,6 +711,7 @@ def handle_execute_query(soql, timeout=120):
         
         # If succeed
         result = api.result
+        pprint.pprint(result)
         if result["status_code"] > 399: return
 
         # No error, just display log in a new view
