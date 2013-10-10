@@ -229,7 +229,7 @@ Here are the all key bindings to corresponding command, you can customize them a
 
 ## Key Bindings - User
 If you have your own shortcut key convention, you should put it here
-```json
+```javascript
 [
     // Switch Project
     {"keys": ["alt+s"], "command": "switch_project"},
@@ -245,7 +245,7 @@ If you have your own shortcut key convention, you should put it here
 ```
 
 ## Key Bindings - mousemap
-```
+```javascript
 [
     // Press Shift and Click Left Mouse for twice will open class file in the background
     {
