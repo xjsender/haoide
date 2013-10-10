@@ -1,13 +1,13 @@
 # Sublime IDE for salesforce
-This plugin support Sublime Text 3 for windows. full docs refer to [SublimeApex User Guide](https://github.com/xjsender/SublimeApex/blob/master/docs/SublimeApex%20Guide.docx)
+This plugin support ```Sublime Text 3``` for windows. full docs refer to [SublimeApex User Guide](https://github.com/xjsender/SublimeApex/blob/master/docs/SublimeApex%20Guide.docx)
 
 ###New Project
 + This command is used to download or update your project
 + Once click this command, a new project will be downloaded and appeared in the sidebar
 + Project Folder Name Convention: the project name set in user settings append with date literal of today, for example,
-if today is 2013/07/30 and user settings is 
+if today is ```2013/07/30``` and user settings is 
 
-```
+```json
 {
     "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
@@ -20,21 +20,21 @@ if today is 2013/07/30 and user settings is
     }
 }
 ```
-your project folder name should be Exercise-Pro-20130730, you can close this time suffix feature by setting keep_project_name_time_suffix to false
+your project folder name should be Exercise-Pro-20130730, you can close this time suffix feature by setting ```keep_project_name_time_suffix``` to false
 
 ##Completions:
-+ 1. Input ., show all methods of class
-+ 2. Input ., show all fields, parent relationship name and child relationship names
-+ 3. Input . after sobject relationship name, show all fields of this relationship name
-+ 4. Input ., show all public methods of custom class if corresponding class view is open
-+ 5. Input < after list or set, list all sobjects and apex classes
-+ 6. input <, list all tag, including Visualforce Components and HTML Elements
-+ 7. input :, list all suffix of all visualforce Components
-+ 8. input space, list all attributes of tags, if tag attribute has predefined values, output attr, otherwise, output attr="$1"
-+ 9. input =, list all values of this corresponding attributes
++ 1. ```Input .```, show all methods of class
++ 2. ```Input .```, show all fields, parent relationship name and child relationship names
++ 3. ```Input .``` after sobject relationship name, show all fields of this relationship name
++ 4. ```Input .```, show all public methods of custom class if corresponding class view is open
++ 5. ```Input <``` after list or set, list all sobjects and apex classes
++ 6. ```input <```, list all tag, including Visualforce Components and HTML Elements
++ 7. ```input :```, list all suffix of all visualforce Components
++ 8. ```input space```, list all attributes of tags, if tag attribute has predefined values, output attr, otherwise, output attr="$1"
++ 9. ```input =```, list all values of this corresponding attributes
 
-You should add below setting to Perference > User - Setting, then you will have auto completions functionality.
-```
+You should add below setting to ```Perference > User - Setting```, then you will have auto completions functionality.
+```json
     "auto_complete_triggers":
     [
         {
@@ -126,7 +126,7 @@ Put the focus in the Class Name, and then, press shift and double click left mou
 Click SublimeApex > Retrieve Metadata in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
 
 ###Deploy Metadata
-This funcationality is not perfect now, but it can work now.
+This functionality is not perfect now, but it can work now.
 
 ###Proxy
 Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanced/#proxies)
@@ -148,7 +148,7 @@ When you initiate your settings, you can have more than one project in "projects
 If your project need security token, just put it follow "username".
 
 Every time you want to switch the project, you can click [SublimeApex > Switch Project] in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
-``` 
+```json
 {
     "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
