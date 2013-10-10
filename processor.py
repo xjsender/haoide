@@ -292,7 +292,6 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         print (message.SEPRATE.format("The coverage is %.2f%%(%s/%s)" % (coverage, covered_count, total_count)))
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     query = "SELECT Coverage FROM ApexCodeCoverageAggregate " +\
         "WHERE ApexClassOrTriggerId = '{0}'".format(component_attribute["id"])
@@ -363,7 +362,6 @@ def handle_refresh_folder(component_type, timeout=120):
         sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
 
     # Get component attributes by component_type
@@ -385,7 +383,6 @@ def handle_backup_all_sobjects(timeout=120):
 
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
 
@@ -394,11 +391,11 @@ def handle_backup_all_sobjects(timeout=120):
 
     print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
     handle_thread(thread, 10)
+    ThreadProgress(api, thread, "Backup All Sobjects", "All Sobject Data are Backuped")
 
 def handle_initiate_sobjects_completions(timeout=120):
     """
@@ -538,7 +535,6 @@ def handle_retrieve_all_thread(timeout=120):
         sublime.status_message("Your objects and workflows are exported to: " + outputdir)
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.retrieve_all, args=())
     thread.start()
@@ -656,7 +652,6 @@ def handle_describe_global(timeout=120):
         print ("Output Directory: " + outputdir + "sobjects.csv")
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     workspace = context.get_toolingapi_settings().get("workspace")
     outputdir = workspace + "/describe/global"
     api = SalesforceApi(toolingapi_settings)
@@ -695,7 +690,6 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
     toolingapi_settings = context.get_toolingapi_settings()
     outputdir = toolingapi_settings["workspace"] + "/describe/layout"
     output_file_dir = outputdir + "/" + sobject + "-" + recordtype_name + ".csv"
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_layout, args=(sobject, recordtype_id, ))
     thread.start()
@@ -722,7 +716,6 @@ def handle_execute_query(soql, timeout=120):
         })
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.query, args=(soql, ))
     thread.start()
@@ -747,7 +740,6 @@ def handle_execute_anonymous(apex_string, timeout=120):
         })
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.execute_anonymous, args=(apex_string, ))
     thread.start()
@@ -770,7 +762,6 @@ def handle_list_debug_logs(user_full_name, user_id, timeout=120):
         })
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     query = "SELECT Id,LogUserId,LogLength,Request,Operation,Application," +\
             "Status,DurationMilliseconds,StartTime,Location FROM ApexLog " +\
@@ -792,7 +783,6 @@ def handle_create_debug_log(user_name, user_id, timeout=120):
         print (message.SEPRATE.format("Create Debug Log for '{0}' Succeed.".format(user_name)))
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.create_trace_flag, args=(user_id, ))
     thread.start()
@@ -814,7 +804,6 @@ def handle_view_debug_log_detail(log_id, timeout=120):
         })
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     url = "/services/data/v{0}.0/sobjects/ApexLog/" + log_id + "/Body"
     thread = threading.Thread(target=api.retrieve_body, args=(url, ))
@@ -843,7 +832,6 @@ def handle_run_test(class_name, class_id, timeout=120):
         })
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.run_test, args=(class_id, ))
     thread.start()
@@ -880,13 +868,15 @@ def handle_describe_sobject(sobject, timeout=120):
 
 def handle_generate_specified_workbooks(sobjects, timeout=120):
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     threads = []
     for sobject in sobjects:
         thread = threading.Thread(target=api.generate_workbook, args=(sobject, ))
         threads.append(thread)
         thread.start()
+
+    ThreadsProgress(threads, "Generating Sobjects Workbook", 
+        "Sobjects Workbook are Generated")
 
 def handle_generate_all_workbooks(timeout=120):
     def handle_thread(thread, timeout):
@@ -901,7 +891,6 @@ def handle_generate_all_workbooks(timeout=120):
             thread.start()
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global_common, args=())
     thread.start()
@@ -917,6 +906,7 @@ def handle_new_project(toolingapi_settings, timeout=120):
         # If succeed, something may happen,
         # for example, user password is expired
         result = api.result
+        if result == None: return
         if "status_code" in result and result["status_code"] > 399: return
 
         # Load COMPONENT_METADATA_SETTINGS Settings and put all result into it
@@ -931,7 +921,6 @@ def handle_new_project(toolingapi_settings, timeout=120):
         # After Refresh all succeed, start initiate sobject completions
         handle_initiate_sobjects_completions(120)
 
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     component_types = context.get_toolingapi_settings()["component_types"]
     thread = threading.Thread(target=api.refresh_components, 
@@ -952,7 +941,6 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
             print (message.SEPRATE.format(message.SAVE_SUCCESSFULLY.format(file_base_name)))
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.save_component, args=(component_attribute, body, ))
     thread.start()
@@ -1000,7 +988,6 @@ def handle_create_component(data, component_name, component_type, view_id, timeo
         print (message.SEPRATE.format(message.CREATE_SUCCESSFULLY.format(file_base_name)))
                 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     post_url = "/services/data/v{0}.0/sobjects/".format(toolingapi_settings["api_version"]) + component_type
     thread = threading.Thread(target=api.post, args=(post_url, data, ))
@@ -1031,7 +1018,6 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
         file_base_name = os.path.basename(file_name)
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     component_body = component_attribute["body"]
     component_url = component_attribute["url"]
@@ -1053,7 +1039,6 @@ def handle_delete_component(component_url, file_name, timeout=120):
         sublime.active_window().run_command("close")
 
     toolingapi_settings = context.get_toolingapi_settings()
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.delete, args=(component_url, ))
     thread.start()
@@ -1071,16 +1056,12 @@ def handle_push_topic(sobject, timeout=120):
 
         # If succeed
         result = api.result
-        if result["status_code"] > 399:
-            print (message.SEPRATE.format(util.format_error_message(result)))
-            return
+        if result["status_code"] > 399: return
 
         print (result)
 
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
     toolingapi_settings = context.get_toolingapi_settings()
     api_version = toolingapi_settings["api_version"]
-    sleep_time = toolingapi_settings["thread_sleep_time_of_waiting"]
     api = SalesforceApi(toolingapi_settings)
     post_url = "/services/data/v{0}.0/sobjects/PushTopic".format(api_version)
     post_data = {
@@ -1092,6 +1073,7 @@ def handle_push_topic(sobject, timeout=120):
     }
     thread = threading.Thread(target=api.post, args=(post_url, post_data, ))
     thread.start()
+    ThreadProgress(api, thread, "Creating PushTopic", "PushTopic is created.")
     handle_thread(thread, timeout)
 
 def get_sobject_soql(username, sobject):

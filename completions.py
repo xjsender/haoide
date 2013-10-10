@@ -170,37 +170,29 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
         # In order to prevent duplicate, so just skip
         if relationship_name in metadata: return []
 
+        matched_sobjects = []
+        for sobject in metadata:
+            sobject_describe = metadata[sobject]
+            if "parentRelationships" not in sobject_describe: continue
+
+            # If relationship_name is not capitalize
+            if relationship_name.capitalize() in sobject_describe["parentRelationships"]:
+                relationship_name = relationship_name.capitalize()
+
+            # Get the 
+            if relationship_name in sobject_describe["parentRelationships"]:
+                parent_sobject = sobject_describe["parentRelationships"][relationship_name]["parentSobject"]
+                if parent_sobject in metadata: matched_sobjects.append(parent_sobject)
+
+        # Remove the duplicate value in matched_sobjects
+        matched_sobjects = list(set(matched_sobjects))
+        if len(matched_sobjects) == 0: return []
+
+        # Because relationship name is not unique, so we need to display sobject name prefix
         completion_list = []
-        if relationship_name in ["Parent", "parent"]:
-            # If relationship_name is Parent or parent, 
-            # just get fields of Account, Case, Campaign
-            for sobject in ['Account', 'Campaign', 'Case']:
-                if sobject not in metadata: continue
-                completion_list.extend(get_sobject_completion_list(metadata[sobject], 
-                    sobject_prefix=sobject+"."))
-        else:
-            for sobject in metadata:
-                sobject_describe = metadata[sobject]
-                if "childRelationships" in sobject_describe:
-                    if relationship_name.capitalize() in sobject_describe["childRelationships"]:
-                        relationship_name = relationship_name.capitalize()
-
-                    if relationship_name in sobject_describe["childRelationships"]:
-                        child_sobject = sobject_describe["childRelationships"][relationship_name]["childSobject"]
-                        if child_sobject in metadata:
-                            completion_list = get_sobject_completion_list(metadata[child_sobject])
-                            break
-
-                sobject_describe = metadata[sobject]
-                if "parentRelationships" in sobject_describe:
-                    if relationship_name.capitalize() in sobject_describe["parentRelationships"]:
-                        relationship_name = relationship_name.capitalize()
-
-                    if relationship_name in sobject_describe["parentRelationships"]:
-                        parent_sobject = sobject_describe["parentRelationships"][relationship_name]["parentSobject"]
-                        if parent_sobject in metadata:
-                            completion_list = get_sobject_completion_list(metadata[parent_sobject])
-                            break
+        for sobject in matched_sobjects:
+            completion_list.extend(get_sobject_completion_list(metadata[sobject], 
+                sobject_prefix=sobject+"."))
 
         return (completion_list, 
             sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
