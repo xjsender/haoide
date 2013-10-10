@@ -96,7 +96,7 @@ Just any snippet which start with SELECT is chosen, the Execute Query command is
 + If component is useless and you want to delete it from server, click ```SublimeApex > Delete From Server```
 
 ## New Component #
-Press Ctrl+Alt+N to invoke the input panel, and then input the new component info according to guide as below
+Press ```Ctrl+Alt+N``` or click ```SublimeApex > New Component``` to invoke the input panel, and then input the new component info according to guide as below
 ```
 1. Create new trigger: Trigger-Name.trigger, Sobject-Name
 2. Create new class: Class-Name.cls
@@ -142,13 +142,140 @@ Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanc
 
 ...
 
+# Configuration #
+## Settings - Default
+```json
+{
+    // Indicate whether add project name time suffix
+    // When this setting value is true, you create a new project at yestoday and you refresh 
+    // it's code today, a new project folder will be created to keep the refreshed code
+    // Two methods to fix this bug:
+    //     1. Set this setting value to false, 
+    //     2. Create new project every day.
+    // It depends on your choice.
+    "keep_project_name_time_suffix": true,
+
+    // Indicate whether print session id, maybe you need this session id
+    // for other purpose
+    "output_session_info": false,
+
+    // Indicate whether keep local history history
+    "keep_local_change_history": true,
+
+    // Every time when you save component and error happened, the console will be open.
+    // When you edit the code according to the error message, this flag is used to indicate
+    // whether the console will be hidden automatically
+    "hidden_console_on_modify": true,
+
+    // Sometimes, you may want to develop package, so you need to just download the code 
+    // in the allowed packages, because package name is unique in the whole salesforce org, 
+    // so I put it here but not in project property
+    "allowed_packages": ["sinaweibo", "twitter", "facebook"],
+
+    // API version
+    "api_version": 28,
+
+    ...
+}
+```
+
+## Settings - User
+because default setting is the plugin default setting, In order to prevent that plugin update override your projects configurations and any other customization setting, you'd better put them at here.
+```json
+{
+    "projects": {
+        "sandbox-org-dev1": {
+            "default": true,
+            "login_url": "https://test.salesforce.com",
+            "password": "password",
+            "username": "username@org.com.dev1"
+        },
+        "pro-org": {
+            "default": false,
+            "login_url": "https://login.salesforce.com",
+            "password": "password",
+            "username": "username@org.com",
+            "security_token": "*****"
+        }
+    },
+    "workspace": "C:/Users/Administrator/Dropbox/workspace",
+    "keep_local_change_history": false,
+    "keep_project_name_time_suffix": false,
+    "hidden_console_on_modify": false
+}
+````
+- **default**: there should be only one default active project
+- **login_url**: sandbox is ```https://test.salesforce```, production is ```https://login.salesforce```
+- **username**: login confidential
+- **password**: login confidential
+- **security_token**: If have, just put it here, if not, you can remove this attr or left it empty
+
+## Key Bindings - Default
+Here are the all key bindings to corresponding command, you can customize them according to your habit.
+```json
+[
+    // Switch Project
+    {"keys": ["alt+s"], "command": "switch_project"},
+
+    // Download all code and save them to new project
+    {"keys": ["alt+f5"], "command": "new_project"},
+
+    // Refresh Folder
+    {"keys": ["alt+r","alt+f"], "command": "refresh_folder"},
+
+    ...
+]
+```
+
+## Key Bindings - User
+If you have your own shortcut key convention, you should put it here
+```json
+[
+    // Switch Project
+    {"keys": ["alt+s"], "command": "switch_project"},
+
+    // Download all code and save them to new project
+    {"keys": ["alt+f5"], "command": "new_project"},
+
+    // Refresh Folder
+    {"keys": ["alt+r","alt+f"], "command": "refresh_folder"},
+
+    ...
+]
+```
+
+## Key Bindings - mousemap
+```
+[
+    // Press Shift and Click Left Mouse for twice will open class file in the background
+    {
+        "button": "button1", "count": 2, "modifiers": ["shift"],
+        "press_command": "goto_component", 
+        "press_args": {"is_background": true}
+    },
+
+    // Press Shift and Click Left Mouse for triple will open class file
+    {
+        "button": "button1", "count": 3, "modifiers": ["shift"],
+        "press_command": "goto_component", 
+        "press_args": {"is_background": false}
+    }
+]
+```
+- **button1**: it means left mouse button
+- **button2**: it means right mouse button
+- **count**: count = 2 means double click, count = 3 means triple click
+- **modifiers**: it means the assist key
+- **press_command**: the bind command
+- **press_args**: the bind command arguments
+
 # Installation #
 Firstly, install sublime text and then extract the zip file into your sublime package path.
 Package Name in sublime should be SublimeApex, for example, ```D:\Sublime347\Data\Packages\SublimeApex``` is my installation path.
 
-Before start coding, you should initiate your project settings, you can keep your settings in Default Setting or User Setting, however, [User Settings] is prior to [Default Settings].
+Before start coding, you should initiate your project settings, you can keep your settings in Default Setting or User Setting, however, ```User Settings``` is prior to ```Default Settings```.
 
-In order to prevent plugin update overriding your toolingapi settings, you should keep your custom settings into [Setting - User] by clicking [SublimeApex > Setting - User].
+In order to prevent plugin update overriding your toolingapi settings, you should keep your custom settings into ```Setting - User``` by clicking ```SublimeApex > Setting - User```.
 
 You can setup your projects follow below sample by clicking "Setting - User" in the main menu, projects must be included in {}.
 
@@ -156,7 +283,7 @@ When you initiate your settings, you can have more than one project in "projects
 
 If your project need security token, just put it follow "username".
 
-Every time you want to switch the project, you can click [SublimeApex > Switch Project] in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
+Every time you want to switch the project, you can click ```SublimeApex > Switch Project``` in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
 ```json
 {
     "workspace": "d:/ForcedotcomWorkspace",
