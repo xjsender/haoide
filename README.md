@@ -7,7 +7,7 @@ This plugin support ```Sublime Text 3``` for windows. full docs refer to [Sublim
 + Project Folder Name Convention: the project name set in user settings append with date literal of today, for example,
 if today is ```2013/07/30``` and user settings is 
 
-```json
+```javascript
 {
     "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
@@ -34,7 +34,7 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 + 9. ```input =```, list all values of this corresponding attributes
 
 You should add below setting to ```Perference > User - Setting```, then you will have auto completions functionality.
-```json
+```javascript
 {
     // Auto Completions characters
     "auto_complete_triggers":
@@ -144,7 +144,7 @@ Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanc
 
 # Configuration #
 ## Settings - Default
-```json
+```javascript
 {
     // Indicate whether add project name time suffix
     // When this setting value is true, you create a new project at yestoday and you refresh 
@@ -181,7 +181,7 @@ Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanc
 
 ## Settings - User
 because default setting is the plugin default setting, In order to prevent that plugin update override your projects configurations and any other customization setting, you'd better put them at here.
-```json
+```javascript
 {
     "projects": {
         "sandbox-org-dev1": {
@@ -212,7 +212,7 @@ because default setting is the plugin default setting, In order to prevent that 
 
 ## Key Bindings - Default
 Here are the all key bindings to corresponding command, you can customize them according to your habit.
-```json
+```javascript
 [
     // Switch Project
     {"keys": ["alt+s"], "command": "switch_project"},
@@ -284,7 +284,7 @@ When you initiate your settings, you can have more than one project in "projects
 If your project need security token, just put it follow "username".
 
 Every time you want to switch the project, you can click ```SublimeApex > Switch Project``` in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
-```json
+```javascript
 {
     "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
