@@ -4,7 +4,7 @@ import os
 import time
 
 from . import context
-from .salesforce import util
+from . import util
 
 class SFDCEventListener(sublime_plugin.EventListener):
     def on_new_async(self, view):
@@ -31,8 +31,8 @@ class SFDCEventListener(sublime_plugin.EventListener):
 
         # If it is not SFDC Component, just return
         if view.file_name() == None: return
-        component_type = util.get_component_type(view.file_name())
-        if component_type not in toolingapi_settings["component_types"]: return
+        name, extension = util.get_file_attr(view.file_name())
+        if extension not in toolingapi_settings["component_extensions"]: return
 
         # If functionality is close, just return
         if not toolingapi_settings["hidden_console_on_modify"]: return
@@ -59,21 +59,14 @@ class SFDCEventListener(sublime_plugin.EventListener):
             body = open(file_name, "rb").read()
 
         # Get component_name amd component_type
-        component_name = util.get_component_name(file_name)
-        component_type = util.get_component_type(file_name)
+        name, extension = util.get_file_attr(file_name)
 
         # If this file is not ApexTrigger, ApexComponent, 
         # ApexPage or ApexClass, just return
-        if component_type not in settings["component_types"]:
-            return
-
-        # Get toolingapi settings
-        toolingapi_settings = context.get_toolingapi_settings()
-
-        # Get component extension
-        component_extension = toolingapi_settings[component_type]["extension"]
+        if extension not in settings["component_extensions"]: return
 
         # Get Workspace, if not exist, make it
+        component_type = settings[extension]
         workspace = toolingapi_settings["workspace"] + "/history/" + component_type
         if not os.path.exists(workspace):
             os.makedirs(workspace)
@@ -81,7 +74,7 @@ class SFDCEventListener(sublime_plugin.EventListener):
         # Backup current file
         time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
         fp = open(workspace + "/" + component_name + "-" +\
-            time_stamp + component_extension, "w")
+            time_stamp + extension, "w")
 
         fp.write(body)
         fp.close()

@@ -48,6 +48,11 @@
     // so I put it here but not in project property
     "allowed_packages": ["sinaweibo", "twitter", "facebook"],
 
+    // Indicate whether download StaticResource body, it is very time-consuming.
+    // If you open this functionality and your StaticResources are very large
+    // It may stop your work
+    "get_static_resource_body": false,
+
     // API version
     "api_version": 28,
 
@@ -165,41 +170,36 @@
         "errorDisplayField", "active", "description"
     ],
 
-    // Indicate whether download StaticResource body, it is very time-consuming.
-    // If you open this functionality and your StaticResources are very large
-    // It may stop your work
-    "get_static_resource_body": false,
-
     // Components Directory
-    "components": [ 
-        {
-            "type": "ApexClass", // Directory Name
+    "components": {
+        "ApexClass": {
+            "folder": "classes", // Directory Name
             "body" : "Body",     // Meatadata Name of Component
             "extension": ".cls"  // Output File Extendsion
         },
 
-        {
-            "type": "ApexTrigger",
+        "ApexTrigger": {
+            "folder": "triggers",
             "body" : "Body", 
             "extension": ".trigger"
         },
 
-        {
-            "type": "ApexComponent",
+        "ApexComponent": {
+            "folder": "components",
             "body" : "Markup", 
             "extension": ".component"
         },
 
-        {
-            "type": "ApexPage",
+        "ApexPage": {
+            "folder": "pages",
             "body" : "Markup", 
             "extension": ".page"
         },
 
-        {
-            "type": "StaticResource",
+        "StaticResource": {
+            "folder": "staticresources",
             "body" : "Body", 
             "extension": ".resource"
         }
-    ]
+    }
 }

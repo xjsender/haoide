@@ -12,9 +12,9 @@ from .. import context
 from . import xmltodict
 from . import soap_bodies
 from . import message
-from . import util
+from .. import util
+from ..util import getUniqueElementValueFromXmlString
 from .login import soap_login
-from .util import getUniqueElementValueFromXmlString
 from xml.sax.saxutils import unescape
 from xml.sax.saxutils import quoteattr
 
@@ -313,6 +313,7 @@ class SalesforceApi():
         post_url = "/services/data/v{0}.0/tooling/sobjects/TraceFlag".format(self.api_version)
         result = self.post(post_url, trace_flag)
 
+        self.result = result
         return result
 
     def retrieve_body(self, url, timeout=120):
@@ -326,11 +327,13 @@ class SalesforceApi():
         self.login(False)
 
         url = url.format(self.api_version)
-        headers = globals()[self.username]["headers"]
+        headers = globals()[self.username]["headers"].copy()
+        # headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
         instance_url = globals()[self.username]['instance_url']
+        print (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))
         response = requests.get(instance_url + url, 
             verify=False, headers=headers, timeout=timeout)
-
+        print (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
@@ -338,7 +341,7 @@ class SalesforceApi():
 
         result = {
             "status_code": response.status_code,
-            "result": response.text
+            "body": response.text
         }
         self.result = result
         return result
@@ -574,7 +577,7 @@ class SalesforceApi():
         result["zipFile"] = getUniqueElementValueFromXmlString(content, "zipFile")
         return result
 
-    def retrieve_all(self):
+    def retrieve(self, soap_body):
         """
         1. Issue a retrieve request to start the asynchronous retrieval and asyncProcessId is returned
         2. Thread sleep for a while and then issue a checkStatus request to check whether the async 
@@ -595,7 +598,7 @@ class SalesforceApi():
         }
 
         # Populate the soap_body with actual session id
-        soap_body = soap_bodies.retrieve_all_task_body.format(
+        soap_body = soap_body.format(
             globals()[self.username]["session_id"], self.api_version)
 
         response = requests.post(server_url, soap_body, verify=False, 
@@ -776,6 +779,21 @@ class SalesforceApi():
             "point": view.size()
         })
 
+    def write_static_resource_body(self, name, url):
+        result = self.retrieve_body(url)
+        body = result["body"]
+
+        component_type_attrs = self.toolingapi_settings["StaticResource"]
+        component_outputdir = component_type_attrs["outputdir"]
+
+        # Write body to local file
+        fp = open("%s/%s.resource" % (component_outputdir, name), "wb")
+
+        try:
+            body = bytes(body, "UTF-8")
+        except:
+            body = body.encode("UTF-8")
+
     def refresh_components(self, component_types):
         """
         Download the specified components
@@ -847,16 +865,12 @@ class SalesforceApi():
                 # Write body to local file
                 fp = open(component_outputdir + "/" + component_name +\
                     component_extension, "wb")
-                
-                flag = self.toolingapi_settings["get_static_resource_body"]
-                if component_type == "StaticResource" and flag:
-                    body = self.get(record["attributes"]["url"] + "/body")
-                else:
-                    try:
-                        body = bytes(body, "UTF-8")
-                    except:
-                        body = body.encode("UTF-8")
-                    fp.write(body)
+
+                try:
+                    body = bytes(body, "UTF-8")
+                except:
+                    body = body.encode("UTF-8")
+                fp.write(body)
 
                 # Set status_message
                 sublime.set_timeout(lambda:sublime.status_message(component_name +\

@@ -1,11 +1,9 @@
 import sublime, sublime_plugin
-import re
-import time
 
 from . import context
-from .salesforce import metadata as apex
-from .salesforce import vf
-from .salesforce import html
+from .salesforce.support import apex
+from .salesforce.support import vf
+from .salesforce.support import html
 
 class symbol_table_completions(sublime_plugin.EventListener):
     """

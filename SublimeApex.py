@@ -11,8 +11,9 @@ import zipfile
 from . import requests
 from . import processor
 from . import context
-from .salesforce import util, message
-from .salesforce import bulkapi
+from . import util
+from .salesforce import bulkapi, message
+
 
 class GotoComponentCommand(sublime_plugin.TextCommand):
     """
@@ -142,7 +143,8 @@ class RefreshFolderCommand(sublime_plugin.WindowCommand):
     def run(self):
         global component_types
         toolingapi_settings = context.get_toolingapi_settings()
-        component_types = toolingapi_settings["component_types"]
+        component_types = list(toolingapi_settings["component_types"])
+        print (component_types)
         self.window.show_quick_panel(component_types, self.on_done)
 
     def on_done(self, index):
@@ -604,15 +606,15 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         body = open(file_name).read()
         
         # Get component type and component_name (Class Name, Trigger Name, etc.)
-        component_name = util.get_component_name(file_name)
-        component_type = util.get_component_type(file_name)
+        name, extension = util.get_file_attr(file_name)
+        component_type = toolingapi_settings[extension]
 
         # There has bug on creating ApexTrigger, but fixed on 2013 May 6 at 21:
         # Create Trigger is different from others, we can't use tooling/sobjects/ApexTrigger,
         # We should use sobjects/ApexTrigger
         # http://salesforce.stackexchange.com/questions/9603/how-do-i-use-the-tooling-api-to-create-a-new-apex-trigger
         # If component type is not in range, just show error message
-        if component_type not in toolingapi_settings["component_types"]:
+        if extension not in toolingapi_settings["component_extensions"]:
             sublime.error_message(message.INVALID_COMPONENT)
             return
 
@@ -621,7 +623,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
 
         # Compose data
         data = {
-            "name": component_name,
+            "name": name,
             component_body: body,
         }
         if component_type == "ApexClass":
@@ -629,9 +631,9 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         elif component_type == "ApexTrigger":
             data["TableEnumOrId"] = sobject_name
         elif component_type in ["ApexPage", "ApexComponent"]:
-            data["MasterLabel"] = component_name
+            data["MasterLabel"] = name
 
-        processor.handle_create_component(data, component_name, component_type, self.view.id())
+        processor.handle_create_component(data, name, component_type, self.view.id())
 
 class SaveComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
@@ -726,8 +728,8 @@ def check_enabled(file_name):
     toolingapi_settings = context.get_toolingapi_settings()
 
     # Check Component Type
-    component_type = util.get_component_type(file_name)
-    if component_type not in toolingapi_settings["component_types"]: return False
+    name, extension = util.get_file_attr(file_name)
+    if extension not in toolingapi_settings["component_extensions"]: return False
 
     # StaticResource is exclude
     # if component_type == "StaticResource": return False

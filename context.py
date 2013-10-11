@@ -43,8 +43,9 @@ def get_toolingapi_settings():
 
     # User Settings Part
     settings["projects"] = projects
-    settings["workspace"] = s.get("workspace") + "/" + default_project_name +\
+    workspace = s.get("workspace") + "/" + default_project_name +\
         ("-" + time.strftime('%Y%m%d') if s.get("keep_project_name_time_suffix") else "")
+    settings["workspace"] = workspace
     settings["username"] = default_project.get("username")
     settings["password"] = default_project["password"]
     if "security_token" in default_project:
@@ -102,38 +103,27 @@ def get_toolingapi_settings():
     allowed_packages_soql = allowed_packages_soql[:-1] + ")"
 
     # Populate all global variables
-    component_types = []
-    component_extensions = []
-    component_outputdirs = []
-    for component in s.get("components"):
-        component_type = component["type"]
-        component_types.append(component_type)
-        component_extensions.append(component["extension"])
-
-        component_outputdir = settings["workspace"] + "/" + component_type
-        component_outputdirs.append(component_outputdir)
+    components = s.get("components")
+    for component_type in components:
+        component_attribute = components[component_type]
 
         # Combine soql
-        component_body = component["body"]
-        component_soql = "SELECT Id, Name, " + component_body +\
+        component_soql = "SELECT Id, Name, " + component_attribute["body"] +\
             (", ContentType" if component_type == "StaticResource" else "") +\
             " FROM " + component_type +\
             " WHERE NamespacePrefix = null " +\
             (" OR NamespacePrefix in " + allowed_packages_soql if allowed_packages else "") +\
             " ORDER BY Name"
 
-        settings[component_type] =  {
-            "body" : component["body"],
-            "extension": component["extension"],
-            "outputdir": component_outputdir,
-            "soql": component_soql
-        }
+        component_attribute["soql"] = component_soql
+        component_attribute["outputdir"] = workspace + "/" + components[component_type]["folder"]
+        settings[component_type] = component_attribute
+        settings[component_attribute["extension"]] = component_type
 
-        settings[component["extension"]] = component_type
-
-    settings["component_types"] = component_types
-    settings["component_extensions"] = component_extensions
-    settings["component_outputdirs"] = component_outputdirs
+    settings["component_types"] = components.keys()
+    settings["component_folders"] = [components[ct]["folder"] for ct in components]
+    settings["component_extensions"] = [components[ct]["extension"] for ct in components]
+    settings["component_outputdirs"] = [workspace + "/" + components[ct]["folder"] for ct in components]
 
     return settings
 

@@ -2,7 +2,7 @@ import urllib
 
 from .. import requests
 from . import soap_bodies
-from .util import getUniqueElementValueFromXmlString
+from ..util import getUniqueElementValueFromXmlString
 
 # https://github.com/xjsender/simple-salesforce/blob/master/simple_salesforce/login.py
 def soap_login(settings, timeout=120):

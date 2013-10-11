@@ -7,19 +7,16 @@ import threading
 import time
 import pprint
 import urllib.parse
+import shutil
 
-from . import requests
-from . import context
-from .salesforce import util
-
-from .context import COMPONENT_METADATA_SETTINGS
-from .salesforce import message
-from .salesforce.api import SalesforceApi
 from xml.sax.saxutils import unescape
-from .salesforce.util import getUniqueElementValueFromXmlString
-from .salesforce import bulkapi
-from .thread_progress import ThreadProgress
-from .thread_progress import ThreadsProgress
+
+from . import requests, context, util
+from .context import COMPONENT_METADATA_SETTINGS
+from .util import getUniqueElementValueFromXmlString
+from .salesforce import bulkapi, soap_bodies, message
+from .salesforce.api import SalesforceApi
+from .thread_progress import ThreadProgress, ThreadsProgress
     
 animation = """
              \     /
@@ -224,7 +221,7 @@ def handle_retrieve_static_resource_body(file, timeout=120):
             return
 
         result = api.result
-        print (result)
+        body = result["body"]
         workspace = toolingapi_settings["workspace"]
         if component_attribute["ContentType"] == "application/zip":
             outputdir = workspace + "/StaticResource/" + component_name
@@ -232,9 +229,9 @@ def handle_retrieve_static_resource_body(file, timeout=120):
         else:
             fp = open(file, "wb")
             try:
-                body = bytes(result, "UTF-8")
+                body = bytes(body, "UTF-8")
             except:
-                body = result.encode("UTF-8")
+                body = body.encode("UTF-8")
 
             fp.write(body)
 
@@ -536,7 +533,7 @@ def handle_retrieve_all_thread(timeout=120):
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.retrieve_all, args=())
+    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_all_task_body, ))
     thread.start()
     ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
     handle_thread(thread, timeout)
@@ -800,7 +797,7 @@ def handle_view_debug_log_detail(log_id, timeout=120):
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "Debug Log Detail",
-            "input": api.result["result"]
+            "input": api.result["body"]
         })
 
     toolingapi_settings = context.get_toolingapi_settings()
@@ -912,8 +909,8 @@ def handle_new_project(toolingapi_settings, timeout=120):
         # Load COMPONENT_METADATA_SETTINGS Settings and put all result into it
         # Every org has one local repository
         component_metadata = result
-        component_metadta = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
-        component_metadta.set(toolingapi_settings["username"], component_metadata)
+        component_settings = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
+        component_settings.set(toolingapi_settings["username"], component_metadata)
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
         print (message.SEPRATE.format('All code are Downloaded.'))
         sublime.status_message(message.DOWNLOAD_ALL_SUCCESSFULLY)
@@ -921,12 +918,58 @@ def handle_new_project(toolingapi_settings, timeout=120):
         # After Refresh all succeed, start initiate sobject completions
         handle_initiate_sobjects_completions(120)
 
+        # If get_static_resource_body is true, 
+        # start to get all binary body of static resource
+        if toolingapi_settings["get_static_resource_body"]:
+            handle_get_static_resource_body(toolingapi_settings)
+
     api = SalesforceApi(toolingapi_settings)
-    component_types = context.get_toolingapi_settings()["component_types"]
-    thread = threading.Thread(target=api.refresh_components, 
-        args=(component_types, ))
+    component_types = toolingapi_settings["component_types"]
+    thread = threading.Thread(target=api.refresh_components, args=(component_types, ))
     thread.start()
     ThreadProgress(api, thread, "Initiate Project, Please Wait...", "New Project Succeed")
+    handle_thread(thread, timeout)
+
+def handle_get_static_resource_body(toolingapi_settings, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+        
+        if api.result == None: return
+        if api.result["status_code"] > 399: return
+
+        # Mkdir for output dir of zip file
+        result = api.result
+        outputdir = toolingapi_settings["workspace"] + "/staticresources"
+        if not os.path.exists(outputdir): os.makedirs(outputdir)
+
+        # Extract zip
+        util.extract_zip(result["zipFile"], outputdir)
+
+        # Move the file to staticresources path
+        root_src_dir = outputdir + "/unpackaged/staticresources"
+        root_dst_dir = toolingapi_settings["workspace"] + "/staticresources"
+        for x in os.walk(root_src_dir):
+            if not x[-1]: continue
+            for _file in x[-1]:
+                if not _file.endswith("resource"): continue
+                if os.path.exists(root_dst_dir + '/' + _file):
+                    os.remove(root_dst_dir + '/' + _file)
+                os.rename(x[0] + '/' + _file, root_dst_dir + '/' + _file) 
+
+        shutil.rmtree(outputdir + "/unpackaged")
+        os.remove(outputdir + "/package.zip")
+
+        # Output package path
+        sublime.status_message("Your objects and workflows are exported to: " + outputdir)
+
+    toolingapi_settings = context.get_toolingapi_settings()
+    api = SalesforceApi(toolingapi_settings)
+    thread = threading.Thread(target=api.retrieve, 
+        args=(soap_bodies.retrieve_static_resources_body, ))
+    thread.start()
+    ThreadProgress(api, thread, "Retrieve StaticResource", "Retrieve StaticResource Succeed")
     handle_thread(thread, timeout)
 
 def handle_save_component(component_name, component_attribute, body, timeout=120):

@@ -148,6 +148,30 @@ retrieve_sobjects_workflow_task_body = """
      </soapenv:Body>
   </soapenv:Envelope>"""
 
+retrieve_static_resources_body = """
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:met="http://soap.sforce.com/2006/04/metadata">
+        <soapenv:Header>
+            <met:SessionHeader>
+               <met:sessionId>{0}</met:sessionId>
+            </met:SessionHeader>
+        </soapenv:Header>
+        <soapenv:Body>
+            <met:retrieve>
+                <met:retrieveRequest>
+                    <met:apiVersion>{1}.0</met:apiVersion>
+                    <met:unpackaged>
+                        <met:types>
+                            <met:members>*</met:members>
+                            <name>StaticResource</name>
+                        </met:types>
+                        <met:version>{1}.0</met:version>
+                    </met:unpackaged>
+                </met:retrieveRequest>
+            </met:retrieve>
+        </soapenv:Body>
+    </soapenv:Envelope>"""
+
 retrieve_all_task_body = """
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
     xmlns:met="http://soap.sforce.com/2006/04/metadata">

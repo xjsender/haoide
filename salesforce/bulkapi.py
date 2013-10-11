@@ -9,7 +9,7 @@ from xml.sax.saxutils import unescape
 from .login import soap_login
 from . import soap_bodies
 from . import message
-from .util import getUniqueElementValueFromXmlString
+from ..util import getUniqueElementValueFromXmlString
 from .. import context
 from .. import requests
 

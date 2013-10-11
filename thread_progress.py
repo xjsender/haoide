@@ -1,6 +1,6 @@
 import sublime
 from .salesforce import message
-from .salesforce import util
+from . import util
 
 class ThreadProgress():
     """
