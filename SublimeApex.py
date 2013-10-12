@@ -25,16 +25,17 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
         sel = self.view.sel()[0]
         sel_text = self.view.substr(sel)
         if sel_text == "": sel_text = self.view.substr(self.view.word(sel.begin()))
-        try:
-
-            project_folder = os.path.split(os.path.split(self.view.file_name())[0])[0]
-            target_file = project_folder + "/classes/%s.cls" % sel_text
+        
+        project_folder = os.path.split(os.path.split(self.view.file_name())[0])[0]
+        toolingapi_settings = context.get_toolingapi_settings()
+        for component_type in toolingapi_settings["component_types"]:
+            folder = toolingapi_settings[component_type]["folder"]
+            extension = toolingapi_settings[component_type]["extension"]
+            target_file = project_folder + "/%s/%s%s" % (folder, sel_text, extension)
             if os.path.isfile(target_file):
                 self.view.window().open_file(target_file)
 
-            if is_background: self.view.window().focus_view(self.view)
-        except:
-            pass
+        if is_background: self.view.window().focus_view(self.view)
 
 class SetCheckPointCommand(sublime_plugin.TextCommand):
     def run(self, edit):
