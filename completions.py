@@ -315,11 +315,11 @@ class PageCompletions(sublime_plugin.EventListener):
         if ch == "<":
             # Visualforce Standard Components
             for tag in sorted(vf.tag_defs):
-                completion_list.append((tag, tag))
+                completion_list.append((tag + "\tvf", tag))
 
             # Html Elements
             for tag in sorted(html.HTML_ELEMENTS_ATTRIBUTES):
-                completion_list.append((tag, tag))
+                completion_list.append((tag + "\thtml", tag))
                 
         elif ch == ":":
             # Just Visualforce Component contains :
@@ -372,9 +372,9 @@ class PageCompletions(sublime_plugin.EventListener):
                     def_entry = html.HTML_ELEMENTS_ATTRIBUTES[matched_tag]
                     for attr_name in sorted(def_entry):
                         if attr_name in html.HTML_ATTRIBUTES_VALUES and html.HTML_ATTRIBUTES_VALUES[attr_name]:
-                            completion_list.append((attr_name, attr_name))
+                            completion_list.append((attr_name + "\tattr", attr_name))
                         else:
-                            completion_list.append((attr_name, attr_name+'="$1"$0'))
+                            completion_list.append((attr_name + "\tattr", attr_name+'="$1"$0'))
 
             # Sort the completion_list by first element
             completion_list.sort(key=lambda tup:tup[1])
@@ -398,7 +398,7 @@ class PageCompletions(sublime_plugin.EventListener):
                         matched_attr_name in vf.tag_defs[matched_tag]["attribs"] and\
                         "values" in vf.tag_defs[matched_tag]["attribs"][matched_attr_name]:
                     for value in vf.tag_defs[matched_tag]["attribs"][matched_attr_name]["values"]:
-                        completion_list.append((value + "\t" + matched_attr_name, '"%s"' % value))
+                        completion_list.append((value + "\tvalue", '"%s"' % value))
 
             ##########################################
             # HTML Element Attribute Values Completions
@@ -406,7 +406,7 @@ class PageCompletions(sublime_plugin.EventListener):
             matched_attr_name = view.substr(view.word(pt - 1))
             if matched_attr_name in html.HTML_ATTRIBUTES_VALUES:
                 for attr_value in html.HTML_ATTRIBUTES_VALUES[matched_attr_name]:
-                    completion_list.append((attr_value + "\t" + matched_attr_name, '"%s"' % attr_value))
+                    completion_list.append((attr_value + "\tvalue", '"%s"' % attr_value))
 
             # Sort the completion_list by first element
             completion_list.sort(key=lambda tup:tup[1])
