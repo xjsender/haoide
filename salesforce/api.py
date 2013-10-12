@@ -31,7 +31,8 @@ class SalesforceApi():
 
             # If login succeed, display error and return False
             if result["status_code"] > 399:
-                print (message.SEPRATE.format(util.format_error_message(result)))
+                result["default_project"] = self.toolingapi_settings["default_project"]["project_name"]
+                self.result = result
                 return False
 
             result["headers"] = {
@@ -40,12 +41,11 @@ class SalesforceApi():
                 "Accept": "application/json"
             }
             globals()[self.username] = result
+        else:
+            result = globals()[self.username]
 
-        # Integration env., we need to reuse this session id in other purpose
-        if self.toolingapi_settings["output_session_info"]:
-            pprint.pprint(globals()[self.username])
-
-        return True
+        self.result = result
+        return result
     
     def get(self, component_url, timeout=120):
         """

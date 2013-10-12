@@ -79,7 +79,8 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
         global projects
         toolingapi_settings = context.get_toolingapi_settings()
         projects = toolingapi_settings["projects"]
-        projects = ["(" + ('Active' if projects[p]["default"] else 'Inactive') + ") " + p for p in projects]
+        projects = ["(" + ('Active' if projects[p]["default"] else 
+            'Inactive') + ") " + p for p in projects]
         projects = sorted(projects, reverse=False)
         self.window.show_quick_panel(projects, self.on_done)
 
@@ -90,6 +91,9 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
         # Split with ") " and get the second project name
         default_project = projects[index].split(") ")[1]
         context.switch_project(default_project)
+
+        # After project is switch, login will be executed
+        processor.handle_login_thread(default_project)
 
 class NewViewCommand(sublime_plugin.TextCommand):
     """

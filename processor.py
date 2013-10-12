@@ -214,6 +214,26 @@ def populate_sobjects():
     globals()[username + "sobjects"] = sobjects
     return sobjects
 
+def handle_login_thread(default_project, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            return
+
+        result = api.result
+        if result["status_code"] > 399: return
+        if toolingapi_settings["output_session_info"]:
+            pprint.pprint(result)
+
+        print (message.SEPRATE.format("Login Succeed"))
+
+    toolingapi_settings = context.get_toolingapi_settings()
+    api = SalesforceApi(toolingapi_settings)
+    thread = threading.Thread(target=api.login, args=(False, ))
+    thread.start()
+    handle_thread(thread, timeout)
+    ThreadProgress(api, thread, "Login to switched project", default_project + " Login Succeed")
+
 def handle_retrieve_static_resource_body(file, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
