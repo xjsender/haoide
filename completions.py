@@ -188,9 +188,12 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
 
         # Because relationship name is not unique, so we need to display sobject name prefix
         completion_list = []
-        for sobject in matched_sobjects:
-            completion_list.extend(get_sobject_completion_list(metadata[sobject], 
-                sobject_prefix=sobject+"."))
+        if len(matched_sobjects) == 1:
+            completion_list = get_sobject_completion_list(metadata[matched_sobjects[0]])
+        else:
+            for sobject in matched_sobjects:
+                completion_list.extend(get_sobject_completion_list(metadata[sobject], 
+                    sobject_prefix=sobject+"."))
 
         return (completion_list, 
             sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
@@ -390,7 +393,6 @@ class PageCompletions(sublime_plugin.EventListener):
             if matched_region:
                 # Get the Tag Name and Tag Attribute Name
                 matched_tag = view.substr(matched_region)[1:]
-                matched_attr_region = view.find("\\s\\w+=", begin)
                 matched_attr_name = view.substr(view.word(pt - 1))
 
                 # Get the Attribute Values
