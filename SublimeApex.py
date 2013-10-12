@@ -343,11 +343,11 @@ class RunOneTestCommand(sublime_plugin.WindowCommand):
 class RunTestCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Get component_attribute by file_name
-        component_name = util.get_component_name(self.view.file_name())
+        name, extension = util.get_file_attr(self.view.file_name())
         component_attribute = util.get_component_attribute(self.view.file_name())[0]
 
         # Process run test
-        processor.handle_run_test(component_name, component_attribute["id"])
+        processor.handle_run_test(name, component_attribute["id"])
 
     def is_enabled(self):
         # Get current file name and Read file content
