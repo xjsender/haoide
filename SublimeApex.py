@@ -28,7 +28,7 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
         try:
 
             project_folder = os.path.split(os.path.split(self.view.file_name())[0])[0]
-            target_file = project_folder + "/ApexClass/%s.cls" % sel_text
+            target_file = project_folder + "/classes/%s.cls" % sel_text
             if os.path.isfile(target_file):
                 self.view.window().open_file(target_file)
 
