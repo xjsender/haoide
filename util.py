@@ -839,6 +839,7 @@ def parse_sobject_field_result(result):
     # Record Type Part
     #------------------------------------------------
     recordtypes = result.get("recordTypeInfos")
+    pprint.pprint(recordtypes)
     view_result += seprate
     view_result += "Record Type Info: \t" + str(len(recordtypes)) + "\n"
     view_result += seprate
@@ -850,6 +851,7 @@ def parse_sobject_field_result(result):
 
     columns = ""
     for key in recordtype_keys:
+        if not key in recordtype_key_width: continue
         key_width = recordtype_key_width[key]
         if key == "defaultRecordTypeMapping": key = "default"
         columns += "%-*s" % (key_width, key.capitalize())
@@ -860,6 +862,8 @@ def parse_sobject_field_result(result):
     for recordtype in recordtypes:
         row = ""
         for key in recordtype_keys:
+            if key not in recordtype_key_width: continue
+            
             # Get field value by field API
             # and convert it to str
             row_value = recordtype.get(key)
