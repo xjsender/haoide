@@ -273,7 +273,7 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
 
         result = api.result
         if result["status_code"] > 399:
-            error_message = "% 30s\t" % "Component Name: "
+            error_message = "% 20s\t" % "Component Name: "
             error_message += "%-30s\t" % component_name + "\n"
             error_message += util.format_error_message(result)
             print (message.SEPRATE.format(error_message))

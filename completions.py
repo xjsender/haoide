@@ -177,7 +177,7 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
             if relationship_name.capitalize() in sobject_describe["parentRelationships"]:
                 relationship_name = relationship_name.capitalize()
 
-            # Get the 
+            # Get the describe of this parent relationship field
             if relationship_name in sobject_describe["parentRelationships"]:
                 parent_sobject = sobject_describe["parentRelationships"][relationship_name]["parentSobject"]
                 if parent_sobject in metadata: matched_sobjects.append(parent_sobject)

@@ -33,20 +33,20 @@ apex_completions = {
         "properties": {},
         "customize": True,
         "methods": {
-            "setBccAddresses(String[])\tvoid": "setBccAddresses($0)",
-            "setCcAddresses(String[])\tvoid": "setCcAddresses($0)",
-            "setCharset(String)\tvoid": "setCharset($0)",
-            "setDocumentAttachments(ID[])\tvoid": "setDocumentAttachments($0)",
-            "setFileAttachments(EmailFileAttachment[])\tvoid": "setFileAttachments($0)",
-            "setHtmlBody(String)\tvoid": "setHtmlBody($0)",
-            "setInReplyTo(String)\tvoid": "setInReplyTo($0)",
-            "setPlainTextBody(String)\tvoid": "setPlainTextBody($0)",
-            "setOrgWideEmailAddressId(ID)\tvoid": "setOrgWideEmailAddressId($0)",
-            "setReferences(String)\tvoid": "setReferences($0)",
-            "setSubject(String)\tvoid": "setSubject($0)",
-            "setTargetObjectId(ID)\tvoid": "setTargetObjectId($0)",
-            "setToAddresses(String[])\tvoid": "setToAddresses($0)",
-            "setWhatId()\tvoid": "setWhatId($0)"
+            "setBccAddresses(String[])\tvoid": "setBccAddresses($1)$0",
+            "setCcAddresses(String[])\tvoid": "setCcAddresses($1)$0",
+            "setCharset(String)\tvoid": "setCharset($1)$0",
+            "setDocumentAttachments(ID[])\tvoid": "setDocumentAttachments($1)$0",
+            "setFileAttachments(EmailFileAttachment[])\tvoid": "setFileAttachments($1)$0",
+            "setHtmlBody(String)\tvoid": "setHtmlBody($1)$0",
+            "setInReplyTo(String)\tvoid": "setInReplyTo($1)$0",
+            "setPlainTextBody(String)\tvoid": "setPlainTextBody($1)$0",
+            "setOrgWideEmailAddressId(ID)\tvoid": "setOrgWideEmailAddressId($1)$0",
+            "setReferences(String)\tvoid": "setReferences($1)$0",
+            "setSubject(String)\tvoid": "setSubject($1)$0",
+            "setTargetObjectId(ID)\tvoid": "setTargetObjectId($1)$0",
+            "setToAddresses(String[])\tvoid": "setToAddresses($1)$0",
+            "setWhatId()\tvoid": "setWhatId($1)$0"
         }
     },
     "trigger": {
@@ -78,7 +78,7 @@ apex_completions = {
             "postTemplateFields": "postTemplateFields$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -97,7 +97,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "execute(system.SchedulableContext param1)\tvoid": "execute($0)"
+            "execute(system.SchedulableContext param1)\tvoid": "execute($1)$0"
         }
     },
     "sparkplugdescriberesult": {
@@ -119,8 +119,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -132,7 +132,7 @@ apex_completions = {
             "isActive": "isActive$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -161,19 +161,19 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "invokePage(System.PageReference p)\tComponent.apex.page": "invokePage($0)",
-            "setCurrentPage(Object pageReference)\tvoid": "setCurrentPage($0)",
-            "setCurrentPageReference(Object pageReference)\tvoid": "setCurrentPageReference($0)",
+            "invokePage(System.PageReference p)\tComponent.apex.page": "invokePage($1)$0",
+            "setCurrentPage(Object pageReference)\tvoid": "setCurrentPage($1)$0",
+            "setCurrentPageReference(Object pageReference)\tvoid": "setCurrentPageReference($1)$0",
             "isRunningTest()\tBoolean": "isRunningTest()$0",
-            "testInstall(system.InstallHandler script, system.Version version, Boolean isPush)\tvoid": "testInstall($0)",
-            "testUninstall(system.UninstallHandler script)\tvoid": "testUninstall($0)",
-            "setMock(system.Type interfaceType, Object mock)\tvoid": "setMock($0)",
-            "setFixedSearchResults(LIST<String> searchResultsIds)\tvoid": "setFixedSearchResults($0)",
+            "testInstall(system.InstallHandler script, system.Version version, Boolean isPush)\tvoid": "testInstall($1)$0",
+            "testUninstall(system.UninstallHandler script)\tvoid": "testUninstall($1)$0",
+            "setMock(system.Type interfaceType, Object mock)\tvoid": "setMock($1)$0",
+            "setFixedSearchResults(LIST<String> searchResultsIds)\tvoid": "setFixedSearchResults($1)$0",
             "stopTest()\tvoid": "stopTest()$0",
             "startTest()\tvoid": "startTest()$0",
-            "loadData(Schema.SObjectType sobjectType, String staticResourceName)\tLIST<SObject>": "loadData($0)",
-            "testInstall(system.InstallHandler script, system.Version version)\tvoid": "testInstall($0)",
-            "setReadOnlyApplicationMode(Boolean readOnlyApplicationMode)\tvoid": "setReadOnlyApplicationMode($0)"
+            "loadData(Schema.SObjectType sobjectType, String staticResourceName)\tLIST<SObject>": "loadData($1)$0",
+            "testInstall(system.InstallHandler script, system.Version version)\tvoid": "testInstall($1)$0",
+            "setReadOnlyApplicationMode(Boolean readOnlyApplicationMode)\tvoid": "setReadOnlyApplicationMode($1)$0"
         }
     },
     "plugin": {
@@ -182,7 +182,7 @@ apex_completions = {
         "properties": {},
         "methods": {
             "describe()\tProcess.PluginDescribeResult": "describe()$0",
-            "invoke(Process.PluginRequest param1)\tProcess.PluginResult": "invoke($0)"
+            "invoke(Process.PluginRequest param1)\tProcess.PluginResult": "invoke($1)$0"
         }
     },
     "emailtosalesforcehandler": {
@@ -229,7 +229,7 @@ apex_completions = {
             "photoVersionId": "photoVersionId$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -247,7 +247,7 @@ apex_completions = {
             "actorType": "actorType$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -268,7 +268,7 @@ apex_completions = {
             "people": "people$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -288,7 +288,7 @@ apex_completions = {
             "responseMessage": "responseMessage$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -302,9 +302,9 @@ apex_completions = {
             "text": "text$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -316,8 +316,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -351,38 +351,38 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "to18(String id)\tString": "to18($0)",
-            "setCookie(String name, String value, String cookieDomainName, Integer cookieAge)\tvoid": "setCookie($0)",
-            "getConfig(String section, String key)\tString": "getConfig($0)",
-            "setDefaultLicenseTerms(String pkgVersionId, String orgId, String defaultLicenseStatus, Integer defaultLicenseLength, Integer defaultLicenseSeats)\tvoid": "setDefaultLicenseTerms($0)",
-            "createOrg(String firstName, String lastName, String companyName, String email, String language, String adminUserName, String packageId, String evalUserName, Boolean isExtension)\tString": "createOrg($0)",
-            "setLicenseManagementOrganization(String pkgVersionId, String orgId, String username, String password)\tString": "setLicenseManagementOrganization($0)",
-            "getAuthenticatingUrl(String page)\tString": "getAuthenticatingUrl($0)",
+            "to18(String id)\tString": "to18($1)$0",
+            "setCookie(String name, String value, String cookieDomainName, Integer cookieAge)\tvoid": "setCookie($1)$0",
+            "getConfig(String section, String key)\tString": "getConfig($1)$0",
+            "setDefaultLicenseTerms(String pkgVersionId, String orgId, String defaultLicenseStatus, Integer defaultLicenseLength, Integer defaultLicenseSeats)\tvoid": "setDefaultLicenseTerms($1)$0",
+            "createOrg(String firstName, String lastName, String companyName, String email, String language, String adminUserName, String packageId, String evalUserName, Boolean isExtension)\tString": "createOrg($1)$0",
+            "setLicenseManagementOrganization(String pkgVersionId, String orgId, String username, String password)\tString": "setLicenseManagementOrganization($1)$0",
+            "getAuthenticatingUrl(String page)\tString": "getAuthenticatingUrl($1)$0",
             "getSiteId()\tString": "getSiteId()$0",
-            "getTrialTemplates(String callerOrgId, String lmPkgId, String username)\tLIST<TrialTemplate>": "getTrialTemplates($0)",
-            "provisionPackageLicense(String orgId, String allPackageId, Integer numLicenses, Date expirationDate, String status)\tString": "provisionPackageLicense($0)",
-            "getOrgName(String orgId)\tString": "getOrgName($0)",
-            "registerPackageVersion(String pkgVersionId)\tBoolean": "registerPackageVersion($0)",
-            "setCookie(String name, String value)\tvoid": "setCookie($0)",
-            "createPortalUser(SObject user, String accountId)\tId": "createPortalUser($0)",
-            "updateSingleAsAdmin(SObject sobj)\tDatabase.SaveResult": "updateSingleAsAdmin($0)",
+            "getTrialTemplates(String callerOrgId, String lmPkgId, String username)\tLIST<TrialTemplate>": "getTrialTemplates($1)$0",
+            "provisionPackageLicense(String orgId, String allPackageId, Integer numLicenses, Date expirationDate, String status)\tString": "provisionPackageLicense($1)$0",
+            "getOrgName(String orgId)\tString": "getOrgName($1)$0",
+            "registerPackageVersion(String pkgVersionId)\tBoolean": "registerPackageVersion($1)$0",
+            "setCookie(String name, String value)\tvoid": "setCookie($1)$0",
+            "createPortalUser(SObject user, String accountId)\tId": "createPortalUser($1)$0",
+            "updateSingleAsAdmin(SObject sobj)\tDatabase.SaveResult": "updateSingleAsAdmin($1)$0",
             "stopListingPopularityJob()\tvoid": "stopListingPopularityJob()$0",
             "getPortalAdminId()\tString": "getPortalAdminId()$0",
-            "validateLMAInstalled(String username, String password)\tString": "validateLMAInstalled($0)",
-            "movedPermanently(String location)\tvoid": "movedPermanently($0)",
-            "getInstalledPackageVersions(String orgId)\tLIST<String>": "getInstalledPackageVersions($0)",
-            "getCookie(String name)\tString": "getCookie($0)",
-            "debug(String message)\tvoid": "debug($0)",
-            "getPackageManifest(String pkgVersionId)\tString": "getPackageManifest($0)",
-            "createSession(String appExchangeOrgId, String portalId, String siteId, String portalUserId)\tString": "createSession($0)",
-            "calculateListingPopularity(String testUserName, String testCronString)\tvoid": "calculateListingPopularity($0)",
-            "setHttpResponseStatus(Integer statusCode)\tvoid": "setHttpResponseStatus($0)",
-            "validateOrgUser(String username, String password)\tString": "validateOrgUser($0)",
-            "to15(String id)\tString": "to15($0)",
+            "validateLMAInstalled(String username, String password)\tString": "validateLMAInstalled($1)$0",
+            "movedPermanently(String location)\tvoid": "movedPermanently($1)$0",
+            "getInstalledPackageVersions(String orgId)\tLIST<String>": "getInstalledPackageVersions($1)$0",
+            "getCookie(String name)\tString": "getCookie($1)$0",
+            "debug(String message)\tvoid": "debug($1)$0",
+            "getPackageManifest(String pkgVersionId)\tString": "getPackageManifest($1)$0",
+            "createSession(String appExchangeOrgId, String portalId, String siteId, String portalUserId)\tString": "createSession($1)$0",
+            "calculateListingPopularity(String testUserName, String testCronString)\tvoid": "calculateListingPopularity($1)$0",
+            "setHttpResponseStatus(Integer statusCode)\tvoid": "setHttpResponseStatus($1)$0",
+            "validateOrgUser(String username, String password)\tString": "validateOrgUser($1)$0",
+            "to15(String id)\tString": "to15($1)$0",
             "getPortalId()\tString": "getPortalId()$0",
             "isGuestUser()\tBoolean": "isGuestUser()$0",
-            "getCrossInstanceEncryptedHash(Double appVersion, String value)\tString": "getCrossInstanceEncryptedHash($0)",
-            "isDuplicateUserName(String username)\tBoolean": "isDuplicateUserName($0)"
+            "getCrossInstanceEncryptedHash(Double appVersion, String value)\tString": "getCrossInstanceEncryptedHash($1)$0",
+            "isDuplicateUserName(String username)\tBoolean": "isDuplicateUserName($1)$0"
         }
     },
     "feeditemtype": {
@@ -423,9 +423,9 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "newSObject(Id id)\tSObject": "newSObject($0)",
+            "newSObject(Id id)\tSObject": "newSObject($1)$0",
             "newSObject()\tSObject": "newSObject()$0",
-            "newSObject(Id recordTypeId, Boolean loadDefaultValues)\tSObject": "newSObject($0)",
+            "newSObject(Id recordTypeId, Boolean loadDefaultValues)\tSObject": "newSObject($1)$0",
             "getDescribe()\tSchema.DescribeSObjectResult": "getDescribe()$0"
         }
     },
@@ -451,7 +451,7 @@ apex_completions = {
             "photo": "photo$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -464,8 +464,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -475,7 +475,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -497,7 +497,7 @@ apex_completions = {
         "methods": {
             "format()\tString": "format()$0",
             "formatAmount()\tString": "formatAmount()$0",
-            "newInstance(Decimal amount, String isoCode)\tCURRENCY": "newInstance($0)"
+            "newInstance(Decimal amount, String isoCode)\tCURRENCY": "newInstance($1)$0"
         }
     },
     "fieldchangesegment": {
@@ -505,7 +505,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -521,7 +521,7 @@ apex_completions = {
             "userSettings": "userSettings$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -566,7 +566,7 @@ apex_completions = {
             "nextPageUrl": "nextPageUrl$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -581,7 +581,7 @@ apex_completions = {
             "largeIconUrl": "largeIconUrl$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -592,9 +592,9 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "setTtl(Integer ttl)\tvoid": "setTtl($0)",
-            "setPayload(MAP<String,ANY> payload)\tvoid": "setPayload($0)",
-            "send(String application, SET<String> users)\tvoid": "send($0)"
+            "setTtl(Integer ttl)\tvoid": "setTtl($1)$0",
+            "setPayload(MAP<String,ANY> payload)\tvoid": "setPayload($1)$0",
+            "send(String application, SET<String> users)\tvoid": "send($1)$0"
         }
     },
     "followerpage": {
@@ -608,7 +608,7 @@ apex_completions = {
             "followers": "followers$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -621,9 +621,9 @@ apex_completions = {
             "contentDocumentId": "contentDocumentId$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -632,13 +632,13 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "split(String input, Integer n)\tLIST<String>": "split($0)",
-            "matcher(String input)\tsystem.Matcher": "matcher($0)",
-            "quote(String s)\tString": "quote($0)",
-            "matches(String regex, String input)\tBoolean": "matches($0)",
-            "compile(String regex)\tsystem.Pattern": "compile($0)",
+            "split(String input, Integer n)\tLIST<String>": "split($1)$0",
+            "matcher(String input)\tsystem.Matcher": "matcher($1)$0",
+            "quote(String s)\tString": "quote($1)$0",
+            "matches(String regex, String input)\tBoolean": "matches($1)$0",
+            "compile(String regex)\tsystem.Pattern": "compile($1)$0",
             "pattern()\tString": "pattern()$0",
-            "split(String input)\tLIST<String>": "split($0)"
+            "split(String input)\tLIST<String>": "split($1)$0"
         }
     },
     "groupvisibilitytype": {
@@ -658,18 +658,18 @@ apex_completions = {
         "properties": {},
         "methods": {
             "getListViewOptions()\tLIST<System.SelectOption>": "getListViewOptions()$0",
-            "addFields(LIST<String> fieldNames)\tvoid": "addFields($0)",
+            "addFields(LIST<String> fieldNames)\tvoid": "addFields($1)$0",
             "next()\tvoid": "next()$0",
             "getRecord()\tSObject": "getRecord()$0",
             "reset()\tvoid": "reset()$0",
             "getFilterId()\tString": "getFilterId()$0",
-            "setFilterId(String filterId)\tvoid": "setFilterId($0)",
+            "setFilterId(String filterId)\tvoid": "setFilterId($1)$0",
             "last()\tvoid": "last()$0",
-            "setPageSize(Integer pageSize)\tvoid": "setPageSize($0)",
+            "setPageSize(Integer pageSize)\tvoid": "setPageSize($1)$0",
             "getCompleteResult()\tBoolean": "getCompleteResult()$0",
             "cancel()\tSystem.PageReference": "cancel()$0",
-            "setPageNumber(Integer pageNumber)\tvoid": "setPageNumber($0)",
-            "setSelected(LIST<SObject> selected)\tvoid": "setSelected($0)",
+            "setPageNumber(Integer pageNumber)\tvoid": "setPageNumber($1)$0",
+            "setSelected(LIST<SObject> selected)\tvoid": "setSelected($1)$0",
             "getHasPrevious()\tBoolean": "getHasPrevious()$0",
             "first()\tvoid": "first()$0",
             "getPageSize()\tInteger": "getPageSize()$0",
@@ -694,7 +694,7 @@ apex_completions = {
             "members": "members$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -707,9 +707,9 @@ apex_completions = {
             "information": "information$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -718,7 +718,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -731,17 +731,17 @@ apex_completions = {
             "isEmpty()\tBoolean": "isEmpty()$0",
             "size()\tInteger": "size()$0",
             "values()\tLIST<String>": "values()$0",
-            "containsKey(ANY key)\tBoolean": "containsKey($0)",
-            "put(ANY key, ANY value)\tString": "put($0)",
+            "containsKey(ANY key)\tBoolean": "containsKey($1)$0",
+            "put(ANY key, ANY value)\tString": "put($1)$0",
             "getSObjectType()\tSchema.SObjectType": "getSObjectType()$0",
             "deepClone()\tMAP<String,String>": "deepClone()$0",
             "keySet()\tSET<String>": "keySet()$0",
             "clone()\tMAP<String,String>": "clone()$0",
-            "get(ANY key)\tString": "get($0)",
-            "putAll(MAP entries)\tvoid": "putAll($0)",
+            "get(ANY key)\tString": "get($1)$0",
+            "putAll(MAP entries)\tvoid": "putAll($1)$0",
             "clear()\tvoid": "clear()$0",
-            "remove(ANY key)\tString": "remove($0)",
-            "putAll(LIST entries)\tvoid": "putAll($0)"
+            "remove(ANY key)\tString": "remove($1)$0",
+            "putAll(LIST entries)\tvoid": "putAll($1)$0"
         }
     },
     "features": {
@@ -766,7 +766,7 @@ apex_completions = {
             "chatterTopics": "chatterTopics$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -780,8 +780,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -803,10 +803,10 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "deleteSubscription(String communityId, String subscriptionId)\tvoid": "deleteSubscription($0)",
-            "getSubscription(String communityId, String subscriptionId)\tConnectApi.Subscription": "getSubscription($0)",
-            "getFollowers(String communityId, String recordId)\tConnectApi.FollowerPage": "getFollowers($0)",
-            "getFollowers(String communityId, String recordId, Integer pageParam, Integer pageSize)\tConnectApi.FollowerPage": "getFollowers($0)"
+            "deleteSubscription(String communityId, String subscriptionId)\tvoid": "deleteSubscription($1)$0",
+            "getSubscription(String communityId, String subscriptionId)\tConnectApi.Subscription": "getSubscription($1)$0",
+            "getFollowers(String communityId, String recordId)\tConnectApi.FollowerPage": "getFollowers($1)$0",
+            "getFollowers(String communityId, String recordId, Integer pageParam, Integer pageSize)\tConnectApi.FollowerPage": "getFollowers($1)$0"
         }
     },
     "searchexception": {
@@ -817,8 +817,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -828,7 +828,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "getCaseIdFromEmailThreadId(String emailThreadId)\tId": "getCaseIdFromEmailThreadId($0)"
+            "getCaseIdFromEmailThreadId(String emailThreadId)\tId": "getCaseIdFromEmailThreadId($1)$0"
         }
     },
     "sobject": {
@@ -836,30 +836,30 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "put(String field, Object value)\tObject": "put($0)",
-            "putSObject(String field, SObject value)\tSObject": "putSObject($0)",
+            "put(String field, Object value)\tObject": "put($1)$0",
+            "putSObject(String field, SObject value)\tSObject": "putSObject($1)$0",
             "getOptions()\tDatabase.DMLOptions": "getOptions()$0",
-            "getSObjects(String field)\tLIST<SObject>": "getSObjects($0)",
-            "clone(Boolean preserveId, Boolean deep)\tSObject": "clone($0)",
-            "clone(Boolean preserveId)\tSObject": "clone($0)",
-            "getSObjects(Schema.SObjectField field)\tLIST<SObject>": "getSObjects($0)",
-            "clone(Boolean preserveId, Boolean deep, Boolean preserveReadOnlyTimestamps)\tSObject": "clone($0)",
-            "putSObject(Schema.SObjectField field, SObject value)\tSObject": "putSObject($0)",
-            "get(String field)\tObject": "get($0)",
-            "addError(String msg, Boolean escape)\tvoid": "addError($0)",
-            "put(Schema.SObjectField field, Object value)\tObject": "put($0)",
+            "getSObjects(String field)\tLIST<SObject>": "getSObjects($1)$0",
+            "clone(Boolean preserveId, Boolean deep)\tSObject": "clone($1)$0",
+            "clone(Boolean preserveId)\tSObject": "clone($1)$0",
+            "getSObjects(Schema.SObjectField field)\tLIST<SObject>": "getSObjects($1)$0",
+            "clone(Boolean preserveId, Boolean deep, Boolean preserveReadOnlyTimestamps)\tSObject": "clone($1)$0",
+            "putSObject(Schema.SObjectField field, SObject value)\tSObject": "putSObject($1)$0",
+            "get(String field)\tObject": "get($1)$0",
+            "addError(String msg, Boolean escape)\tvoid": "addError($1)$0",
+            "put(Schema.SObjectField field, Object value)\tObject": "put($1)$0",
             "clone()\tSObject": "clone()$0",
-            "getSObject(String field)\tSObject": "getSObject($0)",
-            "get(Schema.SObjectField field)\tObject": "get($0)",
+            "getSObject(String field)\tSObject": "getSObject($1)$0",
+            "get(Schema.SObjectField field)\tObject": "get($1)$0",
             "getSObjectType()\tSchema.SObjectType": "getSObjectType()$0",
-            "addError(APEX_OBJECT msg)\tvoid": "addError($0)",
-            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($0)",
-            "clone(Boolean preserveId, Boolean deep, Boolean preserveReadOnlyTimestamps, Boolean preserveAutoNumbers)\tSObject": "clone($0)",
-            "getSObject(Schema.SObjectField field)\tSObject": "getSObject($0)",
+            "addError(APEX_OBJECT msg)\tvoid": "addError($1)$0",
+            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($1)$0",
+            "clone(Boolean preserveId, Boolean deep, Boolean preserveReadOnlyTimestamps, Boolean preserveAutoNumbers)\tSObject": "clone($1)$0",
+            "getSObject(Schema.SObjectField field)\tSObject": "getSObject($1)$0",
             "getQuickActionName()\tString": "getQuickActionName()$0",
             "clear()\tvoid": "clear()$0",
-            "addError(String msg)\tvoid": "addError($0)",
-            "setOptions(APEX_OBJECT options)\tvoid": "setOptions($0)"
+            "addError(String msg)\tvoid": "addError($1)$0",
+            "setOptions(APEX_OBJECT options)\tvoid": "setOptions($1)$0"
         }
     },
     "userchattersettings": {
@@ -869,7 +869,7 @@ apex_completions = {
             "defaultGroupEmailFrequency": "defaultGroupEmailFrequency$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -880,11 +880,11 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "addError(String msg, Boolean escape)\tvoid": "addError($0)",
-            "valueOf(Object a)\tBoolean": "valueOf($0)",
-            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($0)",
-            "addError(String msg)\tvoid": "addError($0)",
-            "addError(APEX_OBJECT msg)\tvoid": "addError($0)"
+            "addError(String msg, Boolean escape)\tvoid": "addError($1)$0",
+            "valueOf(Object a)\tBoolean": "valueOf($1)$0",
+            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($1)$0",
+            "addError(String msg)\tvoid": "addError($1)$0",
+            "addError(APEX_OBJECT msg)\tvoid": "addError($1)$0"
         }
     },
     "serializationexception": {
@@ -895,8 +895,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -906,24 +906,24 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "setMethod(String method)\tvoid": "setMethod($0)",
+            "setMethod(String method)\tvoid": "setMethod($1)$0",
             "getBodyDocument()\tdom.Document": "getBodyDocument()$0",
             "getMethod()\tString": "getMethod()$0",
             "getBody()\tString": "getBody()$0",
             "toString()\tString": "toString()$0",
-            "setClientCertificate(String clientCert, String password)\tvoid": "setClientCertificate($0)",
+            "setClientCertificate(String clientCert, String password)\tvoid": "setClientCertificate($1)$0",
             "getEndpoint()\tString": "getEndpoint()$0",
-            "setBodyDocument(ANY body)\tvoid": "setBodyDocument($0)",
+            "setBodyDocument(ANY body)\tvoid": "setBodyDocument($1)$0",
             "getBodyAsBlob()\tBlob": "getBodyAsBlob()$0",
-            "setClientCertificateName(String certDevName)\tvoid": "setClientCertificateName($0)",
+            "setClientCertificateName(String certDevName)\tvoid": "setClientCertificateName($1)$0",
             "getCompressed()\tBoolean": "getCompressed()$0",
-            "setBodyAsBlob(Blob body)\tvoid": "setBodyAsBlob($0)",
-            "setTimeout(Integer timeout)\tvoid": "setTimeout($0)",
-            "getHeader(String key)\tString": "getHeader($0)",
-            "setCompressed(Boolean compressed)\tvoid": "setCompressed($0)",
-            "setHeader(String key, String value)\tvoid": "setHeader($0)",
-            "setBody(String body)\tvoid": "setBody($0)",
-            "setEndpoint(String endpoint)\tvoid": "setEndpoint($0)"
+            "setBodyAsBlob(Blob body)\tvoid": "setBodyAsBlob($1)$0",
+            "setTimeout(Integer timeout)\tvoid": "setTimeout($1)$0",
+            "getHeader(String key)\tString": "getHeader($1)$0",
+            "setCompressed(Boolean compressed)\tvoid": "setCompressed($1)$0",
+            "setHeader(String key, String value)\tvoid": "setHeader($1)$0",
+            "setBody(String body)\tvoid": "setBody($1)$0",
+            "setEndpoint(String endpoint)\tvoid": "setEndpoint($1)$0"
         }
     },
     "string": {
@@ -931,123 +931,123 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "indexOf(String str, Integer startPos)\tInteger": "indexOf($0)",
-            "indexOfAnyBut(String searchChars)\tInteger": "indexOfAnyBut($0)",
-            "endsWithIgnoreCase(String suffix)\tBoolean": "endsWithIgnoreCase($0)",
-            "removeStartIgnoreCase(String toRemove)\tString": "removeStartIgnoreCase($0)",
-            "repeat(Integer numTimes)\tString": "repeat($0)",
+            "indexOf(String str, Integer startPos)\tInteger": "indexOf($1)$0",
+            "indexOfAnyBut(String searchChars)\tInteger": "indexOfAnyBut($1)$0",
+            "endsWithIgnoreCase(String suffix)\tBoolean": "endsWithIgnoreCase($1)$0",
+            "removeStartIgnoreCase(String toRemove)\tString": "removeStartIgnoreCase($1)$0",
+            "repeat(Integer numTimes)\tString": "repeat($1)$0",
             "isAllUpperCase()\tBoolean": "isAllUpperCase()$0",
             "isAlphanumeric()\tBoolean": "isAlphanumeric()$0",
             "unescapeXml()\tString": "unescapeXml()$0",
-            "removeEndIgnoreCase(String toRemove)\tString": "removeEndIgnoreCase($0)",
+            "removeEndIgnoreCase(String toRemove)\tString": "removeEndIgnoreCase($1)$0",
             "unescapeHtml4()\tString": "unescapeHtml4()$0",
-            "toUpperCase(String locale)\tString": "toUpperCase($0)",
+            "toUpperCase(String locale)\tString": "toUpperCase($1)$0",
             "escapeHtml4()\tString": "escapeHtml4()$0",
-            "getCommonPrefix(LIST strings)\tString": "getCommonPrefix($0)",
+            "getCommonPrefix(LIST strings)\tString": "getCommonPrefix($1)$0",
             "unescapeHtml3()\tString": "unescapeHtml3()$0",
-            "replace(String target, String replacement)\tString": "replace($0)",
-            "join(APEX_OBJECT iterableObj, String separator)\tString": "join($0)",
-            "remove(String toRemove)\tString": "remove($0)",
-            "abbreviate(Integer maxWidth, Integer offset)\tString": "abbreviate($0)",
-            "left(Integer len)\tString": "left($0)",
-            "equals(String other)\tBoolean": "equals($0)",
-            "mid(Integer pos, Integer len)\tString": "mid($0)",
-            "equalsIgnoreCase(String other)\tBoolean": "equalsIgnoreCase($0)",
-            "isEmpty(String str)\tBoolean": "isEmpty($0)",
-            "indexOfDifference(String other)\tInteger": "indexOfDifference($0)",
+            "replace(String target, String replacement)\tString": "replace($1)$0",
+            "join(APEX_OBJECT iterableObj, String separator)\tString": "join($1)$0",
+            "remove(String toRemove)\tString": "remove($1)$0",
+            "abbreviate(Integer maxWidth, Integer offset)\tString": "abbreviate($1)$0",
+            "left(Integer len)\tString": "left($1)$0",
+            "equals(String other)\tBoolean": "equals($1)$0",
+            "mid(Integer pos, Integer len)\tString": "mid($1)$0",
+            "equalsIgnoreCase(String other)\tBoolean": "equalsIgnoreCase($1)$0",
+            "isEmpty(String str)\tBoolean": "isEmpty($1)$0",
+            "indexOfDifference(String other)\tInteger": "indexOfDifference($1)$0",
             "isNumeric()\tBoolean": "isNumeric()$0",
-            "indexOf(String str)\tInteger": "indexOf($0)",
-            "valueOf(Double d)\tString": "valueOf($0)",
+            "indexOf(String str)\tInteger": "indexOf($1)$0",
+            "valueOf(Double d)\tString": "valueOf($1)$0",
             "stripHtmlTags()\tString": "stripHtmlTags()$0",
-            "substringAfterLast(String separator)\tString": "substringAfterLast($0)",
-            "substringBefore(String separator)\tString": "substringBefore($0)",
-            "lastIndexOfIgnoreCase(String searchStr)\tInteger": "lastIndexOfIgnoreCase($0)",
-            "valueOf(Integer i)\tString": "valueOf($0)",
-            "substring(Integer start)\tString": "substring($0)",
-            "valueOf(Object o)\tString": "valueOf($0)",
+            "substringAfterLast(String separator)\tString": "substringAfterLast($1)$0",
+            "substringBefore(String separator)\tString": "substringBefore($1)$0",
+            "lastIndexOfIgnoreCase(String searchStr)\tInteger": "lastIndexOfIgnoreCase($1)$0",
+            "valueOf(Integer i)\tString": "valueOf($1)$0",
+            "substring(Integer start)\tString": "substring($1)$0",
+            "valueOf(Object o)\tString": "valueOf($1)$0",
             "capitalize()\tString": "capitalize()$0",
-            "containsAny(String validChars)\tBoolean": "containsAny($0)",
-            "split(String regex)\tLIST<String>": "split($0)",
-            "center(Integer size)\tString": "center($0)",
-            "isNotBlank(String str)\tBoolean": "isNotBlank($0)",
+            "containsAny(String validChars)\tBoolean": "containsAny($1)$0",
+            "split(String regex)\tLIST<String>": "split($1)$0",
+            "center(Integer size)\tString": "center($1)$0",
+            "isNotBlank(String str)\tBoolean": "isNotBlank($1)$0",
             "escapeXml()\tString": "escapeXml()$0",
-            "valueOf(Decimal d)\tString": "valueOf($0)",
-            "repeat(String separator, Integer numTimes)\tString": "repeat($0)",
-            "containsOnly(String validChars)\tBoolean": "containsOnly($0)",
+            "valueOf(Decimal d)\tString": "valueOf($1)$0",
+            "repeat(String separator, Integer numTimes)\tString": "repeat($1)$0",
+            "containsOnly(String validChars)\tBoolean": "containsOnly($1)$0",
             "swapCase()\tString": "swapCase()$0",
-            "indexOfIgnoreCase(String searchStr, Integer startPos)\tInteger": "indexOfIgnoreCase($0)",
-            "contains(String str)\tBoolean": "contains($0)",
-            "valueOf(Date d)\tString": "valueOf($0)",
-            "split(String regex, Integer limit)\tLIST<String>": "split($0)",
-            "isNotEmpty(String str)\tBoolean": "isNotEmpty($0)",
-            "addError(APEX_OBJECT msg)\tvoid": "addError($0)",
-            "leftPad(Integer len)\tString": "leftPad($0)",
-            "countMatches(String searchStr)\tInteger": "countMatches($0)",
+            "indexOfIgnoreCase(String searchStr, Integer startPos)\tInteger": "indexOfIgnoreCase($1)$0",
+            "contains(String str)\tBoolean": "contains($1)$0",
+            "valueOf(Date d)\tString": "valueOf($1)$0",
+            "split(String regex, Integer limit)\tLIST<String>": "split($1)$0",
+            "isNotEmpty(String str)\tBoolean": "isNotEmpty($1)$0",
+            "addError(APEX_OBJECT msg)\tvoid": "addError($1)$0",
+            "leftPad(Integer len)\tString": "leftPad($1)$0",
+            "countMatches(String searchStr)\tInteger": "countMatches($1)$0",
             "normalizeSpace()\tString": "normalizeSpace()$0",
-            "indexOfIgnoreCase(String searchStr)\tInteger": "indexOfIgnoreCase($0)",
+            "indexOfIgnoreCase(String searchStr)\tInteger": "indexOfIgnoreCase($1)$0",
             "isAlphanumericSpace()\tBoolean": "isAlphanumericSpace()$0",
             "length()\tInteger": "length()$0",
-            "replaceFirst(String regex, String replacement)\tString": "replaceFirst($0)",
-            "substringAfter(String separator)\tString": "substringAfter($0)",
-            "fromCharArray(LIST<Integer> charArr)\tString": "fromCharArray($0)",
-            "addError(String msg)\tvoid": "addError($0)",
+            "replaceFirst(String regex, String replacement)\tString": "replaceFirst($1)$0",
+            "substringAfter(String separator)\tString": "substringAfter($1)$0",
+            "fromCharArray(LIST<Integer> charArr)\tString": "fromCharArray($1)$0",
+            "addError(String msg)\tvoid": "addError($1)$0",
             "toUpperCase()\tString": "toUpperCase()$0",
-            "containsIgnoreCase(String searchStr)\tBoolean": "containsIgnoreCase($0)",
+            "containsIgnoreCase(String searchStr)\tBoolean": "containsIgnoreCase($1)$0",
             "deleteWhitespace()\tString": "deleteWhitespace()$0",
-            "endsWith(String str)\tBoolean": "endsWith($0)",
-            "containsNone(String invalidChars)\tBoolean": "containsNone($0)",
-            "addError(String msg, Boolean escape)\tvoid": "addError($0)",
-            "escapeSingleQuotes(String s)\tString": "escapeSingleQuotes($0)",
-            "rightPad(Integer len)\tString": "rightPad($0)",
+            "endsWith(String str)\tBoolean": "endsWith($1)$0",
+            "containsNone(String invalidChars)\tBoolean": "containsNone($1)$0",
+            "addError(String msg, Boolean escape)\tvoid": "addError($1)$0",
+            "escapeSingleQuotes(String s)\tString": "escapeSingleQuotes($1)$0",
+            "rightPad(Integer len)\tString": "rightPad($1)$0",
             "isAsciiPrintable()\tBoolean": "isAsciiPrintable()$0",
-            "indexOfAny(String searchChars)\tInteger": "indexOfAny($0)",
+            "indexOfAny(String searchChars)\tInteger": "indexOfAny($1)$0",
             "reverse()\tString": "reverse()$0",
-            "center(Integer size, String padStr)\tString": "center($0)",
+            "center(Integer size, String padStr)\tString": "center($1)$0",
             "toLowerCase()\tString": "toLowerCase()$0",
             "trim()\tString": "trim()$0",
-            "substringBeforeLast(String separator)\tString": "substringBeforeLast($0)",
-            "lastIndexOf(String searchStr, Integer startPos)\tInteger": "lastIndexOf($0)",
-            "lastIndexOf(String str)\tInteger": "lastIndexOf($0)",
+            "substringBeforeLast(String separator)\tString": "substringBeforeLast($1)$0",
+            "lastIndexOf(String searchStr, Integer startPos)\tInteger": "lastIndexOf($1)$0",
+            "lastIndexOf(String str)\tInteger": "lastIndexOf($1)$0",
             "uncapitalize()\tString": "uncapitalize()$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "right(Integer len)\tString": "right($0)",
-            "substringBetween(String tag)\tString": "substringBetween($0)",
-            "valueOf(Long l)\tString": "valueOf($0)",
-            "overlay(String overlay, Integer start, Integer end)\tString": "overlay($0)",
+            "right(Integer len)\tString": "right($1)$0",
+            "substringBetween(String tag)\tString": "substringBetween($1)$0",
+            "valueOf(Long l)\tString": "valueOf($1)$0",
+            "overlay(String overlay, Integer start, Integer end)\tString": "overlay($1)$0",
             "containsWhitespace()\tBoolean": "containsWhitespace()$0",
             "isAllLowerCase()\tBoolean": "isAllLowerCase()$0",
-            "substring(Integer start, Integer end)\tString": "substring($0)",
-            "isBlank(String str)\tBoolean": "isBlank($0)",
-            "substringBetween(String open, String close)\tString": "substringBetween($0)",
-            "lastIndexOfIgnoreCase(String searchStr, Integer startPos)\tInteger": "lastIndexOfIgnoreCase($0)",
-            "startsWithIgnoreCase(String prefix)\tBoolean": "startsWithIgnoreCase($0)",
-            "difference(String other)\tString": "difference($0)",
+            "substring(Integer start, Integer end)\tString": "substring($1)$0",
+            "isBlank(String str)\tBoolean": "isBlank($1)$0",
+            "substringBetween(String open, String close)\tString": "substringBetween($1)$0",
+            "lastIndexOfIgnoreCase(String searchStr, Integer startPos)\tInteger": "lastIndexOfIgnoreCase($1)$0",
+            "startsWithIgnoreCase(String prefix)\tBoolean": "startsWithIgnoreCase($1)$0",
+            "difference(String other)\tString": "difference($1)$0",
             "unescapeEcmaScript()\tString": "unescapeEcmaScript()$0",
             "escapeEcmaScript()\tString": "escapeEcmaScript()$0",
             "escapeHtml3()\tString": "escapeHtml3()$0",
-            "rightPad(Integer len, String padStr)\tString": "rightPad($0)",
-            "startsWith(String str)\tBoolean": "startsWith($0)",
+            "rightPad(Integer len, String padStr)\tString": "rightPad($1)$0",
+            "startsWith(String str)\tBoolean": "startsWith($1)$0",
             "splitByCharacterTypeCamelCase()\tLIST<String>": "splitByCharacterTypeCamelCase()$0",
-            "getLevenshteinDistance(String other, Integer threshold)\tInteger": "getLevenshteinDistance($0)",
-            "format(String format, LIST<String> arguments)\tString": "format($0)",
-            "removeEnd(String toRemove)\tString": "removeEnd($0)",
+            "getLevenshteinDistance(String other, Integer threshold)\tInteger": "getLevenshteinDistance($1)$0",
+            "format(String format, LIST<String> arguments)\tString": "format($1)$0",
+            "removeEnd(String toRemove)\tString": "removeEnd($1)$0",
             "isWhitespace()\tBoolean": "isWhitespace()$0",
             "splitByCharacterType()\tLIST<String>": "splitByCharacterType()$0",
-            "leftPad(Integer len, String padStr)\tString": "leftPad($0)",
-            "valueOf(Datetime dt)\tString": "valueOf($0)",
-            "abbreviate(Integer maxWidth)\tString": "abbreviate($0)",
-            "toLowerCase(String locale)\tString": "toLowerCase($0)",
+            "leftPad(Integer len, String padStr)\tString": "leftPad($1)$0",
+            "valueOf(Datetime dt)\tString": "valueOf($1)$0",
+            "abbreviate(Integer maxWidth)\tString": "abbreviate($1)$0",
+            "toLowerCase(String locale)\tString": "toLowerCase($1)$0",
             "isNumericSpace()\tBoolean": "isNumericSpace()$0",
-            "valueOfGmt(Datetime dt)\tString": "valueOfGmt($0)",
-            "removeStart(String toRemove)\tString": "removeStart($0)",
-            "getLevenshteinDistance(String other)\tInteger": "getLevenshteinDistance($0)",
+            "valueOfGmt(Datetime dt)\tString": "valueOfGmt($1)$0",
+            "removeStart(String toRemove)\tString": "removeStart($1)$0",
+            "getLevenshteinDistance(String other)\tInteger": "getLevenshteinDistance($1)$0",
             "isAlpha()\tBoolean": "isAlpha()$0",
             "unescapeCsv()\tString": "unescapeCsv()$0",
-            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($0)",
+            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($1)$0",
             "isAlphaSpace()\tBoolean": "isAlphaSpace()$0",
             "escapeCsv()\tString": "escapeCsv()$0",
-            "compareTo(String str)\tInteger": "compareTo($0)",
-            "replaceAll(String regex, String replacement)\tString": "replaceAll($0)"
+            "compareTo(String str)\tInteger": "compareTo($1)$0",
+            "replaceAll(String regex, String replacement)\tString": "replaceAll($1)$0"
         }
     },
     "feedbody": {
@@ -1055,7 +1055,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -1082,7 +1082,7 @@ apex_completions = {
             "sendWelcomeEmail": "sendWelcomeEmail$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -1097,7 +1097,7 @@ apex_completions = {
             "myChoiceId": "myChoiceId$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -1111,7 +1111,7 @@ apex_completions = {
             "displayName": "displayName$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -1124,9 +1124,9 @@ apex_completions = {
             "pollChoices": "pollChoices$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -1137,18 +1137,18 @@ apex_completions = {
         "methods": {
             "getStatus()\tString": "getStatus()$0",
             "getBodyDocument()\tdom.Document": "getBodyDocument()$0",
-            "setStatusCode(Integer statusCode)\tvoid": "setStatusCode($0)",
+            "setStatusCode(Integer statusCode)\tvoid": "setStatusCode($1)$0",
             "getBody()\tString": "getBody()$0",
             "getStatusCode()\tInteger": "getStatusCode()$0",
             "toString()\tString": "toString()$0",
             "getBodyAsBlob()\tBlob": "getBodyAsBlob()$0",
-            "setBodyAsBlob(Blob body)\tvoid": "setBodyAsBlob($0)",
-            "getHeader(String key)\tString": "getHeader($0)",
+            "setBodyAsBlob(Blob body)\tvoid": "setBodyAsBlob($1)$0",
+            "getHeader(String key)\tString": "getHeader($1)$0",
             "getXmlStreamReader()\tSystem.XmlStreamReader": "getXmlStreamReader()$0",
             "getHeaderKeys()\tLIST<String>": "getHeaderKeys()$0",
-            "setHeader(String key, String value)\tvoid": "setHeader($0)",
-            "setBody(String body)\tvoid": "setBody($0)",
-            "setStatus(String status)\tvoid": "setStatus($0)"
+            "setHeader(String key, String value)\tvoid": "setHeader($1)$0",
+            "setBody(String body)\tvoid": "setBody($1)$0",
+            "setStatus(String status)\tvoid": "setStatus($1)$0"
         }
     },
     "linksegment": {
@@ -1158,7 +1158,7 @@ apex_completions = {
             "url": "url$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -1171,7 +1171,7 @@ apex_completions = {
             "rank": "rank$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -1182,7 +1182,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "getVariableValue(String param1)\tObject": "getVariableValue($0)"
+            "getVariableValue(String param1)\tObject": "getVariableValue($1)$0"
         }
     },
     "http": {
@@ -1191,7 +1191,7 @@ apex_completions = {
         "properties": {},
         "methods": {
             "toString()\tString": "toString()$0",
-            "send(ANY request)\tSystem.HttpResponse": "send($0)"
+            "send(ANY request)\tSystem.HttpResponse": "send($1)$0"
         }
     },
     "restresponse": {
@@ -1203,7 +1203,7 @@ apex_completions = {
             "headers": "headers$0"
         },
         "methods": {
-            "addHeader(String name, String value)\tvoid": "addHeader($0)"
+            "addHeader(String name, String value)\tvoid": "addHeader($1)$0"
         }
     },
     "commentpage": {
@@ -1218,7 +1218,7 @@ apex_completions = {
             "comments": "comments$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -1253,7 +1253,7 @@ apex_completions = {
             "motif": "motif$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -1263,30 +1263,30 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "addCommentNode(String text)\tdom.XmlNode": "addCommentNode($0)",
+            "addCommentNode(String text)\tdom.XmlNode": "addCommentNode($1)$0",
             "getChildElements()\tLIST<dom.XmlNode>": "getChildElements()$0",
             "getAttributeCount()\tInteger": "getAttributeCount()$0",
-            "addTextNode(String text)\tdom.XmlNode": "addTextNode($0)",
-            "setNamespace(String prefix, String namespace)\tvoid": "setNamespace($0)",
+            "addTextNode(String text)\tdom.XmlNode": "addTextNode($1)$0",
+            "setNamespace(String prefix, String namespace)\tvoid": "setNamespace($1)$0",
             "getNamespace()\tString": "getNamespace()$0",
-            "getAttributeValueNs(String key, String keyNamespace)\tString": "getAttributeValueNs($0)",
-            "getAttributeValue(String key, String keyNamespace)\tString": "getAttributeValue($0)",
-            "getAttributeKeyAt(Integer index)\tString": "getAttributeKeyAt($0)",
-            "removeAttribute(String key, String keyNamespace)\tBoolean": "removeAttribute($0)",
-            "getPrefixFor(String namespace)\tString": "getPrefixFor($0)",
+            "getAttributeValueNs(String key, String keyNamespace)\tString": "getAttributeValueNs($1)$0",
+            "getAttributeValue(String key, String keyNamespace)\tString": "getAttributeValue($1)$0",
+            "getAttributeKeyAt(Integer index)\tString": "getAttributeKeyAt($1)$0",
+            "removeAttribute(String key, String keyNamespace)\tBoolean": "removeAttribute($1)$0",
+            "getPrefixFor(String namespace)\tString": "getPrefixFor($1)$0",
             "getText()\tString": "getText()$0",
             "getChildren()\tLIST<dom.XmlNode>": "getChildren()$0",
             "getName()\tString": "getName()$0",
-            "getChildElement(String name, String namespace)\tdom.XmlNode": "getChildElement($0)",
+            "getChildElement(String name, String namespace)\tdom.XmlNode": "getChildElement($1)$0",
             "getParent()\tdom.XmlNode": "getParent()$0",
-            "getAttribute(String key, String keyNamespace)\tString": "getAttribute($0)",
-            "setAttributeNs(String key, String value, String keyNamespace, String valueNamespace)\tvoid": "setAttributeNs($0)",
-            "setAttribute(String key, String value)\tvoid": "setAttribute($0)",
-            "getNamespaceFor(String prefix)\tString": "getNamespaceFor($0)",
-            "getAttributeKeyNsAt(Integer index)\tString": "getAttributeKeyNsAt($0)",
-            "removeChild(ANY child)\tBoolean": "removeChild($0)",
+            "getAttribute(String key, String keyNamespace)\tString": "getAttribute($1)$0",
+            "setAttributeNs(String key, String value, String keyNamespace, String valueNamespace)\tvoid": "setAttributeNs($1)$0",
+            "setAttribute(String key, String value)\tvoid": "setAttribute($1)$0",
+            "getNamespaceFor(String prefix)\tString": "getNamespaceFor($1)$0",
+            "getAttributeKeyNsAt(Integer index)\tString": "getAttributeKeyNsAt($1)$0",
+            "removeChild(ANY child)\tBoolean": "removeChild($1)$0",
             "getNodeType()\tDom.XmlNodeType": "getNodeType()$0",
-            "addChildElement(String name, String namespace, String prefix)\tdom.XmlNode": "addChildElement($0)"
+            "addChildElement(String name, String namespace, String prefix)\tdom.XmlNode": "addChildElement($1)$0"
         }
     },
     "connectapiexception": {
@@ -1321,16 +1321,16 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "getFeedItems(String communityId, String subjectId, String favoriteId)\tConnectApi.FeedItemPage": "getFeedItems($0)",
-            "getFavorite(String communityId, String subjectId, String favoriteId)\tConnectApi.FeedFavorite": "getFavorite($0)",
-            "getFavorites(String communityId, String subjectId)\tConnectApi.FeedFavorites": "getFavorites($0)",
-            "deleteFavorite(String communityId, String subjectId, String favoriteId)\tvoid": "deleteFavorite($0)",
-            "setTestGetFeedItems(String communityId, String subjectId, String favoriteId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItems($0)",
-            "setTestGetFeedItems(String communityId, String subjectId, String favoriteId, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItems($0)",
-            "addFavorite(String communityId, String subjectId, String searchText)\tConnectApi.FeedFavorite": "addFavorite($0)",
-            "addRecordFavorite(String communityId, String subjectId, String targetId)\tConnectApi.FeedFavorite": "addRecordFavorite($0)",
-            "updateFavorite(String communityId, String subjectId, String favoriteId, Boolean updateLastViewDate)\tConnectApi.FeedFavorite": "updateFavorite($0)",
-            "getFeedItems(String communityId, String subjectId, String favoriteId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItems($0)"
+            "getFeedItems(String communityId, String subjectId, String favoriteId)\tConnectApi.FeedItemPage": "getFeedItems($1)$0",
+            "getFavorite(String communityId, String subjectId, String favoriteId)\tConnectApi.FeedFavorite": "getFavorite($1)$0",
+            "getFavorites(String communityId, String subjectId)\tConnectApi.FeedFavorites": "getFavorites($1)$0",
+            "deleteFavorite(String communityId, String subjectId, String favoriteId)\tvoid": "deleteFavorite($1)$0",
+            "setTestGetFeedItems(String communityId, String subjectId, String favoriteId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItems($1)$0",
+            "setTestGetFeedItems(String communityId, String subjectId, String favoriteId, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItems($1)$0",
+            "addFavorite(String communityId, String subjectId, String searchText)\tConnectApi.FeedFavorite": "addFavorite($1)$0",
+            "addRecordFavorite(String communityId, String subjectId, String targetId)\tConnectApi.FeedFavorite": "addRecordFavorite($1)$0",
+            "updateFavorite(String communityId, String subjectId, String favoriteId, Boolean updateLastViewDate)\tConnectApi.FeedFavorite": "updateFavorite($1)$0",
+            "getFeedItems(String communityId, String subjectId, String favoriteId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItems($1)$0"
         }
     },
     "usergrouppage": {
@@ -1344,7 +1344,7 @@ apex_completions = {
             "nextPageUrl": "nextPageUrl$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -1393,8 +1393,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -1404,11 +1404,11 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "setHeader(String key, String val)\tvoid": "setHeader($0)",
-            "setStatusCode(Integer code)\tvoid": "setStatusCode($0)",
-            "respond(System.HttpRequest request)\tSystem.HttpResponse": "respond($0)",
-            "setStaticResource(String staticResourceName)\tvoid": "setStaticResource($0)",
-            "setStatus(String status)\tvoid": "setStatus($0)"
+            "setHeader(String key, String val)\tvoid": "setHeader($1)$0",
+            "setStatusCode(Integer code)\tvoid": "setStatusCode($1)$0",
+            "respond(System.HttpRequest request)\tSystem.HttpResponse": "respond($1)$0",
+            "setStaticResource(String staticResourceName)\tvoid": "setStaticResource($1)$0",
+            "setStatus(String status)\tvoid": "setStatus($1)$0"
         }
     },
     "displaytype": {
@@ -1490,9 +1490,9 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "addGmt(Id businessHoursId, Datetime startDate, Long interval)\tDatetime": "addGmt($0)",
-            "add(Id businessHoursId, Datetime startDate, Long interval)\tDatetime": "add($0)",
-            "diff(String businessHoursId, Datetime startDate, Datetime endDate)\tLong": "diff($0)"
+            "addGmt(Id businessHoursId, Datetime startDate, Long interval)\tDatetime": "addGmt($1)$0",
+            "add(Id businessHoursId, Datetime startDate, Long interval)\tDatetime": "add($1)$0",
+            "diff(String businessHoursId, Datetime startDate, Datetime endDate)\tLong": "diff($1)$0"
         }
     },
     "knowledgearticleversionstandardcontroller": {
@@ -1504,11 +1504,11 @@ apex_completions = {
             "cancel()\tSystem.PageReference": "cancel()$0",
             "view()\tSystem.PageReference": "view()$0",
             "edit()\tSystem.PageReference": "edit()$0",
-            "addFields(LIST<String> fieldNames)\tvoid": "addFields($0)",
+            "addFields(LIST<String> fieldNames)\tvoid": "addFields($1)$0",
             "getSubject()\tSObject": "getSubject()$0",
             "getRecord()\tSObject": "getRecord()$0",
             "reset()\tvoid": "reset()$0",
-            "selectDataCategory(String categoryGroup, String category)\tvoid": "selectDataCategory($0)",
+            "selectDataCategory(String categoryGroup, String category)\tvoid": "selectDataCategory($1)$0",
             "delete()\tSystem.PageReference": "delete()$0",
             "getId()\tString": "getId()$0",
             "save()\tSystem.PageReference": "save()$0"
@@ -1530,7 +1530,7 @@ apex_completions = {
             "lastFeedItemPostDate": "lastFeedItemPostDate$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -1540,13 +1540,13 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "createGenerator(Boolean pretty)\tsystem.JSONGenerator": "createGenerator($0)",
-            "createParser(String jsonString)\tsystem.JSONParser": "createParser($0)",
-            "serializePretty(Object o)\tString": "serializePretty($0)",
-            "serialize(Object o)\tString": "serialize($0)",
-            "deserializeUntyped(String jsonString)\tObject": "deserializeUntyped($0)",
-            "deserializeStrict(String jsonString, system.Type apexType)\tObject": "deserializeStrict($0)",
-            "deserialize(String jsonString, system.Type apexType)\tObject": "deserialize($0)"
+            "createGenerator(Boolean pretty)\tsystem.JSONGenerator": "createGenerator($1)$0",
+            "createParser(String jsonString)\tsystem.JSONParser": "createParser($1)$0",
+            "serializePretty(Object o)\tString": "serializePretty($1)$0",
+            "serialize(Object o)\tString": "serialize($1)$0",
+            "deserializeUntyped(String jsonString)\tObject": "deserializeUntyped($1)$0",
+            "deserializeStrict(String jsonString, system.Type apexType)\tObject": "deserializeStrict($1)$0",
+            "deserialize(String jsonString, system.Type apexType)\tObject": "deserialize($1)$0"
         }
     },
     "feedfavorites": {
@@ -1557,7 +1557,7 @@ apex_completions = {
             "favorites": "favorites$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -1571,7 +1571,7 @@ apex_completions = {
             "information": "information$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -1581,7 +1581,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "compareTo(Object param1)\tInteger": "compareTo($0)"
+            "compareTo(Object param1)\tInteger": "compareTo($1)$0"
         }
     },
     "notfoundexception": {
@@ -1610,10 +1610,10 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "getOffset(Datetime dt)\tInteger": "getOffset($0)",
+            "getOffset(Datetime dt)\tInteger": "getOffset($1)$0",
             "getID()\tString": "getID()$0",
             "getDisplayName()\tString": "getDisplayName()$0",
-            "getTimeZone(String id)\tsystem.TimeZone": "getTimeZone($0)",
+            "getTimeZone(String id)\tsystem.TimeZone": "getTimeZone($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -1625,7 +1625,7 @@ apex_completions = {
             "text": "text$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -1657,7 +1657,7 @@ apex_completions = {
             "isModified": "isModified$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -1698,10 +1698,10 @@ apex_completions = {
         "methods": {
             "getName()\tString": "getName()$0",
             "toString()\tString": "toString()$0",
-            "equals(Object o)\tBoolean": "equals($0)",
-            "forName(String namespace, String clsName)\tsystem.Type": "forName($0)",
+            "equals(Object o)\tBoolean": "equals($1)$0",
+            "forName(String namespace, String clsName)\tsystem.Type": "forName($1)$0",
             "hashcode()\tInteger": "hashcode()$0",
-            "forName(String clsName)\tsystem.Type": "forName($0)",
+            "forName(String clsName)\tsystem.Type": "forName($1)$0",
             "newInstance()\tObject": "newInstance()$0"
         }
     },
@@ -1710,9 +1710,9 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "start(Database.BatchableContext param1)\tsystem.Iterable": "start($0)",
-            "finish(Database.BatchableContext param1)\tvoid": "finish($0)",
-            "execute(Database.BatchableContext param1, LIST<ANY> param2)\tvoid": "execute($0)"
+            "start(Database.BatchableContext param1)\tsystem.Iterable": "start($1)$0",
+            "finish(Database.BatchableContext param1)\tvoid": "finish($1)$0",
+            "execute(Database.BatchableContext param1, LIST<ANY> param2)\tvoid": "execute($1)$0"
         }
     },
     "complexsegment": {
@@ -1722,7 +1722,7 @@ apex_completions = {
             "segments": "segments$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -1746,7 +1746,7 @@ apex_completions = {
             "patch()\tInteger": "patch()$0",
             "major()\tInteger": "major()$0",
             "minor()\tInteger": "minor()$0",
-            "compareTo(system.Version other)\tInteger": "compareTo($0)"
+            "compareTo(system.Version other)\tInteger": "compareTo($1)$0"
         }
     },
     "inputparameter": {
@@ -1769,27 +1769,27 @@ apex_completions = {
             "day()\tInteger": "day()$0",
             "dayOfYear()\tInteger": "dayOfYear()$0",
             "year()\tInteger": "year()$0",
-            "valueOf(Object o)\tDate": "valueOf($0)",
-            "parse(String str)\tDate": "parse($0)",
-            "isLeapYear(Integer year)\tBoolean": "isLeapYear($0)",
-            "newInstance(Integer year, Integer month, Integer day)\tDate": "newInstance($0)",
+            "valueOf(Object o)\tDate": "valueOf($1)$0",
+            "parse(String str)\tDate": "parse($1)$0",
+            "isLeapYear(Integer year)\tBoolean": "isLeapYear($1)$0",
+            "newInstance(Integer year, Integer month, Integer day)\tDate": "newInstance($1)$0",
             "toStartOfMonth()\tDate": "toStartOfMonth()$0",
-            "isSameDay(Date other)\tBoolean": "isSameDay($0)",
+            "isSameDay(Date other)\tBoolean": "isSameDay($1)$0",
             "today()\tDate": "today()$0",
-            "monthsBetween(Date other)\tInteger": "monthsBetween($0)",
+            "monthsBetween(Date other)\tInteger": "monthsBetween($1)$0",
             "toStartOfWeek()\tDate": "toStartOfWeek()$0",
             "format()\tString": "format()$0",
-            "addError(String msg, Boolean escape)\tvoid": "addError($0)",
+            "addError(String msg, Boolean escape)\tvoid": "addError($1)$0",
             "month()\tInteger": "month()$0",
-            "valueOf(String str)\tDate": "valueOf($0)",
-            "addYears(Integer years)\tDate": "addYears($0)",
-            "addError(APEX_OBJECT msg)\tvoid": "addError($0)",
-            "daysBetween(Date other)\tInteger": "daysBetween($0)",
-            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($0)",
-            "addMonths(Integer months)\tDate": "addMonths($0)",
-            "daysInMonth(Integer year, Integer month)\tInteger": "daysInMonth($0)",
-            "addError(String msg)\tvoid": "addError($0)",
-            "addDays(Integer days)\tDate": "addDays($0)"
+            "valueOf(String str)\tDate": "valueOf($1)$0",
+            "addYears(Integer years)\tDate": "addYears($1)$0",
+            "addError(APEX_OBJECT msg)\tvoid": "addError($1)$0",
+            "daysBetween(Date other)\tInteger": "daysBetween($1)$0",
+            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($1)$0",
+            "addMonths(Integer months)\tDate": "addMonths($1)$0",
+            "daysInMonth(Integer year, Integer month)\tInteger": "daysInMonth($1)$0",
+            "addError(String msg)\tvoid": "addError($1)$0",
+            "addDays(Integer days)\tDate": "addDays($1)$0"
         }
     },
     "feeditem": {
@@ -1823,7 +1823,7 @@ apex_completions = {
             "likes": "likes$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -1837,8 +1837,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -1853,7 +1853,7 @@ apex_completions = {
             "likeReceivedCount": "likeReceivedCount$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -1871,7 +1871,7 @@ apex_completions = {
             "icon": "icon$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -1884,8 +1884,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -1899,10 +1899,10 @@ apex_completions = {
             "ComponentIteration", "StandardSetController", "Message", "Severity", "Action"
         ],
         "methods": {
-            "addMessage(ApexPages.Message message)\tvoid": "addMessage($0)",
+            "addMessage(ApexPages.Message message)\tvoid": "addMessage($1)$0",
             "getMessages()\tLIST<ApexPages.Message>": "getMessages()$0",
-            "hasMessages(ApexPages.Severity severity)\tBoolean": "hasMessages($0)",
-            "addMessages(APEX_OBJECT ex)\tvoid": "addMessages($0)",
+            "hasMessages(ApexPages.Severity severity)\tBoolean": "hasMessages($1)$0",
+            "addMessages(APEX_OBJECT ex)\tvoid": "addMessages($1)$0",
             "hasMessages()\tBoolean": "hasMessages()$0",
             "currentPage()\tSystem.PageReference": "currentPage()$0"
         }
@@ -1921,18 +1921,18 @@ apex_completions = {
         "properties": {},
         "methods": {
             "getListViewOptions()\tLIST<System.SelectOption>": "getListViewOptions()$0",
-            "addFields(LIST<String> fieldNames)\tvoid": "addFields($0)",
+            "addFields(LIST<String> fieldNames)\tvoid": "addFields($1)$0",
             "next()\tvoid": "next()$0",
             "getRecord()\tSObject": "getRecord()$0",
             "reset()\tvoid": "reset()$0",
             "getFilterId()\tString": "getFilterId()$0",
-            "setFilterId(String filterId)\tvoid": "setFilterId($0)",
+            "setFilterId(String filterId)\tvoid": "setFilterId($1)$0",
             "last()\tvoid": "last()$0",
-            "setPageSize(Integer pageSize)\tvoid": "setPageSize($0)",
+            "setPageSize(Integer pageSize)\tvoid": "setPageSize($1)$0",
             "getCompleteResult()\tBoolean": "getCompleteResult()$0",
             "cancel()\tSystem.PageReference": "cancel()$0",
-            "setPageNumber(Integer pageNumber)\tvoid": "setPageNumber($0)",
-            "setSelected(LIST<SObject> selected)\tvoid": "setSelected($0)",
+            "setPageNumber(Integer pageNumber)\tvoid": "setPageNumber($1)$0",
+            "setSelected(LIST<SObject> selected)\tvoid": "setSelected($1)$0",
             "getHasPrevious()\tBoolean": "getHasPrevious()$0",
             "first()\tvoid": "first()$0",
             "getPageSize()\tInteger": "getPageSize()$0",
@@ -1954,8 +1954,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -1965,16 +1965,16 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "sign(String algorithmName, Blob input, Blob privateKey)\tBlob": "sign($0)",
-            "decrypt(String algorithmName, Blob secretKey, Blob initializationVector, Blob encryptedData)\tBlob": "decrypt($0)",
-            "decryptWithManagedIV(String algorithmName, Blob secretKey, Blob encryptedData)\tBlob": "decryptWithManagedIV($0)",
-            "generateMac(String algorithmName, Blob input, Blob privateKey)\tBlob": "generateMac($0)",
-            "encrypt(String algorithmName, Blob secretKey, Blob initializationVector, Blob clearData)\tBlob": "encrypt($0)",
+            "sign(String algorithmName, Blob input, Blob privateKey)\tBlob": "sign($1)$0",
+            "decrypt(String algorithmName, Blob secretKey, Blob initializationVector, Blob encryptedData)\tBlob": "decrypt($1)$0",
+            "decryptWithManagedIV(String algorithmName, Blob secretKey, Blob encryptedData)\tBlob": "decryptWithManagedIV($1)$0",
+            "generateMac(String algorithmName, Blob input, Blob privateKey)\tBlob": "generateMac($1)$0",
+            "encrypt(String algorithmName, Blob secretKey, Blob initializationVector, Blob clearData)\tBlob": "encrypt($1)$0",
             "getRandomInteger()\tInteger": "getRandomInteger()$0",
             "getRandomLong()\tLong": "getRandomLong()$0",
-            "encryptWithManagedIV(String algorithmName, Blob secretKey, Blob clearData)\tBlob": "encryptWithManagedIV($0)",
-            "generateDigest(String algorithmName, Blob input)\tBlob": "generateDigest($0)",
-            "generateAesKey(Integer size)\tBlob": "generateAesKey($0)"
+            "encryptWithManagedIV(String algorithmName, Blob secretKey, Blob clearData)\tBlob": "encryptWithManagedIV($1)$0",
+            "generateDigest(String algorithmName, Blob input)\tBlob": "generateDigest($1)$0",
+            "generateAesKey(Integer size)\tBlob": "generateAesKey($1)$0"
         }
     },
     "xmltag": {
@@ -2013,22 +2013,22 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "containsAll(LIST elements)\tBoolean": "containsAll($0)",
-            "remove(ANY element)\tBoolean": "remove($0)",
-            "addAll(SET elements)\tBoolean": "addAll($0)",
+            "containsAll(LIST elements)\tBoolean": "containsAll($1)$0",
+            "remove(ANY element)\tBoolean": "remove($1)$0",
+            "addAll(SET elements)\tBoolean": "addAll($1)$0",
             "clone()\tSET<String>": "clone()$0",
             "isEmpty()\tBoolean": "isEmpty()$0",
             "size()\tInteger": "size()$0",
-            "removeAll(SET elements)\tBoolean": "removeAll($0)",
-            "removeAll(LIST elements)\tBoolean": "removeAll($0)",
-            "add(ANY element)\tBoolean": "add($0)",
-            "contains(ANY element)\tBoolean": "contains($0)",
+            "removeAll(SET elements)\tBoolean": "removeAll($1)$0",
+            "removeAll(LIST elements)\tBoolean": "removeAll($1)$0",
+            "add(ANY element)\tBoolean": "add($1)$0",
+            "contains(ANY element)\tBoolean": "contains($1)$0",
             "iterator()\tsystem.ListIterator": "iterator()$0",
-            "addAll(LIST elements)\tBoolean": "addAll($0)",
+            "addAll(LIST elements)\tBoolean": "addAll($1)$0",
             "clear()\tvoid": "clear()$0",
-            "containsAll(SET elements)\tBoolean": "containsAll($0)",
-            "retainAll(LIST elements)\tBoolean": "retainAll($0)",
-            "retainAll(SET elements)\tBoolean": "retainAll($0)"
+            "containsAll(SET elements)\tBoolean": "containsAll($1)$0",
+            "retainAll(LIST elements)\tBoolean": "retainAll($1)$0",
+            "retainAll(SET elements)\tBoolean": "retainAll($1)$0"
         }
     },
     "subscription": {
@@ -2042,7 +2042,7 @@ apex_completions = {
             "subject": "subject$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -2053,64 +2053,64 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "mod(Long x, Long y)\tLong": "mod($0)",
-            "floor(Double x)\tDouble": "floor($0)",
-            "log(Double x)\tDouble": "log($0)",
-            "acos(Decimal x)\tDecimal": "acos($0)",
-            "sin(Double x)\tDouble": "sin($0)",
-            "sin(Decimal x)\tDecimal": "sin($0)",
-            "atan(Decimal x)\tDecimal": "atan($0)",
-            "cos(Decimal x)\tDecimal": "cos($0)",
-            "max(Decimal x, Decimal y)\tDecimal": "max($0)",
-            "min(Double x, Double y)\tDouble": "min($0)",
-            "signum(Decimal x)\tDecimal": "signum($0)",
-            "atan(Double x)\tDouble": "atan($0)",
-            "log10(Double x)\tDouble": "log10($0)",
-            "round(Double x)\tInteger": "round($0)",
-            "cbrt(Decimal x)\tDecimal": "cbrt($0)",
-            "tanh(Double x)\tDouble": "tanh($0)",
-            "min(Long x, Long y)\tLong": "min($0)",
-            "pow(Double base, Double exp)\tDouble": "pow($0)",
+            "mod(Long x, Long y)\tLong": "mod($1)$0",
+            "floor(Double x)\tDouble": "floor($1)$0",
+            "log(Double x)\tDouble": "log($1)$0",
+            "acos(Decimal x)\tDecimal": "acos($1)$0",
+            "sin(Double x)\tDouble": "sin($1)$0",
+            "sin(Decimal x)\tDecimal": "sin($1)$0",
+            "atan(Decimal x)\tDecimal": "atan($1)$0",
+            "cos(Decimal x)\tDecimal": "cos($1)$0",
+            "max(Decimal x, Decimal y)\tDecimal": "max($1)$0",
+            "min(Double x, Double y)\tDouble": "min($1)$0",
+            "signum(Decimal x)\tDecimal": "signum($1)$0",
+            "atan(Double x)\tDouble": "atan($1)$0",
+            "log10(Double x)\tDouble": "log10($1)$0",
+            "round(Double x)\tInteger": "round($1)$0",
+            "cbrt(Decimal x)\tDecimal": "cbrt($1)$0",
+            "tanh(Double x)\tDouble": "tanh($1)$0",
+            "min(Long x, Long y)\tLong": "min($1)$0",
+            "pow(Double base, Double exp)\tDouble": "pow($1)$0",
             "random()\tDouble": "random()$0",
-            "rint(Decimal x)\tDecimal": "rint($0)",
-            "abs(Long x)\tLong": "abs($0)",
-            "log(Decimal x)\tDecimal": "log($0)",
-            "tanh(Decimal x)\tDecimal": "tanh($0)",
-            "signum(Double x)\tDouble": "signum($0)",
-            "max(Double x, Double y)\tDouble": "max($0)",
-            "rint(Double x)\tDouble": "rint($0)",
-            "cos(Double x)\tDouble": "cos($0)",
-            "ceil(Decimal x)\tDecimal": "ceil($0)",
-            "min(Decimal x, Decimal y)\tDecimal": "min($0)",
-            "atan2(Double x, Double y)\tDouble": "atan2($0)",
-            "abs(Decimal x)\tDecimal": "abs($0)",
-            "sinh(Decimal x)\tDecimal": "sinh($0)",
-            "max(Long x, Long y)\tLong": "max($0)",
-            "sqrt(Decimal x)\tDecimal": "sqrt($0)",
-            "cbrt(Double x)\tDouble": "cbrt($0)",
-            "roundToLong(Double x)\tLong": "roundToLong($0)",
-            "tan(Decimal x)\tDecimal": "tan($0)",
-            "cosh(Double x)\tDouble": "cosh($0)",
-            "ceil(Double x)\tDouble": "ceil($0)",
-            "exp(Double x)\tDouble": "exp($0)",
-            "asin(Decimal x)\tDecimal": "asin($0)",
-            "exp(Decimal x)\tDecimal": "exp($0)",
-            "max(Integer x, Integer y)\tInteger": "max($0)",
-            "tan(Double x)\tDouble": "tan($0)",
-            "abs(Double x)\tDouble": "abs($0)",
-            "roundToLong(Decimal x)\tLong": "roundToLong($0)",
-            "abs(Integer x)\tInteger": "abs($0)",
-            "sinh(Double x)\tDouble": "sinh($0)",
-            "log10(Decimal x)\tDecimal": "log10($0)",
-            "asin(Double x)\tDouble": "asin($0)",
-            "min(Integer x, Integer y)\tInteger": "min($0)",
-            "atan2(Decimal x, Decimal y)\tDecimal": "atan2($0)",
-            "mod(Integer x, Integer y)\tInteger": "mod($0)",
-            "acos(Double x)\tDouble": "acos($0)",
-            "cosh(Decimal x)\tDecimal": "cosh($0)",
-            "sqrt(Double x)\tDouble": "sqrt($0)",
-            "round(Decimal x)\tInteger": "round($0)",
-            "floor(Decimal x)\tDecimal": "floor($0)"
+            "rint(Decimal x)\tDecimal": "rint($1)$0",
+            "abs(Long x)\tLong": "abs($1)$0",
+            "log(Decimal x)\tDecimal": "log($1)$0",
+            "tanh(Decimal x)\tDecimal": "tanh($1)$0",
+            "signum(Double x)\tDouble": "signum($1)$0",
+            "max(Double x, Double y)\tDouble": "max($1)$0",
+            "rint(Double x)\tDouble": "rint($1)$0",
+            "cos(Double x)\tDouble": "cos($1)$0",
+            "ceil(Decimal x)\tDecimal": "ceil($1)$0",
+            "min(Decimal x, Decimal y)\tDecimal": "min($1)$0",
+            "atan2(Double x, Double y)\tDouble": "atan2($1)$0",
+            "abs(Decimal x)\tDecimal": "abs($1)$0",
+            "sinh(Decimal x)\tDecimal": "sinh($1)$0",
+            "max(Long x, Long y)\tLong": "max($1)$0",
+            "sqrt(Decimal x)\tDecimal": "sqrt($1)$0",
+            "cbrt(Double x)\tDouble": "cbrt($1)$0",
+            "roundToLong(Double x)\tLong": "roundToLong($1)$0",
+            "tan(Decimal x)\tDecimal": "tan($1)$0",
+            "cosh(Double x)\tDouble": "cosh($1)$0",
+            "ceil(Double x)\tDouble": "ceil($1)$0",
+            "exp(Double x)\tDouble": "exp($1)$0",
+            "asin(Decimal x)\tDecimal": "asin($1)$0",
+            "exp(Decimal x)\tDecimal": "exp($1)$0",
+            "max(Integer x, Integer y)\tInteger": "max($1)$0",
+            "tan(Double x)\tDouble": "tan($1)$0",
+            "abs(Double x)\tDouble": "abs($1)$0",
+            "roundToLong(Decimal x)\tLong": "roundToLong($1)$0",
+            "abs(Integer x)\tInteger": "abs($1)$0",
+            "sinh(Double x)\tDouble": "sinh($1)$0",
+            "log10(Decimal x)\tDecimal": "log10($1)$0",
+            "asin(Double x)\tDouble": "asin($1)$0",
+            "min(Integer x, Integer y)\tInteger": "min($1)$0",
+            "atan2(Decimal x, Decimal y)\tDecimal": "atan2($1)$0",
+            "mod(Integer x, Integer y)\tInteger": "mod($1)$0",
+            "acos(Double x)\tDouble": "acos($1)$0",
+            "cosh(Decimal x)\tDecimal": "cosh($1)$0",
+            "sqrt(Double x)\tDouble": "sqrt($1)$0",
+            "round(Decimal x)\tInteger": "round($1)$0",
+            "floor(Decimal x)\tDecimal": "floor($1)$0"
         }
     },
     "dmloptions": {
@@ -2166,7 +2166,7 @@ apex_completions = {
             "edit()\tSystem.PageReference": "edit()$0",
             "delete()\tSystem.PageReference": "delete()$0",
             "cancel()\tSystem.PageReference": "cancel()$0",
-            "addFields(LIST<String> fieldNames)\tvoid": "addFields($0)",
+            "addFields(LIST<String> fieldNames)\tvoid": "addFields($1)$0",
             "save()\tSystem.PageReference": "save()$0"
         }
     },
@@ -2175,32 +2175,32 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "updateChatterSettings(String communityId, String userId, ConnectApi.GroupEmailFrequency defaultGroupEmailFrequency)\tConnectApi.UserChatterSettings": "updateChatterSettings($0)",
-            "getPhoto(String communityId, String userId)\tConnectApi.Photo": "getPhoto($0)",
-            "follow(String communityId, String userId, String subjectId)\tConnectApi.Subscription": "follow($0)",
-            "searchUsers(String communityId, String q, Integer pageParam, Integer pageSize)\tConnectApi.UserPage": "searchUsers($0)",
-            "searchUsers(String communityId, String q, String searchContextId, Integer pageParam, Integer pageSize)\tConnectApi.UserPage": "searchUsers($0)",
-            "setTestSearchUsers(String communityId, String q, String searchContextId, Integer pageParam, Integer pageSize, ConnectApi.UserPage result)\tvoid": "setTestSearchUsers($0)",
-            "getFollowings(String communityId, String userId, String filterType, Integer pageParam, Integer pageSize)\tConnectApi.FollowingPage": "getFollowings($0)",
-            "getFollowings(String communityId, String userId, String filterType)\tConnectApi.FollowingPage": "getFollowings($0)",
-            "getUsers(String communityId, Integer pageParam, Integer pageSize)\tConnectApi.UserPage": "getUsers($0)",
-            "searchUsers(String communityId, String q)\tConnectApi.UserPage": "searchUsers($0)",
-            "setTestSearchUsers(String communityId, String q, ConnectApi.UserPage result)\tvoid": "setTestSearchUsers($0)",
-            "deletePhoto(String communityId, String userId)\tvoid": "deletePhoto($0)",
-            "getFollowings(String communityId, String userId, String filterType, Integer pageParam)\tConnectApi.FollowingPage": "getFollowings($0)",
-            "getFollowings(String communityId, String userId, Integer pageParam, Integer pageSize)\tConnectApi.FollowingPage": "getFollowings($0)",
-            "setPhoto(String communityId, String userId, String fileId, Integer versionNumber)\tConnectApi.Photo": "setPhoto($0)",
-            "getFollowings(String communityId, String userId)\tConnectApi.FollowingPage": "getFollowings($0)",
-            "setTestSearchUsers(String communityId, String q, Integer pageParam, Integer pageSize, ConnectApi.UserPage result)\tvoid": "setTestSearchUsers($0)",
-            "getUser(String communityId, String userId)\tConnectApi.UserDetail": "getUser($0)",
-            "getUsers(String communityId)\tConnectApi.UserPage": "getUsers($0)",
-            "getFollowers(String communityId, String userId)\tConnectApi.FollowerPage": "getFollowers($0)",
-            "getChatterSettings(String communityId, String userId)\tConnectApi.UserChatterSettings": "getChatterSettings($0)",
-            "getFollowers(String communityId, String userId, Integer pageParam, Integer pageSize)\tConnectApi.FollowerPage": "getFollowers($0)",
-            "getGroups(String communityId, String userId, Integer pageParam, Integer pageSize)\tConnectApi.UserGroupPage": "getGroups($0)",
-            "getGroups(String communityId, String userId)\tConnectApi.UserGroupPage": "getGroups($0)",
-            "setPhoto(String communityId, String userId, ConnectApi.BinaryInput fileUpload)\tConnectApi.Photo": "setPhoto($0)",
-            "getFollowings(String communityId, String userId, Integer pageParam)\tConnectApi.FollowingPage": "getFollowings($0)"
+            "updateChatterSettings(String communityId, String userId, ConnectApi.GroupEmailFrequency defaultGroupEmailFrequency)\tConnectApi.UserChatterSettings": "updateChatterSettings($1)$0",
+            "getPhoto(String communityId, String userId)\tConnectApi.Photo": "getPhoto($1)$0",
+            "follow(String communityId, String userId, String subjectId)\tConnectApi.Subscription": "follow($1)$0",
+            "searchUsers(String communityId, String q, Integer pageParam, Integer pageSize)\tConnectApi.UserPage": "searchUsers($1)$0",
+            "searchUsers(String communityId, String q, String searchContextId, Integer pageParam, Integer pageSize)\tConnectApi.UserPage": "searchUsers($1)$0",
+            "setTestSearchUsers(String communityId, String q, String searchContextId, Integer pageParam, Integer pageSize, ConnectApi.UserPage result)\tvoid": "setTestSearchUsers($1)$0",
+            "getFollowings(String communityId, String userId, String filterType, Integer pageParam, Integer pageSize)\tConnectApi.FollowingPage": "getFollowings($1)$0",
+            "getFollowings(String communityId, String userId, String filterType)\tConnectApi.FollowingPage": "getFollowings($1)$0",
+            "getUsers(String communityId, Integer pageParam, Integer pageSize)\tConnectApi.UserPage": "getUsers($1)$0",
+            "searchUsers(String communityId, String q)\tConnectApi.UserPage": "searchUsers($1)$0",
+            "setTestSearchUsers(String communityId, String q, ConnectApi.UserPage result)\tvoid": "setTestSearchUsers($1)$0",
+            "deletePhoto(String communityId, String userId)\tvoid": "deletePhoto($1)$0",
+            "getFollowings(String communityId, String userId, String filterType, Integer pageParam)\tConnectApi.FollowingPage": "getFollowings($1)$0",
+            "getFollowings(String communityId, String userId, Integer pageParam, Integer pageSize)\tConnectApi.FollowingPage": "getFollowings($1)$0",
+            "setPhoto(String communityId, String userId, String fileId, Integer versionNumber)\tConnectApi.Photo": "setPhoto($1)$0",
+            "getFollowings(String communityId, String userId)\tConnectApi.FollowingPage": "getFollowings($1)$0",
+            "setTestSearchUsers(String communityId, String q, Integer pageParam, Integer pageSize, ConnectApi.UserPage result)\tvoid": "setTestSearchUsers($1)$0",
+            "getUser(String communityId, String userId)\tConnectApi.UserDetail": "getUser($1)$0",
+            "getUsers(String communityId)\tConnectApi.UserPage": "getUsers($1)$0",
+            "getFollowers(String communityId, String userId)\tConnectApi.FollowerPage": "getFollowers($1)$0",
+            "getChatterSettings(String communityId, String userId)\tConnectApi.UserChatterSettings": "getChatterSettings($1)$0",
+            "getFollowers(String communityId, String userId, Integer pageParam, Integer pageSize)\tConnectApi.FollowerPage": "getFollowers($1)$0",
+            "getGroups(String communityId, String userId, Integer pageParam, Integer pageSize)\tConnectApi.UserGroupPage": "getGroups($1)$0",
+            "getGroups(String communityId, String userId)\tConnectApi.UserGroupPage": "getGroups($1)$0",
+            "setPhoto(String communityId, String userId, ConnectApi.BinaryInput fileUpload)\tConnectApi.Photo": "setPhoto($1)$0",
+            "getFollowings(String communityId, String userId, Integer pageParam)\tConnectApi.FollowingPage": "getFollowings($1)$0"
         }
     },
     "recordsummary": {
@@ -2208,7 +2208,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -2221,8 +2221,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -2232,37 +2232,37 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "getGroups(String communityId)\tConnectApi.ChatterGroupPage": "getGroups($0)",
-            "setTestSearchGroups(String communityId, String q, Integer pageParam, Integer pageSize, ConnectApi.ChatterGroupPage result)\tvoid": "setTestSearchGroups($0)",
-            "getMember(String communityId, String membershipId)\tConnectApi.GroupMember": "getMember($0)",
-            "getGroupMembershipRequests(String communityId, String groupId)\tConnectApi.GroupMembershipRequests": "getGroupMembershipRequests($0)",
-            "getFollowings(String communityId, String groupId, Integer pageParam)\tConnectApi.FollowingPage": "getFollowings($0)",
-            "addMember(String communityId, String groupId, String userId)\tConnectApi.GroupMember": "addMember($0)",
-            "getGroupMembershipRequest(String communityId, String requestId)\tConnectApi.GroupMembershipRequest": "getGroupMembershipRequest($0)",
-            "updateGroup(String communityId, String groupId, ConnectApi.ChatterGroupInput groupInput)\tConnectApi.ChatterGroupDetail": "updateGroup($0)",
-            "updateRequestStatus(String communityId, String requestId, ConnectApi.GroupMembershipRequestStatus status)\tConnectApi.GroupMembershipRequest": "updateRequestStatus($0)",
-            "getMembers(String communityId, String groupId)\tConnectApi.GroupMemberPage": "getMembers($0)",
-            "getMyChatterSettings(String communityId, String groupId)\tConnectApi.GroupChatterSettings": "getMyChatterSettings($0)",
-            "getFollowings(String communityId, String groupId, String filterType)\tConnectApi.FollowingPage": "getFollowings($0)",
-            "getFollowings(String communityId, String groupId)\tConnectApi.FollowingPage": "getFollowings($0)",
-            "getPhoto(String communityId, String groupId)\tConnectApi.Photo": "getPhoto($0)",
-            "updateMyChatterSettings(String communityId, String groupId, ConnectApi.GroupEmailFrequency emailFrequency)\tConnectApi.GroupChatterSettings": "updateMyChatterSettings($0)",
-            "deletePhoto(String communityId, String groupId)\tvoid": "deletePhoto($0)",
-            "getGroups(String communityId, Integer pageParam, Integer pageSize)\tConnectApi.ChatterGroupPage": "getGroups($0)",
-            "setPhoto(String communityId, String groupId, String fileId, Integer versionNumber)\tConnectApi.Photo": "setPhoto($0)",
-            "follow(String communityId, String groupId, String subjectId)\tConnectApi.Subscription": "follow($0)",
-            "getMembers(String communityId, String groupId, Integer pageParam, Integer pageSize)\tConnectApi.GroupMemberPage": "getMembers($0)",
-            "getGroup(String communityId, String groupId)\tConnectApi.ChatterGroupDetail": "getGroup($0)",
-            "getFollowings(String communityId, String groupId, Integer pageParam, Integer pageSize)\tConnectApi.FollowingPage": "getFollowings($0)",
-            "getGroupMembershipRequests(String communityId, String groupId, ConnectApi.GroupMembershipRequestStatus status)\tConnectApi.GroupMembershipRequests": "getGroupMembershipRequests($0)",
-            "setPhoto(String communityId, String groupId, ConnectApi.BinaryInput fileUpload)\tConnectApi.Photo": "setPhoto($0)",
-            "getFollowings(String communityId, String groupId, String filterType, Integer pageParam, Integer pageSize)\tConnectApi.FollowingPage": "getFollowings($0)",
-            "searchGroups(String communityId, String q)\tConnectApi.ChatterGroupPage": "searchGroups($0)",
-            "searchGroups(String communityId, String q, Integer pageParam, Integer pageSize)\tConnectApi.ChatterGroupPage": "searchGroups($0)",
-            "requestGroupMembership(String communityId, String groupId)\tConnectApi.GroupMembershipRequest": "requestGroupMembership($0)",
-            "deleteMember(String communityId, String membershipId)\tvoid": "deleteMember($0)",
-            "getFollowings(String communityId, String groupId, String filterType, Integer pageParam)\tConnectApi.FollowingPage": "getFollowings($0)",
-            "setTestSearchGroups(String communityId, String q, ConnectApi.ChatterGroupPage result)\tvoid": "setTestSearchGroups($0)"
+            "getGroups(String communityId)\tConnectApi.ChatterGroupPage": "getGroups($1)$0",
+            "setTestSearchGroups(String communityId, String q, Integer pageParam, Integer pageSize, ConnectApi.ChatterGroupPage result)\tvoid": "setTestSearchGroups($1)$0",
+            "getMember(String communityId, String membershipId)\tConnectApi.GroupMember": "getMember($1)$0",
+            "getGroupMembershipRequests(String communityId, String groupId)\tConnectApi.GroupMembershipRequests": "getGroupMembershipRequests($1)$0",
+            "getFollowings(String communityId, String groupId, Integer pageParam)\tConnectApi.FollowingPage": "getFollowings($1)$0",
+            "addMember(String communityId, String groupId, String userId)\tConnectApi.GroupMember": "addMember($1)$0",
+            "getGroupMembershipRequest(String communityId, String requestId)\tConnectApi.GroupMembershipRequest": "getGroupMembershipRequest($1)$0",
+            "updateGroup(String communityId, String groupId, ConnectApi.ChatterGroupInput groupInput)\tConnectApi.ChatterGroupDetail": "updateGroup($1)$0",
+            "updateRequestStatus(String communityId, String requestId, ConnectApi.GroupMembershipRequestStatus status)\tConnectApi.GroupMembershipRequest": "updateRequestStatus($1)$0",
+            "getMembers(String communityId, String groupId)\tConnectApi.GroupMemberPage": "getMembers($1)$0",
+            "getMyChatterSettings(String communityId, String groupId)\tConnectApi.GroupChatterSettings": "getMyChatterSettings($1)$0",
+            "getFollowings(String communityId, String groupId, String filterType)\tConnectApi.FollowingPage": "getFollowings($1)$0",
+            "getFollowings(String communityId, String groupId)\tConnectApi.FollowingPage": "getFollowings($1)$0",
+            "getPhoto(String communityId, String groupId)\tConnectApi.Photo": "getPhoto($1)$0",
+            "updateMyChatterSettings(String communityId, String groupId, ConnectApi.GroupEmailFrequency emailFrequency)\tConnectApi.GroupChatterSettings": "updateMyChatterSettings($1)$0",
+            "deletePhoto(String communityId, String groupId)\tvoid": "deletePhoto($1)$0",
+            "getGroups(String communityId, Integer pageParam, Integer pageSize)\tConnectApi.ChatterGroupPage": "getGroups($1)$0",
+            "setPhoto(String communityId, String groupId, String fileId, Integer versionNumber)\tConnectApi.Photo": "setPhoto($1)$0",
+            "follow(String communityId, String groupId, String subjectId)\tConnectApi.Subscription": "follow($1)$0",
+            "getMembers(String communityId, String groupId, Integer pageParam, Integer pageSize)\tConnectApi.GroupMemberPage": "getMembers($1)$0",
+            "getGroup(String communityId, String groupId)\tConnectApi.ChatterGroupDetail": "getGroup($1)$0",
+            "getFollowings(String communityId, String groupId, Integer pageParam, Integer pageSize)\tConnectApi.FollowingPage": "getFollowings($1)$0",
+            "getGroupMembershipRequests(String communityId, String groupId, ConnectApi.GroupMembershipRequestStatus status)\tConnectApi.GroupMembershipRequests": "getGroupMembershipRequests($1)$0",
+            "setPhoto(String communityId, String groupId, ConnectApi.BinaryInput fileUpload)\tConnectApi.Photo": "setPhoto($1)$0",
+            "getFollowings(String communityId, String groupId, String filterType, Integer pageParam, Integer pageSize)\tConnectApi.FollowingPage": "getFollowings($1)$0",
+            "searchGroups(String communityId, String q)\tConnectApi.ChatterGroupPage": "searchGroups($1)$0",
+            "searchGroups(String communityId, String q, Integer pageParam, Integer pageSize)\tConnectApi.ChatterGroupPage": "searchGroups($1)$0",
+            "requestGroupMembership(String communityId, String groupId)\tConnectApi.GroupMembershipRequest": "requestGroupMembership($1)$0",
+            "deleteMember(String communityId, String membershipId)\tvoid": "deleteMember($1)$0",
+            "getFollowings(String communityId, String groupId, String filterType, Integer pageParam)\tConnectApi.FollowingPage": "getFollowings($1)$0",
+            "setTestSearchGroups(String communityId, String q, ConnectApi.ChatterGroupPage result)\tvoid": "setTestSearchGroups($1)$0"
         }
     },
     "id": {
@@ -2270,12 +2270,12 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "addError(String msg, Boolean escape)\tvoid": "addError($0)",
-            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($0)",
-            "addError(APEX_OBJECT msg)\tvoid": "addError($0)",
-            "valueOf(String str)\tId": "valueOf($0)",
+            "addError(String msg, Boolean escape)\tvoid": "addError($1)$0",
+            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($1)$0",
+            "addError(APEX_OBJECT msg)\tvoid": "addError($1)$0",
+            "valueOf(String str)\tId": "valueOf($1)$0",
             "getSobjectType()\tSchema.SObjectType": "getSobjectType()$0",
-            "addError(String msg)\tvoid": "addError($0)"
+            "addError(String msg)\tvoid": "addError($1)$0"
         }
     },
     "userpage": {
@@ -2291,7 +2291,7 @@ apex_completions = {
             "currentPageUrl": "currentPageUrl$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -2319,67 +2319,67 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "getFeedItemsFromFilterFeed(String communityId, String subjectId, String keyPrefix)\tConnectApi.FeedItemPage": "getFeedItemsFromFilterFeed($0)",
-            "getCommentsForFeedItem(String communityId, String feedItemId, String pageParam, Integer pageSize)\tConnectApi.CommentPage": "getCommentsForFeedItem($0)",
-            "postComment(String communityId, String feedItemId, String text)\tConnectApi.Comment": "postComment($0)",
-            "getFeed(String communityId, ConnectApi.FeedType feedType, ConnectApi.FeedSortOrder sortParam)\tConnectApi.Feed": "getFeed($0)",
-            "setTestSearchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed($0)",
-            "getComment(String communityId, String commentId)\tConnectApi.Comment": "getComment($0)",
-            "setTestSearchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed($0)",
-            "setTestGetFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed($0)",
-            "searchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed($0)",
-            "getFeed(String communityId, ConnectApi.FeedType feedType)\tConnectApi.Feed": "getFeed($0)",
-            "getFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, String subjectId)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed($0)",
-            "setTestSearchFeedItems(String communityId, String q, String pageParam, Integer pageSize, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems($0)",
-            "deleteFeedItem(String communityId, String feedItemId)\tvoid": "deleteFeedItem($0)",
-            "setTestSearchFeedItems(String communityId, String q, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems($0)",
-            "getLikesForComment(String communityId, String commentId, Integer pageParam, Integer pageSize)\tConnectApi.ChatterLikePage": "getLikesForComment($0)",
-            "setTestSearchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed($0)",
-            "setTestGetFeedItemsFromFilterFeed(String communityId, String subjectId, String keyPrefix, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFilterFeed($0)",
-            "likeFeedItem(String communityId, String feedItemId)\tConnectApi.ChatterLike": "likeFeedItem($0)",
-            "getFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed($0)",
-            "shareFeedItem(String communityId, ConnectApi.FeedType feedType, String subjectId, String originalFeedItemId)\tConnectApi.FeedItem": "shareFeedItem($0)",
-            "getFilterFeed(String communityId, String subjectId, String keyPrefix, ConnectApi.FeedSortOrder sortParam)\tConnectApi.Feed": "getFilterFeed($0)",
-            "setTestGetFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed($0)",
-            "getLike(String communityId, String likeId)\tConnectApi.ChatterLike": "getLike($0)",
-            "searchFeedItems(String communityId, String q, String pageParam, Integer pageSize)\tConnectApi.FeedItemPage": "searchFeedItems($0)",
-            "getLikesForFeedItem(String communityId, String feedItemId, Integer pageParam, Integer pageSize)\tConnectApi.ChatterLikePage": "getLikesForFeedItem($0)",
-            "searchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed($0)",
-            "setTestSearchFeedItems(String communityId, String q, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems($0)",
-            "searchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed($0)",
-            "setTestGetFeedItemsFromFilterFeed(String communityId, String subjectId, String keyPrefix, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFilterFeed($0)",
-            "getFeedPoll(String communityId, String feedItemId)\tConnectApi.FeedPoll": "getFeedPoll($0)",
-            "searchFeedItemsInFilterFeed(String communityId, String subjectId, String keyPrefix, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFilterFeed($0)",
-            "getFilterFeed(String communityId, String subjectId, String keyPrefix)\tConnectApi.Feed": "getFilterFeed($0)",
-            "getFeedItemsFromFilterFeed(String communityId, String subjectId, String keyPrefix, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFilterFeed($0)",
-            "setTestSearchFeedItemsInFilterFeed(String communityId, String subjectId, String keyPrefix, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFilterFeed($0)",
-            "getFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed($0)",
-            "searchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed($0)",
-            "isModified(String communityId, ConnectApi.FeedType feedType, String subjectId, String since)\tConnectApi.FeedModifiedInfo": "isModified($0)",
-            "setTestSearchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed($0)",
-            "setTestGetFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed($0)",
-            "deleteLike(String communityId, String likeId)\tvoid": "deleteLike($0)",
-            "getFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, ConnectApi.FeedSortOrder sortParam)\tConnectApi.Feed": "getFeed($0)",
-            "setTestGetFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed($0)",
-            "postFeedItem(String communityId, ConnectApi.FeedType feedType, String subjectId, ConnectApi.FeedItemInput feedItem, ConnectApi.BinaryInput feedItemFileUpload)\tConnectApi.FeedItem": "postFeedItem($0)",
-            "setTestSearchFeedItemsInFilterFeed(String communityId, String subjectId, String keyPrefix, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFilterFeed($0)",
-            "getLikesForFeedItem(String communityId, String feedItemId)\tConnectApi.ChatterLikePage": "getLikesForFeedItem($0)",
-            "likeComment(String communityId, String commentId)\tConnectApi.ChatterLike": "likeComment($0)",
-            "postFeedItem(String communityId, ConnectApi.FeedType feedType, String subjectId, String text)\tConnectApi.FeedItem": "postFeedItem($0)",
-            "getFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed($0)",
-            "postComment(String communityId, String feedItemId, ConnectApi.CommentInput comment, ConnectApi.BinaryInput feedItemFileUpload)\tConnectApi.Comment": "postComment($0)",
-            "searchFeedItems(String communityId, String q, ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "searchFeedItems($0)",
-            "getCommentsForFeedItem(String communityId, String feedItemId)\tConnectApi.CommentPage": "getCommentsForFeedItem($0)",
-            "searchFeedItemsInFilterFeed(String communityId, String subjectId, String keyPrefix, String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFilterFeed($0)",
-            "searchFeedItems(String communityId, String q, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "searchFeedItems($0)",
-            "getFeedItem(String communityId, String feedItemId)\tConnectApi.FeedItem": "getFeedItem($0)",
-            "updateBookmark(String communityId, String feedItemId, Boolean isBookmarkedByCurrentUser)\tConnectApi.FeedItem": "updateBookmark($0)",
-            "setTestSearchFeedItems(String communityId, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems($0)",
-            "getLikesForComment(String communityId, String commentId)\tConnectApi.ChatterLikePage": "getLikesForComment($0)",
-            "deleteComment(String communityId, String commentId)\tvoid": "deleteComment($0)",
-            "getFeed(String communityId, ConnectApi.FeedType feedType, String subjectId)\tConnectApi.Feed": "getFeed($0)",
-            "voteOnFeedPoll(String communityId, String feedItemId, String myChoiceId)\tConnectApi.FeedPoll": "voteOnFeedPoll($0)",
-            "searchFeedItems(String communityId, String q)\tConnectApi.FeedItemPage": "searchFeedItems($0)"
+            "getFeedItemsFromFilterFeed(String communityId, String subjectId, String keyPrefix)\tConnectApi.FeedItemPage": "getFeedItemsFromFilterFeed($1)$0",
+            "getCommentsForFeedItem(String communityId, String feedItemId, String pageParam, Integer pageSize)\tConnectApi.CommentPage": "getCommentsForFeedItem($1)$0",
+            "postComment(String communityId, String feedItemId, String text)\tConnectApi.Comment": "postComment($1)$0",
+            "getFeed(String communityId, ConnectApi.FeedType feedType, ConnectApi.FeedSortOrder sortParam)\tConnectApi.Feed": "getFeed($1)$0",
+            "setTestSearchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed($1)$0",
+            "getComment(String communityId, String commentId)\tConnectApi.Comment": "getComment($1)$0",
+            "setTestSearchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed($1)$0",
+            "setTestGetFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed($1)$0",
+            "searchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed($1)$0",
+            "getFeed(String communityId, ConnectApi.FeedType feedType)\tConnectApi.Feed": "getFeed($1)$0",
+            "getFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, String subjectId)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed($1)$0",
+            "setTestSearchFeedItems(String communityId, String q, String pageParam, Integer pageSize, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems($1)$0",
+            "deleteFeedItem(String communityId, String feedItemId)\tvoid": "deleteFeedItem($1)$0",
+            "setTestSearchFeedItems(String communityId, String q, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems($1)$0",
+            "getLikesForComment(String communityId, String commentId, Integer pageParam, Integer pageSize)\tConnectApi.ChatterLikePage": "getLikesForComment($1)$0",
+            "setTestSearchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed($1)$0",
+            "setTestGetFeedItemsFromFilterFeed(String communityId, String subjectId, String keyPrefix, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFilterFeed($1)$0",
+            "likeFeedItem(String communityId, String feedItemId)\tConnectApi.ChatterLike": "likeFeedItem($1)$0",
+            "getFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed($1)$0",
+            "shareFeedItem(String communityId, ConnectApi.FeedType feedType, String subjectId, String originalFeedItemId)\tConnectApi.FeedItem": "shareFeedItem($1)$0",
+            "getFilterFeed(String communityId, String subjectId, String keyPrefix, ConnectApi.FeedSortOrder sortParam)\tConnectApi.Feed": "getFilterFeed($1)$0",
+            "setTestGetFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed($1)$0",
+            "getLike(String communityId, String likeId)\tConnectApi.ChatterLike": "getLike($1)$0",
+            "searchFeedItems(String communityId, String q, String pageParam, Integer pageSize)\tConnectApi.FeedItemPage": "searchFeedItems($1)$0",
+            "getLikesForFeedItem(String communityId, String feedItemId, Integer pageParam, Integer pageSize)\tConnectApi.ChatterLikePage": "getLikesForFeedItem($1)$0",
+            "searchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed($1)$0",
+            "setTestSearchFeedItems(String communityId, String q, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems($1)$0",
+            "searchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed($1)$0",
+            "setTestGetFeedItemsFromFilterFeed(String communityId, String subjectId, String keyPrefix, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFilterFeed($1)$0",
+            "getFeedPoll(String communityId, String feedItemId)\tConnectApi.FeedPoll": "getFeedPoll($1)$0",
+            "searchFeedItemsInFilterFeed(String communityId, String subjectId, String keyPrefix, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFilterFeed($1)$0",
+            "getFilterFeed(String communityId, String subjectId, String keyPrefix)\tConnectApi.Feed": "getFilterFeed($1)$0",
+            "getFeedItemsFromFilterFeed(String communityId, String subjectId, String keyPrefix, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFilterFeed($1)$0",
+            "setTestSearchFeedItemsInFilterFeed(String communityId, String subjectId, String keyPrefix, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFilterFeed($1)$0",
+            "getFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed($1)$0",
+            "searchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed($1)$0",
+            "isModified(String communityId, ConnectApi.FeedType feedType, String subjectId, String since)\tConnectApi.FeedModifiedInfo": "isModified($1)$0",
+            "setTestSearchFeedItemsInFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed($1)$0",
+            "setTestGetFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed($1)$0",
+            "deleteLike(String communityId, String likeId)\tvoid": "deleteLike($1)$0",
+            "getFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, ConnectApi.FeedSortOrder sortParam)\tConnectApi.Feed": "getFeed($1)$0",
+            "setTestGetFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType, String subjectId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed($1)$0",
+            "postFeedItem(String communityId, ConnectApi.FeedType feedType, String subjectId, ConnectApi.FeedItemInput feedItem, ConnectApi.BinaryInput feedItemFileUpload)\tConnectApi.FeedItem": "postFeedItem($1)$0",
+            "setTestSearchFeedItemsInFilterFeed(String communityId, String subjectId, String keyPrefix, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFilterFeed($1)$0",
+            "getLikesForFeedItem(String communityId, String feedItemId)\tConnectApi.ChatterLikePage": "getLikesForFeedItem($1)$0",
+            "likeComment(String communityId, String commentId)\tConnectApi.ChatterLike": "likeComment($1)$0",
+            "postFeedItem(String communityId, ConnectApi.FeedType feedType, String subjectId, String text)\tConnectApi.FeedItem": "postFeedItem($1)$0",
+            "getFeedItemsFromFeed(String communityId, ConnectApi.FeedType feedType)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed($1)$0",
+            "postComment(String communityId, String feedItemId, ConnectApi.CommentInput comment, ConnectApi.BinaryInput feedItemFileUpload)\tConnectApi.Comment": "postComment($1)$0",
+            "searchFeedItems(String communityId, String q, ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "searchFeedItems($1)$0",
+            "getCommentsForFeedItem(String communityId, String feedItemId)\tConnectApi.CommentPage": "getCommentsForFeedItem($1)$0",
+            "searchFeedItemsInFilterFeed(String communityId, String subjectId, String keyPrefix, String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFilterFeed($1)$0",
+            "searchFeedItems(String communityId, String q, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "searchFeedItems($1)$0",
+            "getFeedItem(String communityId, String feedItemId)\tConnectApi.FeedItem": "getFeedItem($1)$0",
+            "updateBookmark(String communityId, String feedItemId, Boolean isBookmarkedByCurrentUser)\tConnectApi.FeedItem": "updateBookmark($1)$0",
+            "setTestSearchFeedItems(String communityId, String q, ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems($1)$0",
+            "getLikesForComment(String communityId, String commentId)\tConnectApi.ChatterLikePage": "getLikesForComment($1)$0",
+            "deleteComment(String communityId, String commentId)\tvoid": "deleteComment($1)$0",
+            "getFeed(String communityId, ConnectApi.FeedType feedType, String subjectId)\tConnectApi.Feed": "getFeed($1)$0",
+            "voteOnFeedPoll(String communityId, String feedItemId, String myChoiceId)\tConnectApi.FeedPoll": "voteOnFeedPoll($1)$0",
+            "searchFeedItems(String communityId, String q)\tConnectApi.FeedItemPage": "searchFeedItems($1)$0"
         }
     },
     "fieldchangevaluesegment": {
@@ -2389,7 +2389,7 @@ apex_completions = {
             "url": "url$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -2399,7 +2399,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -2424,7 +2424,7 @@ apex_completions = {
             "role": "role$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -2438,7 +2438,7 @@ apex_completions = {
             "name": "name$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -2450,8 +2450,8 @@ apex_completions = {
         "properties": {},
         "methods": {
             "getNetworkId()\tString": "getNetworkId()$0",
-            "forwardToAuthPage(String startUrl)\tSystem.PageReference": "forwardToAuthPage($0)",
-            "forwardToAuthPage(String startUrl, String displayType)\tSystem.PageReference": "forwardToAuthPage($0)",
+            "forwardToAuthPage(String startUrl)\tSystem.PageReference": "forwardToAuthPage($1)$0",
+            "forwardToAuthPage(String startUrl, String displayType)\tSystem.PageReference": "forwardToAuthPage($1)$0",
             "communitiesLanding()\tSystem.PageReference": "communitiesLanding()$0"
         }
     },
@@ -2463,8 +2463,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -2495,7 +2495,7 @@ apex_completions = {
             "emailFrequency": "emailFrequency$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -2517,7 +2517,7 @@ apex_completions = {
             "dashboardName": "dashboardName$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -2539,7 +2539,7 @@ apex_completions = {
             "phoneNumber": "phoneNumber$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -2558,19 +2558,19 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "addError(String msg, Boolean escape)\tvoid": "addError($0)",
+            "addError(String msg, Boolean escape)\tvoid": "addError($1)$0",
             "minute()\tInteger": "minute()$0",
             "hour()\tInteger": "hour()$0",
             "second()\tInteger": "second()$0",
-            "addHours(Integer hours)\tTime": "addHours($0)",
-            "addMilliseconds(Integer milliseconds)\tTime": "addMilliseconds($0)",
-            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($0)",
-            "newInstance(Integer hour, Integer minute, Integer second, Integer millisecond)\tTime": "newInstance($0)",
+            "addHours(Integer hours)\tTime": "addHours($1)$0",
+            "addMilliseconds(Integer milliseconds)\tTime": "addMilliseconds($1)$0",
+            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($1)$0",
+            "newInstance(Integer hour, Integer minute, Integer second, Integer millisecond)\tTime": "newInstance($1)$0",
             "millisecond()\tInteger": "millisecond()$0",
-            "addError(String msg)\tvoid": "addError($0)",
-            "addError(APEX_OBJECT msg)\tvoid": "addError($0)",
-            "addSeconds(Integer seconds)\tTime": "addSeconds($0)",
-            "addMinutes(Integer minutes)\tTime": "addMinutes($0)"
+            "addError(String msg)\tvoid": "addError($1)$0",
+            "addError(APEX_OBJECT msg)\tvoid": "addError($1)$0",
+            "addSeconds(Integer seconds)\tTime": "addSeconds($1)$0",
+            "addMinutes(Integer minutes)\tTime": "addMinutes($1)$0"
         }
     },
     "groupmembershiprequeststatus": {
@@ -2590,7 +2590,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "getDefaultEmailTemplateId(Id param1)\tId": "getDefaultEmailTemplateId($0)"
+            "getDefaultEmailTemplateId(Id param1)\tId": "getDefaultEmailTemplateId($1)$0"
         }
     },
     "outputparameter": {
@@ -2620,8 +2620,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -2642,9 +2642,9 @@ apex_completions = {
             "messageSegments": "messageSegments$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -2670,9 +2670,9 @@ apex_completions = {
             "visibility": "visibility$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -2681,11 +2681,11 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "base64Decode(String s)\tBlob": "base64Decode($0)",
-            "urlEncode(String s, String enc)\tString": "urlEncode($0)",
-            "convertToHex(Blob s)\tString": "convertToHex($0)",
-            "urlDecode(String s, String enc)\tString": "urlDecode($0)",
-            "base64Encode(Blob s)\tString": "base64Encode($0)"
+            "base64Decode(String s)\tBlob": "base64Decode($1)$0",
+            "urlEncode(String s, String enc)\tString": "urlEncode($1)$0",
+            "convertToHex(Blob s)\tString": "convertToHex($1)$0",
+            "urlDecode(String s, String enc)\tString": "urlDecode($1)$0",
+            "base64Encode(Blob s)\tString": "base64Encode($1)$0"
         }
     },
     "morechangessegment": {
@@ -2695,7 +2695,7 @@ apex_completions = {
             "moreChangesCount": "moreChangesCount$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -2721,7 +2721,7 @@ apex_completions = {
             "type": "type$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -2744,7 +2744,7 @@ apex_completions = {
             "motif": "motif$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -2757,7 +2757,7 @@ apex_completions = {
             "text": "text$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -2770,9 +2770,9 @@ apex_completions = {
             "text": "text$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -2795,8 +2795,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -2806,21 +2806,21 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "writeComment(String data)\tvoid": "writeComment($0)",
+            "writeComment(String data)\tvoid": "writeComment($1)$0",
             "getXmlString()\tString": "getXmlString()$0",
-            "writeStartDocument(String encoding, String version)\tvoid": "writeStartDocument($0)",
-            "writeCData(String data)\tvoid": "writeCData($0)",
-            "writeProcessingInstruction(String target, String data)\tvoid": "writeProcessingInstruction($0)",
+            "writeStartDocument(String encoding, String version)\tvoid": "writeStartDocument($1)$0",
+            "writeCData(String data)\tvoid": "writeCData($1)$0",
+            "writeProcessingInstruction(String target, String data)\tvoid": "writeProcessingInstruction($1)$0",
             "writeEndDocument()\tvoid": "writeEndDocument()$0",
             "close()\tvoid": "close()$0",
-            "writeDefaultNamespace(String namesapceURI)\tvoid": "writeDefaultNamespace($0)",
-            "writeNamespace(String prefix, String namesapceURI)\tvoid": "writeNamespace($0)",
-            "writeCharacters(String text)\tvoid": "writeCharacters($0)",
-            "writeEmptyElement(String prefix, String localName, String namesapceURI)\tvoid": "writeEmptyElement($0)",
+            "writeDefaultNamespace(String namesapceURI)\tvoid": "writeDefaultNamespace($1)$0",
+            "writeNamespace(String prefix, String namesapceURI)\tvoid": "writeNamespace($1)$0",
+            "writeCharacters(String text)\tvoid": "writeCharacters($1)$0",
+            "writeEmptyElement(String prefix, String localName, String namesapceURI)\tvoid": "writeEmptyElement($1)$0",
             "writeEndElement()\tvoid": "writeEndElement()$0",
-            "setDefaultNamespace(String uri)\tvoid": "setDefaultNamespace($0)",
-            "writeAttribute(String prefix, String namespaceURI, String localName, String value)\tvoid": "writeAttribute($0)",
-            "writeStartElement(String prefix, String localName, String namesapceURI)\tvoid": "writeStartElement($0)"
+            "setDefaultNamespace(String uri)\tvoid": "setDefaultNamespace($1)$0",
+            "writeAttribute(String prefix, String namespaceURI, String localName, String value)\tvoid": "writeAttribute($1)$0",
+            "writeStartElement(String prefix, String localName, String namesapceURI)\tvoid": "writeStartElement($1)$0"
         }
     },
     "mathexception": {
@@ -2831,8 +2831,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -2845,8 +2845,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -2869,8 +2869,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -2880,24 +2880,24 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "add(ANY element)\tObject": "add($0)",
-            "deepClone(Boolean preserveId)\tLIST<String>": "deepClone($0)",
-            "addAll(SET elements)\tvoid": "addAll($0)",
-            "set(Integer index, ANY value)\tvoid": "set($0)",
-            "get(Integer index)\tObject": "get($0)",
+            "add(ANY element)\tObject": "add($1)$0",
+            "deepClone(Boolean preserveId)\tLIST<String>": "deepClone($1)$0",
+            "addAll(SET elements)\tvoid": "addAll($1)$0",
+            "set(Integer index, ANY value)\tvoid": "set($1)$0",
+            "get(Integer index)\tObject": "get($1)$0",
             "size()\tInteger": "size()$0",
-            "add(Integer index, ANY element)\tvoid": "add($0)",
+            "add(Integer index, ANY element)\tvoid": "add($1)$0",
             "deepClone()\tLIST<String>": "deepClone()$0",
             "getSObjectType()\tSchema.SObjectType": "getSObjectType()$0",
-            "deepClone(Boolean preserveId, Boolean preserveReadOnlyTimestamps, Boolean preserveAutoNumbers)\tLIST<String>": "deepClone($0)",
-            "remove(Integer index)\tObject": "remove($0)",
+            "deepClone(Boolean preserveId, Boolean preserveReadOnlyTimestamps, Boolean preserveAutoNumbers)\tLIST<String>": "deepClone($1)$0",
+            "remove(Integer index)\tObject": "remove($1)$0",
             "iterator()\tsystem.ListIterator": "iterator()$0",
             "sort()\tvoid": "sort()$0",
-            "deepClone(Boolean preserveId, Boolean preserveReadOnlyTimestamps)\tLIST<String>": "deepClone($0)",
+            "deepClone(Boolean preserveId, Boolean preserveReadOnlyTimestamps)\tLIST<String>": "deepClone($1)$0",
             "clone()\tLIST<String>": "clone()$0",
             "isEmpty()\tBoolean": "isEmpty()$0",
             "clear()\tvoid": "clear()$0",
-            "addAll(LIST elements)\tvoid": "addAll($0)"
+            "addAll(LIST elements)\tvoid": "addAll($1)$0"
         }
     },
     "message": {
@@ -2942,33 +2942,33 @@ apex_completions = {
         ],
         "methods": {
             "isBatch()\tBoolean": "isBatch()$0",
-            "assertEquals(ANY expected, ANY actual)\tvoid": "assertEquals($0)",
+            "assertEquals(ANY expected, ANY actual)\tvoid": "assertEquals($1)$0",
             "isScheduled()\tBoolean": "isScheduled()$0",
-            "setPassword(Id userId, String password)\tvoid": "setPassword($0)",
-            "purgeOldAsyncJobs(Date date)\tInteger": "purgeOldAsyncJobs($0)",
-            "abortJob(String jobId)\tvoid": "abortJob($0)",
-            "assertEquals(ANY expected, ANY actual, ANY msg)\tvoid": "assertEquals($0)",
-            "resetPassword(Id userId, Boolean sendUserEmail)\tSystem.ResetPasswordResult": "resetPassword($0)",
+            "setPassword(Id userId, String password)\tvoid": "setPassword($1)$0",
+            "purgeOldAsyncJobs(Date date)\tInteger": "purgeOldAsyncJobs($1)$0",
+            "abortJob(String jobId)\tvoid": "abortJob($1)$0",
+            "assertEquals(ANY expected, ANY actual, ANY msg)\tvoid": "assertEquals($1)$0",
+            "resetPassword(Id userId, Boolean sendUserEmail)\tSystem.ResetPasswordResult": "resetPassword($1)$0",
             "currentPageReference()\tSystem.PageReference": "currentPageReference()$0",
             "now()\tDatetime": "now()$0",
-            "runAs(Package.Version version)\tvoid": "runAs($0)",
-            "assertNotEquals(ANY expected, ANY actual)\tvoid": "assertNotEquals($0)",
+            "runAs(Package.Version version)\tvoid": "runAs($1)$0",
+            "assertNotEquals(ANY expected, ANY actual)\tvoid": "assertNotEquals($1)$0",
             "requestVersion()\tsystem.Version": "requestVersion()$0",
-            "assert(Boolean condition, ANY msg)\tvoid": "assert($0)",
+            "assert(Boolean condition, ANY msg)\tvoid": "assert($1)$0",
             "today()\tDate": "today()$0",
-            "runAs(SObject user, ANY block)\tvoid": "runAs($0)",
-            "assert(Boolean condition)\tvoid": "assert($0)",
-            "scheduleBatch(APEX_OBJECT batchable, String jobName, Integer minutesFromNow, Integer scopeSize)\tString": "scheduleBatch($0)",
-            "debug(APEX_OBJECT logLevel, ANY o)\tvoid": "debug($0)",
+            "runAs(SObject user, ANY block)\tvoid": "runAs($1)$0",
+            "assert(Boolean condition)\tvoid": "assert($1)$0",
+            "scheduleBatch(APEX_OBJECT batchable, String jobName, Integer minutesFromNow, Integer scopeSize)\tString": "scheduleBatch($1)$0",
+            "debug(APEX_OBJECT logLevel, ANY o)\tvoid": "debug($1)$0",
             "currentTimeMillis()\tLong": "currentTimeMillis()$0",
-            "scheduleBatch(APEX_OBJECT batchable, String jobName, Integer minutesFromNow)\tString": "scheduleBatch($0)",
-            "schedule(String jobName, String cronExp, APEX_OBJECT schedulable)\tString": "schedule($0)",
+            "scheduleBatch(APEX_OBJECT batchable, String jobName, Integer minutesFromNow)\tString": "scheduleBatch($1)$0",
+            "schedule(String jobName, String cronExp, APEX_OBJECT schedulable)\tString": "schedule($1)$0",
             "getApplicationReadWriteMode()\tsystem.ApplicationReadWriteMode": "getApplicationReadWriteMode()$0",
             "isFuture()\tBoolean": "isFuture()$0",
-            "debug(ANY o)\tvoid": "debug($0)",
-            "assertNotEquals(ANY expected, ANY actual, ANY msg)\tvoid": "assertNotEquals($0)",
-            "submit(LIST ids, String commments, String nextApprover)\tLIST<Id>": "submit($0)",
-            "process(LIST workitemIds, String action, String commments, String nextApprover)\tLIST<Id>": "process($0)"
+            "debug(ANY o)\tvoid": "debug($1)$0",
+            "assertNotEquals(ANY expected, ANY actual, ANY msg)\tvoid": "assertNotEquals($1)$0",
+            "submit(LIST ids, String commments, String nextApprover)\tLIST<Id>": "submit($1)$0",
+            "process(LIST workitemIds, String action, String commments, String nextApprover)\tLIST<Id>": "process($1)$0"
         }
     },
     "urlrewriter": {
@@ -2976,8 +2976,8 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "generateUrlFor(LIST<System.PageReference> param1)\tLIST<System.PageReference>": "generateUrlFor($0)",
-            "mapRequestUrl(System.PageReference param1)\tSystem.PageReference": "mapRequestUrl($0)"
+            "generateUrlFor(LIST<System.PageReference> param1)\tLIST<System.PageReference>": "generateUrlFor($1)$0",
+            "mapRequestUrl(System.PageReference param1)\tSystem.PageReference": "mapRequestUrl($1)$0"
         }
     },
     "xmlstreamreader": {
@@ -2988,35 +2988,35 @@ apex_completions = {
             "getEventType()\tsystem.XmlTag": "getEventType()$0",
             "getPrefix()\tString": "getPrefix()$0",
             "getLocation()\tString": "getLocation()$0",
-            "getAttributeType(Integer index)\tString": "getAttributeType($0)",
-            "getNamespaceURIAt(Integer index)\tString": "getNamespaceURIAt($0)",
-            "getAttributeLocalName(Integer index)\tString": "getAttributeLocalName($0)",
-            "getNamespacePrefix(Integer index)\tString": "getNamespacePrefix($0)",
+            "getAttributeType(Integer index)\tString": "getAttributeType($1)$0",
+            "getNamespaceURIAt(Integer index)\tString": "getNamespaceURIAt($1)$0",
+            "getAttributeLocalName(Integer index)\tString": "getAttributeLocalName($1)$0",
+            "getNamespacePrefix(Integer index)\tString": "getNamespacePrefix($1)$0",
             "getAttributeCount()\tInteger": "getAttributeCount()$0",
-            "getAttributePrefix(Integer index)\tString": "getAttributePrefix($0)",
+            "getAttributePrefix(Integer index)\tString": "getAttributePrefix($1)$0",
             "getNamespace()\tString": "getNamespace()$0",
             "getLocalName()\tString": "getLocalName()$0",
             "isEndElement()\tBoolean": "isEndElement()$0",
             "isWhitespace()\tBoolean": "isWhitespace()$0",
-            "getNamespaceURI(String prefix)\tString": "getNamespaceURI($0)",
+            "getNamespaceURI(String prefix)\tString": "getNamespaceURI($1)$0",
             "hasName()\tBoolean": "hasName()$0",
-            "getAttributeNamespace(Integer index)\tString": "getAttributeNamespace($0)",
+            "getAttributeNamespace(Integer index)\tString": "getAttributeNamespace($1)$0",
             "hasNext()\tBoolean": "hasNext()$0",
-            "getAttributeValue(String namespaceURI, String localName)\tString": "getAttributeValue($0)",
+            "getAttributeValue(String namespaceURI, String localName)\tString": "getAttributeValue($1)$0",
             "getNamespaceCount()\tInteger": "getNamespaceCount()$0",
             "getText()\tString": "getText()$0",
             "getPIData()\tString": "getPIData()$0",
             "getPITarget()\tString": "getPITarget()$0",
             "toString()\tString": "toString()$0",
-            "getAttributeValueAt(Integer index)\tString": "getAttributeValueAt($0)",
-            "setNamespaceAware(Boolean flag)\tvoid": "setNamespaceAware($0)",
+            "getAttributeValueAt(Integer index)\tString": "getAttributeValueAt($1)$0",
+            "setNamespaceAware(Boolean flag)\tvoid": "setNamespaceAware($1)$0",
             "nextTag()\tInteger": "nextTag()$0",
             "getVersion()\tString": "getVersion()$0",
             "isCharacters()\tBoolean": "isCharacters()$0",
             "next()\tInteger": "next()$0",
             "hasText()\tBoolean": "hasText()$0",
             "isStartElement()\tBoolean": "isStartElement()$0",
-            "setCoalescing(Boolean flag)\tvoid": "setCoalescing($0)"
+            "setCoalescing(Boolean flag)\tvoid": "setCoalescing($1)$0"
         }
     },
     "querylocatorchunkiterator": {
@@ -3037,7 +3037,7 @@ apex_completions = {
             "width": "width$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -3057,7 +3057,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "getMotif(String communityId, String idOrPrefix)\tConnectApi.Motif": "getMotif($0)"
+            "getMotif(String communityId, String idOrPrefix)\tConnectApi.Motif": "getMotif($1)$0"
         }
     },
     "emailattachment": {
@@ -3073,19 +3073,19 @@ apex_completions = {
         "properties": {},
         "methods": {
             "getCause()\tException": "getCause()$0",
-            "getDmlFieldNames(Integer index)\tLIST<String>": "getDmlFieldNames($0)",
-            "getDmlType(Integer index)\tsystem.StatusCode": "getDmlType($0)",
+            "getDmlFieldNames(Integer index)\tLIST<String>": "getDmlFieldNames($1)$0",
+            "getDmlType(Integer index)\tsystem.StatusCode": "getDmlType($1)$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "getDmlStatusCode(Integer index)\tString": "getDmlStatusCode($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "getDmlStatusCode(Integer index)\tString": "getDmlStatusCode($1)$0",
             "getNumDml()\tInteger": "getNumDml()$0",
-            "getDmlMessage(Integer index)\tString": "getDmlMessage($0)",
+            "getDmlMessage(Integer index)\tString": "getDmlMessage($1)$0",
             "getMessage()\tString": "getMessage()$0",
-            "getDmlFields(Integer index)\tLIST<Schema.SObjectField>": "getDmlFields($0)",
+            "getDmlFields(Integer index)\tLIST<Schema.SObjectField>": "getDmlFields($1)$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
-            "getDmlId(Integer index)\tString": "getDmlId($0)",
-            "getDmlIndex(Integer index)\tInteger": "getDmlIndex($0)",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
+            "getDmlId(Integer index)\tString": "getDmlId($1)$0",
+            "getDmlIndex(Integer index)\tInteger": "getDmlIndex($1)$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
     },
@@ -3099,7 +3099,7 @@ apex_completions = {
             "likedItem": "likedItem$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -3112,7 +3112,7 @@ apex_completions = {
             "type": "type$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -3126,9 +3126,9 @@ apex_completions = {
             "url": "url$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -3352,7 +3352,7 @@ apex_completions = {
             "hasAccessToInternalOrg": "hasAccessToInternalOrg$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -3367,7 +3367,7 @@ apex_completions = {
             "topicUrl": "topicUrl$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -3377,8 +3377,8 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
-            "convertToJavaObject(java:common.api.AppVersion param1)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
+            "convertToJavaObject(java:common.api.AppVersion param1)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -3390,9 +3390,9 @@ apex_completions = {
             "id": "id$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -3413,7 +3413,7 @@ apex_completions = {
             "feedUrl": "feedUrl$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -3427,8 +3427,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -3439,30 +3439,30 @@ apex_completions = {
         "properties": ["UrlRewriter"],
         "methods": {
             "getErrorMessage()\tString": "getErrorMessage()$0",
-            "changePassword(String newPassword, String verifyNewPassword, String oldPassword)\tSystem.PageReference": "changePassword($0)",
-            "createPortalUser(SObject user, String accountId, String password)\tId": "createPortalUser($0)",
-            "createPortalUser(SObject user, String accountId, String password, Boolean sendEmailConfirmation)\tId": "createPortalUser($0)",
-            "login(String username, String password, String startUrl)\tSystem.PageReference": "login($0)",
-            "setPortalUserAsAuthProvider(SObject user, String accountId)\tvoid": "setPortalUserAsAuthProvider($0)",
+            "changePassword(String newPassword, String verifyNewPassword, String oldPassword)\tSystem.PageReference": "changePassword($1)$0",
+            "createPortalUser(SObject user, String accountId, String password)\tId": "createPortalUser($1)$0",
+            "createPortalUser(SObject user, String accountId, String password, Boolean sendEmailConfirmation)\tId": "createPortalUser($1)$0",
+            "login(String username, String password, String startUrl)\tSystem.PageReference": "login($1)$0",
+            "setPortalUserAsAuthProvider(SObject user, String accountId)\tvoid": "setPortalUserAsAuthProvider($1)$0",
             "isPasswordExpired()\tBoolean": "isPasswordExpired()$0",
             "getPrefix()\tString": "getPrefix()$0",
             "getAdminId()\tId": "getAdminId()$0",
             "getCurrentSiteUrl()\tString": "getCurrentSiteUrl()$0",
-            "forgotPassword(String username)\tBoolean": "forgotPassword($0)",
+            "forgotPassword(String username)\tBoolean": "forgotPassword($1)$0",
             "isLoginEnabled()\tBoolean": "isLoginEnabled()$0",
-            "createPortalUser(SObject user, String accountId)\tId": "createPortalUser($0)",
+            "createPortalUser(SObject user, String accountId)\tId": "createPortalUser($1)$0",
             "isRegistrationEnabled()\tBoolean": "isRegistrationEnabled()$0",
             "getDomain()\tString": "getDomain()$0",
             "getName()\tString": "getName()$0",
             "getErrorDescription()\tString": "getErrorDescription()$0",
-            "createPersonAccountPortalUser(SObject user, String ownerId, String recordTypeId, String password)\tId": "createPersonAccountPortalUser($0)",
+            "createPersonAccountPortalUser(SObject user, String ownerId, String recordTypeId, String password)\tId": "createPersonAccountPortalUser($1)$0",
             "getOriginalUrl()\tString": "getOriginalUrl()$0",
-            "changePassword(String newPassword, String verifyNewPassword)\tSystem.PageReference": "changePassword($0)",
+            "changePassword(String newPassword, String verifyNewPassword)\tSystem.PageReference": "changePassword($1)$0",
             "getTemplate()\tSystem.PageReference": "getTemplate()$0",
             "getAdminEmail()\tString": "getAdminEmail()$0",
             "getCustomWebAddress()\tString": "getCustomWebAddress()$0",
             "getAnalyticsTrackingCode()\tString": "getAnalyticsTrackingCode()$0",
-            "createPersonAccountPortalUser(SObject user, String ownerId, String password)\tId": "createPersonAccountPortalUser($0)"
+            "createPersonAccountPortalUser(SObject user, String ownerId, String password)\tId": "createPersonAccountPortalUser($1)$0"
         }
     },
     "contentattachment": {
@@ -3485,7 +3485,7 @@ apex_completions = {
             "versionId": "versionId$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -3498,8 +3498,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -3518,7 +3518,7 @@ apex_completions = {
             "likes": "likes$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -3531,7 +3531,7 @@ apex_completions = {
             "url": "url$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -3544,8 +3544,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -3558,8 +3558,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -3572,8 +3572,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -3594,8 +3594,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -3608,8 +3608,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -3619,13 +3619,13 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "addError(String msg, Boolean escape)\tvoid": "addError($0)",
-            "valueOf(Object o)\tInteger": "valueOf($0)",
-            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($0)",
-            "valueOf(String i)\tInteger": "valueOf($0)",
+            "addError(String msg, Boolean escape)\tvoid": "addError($1)$0",
+            "valueOf(Object o)\tInteger": "valueOf($1)$0",
+            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($1)$0",
+            "valueOf(String i)\tInteger": "valueOf($1)$0",
             "format()\tString": "format()$0",
-            "addError(String msg)\tvoid": "addError($0)",
-            "addError(APEX_OBJECT msg)\tvoid": "addError($0)"
+            "addError(String msg)\tvoid": "addError($1)$0",
+            "addError(APEX_OBJECT msg)\tvoid": "addError($1)$0"
         }
     },
     "commenttype": {
@@ -3645,19 +3645,19 @@ apex_completions = {
         "properties": {},
         "methods": {
             "getCause()\tException": "getCause()$0",
-            "getDmlFieldNames(Integer index)\tLIST<String>": "getDmlFieldNames($0)",
-            "getDmlType(Integer index)\tsystem.StatusCode": "getDmlType($0)",
+            "getDmlFieldNames(Integer index)\tLIST<String>": "getDmlFieldNames($1)$0",
+            "getDmlType(Integer index)\tsystem.StatusCode": "getDmlType($1)$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "getDmlStatusCode(Integer index)\tString": "getDmlStatusCode($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "getDmlStatusCode(Integer index)\tString": "getDmlStatusCode($1)$0",
             "getNumDml()\tInteger": "getNumDml()$0",
-            "getDmlMessage(Integer index)\tString": "getDmlMessage($0)",
+            "getDmlMessage(Integer index)\tString": "getDmlMessage($1)$0",
             "getMessage()\tString": "getMessage()$0",
-            "getDmlFields(Integer index)\tLIST<Schema.SObjectField>": "getDmlFields($0)",
+            "getDmlFields(Integer index)\tLIST<Schema.SObjectField>": "getDmlFields($1)$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
-            "getDmlId(Integer index)\tString": "getDmlId($0)",
-            "getDmlIndex(Integer index)\tInteger": "getDmlIndex($0)",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
+            "getDmlId(Integer index)\tString": "getDmlId($1)$0",
+            "getDmlIndex(Integer index)\tInteger": "getDmlIndex($1)$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
     },
@@ -3667,30 +3667,30 @@ apex_completions = {
         "properties": {},
         "methods": {
             "regionStart()\tInteger": "regionStart()$0",
-            "quoteReplacement(String s)\tString": "quoteReplacement($0)",
+            "quoteReplacement(String s)\tString": "quoteReplacement($1)$0",
             "requireEnd()\tBoolean": "requireEnd()$0",
             "matches()\tBoolean": "matches()$0",
-            "end(Integer grp)\tInteger": "end($0)",
+            "end(Integer grp)\tInteger": "end($1)$0",
             "reset()\tsystem.Matcher": "reset()$0",
-            "useTransparentBounds(Boolean b)\tsystem.Matcher": "useTransparentBounds($0)",
+            "useTransparentBounds(Boolean b)\tsystem.Matcher": "useTransparentBounds($1)$0",
             "hitEnd()\tBoolean": "hitEnd()$0",
             "lookingAt()\tBoolean": "lookingAt()$0",
-            "find(Integer start)\tBoolean": "find($0)",
-            "useAnchoringBounds(Boolean b)\tsystem.Matcher": "useAnchoringBounds($0)",
-            "replaceFirst(String replacement)\tString": "replaceFirst($0)",
+            "find(Integer start)\tBoolean": "find($1)$0",
+            "useAnchoringBounds(Boolean b)\tsystem.Matcher": "useAnchoringBounds($1)$0",
+            "replaceFirst(String replacement)\tString": "replaceFirst($1)$0",
             "group()\tString": "group()$0",
             "pattern()\tsystem.Pattern": "pattern()$0",
             "hasTransparentBounds()\tBoolean": "hasTransparentBounds()$0",
-            "reset(String input)\tsystem.Matcher": "reset($0)",
+            "reset(String input)\tsystem.Matcher": "reset($1)$0",
             "regionEnd()\tInteger": "regionEnd()$0",
             "find()\tBoolean": "find()$0",
-            "region(Integer start, Integer ending)\tsystem.Matcher": "region($0)",
-            "start(Integer grp)\tInteger": "start($0)",
+            "region(Integer start, Integer ending)\tsystem.Matcher": "region($1)$0",
+            "start(Integer grp)\tInteger": "start($1)$0",
             "start()\tInteger": "start()$0",
-            "group(Integer start)\tString": "group($0)",
+            "group(Integer start)\tString": "group($1)$0",
             "hasAnchoringBounds()\tBoolean": "hasAnchoringBounds()$0",
-            "usePattern(system.Pattern p)\tsystem.Matcher": "usePattern($0)",
-            "replaceAll(String replacement)\tString": "replaceAll($0)",
+            "usePattern(system.Pattern p)\tsystem.Matcher": "usePattern($1)$0",
+            "replaceAll(String replacement)\tString": "replaceAll($1)$0",
             "end()\tInteger": "end()$0",
             "groupCount()\tInteger": "groupCount()$0"
         }
@@ -3701,8 +3701,8 @@ apex_completions = {
         "properties": {},
         "methods": {
             "size()\tInteger": "size()$0",
-            "valueOf(String o)\tBlob": "valueOf($0)",
-            "toPdf(String o)\tBlob": "toPdf($0)",
+            "valueOf(String o)\tBlob": "valueOf($1)$0",
+            "toPdf(String o)\tBlob": "toPdf($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -3711,7 +3711,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "sameFile(system.Url other)\tBoolean": "sameFile($0)",
+            "sameFile(system.Url other)\tBoolean": "sameFile($1)$0",
             "getProtocol()\tString": "getProtocol()$0",
             "getCurrentRequestUrl()\tsystem.Url": "getCurrentRequestUrl()$0",
             "getFile()\tString": "getFile()$0",
@@ -3721,7 +3721,7 @@ apex_completions = {
             "getUserInfo()\tString": "getUserInfo()$0",
             "getAuthority()\tString": "getAuthority()$0",
             "getRef()\tString": "getRef()$0",
-            "getFileFieldURL(String objectId, String fieldName)\tString": "getFileFieldURL($0)",
+            "getFileFieldURL(String objectId, String fieldName)\tString": "getFileFieldURL($1)$0",
             "getQuery()\tString": "getQuery()$0",
             "getPort()\tInteger": "getPort()$0",
             "getHost()\tString": "getHost()$0",
@@ -3740,7 +3740,7 @@ apex_completions = {
             "country": "country$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -3754,7 +3754,7 @@ apex_completions = {
             "applicationName": "applicationName$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -3765,12 +3765,12 @@ apex_completions = {
         "constructors": {},
         "properties": ["SoapType", "SObjectField", "DisplayType", "SObjectType", "DataCategoryGroupSobjectTypePair"],
         "methods": {
-            "getAppDescribe(String appName)\tMAP<String,Schema.SObjectType>": "getAppDescribe($0)",
-            "getModuleDescribe(String moduleName)\tMAP<String,Schema.SObjectType>": "getModuleDescribe($0)",
+            "getAppDescribe(String appName)\tMAP<String,Schema.SObjectType>": "getAppDescribe($1)$0",
+            "getModuleDescribe(String moduleName)\tMAP<String,Schema.SObjectType>": "getModuleDescribe($1)$0",
             "getGlobalDescribe()\tMAP<String,Schema.SObjectType>": "getGlobalDescribe()$0",
-            "describeDataCategoryGroups(LIST<String> sobjects)\tLIST<Schema.DescribeDataCategoryGroupResult>": "describeDataCategoryGroups($0)",
+            "describeDataCategoryGroups(LIST<String> sobjects)\tLIST<Schema.DescribeDataCategoryGroupResult>": "describeDataCategoryGroups($1)$0",
             "getModuleDescribe()\tMAP<String,Schema.SObjectType>": "getModuleDescribe()$0",
-            "describeDataCategoryGroupStructures(LIST<Schema.DataCategoryGroupSobjectTypePair> pairs, Boolean topCategoriesOnly)\tLIST<Schema.DescribeDataCategoryGroupStructureResult>": "describeDataCategoryGroupStructures($0)"
+            "describeDataCategoryGroupStructures(LIST<Schema.DataCategoryGroupSobjectTypePair> pairs, Boolean topCategoriesOnly)\tLIST<Schema.DescribeDataCategoryGroupStructureResult>": "describeDataCategoryGroupStructures($1)$0"
         }
     },
     "linksegmentinput": {
@@ -3780,9 +3780,9 @@ apex_completions = {
             "url": "url$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -3799,8 +3799,8 @@ apex_completions = {
             "headers": "headers$0"
         },
         "methods": {
-            "addParameter(String name, String value)\tvoid": "addParameter($0)",
-            "addHeader(String name, String value)\tvoid": "addHeader($0)"
+            "addParameter(String name, String value)\tvoid": "addParameter($1)$0",
+            "addHeader(String name, String value)\tvoid": "addHeader($1)$0"
         }
     },
     "mobilepushpayload": {
@@ -3808,8 +3808,8 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "apple(String alert, String sound, Integer badgeCount, MAP<String,ANY> userData)\tMAP<String,ANY>": "apple($0)",
-            "apple(String alertBody, String actionLocKey, String locKey, LIST<String> locArgs, String launchImage, String sound, Integer badgeCount, MAP<String,ANY> userData)\tMAP<String,ANY>": "apple($0)"
+            "apple(String alert, String sound, Integer badgeCount, MAP<String,ANY> userData)\tMAP<String,ANY>": "apple($1)$0",
+            "apple(String alertBody, String actionLocKey, String locKey, LIST<String> locArgs, String launchImage, String sound, Integer badgeCount, MAP<String,ANY> userData)\tMAP<String,ANY>": "apple($1)$0"
         }
     },
     "invalidparametervalueexception": {
@@ -3820,8 +3820,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -3834,12 +3834,12 @@ apex_completions = {
             "InboundEnvelope", "InboundEmailHandler", "BinaryAttachment", "InboundEmail", "TextAttachment"
         ],
         "methods": {
-            "sendEmailMessage(LIST<Id> emailMessagesIds, Boolean allOrNothing)\tLIST<Messaging.SendEmailResult>": "sendEmailMessage($0)",
-            "sendEmailMessage(LIST<Id> emailMessagesIds)\tLIST<Messaging.SendEmailResult>": "sendEmailMessage($0)",
-            "reserveMassEmailCapacity(Integer count)\tvoid": "reserveMassEmailCapacity($0)",
-            "reserveSingleEmailCapacity(Integer count)\tvoid": "reserveSingleEmailCapacity($0)",
-            "sendEmail(LIST<Messaging.Email> emailMessages, Boolean allOrNothing)\tLIST<Messaging.SendEmailResult>": "sendEmail($0)",
-            "sendEmail(LIST<Messaging.Email> emailMessages)\tLIST<Messaging.SendEmailResult>": "sendEmail($0)"
+            "sendEmailMessage(LIST<Id> emailMessagesIds, Boolean allOrNothing)\tLIST<Messaging.SendEmailResult>": "sendEmailMessage($1)$0",
+            "sendEmailMessage(LIST<Id> emailMessagesIds)\tLIST<Messaging.SendEmailResult>": "sendEmailMessage($1)$0",
+            "reserveMassEmailCapacity(Integer count)\tvoid": "reserveMassEmailCapacity($1)$0",
+            "reserveSingleEmailCapacity(Integer count)\tvoid": "reserveSingleEmailCapacity($1)$0",
+            "sendEmail(LIST<Messaging.Email> emailMessages, Boolean allOrNothing)\tLIST<Messaging.SendEmailResult>": "sendEmail($1)$0",
+            "sendEmail(LIST<Messaging.Email> emailMessages)\tLIST<Messaging.SendEmailResult>": "sendEmail($1)$0"
         }
     },
     "applicationreadwritemode": {
@@ -3870,8 +3870,8 @@ apex_completions = {
         "properties": {},
         "methods": {
             "describePlugins()\tLIST<Process.SparkPlugApi.SparkPlugDescribeResult>": "describePlugins()$0",
-            "invokePluginWithJson(String className, String parameters)\tString": "invokePluginWithJson($0)",
-            "describePlugin(String className)\tProcess.SparkPlugApi.SparkPlugDescribeResult": "describePlugin($0)"
+            "invokePluginWithJson(String className, String parameters)\tString": "invokePluginWithJson($1)$0",
+            "describePlugin(String className)\tProcess.SparkPlugApi.SparkPlugDescribeResult": "describePlugin($1)$0"
         }
     },
     "groupmembershiprequests": {
@@ -3882,7 +3882,7 @@ apex_completions = {
             "requests": "requests$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -3893,16 +3893,16 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "addError(String msg, Boolean escape)\tvoid": "addError($0)",
-            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($0)",
+            "addError(String msg, Boolean escape)\tvoid": "addError($1)$0",
+            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($1)$0",
             "intValue()\tInteger": "intValue()$0",
-            "valueOf(String str)\tDouble": "valueOf($0)",
+            "valueOf(String str)\tDouble": "valueOf($1)$0",
             "round()\tLong": "round()$0",
             "format()\tString": "format()$0",
-            "valueOf(Object o)\tDouble": "valueOf($0)",
-            "addError(String msg)\tvoid": "addError($0)",
+            "valueOf(Object o)\tDouble": "valueOf($1)$0",
+            "addError(String msg)\tvoid": "addError($1)$0",
             "longValue()\tLong": "longValue()$0",
-            "addError(APEX_OBJECT msg)\tvoid": "addError($0)"
+            "addError(APEX_OBJECT msg)\tvoid": "addError($1)$0"
         }
     },
     "typeexception": {
@@ -3913,8 +3913,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -3929,10 +3929,10 @@ apex_completions = {
             "getCookies()\tMAP<String,System.Cookie>": "getCookies()$0",
             "getAnchor()\tString": "getAnchor()$0",
             "getContent()\tBlob": "getContent()$0",
-            "setRedirect(Boolean redirect)\tSystem.PageReference": "setRedirect($0)",
-            "setCookies(LIST<System.Cookie> cookies)\tvoid": "setCookies($0)",
+            "setRedirect(Boolean redirect)\tSystem.PageReference": "setRedirect($1)$0",
+            "setCookies(LIST<System.Cookie> cookies)\tvoid": "setCookies($1)$0",
             "getHeaders()\tMAP<String,String>": "getHeaders()$0",
-            "setAnchor(String anchor)\tSystem.PageReference": "setAnchor($0)",
+            "setAnchor(String anchor)\tSystem.PageReference": "setAnchor($1)$0",
             "getContentAsPDF()\tBlob": "getContentAsPDF()$0",
             "getParameters()\tMAP<String,String>": "getParameters()$0"
         }
@@ -3942,13 +3942,13 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "addError(String msg, Boolean escape)\tvoid": "addError($0)",
-            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($0)",
+            "addError(String msg, Boolean escape)\tvoid": "addError($1)$0",
+            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($1)$0",
             "intValue()\tInteger": "intValue()$0",
             "format()\tString": "format()$0",
-            "valueOf(String str)\tLong": "valueOf($0)",
-            "addError(String msg)\tvoid": "addError($0)",
-            "addError(APEX_OBJECT msg)\tvoid": "addError($0)"
+            "valueOf(String str)\tLong": "valueOf($1)$0",
+            "addError(String msg)\tvoid": "addError($1)$0",
+            "addError(APEX_OBJECT msg)\tvoid": "addError($1)$0"
         }
     },
     "queryexception": {
@@ -3959,8 +3959,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -3973,7 +3973,7 @@ apex_completions = {
             "feedItemsUrl": "feedItemsUrl$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -3992,7 +3992,7 @@ apex_completions = {
             "edit()\tSystem.PageReference": "edit()$0",
             "delete()\tSystem.PageReference": "delete()$0",
             "cancel()\tSystem.PageReference": "cancel()$0",
-            "addFields(LIST<String> fieldNames)\tvoid": "addFields($0)",
+            "addFields(LIST<String> fieldNames)\tvoid": "addFields($1)$0",
             "save()\tSystem.PageReference": "save()$0"
         }
     },
@@ -4016,7 +4016,7 @@ apex_completions = {
             "accessible": "accessible$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -4040,7 +4040,7 @@ apex_completions = {
             "aboutMe": "aboutMe$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -4053,8 +4053,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -4068,25 +4068,25 @@ apex_completions = {
             "toPlainString()\tString": "toPlainString()$0",
             "intValue()\tInteger": "intValue()$0",
             "doubleValue()\tDouble": "doubleValue()$0",
-            "setScale(Integer scale)\tDecimal": "setScale($0)",
-            "valueOf(String str)\tDecimal": "valueOf($0)",
-            "pow(Integer exponent)\tDecimal": "pow($0)",
-            "divide(Decimal divisor, Integer scale)\tDecimal": "divide($0)",
-            "valueOf(Long lng)\tDecimal": "valueOf($0)",
+            "setScale(Integer scale)\tDecimal": "setScale($1)$0",
+            "valueOf(String str)\tDecimal": "valueOf($1)$0",
+            "pow(Integer exponent)\tDecimal": "pow($1)$0",
+            "divide(Decimal divisor, Integer scale)\tDecimal": "divide($1)$0",
+            "valueOf(Long lng)\tDecimal": "valueOf($1)$0",
             "stripTrailingZeros()\tDecimal": "stripTrailingZeros()$0",
-            "valueOf(Double dbl)\tDecimal": "valueOf($0)",
-            "setScale(Integer scale, system.RoundingMode roundingMode)\tDecimal": "setScale($0)",
+            "valueOf(Double dbl)\tDecimal": "valueOf($1)$0",
+            "setScale(Integer scale, system.RoundingMode roundingMode)\tDecimal": "setScale($1)$0",
             "precision()\tInteger": "precision()$0",
-            "round(system.RoundingMode roundingMode)\tLong": "round($0)",
-            "addError(String msg, Boolean escape)\tvoid": "addError($0)",
+            "round(system.RoundingMode roundingMode)\tLong": "round($1)$0",
+            "addError(String msg, Boolean escape)\tvoid": "addError($1)$0",
             "abs()\tDecimal": "abs()$0",
             "round()\tLong": "round()$0",
-            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($0)",
-            "addError(APEX_OBJECT msg)\tvoid": "addError($0)",
+            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($1)$0",
+            "addError(APEX_OBJECT msg)\tvoid": "addError($1)$0",
             "scale()\tInteger": "scale()$0",
-            "divide(Decimal divisor, Integer scale, APEX_OBJECT roundingMode)\tDecimal": "divide($0)",
+            "divide(Decimal divisor, Integer scale, APEX_OBJECT roundingMode)\tDecimal": "divide($1)$0",
             "format()\tString": "format()$0",
-            "addError(String msg)\tvoid": "addError($0)"
+            "addError(String msg)\tvoid": "addError($1)$0"
         }
     },
     "publishingservice": {
@@ -4094,24 +4094,24 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "completeTranslation(String articleVersionId)\tvoid": "completeTranslation($0)",
-            "deleteArchivedArticleVersion(String articleId, Integer versionNumber)\tvoid": "deleteArchivedArticleVersion($0)",
-            "setTranslationToIncomplete(String articleVersionId)\tvoid": "setTranslationToIncomplete($0)",
-            "publishArticle(String articleId, Boolean flagAsNew)\tvoid": "publishArticle($0)",
-            "deleteArchivedArticle(String articleId)\tvoid": "deleteArchivedArticle($0)",
-            "assignDraftArticleTask(String articleId, String assigneeId, String instructions, Datetime dueDate, Boolean sendEmailNotification)\tvoid": "assignDraftArticleTask($0)",
-            "editArchivedArticle(String articleId)\tString": "editArchivedArticle($0)",
-            "restoreOldVersion(String articleId, Integer versionNumber)\tString": "restoreOldVersion($0)",
-            "cancelScheduledArchivingOfArticle(String articleId)\tvoid": "cancelScheduledArchivingOfArticle($0)",
-            "deleteDraftTranslation(String articleVersionId)\tvoid": "deleteDraftTranslation($0)",
-            "editPublishedTranslation(String articleId, String language, Boolean unpublish)\tString": "editPublishedTranslation($0)",
-            "deleteDraftArticle(String articleId)\tvoid": "deleteDraftArticle($0)",
-            "archiveOnlineArticle(String articleId, Datetime scheduledDate)\tvoid": "archiveOnlineArticle($0)",
-            "assignDraftTranslationTask(String translationVersionId, String assigneeId, String instructions, Datetime dueDate, Boolean sendEmailNotification)\tvoid": "assignDraftTranslationTask($0)",
-            "scheduleForPublication(String articleId, Datetime scheduledDate)\tvoid": "scheduleForPublication($0)",
-            "submitForTranslation(String articleId, String language, String assigneeId, Datetime dueDate)\tString": "submitForTranslation($0)",
-            "editOnlineArticle(String articleId, Boolean unpublish)\tString": "editOnlineArticle($0)",
-            "cancelScheduledPublicationOfArticle(String articleId)\tvoid": "cancelScheduledPublicationOfArticle($0)"
+            "completeTranslation(String articleVersionId)\tvoid": "completeTranslation($1)$0",
+            "deleteArchivedArticleVersion(String articleId, Integer versionNumber)\tvoid": "deleteArchivedArticleVersion($1)$0",
+            "setTranslationToIncomplete(String articleVersionId)\tvoid": "setTranslationToIncomplete($1)$0",
+            "publishArticle(String articleId, Boolean flagAsNew)\tvoid": "publishArticle($1)$0",
+            "deleteArchivedArticle(String articleId)\tvoid": "deleteArchivedArticle($1)$0",
+            "assignDraftArticleTask(String articleId, String assigneeId, String instructions, Datetime dueDate, Boolean sendEmailNotification)\tvoid": "assignDraftArticleTask($1)$0",
+            "editArchivedArticle(String articleId)\tString": "editArchivedArticle($1)$0",
+            "restoreOldVersion(String articleId, Integer versionNumber)\tString": "restoreOldVersion($1)$0",
+            "cancelScheduledArchivingOfArticle(String articleId)\tvoid": "cancelScheduledArchivingOfArticle($1)$0",
+            "deleteDraftTranslation(String articleVersionId)\tvoid": "deleteDraftTranslation($1)$0",
+            "editPublishedTranslation(String articleId, String language, Boolean unpublish)\tString": "editPublishedTranslation($1)$0",
+            "deleteDraftArticle(String articleId)\tvoid": "deleteDraftArticle($1)$0",
+            "archiveOnlineArticle(String articleId, Datetime scheduledDate)\tvoid": "archiveOnlineArticle($1)$0",
+            "assignDraftTranslationTask(String translationVersionId, String assigneeId, String instructions, Datetime dueDate, Boolean sendEmailNotification)\tvoid": "assignDraftTranslationTask($1)$0",
+            "scheduleForPublication(String articleId, Datetime scheduledDate)\tvoid": "scheduleForPublication($1)$0",
+            "submitForTranslation(String articleId, String language, String assigneeId, Datetime dueDate)\tString": "submitForTranslation($1)$0",
+            "editOnlineArticle(String articleId, Boolean unpublish)\tString": "editOnlineArticle($1)$0",
+            "cancelScheduledPublicationOfArticle(String articleId)\tvoid": "cancelScheduledPublicationOfArticle($1)$0"
         }
     },
     "sobjectexception": {
@@ -4122,8 +4122,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -4136,7 +4136,7 @@ apex_completions = {
             "empty()\tBoolean": "empty()$0",
             "pop()\tString": "pop()$0",
             "peek()\tString": "peek()$0",
-            "push(String item)\tvoid": "push($0)"
+            "push(String item)\tvoid": "push($1)$0"
         }
     },
     "multistaticresourcecalloutmock": {
@@ -4144,11 +4144,11 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "setHeader(String key, String val)\tvoid": "setHeader($0)",
-            "setStatusCode(Integer code)\tvoid": "setStatusCode($0)",
-            "respond(System.HttpRequest request)\tSystem.HttpResponse": "respond($0)",
-            "setStaticResource(String url, String staticResourceName)\tvoid": "setStaticResource($0)",
-            "setStatus(String status)\tvoid": "setStatus($0)"
+            "setHeader(String key, String val)\tvoid": "setHeader($1)$0",
+            "setStatusCode(Integer code)\tvoid": "setStatusCode($1)$0",
+            "respond(System.HttpRequest request)\tSystem.HttpResponse": "respond($1)$0",
+            "setStaticResource(String url, String staticResourceName)\tvoid": "setStaticResource($1)$0",
+            "setStatus(String status)\tvoid": "setStatus($1)$0"
         }
     },
     "communitypage": {
@@ -4159,7 +4159,7 @@ apex_completions = {
             "communities": "communities$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -4170,7 +4170,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "respond(System.HttpRequest param1)\tSystem.HttpResponse": "respond($0)"
+            "respond(System.HttpRequest param1)\tSystem.HttpResponse": "respond($1)$0"
         }
     },
     "jsonparser": {
@@ -4180,7 +4180,7 @@ apex_completions = {
         "methods": {
             "nextValue()\tsystem.JSONToken": "nextValue()$0",
             "getCurrentToken()\tsystem.JSONToken": "getCurrentToken()$0",
-            "readValueAsStrict(system.Type apexType)\tObject": "readValueAsStrict($0)",
+            "readValueAsStrict(system.Type apexType)\tObject": "readValueAsStrict($1)$0",
             "getBlobValue()\tBlob": "getBlobValue()$0",
             "getTimeValue()\tTime": "getTimeValue()$0",
             "getText()\tString": "getText()$0",
@@ -4196,7 +4196,7 @@ apex_completions = {
             "getDecimalValue()\tDecimal": "getDecimalValue()$0",
             "clearCurrentToken()\tvoid": "clearCurrentToken()$0",
             "getIntegerValue()\tInteger": "getIntegerValue()$0",
-            "readValueAs(system.Type apexType)\tObject": "readValueAs($0)",
+            "readValueAs(system.Type apexType)\tObject": "readValueAs($1)$0",
             "nextToken()\tsystem.JSONToken": "nextToken()$0",
             "getIdValue()\tId": "getIdValue()$0"
         }
@@ -4217,7 +4217,7 @@ apex_completions = {
             "getUserType()\tString": "getUserType()$0",
             "getUiThemeDisplayed()\tString": "getUiThemeDisplayed()$0",
             "getLocale()\tString": "getLocale()$0",
-            "isCurrentUserLicensed(String namespacePrefix)\tBoolean": "isCurrentUserLicensed($0)",
+            "isCurrentUserLicensed(String namespacePrefix)\tBoolean": "isCurrentUserLicensed($1)$0",
             "getOrganizationName()\tString": "getOrganizationName()$0",
             "getLanguage()\tString": "getLanguage()$0",
             "isMultiCurrencyOrganization()\tBoolean": "isMultiCurrencyOrganization()$0",
@@ -4254,7 +4254,7 @@ apex_completions = {
             "currentPageUrl": "currentPageUrl$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -4267,9 +4267,9 @@ apex_completions = {
             "tag": "tag$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -4291,7 +4291,7 @@ apex_completions = {
             "title": "title$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -4302,13 +4302,13 @@ apex_completions = {
         "properties": {},
         "methods": {
             "getDisabled()\tBoolean": "getDisabled()$0",
-            "setValue(String value)\tvoid": "setValue($0)",
+            "setValue(String value)\tvoid": "setValue($1)$0",
             "getLabel()\tString": "getLabel()$0",
-            "setEscapeItem(Boolean disabled)\tvoid": "setEscapeItem($0)",
+            "setEscapeItem(Boolean disabled)\tvoid": "setEscapeItem($1)$0",
             "getEscapeItem()\tBoolean": "getEscapeItem()$0",
-            "setLabel(String label)\tvoid": "setLabel($0)",
+            "setLabel(String label)\tvoid": "setLabel($1)$0",
             "getValue()\tString": "getValue()$0",
-            "setDisabled(Boolean disabled)\tvoid": "setDisabled($0)"
+            "setDisabled(Boolean disabled)\tvoid": "setDisabled($1)$0"
         }
     },
     "binaryinput": {
@@ -4333,7 +4333,7 @@ apex_completions = {
             "voteCount": "voteCount$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -4360,57 +4360,57 @@ apex_completions = {
         "constructors": {},
         "properties": ["AssignmentRuleHeader", "QueryLocatorIterator", "BatchableContext", "Batchable", "QueryLocator", "BatchableContextImpl", "QueryLocatorChunkIterator", "LeadConvert", "DMLOptions", "EmailHeader"],
         "methods": {
-            "undelete(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.UndeleteResult>": "undelete($0)",
-            "executeBatch(APEX_OBJECT batchable)\tString": "executeBatch($0)",
-            "update(LIST<SObject> sobjects, APEX_OBJECT allOrNothing)\tLIST<Database.SaveResult>": "update($0)",
-            "insert(SObject sobject, Boolean allOrNothing)\tDatabase.SaveResult": "insert($0)",
-            "undelete(LIST<Id> ids)\tLIST<Database.UndeleteResult>": "undelete($0)",
-            "delete(LIST<Id> ids)\tLIST<Database.DeleteResult>": "delete($0)",
-            "insert(SObject sobject)\tDatabase.SaveResult": "insert($0)",
-            "delete(Id id)\tDatabase.DeleteResult": "delete($0)",
-            "delete(SObject sobject)\tDatabase.DeleteResult": "delete($0)",
-            "emptyRecycleBin(LIST<SObject> sobjects)\tLIST<Database.EmptyRecycleBinResult>": "emptyRecycleBin($0)",
-            "undelete(Id id)\tDatabase.UndeleteResult": "undelete($0)",
-            "insert(LIST<SObject> sobjects)\tLIST<Database.SaveResult>": "insert($0)",
+            "undelete(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.UndeleteResult>": "undelete($1)$0",
+            "executeBatch(APEX_OBJECT batchable)\tString": "executeBatch($1)$0",
+            "update(LIST<SObject> sobjects, APEX_OBJECT allOrNothing)\tLIST<Database.SaveResult>": "update($1)$0",
+            "insert(SObject sobject, Boolean allOrNothing)\tDatabase.SaveResult": "insert($1)$0",
+            "undelete(LIST<Id> ids)\tLIST<Database.UndeleteResult>": "undelete($1)$0",
+            "delete(LIST<Id> ids)\tLIST<Database.DeleteResult>": "delete($1)$0",
+            "insert(SObject sobject)\tDatabase.SaveResult": "insert($1)$0",
+            "delete(Id id)\tDatabase.DeleteResult": "delete($1)$0",
+            "delete(SObject sobject)\tDatabase.DeleteResult": "delete($1)$0",
+            "emptyRecycleBin(LIST<SObject> sobjects)\tLIST<Database.EmptyRecycleBinResult>": "emptyRecycleBin($1)$0",
+            "undelete(Id id)\tDatabase.UndeleteResult": "undelete($1)$0",
+            "insert(LIST<SObject> sobjects)\tLIST<Database.SaveResult>": "insert($1)$0",
             "setSavepoint()\tSystem.Savepoint": "setSavepoint()$0",
-            "undelete(SObject sobject, Boolean allOrNothing)\tDatabase.UndeleteResult": "undelete($0)",
-            "upsert(SObject sobject, Boolean allOrNothing)\tDatabase.UpsertResult": "upsert($0)",
-            "insert(SObject sobject, APEX_OBJECT DmlOptions)\tDatabase.SaveResult": "insert($0)",
-            "executeBatch(APEX_OBJECT batchable, Integer batchSize)\tString": "executeBatch($0)",
-            "upsert(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.UpsertResult>": "upsert($0)",
-            "upsert(LIST<SObject> sobjects, Schema.SObjectField field, Boolean allOrNothing)\tLIST<Database.UpsertResult>": "upsert($0)",
-            "emptyRecycleBin(SObject sobject)\tDatabase.EmptyRecycleBinResult": "emptyRecycleBin($0)",
-            "convertLead(Database.LeadConvert leadConvert)\tDatabase.LeadConvertResult": "convertLead($0)",
-            "delete(LIST<SObject> sobjects)\tLIST<Database.DeleteResult>": "delete($0)",
-            "undelete(LIST<Id> ids, Boolean allOrNothing)\tLIST<Database.UndeleteResult>": "undelete($0)",
-            "delete(SObject sobject, Boolean allOrNothing)\tDatabase.DeleteResult": "delete($0)",
-            "update(SObject sobject)\tDatabase.SaveResult": "update($0)",
-            "update(SObject sobject, Boolean allOrNothing)\tDatabase.SaveResult": "update($0)",
-            "delete(LIST<Id> ids, Boolean allOrNothing)\tLIST<Database.DeleteResult>": "delete($0)",
-            "emptyRecycleBin(LIST<Id> ids)\tLIST<Database.EmptyRecycleBinResult>": "emptyRecycleBin($0)",
-            "upsert(SObject sobject, Schema.SObjectField field, Boolean allOrNothing)\tDatabase.UpsertResult": "upsert($0)",
-            "convertLead(LIST<Database.LeadConvert> leadConverts)\tLIST<Database.LeadConvertResult>": "convertLead($0)",
-            "undelete(Id id, Boolean allOrNothing)\tDatabase.UndeleteResult": "undelete($0)",
-            "getQueryLocator(LIST<SObject> query)\tDatabase.QueryLocator": "getQueryLocator($0)",
-            "convertLead(LIST<Database.LeadConvert> leadConverts, Boolean allOrNothing)\tLIST<Database.LeadConvertResult>": "convertLead($0)",
-            "insert(LIST<SObject> sobjects, APEX_OBJECT DmlOptions)\tLIST<Database.SaveResult>": "insert($0)",
-            "insert(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.SaveResult>": "insert($0)",
-            "upsert(LIST<SObject> sobjects)\tLIST<Database.UpsertResult>": "upsert($0)",
-            "delete(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.DeleteResult>": "delete($0)",
-            "undelete(SObject sobject)\tDatabase.UndeleteResult": "undelete($0)",
-            "countQuery(String query)\tInteger": "countQuery($0)",
-            "getQueryLocator(String query)\tDatabase.QueryLocator": "getQueryLocator($0)",
-            "upsert(SObject sobject, Schema.SObjectField field)\tDatabase.UpsertResult": "upsert($0)",
-            "update(LIST<SObject> sobjects)\tLIST<Database.SaveResult>": "update($0)",
-            "update(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.SaveResult>": "update($0)",
-            "upsert(SObject sobject)\tDatabase.UpsertResult": "upsert($0)",
-            "delete(Id id, Boolean allOrNothing)\tDatabase.DeleteResult": "delete($0)",
-            "query(String query)\tLIST<SObject>": "query($0)",
-            "undelete(LIST<SObject> sobjects)\tLIST<Database.UndeleteResult>": "undelete($0)",
-            "convertLead(Database.LeadConvert leadConvert, Boolean allOrNothing)\tDatabase.LeadConvertResult": "convertLead($0)",
-            "rollback(System.Savepoint savepoint)\tvoid": "rollback($0)",
-            "upsert(LIST<SObject> sobjects, Schema.SObjectField field)\tLIST<Database.UpsertResult>": "upsert($0)",
-            "update(SObject sobject, APEX_OBJECT allOrNothing)\tDatabase.SaveResult": "update($0)"
+            "undelete(SObject sobject, Boolean allOrNothing)\tDatabase.UndeleteResult": "undelete($1)$0",
+            "upsert(SObject sobject, Boolean allOrNothing)\tDatabase.UpsertResult": "upsert($1)$0",
+            "insert(SObject sobject, APEX_OBJECT DmlOptions)\tDatabase.SaveResult": "insert($1)$0",
+            "executeBatch(APEX_OBJECT batchable, Integer batchSize)\tString": "executeBatch($1)$0",
+            "upsert(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.UpsertResult>": "upsert($1)$0",
+            "upsert(LIST<SObject> sobjects, Schema.SObjectField field, Boolean allOrNothing)\tLIST<Database.UpsertResult>": "upsert($1)$0",
+            "emptyRecycleBin(SObject sobject)\tDatabase.EmptyRecycleBinResult": "emptyRecycleBin($1)$0",
+            "convertLead(Database.LeadConvert leadConvert)\tDatabase.LeadConvertResult": "convertLead($1)$0",
+            "delete(LIST<SObject> sobjects)\tLIST<Database.DeleteResult>": "delete($1)$0",
+            "undelete(LIST<Id> ids, Boolean allOrNothing)\tLIST<Database.UndeleteResult>": "undelete($1)$0",
+            "delete(SObject sobject, Boolean allOrNothing)\tDatabase.DeleteResult": "delete($1)$0",
+            "update(SObject sobject)\tDatabase.SaveResult": "update($1)$0",
+            "update(SObject sobject, Boolean allOrNothing)\tDatabase.SaveResult": "update($1)$0",
+            "delete(LIST<Id> ids, Boolean allOrNothing)\tLIST<Database.DeleteResult>": "delete($1)$0",
+            "emptyRecycleBin(LIST<Id> ids)\tLIST<Database.EmptyRecycleBinResult>": "emptyRecycleBin($1)$0",
+            "upsert(SObject sobject, Schema.SObjectField field, Boolean allOrNothing)\tDatabase.UpsertResult": "upsert($1)$0",
+            "convertLead(LIST<Database.LeadConvert> leadConverts)\tLIST<Database.LeadConvertResult>": "convertLead($1)$0",
+            "undelete(Id id, Boolean allOrNothing)\tDatabase.UndeleteResult": "undelete($1)$0",
+            "getQueryLocator(LIST<SObject> query)\tDatabase.QueryLocator": "getQueryLocator($1)$0",
+            "convertLead(LIST<Database.LeadConvert> leadConverts, Boolean allOrNothing)\tLIST<Database.LeadConvertResult>": "convertLead($1)$0",
+            "insert(LIST<SObject> sobjects, APEX_OBJECT DmlOptions)\tLIST<Database.SaveResult>": "insert($1)$0",
+            "insert(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.SaveResult>": "insert($1)$0",
+            "upsert(LIST<SObject> sobjects)\tLIST<Database.UpsertResult>": "upsert($1)$0",
+            "delete(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.DeleteResult>": "delete($1)$0",
+            "undelete(SObject sobject)\tDatabase.UndeleteResult": "undelete($1)$0",
+            "countQuery(String query)\tInteger": "countQuery($1)$0",
+            "getQueryLocator(String query)\tDatabase.QueryLocator": "getQueryLocator($1)$0",
+            "upsert(SObject sobject, Schema.SObjectField field)\tDatabase.UpsertResult": "upsert($1)$0",
+            "update(LIST<SObject> sobjects)\tLIST<Database.SaveResult>": "update($1)$0",
+            "update(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.SaveResult>": "update($1)$0",
+            "upsert(SObject sobject)\tDatabase.UpsertResult": "upsert($1)$0",
+            "delete(Id id, Boolean allOrNothing)\tDatabase.DeleteResult": "delete($1)$0",
+            "query(String query)\tLIST<SObject>": "query($1)$0",
+            "undelete(LIST<SObject> sobjects)\tLIST<Database.UndeleteResult>": "undelete($1)$0",
+            "convertLead(Database.LeadConvert leadConvert, Boolean allOrNothing)\tDatabase.LeadConvertResult": "convertLead($1)$0",
+            "rollback(System.Savepoint savepoint)\tvoid": "rollback($1)$0",
+            "upsert(LIST<SObject> sobjects, Schema.SObjectField field)\tLIST<Database.UpsertResult>": "upsert($1)$0",
+            "update(SObject sobject, APEX_OBJECT allOrNothing)\tDatabase.SaveResult": "update($1)$0"
         }
     },
     "unauthenticateduser": {
@@ -4418,7 +4418,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -4449,7 +4449,7 @@ apex_completions = {
             "thumb240By180RenditionStatus": "thumb240By180RenditionStatus$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -4459,7 +4459,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "doInvoke(Object param1, Object param2, MAP<String,ANY> param3, String param4, String param5, String param6, String param7, String param8, String param9)\tvoid": "doInvoke($0)"
+            "doInvoke(Object param1, Object param2, MAP<String,ANY> param3, String param4, String param5, String param6, String param7, String param8, String param9)\tvoid": "doInvoke($1)$0"
         }
     },
     "jsongenerator": {
@@ -4467,39 +4467,39 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "writeNoneField(String fieldName)\tvoid": "writeNoneField($0)",
-            "writeTime(Time t)\tvoid": "writeTime($0)",
-            "writeDateTimeField(String fieldName, Datetime dt)\tvoid": "writeDateTimeField($0)",
+            "writeNoneField(String fieldName)\tvoid": "writeNoneField($1)$0",
+            "writeTime(Time t)\tvoid": "writeTime($1)$0",
+            "writeDateTimeField(String fieldName, Datetime dt)\tvoid": "writeDateTimeField($1)$0",
             "writeStartArray()\tvoid": "writeStartArray()$0",
-            "writeBoolean(Boolean b)\tvoid": "writeBoolean($0)",
-            "writeBooleanField(String fieldName, Boolean b)\tvoid": "writeBooleanField($0)",
-            "writeNumber(Double d)\tvoid": "writeNumber($0)",
-            "writeDateTime(Datetime dt)\tvoid": "writeDateTime($0)",
-            "writeIdField(String fieldName, Id id)\tvoid": "writeIdField($0)",
-            "writeObjectField(String fieldName, Object o)\tvoid": "writeObjectField($0)",
-            "writeNumberField(String fieldName, Integer i)\tvoid": "writeNumberField($0)",
-            "writeNumberField(String fieldName, Decimal d)\tvoid": "writeNumberField($0)",
-            "writeNumberField(String fieldName, Double d)\tvoid": "writeNumberField($0)",
+            "writeBoolean(Boolean b)\tvoid": "writeBoolean($1)$0",
+            "writeBooleanField(String fieldName, Boolean b)\tvoid": "writeBooleanField($1)$0",
+            "writeNumber(Double d)\tvoid": "writeNumber($1)$0",
+            "writeDateTime(Datetime dt)\tvoid": "writeDateTime($1)$0",
+            "writeIdField(String fieldName, Id id)\tvoid": "writeIdField($1)$0",
+            "writeObjectField(String fieldName, Object o)\tvoid": "writeObjectField($1)$0",
+            "writeNumberField(String fieldName, Integer i)\tvoid": "writeNumberField($1)$0",
+            "writeNumberField(String fieldName, Decimal d)\tvoid": "writeNumberField($1)$0",
+            "writeNumberField(String fieldName, Double d)\tvoid": "writeNumberField($1)$0",
             "writeStartObject()\tvoid": "writeStartObject()$0",
-            "writeBlobField(String fieldName, Blob b)\tvoid": "writeBlobField($0)",
-            "writeBlob(Blob b)\tvoid": "writeBlob($0)",
+            "writeBlobField(String fieldName, Blob b)\tvoid": "writeBlobField($1)$0",
+            "writeBlob(Blob b)\tvoid": "writeBlob($1)$0",
             "writeNone()\tvoid": "writeNone()$0",
-            "writeFieldName(String fieldName)\tvoid": "writeFieldName($0)",
+            "writeFieldName(String fieldName)\tvoid": "writeFieldName($1)$0",
             "getAsString()\tString": "getAsString()$0",
-            "writeObject(Object o)\tvoid": "writeObject($0)",
-            "writeDate(Date d)\tvoid": "writeDate($0)",
-            "writeDateField(String fieldName, Date d)\tvoid": "writeDateField($0)",
+            "writeObject(Object o)\tvoid": "writeObject($1)$0",
+            "writeDate(Date d)\tvoid": "writeDate($1)$0",
+            "writeDateField(String fieldName, Date d)\tvoid": "writeDateField($1)$0",
             "close()\tvoid": "close()$0",
-            "writeId(Id id)\tvoid": "writeId($0)",
+            "writeId(Id id)\tvoid": "writeId($1)$0",
             "writeEndArray()\tvoid": "writeEndArray()$0",
-            "writeNumber(Decimal d)\tvoid": "writeNumber($0)",
-            "writeNumber(Integer i)\tvoid": "writeNumber($0)",
+            "writeNumber(Decimal d)\tvoid": "writeNumber($1)$0",
+            "writeNumber(Integer i)\tvoid": "writeNumber($1)$0",
             "isClosed()\tBoolean": "isClosed()$0",
-            "writeTimeField(String fieldName, Time t)\tvoid": "writeTimeField($0)",
-            "writeNumber(Long lng)\tvoid": "writeNumber($0)",
-            "writeString(String str)\tvoid": "writeString($0)",
-            "writeNumberField(String fieldName, Long lng)\tvoid": "writeNumberField($0)",
-            "writeStringField(String fieldName, String str)\tvoid": "writeStringField($0)",
+            "writeTimeField(String fieldName, Time t)\tvoid": "writeTimeField($1)$0",
+            "writeNumber(Long lng)\tvoid": "writeNumber($1)$0",
+            "writeString(String str)\tvoid": "writeString($1)$0",
+            "writeNumberField(String fieldName, Long lng)\tvoid": "writeNumberField($1)$0",
+            "writeStringField(String fieldName, String str)\tvoid": "writeStringField($1)$0",
             "writeEndObject()\tvoid": "writeEndObject()$0"
         }
     },
@@ -4508,8 +4508,8 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "setBestReply(String questionId, String bestReplyId)\tvoid": "setBestReply($0)",
-            "findSimilar(SObject question)\tLIST<Id>": "findSimilar($0)"
+            "setBestReply(String questionId, String bestReplyId)\tvoid": "setBestReply($1)$0",
+            "findSimilar(SObject question)\tLIST<Id>": "findSimilar($1)$0"
         }
     },
     "pluginrequest": {
@@ -4535,8 +4535,8 @@ apex_completions = {
         "methods": {
             "getRootElement()\tdom.XmlNode": "getRootElement()$0",
             "toXmlString()\tString": "toXmlString()$0",
-            "load(String xml)\tvoid": "load($0)",
-            "createRootElement(String name, String namespace, String prefix)\tdom.XmlNode": "createRootElement($0)"
+            "load(String xml)\tvoid": "load($1)$0",
+            "createRootElement(String name, String namespace, String prefix)\tdom.XmlNode": "createRootElement($1)$0"
         }
     },
     "inboundemailhandler": {
@@ -4544,7 +4544,7 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "handleInboundEmail(Messaging.InboundEmail param1, Messaging.InboundEnvelope param2)\tMessaging.InboundEmailResult": "handleInboundEmail($0)"
+            "handleInboundEmail(Messaging.InboundEmail param1, Messaging.InboundEnvelope param2)\tMessaging.InboundEmailResult": "handleInboundEmail($1)$0"
         }
     },
     "unsupportedoperationexception": {
@@ -4560,8 +4560,8 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "getCommunity(String communityId)\tConnectApi.Community": "getCommunity($0)",
-            "getCommunities(ConnectApi.CommunityStatus status)\tConnectApi.CommunityPage": "getCommunities($0)",
+            "getCommunity(String communityId)\tConnectApi.Community": "getCommunity($1)$0",
+            "getCommunities(ConnectApi.CommunityStatus status)\tConnectApi.CommunityPage": "getCommunities($1)$0",
             "getCommunities()\tConnectApi.CommunityPage": "getCommunities()$0"
         }
     },
@@ -4575,7 +4575,7 @@ apex_completions = {
             "nextPageUrl": "nextPageUrl$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -4589,9 +4589,9 @@ apex_completions = {
             "title": "title$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -4611,8 +4611,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -4625,8 +4625,8 @@ apex_completions = {
             "getMessage()\tString": "getMessage()$0",
             "getStackTraceString()\tString": "getStackTraceString()$0",
             "getLineNumber()\tInteger": "getLineNumber()$0",
-            "setMessage(String message)\tvoid": "setMessage($0)",
-            "initCause(APEX_OBJECT cause)\tvoid": "initCause($0)",
+            "setMessage(String message)\tvoid": "setMessage($1)$0",
+            "initCause(APEX_OBJECT cause)\tvoid": "initCause($1)$0",
             "getCause()\tException": "getCause()$0",
             "getTypeName()\tString": "getTypeName()$0"
         }
@@ -4644,7 +4644,7 @@ apex_completions = {
             "facets": "facets$0"
         },
         "methods": {
-            "getComponentById(String id)\tApexPages.Component": "getComponentById($0)"
+            "getComponentById(String id)\tApexPages.Component": "getComponentById($1)$0"
         }
     },
     "ideas": {
@@ -4652,11 +4652,11 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "findSimilar(SObject idea)\tLIST<Id>": "findSimilar($0)",
-            "getReadRecentReplies(String userId, String communityId)\tLIST<Id>": "getReadRecentReplies($0)",
-            "markRead(String ideaId)\tvoid": "markRead($0)",
-            "getUnreadRecentReplies(String userId, String communityId)\tLIST<Id>": "getUnreadRecentReplies($0)",
-            "getAllRecentReplies(String userId, String communityId)\tLIST<Id>": "getAllRecentReplies($0)"
+            "findSimilar(SObject idea)\tLIST<Id>": "findSimilar($1)$0",
+            "getReadRecentReplies(String userId, String communityId)\tLIST<Id>": "getReadRecentReplies($1)$0",
+            "markRead(String ideaId)\tvoid": "markRead($1)$0",
+            "getUnreadRecentReplies(String userId, String communityId)\tLIST<Id>": "getUnreadRecentReplies($1)$0",
+            "getAllRecentReplies(String userId, String communityId)\tLIST<Id>": "getAllRecentReplies($1)$0"
         }
     },
     "commentinput": {
@@ -4667,9 +4667,9 @@ apex_completions = {
             "body": "body$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "convertToJavaObject(java:common.api.AppVersion currentVersion)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "toString()\tString": "toString()$0"
         }
     },
@@ -4679,53 +4679,53 @@ apex_completions = {
         "properties": {},
         "methods": {
             "day()\tInteger": "day()$0",
-            "newInstance(Date date, Time time)\tDatetime": "newInstance($0)",
-            "newInstance(Integer year, Integer month, Integer day, Integer hour, Integer minute, Integer second)\tDatetime": "newInstance($0)",
-            "format(String dateformat)\tString": "format($0)",
-            "addSeconds(Integer seconds)\tDatetime": "addSeconds($0)",
+            "newInstance(Date date, Time time)\tDatetime": "newInstance($1)$0",
+            "newInstance(Integer year, Integer month, Integer day, Integer hour, Integer minute, Integer second)\tDatetime": "newInstance($1)$0",
+            "format(String dateformat)\tString": "format($1)$0",
+            "addSeconds(Integer seconds)\tDatetime": "addSeconds($1)$0",
             "time()\tTime": "time()$0",
             "timeGmt()\tTime": "timeGmt()$0",
             "now()\tDatetime": "now()$0",
             "dayOfYear()\tInteger": "dayOfYear()$0",
-            "format(String dateformat, String timezone)\tString": "format($0)",
-            "parse(String str)\tDatetime": "parse($0)",
-            "newInstanceGmt(Integer year, Integer month, Integer day)\tDatetime": "newInstanceGmt($0)",
-            "addHours(Integer hours)\tDatetime": "addHours($0)",
+            "format(String dateformat, String timezone)\tString": "format($1)$0",
+            "parse(String str)\tDatetime": "parse($1)$0",
+            "newInstanceGmt(Integer year, Integer month, Integer day)\tDatetime": "newInstanceGmt($1)$0",
+            "addHours(Integer hours)\tDatetime": "addHours($1)$0",
             "yearGmt()\tInteger": "yearGmt()$0",
             "minute()\tInteger": "minute()$0",
             "month()\tInteger": "month()$0",
             "minuteGmt()\tInteger": "minuteGmt()$0",
             "second()\tInteger": "second()$0",
-            "newInstanceGmt(Date date, Time time)\tDatetime": "newInstanceGmt($0)",
-            "addDays(Integer days)\tDatetime": "addDays($0)",
+            "newInstanceGmt(Date date, Time time)\tDatetime": "newInstanceGmt($1)$0",
+            "addDays(Integer days)\tDatetime": "addDays($1)$0",
             "dayOfYearGmt()\tInteger": "dayOfYearGmt()$0",
-            "newInstanceGmt(Integer year, Integer month, Integer day, Integer hour, Integer minute, Integer second)\tDatetime": "newInstanceGmt($0)",
-            "addMonths(Integer months)\tDatetime": "addMonths($0)",
-            "newInstance(Integer year, Integer month, Integer day)\tDatetime": "newInstance($0)",
-            "isSameDay(Datetime other)\tBoolean": "isSameDay($0)",
+            "newInstanceGmt(Integer year, Integer month, Integer day, Integer hour, Integer minute, Integer second)\tDatetime": "newInstanceGmt($1)$0",
+            "addMonths(Integer months)\tDatetime": "addMonths($1)$0",
+            "newInstance(Integer year, Integer month, Integer day)\tDatetime": "newInstance($1)$0",
+            "isSameDay(Datetime other)\tBoolean": "isSameDay($1)$0",
             "format()\tString": "format()$0",
             "secondGmt()\tInteger": "secondGmt()$0",
-            "valueOf(String str)\tDatetime": "valueOf($0)",
+            "valueOf(String str)\tDatetime": "valueOf($1)$0",
             "formatLong()\tString": "formatLong()$0",
             "millisecondGmt()\tInteger": "millisecondGmt()$0",
-            "valueOfGmt(String str)\tDatetime": "valueOfGmt($0)",
+            "valueOfGmt(String str)\tDatetime": "valueOfGmt($1)$0",
             "year()\tInteger": "year()$0",
             "hour()\tInteger": "hour()$0",
             "date()\tDate": "date()$0",
             "monthGmt()\tInteger": "monthGmt()$0",
-            "valueOf(Object o)\tDatetime": "valueOf($0)",
+            "valueOf(Object o)\tDatetime": "valueOf($1)$0",
             "hourGmt()\tInteger": "hourGmt()$0",
-            "addMinutes(Integer minutes)\tDatetime": "addMinutes($0)",
-            "addYears(Integer years)\tDatetime": "addYears($0)",
-            "formatGmt(String dateformat)\tString": "formatGmt($0)",
+            "addMinutes(Integer minutes)\tDatetime": "addMinutes($1)$0",
+            "addYears(Integer years)\tDatetime": "addYears($1)$0",
+            "formatGmt(String dateformat)\tString": "formatGmt($1)$0",
             "getTime()\tLong": "getTime()$0",
-            "addError(String msg, Boolean escape)\tvoid": "addError($0)",
-            "newInstance(Long time)\tDatetime": "newInstance($0)",
+            "addError(String msg, Boolean escape)\tvoid": "addError($1)$0",
+            "newInstance(Long time)\tDatetime": "newInstance($1)$0",
             "dayGmt()\tInteger": "dayGmt()$0",
-            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($0)",
-            "addError(APEX_OBJECT msg)\tvoid": "addError($0)",
+            "addError(APEX_OBJECT msg, Boolean escape)\tvoid": "addError($1)$0",
+            "addError(APEX_OBJECT msg)\tvoid": "addError($1)$0",
             "dateGmt()\tDate": "dateGmt()$0",
-            "addError(String msg)\tvoid": "addError($0)",
+            "addError(String msg)\tvoid": "addError($1)$0",
             "millisecond()\tInteger": "millisecond()$0"
         }
     },
@@ -4734,8 +4734,8 @@ apex_completions = {
         "constructors": {},
         "properties": {},
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
-            "convertToJavaObject(java:common.api.AppVersion param1)\tjava:java.lang.Object": "convertToJavaObject($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
+            "convertToJavaObject(java:common.api.AppVersion param1)\tjava:java.lang.Object": "convertToJavaObject($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -4747,7 +4747,7 @@ apex_completions = {
             "fileCount": "fileCount$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "toString()\tString": "toString()$0"
         }
@@ -4760,7 +4760,7 @@ apex_completions = {
             "text": "text$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -4774,7 +4774,7 @@ apex_completions = {
             "url": "url$0"
         },
         "methods": {
-            "equals(Object obj)\tBoolean": "equals($0)",
+            "equals(Object obj)\tBoolean": "equals($1)$0",
             "hashCode()\tInteger": "hashCode()$0",
             "getBuildVersion()\tDouble": "getBuildVersion()$0",
             "toString()\tString": "toString()$0"
@@ -4800,7 +4800,7 @@ apex_completions = {
             "childComponents": "childComponents$0"
         },
         "methods": {
-            "getComponentById(String id)\tApexPages.Component": "getComponentById($0)"
+            "getComponentById(String id)\tApexPages.Component": "getComponentById($1)$0"
         }
     }
 }
