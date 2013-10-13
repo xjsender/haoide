@@ -85,7 +85,7 @@ Choose the components you want to refresh, and then Click ```SublimeApex > Refre
 Choose the components you want to delete, and then Click ```SublimeApex > Delete Selected Components``` in the Sidebar Menu
 
 ## Quick Goto Component
-Put the focus in the Class Name, and then, press ```shift``` and ```button1```, the class file will be open if this class file is exist
+Put the focus in the Class Name, and then, press ```shift```,  and click ```button1``` for twice, the class file will be open in background if this class file is exist, however, if you want to open this class in the foreground, you should press ```shift``` and click ```button1``` for triple.
 
 ## Retrieve All Metadata
 Click ```SublimeApex > Retrieve Metadata``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
