@@ -33,50 +33,6 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 + 8. ```input space```, list all attributes of tags, if tag attribute has predefined values, output attr, otherwise, output attr="$1"
 + 9. ```input =```, list all values of this corresponding attributes
 
-You should add below setting to ```Perference > User - Setting```, then you will have auto completions functionality.
-```javascript
-{
-    // Auto Completions characters
-    "auto_complete_triggers":
-    [
-        {
-            "characters": ".",
-            "selector": "source.java"
-        },
-        {
-            "characters": "<",
-            "selector": "source.java"
-        },
-        {
-            "characters": "<",
-            "selector": "text.html - source"
-        },
-        {
-            "characters": ":",
-            "selector": "text.html - source"
-        },
-        {
-            "characters": " ",
-            "selector": "text.html - source"
-        },
-        {
-            "characters": ":",
-            "selector": "text.html - source"
-        },
-        {
-            "characters": "=",
-            "selector": "text.html - source"
-        }
-    ],
-
-    // Other setting
-    "tab_completion": false,
-    "theme": "Soda Dark 3.sublime-theme",
-    "translate_tabs_to_spaces": true,
-    ...
-}
-```
-
 ## Execute Anonymous
 After any snippet is chosen, the Execute Anonymous command is enabled.
 

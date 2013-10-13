@@ -1,0 +1,34 @@
+{
+    // Auto completion after these characters
+	"auto_complete_triggers":
+	[
+		{
+			"characters": ".",
+			"selector": "source.java"
+		},
+		{
+			"characters": "<",
+			"selector": "source.java"
+		},
+		{
+			"characters": "<",
+			"selector": "text.html - source"
+		},
+		{
+			"characters": ":",
+			"selector": "text.html - source"
+		},
+		{
+			"characters": " ",
+			"selector": "text.html - source"
+		},
+		{
+			"characters": ":",
+			"selector": "text.html - source"
+		},
+		{
+			"characters": "=",
+			"selector": "text.html - source"
+		}
+	]
+}
