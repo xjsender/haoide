@@ -328,7 +328,7 @@ class SalesforceApi():
 
         url = url.format(self.api_version)
         headers = globals()[self.username]["headers"].copy()
-        # headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
+        headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
         instance_url = globals()[self.username]['instance_url']
         print (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))
         response = requests.get(instance_url + url, 
