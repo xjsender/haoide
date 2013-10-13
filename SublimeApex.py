@@ -540,17 +540,15 @@ class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
         """
 
         if len(files) == 0: return False
-        for file in files:
-            if not check_enabled(file):
+        for _file in files:
+            if not check_enabled(_file):
                 return False
 
         return True
 
 class DeleteComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        # Get file_name and component_attribute
-        files = []
-        files.append(self.view.file_name());
+        files = [self.view.file_name()]
         delete_components(files)
 
     def is_enabled(self):
@@ -740,19 +738,12 @@ def check_enabled(file_name):
     # if component_type == "StaticResource": return False
 
     # Check whether project of current file is active project
-    try:
-        project_of_current_file = [p for p in toolingapi_settings["projects"].keys() if p in file_name]
-        return toolingapi_settings["projects"][project_of_current_file[0]]["default"]
-    except:
-        print (message.format('Current Project' + project_of_current_file))
-        return False
+    default_project_name = toolingapi_settings["default_project_name"]
+    if not default_project_name in file_name: return False
 
     # Check whether active component is in active project
     username = toolingapi_settings["username"]
-    try:
-        component_attribute, component_name = util.get_component_attribute(file_name)
-    except:
-        return False
-
+    component_attribute, component_name = util.get_component_attribute(file_name)
     if component_attribute == None: return False
+    
     return True

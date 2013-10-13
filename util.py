@@ -1001,7 +1001,11 @@ def get_component_attribute(file_name):
     component_type = toolingapi_settings[extension]
     username = toolingapi_settings["username"]
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
-    component_attribute = component_settings.get(username)[component_type][name]
+
+    try:
+        component_attribute = component_settings.get(username)[component_type][name]
+    except:
+        return (None, None)
 
     # Return tuple
     return (component_attribute, name)
