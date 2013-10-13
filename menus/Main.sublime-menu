@@ -225,6 +225,14 @@
                     {
                         "command": "open_file", 
                         "args": {
+                            "file": "${packages}/SublimeApex/settings/preferences.sublime-settings"
+                        },
+                        "caption": "Settings – Completions"
+                    },
+
+                    {
+                        "command": "open_file", 
+                        "args": {
                             "file": "${packages}/SublimeApex/settings/Widget.sublime-settings"
                         },
                         "caption": "Settings – Console"

@@ -99,6 +99,43 @@ Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanc
 ...
 
 # Configuration #
+## Preference - Settings
+```javascript
+{
+    // Auto completion after these characters
+    "auto_complete_triggers":
+    [
+        {
+            "characters": ".",
+            "selector": "source.java"
+        },
+        {
+            "characters": "<",
+            "selector": "source.java"
+        },
+        {
+            "characters": "<",
+            "selector": "text.html - source"
+        },
+        {
+            "characters": ":",
+            "selector": "text.html - source"
+        },
+        {
+            "characters": " ",
+            "selector": "text.html - source"
+        },
+        {
+            "characters": ":",
+            "selector": "text.html - source"
+        },
+        {
+            "characters": "=",
+            "selector": "text.html - source"
+        }
+    ]
+}
+```
 ## Settings - Default
 ```javascript
 {
