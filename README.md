@@ -136,7 +136,7 @@ Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanc
     ]
 }
 ```
-## Settings - Default
+## SublimeApex Settings - Default
 ```javascript
 {
     // Indicate whether add project name time suffix
@@ -172,7 +172,7 @@ Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanc
 }
 ```
 
-## Settings - User
+## SublimeApex Settings - User
 because default setting is the plugin default setting, In order to prevent that plugin update override your projects configurations and any other customization setting, you'd better put them at here.
 ```javascript
 {
