@@ -318,7 +318,7 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         "View Code Coverage of " + component_name + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_refresh_folder(component_type, timeout=120):
+def handle_refresh_folder(folder, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -382,11 +382,12 @@ def handle_refresh_folder(component_type, timeout=120):
     api = SalesforceApi(toolingapi_settings)
 
     # Get component attributes by component_type
-    component_type_attrs = toolingapi_settings[component_type]
-    component_outputdir = component_type_attrs["outputdir"]
-    component_body = component_type_attrs["body"]
-    component_extension = component_type_attrs["extension"]
-    component_soql = component_type_attrs["soql"]
+    component_type = toolingapi_settings[folder]
+    component_attribute = toolingapi_settings[component_type]
+    component_outputdir = component_attribute["outputdir"]
+    component_body = component_attribute["body"]
+    component_extension = component_attribute["extension"]
+    component_soql = component_attribute["soql"]
     thread = threading.Thread(target=api.query_all, args=(component_soql, ))
     thread.start()
     ThreadProgress(api, thread, "Refreshing " + component_type, 
@@ -980,9 +981,6 @@ def handle_get_static_resource_body(toolingapi_settings, timeout=120):
 
         shutil.rmtree(outputdir + "/unpackaged", ignore_errors=True)
         os.remove(outputdir + "/package.zip")
-
-        # Output package path
-        sublime.status_message("Your objects and workflows are exported to: " + outputdir)
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)

@@ -171,6 +171,7 @@
     ],
 
     // Components Directory
+    // You can change the folder but not the other component attributes
     "components": {
         "ApexClass": {
             "folder": "classes", // Directory Name

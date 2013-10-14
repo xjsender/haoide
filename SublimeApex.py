@@ -146,15 +146,14 @@ class RefreshFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        global component_types
+        global folders
         toolingapi_settings = context.get_toolingapi_settings()
-        component_types = list(toolingapi_settings["component_types"])
-        print (component_types)
-        self.window.show_quick_panel(component_types, self.on_done)
+        folders = sorted(list(toolingapi_settings["component_folders"]))
+        self.window.show_quick_panel(folders, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
-        processor.handle_refresh_folder(component_types[index])
+        processor.handle_refresh_folder(folders[index])
 
 class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

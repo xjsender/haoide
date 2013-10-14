@@ -117,9 +117,10 @@ def get_toolingapi_settings():
             " ORDER BY Name"
 
         component_attribute["soql"] = component_soql
-        component_attribute["outputdir"] = workspace + "/" + components[component_type]["folder"]
+        component_attribute["outputdir"] = workspace + "/" + component_attribute["folder"]
         settings[component_type] = component_attribute
         settings[component_attribute["extension"]] = component_type
+        settings[component_attribute["folder"]] = component_type
 
     settings["component_types"] = components.keys()
     settings["component_folders"] = [components[ct]["folder"] for ct in components]

@@ -172,7 +172,7 @@ def parse_method(classname, methods):
                 parameters += parameter["type"] + " " + parameter["name"] + ", "
             parameters = parameters[ : -2]
             methods_dict[method["name"] + "(" + parameters + ")\t" +\
-                method["returnType"]] = method["name"] + "($0)"
+                method["returnType"]] = method["name"] + "($1)$0"
 
     return methods_dict
 
