@@ -54,7 +54,7 @@
     "get_static_resource_body": false,
 
     // API version
-    "api_version": 28,
+    "api_version": 29,
 
     // Deploy Options
     "deploy_options": {
@@ -88,46 +88,46 @@
         "DurationMilliseconds", "LogLength", "StartTime", "Operation"
     ],
     "debug_log_headers_properties": {
-        "Id" : {
-            "width" : 20,
-            "label" : "Log Id"
+        "Id": {
+            "width": 20,
+            "label": "Log Id"
         },
-        "StartTime" : {
-            "width" : 22,
-            "label" : "Start Time"
+        "StartTime": {
+            "width": 22,
+            "label": "Start Time"
         },
-        "Request" : {
-            "width" : 13,
-            "label" : "Request Type"
+        "Request": {
+            "width": 13,
+            "label": "Request Type"
         },
-        "Application" : {
-            "width" : 12,
-            "label" : "Application"
+        "Application": {
+            "width": 12,
+            "label": "Application"
         },
-        "Status" : {
-            "width" : 10,
-            "label" : "Status"
+        "Status": {
+            "width": 10,
+            "label": "Status"
         },
-        "LogLength" : {
-            "width" : 8,
-            "label" : "Size(b)"
+        "LogLength": {
+            "width": 8,
+            "label": "Size(b)"
         },
-        "DurationMilliseconds" : {
-            "width" : 13,
-            "label" : "Duration(ms)"
+        "DurationMilliseconds": {
+            "width": 13,
+            "label": "Duration(ms)"
         },
-        "Operation" : {
-            "width" : 200,
-            "label" : "Operation"
+        "Operation": {
+            "width": 200,
+            "label": "Operation"
         }
     },
 
     // Sobject Workbook columns
     "workbook_field_describe_columns": [
-        "label","name","type","length","unique","externalId","precision",
-        "picklistValues","calculatedFormula","defaultValue","controllerName",
-        "relationshipName","referenceTo","inlineHelpText","nillable",
-        "createable","custom","dependentPicklist"
+        "label", "name", "type", "length", "unique", "externalId", "precision",
+        "picklistValues", "calculatedFormula", "defaultValue", "controllerName",
+        "relationshipName", "referenceTo", "inlineHelpText", "nillable",
+        "createable", "custom", "dependentPicklist"
     ],
 
     // Workflow Rule columns
@@ -138,35 +138,35 @@
 
     // Workflow Field Update columns
     "workflow_field_update_columns": [
-        "sobject", "name", "fullName", "field", "operation", 
-        "formula", "literalValue", "protected", 
+        "sobject", "name", "fullName", "field", "operation",
+        "formula", "literalValue", "protected",
         "notifyAssignee", "description"
     ],
 
     // Workflow Email Alert columns
     "workflow_email_alert_columns": [
-        "sobject", "fullName", "recipients", "template", 
+        "sobject", "fullName", "recipients", "template",
         "senderType", "protected", "description"
     ],
 
     // Workflow Email Alert columns
     "workflow_outbound_message_columns": [
-        "sobject", "name", "fullName", "fields", 
-        "endpointUrl", "includeSessionId", "apiVersion", 
+        "sobject", "name", "fullName", "fields",
+        "endpointUrl", "includeSessionId", "apiVersion",
         "integrationUser", "protected", "useDeadLetterQueue"
     ],
 
     // Workflow Email Alert columns
     "workflow_task_columns": [
-        "sobject", "fullName", "assignedTo", "assignedToType", 
-        "description", "dueDateOffset", "notifyAssignee", 
-        "offsetFromField", "priority", "protected", 
+        "sobject", "fullName", "assignedTo", "assignedToType",
+        "description", "dueDateOffset", "notifyAssignee",
+        "offsetFromField", "priority", "protected",
         "status", "subject"
     ],
 
     // Workflow Field Update columns
     "validation_rule_columns": [
-        "sobject", "fullName", "errorConditionFormula", "errorMessage", 
+        "sobject", "fullName", "errorConditionFormula", "errorMessage",
         "errorDisplayField", "active", "description"
     ],
 
@@ -175,31 +175,31 @@
     "components": {
         "ApexClass": {
             "folder": "classes", // Directory Name
-            "body" : "Body",     // Meatadata Name of Component
-            "extension": ".cls"  // Output File Extendsion
+            "body": "Body", // Meatadata Name of Component
+            "extension": ".cls" // Output File Extendsion
         },
 
         "ApexTrigger": {
             "folder": "triggers",
-            "body" : "Body", 
+            "body": "Body",
             "extension": ".trigger"
         },
 
         "ApexComponent": {
             "folder": "components",
-            "body" : "Markup", 
+            "body": "Markup",
             "extension": ".component"
         },
 
         "ApexPage": {
             "folder": "pages",
-            "body" : "Markup", 
+            "body": "Markup",
             "extension": ".page"
         },
 
         "StaticResource": {
             "folder": "staticresources",
-            "body" : "Body", 
+            "body": "Body",
             "extension": ".resource"
         }
     }

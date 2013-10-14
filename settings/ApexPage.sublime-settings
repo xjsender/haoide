@@ -1,6 +1,5 @@
 {
-    "extensions":
-    [
+    "extensions": [
         "page",
         "component"
     ]
