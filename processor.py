@@ -978,7 +978,7 @@ def handle_get_static_resource_body(toolingapi_settings, timeout=120):
                     os.remove(root_dst_dir + '/' + _file)
                 os.rename(x[0] + '/' + _file, root_dst_dir + '/' + _file) 
 
-        shutil.rmtree(outputdir + "/unpackaged")
+        shutil.rmtree(outputdir + "/unpackaged", ignore_errors=True)
         os.remove(outputdir + "/package.zip")
 
         # Output package path
@@ -1113,7 +1113,6 @@ def handle_delete_component(component_url, file_name, timeout=120):
 def handle_push_topic(sobject, timeout=120):      
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            print (">", end=''); time.sleep(sleep_time)
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
 
