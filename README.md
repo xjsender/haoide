@@ -73,7 +73,7 @@ There are two methods to run test, one is by Main Menu, other is in the context 
 
 ## View Code Coverage
 This feature just works when api version is >= 29.0
-In the context menu of open class or trigger, click ```button1 > SublimeApex > View Code Coverage```, after the thread is over, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
+In the context menu of open class or trigger, click ```button2 > SublimeApex > View Code Coverage```, after the thread is over, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
 
 ## Refresh Folder
 Click SublimeApex > Refresh Folder to refresh folder
@@ -189,7 +189,7 @@ because default setting is the plugin default setting, In order to prevent that 
 }
 ````
 - **default**: there should be only one default active project
-- **login_url**: sandbox is ```https://test.salesforce```, production is ```https://login.salesforce```
+- **login_url**: sandbox is ```https://test.salesforce.com```, production is ```https://login.salesforce.com```
 - **username**: login confidential
 - **password**: login confidential
 - **security_token**: If have, just put it here, if not, you can remove this attr or left it empty
