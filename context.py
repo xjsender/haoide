@@ -246,18 +246,16 @@ def add_project_to_workspace(workspace):
     Add new project folder to workspace
     """
 
-    try:
-        # Just ST3 supports, ST2 is not
-        project_data = sublime.active_window().project_data()
-        folders = []
-        if "folders" in project_data:
-            folders = project_data["folders"]
+    # Just ST3 supports, ST2 is not
+    project_data = sublime.active_window().project_data()
+    if project_data == None: project_data = {}
+    folders = []
+    if "folders" in project_data:
+        folders = project_data["folders"]
 
-        folders.append({
-            "path": workspace
-        })
+    folders.append({
+        "path": workspace
+    })
 
-        project_data["folders"] = folders
-        sublime.active_window().set_project_data(project_data)
-    except:
-        pass
+    project_data["folders"] = folders
+    sublime.active_window().set_project_data(project_data)
