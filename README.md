@@ -3,6 +3,7 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control
+Recommend to install ```tag``` plugin in package control to format your visualforce page, it's very useful.
 
 ## New Project
 + This command is used to download or update your project
