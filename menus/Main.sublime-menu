@@ -269,11 +269,11 @@
             },
             { "caption": "-" },
 
-            {
-                "id": "updateplugin",
-                "caption": "Update Me",
-                "command": "update_plugin"
-            },
+            // {
+            //     "id": "updateplugin",
+            //     "caption": "Update Me",
+            //     "command": "update_plugin"
+            // },
 
             {
                 "id": "about",
