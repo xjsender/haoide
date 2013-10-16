@@ -1,5 +1,5 @@
 # Sublime IDE for salesforce
-This plugin support ```Sublime Text 3``` for windows. full docs refer to [SublimeApex User Guide](https://github.com/xjsender/SublimeApex/blob/master/docs/SublimeApex%20Guide.docx)
+This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Linux. full docs refer to [SublimeApex User Guide](https://github.com/xjsender/SublimeApex/blob/master/docs/SublimeApex%20Guide.docx)
 
 ## New Project
 + This command is used to download or update your project
