@@ -306,10 +306,7 @@ Every time you want to switch the project, you can click ```SublimeApex > Switch
 + Apex Code Local History
 + Execute Anonymous
 + Execute Query
-+ Sobject Field Completions
-+ Visualforce Page Completions
-+ Buildin Method Completions
-+ Cross View Variable Completions
++ Kinds of code completions, see sector "Completions"
 + Generate All or Specified Sobject Workbook
 + Generate Custom Field Workbook (Including Field Id)
 + Generate Global Describe Workbook
