@@ -2,7 +2,8 @@
 This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Linux. full docs refer to [SublimeApex User Guide](https://github.com/xjsender/SublimeApex/blob/master/docs/SublimeApex%20Guide.docx)
 
 # Installation #
-You can install this plugin by search ```Salesforce IDE``` in package control
+You can install this plugin by search ```Salesforce IDE``` in package control,
+
 Recommend to install ```tag``` plugin in package control to format your visualforce page, it's very useful.
 
 ## New Project
