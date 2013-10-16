@@ -271,6 +271,8 @@ If your project need security token, just put it follow "username".
 Every time you want to switch the project, you can click ```SublimeApex > Switch Project``` in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
 ```javascript
 {
+    // In OSX, the worspace path is different with windows,
+    // for example, workspace in OSX could be "/user/salesforce/workspace"
     "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
         "Project1 Name": {
