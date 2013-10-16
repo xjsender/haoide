@@ -966,7 +966,11 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
 def get_file_attr(file_name):
     try:
         folder, extension = os.path.splitext(file_name)
-        name = folder[folder.rfind("\\")+1:]
+        name = ""
+        if "\\" in folder:
+            name = folder[folder.rfind("\\")+1:]
+        elif "/" in folder:
+            name = folder[folder.rfind("/")+1:]
         return name, extension
     except:
         pass
