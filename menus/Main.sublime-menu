@@ -209,7 +209,7 @@
                     {
                         "command": "open_file", 
                         "args": {
-                            "file": "${packages}/SublimeApex/settings/toolingapi.sublime-settings"
+                            "file": "${packages}/Salesforce IDE/settings/toolingapi.sublime-settings"
                         },
                         "caption": "Settings – Default"
                     },
@@ -225,7 +225,7 @@
                     {
                         "command": "open_file", 
                         "args": {
-                            "file": "${packages}/SublimeApex/settings/preferences.sublime-settings"
+                            "file": "${packages}/Salesforce IDE/settings/preferences.sublime-settings"
                         },
                         "caption": "Settings – Completions"
                     },
@@ -233,7 +233,7 @@
                     {
                         "command": "open_file", 
                         "args": {
-                            "file": "${packages}/SublimeApex/settings/Widget.sublime-settings"
+                            "file": "${packages}/Salesforce IDE/settings/Widget.sublime-settings"
                         },
                         "caption": "Settings – Console"
                     }
@@ -245,7 +245,7 @@
                     {
                         "command": "open_file", 
                         "args": {
-                            "file": "${packages}/SublimeApex/keymap/Default ($platform).sublime-keymap"
+                            "file": "${packages}/Salesforce IDE/keymap/Default ($platform).sublime-keymap"
                         },
                         "caption": "Key Bindings – Default"
                     },
@@ -261,7 +261,7 @@
                     {
                         "command": "open_file", 
                         "args": {
-                            "file": "${packages}/SublimeApex/mousemap/Default ($platform).sublime-mousemap"
+                            "file": "${packages}/Salesforce IDE/mousemap/Default ($platform).sublime-mousemap"
                         },
                         "caption": "Key Bindings – Mousemap"
                     }
