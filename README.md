@@ -254,8 +254,7 @@ If you have your own shortcut key convention, you should put it here
 - **press_args**: the bind command arguments
 
 # Installation #
-Firstly, install sublime text and then extract the zip file into your sublime package path.
-Package Name in sublime should be SublimeApex, for example, ```D:\Sublime347\Data\Packages\SublimeApex``` is my installation path.
+You can install this plugin by search ```Salesforce IDE``` in package control
 
 Before start coding, you should initiate your project settings, you can keep your settings in Default Setting or User Setting, however, ```User Settings``` is prior to ```Default Settings```.
 
