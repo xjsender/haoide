@@ -1,6 +1,11 @@
 # Sublime IDE for salesforce
 This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Linux. full docs refer to [SublimeApex User Guide](https://github.com/xjsender/SublimeApex/blob/master/docs/SublimeApex%20Guide.docx)
 
+# Installation #
+You can install this plugin by search ```Salesforce IDE``` in package control,
+
+Recommend to install ```tag``` plugin in package control to format your visualforce page, it's very useful.
+
 ## New Project
 + This command is used to download or update your project
 + Once click this command, a new project will be downloaded and appeared in the sidebar
@@ -253,8 +258,7 @@ If you have your own shortcut key convention, you should put it here
 - **press_command**: the bind command
 - **press_args**: the bind command arguments
 
-# Installation #
-You can install this plugin by search ```Salesforce IDE``` in package control
+# Project Configuration #
 
 Before start coding, you should initiate your project settings, you can keep your settings in Default Setting or User Setting, however, ```User Settings``` is prior to ```Default Settings```.
 
@@ -269,6 +273,8 @@ If your project need security token, just put it follow "username".
 Every time you want to switch the project, you can click ```SublimeApex > Switch Project``` in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
 ```javascript
 {
+    // In OSX, the worspace path is different with windows,
+    // for example, workspace in OSX could be "/user/salesforce/workspace"
     "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
         "Project1 Name": {
@@ -302,10 +308,7 @@ Every time you want to switch the project, you can click ```SublimeApex > Switch
 + Apex Code Local History
 + Execute Anonymous
 + Execute Query
-+ Sobject Field Completions
-+ Visualforce Page Completions
-+ Buildin Method Completions
-+ Cross View Variable Completions
++ Kinds of code completions, see sector "Completions"
 + Generate All or Specified Sobject Workbook
 + Generate Custom Field Workbook (Including Field Id)
 + Generate Global Describe Workbook
