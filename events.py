@@ -12,7 +12,7 @@ class SFDCEventListener(sublime_plugin.EventListener):
         1. Eveytime when you open a new view, default syntax is Apex
         2. Set Status with current default project
         """
-        view.set_syntax_file("Packages/Salesforce IDE/syntaxes/Apex.tmLanguage")
+        view.set_syntax_file("Packages/Java/Java.tmLanguage")
         context.display_active_project(view)
 
     def on_load_async(self, view):
