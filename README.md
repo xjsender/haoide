@@ -71,6 +71,12 @@ If you want to track the log of any user, click ```SublimeApex > Apex Test > Cre
 ## List Debug Log
 If you want to see the log list of any user, click ```SublimeApex > Apex Test > List Debug Logs```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
 
+## View Debug Log Detail in Salesforce Web
+Choose any Log Id and click ```SublimeApex > View Id In Salesforce Web```, wait for a moment, browser will be open and redirect to the log detail page.
+
+## View Debug Log Detail
+Choose any Log Id and click ```SublimeApex > View Detail Log Detail```, wait for a moment, you will see a new view with the log detail will be open.
+
 ## Run Test
 There are two methods to run test, one is by Main Menu, other is in the context menu
 + 1. By Main Menu: click ```SublimeApex > Apex Test > Run Test```, choose the test class and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
@@ -164,7 +170,42 @@ Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanc
     // API version
     "api_version": 28,
 
-    ...
+    ... 
+
+    // Components Directory
+    // folder is the output folder name, you can change it to anything you want
+    // The other two attributes shouldn't be changed
+    "components": {
+        "ApexClass": {
+            "folder": "classes", // Directory Name
+            "body": "Body", // Meatadata Name of Component
+            "extension": ".cls" // Output File Extendsion
+        },
+
+        "ApexTrigger": {
+            "folder": "triggers",
+            "body": "Body",
+            "extension": ".trigger"
+        },
+
+        "ApexComponent": {
+            "folder": "components",
+            "body": "Markup",
+            "extension": ".component"
+        },
+
+        "ApexPage": {
+            "folder": "pages",
+            "body": "Markup",
+            "extension": ".page"
+        },
+
+        "StaticResource": {
+            "folder": "staticresources",
+            "body": "Body",
+            "extension": ".resource"
+        }
+    }
 }
 ```
 
