@@ -1020,6 +1020,7 @@ def handle_create_component(data, component_name, component_type, view_id, timeo
 
         # If created failed, just remove it
         if result["status_code"] > 399:
+            view = util.get_view_by_id(view_id)
             os.remove(view.file_name())
             view.run_command("close")
             return
