@@ -22,7 +22,7 @@ class SFDCEventListener(sublime_plugin.EventListener):
 
         context.display_active_project(view)
 
-    def on_pre_save_async(self, view):
+    def on_modified_async(self, view):
         """
         Every time when you modified the context, just hide the console, 
         you can close it in sublime settings
@@ -41,7 +41,7 @@ class SFDCEventListener(sublime_plugin.EventListener):
         sublime.active_window().run_command("hide_panel", 
             {"panel": "console", "toggle": False})
 
-    def on_post_save_async(self, view):
+    def on_pre_save_async(self, view):
         """
         Every time when you save your ApexPage, ApexTrigger, ApexClass, ApexComponent, 
         this class will make a copy with the time_stamp in the history path of current project
