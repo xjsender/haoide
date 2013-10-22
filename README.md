@@ -6,9 +6,51 @@ You can install this plugin by search ```Salesforce IDE``` in package control,
 
 Recommend to install ```tag``` plugin in package control to format your visualforce page, it's very useful.
 
+# Project Configuration #
+There is a default test org in this plugin, you can see it by clicking ```SublimeApex > Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure you org user confidential before new project
+
+In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```SublimeApex > Setting - User```.
+
+You can setup your projects follow below sample by clicking ```SublimeApex > Setting - User``` in the main menu, projects must be included in {}.
+
+When you initiate your settings, you can have more than one project in "projects", however, only one project default should be true.
+
+If your own org login need security token, just set it as sample.
+
+Every time you want to switch the project, you can click ```SublimeApex > Switch Project``` in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
+
+If you want to check the current active project, you can check the most left of side bar or press ```alt+s```
+
+After your project configuration is finished, you can click ```SublimeApex > new project``` in the main menu to download your code.
+```javascript
+{
+    // In OSX, the worspace path is different with windows,
+    // for example, workspace in OSX could be "/user/salesforce/workspace"
+    "workspace": "d:/ForcedotcomWorkspace",
+    "projects": {
+        "Project1 Name": {
+            "default": true,
+            "login_url": "https://test.salesforce.com",
+            "password": "a",
+            "username": "a@a.com",
+            // If you have security token, just put it here
+            "security_token": "12sad3223adfas"
+        },
+        "Project2 Name": {
+            "default": false,
+            "login_url": "https://test.salesforce.com",
+            "password": "b",
+            "username": "b@b.com"
+        }
+        ......
+    }
+}
+```
+
 ## New Project
 + This command is used to download or update your project
 + Once click this command, a new project will be downloaded and appeared in the sidebar
++ Just after new project is finished, sobject completions will work
 + Project Folder Name Convention: the project name set in user settings append with date literal of today, for example,
 if today is ```2013/07/30``` and user settings is 
 
@@ -298,44 +340,6 @@ If you have your own shortcut key convention, you should put it here
 - **modifiers**: it means the assist key
 - **press_command**: the bind command
 - **press_args**: the bind command arguments
-
-# Project Configuration #
-
-Before start coding, you should initiate your project settings, you can keep your settings in Default Setting or User Setting, however, ```User Settings``` is prior to ```Default Settings```.
-
-In order to prevent plugin update overriding your toolingapi settings, you should keep your custom settings into ```Setting - User``` by clicking ```SublimeApex > Setting - User```.
-
-You can setup your projects follow below sample by clicking ```SublimeApex > Setting - User``` in the main menu, projects must be included in {}.
-
-When you initiate your settings, you can have more than one project in "projects", however, only one project default can be true.
-
-If your project need security token, just put it follow "username".
-
-Every time you want to switch the project, you can click ```SublimeApex > Switch Project``` in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
-```javascript
-{
-    // In OSX, the worspace path is different with windows,
-    // for example, workspace in OSX could be "/user/salesforce/workspace"
-    "workspace": "d:/ForcedotcomWorkspace",
-    "projects": {
-        "Project1 Name": {
-            "default": true,
-            "login_url": "https://test.salesforce.com",
-            "password": "a",
-            "username": "a@a.com",
-            // If you have security token, just put it here
-            "security_token": "12sad3223adfas"
-        },
-        "Project2 Name": {
-            "default": false,
-            "login_url": "https://test.salesforce.com",
-            "password": "b",
-            "username": "b@b.com"
-        }
-        ......
-    }
-}
-```
 
 # Supported Feature: #
 + Muti-project management
