@@ -69,6 +69,72 @@ apex_completions = {
             "size\tInteger": "size$0"
         }
     },
+    # Approval Namespace
+    "approval": {
+        "name": "Approval",
+        "constructors": {},
+        "properties": {
+            "ProcessResult\tNamespace Class": "ProcessResult",
+            "ProcessRequest\tNamespace Class": "ProcessRequest",
+            "ProcessSubmitRequest\tNamespace Class": "ProcessSubmitRequest",
+            "ProcessWorkitemRequest\tNamespace Class": "ProcessWorkitemRequest"
+        },
+        "customize": True,
+        "methods": {
+            "process(Approval.ProcessRequest request)\tApproval.ProcessResult": "process($1)$0",
+            "processprocess(Approval.ProcessRequest processRequests, Boolean opt_allOrNone)\tApproval.ProcessResult": "process($1)$0",
+            "process(Approval.ProcessRequest[] processRequests)\tApproval.ProcessResult[]": "process($1)$0",
+            "process(Approval.ProcessRequest[] processRequests, Boolean opt_allOrNone)\tApproval.ProcessResult[]": "process($1)$0"
+        }
+    },
+    "processrequest": {
+        "name": "processrequest",
+        "constructors": {},
+        "properties": {},
+        "customize": True,
+        "methods": {
+            "getComments()\tString": "getComments()$0",
+            "getNextApproverIds()\tId[]": "getNextApproverIds()$0",
+            "setComments(String comments)\tvoid": "setComments($1)$0",
+            "setNextApproverIds(Id[] nextApproverIds)\tvoid": "setNextApproverIds($1)$0"
+        }
+    },
+    "processresult": {
+        "name": "ProcessResult",
+        "constructors": {},
+        "properties": {},
+        "customize": True,
+        "methods": {
+            "getEntityId()\tId": "getEntityId()$0",
+            "getErrors()\tDatabase.Error[]": "getErrors()$0",
+            "getInstanceId()\tId": "getInstanceId()$0",
+            "getInstanceStatus()\tString": "getInstanceStatus()$0",
+            "getNewWorkitemIds()\tId[]": "getNewWorkitemIds()$0",
+            "isSuccess()\tBoolean": "isSuccess()$0"
+        }
+    },
+    "processsubmitrequest": {
+        "name": "ProcessSubmitRequest",
+        "constructors": {},
+        "properties": {},
+        "customize": True,
+        "methods": {
+            "getObjectId()\tId": "getObjectId()$0",
+            "setObjectId(String objId)\tvoid": "setObjectId($1)$0"
+        }
+    },
+    "processworkitemrequest": {
+        "name": "ProcessWorkItemRequest",
+        "constructors": {},
+        "properties": {},
+        "customize": True,
+        "methods": {
+            "getAction()\tString": "getAction()$0",
+            "getWorkitemId()\tString": "getWorkitemId()$0",
+            "setAction(String s)\tvoid": "setAction($1)$0",
+            "setWorkitemId(String Id)\tvoid": "setWorkitemId($1)$0"
+        }
+    },
     "approvalattachment": {
         "name": "ApprovalAttachment",
         "constructors": {},
