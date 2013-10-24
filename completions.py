@@ -47,7 +47,7 @@ class symbol_table_completions(sublime_plugin.EventListener):
 
             # If no parameter, put the foucs at the end
             completion_list.append((func + "\t" + func_type, 
-                func_name +  ("()$0" if "()" in func else "($0)")))
+                func_name +  ("()$0" if "()" in func else "($1)$0")))
 
         completion_list.sort(key=lambda tup:tup[1])
         return completion_list
