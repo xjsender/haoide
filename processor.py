@@ -438,7 +438,9 @@ def handle_initiate_sobjects_completions(timeout=120):
         for sobject_describe in results:
             # Initiate Sobject completions
             sobject_name = sobject_describe["name"]
-            sobjects_completion[sobject_name] = {}
+            sobjects_completion[sobject_name] = {
+                "keyPrefix": sobject_describe["keyPrefix"]
+            }
 
             # Combine fields dict
             fields_dict = {}
