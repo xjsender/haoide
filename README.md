@@ -78,8 +78,8 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 + 8. ```input space```, list all attributes of tags, if tag attribute has predefined values, output attr, otherwise, output attr="$1"
 + 9. ```input =```, list all values of this corresponding attributes
 
-<img src="https://www.dropbox.com/s/wfvv6bu3druyxv7/apex.jpg" /><br/>
-<img src="https://www.dropbox.com/s/rll5w55yemrr0la/page.jpg" /><br/>
+<img src="https://github.com/xjsender/SublimeApexScreenshot/blob/master/apex.jpg" /><br/>
+<img src="https://github.com/xjsender/SublimeApexScreenshot/blob/master/page.jpg" /><br/>
 
 ## Execute Anonymous
 After any snippet is chosen, the Execute Anonymous command is enabled.
