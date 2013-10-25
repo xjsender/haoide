@@ -4,8 +4,6 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control,
 
-Recommend to install ```tag``` plugin in package control to format your visualforce page, it's very useful.
-
 # Project Configuration #
 There is a default test org in this plugin, you can see it by clicking ```SublimeApex > Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure you org user confidential before new project
 
