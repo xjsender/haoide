@@ -185,7 +185,7 @@ def populate_sobject_recordtypes():
     globals()[username + "sobject_recordtypes"] = sobject_recordtypes
     return sobject_recordtypes  
 
-def populate_sobjects():
+def populate_sobjects_describe():
     """
     Get the sobjects list in org.
     """
@@ -197,7 +197,10 @@ def populate_sobjects():
     # If sobjects is exist in sobjects_completion.sublime-settings, just return it
     sobjects_completions = sublime.load_settings("sobjects_completion.sublime-settings")
     if sobjects_completions.has(username):
-        return sobjects_completions.get(username).keys()
+        return sobjects_completions.get(username)
+
+    if (username + "sobjects") in globals():
+        return globals()[username + "sobjects"]
 
     # If sobjects is not exist in globals(), post request to pouplate it
     api = SalesforceApi(toolingapi_settings)
@@ -207,12 +210,14 @@ def populate_sobjects():
     while thread.is_alive() or api.result == None:
         time.sleep(1)
 
-    sobjects = []
-    for sobject in api.result["sobjects"]:
-        sobjects.append(sobject["name"])
+    sobjects_describe = {}
+    for sd in api.result["sobjects"]:
+        sobjects_describe[sd["name"]] = {
+            "keyPrefix": sd["keyPrefix"]
+        }
 
-    globals()[username + "sobjects"] = sobjects
-    return sobjects
+    globals()[username + "sobjects"] = sobjects_describe
+    return sobjects_describe
 
 def handle_login_thread(default_project, timeout=120):
     def handle_thread(thread, timeout):
@@ -602,7 +607,7 @@ def handle_export_validation_rules(timeout=120):
     ThreadProgress(api, thread, "Export All Validation Rules", "Outputdir: " + outputdir)
     handle_thread(thread, 10)
 
-def handle_describe_customfield(sobject, timeout=120):
+def handle_describe_customfield(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -612,18 +617,16 @@ def handle_describe_customfield(sobject, timeout=120):
         result = api.result
         if result["status_code"] > 399 : return
 
-        if not os.path.exists(outputdir):
-            os.makedirs(outputdir)
-
-        # Open output csv
-        output_file_dir = outputdir + "/" + sobject + ".csv"
+        if not os.path.exists(outputdir): os.makedirs(outputdir)
+        output_file_dir = outputdir + "/customfield.csv"
         if util.is_python3x():
             fp = open(output_file_dir, "w", newline='')
         else:
             fp = open(output_file_dir, "wb")
 
         # Write list to csv
-        util.list2csv(fp, result["records"])
+        records = sorted(result["records"], key=lambda k : k['TableEnumOrId'])
+        util.list2csv(fp, records)
 
         # Release fp
         fp.close()
@@ -636,12 +639,11 @@ def handle_describe_customfield(sobject, timeout=120):
     outputdir = workspace + "/describe/customfield"
     api = SalesforceApi(toolingapi_settings)
     query = """SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName 
-               FROM CustomField 
-               WHERE TableEnumOrId='{sobject}'""".format(sobject=sobject)
+               FROM CustomField"""
     thread = threading.Thread(target=api.query_all, args=(query, True,))
     thread.start()
-    ThreadProgress(api, thread, 'Describe CustomField of ' + sobject, 
-        'Outputdir: ' + outputdir + "/" + sobject + ".csv")
+    ThreadProgress(api, thread, 'Describe CustomField', 
+        'Outputdir: ' + outputdir + "/customfield.csv")
     handle_thread(thread, 10)
 
 def handle_describe_global(timeout=120):

@@ -207,14 +207,7 @@ class DescribeCustomFieldCommand(sublime_plugin.WindowCommand):
         super(DescribeCustomFieldCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        global sobjects
-        sobjects = processor.populate_sobjects()
-        sobjects = sorted(sobjects)
-        self.window.show_quick_panel(sobjects, self.on_done)
-
-    def on_done(self, index):
-        if index == -1: return
-        processor.handle_describe_customfield(sobjects[index])
+        processor.handle_describe_customfield()
         
 class DescribeGlobalCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -274,8 +267,8 @@ class DescribeSobjectCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         global sobjects
-        sobjects = processor.populate_sobjects()
-        sobjects = sorted(sobjects)
+        sobjects_describe = processor.populate_sobjects_describe()
+        sobjects = sorted(sobjects_describe.keys())
         self.window.show_quick_panel(sobjects, self.on_done)
 
     def on_done(self, index):
