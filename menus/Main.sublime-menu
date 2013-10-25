@@ -75,12 +75,6 @@
                 "caption": "Describe",
                 "children": [
                     {
-                        "id": "describecustomfield",
-                        "caption": "Describe CustomField",
-                        "command": "describe_custom_field"
-                    },
-
-                    {
                         "id": "describeglobal",
                         "caption": "Describe Global",
                         "command": "describe_global"
@@ -103,6 +97,11 @@
             {
                 "caption": "Export",
                 "children": [
+                    {
+                        "id": "describecustomfield",
+                        "caption": "Export CustomField",
+                        "command": "describe_custom_field"
+                    },
                     {
                         "id": "exportworkflow",
                         "caption": "Export Workflow",
