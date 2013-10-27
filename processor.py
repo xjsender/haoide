@@ -10,28 +10,13 @@ import urllib.parse
 import shutil
 
 from xml.sax.saxutils import unescape
-
 from . import requests, context, util
 from .context import COMPONENT_METADATA_SETTINGS
 from .util import getUniqueElementValueFromXmlString
 from .salesforce import bulkapi, soap_bodies, message
 from .salesforce.api import SalesforceApi
 from .thread_progress import ThreadProgress, ThreadsProgress
-    
-animation = """
-             \     /
-         \    o ^ o    /
-           \ (     ) /
-____________(&&&&&&&)____________
-(     /   / )&&&&&&&(  \   \     )
-(___/___/__/           \__\___\___)
-  (     /  /(&&&&&&&)\  \     )
-   (__/___/ (&&&&&&&) \___\__)
-           /(       )\\
-         /   (&&&&&)   \\
-              (&&&)
-                !
-"""
+
 
 def populate_users():
     """
@@ -638,8 +623,7 @@ def handle_describe_customfield(timeout=120):
     workspace = context.get_toolingapi_settings().get("workspace")
     outputdir = workspace + "/describe/customfield"
     api = SalesforceApi(toolingapi_settings)
-    query = """SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName 
-               FROM CustomField"""
+    query = "SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName FROM CustomField"
     thread = threading.Thread(target=api.query_all, args=(query, True,))
     thread.start()
     ThreadProgress(api, thread, 'Describe CustomField', 
