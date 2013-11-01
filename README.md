@@ -5,7 +5,7 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 You can install this plugin by search ```Salesforce IDE``` in package control,
 
 # Project Configuration #
-There is a default test org in this plugin, you can see it by clicking ```SublimeApex > Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure you org user confidential before new project
+There is a default test org in this plugin, you can see it by clicking ```SublimeApex > Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project
 
 In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```SublimeApex > Setting - User```.
 
@@ -15,7 +15,7 @@ When you initiate your settings, you can have more than one project in "projects
 
 If your own org login need security token, just set it as sample.
 
-Every time you want to switch the project, you can click ```SublimeApex > Switch Project``` in the main menu and choose that you want, and then the update projects settings will be saved to user settings.
+Every time you want to switch the project, you can click ```SublimeApex > Switch Project``` in the main menu and choose that you want, and then the updated projects settings will be saved to user settings.
 
 If you want to check the current active project, you can check the most left of side bar or press ```alt+s```
 
@@ -47,7 +47,7 @@ After your project configuration is finished, you can click ```SublimeApex > new
 
 ## New Project
 + This command is used to download or update your project
-+ Once click this command, a new project will be downloaded and appeared in the sidebar
++ Once you click this command, a new project will be downloaded and appeared in the sidebar
 + Just after new project is finished, sobject completions will work
 + Project Folder Name Convention: the project name set in user settings append with date literal of today, for example,
 if today is ```2013/07/30``` and user settings is 
@@ -83,21 +83,22 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 <img src="https://raw.github.com/xjsender/SublimeApexScreenshot/master/page.jpg" /><br/>
 
 ## Execute Anonymous
-After any snippet is chosen, the Execute Anonymous command is enabled.
+Choose any apex code snippet, press ```Ctrl+Alt+E``` or click ```SublimeApex > Execute Anonymous```, the executed result will be shown in a new view.
 
 ## Execute Query
-Just any snippet which start with SELECT is chosen, the Execute Query command is enabled
+After any snippet which start with SELECT is chosen, you can press ```Ctrl+Alt+Q``` or click ```SublimeApex > Execute Query```, the queried result will be shown in a new view.
+Not support relationship query now.
 
 ## Save component
-+ This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
-+ After component is updated, click ```SublimeApex > Save to Server```
++ This command is only enabled in salesforce code file
++ After code is updated, click ```SublimeApex > Save to Server```
 
 ## Refresh component
-+ This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
-+ After component is updated in UI or other IDE, click ```SublimeApex > Refresh From Server```
++ This command is only enabled in salesforce code file
++ After code is updated in UI or other IDE, press ```Ctrl+Alt+R``` or click ```SublimeApex > Refresh From Server``` to refresh it server.
 
 ## Delete component
-+ This command is only enabled in ApexPage, ApexTrigger, ApexClass or ApexComponent file
++ This command is only enabled in salesforce code file
 + If component is useless and you want to delete it from server, click ```SublimeApex > Delete From Server```
 
 ## New Component #
