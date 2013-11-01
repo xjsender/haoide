@@ -24,7 +24,7 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
     def run(self, edit, is_background=False):
         sel = self.view.sel()[0]
         sel_text = self.view.substr(sel)
-        if sel_text == "": sel_text = self.view.substr(self.view.word(sel.begin()))
+        sel_text = self.view.substr(self.view.word(sel.begin()))
         
         project_folder = os.path.split(os.path.split(self.view.file_name())[0])[0]
         toolingapi_settings = context.get_toolingapi_settings()
