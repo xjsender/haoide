@@ -7,9 +7,9 @@ You can install this plugin by search ```Salesforce IDE``` in package control,
 # Project Configuration #
 There is a default test org in this plugin, you can see it by clicking ```SublimeApex > Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project
 
-In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```SublimeApex > Setting - User```.
+In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```SublimeApex > Settings > Setting - User```.
 
-You can setup your projects follow below sample by clicking ```SublimeApex > Setting - User``` in the main menu, projects must be included in {}.
+You can setup your projects follow below sample by clicking ```SublimeApex > Settings > Setting - User``` in the main menu, projects must be included in {}.
 
 When you initiate your settings, you can have more than one project in "projects", however, only one project default should be true.
 
