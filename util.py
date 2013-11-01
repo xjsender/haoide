@@ -261,7 +261,7 @@ def parse_test_result(test_result):
     return_result = class_name + test_result_desc + test_result_content + "\n"
 
     # Parse Debug Log Part
-    debug_log_desc = separate + "\nYou can choose LogId and view it in SFDC\n" + separate + "\n"
+    debug_log_desc = message.SEPRATE.format("You can choose the LogId and view log detail in Sublime or Salesforce by context menu")
     debug_log_content = "LogId: "
     if len(test_result) > 0 and test_result[0]["ApexLogId"] != None:
         debug_log_content += test_result[0]["ApexLogId"]
