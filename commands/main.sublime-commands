@@ -1,0 +1,109 @@
+[
+    {
+        "caption": "SublimeApex: Switch Project",
+        "command": "switch_project"
+    },
+
+    {
+        "caption": "SublimeApex: New Project",
+        "command": "new_project"
+    },
+
+    {
+        "caption": "SublimeApex: New Component",
+        "command": "create_component"
+    },
+
+    {
+        "caption": "SublimeApex: Save Component",
+        "command": "save_component"
+    },
+
+    {
+        "caption": "SublimeApex: Refresh Component",
+        "command": "refresh_component"
+    },
+
+    {
+        "caption": "SublimeApex: Delete Component",
+        "command": "delete_component"
+    },
+
+    {
+        "caption": "SublimeApex: Refresh Folder",
+        "command": "refresh_folder"
+    },
+    {
+        "caption": "SublimeApex: Retrieve Metadata",
+        "command": "retrieve_metadata"
+    },
+
+    {
+        "caption": "SublimeApex: Create Debug Log",
+        "command": "create_debug_log"
+    },
+
+    {
+        "caption": "SublimeApex: List Debug Logs",
+        "command": "list_debug_logs"
+    },
+
+    {
+        "caption": "SublimeApex: Run Test",
+        "command": "run_one_test"
+    },
+    {
+        "caption": "SublimeApex: View Code Coverage",
+        "command": "view_code_coverage"
+    },
+    {
+        "caption": "SublimeApex: Execute Anonymous",
+        "command": "execute_anonymous"
+    },
+
+    {
+        "caption": "SublimeApex: Execute SOQL",
+        "command": "execute_soql"
+    },
+
+    {
+        "caption": "SublimeApex: Describe Global",
+        "command": "describe_global"
+    },
+
+    {
+        "caption": "SublimeApex: Describe Layout",
+        "command": "describe_layout"
+    },
+
+    {
+        "caption": "SublimeApex: Describe Sobject",
+        "command": "describe_sobject"
+    },
+    {
+        "caption": "SublimeApex: Export CustomField",
+        "command": "describe_custom_field"
+    },
+    {
+        "caption": "SublimeApex: Export Workflow",
+        "command": "export_workflows"
+    },
+
+    {
+        "caption": "SublimeApex: Export Validation Rule",
+        "command": "export_validation_rules"
+    },
+
+    {
+        "caption": "SublimeApex: Export Workbook",
+        "command": "export_workbook"
+    },
+    {
+        "caption": "SublimeApex: View Code in SFDC",
+        "command": "view_component_in_sfdc"
+    },
+    {
+        "caption": "SublimeApex: Login To Home Page",
+        "command": "login_to_sfdc"
+    }
+]
