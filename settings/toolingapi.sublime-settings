@@ -36,7 +36,7 @@
     "output_session_info": false,
 
     // Indicate whether keep local history history
-    "keep_local_change_history": true,
+    "keep_local_change_history": false,
 
     // Every time when you save component and error happened, the console will be open.
     // When you edit the code according to the error message, this flag is used to indicate
