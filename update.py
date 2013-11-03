@@ -8,7 +8,7 @@ import time
 import sys
 
 from . import requests
-from .thread_progress import ThreadProgress
+from .progress import ThreadProgress
 
 class UpdatePluginCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

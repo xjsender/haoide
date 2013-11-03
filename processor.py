@@ -15,7 +15,7 @@ from .context import COMPONENT_METADATA_SETTINGS
 from .util import getUniqueElementValueFromXmlString
 from .salesforce import bulkapi, soap_bodies, message
 from .salesforce.api import SalesforceApi
-from .thread_progress import ThreadProgress, ThreadsProgress
+from .progress import ThreadProgress, ThreadsProgress
 
 
 def populate_users():
