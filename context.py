@@ -96,6 +96,9 @@ def get_toolingapi_settings():
     settings["workflow_outbound_message_columns"] = s.get("workflow_outbound_message_columns")
     settings["validation_rule_columns"] = s.get("validation_rule_columns")
 
+    # Frequently used sobjects
+    settings["common_sobjects"] = s.get("common_sobjects")
+
     # Combine the allowed packages SOQL expression
     allowed_packages = s.get("allowed_packages", [])
     allowed_packages_soql = '('

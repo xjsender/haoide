@@ -151,6 +151,7 @@ class SalesforceApi():
 
         instance_url = globals()[self.username]['instance_url']
         soql = urllib.parse.urlencode({'q' : soql})
+        print (soql)
 
         # Just API 28 support CustomField
         if is_toolingapi:
@@ -273,15 +274,7 @@ class SalesforceApi():
         :return type: list
         """
 
-        standard_sobjects = [
-            "Account", "AccountContactRole", "Activity", "Asset", 
-            "Campaign", "CampaignMember", "Case", "Contact", 
-            "Contract", "Event", "Lead", "Opportunity", 
-            "OpportunityLineItem", "Product2", "UserRole", 
-            "Task", "User", "CampaignMemberStatus", 'Attachment',
-            "OpportunityLineItemSchedule", "Profile"
-        ]
-
+        standard_sobjects = self.toolingapi_settings["common_sobjects"]
         result = self.describe_global()
         common_sobjects = \
             [so["name"] for so in result["sobjects"] if so["custom"] or \
