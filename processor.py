@@ -718,7 +718,7 @@ def handle_execute_query(soql, timeout=120):
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "Execute Query Result",
-            "input": util.parse_execute_query_result(result)
+            "input": pprint.pformat(result)
         })
 
     toolingapi_settings = context.get_toolingapi_settings()
