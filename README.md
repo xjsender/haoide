@@ -80,7 +80,7 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 
 ### Completions Screenshots
 <img src="https://raw.github.com/xjsender/SublimeApexScreenshot/master/apex.jpg" /><br/>
-<img src="https://raw.github.com/xjsender/SublimeApexScreenshot/master/page.jpg" /><br/>
+<img src="https://raw.github.com/xjsender/SublimeApexScreenshot/master/page.png" /><br/>
 
 ## Execute Anonymous
 Choose any apex code snippet, press ```Ctrl+Alt+E``` or click ```SublimeApex > Execute Anonymous```, the executed result will be shown in a new view.
