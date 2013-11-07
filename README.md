@@ -5,6 +5,8 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 You can install this plugin by search ```Salesforce IDE``` in package control,
 
 # Project Configuration #
+If your operation system is OSX, you must set the workspace in ```SublimeApex > Setting > Setting - User```.
+
 There is a default test org in this plugin, you can see it by clicking ```SublimeApex > Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project
 
 In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```SublimeApex > Settings > Setting - User```.
