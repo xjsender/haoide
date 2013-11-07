@@ -23,7 +23,7 @@ After your project configuration is finished, you can click ```SublimeApex > new
 ```javascript
 {
     // In OSX, the worspace path is different with windows,
-    // for example, workspace in OSX could be "/user/salesforce/workspace"
+    // for example, workspace in OSX could be "/Users/<Your User>/salesforce/workspace"
     "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
         "Project1 Name": {
@@ -54,6 +54,7 @@ if today is ```2013/07/30``` and user settings is
 
 ```javascript
 {
+    // Workspace in OSX is different with windows, workspace can be "/Users/<Your User>/salesforce/workspace"
     "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
         "Exercise-Pro": {
