@@ -151,7 +151,6 @@ class SalesforceApi():
 
         instance_url = globals()[self.username]['instance_url']
         soql = urllib.parse.urlencode({'q' : soql})
-        print (soql)
 
         # Just API 28 support CustomField
         if is_toolingapi:
