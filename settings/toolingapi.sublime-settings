@@ -175,8 +175,8 @@
         "Account", "AccountContactRole", "Activity", "Asset", 
         "Campaign", "CampaignMember", "Case", "Contact", 
         "Contract", "Event", "Lead", "Opportunity", 
-        "OpportunityLineItem", "Product2", "UserRole", 
-        "Task", "User", "CampaignMemberStatus", "Attachment",
+        "OpportunityLineItem", "Product2", "Pricebook2", "PricebookEntry",
+        "UserRole", "Task", "User", "CampaignMemberStatus", "Attachment",
         "OpportunityLineItemSchedule", "Profile", "OpportunityTeamMember"
     ],
 
