@@ -177,7 +177,8 @@
         "Contract", "Event", "Lead", "Opportunity", 
         "OpportunityLineItem", "Product2", "Pricebook2", "PricebookEntry",
         "UserRole", "Task", "User", "CampaignMemberStatus", "Attachment",
-        "OpportunityLineItemSchedule", "Profile", "OpportunityTeamMember"
+        "OpportunityLineItemSchedule", "Profile", "OpportunityTeamMember",
+        "RecordType"
     ],
 
     // Components Directory
