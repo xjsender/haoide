@@ -5,6 +5,8 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 You can install this plugin by search ```Salesforce IDE``` in package control,
 
 # Project Configuration #
+If your operation system is OSX, you must set the workspace in ```SublimeApex > Setting > Setting - User```.
+
 There is a default test org in this plugin, you can see it by clicking ```SublimeApex > Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project
 
 In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```SublimeApex > Settings > Setting - User```.
@@ -23,7 +25,7 @@ After your project configuration is finished, you can click ```SublimeApex > new
 ```javascript
 {
     // In OSX, the worspace path is different with windows,
-    // for example, workspace in OSX could be "/user/salesforce/workspace"
+    // for example, workspace in OSX could be "/Users/<Your User>/salesforce/workspace"
     "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
         "Project1 Name": {
@@ -54,6 +56,7 @@ if today is ```2013/07/30``` and user settings is
 
 ```javascript
 {
+    // Workspace in OSX is different with windows, workspace can be "/Users/<Your User>/salesforce/workspace"
     "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
         "Exercise-Pro": {
@@ -80,7 +83,7 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 
 ### Completions Screenshots
 <img src="https://raw.github.com/xjsender/SublimeApexScreenshot/master/apex.jpg" /><br/>
-<img src="https://raw.github.com/xjsender/SublimeApexScreenshot/master/page.jpg" /><br/>
+<img src="https://raw.github.com/xjsender/SublimeApexScreenshot/master/page.png" /><br/>
 
 ## Execute Anonymous
 Choose any apex code snippet, press ```Ctrl+Alt+E``` or click ```SublimeApex > Execute Anonymous```, the executed result will be shown in a new view.
