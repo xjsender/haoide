@@ -158,7 +158,8 @@ Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanc
 ...
 
 # Configuration #
-## Preference - Settings
+## Settings - Completions
+With these settings, after we input characters described in below, sublime will automatically show the completions after character.
 ```javascript
 {
     // Auto completion after these characters
@@ -172,6 +173,7 @@ Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanc
 }
 ```
 ## SublimeApex Settings - Default
+Because you can't edit the default setting, however, if you want to change these settings, you should open ```SublimeApex > Settings > Setting - User``` and put all your change here.
 ```javascript
 {
     // Indicate whether add project name time suffix
