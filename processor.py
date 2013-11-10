@@ -384,27 +384,6 @@ def handle_refresh_folder(folder, timeout=120):
         "Refreshing " + component_type + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_backup_all_sobjects(timeout=120):
-    """
-    Firstly get all common used sobject names, and then use bulkapi to backup all
-    """
-
-    def handle_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-
-        sobjects = api.result
-        bulkapi.handle_bulkapi_query(sobjects)
-
-    print (message.SEPRATE.format(message.WAIT_FOR_A_MOMENT), end='')
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.describe_global_common, args=())
-    thread.start()
-    handle_thread(thread, 10)
-    ThreadProgress(api, thread, "Backup All Sobjects", "All Sobject Data are Backuped")
-
 def handle_initiate_sobjects_completions(timeout=120):
     """
     Save sobject describe to local which is used in completions

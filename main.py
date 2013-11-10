@@ -12,7 +12,8 @@ from . import requests
 from . import processor
 from . import context
 from . import util
-from .salesforce import bulkapi, message
+from .salesforce import message
+from .salesforce.bulkapi import BulkApi
 
 
 class GotoComponentCommand(sublime_plugin.TextCommand):
@@ -248,18 +249,16 @@ class BackupSobjectsCommand(sublime_plugin.WindowCommand):
             "*", self.on_input, None, None)
 
     def on_input(self, input):
-        # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-
         # Display the fields in a new view
         input = input.replace(" ", "")
 
+        toolingapi_settings = context.get_toolingapi_settings()
+        bulkapi = BulkApi(toolingapi_settings)
         if input == "*":
-            processor.handle_backup_all_sobjects(5)
+            bulkapi.do_query_all()
         else:
             sobjects = input.split(";")
-            bulkapi.handle_bulkapi_query(sobjects)
+            bulkapi.do_query_all(sobjects)
 
 class DescribeSobjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

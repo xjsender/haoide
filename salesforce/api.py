@@ -217,6 +217,18 @@ class SalesforceApi():
         # This result is used for invoker
         return all_result
 
+    def combine_soql(self, sobject):
+        sobject_describe = self.describe_sobject(sobject)
+        sobject_fields = ""
+        sobject_name = sobject_describe["name"]
+        for field in sobject_describe["fields"]:
+            if field.get("type") in ["location"]:
+                continue
+
+            sobject_fields += field.get("name") + ", "
+
+        return 'SELECT ' + sobject_fields[ : -2] + ' FROM ' + sobject_name
+
     def describe_sobject(self, sobject):
         """
         Sends a GET request. Return sobject describe result
@@ -261,7 +273,7 @@ class SalesforceApi():
         result = self.describe_global()
         custom_sobjects = [so["name"] for so in result["sobjects"] if so["custom"]]
 
-        self.result = common_sobjects
+        self.result = custom_sobjects
         return custom_sobjects
 
     def describe_global_common(self):
@@ -807,10 +819,9 @@ class SalesforceApi():
             result = self.query_all(component_soql)
             # The users password has expired, you must call SetPassword 
             # before attempting any other API operations
-            # Database.com not support ApexComponent and ApexPage
+            # Database.com not support StaticResource, ApexComponent and ApexPage
             if result == None: return
-            if result["status_code"] > 399 and component_type in ["ApexComponent", "ApexPage"]:
-                continue
+            if result["status_code"] == 400: continue
 
             if result["status_code"] > 399:
                 self.result = result

@@ -8,210 +8,200 @@ from xml.sax.saxutils import unescape
 
 from .login import soap_login
 from . import soap_bodies
-from . import message
 from ..util import getUniqueElementValueFromXmlString
-from .. import context
 from .. import requests
+from .api import SalesforceApi
+from ..progress import ThreadsProgress
 
-# Used in output log
-SEPARATE = "-" * 100
 
-def login(toolingapi_settings, session_id_expired):
-    if "access_token" not in globals() or session_id_expired:
-        result = soap_login(toolingapi_settings)
-        globals()["access_token"] = result["session_id"]
-        globals()["instance_url"] = result["instance_url"]
-        globals()["server_url"] = result["server_url"]
-        globals()["user_id"] = result["user_id"]
+class BulkApi():
+    def __init__(self, toolingapi_settings, **kwargs):
+        self.toolingapi_settings = toolingapi_settings
+        self.api_version = toolingapi_settings["api_version"]
+        self.username = toolingapi_settings["username"]
+        self.outputdir = toolingapi_settings["workspace"] + "/bulkapi"
+        if not os.path.exists(self.outputdir):
+            os.makedirs(self.outputdir)
+        self.result = None
 
-# Post: https://instance.salesforce.com/services/async/27.0/job
-def create_job(sobject, operation):
-    url = globals()["instance_url"] + "/services/async/27.0/job"
-    body = soap_bodies.create_job.format(operation=operation, sobject=sobject)
-    headers = {
-        "X-SFDC-Session": globals()["access_token"],
-        "Content-Type": "application/xml; charset=UTF-8",
-        "Accept": "text/plain"
-    }
+    def login(self, session_id_expired):
+        if self.username not in globals() or session_id_expired:
+            result = soap_login(self.toolingapi_settings)
 
-    response = requests.post(url, body, verify = False, headers = headers)
-    job_id = getUniqueElementValueFromXmlString(response.content, "id")
+            # If login succeed, display error and return False
+            if result["status_code"] > 399:
+                result["default_project"] = self.toolingapi_settings["default_project"]["project_name"]
+                self.result = result
+                return False
 
-    if job_id == None:
-        print(sobject + " is not valid sobject, please check.")
+            result["headers"] = {
+                "Authorization": "OAuth " + result["session_id"],
+                "Content-Type": "application/json; charset=UTF-8",
+                "Accept": "application/json"
+            }
+            globals()[self.username] = result
+        else:
+            result = globals()[self.username]
 
-    return job_id
+        self.result = result
+        return result
 
-def create_batch(job_id, sobject, sobject_soql):
-    url = globals()["instance_url"] +\
-        "/services/async/27.0/job/{job_id}/batch".format(job_id = job_id)
+    # Post: https://instance.salesforce.com/services/async/27.0/job
+    def create_job(self, sobject, operation):
+        url = globals()[self.username]["instance_url"] +\
+            "/services/async/%s.0/job" % self.api_version
+        body = soap_bodies.create_job.format(operation=operation, sobject=sobject)
+        headers = {
+            "X-SFDC-Session": globals()[self.username]["session_id"],
+            "Content-Type": "application/xml; charset=UTF-8",
+            "Accept": "text/plain"
+        }
 
-    headers = {
-        "X-SFDC-Session": access_token,
-        "Content-Type": "text/csv; charset=UTF-8"
-    }
-    
-    response = requests.post(url, sobject_soql, verify = False, headers = headers)
-    batch_id = getUniqueElementValueFromXmlString(response.content, "id")
+        response = requests.post(url, body, verify=False, headers=headers)
+        job_id = getUniqueElementValueFromXmlString(response.content, "id")
 
-    return batch_id
+        if job_id == None:
+            print (sobject + " is not valid sobject, please check.")
 
-# Get: https://instance.salesforce.com/services/async/27.0/job/jobId
-def check_job_status(job_id):
-    url = globals()["instance_url"] + "/services/async/27.0/job/" + job_id
+        return job_id
 
-    headers = {
-        "X-SFDC-Session": access_token
-    }
+    # https://instance.salesforce.com/services/async/27.0/job/jobId/batch
+    def create_batch(self, job_id, sobject, sobject_soql):
+        url = globals()[self.username]["instance_url"] +\
+            "/services/async/%s.0/job/%s/batch" % (self.api_version, job_id)
 
-    response = requests.get(url, data = None, verify = False, headers = headers)
-    job_status = getUniqueElementValueFromXmlString(response.content, "state")
+        headers = {
+            "X-SFDC-Session": globals()[self.username]["session_id"],
+            "Content-Type": "text/csv; charset=UTF-8"
+        }
+        
+        response = requests.post(url, sobject_soql, verify=False, headers=headers)
+        batch_id = getUniqueElementValueFromXmlString(response.content, "id")
 
-    while job_status != "Completed":
-        print(job_id + " is not completed, please continue waiting...")
-        time.sleep(15)
-        check_job_status(job_id)
+        return batch_id
 
-    return True
+    # Get: https://instance.salesforce.com/services/async/27.0/job/jobId
+    def check_job_status(self, job_id):
+        url = globals()[self.username]["instance_url"] + "/services/async/%s.0/job/%s" % (self.api_version, job_id)
 
-# Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId
-def check_batch_status(job_id, batch_id, sobject):
-    url = globals()["instance_url"] +\
-        "/services/async/27.0/job/{job_id}/batch/{batch_id}".format(job_id = job_id,
-            batch_id = batch_id)
+        headers = {
+            "X-SFDC-Session": globals()[self.username]["session_id"]
+        }
 
-    headers = {
-        "X-SFDC-Session": access_token
-    }
+        response = requests.get(url, data=None, verify=False, headers=headers)
+        job_status = getUniqueElementValueFromXmlString(response.content, "state")
 
-    response = requests.get(url, data = None, verify = False, headers = headers)
-    batch_status = getUniqueElementValueFromXmlString(response.content, "state")
+        while job_status != "Completed":
+            print(job_id + " is not completed, please continue waiting...")
+            time.sleep(15)
+            check_job_status(job_id)
 
-    if batch_status == "Failed":
-        error_message = getUniqueElementValueFromXmlString(response.content, "stateMessage")
-        print(batch_id + " failed, because " + error_message)
-        return False
+        return True
 
-    while batch_status != "Completed":
-        print(sobject + " is not completed, please continue waiting...")
-        time.sleep(15)
-        check_batch_status(job_id, batch_id, sobject)
+    # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId
+    def check_batch_status(self, job_id, batch_id, sobject):
+        url = globals()[self.username]["instance_url"] +\
+            "/services/async/%s.0/job/%s/batch/%s" % (self.api_version, job_id, batch_id)
 
-    return True
+        headers = {
+            "X-SFDC-Session": globals()[self.username]["session_id"]
+        }
 
-# Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result
-def get_batch_result_id(sobject, job_id, batch_id):
-    url = globals()["instance_url"] +\
-        "/services/async/27.0/job/{job_id}/batch/{batch_id}/result".format(job_id = job_id,
-            batch_id = batch_id)
+        response = requests.get(url, data=None, verify=False, headers=headers)
+        batch_status = getUniqueElementValueFromXmlString(response.content, "state")
 
-    headers = {
-        "X-SFDC-Session": access_token
-    }
+        if batch_status == "Failed":
+            error_message = getUniqueElementValueFromXmlString(response.content, "stateMessage")
+            print(batch_id + " failed, because " + error_message)
+            return False
 
-    response = requests.get(url, data = None, verify = False, headers = headers)
-    result_id = getUniqueElementValueFromXmlString(response.content, "result")
+        while batch_status != "Completed":
+            print(sobject + " is not completed, please continue waiting...")
+            time.sleep(15)
+            return self.check_batch_status(job_id, batch_id, sobject)
 
-    return result_id
+        return True
 
-# Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result/resultId
-def get_batch_result(job_id, batch_id, result_id):
-    url = globals()["instance_url"] +\
-        "/services/async/27.0/job/{job_id}/batch/{batch_id}/result/{result_id}".format(job_id = job_id,
-            batch_id = batch_id, result_id = result_id)
+    # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result
+    def get_batch_result_id(self, sobject, job_id, batch_id):
+        url = globals()[self.username]["instance_url"] +\
+            "/services/async/%s.0/job/%s/batch/%s/result" % (self.api_version, job_id, batch_id)
 
-    headers = {
-        "X-SFDC-Session": access_token
-    }
+        headers = {
+            "X-SFDC-Session": globals()[self.username]["session_id"],
+        }
 
-    response = requests.get(url, data = None, verify = False, headers = headers)
+        response = requests.get(url, data=None, verify=False, headers=headers)
+        result_id = getUniqueElementValueFromXmlString(response.content, "result")
 
-    return response.content
+        return result_id
 
-def close_job(job_id):
-    url = globals()["instance_url"] + "/services/async/27.0/job/" + job_id
-    body = soap_bodies.close_job
-    headers = {
-        "X-SFDC-Session": globals()["access_token"],
-        "Content-Type": "application/xml; charset=UTF-8",
-        "Accept": "text/plain"
-    }
+    # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result/resultId
+    def get_batch_result(self, job_id, batch_id, result_id):
+        url = globals()[self.username]["instance_url"] +\
+            "/services/async/%s.0/job/%s/batch/%s/result/%s" %\
+                (self.api_version, job_id, batch_id, result_id)
 
-    response = requests.post(url, body, verify = False, headers = headers)
-    return response.status_code
+        headers = {
+            "X-SFDC-Session": globals()[self.username]["session_id"],
+            "Accept-Encoding": 'identity, deflate, compress, gzip'
+        }
 
-def describe_sobject(sobject):
-    print ("describing " + sobject + "......")
-    url = globals()["instance_url"] +\
-        "/services/data/v27.0/sobjects/{sobject}/describe".format(sobject = sobject)
-    headers = {
-        "Authorization": "OAuth " + access_token,
-        "Content-Type": "application/json",
-        "Accept": "text/plain"
-    }
+        response = requests.get(url, data=None, verify=False, headers=headers)
+        return response.content
 
-    response = requests.get(url, data = None, verify = False, 
-        headers = headers)
+    def close_job(self, job_id):
+        url = globals()[self.username]["instance_url"] + "/services/async/%s.0/job/%s" % (self.api_version, job_id)
+        body = soap_bodies.close_job
+        headers = {
+            "X-SFDC-Session": globals()[self.username]["session_id"],
+            "Content-Type": "application/xml; charset=UTF-8",
+            "Accept": "text/plain"
+        }
 
-    return response.json()
+        response = requests.post(url, body, verify=False, headers=headers)
+        return response.status_code
 
-NOT_QUERIABLE_FIELD_TYPE = ["location"]
-def parse_sobject_describe(sobject_describe):
-    sobject_fields = ""
-    sobject_name = sobject_describe["name"]
-    for field in sobject_describe["fields"]:
-        if field.get("type") in NOT_QUERIABLE_FIELD_TYPE:
-            continue
+    def do_operation(self, operation, sobject, api):
+        sobject_soql = api.combine_soql(sobject)
+        job_id = self.create_job(sobject, operation)
+        batch_id = self.create_batch(job_id, sobject, sobject_soql)
+        
+        # Check the batch status, if it is completed, continue
+        if self.check_batch_status(job_id, batch_id, sobject):
+            # Get result id and get result by it
+            result_id = self.get_batch_result_id(sobject, job_id, batch_id)
+            result = self.get_batch_result(job_id, batch_id, result_id)
 
-        sobject_fields += field.get("name") + ", "
+            # Write result into local file
+            outputfile = self.outputdir + "/" + sobject + ".csv"
+            fp = open(outputfile, "wb")
 
-    return 'SELECT ' + sobject_fields[ : -2] + ' FROM ' + sobject_name
+            try:
+                fp.write(result)
+                print (outputfile)
+            except:
+                print(sobject + " is not backuped.")
+            finally:
+                fp.close()
 
-def process_bulk_query(sobject, workspace):
-    print (SEPARATE)
-    sobject_describe = describe_sobject(sobject)
-    sobject_soql = parse_sobject_describe(sobject_describe)
-    job_id = create_job(sobject, "query")
-    batch_id = create_batch(job_id, sobject, sobject_soql)
-    
-    # Check the batch status, if it is completed, continue
-    if check_batch_status(job_id, batch_id, sobject):
-        # Get result id and get result by it
-        result_id = get_batch_result_id(sobject, job_id, batch_id)
-        result = get_batch_result(job_id, batch_id, result_id)
+        # Whatever succeed or not, just delete the job
+        status_code = self.close_job(job_id)
+        if status_code < 399:
+            sublime.set_timeout(lambda:sublime.status_message("job is deleted."), 10)
+        else:
+            print(job_id + " is not deleted due to some reason.")
 
-        # Write result into local file
-        outputdir = workspace + "/" + sobject + ".csv"
-        fp = open(outputdir, "wb")
+    def do_query_all(self, sobjects=None):
+        if not self.login(False): return
+        api = SalesforceApi(self.toolingapi_settings)
+        if sobjects == None:
+            sobjects = api.describe_global_common()
 
-        try:
-            fp.write(result)
-        except:
-            print(sobject + " is not backuped.")
-        finally:
-            fp.close()
+        threads = []
+        for sobject in sobjects:
+            thread = threading.Thread(target=self.do_operation, args=('query', sobject, api, ))
+            thread.start()
+            threads.append(thread)
 
-    # Whatever succeed or not, just delete the job
-    status_code = close_job(job_id)
-    if status_code < 399:
-        sublime.set_timeout(lambda:sublime.status_message("job is deleted."), 10)
-    else:
-        print(job_id + " is not deleted due to some reason.")
-
-    # Print(these outputdirs to console)
-    print(sobject + ": " + outputdir)
-    print (SEPARATE)
-    
-def handle_bulkapi_query(sobjects):
-    # Login by user credential in toolingapi_settings
-    toolingapi_settings = context.get_toolingapi_settings()
-    login(toolingapi_settings, True)
-    
-    # Create workspace direcotry
-    workspace = toolingapi_settings["workspace"] + "/bulkapi"
-    if not os.path.exists(workspace):
-        os.makedirs(workspace)
-
-    for sobject in sobjects:
-        thread = threading.Thread(target=process_bulk_query, args=(sobject, workspace, ))
-        thread.start()
+        ThreadsProgress(threads, "Exporting Records", "Exporting Records Succeed")
