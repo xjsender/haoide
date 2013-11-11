@@ -49,7 +49,7 @@ class ThreadProgress():
                     {"panel": "console", "toggle": False})
                 print (message.SEPRATE.format(util.format_error_message(result)))
 
-            elif "success" in result and result["success"] == False:
+            elif isinstance(result, dict) and "success" in result and not result["success"]:
                 sublime.active_window().run_command("show_panel", 
                     {"panel": "console", "toggle": False})
                 print (message.SEPRATE.format(result["message"]))

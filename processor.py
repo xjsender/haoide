@@ -14,6 +14,7 @@ from . import requests, context, util
 from .context import COMPONENT_METADATA_SETTINGS
 from .util import getUniqueElementValueFromXmlString
 from .salesforce import bulkapi, soap_bodies, message
+from .salesforce.bulkapi import BulkApi
 from .salesforce.api import SalesforceApi
 from .progress import ThreadProgress, ThreadsProgress
 
@@ -494,6 +495,36 @@ def handle_deploy_metadata_thread(zipfile, timeout=120):
     thread = threading.Thread(target=api.deploy_metadata, args=(zipfile, ))
     thread.start()
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
+    handle_thread(thread, timeout)
+
+def handle_backup_sobject_thread(sobject, timeout=120):
+    settings = context.get_toolingapi_settings()
+    bulkapi = BulkApi(settings, sobject)
+    thread = threading.Thread(target=bulkapi.query, args=())
+    thread.start()
+    ThreadProgress(bulkapi, thread, "Backup " + sobject, "Backup " + sobject + "Succeed")
+
+def handle_backup_all_sobjects_thread(timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+
+        sobjects = api.result
+        threads = []
+        for sobject in sobjects:
+            bulkapi = BulkApi(settings, sobject)
+            thread = threading.Thread(target=bulkapi.query, args=())
+            thread.start()
+            threads.append(thread)
+
+        ThreadsProgress(threads, "Backup All Sobjects", "Backup All Sobjects Succeed")
+
+    settings = context.get_toolingapi_settings()
+    api = SalesforceApi(settings)
+    thread = threading.Thread(target=api.describe_global_common, args=())
+    thread.start()
+    ThreadProgress(api, thread, "Describe Global", "Describe Global Succeed")
     handle_thread(thread, timeout)
 
 def handle_retrieve_all_thread(timeout=120):

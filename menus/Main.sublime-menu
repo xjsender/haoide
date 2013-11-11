@@ -197,7 +197,49 @@
             {
                 "id": "BulkApiQuery",
                 "caption": "Data Loader",
-                "command": "backup_sobjects"
+                "children": [
+                    {
+                        "caption": "Export",
+                        "children": [
+                            {
+                                "command": "backup_sobject", 
+                                "caption": "Export Single"
+                            },
+                            {
+                                "command": "backup_all_sobjects",
+                                "caption": "Export All"
+                            }
+                        ]
+                    },
+                    {
+                        "caption": "Import",
+                        "children": [
+                            {
+                                "caption": "Insert"
+                            },
+                            {
+                                "caption": "Update"
+                            },
+                            {
+                                "caption": "Upsert"
+                            },
+                            {
+                                "caption": "Delete"
+                            }
+                        ]
+                    },
+                    {
+                        "caption": "Delete",
+                        "children": [
+                            {
+                                "caption": "Delete Single"
+                            },
+                            {
+                                "caption": "Delete All"
+                            }
+                        ]
+                    }
+                ]
             },
             
             { "caption": "-" },
