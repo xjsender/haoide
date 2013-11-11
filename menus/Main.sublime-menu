@@ -199,45 +199,28 @@
                 "caption": "Data Loader",
                 "children": [
                     {
-                        "caption": "Export",
-                        "children": [
-                            {
-                                "command": "backup_sobject", 
-                                "caption": "Export Single"
-                            },
-                            {
-                                "command": "backup_all_sobjects",
-                                "caption": "Export All"
-                            }
-                        ]
+                        "command": "bulk_export_single", 
+                        "caption": "Export Single"
                     },
                     {
-                        "caption": "Import",
-                        "children": [
-                            {
-                                "caption": "Insert"
-                            },
-                            {
-                                "caption": "Update"
-                            },
-                            {
-                                "caption": "Upsert"
-                            },
-                            {
-                                "caption": "Delete"
-                            }
-                        ]
+                        "command": "bulk_export_all",
+                        "caption": "Export All"
                     },
                     {
-                        "caption": "Delete",
-                        "children": [
-                            {
-                                "caption": "Delete Single"
-                            },
-                            {
-                                "caption": "Delete All"
-                            }
-                        ]
+                        "command": "bulk_insert",
+                        "caption": "Insert"
+                    },
+                    {
+                        "command": "bulk_update",
+                        "caption": "Update"
+                    },
+                    {
+                        "command": "bulk_upsert",
+                        "caption": "Upsert"
+                    },
+                    {
+                        "command": "bulk_delete",
+                        "caption": "Delete"
                     }
                 ]
             },

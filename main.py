@@ -240,47 +240,6 @@ class DescribeLayoutCommand(sublime_plugin.WindowCommand):
         # handle this describe requst
         processor.handle_describe_layout(sobject, recordtype_name, recordtype_id)
 
-# class BackupSobjectsCommand(sublime_plugin.WindowCommand):
-#     def __init__(self, *args, **kwargs):
-#         super(BackupSobjectsCommand, self).__init__(*args, **kwargs)
-
-#     def run(self):
-#         self.window.show_input_panel("Sobjects(* means all, or sobjects seprated with semi-colon)", 
-#             "*", self.on_input, None, None)
-
-#     def on_input(self, input):
-#         # Display the fields in a new view
-#         input = input.replace(" ", "")
-
-#         toolingapi_settings = context.get_toolingapi_settings()
-#         bulkapi = BulkApi(toolingapi_settings)
-#         if input == "*":
-#             bulkapi.query()
-#         else:
-#             sobjects = input.split(";")
-#             bulkapi.query(sobjects)
-
-class BackupSobjectCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(BackupSobjectCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        global sobjects
-        sobjects_describe = processor.populate_sobjects_describe()
-        sobjects = sorted(sobjects_describe.keys())
-        self.window.show_quick_panel(sobjects, self.on_done)
-
-    def on_done(self, index):
-        if index == -1: return
-        processor.handle_backup_sobject_thread(sobjects[index])
-
-class BackupAllSobjectsCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(BackupAllSobjectsCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        processor.handle_backup_all_sobjects_thread()
-
 class DescribeSobjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DescribeSobjectCommand, self).__init__(*args, **kwargs)

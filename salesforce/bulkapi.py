@@ -58,6 +58,7 @@ class BulkJob():
         }
 
         response = requests.post(url, body, verify=False, headers=headers)
+        print ("create job response: " + response.text)
         job_id = getUniqueElementValueFromXmlString(response.content, "id")
 
         return job_id
@@ -77,6 +78,7 @@ class BulkJob():
             self.records = api.combine_soql(self.sobject)
 
         response = requests.post(url, self.records, verify=False, headers=headers)
+        print ("create batch response: " + response.text)
         batch_id = getUniqueElementValueFromXmlString(response.content, "id")
 
         return batch_id
@@ -118,17 +120,26 @@ class BulkJob():
 
         headers = {
             "X-SFDC-Session": globals()[self.username]["session_id"],
+            "Accept-Encoding": 'identity, deflate, compress, gzip'
         }
 
         response = requests.get(url, data=None, verify=False, headers=headers)
+        print ("batch result id res: " + response.text)
         result_id = getUniqueElementValueFromXmlString(response.content, "result")
 
         return result_id
 
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result/resultId
-    def get_batch_result(self, job_id, batch_id, result_id):
-        url = "%s/services/async/%s.0/job/%s/batch/%s/result/%s" %\
-            (globals()[self.username]["instance_url"], self.api_version, job_id, batch_id, result_id)
+    def get_batch_result(self, job_id, batch_id, result_id=None):
+        if result_id != None:
+            # Query action
+            url = "%s/services/async/%s.0/job/%s/batch/%s/result/%s" %\
+                (globals()[self.username]["instance_url"], self.api_version, job_id, batch_id, result_id)
+        else:
+            # Other actions
+            url = "%s/services/async/%s.0/job/%s/batch/%s/result" %\
+                (globals()[self.username]["instance_url"], self.api_version, job_id, batch_id)
+
         headers = {
             "X-SFDC-Session": globals()[self.username]["session_id"],
             "Accept-Encoding": 'identity, deflate, compress, gzip'
@@ -176,8 +187,23 @@ class BulkApi():
         finally:
             fp.close()
 
-    def create(self):
-        result = self.do_operation('create')
+    def insert(self):
+        result = self.do_operation('insert')
+
+        # Write result to csv
+        outputdir = self.settings["workspace"] + "/bulkin/log"
+        if not os.path.exists(outputdir):
+            os.makedirs(outputdir)
+        time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
+        outputfile = outputdir + "/%s-insert-log-%s.csv" % (self.sobject, time_stamp)
+        fp = open(outputfile, "wb")
+        try:
+            fp.write(result)
+            sublime.status_message(outputfile)
+        except:
+            print (self.sobject + " failed")
+        finally:
+            fp.close()
 
     def update(self):
         result = self.do_operation('update')
@@ -200,8 +226,11 @@ class BulkApi():
             if state == "Completed": break
             time.sleep(3)
 
-        result_id = job.get_batch_result_id(job_id, batch_id)
-        result = job.get_batch_result(job_id, batch_id, result_id)
+        if operation == "query":
+            result_id = job.get_batch_result_id(job_id, batch_id)
+            result = job.get_batch_result(job_id, batch_id, result_id)
+        else:
+            result = job.get_batch_result(job_id, batch_id)
 
         self.result = result
         return result

@@ -497,12 +497,26 @@ def handle_deploy_metadata_thread(zipfile, timeout=120):
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
     handle_thread(thread, timeout)
 
+def handle_bulk_insert_thread(sobject, timeout=120):
+    settings = context.get_toolingapi_settings()
+    csv_file = settings["workspace"] + "/bulkin/%s.csv" % sobject
+    if not os.path.exists(csv_file):
+        sublime.error_message(csv_file + " is not exist")
+        return
+
+    records = open(csv_file).read()
+    bulkapi = BulkApi(settings, sobject, records)
+    thread = threading.Thread(target=bulkapi.insert, args=())
+    thread.start()
+    ThreadProgress(bulkapi, thread, "Insert " + sobject, "Insert " + sobject + "Succeed")
+
 def handle_backup_sobject_thread(sobject, timeout=120):
     settings = context.get_toolingapi_settings()
     bulkapi = BulkApi(settings, sobject)
     thread = threading.Thread(target=bulkapi.query, args=())
     thread.start()
-    ThreadProgress(bulkapi, thread, "Backup " + sobject, "Backup " + sobject + "Succeed")
+    ThreadProgress(bulkapi, thread, "Export Records of " + sobject, 
+        "Export Records of " + sobject + "Succeed")
 
 def handle_backup_all_sobjects_thread(timeout=120):
     def handle_thread(thread, timeout):
@@ -518,7 +532,8 @@ def handle_backup_all_sobjects_thread(timeout=120):
             thread.start()
             threads.append(thread)
 
-        ThreadsProgress(threads, "Backup All Sobjects", "Backup All Sobjects Succeed")
+        ThreadsProgress(threads, "Export All Sobjects Records", 
+            "Export All Sobjects Records Succeed")
 
     settings = context.get_toolingapi_settings()
     api = SalesforceApi(settings)
