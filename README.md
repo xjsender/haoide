@@ -152,6 +152,14 @@ Click ```SublimeApex > Retrieve Metadata``` in the main menu, you will see a new
 ## Deploy Metadata
 This functionality is not perfect now, but it can work now.
 
+## Bulk Api
++ Export Single, click ```SublimeApex > Data Loader > Export Single```, and then choose the sobject name, plugin will export the records of this sobject to ```<workspace>/<project folder>/bulkout```
++ Export All, click ```SublimeApex > Data Loader > Export All``` to export the records of all sobjects
++ Insert, click ```SublimeApex > Data Loader > Insert```, choose the sobject name, plugin will automaticall find the corresponding csv file in ```<workspace>/<project folder>/bulkin```, N.B., csv file name must same with sobject name, otherwise, you will get the error message alert
++ Update, ongoing...
++ Upsert, ongoing...
++ Delete, ongoing...
+
 ## Proxy
 Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanced/#proxies)
 
