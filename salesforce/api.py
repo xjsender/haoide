@@ -860,7 +860,7 @@ class SalesforceApi():
 
                 # Judge Component is Test Class or not
                 if component_type == "ApexClass":
-                    if "@isTest" in body or "testMethod" in body or "testmethod" in body:
+                    if "@istest" in body.lower() or "testmethod" in body.lower():
                         component_attributes[component_name]["is_test"] = True
                     else:
                         component_attributes[component_name]["is_test"] = False
