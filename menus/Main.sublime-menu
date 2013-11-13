@@ -225,7 +225,7 @@
                         "caption": "Upsert"
                     },
                     {
-                        "command": "bulk_delete",
+                        "command": "bulk_operation",
                         "caption": "Delete",
                         "args": {
                             "operation": "delete"
