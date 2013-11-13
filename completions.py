@@ -114,20 +114,20 @@ class SobjectCompletions(sublime_plugin.EventListener):
         # 5. public static void updateAccount(Account acc)
         # 6. public Account acc {get; set;}
         matched_regions = view.find_all("[a-zA-Z_]+\\s+" + variable_name + "\\s*[:;=)\\s]")
-        sobject = ""
+        variable_type = ""
         if len(matched_regions) > 0:
             matched_block = view.substr(matched_regions[0])
-            sobject = matched_block.split(" ")[0]
+            variable_type = matched_block.split(" ")[0]
 
         # If username is in settings, get the sobject fields describe dict
         metadata = get_sobject_completions()
         if not metadata: return []
 
         completion_list = []
-        if sobject in metadata:
-            sobject = sobject
-        elif sobject.capitalize() in metadata:
-            sobject = sobject.capitalize()
+        if variable_type in metadata:
+            sobject = variable_type
+        elif variable_type.capitalize() in metadata:
+            sobject = variable_type.capitalize()
         elif variable_name in metadata:
             sobject = variable_name
         elif variable_name.capitalize() in metadata:
@@ -139,7 +139,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
         completion_list = get_sobject_completion_list(sobject_describe)
 
         # If variable_name is not empty, show the methods extended from Sobject
-        if not variable_name: return completion_list
+        if not variable_type: return completion_list
         methods = apex.apex_completions["sobject"]["methods"]
         for key in sorted(methods.keys()):
             completion_list.append(("Sobject." + key, methods[key]))
