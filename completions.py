@@ -138,8 +138,13 @@ class SobjectCompletions(sublime_plugin.EventListener):
         sobject_describe = metadata.get(sobject)        
         completion_list = get_sobject_completion_list(sobject_describe)
 
-        return (completion_list, 
-            sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+        # If variable_name is not empty, show the methods extended from Sobject
+        if not variable_name: return completion_list
+        methods = apex.apex_completions["sobject"]["methods"]
+        for key in sorted(methods.keys()):
+            completion_list.append(("Sobject." + key, methods[key]))
+
+        return completion_list
 
 class SobjectRelationshipCompletions(sublime_plugin.EventListener):
     """
