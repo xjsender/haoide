@@ -7,10 +7,10 @@ import threading
 from xml.sax.saxutils import unescape
 
 from .login import soap_login
-from . import soap_bodies
-from ..util import getUniqueElementValueFromXmlString
+from . import soap_bodies, xmltodict
 from .. import requests
 from .api import SalesforceApi
+from ..util import getUniqueElementValueFromXmlString
 from ..progress import ThreadsProgress
 
 class BulkJob():
@@ -58,7 +58,6 @@ class BulkJob():
         }
 
         response = requests.post(url, body, verify=False, headers=headers)
-        print ("create job response: " + response.text)
         job_id = getUniqueElementValueFromXmlString(response.content, "id")
 
         return job_id
@@ -77,8 +76,12 @@ class BulkJob():
             api = SalesforceApi(self.settings)
             self.records = api.combine_soql(self.sobject)
 
+        print (self.records)
         response = requests.post(url, self.records, verify=False, headers=headers)
-        print ("create batch response: " + response.text)
+        if response.status_code == 400:
+            print (response.content)
+            return self.parse_response(response, url)
+
         batch_id = getUniqueElementValueFromXmlString(response.content, "id")
 
         return batch_id
@@ -106,12 +109,28 @@ class BulkJob():
         }
 
         response = requests.get(url, data=None, verify=False, headers=headers)
-        batch_status = getUniqueElementValueFromXmlString(response.content, "state")
-        if batch_status == "Failed":
-            error_message = getUniqueElementValueFromXmlString(response.content, "stateMessage")
-            return (batch_status, error_message)
 
-        return (batch_status, None)
+        # Convert xml to dict
+        result = xmltodict.parse(response.content)
+        if response.status_code == 400:
+            return self.parse_response(response, url)
+
+        result = result["batchInfo"]
+        batch_status = result["state"]
+        if batch_status == "Failed":
+            result["success"] = False
+            return result
+
+        return batch_status
+
+    def parse_response(self, response, url):
+        result = xmltodict.parse(response.content)
+        result = result["error"]
+        result["URL"] = url
+        result["status_code"] = response.status_code
+        result["Operation"] = self.operation
+        result["Sobject"] = self.sobject
+        return result
 
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result
     def get_batch_result_id(self, job_id, batch_id):
@@ -172,30 +191,20 @@ class BulkApi():
     def query(self):
         # Get batch result
         result = self.do_operation('query')
+        self.write_csv_to_file(result, "query")
 
+    def write_csv_to_file(self, result, operation):
         # Write result to csv
-        outputdir = self.settings["workspace"] + "/bulkout"
+        path = "bulkout" if operation == "query" else "bulkin/log"
+        outputdir = self.settings["workspace"] + "/%s" % path
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
-        outputfile = outputdir + "/%s.csv" % self.sobject
-        fp = open(outputfile, "wb")
-        try:
-            fp.write(result)
-            sublime.status_message(outputfile)
-        except:
-            print (self.sobject + ".csv failed")
-        finally:
-            fp.close()
 
-    def insert(self):
-        result = self.do_operation('insert')
-
-        # Write result to csv
-        outputdir = self.settings["workspace"] + "/bulkin/log"
-        if not os.path.exists(outputdir):
-            os.makedirs(outputdir)
         time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
-        outputfile = outputdir + "/%s-insert-log-%s.csv" % (self.sobject, time_stamp)
+        if operation == "query":
+            outputfile = outputdir + "/%s.csv" % (self.sobject)
+        else:
+            outputfile = outputdir + "/%s-%s-%s.csv" % (self.sobject, operation, time_stamp)
         fp = open(outputfile, "wb")
         try:
             fp.write(result)
@@ -205,25 +214,41 @@ class BulkApi():
         finally:
             fp.close()
 
+    def insert(self):
+        result = self.do_operation('insert')
+        self.write_csv_to_file(result, "insert")
+
     def update(self):
-        result = self.do_operation('update')
+        result = self.do_operation("update")
+        self.write_csv_to_file(result, "update")
 
     def upsert(self):
         result = self.do_operation('upsert')
+        self.write_csv_to_file(result, "upsert")
 
     def delete(self):
         result = self.do_operation('delete')
+        self.write_csv_to_file(result, "delete")
 
     def do_operation(self, operation):
         job = BulkJob(self.settings, operation, self.sobject, self.records, self.external_field)
         job_id = job.create_job()
-        batch_id = job.create_batch(job_id)
+        result = job.create_batch(job_id)
+        print (result)
+        if isinstance(result, dict):
+            self.result = result
+            return result
+        
+        batch_id = result
         job.close_job(job_id)
 
         # Check batch status util batch is finished
         while True:
-            state, message = job.check_batch_status(job_id, batch_id)
-            if state == "Completed": break
+            result = job.check_batch_status(job_id, batch_id)
+            if isinstance(result, dict):
+                self.result = result
+                return self.result
+            if result == "Completed": break
             time.sleep(3)
 
         if operation == "query":

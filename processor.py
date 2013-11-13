@@ -497,18 +497,27 @@ def handle_deploy_metadata_thread(zipfile, timeout=120):
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
     handle_thread(thread, timeout)
 
-def handle_bulk_insert_thread(sobject, timeout=120):
+def handle_bulk_operation_thread(sobject, operation, timeout=120):
     settings = context.get_toolingapi_settings()
     csv_file = settings["workspace"] + "/bulkin/%s.csv" % sobject
     if not os.path.exists(csv_file):
         sublime.error_message(csv_file + " is not exist")
         return
 
-    records = open(csv_file).read()
+    records = open(csv_file, "rb").read()
     bulkapi = BulkApi(settings, sobject, records)
-    thread = threading.Thread(target=bulkapi.insert, args=())
+    if operation == "insert":
+        target = bulkapi.insert
+    elif operation == "update":
+        target = bulkapi.update
+    elif operation == "upsert":
+        target = bulkapi.upsert
+    elif operation == "delete":
+        target = bulkapi.delete
+    thread = threading.Thread(target=target, args=())
     thread.start()
-    ThreadProgress(bulkapi, thread, "Insert " + sobject, "Insert " + sobject + "Succeed")
+    progress_message = operation + " " + sobject
+    ThreadProgress(bulkapi, thread, progress_message, progress_message + " Succeed")
 
 def handle_backup_sobject_thread(sobject, timeout=120):
     settings = context.get_toolingapi_settings()
@@ -516,7 +525,7 @@ def handle_backup_sobject_thread(sobject, timeout=120):
     thread = threading.Thread(target=bulkapi.query, args=())
     thread.start()
     ThreadProgress(bulkapi, thread, "Export Records of " + sobject, 
-        "Export Records of " + sobject + "Succeed")
+        "Export Records of " + sobject + " Succeed")
 
 def handle_backup_all_sobjects_thread(timeout=120):
     def handle_thread(thread, timeout):

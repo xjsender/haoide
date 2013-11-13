@@ -207,12 +207,18 @@
                         "caption": "Export All"
                     },
                     {
-                        "command": "bulk_insert",
-                        "caption": "Insert"
+                        "command": "bulk_operation",
+                        "caption": "Insert",
+                        "args": {
+                            "operation": "insert"
+                        }
                     },
                     {
-                        "command": "bulk_update",
-                        "caption": "Update"
+                        "command": "bulk_operation",
+                        "caption": "Update",
+                        "args": {
+                            "operation": "insert"
+                        }
                     },
                     {
                         "command": "bulk_upsert",
@@ -220,7 +226,10 @@
                     },
                     {
                         "command": "bulk_delete",
-                        "caption": "Delete"
+                        "caption": "Delete",
+                        "args": {
+                            "operation": "delete"
+                        }
                     }
                 ]
             },

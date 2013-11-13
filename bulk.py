@@ -21,36 +21,23 @@ class BulkExportAllCommand(sublime_plugin.WindowCommand):
     def run(self):
         processor.handle_backup_all_sobjects_thread()
 
-class BulkInsertCommand(sublime_plugin.WindowCommand):
+class BulkOperationCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(BulkInsertCommand, self).__init__(*args, **kwargs)
+        super(BulkOperationCommand, self).__init__(*args, **kwargs)
 
-    def run(self):
+    def run(self, operation=None):
+        self.operation = operation
         sobjects_describe = processor.populate_sobjects_describe()
         self.sobjects = sorted(sobjects_describe.keys())
         self.window.show_quick_panel(self.sobjects, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
-        processor.handle_bulk_insert_thread(self.sobjects[index])
-
-class BulkUpdateCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(BulkUpdateCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        sublime.message_dialog("This command is ongoing")
+        processor.handle_bulk_operation_thread(self.sobjects[index], self.operation)
 
 class BulkUpsertCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(BulkUpsertCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        sublime.message_dialog("This command is ongoing")
-
-class BulkDeleteCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(BulkDeleteCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         sublime.message_dialog("This command is ongoing")

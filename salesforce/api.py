@@ -992,22 +992,13 @@ class SalesforceApi():
             # This error need more process, because of confused single quote
             compile_errors = unescape(result["CompilerErrors"])
             compile_errors = json.loads(compile_errors)
+            return_result = {}
             if len(compile_errors) > 0:
-                compile_error = compile_errors[0]
-                error_message = "% 20s " % "Name: "
-                error_message += "%-20s " % util.none_value(compile_error["name"]) + "\n"
-                error_message += "% 20s " % "Problem: "
-                error_message += "%-20s " % util.none_value(compile_error["problem"]) + "\n"
-                error_message += "% 20s " % "Line: "
-                error_message += "%-20s " % str(util.none_value(compile_error["line"]))
+                return_result = compile_errors[0]
             else:
-                error_message = result["ErrorMsg"]
-            error_message = unescape(error_message, {"&apos;": "'", "&quot;": '"'})
+                return_result["Error Message"] = result["ErrorMsg"]
             
-            return_result = {
-                "success": False,
-                "message": error_message
-            }
+            return_result["success"] =  False
 
         # Whatever succeed or failed, just delete MetadataContainerId
         delete_result = self.delete(container_url + "/" + container_id)

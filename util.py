@@ -116,7 +116,7 @@ def format_error_message(result):
 
     error_message = ""
     for key in result:
-        error_message += "% 20s\t" % "{0}: ".format(key)
+        error_message += "% 30s\t" % "{0}: ".format(key)
         error_message += "%-30s\t" % none_value(result[key]) + "\n"
 
     return error_message[:len(error_message)-1]
