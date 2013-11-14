@@ -217,7 +217,7 @@
                         "command": "bulk_operation",
                         "caption": "Update",
                         "args": {
-                            "operation": "insert"
+                            "operation": "update"
                         }
                     },
                     {
