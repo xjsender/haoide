@@ -76,10 +76,8 @@ class BulkJob():
             api = SalesforceApi(self.settings)
             self.records = api.combine_soql(self.sobject)
 
-        print (self.records)
         response = requests.post(url, self.records, verify=False, headers=headers)
         if response.status_code == 400:
-            print (response.content)
             return self.parse_response(response, url)
 
         batch_id = getUniqueElementValueFromXmlString(response.content, "id")
@@ -143,7 +141,6 @@ class BulkJob():
         }
 
         response = requests.get(url, data=None, verify=False, headers=headers)
-        print ("batch result id res: " + response.text)
         result_id = getUniqueElementValueFromXmlString(response.content, "result")
 
         return result_id
@@ -234,7 +231,6 @@ class BulkApi():
         job = BulkJob(self.settings, operation, self.sobject, self.records, self.external_field)
         job_id = job.create_job()
         result = job.create_batch(job_id)
-        print (result)
         if isinstance(result, dict):
             self.result = result
             return result
