@@ -198,7 +198,7 @@ class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
         toolingapi_settings = context.get_toolingapi_settings()
         workflow_path = toolingapi_settings["workspace"] + "/metadata/unpackaged/objects"
         if not os.path.exists(workflow_path):
-            sublime.error_message(message.SOBJECTS_PATH_CHECK)
+            sublime.error_message(message.METADATA_CHECK)
             return
 
         processor.handle_export_validation_rules()
@@ -211,7 +211,7 @@ class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
         toolingapi_settings = context.get_toolingapi_settings()
         workflow_path = toolingapi_settings["workspace"] + "/metadata/unpackaged/workflows"
         if not os.path.exists(workflow_path):
-            sublime.error_message(message.WORKFLOW_PATH_CHECK)
+            sublime.error_message(message.METADATA_CHECK)
             return
 
         processor.handle_export_workflows()

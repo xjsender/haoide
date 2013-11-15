@@ -43,12 +43,10 @@ http://login.salesforce.com/help/doc/en/integrate_api_rate_limiting.htm
 DOWNLOAD_ALL_SUCCESSFULLY = "Refresh All Successfully"
 
 # Metadata api part
-WORKFLOW_PATH_CHECK = """
-Before you export workflows, you should Retrieve Metadata firstly
+METADATA_CHECK = """
+You should click SublimeApex > Migration > Retrieve Metadata firstly
 """
-SOBJECTS_PATH_CHECK = """
-Before you export validation rules, you should Retrieve Metadata firstly
-"""
+
 initiate_sobject_completion = """
 Start initiate sobject completions.....
 """
