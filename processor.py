@@ -626,7 +626,7 @@ def handle_export_validation_rules(timeout=120):
     ThreadProgress(api, thread, "Export All Validation Rules", "Outputdir: " + outputdir)
     handle_thread(thread, 10)
 
-def handle_describe_customfield(timeout=120):
+def handle_export_customfield(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)

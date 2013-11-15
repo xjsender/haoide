@@ -98,9 +98,9 @@
                 "caption": "Export",
                 "children": [
                     {
-                        "id": "describecustomfield",
+                        "id": "exportcustomfield",
                         "caption": "Export CustomField",
-                        "command": "describe_custom_field"
+                        "command": "export_custom_field"
                     },
                     {
                         "id": "exportworkflow",

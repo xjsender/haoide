@@ -216,12 +216,12 @@ class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
 
         processor.handle_export_workflows()
 
-class DescribeCustomFieldCommand(sublime_plugin.WindowCommand):
+class ExportCustomFieldCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(DescribeCustomFieldCommand, self).__init__(*args, **kwargs)
+        super(ExportCustomFieldCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        processor.handle_describe_customfield()
+        processor.handle_export_customfield()
         
 class DescribeGlobalCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
