@@ -46,7 +46,38 @@ class SalesforceApi():
 
         self.result = result
         return result
-    
+
+    def head(self, component_url, timeout=120):
+        # Firstly, login
+        self.login(False)
+
+        headers = globals()[self.username]["headers"]
+        instance_url = globals()[self.username]['instance_url']
+        response = requests.head(instance_url + component_url, 
+            verify=False, headers=headers, timeout=timeout)
+
+        # Check whether session_id is expired
+        if "INVALID_SESSION_ID" in response.text:
+            self.login(True)
+            return self.head(component_url)
+        
+        # If status_code is > 399, which means it has error
+        result = {}
+        status_code = response.status_code
+        if status_code > 399:
+            response_result = response.json()[0]
+            result = response_result
+            result["url"] = instance_url + component_url
+        else:
+            result = dict(response.headers)
+        result["status_code"] = status_code
+        
+        # Self.result is used to keep thread result
+        self.result = result
+
+        # This result is used for invoker
+        return result
+
     def get(self, component_url, timeout=120):
         """
         Get component describe result according to component_url
@@ -81,6 +112,68 @@ class SalesforceApi():
                 return result
         result["status_code"] = status_code
         
+        # Self.result is used to keep thread result
+        self.result = result
+
+        # This result is used for invoker
+        return result
+
+    def put(self, put_url, data, timeout=120):
+        # Firstly, login
+        self.login(False)
+
+        headers = globals()[self.username]["headers"]
+        instance_url = globals()[self.username]['instance_url']
+        response = requests.put(instance_url + put_url, 
+            data=json.dumps(data), verify=False, headers=headers, timeout=timeout)
+
+        # Check whether session_id is expired
+        if "INVALID_SESSION_ID" in response.text:
+            self.login(True)
+            return self.put(put_url, data)
+        
+        # If status_code is > 399, which means it has error
+        result = {}
+        status_code = response.status_code
+        if status_code > 399:
+            response_result = response.json()[0]
+            result = response_result
+            result["url"] = instance_url + put_url
+        else:
+            result = response.json()
+        result["status_code"] = status_code
+
+        # Self.result is used to keep thread result
+        self.result = result
+
+        # This result is used for invoker
+        return result
+
+    def patch(self, patch_url, data, timeout=120):
+        # Firstly, login
+        self.login(False)
+
+        headers = globals()[self.username]["headers"]
+        instance_url = globals()[self.username]['instance_url']
+        response = requests.patch(instance_url + patch_url, 
+            data=json.dumps(data), verify=False, headers=headers, timeout=timeout)
+
+        # Check whether session_id is expired
+        if "INVALID_SESSION_ID" in response.text:
+            self.login(True)
+            return self.patch(patch_url, data)
+        
+        # If status_code is > 399, which means it has error
+        result = {}
+        status_code = response.status_code
+        if status_code > 399:
+            response_result = response.json()[0]
+            result = response_result
+            result["url"] = instance_url + patch_url
+        else:
+            result = response.json()
+        result["status_code"] = status_code
+
         # Self.result is used to keep thread result
         self.result = result
 

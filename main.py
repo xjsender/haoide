@@ -16,6 +16,19 @@ from .salesforce import message
 from .salesforce.bulkapi import BulkApi
 
 
+class ExecuteRestTestCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        self.items = ["GET", "DELETE", "HEAD"]
+        self.view.show_popup_menu(self.items, self.on_done)
+
+    def on_done(self, index):
+        processor.handle_execute_rest_test(self.items[index], self.sel)
+
+    def is_enabled(self):
+        self.sel = self.view.substr(self.view.sel()[0])
+        if not self.sel.startswith("/services/data/v"): return False
+        return True
+
 class GotoComponentCommand(sublime_plugin.TextCommand):
     """
     Move the cursor to the class name, press shift key and left mouse, 

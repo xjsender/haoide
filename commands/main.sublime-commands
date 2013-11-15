@@ -1,8 +1,5 @@
 [
-    {
-        "caption": "SublimeApex: Switch Project",
-        "command": "switch_project"
-    },
+    {"caption": "SublimeApex: Switch Project", "command": "switch_project"},
 
     {
         "caption": "SublimeApex: New Project",

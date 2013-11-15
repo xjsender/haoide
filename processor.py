@@ -737,6 +737,43 @@ def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120)
         "Outputdir: " + output_file_dir)
     handle_thread(thread, 120)
 
+def handle_execute_rest_test(operation, url, timeout=120):
+    def handle_new_view_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
+            return
+        
+        # If succeed
+        result = api.result
+        if result["status_code"] > 399: return
+
+        # No error, just display log in a new view
+        view = sublime.active_window().new_file()
+        view.run_command("new_view", {
+            "name": "Execute Rest %s Result" % operation,
+            "input": pprint.pformat(result)
+        })
+
+    toolingapi_settings = context.get_toolingapi_settings()
+    api = SalesforceApi(toolingapi_settings)
+    if operation == "GET":
+        target = api.get
+    elif operation == "DELETE":
+        target = api.delete
+    elif operation == "HEAD":
+        target = api.head
+    elif operation == "PUT":
+        target = api.put
+    elif operation == "POST":
+        target = api.post
+    else:
+        target = api.get
+    thread = threading.Thread(target=target, args=(url, ))
+    thread.start()
+    progress_message = "Execute Rest %s Test" % operation
+    ThreadProgress(api, thread, progress_message, progress_message + " Succeed")
+    handle_new_view_thread(thread, timeout)
+
 def handle_execute_query(soql, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
@@ -745,7 +782,6 @@ def handle_execute_query(soql, timeout=120):
         
         # If succeed
         result = api.result
-        pprint.pprint(result)
         if result["status_code"] > 399: return
 
         # No error, just display log in a new view
