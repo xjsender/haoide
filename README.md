@@ -165,6 +165,9 @@ You can click ```SublimeApex > Export > Export CustomFields``` to export all cus
 You can click ```SublimeApex > Export > Export Workbook``` to export all sobject workbooks in your org to csv.
 If you just want to export some attributes of sobject workbook, you can do it by setting workbook_field_describe_columns in ```SublimeApex > Settings > Setting - User.
 
+## Export Available Picklist Values of Record Type
+You can click ```SublimeApex > Describe > Describe Layout``` to export the available picklist values of RecordType
+
 ## Bulk Api
 + Export Single, click ```SublimeApex > Data Loader > Export Single```, and then choose the sobject name, plugin will export the records of this sobject to ```<workspace>/<project folder>/bulkout```
 + Export All, click ```SublimeApex > Data Loader > Export All``` to export the records of all sobjects
