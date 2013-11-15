@@ -152,6 +152,19 @@ Click ```SublimeApex > Retrieve Metadata``` in the main menu, you will see a new
 ## Deploy Metadata
 This functionality is not perfect now, but it can work now.
 
+## Export Workflow Rules
+After you downloaded all metadata by clicking ```SublimeApex > Migration > Retrieve Metadata```, you can click ```SublimeApex > Export > Export Workflow``` to backup all workflows in your org to csv.
+
+## Export Validation Rules
+After you downloaded all metadata by clicking ```SublimeApex > Migration > Retrieve Metadata```, you can click ```SublimeApex > Export > Export Validation Rule``` to backup all validation rules in your org to csv.
+
+## Export CustomFields
+You can click ```SublimeApex > Export > Export CustomFields``` to export all custom fields in your org to csv.
+
+## Export Workbook of sobjects
+You can click ```SublimeApex > Export > Export Workbook``` to export all sobject workbooks in your org to csv.
+If you just want to export some attributes of sobject workbook, you can do it by setting workbook_field_describe_columns in ```SublimeApex > Settings > Setting - User.
+
 ## Bulk Api
 + Export Single, click ```SublimeApex > Data Loader > Export Single```, and then choose the sobject name, plugin will export the records of this sobject to ```<workspace>/<project folder>/bulkout```
 + Export All, click ```SublimeApex > Data Loader > Export All``` to export the records of all sobjects
