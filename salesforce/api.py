@@ -654,6 +654,7 @@ class SalesforceApi():
         server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/{0}.0".format(self.api_version)
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
+            "Accept-Encoding": 'identity, deflate, compress, gzip',
             "SOAPAction": '""'
         }
         soap_body = soap_bodies.check_retrieve_status_body.format(
@@ -724,13 +725,13 @@ class SalesforceApi():
         result = self.check_status(async_process_id)
         result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         view = sublime.active_window().new_file()
-        header = "Retrieve Metadata Status(Keep This View Open, Auto Refreshed Every 5s)"
+        header = "Retrieve Metadata Status(Keep This View Open, Auto Refreshed Every 5 seconds)"
         view.run_command("new_dynamic_view", {
             "view_name": "Retrieve Metadata Status",
             "input": util.format_waiting_message(result, header)
         })
         while result["done"] == "false":
-            time.sleep(10)
+            time.sleep(5)
             result = self.check_status(async_process_id)
             result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
             view.run_command("new_dynamic_view", {
@@ -847,7 +848,7 @@ class SalesforceApi():
         result = self.check_status(async_process_id)
         result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         view = sublime.active_window().new_file()
-        header = "Deploy Metadata Status(Keep This View Open, Auto Refreshed Every 5s)"
+        header = "Deploy Metadata Status(Keep This View Open, Auto Refreshed Every 5 seconds)"
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
             "view_name": "Deploy Metadata Status",
