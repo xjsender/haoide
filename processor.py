@@ -934,9 +934,8 @@ def handle_describe_sobject(sobject, timeout=120):
         })
 
     toolingapi_settings = context.get_toolingapi_settings()
-    api_version = toolingapi_settings["api_version"]
     api = SalesforceApi(toolingapi_settings)
-    sobject_url = "/services/data/v{0}.0/sobjects/".format(api_version) + sobject + "/describe"
+    sobject_url = "/sobjects/" + sobject + "/describe"
     thread = threading.Thread(target=api.get, args=(sobject_url, ))
     thread.start()
     ThreadProgress(api, thread, 'Describe ' + sobject, 'Describe ' + sobject + ' Succeed')
@@ -1109,7 +1108,7 @@ def handle_create_component(data, component_name, component_type, view_id, timeo
                 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
-    post_url = "/services/data/v{0}.0/sobjects/".format(toolingapi_settings["api_version"]) + component_type
+    post_url = "/sobjects/" + component_type
     thread = threading.Thread(target=api.post, args=(post_url, data, ))
     thread.start()
     ThreadProgress(api, thread, "Creating Component " + component_name, 
@@ -1182,7 +1181,7 @@ def handle_push_topic(sobject, timeout=120):
     toolingapi_settings = context.get_toolingapi_settings()
     api_version = toolingapi_settings["api_version"]
     api = SalesforceApi(toolingapi_settings)
-    post_url = "/services/data/v{0}.0/sobjects/PushTopic".format(api_version)
+    post_url = "/sobjects/PushTopic"
     post_data = {
         "Name": sobject + "PushTopic",
         "Query": get_sobject_soql(toolingapi_settings["username"], sobject),

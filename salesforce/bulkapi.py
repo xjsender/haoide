@@ -16,7 +16,6 @@ from ..progress import ThreadsProgress
 class BulkJob():
     def __init__(self, settings, operation, sobject, records=None, external_field=None, **kwargs):
         self.settings = settings
-        self.api_version = settings["api_version"]
         self.username = settings["username"]
         self.operation = operation
         self.sobject = sobject
@@ -42,14 +41,15 @@ class BulkJob():
         else:
             result = globals()[self.username]
 
+        self.base_url = result["instance_url"]  + "/services/async/%s.0" % self.settings["api_version"]
         self.result = result
         return result
 
     # Post: https://instance.salesforce.com/services/async/27.0/job
     def create_job(self):
         if not self.login(False): return
-        url = "%s/services/async/%s.0/job" %\
-            (globals()[self.username]["instance_url"], self.api_version)
+
+        url = self.base_url + "/job"
         body = soap_bodies.create_job.format(operation=self.operation, sobject=self.sobject)
         headers = {
             "X-SFDC-Session": globals()[self.username]["session_id"],
@@ -64,8 +64,7 @@ class BulkJob():
 
     # https://instance.salesforce.com/services/async/27.0/job/jobId/batch
     def create_batch(self, job_id):
-        url = "%s/services/async/%s.0/job/%s/batch" %\
-            (globals()[self.username]["instance_url"], self.api_version, job_id)
+        url = self.base_url + "/job/%s/batch" % job_id
 
         headers = {
             "X-SFDC-Session": globals()[self.username]["session_id"],
@@ -86,8 +85,7 @@ class BulkJob():
 
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId
     def check_job_status(self, job_id):
-        url = "%s/services/async/%s.0/job/%s" %\
-            (globals()[self.username]["instance_url"], self.api_version, job_id)
+        url = self.base_url + "/job/%s" % job_id
 
         headers = {
             "X-SFDC-Session": globals()[self.username]["session_id"]
@@ -100,8 +98,7 @@ class BulkJob():
 
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId
     def check_batch_status(self, job_id, batch_id):
-        url = "%s/services/async/%s.0/job/%s/batch/%s" %\
-            (globals()[self.username]["instance_url"], self.api_version, job_id, batch_id)
+        url = self.base_url + "/job/%s/batch/%s" % (job_id, batch_id)
         headers = {
             "X-SFDC-Session": globals()[self.username]["session_id"]
         }
@@ -132,8 +129,7 @@ class BulkJob():
 
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result
     def get_batch_result_id(self, job_id, batch_id):
-        url = "%s/services/async/%s.0/job/%s/batch/%s/result" %\
-            (globals()[self.username]["instance_url"], self.api_version, job_id, batch_id)
+        url = self.base_url + "/job/%s/batch/%s/result" % (job_id, batch_id)
 
         headers = {
             "X-SFDC-Session": globals()[self.username]["session_id"],
@@ -149,12 +145,10 @@ class BulkJob():
     def get_batch_result(self, job_id, batch_id, result_id=None):
         if result_id != None:
             # Query action
-            url = "%s/services/async/%s.0/job/%s/batch/%s/result/%s" %\
-                (globals()[self.username]["instance_url"], self.api_version, job_id, batch_id, result_id)
+            url = self.base_url + "/job/%s/batch/%s/result/%s" % (job_id, batch_id, result_id)
         else:
             # Other actions
-            url = "%s/services/async/%s.0/job/%s/batch/%s/result" %\
-                (globals()[self.username]["instance_url"], self.api_version, job_id, batch_id)
+            url = self.base_url + "/job/%s/batch/%s/result" % (job_id, batch_id)
 
         headers = {
             "X-SFDC-Session": globals()[self.username]["session_id"],
@@ -165,8 +159,7 @@ class BulkJob():
         return response.content
 
     def close_job(self, job_id):
-        url = "%s/services/async/%s.0/job/%s" %\
-            (globals()[self.username]["instance_url"], self.api_version, job_id)
+        url = self.base_url + "/job/%s" % job_id
         body = soap_bodies.close_job
         headers = {
             "X-SFDC-Session": globals()[self.username]["session_id"],

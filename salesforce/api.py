@@ -8,15 +8,13 @@ import os
 import urllib.parse
 from .. import requests
 from .. import context
-
-from . import xmltodict
-from . import soap_bodies
-from . import message
 from .. import util
+
+from . import xmltodict, soap_bodies, message
+
 from ..util import getUniqueElementValueFromXmlString
 from .login import soap_login
-from xml.sax.saxutils import unescape
-from xml.sax.saxutils import quoteattr
+from xml.sax.saxutils import unescape, quoteattr
 
 class SalesforceApi():
     def __init__(self, toolingapi_settings, **kwargs):
@@ -44,17 +42,30 @@ class SalesforceApi():
         else:
             result = globals()[self.username]
 
+        self.headers = globals()[self.username]["headers"]
+        self.instance_url = result["instance_url"]
+        self.base_url = self.instance_url + "/services/data/v%s.0" % self.api_version
+        self.partner_url = self.instance_url + "/services/Soap/u/%s.0" % self.api_version
+        self.metadata_url = self.instance_url + "/services/Soap/m/%s.0" % self.api_version
+        self.apex_url = self.instance_url + "/services/Soap/s/%s.0" % self.api_version
         self.result = result
         return result
+
+    def parse_url(self, component_url):
+        if "/services/" in component_url:
+            url = self.instance_url + component_url
+        else:
+            url = self.base_url + component_url
+
+        return url
 
     def head(self, component_url, timeout=120):
         # Firstly, login
         self.login(False)
 
-        headers = globals()[self.username]["headers"]
-        instance_url = globals()[self.username]['instance_url']
-        response = requests.head(instance_url + component_url, 
-            verify=False, headers=headers, timeout=timeout)
+        url = self.parse_url(component_url)
+        response = requests.head(url, verify=False, 
+            headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -67,7 +78,7 @@ class SalesforceApi():
         if status_code > 399:
             response_result = response.json()[0]
             result = response_result
-            result["url"] = instance_url + component_url
+            result["url"] = url
         else:
             result = dict(response.headers)
         result["status_code"] = status_code
@@ -87,10 +98,9 @@ class SalesforceApi():
         # Firstly, login
         self.login(False)
 
-        headers = globals()[self.username]["headers"]
-        instance_url = globals()[self.username]['instance_url']
-        response = requests.get(instance_url + component_url, 
-            data=None, verify=False, headers=headers, timeout=timeout)
+        url = self.parse_url(component_url)
+        response = requests.get(url, data=None, verify=False, 
+            headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -103,7 +113,7 @@ class SalesforceApi():
         if status_code > 399:
             response_result = response.json()[0]
             result = response_result
-            result["url"] = instance_url + component_url
+            result["url"] = url
         else:
             try:
                 result = response.json()
@@ -122,10 +132,9 @@ class SalesforceApi():
         # Firstly, login
         self.login(False)
 
-        headers = globals()[self.username]["headers"]
-        instance_url = globals()[self.username]['instance_url']
-        response = requests.put(instance_url + put_url, 
-            data=json.dumps(data), verify=False, headers=headers, timeout=timeout)
+        url = self.parse_url(put_url)
+        response = requests.put(url, data=json.dumps(data), verify=False, 
+            headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -138,7 +147,7 @@ class SalesforceApi():
         if status_code > 399:
             response_result = response.json()[0]
             result = response_result
-            result["url"] = instance_url + put_url
+            result["url"] = url
         else:
             result = response.json()
         result["status_code"] = status_code
@@ -153,10 +162,9 @@ class SalesforceApi():
         # Firstly, login
         self.login(False)
 
-        headers = globals()[self.username]["headers"]
-        instance_url = globals()[self.username]['instance_url']
-        response = requests.patch(instance_url + patch_url, 
-            data=json.dumps(data), verify=False, headers=headers, timeout=timeout)
+        url = self.parse_url(patch_url)
+        response = requests.patch(url, data=json.dumps(data), verify=False, 
+            headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -169,7 +177,7 @@ class SalesforceApi():
         if status_code > 399:
             response_result = response.json()[0]
             result = response_result
-            result["url"] = instance_url + patch_url
+            result["url"] = url
         else:
             result = response.json()
         result["status_code"] = status_code
@@ -184,10 +192,9 @@ class SalesforceApi():
         # Firstly, login
         self.login(False)
 
-        headers = globals()[self.username]["headers"]
-        instance_url = globals()[self.username]['instance_url']
-        response = requests.post(instance_url + post_url, 
-            data=json.dumps(data), verify=False, headers=headers, timeout=timeout)
+        url = self.parse_url(post_url)
+        response = requests.post(url, data=json.dumps(data), verify=False, 
+            headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -200,7 +207,7 @@ class SalesforceApi():
         if status_code > 399:
             response_result = response.json()[0]
             result = response_result
-            result["url"] = instance_url + post_url
+            result["url"] = url
         else:
             result = response.json()
         result["status_code"] = status_code
@@ -215,10 +222,9 @@ class SalesforceApi():
         # Firstly, login
         self.login(False)
 
-        instance_url = globals()[self.username]['instance_url']
-        headers = globals()[self.username]["headers"]
-        response = requests.delete(instance_url + component_url, data=None, 
-            verify=False, headers=headers, timeout=timeout)
+        url = self.parse_url(component_url)
+        response = requests.delete(url, data=None, verify=False, 
+            headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -229,7 +235,7 @@ class SalesforceApi():
         if response.status_code > 399:
             response_result = response.json()[0]
             result = response_result
-            result["url"] = instance_url + component_url
+            result["url"] = url
         result["status_code"] = response.status_code
 
         # Self.result is used to keep thread result
@@ -242,18 +248,16 @@ class SalesforceApi():
         # Firstly, login
         self.login(False)
 
-        instance_url = globals()[self.username]['instance_url']
         soql = urllib.parse.urlencode({'q' : soql})
 
         # Just API 28 support CustomField
         if is_toolingapi:
-            url = instance_url + '/services/data/v{0}.0/tooling/query?{1}'.format(self.api_version, soql)
+            url = self.base_url + "/tooling/query?" + soql
         else:
-            url = instance_url + '/services/data/v{0}.0/query?{1}'.format(self.api_version, soql)
+            url = self.base_url + "/query?" + soql
 
-        headers = globals()[self.username]["headers"]
-        response = requests.get(url, data=None, verify=False, timeout=timeout, 
-            headers=headers)
+        response = requests.get(url, data=None, verify=False, 
+            headers=self.headers, timeout=timeout)
             
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -329,7 +333,7 @@ class SalesforceApi():
         :sobject: sObjectType
         """
 
-        url = "/services/data/v{0}.0/sobjects/".format(self.api_version) + sobject + "/describe"
+        url = "/sobjects/%s/describe" % sobject
         result = self.get(url)
 
         # Self.result is used to keep thread result
@@ -346,14 +350,8 @@ class SalesforceApi():
         :return type: dict
         """
 
-        url = "/services/data/v{0}.0/sobjects/".format(self.api_version)
-        result = self.get(url)
-
-        # Self.result is used to keep thread result
-        self.result = result
-
-        # This result is used for invoker
-        return result
+        self.result = self.get("/sobjects")
+        return self.result
 
     def describe_global_custom(self):
         """
@@ -407,13 +405,13 @@ class SalesforceApi():
         nextday_str = datetime.datetime.strftime(nextday, "%Y-%m-%d")
         trace_flag["ExpirationDate"] = nextday_str
 
-        post_url = "/services/data/v{0}.0/tooling/sobjects/TraceFlag".format(self.api_version)
+        post_url = "/tooling/sobjects/TraceFlag"
         result = self.post(post_url, trace_flag)
 
         self.result = result
         return result
 
-    def retrieve_body(self, url, timeout=120):
+    def retrieve_body(self, retrieve_url, timeout=120):
         """
         Retrieve a raw log by ID
 
@@ -423,18 +421,15 @@ class SalesforceApi():
         # Firstly Login
         self.login(False)
 
-        url = url.format(self.api_version)
-        headers = globals()[self.username]["headers"].copy()
+        url = self.parse_url(retrieve_url)
+        headers = self.headers.copy()
         headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
-        instance_url = globals()[self.username]['instance_url']
-        print (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))
-        response = requests.get(instance_url + url, 
-            verify=False, headers=headers, timeout=timeout)
-        print (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))
+        response = requests.get(url, verify=False, headers=headers, timeout=timeout)
+
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
-            return self.retrieve_body(url)
+            return self.retrieve_body(retrieve_url)
 
         result = {
             "status_code": response.status_code,
@@ -458,35 +453,31 @@ class SalesforceApi():
         self.create_trace_flag(traced_entity_id)
 
         time.sleep(2)
-        post_url = "/services/data/v{0}.0/sobjects/ApexTestQueueItem".format(self.api_version)
         data = {"ApexClassId": class_id}
-        result = self.post(post_url, data)
+        result = self.post("/sobjects/ApexTestQueueItem", data)
         
         if result["status_code"] > 399:
             self.result = result
             return
         
         # Wait for the ApexTestQueueItem is over
-        time.sleep(10)
+        time.sleep(5)
         queue_item_id = result["id"]
-        queue_item_soql = """SELECT Id, Status FROM ApexTestQueueItem 
-            WHERE Id='%s'""" % queue_item_id
+        queue_item_soql = "SELECT Id, Status FROM ApexTestQueueItem WHERE Id='%s'" % queue_item_id
         result = self.query(queue_item_soql)
 
         if result["status_code"] > 399:
             self.result = result
             return
         
-        # If totalSize is Zero, it means we need to wait
-        # Until Test is finished
+        # If totalSize is Zero, it means we need to wait until test is finished
         while result["totalSize"] == 0 or result["records"][0]["Status"] == "Queued":
-            time.sleep(10)
+            time.sleep(5)
             result = self.query(queue_item_soql)
 
         test_result_soql = """SELECT ApexClass.Id,ApexClass.Name,ApexLogId,
             AsyncApexJobId,Id,Message,MethodName,Outcome,QueueItemId,StackTrace,
-            TestTimestamp FROM ApexTestResult 
-            WHERE QueueItemId = '%s'""" % queue_item_id
+            TestTimestamp FROM ApexTestResult WHERE QueueItemId = '%s'""" % queue_item_id
 
          # After Test is finished, get result
         result = self.query(test_result_soql)
@@ -507,7 +498,6 @@ class SalesforceApi():
         self.login(False)
 
         # Combine server_url and headers and soap_body
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/u/{0}.0".format(self.api_version)
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
@@ -516,7 +506,7 @@ class SalesforceApi():
             session_id=globals()[self.username]["session_id"], 
             sobject=sobject, recordtype_id=recordtype_id)
 
-        response = requests.post(server_url, soap_body, verify=False, 
+        response = requests.post(self.partner_url, soap_body, verify=False, 
             headers=headers)
 
         # Check whether session_id is expired
@@ -526,6 +516,7 @@ class SalesforceApi():
 
         content = response.content
         result = xmltodict.parse(content)
+
         try:
             result = result["soapenv:Envelope"]["soapenv:Body"]["describeLayoutResponse"]["result"]
         except (KeyError):
@@ -550,7 +541,6 @@ class SalesforceApi():
         # Firstly Login
         self.login(False)
 
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/s/{0}.0".format(self.api_version)
         # https://gist.github.com/richardvanhook/1245068
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
@@ -565,7 +555,7 @@ class SalesforceApi():
             session_id=globals()[self.username]["session_id"], 
             apex_string = apex_string)
 
-        response = requests.post(server_url, soap_body, verify=False, 
+        response = requests.post(self.apex_url, soap_body, verify=False, 
             headers=headers)
 
         # Check whether session_id is expired
@@ -609,7 +599,6 @@ class SalesforceApi():
         """
 
         # Check the status of retrieve job
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/{0}.0".format(self.api_version)
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
@@ -618,7 +607,7 @@ class SalesforceApi():
             session_id=globals()[self.username]["session_id"],
             async_process_id=async_process_id)
 
-        response = requests.post(server_url, soap_body, verify=False, 
+        response = requests.post(self.metadata_url, soap_body, verify=False, 
             headers=headers)
 
         # If status_code is > 399, which means it has error
@@ -651,7 +640,7 @@ class SalesforceApi():
 
         @async_process_id: retrieve request asyncProcessId
         """
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/{0}.0".format(self.api_version)
+
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "Accept-Encoding": 'identity, deflate, compress, gzip',
@@ -661,8 +650,8 @@ class SalesforceApi():
             session_id=globals()[self.username]["session_id"],
             async_process_id=async_process_id)
 
-        response = requests.post(server_url, soap_body, verify=False, 
-            headers=headers)
+        response = requests.post(self.metadata_url, soap_body, 
+            verify=False, headers=headers)
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -689,7 +678,6 @@ class SalesforceApi():
         self.login(False)
 
         # 1. Issue a retrieve request to start the asynchronous retrieval
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/{0}.0".format(self.api_version)
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
@@ -699,7 +687,7 @@ class SalesforceApi():
         soap_body = soap_body.format(
             globals()[self.username]["session_id"], self.api_version)
 
-        response = requests.post(server_url, soap_body, verify=False, 
+        response = requests.post(self.metadata_url, soap_body, verify=False, 
             headers=headers)
 
         # Check whether session_id is expired
@@ -725,7 +713,7 @@ class SalesforceApi():
         result = self.check_status(async_process_id)
         result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         view = sublime.active_window().new_file()
-        header = "Retrieve Metadata Status(Keep This View Open, Auto Refreshed Every 5 seconds)"
+        header = "Retrieve Metadata Status(Keep This View Open, Auto Refreshed Every 6 seconds)"
         view.run_command("new_dynamic_view", {
             "view_name": "Retrieve Metadata Status",
             "input": util.format_waiting_message(result, header)
@@ -762,14 +750,13 @@ class SalesforceApi():
 
         @async_process_id: retrieve request asyncProcessId
         """
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/{0}.0".format(self.api_version)
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
         }
         soap_body = soap_bodies.check_deploy_status.format(
             globals()[self.username]["session_id"], async_process_id)
-        response = requests.post(server_url, soap_body, verify=False, 
+        response = requests.post(self.metadata_url, soap_body, verify=False, 
             headers=headers)
 
         # If status_code is > 399, which means it has error
@@ -797,7 +784,6 @@ class SalesforceApi():
         self.login(False)
 
         # 1. Issue a retrieve request to start the asynchronous retrieval
-        server_url = globals()[self.username]['instance_url'] + "/services/Soap/m/{0}.0".format(self.api_version)
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
@@ -818,7 +804,7 @@ class SalesforceApi():
             deploy_options["runAllTests"],
             deploy_options["runTests"],
             deploy_options["singlePackage"])
-        response = requests.post(server_url, soap_body, verify=False, 
+        response = requests.post(self.metadata_url, soap_body, verify=False, 
             headers=headers)
 
         # Check whether session_id is expired
@@ -848,7 +834,7 @@ class SalesforceApi():
         result = self.check_status(async_process_id)
         result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         view = sublime.active_window().new_file()
-        header = "Deploy Metadata Status(Keep This View Open, Auto Refreshed Every 5 seconds)"
+        header = "Deploy Metadata Status(Keep This View Open, Auto Refreshed Every 6 seconds)"
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
             "view_name": "Deploy Metadata Status",
@@ -876,21 +862,6 @@ class SalesforceApi():
             "input": util.format_waiting_message(result, "Deploy Result") + "\n",
             "point": view.size()
         })
-
-    def write_static_resource_body(self, name, url):
-        result = self.retrieve_body(url)
-        body = result["body"]
-
-        component_type_attrs = self.toolingapi_settings["StaticResource"]
-        component_outputdir = component_type_attrs["outputdir"]
-
-        # Write body to local file
-        fp = open("%s/%s.resource" % (component_outputdir, name), "wb")
-
-        try:
-            body = bytes(body, "UTF-8")
-        except:
-            body = body.encode("UTF-8")
 
     def refresh_components(self, component_types):
         """
@@ -1015,7 +986,7 @@ class SalesforceApi():
         data = {  
             "name": "Save" + component_type[4 : len(component_type)] + component_id
         }
-        container_url = '/services/data/v{0}.0/tooling/sobjects/MetadataContainer'.format(self.api_version)
+        container_url = "/tooling/sobjects/MetadataContainer"
         result = self.post(container_url, data)
         # print ("MetadataContainer Response: ", result)
 
@@ -1045,7 +1016,7 @@ class SalesforceApi():
             "MetadataContainerId": container_id,
             "Body": body
         }
-        url = "/services/data/v{0}.0/tooling/sobjects/".format(self.api_version) + component_type + "Member"
+        url = "/tooling/sobjects/" + component_type + "Member"
         result = self.post(url, data)
         # print ("Post ApexComponentMember: ", result)
 
@@ -1054,7 +1025,7 @@ class SalesforceApi():
             "MetadataContainerId": container_id,
             "isCheckOnly": False
         }
-        sync_request_url = '/services/data/v{0}.0/tooling/sobjects/ContainerAsyncRequest'.format(self.api_version)
+        sync_request_url = '/tooling/sobjects/ContainerAsyncRequest'
         result = self.post(sync_request_url, data)
         request_id = result.get("id")
         # print ("Post ContainerAsyncRequest: ", result)
@@ -1068,7 +1039,7 @@ class SalesforceApi():
         return_result = {}
         if state == "Completed":
             return_result = {
-                "success": True,
+                "success": True
             }
 
         while state == "Queued":

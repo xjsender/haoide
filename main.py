@@ -26,7 +26,7 @@ class ExecuteRestTestCommand(sublime_plugin.TextCommand):
 
     def is_enabled(self):
         self.sel = self.view.substr(self.view.sel()[0])
-        if not self.sel.startswith("/services/data/v"): return False
+        if not self.sel: return False
         return True
 
 class GotoComponentCommand(sublime_plugin.TextCommand):

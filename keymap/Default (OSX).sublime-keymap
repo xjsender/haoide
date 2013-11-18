@@ -28,7 +28,7 @@
     {"keys": ["ctrl+alt+r"], "command": "refresh_component"},
 
     // Execute chosen valid SOQL
-    {"keys": ["ctrl+alt+e"], "command": "execute_rest_test"},
+    {"keys": ["f9"], "command": "execute_rest_test"},
 
     // Execute chosen valid SOQL
     {"keys": ["ctrl+alt+q"], "command": "execute_soql"},
