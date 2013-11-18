@@ -225,37 +225,6 @@ def handle_login_thread(default_project, timeout=120):
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Login to switched project", default_project + " Login Succeed")
 
-def handle_retrieve_static_resource_body(file, timeout=120):
-    def handle_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-
-        result = api.result
-        body = result["body"]
-        workspace = toolingapi_settings["workspace"]
-        if component_attribute["ContentType"] == "application/zip":
-            outputdir = workspace + "/StaticResource/" + component_name
-            util.extract_zip(result, outputdir)
-        else:
-            fp = open(file, "wb")
-            try:
-                body = bytes(body, "UTF-8")
-            except:
-                body = body.encode("UTF-8")
-
-            fp.write(body)
-
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
-    component_attribute, component_name = util.get_component_attribute(file)
-    url = "/services/data/v{0}.0/sobjects/StaticResource/" + component_attribute["id"] + "/Body"
-    thread = threading.Thread(target=api.retrieve_body, args=(url, True, ))
-    thread.start()
-    handle_thread(thread, timeout)
-    ThreadProgress(api, thread, "Retrieve StaticResource Body", 
-        "Retrieve StaticResource Body Succeed")
-
 def handle_view_code_coverage(component_name, component_attribute, body, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -881,7 +850,7 @@ def handle_view_debug_log_detail(log_id, timeout=120):
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
-    url = "/services/data/v{0}.0/sobjects/ApexLog/" + log_id + "/Body"
+    url = "/sobjects/ApexLog/" + log_id + "/Body"
     thread = threading.Thread(target=api.retrieve_body, args=(url, ))
     thread.start()
     ThreadProgress(api, thread, "Get Log Detail of " + log_id, 
