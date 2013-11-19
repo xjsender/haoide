@@ -56,7 +56,8 @@ if today is ```2013/07/30``` and user settings is
 
 ```javascript
 {
-    // Workspace in OSX is different with windows, workspace can be "/Users/<Your User>/salesforce/workspace"
+    // Workspace in OSX is different with windows, 
+    // workspace can be "/Users/<Your User>/salesforce/workspace"
     "workspace": "d:/ForcedotcomWorkspace",
     "projects": {
         "Exercise-Pro": {
