@@ -33,15 +33,14 @@ class BulkJob():
                 return False
 
             result["headers"] = {
-                "Authorization": "OAuth " + result["session_id"],
-                "Content-Type": "application/json; charset=UTF-8",
-                "Accept": "application/json"
+                "X-SFDC-Session": result["session_id"],
             }
             globals()[self.username] = result
         else:
             result = globals()[self.username]
 
         self.base_url = result["instance_url"]  + "/services/async/%s.0" % self.settings["api_version"]
+        self.headers = result["headers"]
         self.result = result
         return result
 
@@ -51,11 +50,8 @@ class BulkJob():
 
         url = self.base_url + "/job"
         body = soap_bodies.create_job.format(operation=self.operation, sobject=self.sobject)
-        headers = {
-            "X-SFDC-Session": globals()[self.username]["session_id"],
-            "Content-Type": "application/xml; charset=UTF-8",
-            "Accept": "text/plain"
-        }
+        headers = self.headers 
+        headers["Content-Type"] = "application/xml; charset=UTF-8"
 
         response = requests.post(url, body, verify=False, headers=headers)
         job_id = getUniqueElementValueFromXmlString(response.content, "id")
@@ -66,10 +62,8 @@ class BulkJob():
     def create_batch(self, job_id):
         url = self.base_url + "/job/%s/batch" % job_id
 
-        headers = {
-            "X-SFDC-Session": globals()[self.username]["session_id"],
-            "Content-Type": "text/csv; charset=UTF-8"
-        }
+        headers = self.headers
+        headers["Content-Type"] = "text/csv; charset=UTF-8"
 
         if self.operation == "query" and self.records == None:
             api = SalesforceApi(self.settings)
@@ -86,12 +80,8 @@ class BulkJob():
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId
     def check_job_status(self, job_id):
         url = self.base_url + "/job/%s" % job_id
-
-        headers = {
-            "X-SFDC-Session": globals()[self.username]["session_id"]
-        }
-
-        response = requests.get(url, data=None, verify=False, headers=headers)
+        response = requests.get(url, data=None, verify=False, 
+            headers=self.headers)
         job_status = getUniqueElementValueFromXmlString(response.content, "state")
 
         return job_status
@@ -99,11 +89,8 @@ class BulkJob():
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId
     def check_batch_status(self, job_id, batch_id):
         url = self.base_url + "/job/%s/batch/%s" % (job_id, batch_id)
-        headers = {
-            "X-SFDC-Session": globals()[self.username]["session_id"]
-        }
-
-        response = requests.get(url, data=None, verify=False, headers=headers)
+        response = requests.get(url, data=None, verify=False, 
+            headers=self.headers)
 
         # Convert xml to dict
         result = xmltodict.parse(response.content)
@@ -130,11 +117,8 @@ class BulkJob():
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result
     def get_batch_result_id(self, job_id, batch_id):
         url = self.base_url + "/job/%s/batch/%s/result" % (job_id, batch_id)
-
-        headers = {
-            "X-SFDC-Session": globals()[self.username]["session_id"],
-            "Accept-Encoding": 'identity, deflate, compress, gzip'
-        }
+        headers = self.headers
+        headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
 
         response = requests.get(url, data=None, verify=False, headers=headers)
         result_id = getUniqueElementValueFromXmlString(response.content, "result")
@@ -150,10 +134,8 @@ class BulkJob():
             # Other actions
             url = self.base_url + "/job/%s/batch/%s/result" % (job_id, batch_id)
 
-        headers = {
-            "X-SFDC-Session": globals()[self.username]["session_id"],
-            "Accept-Encoding": 'identity, deflate, compress, gzip'
-        }
+        headers = self.headers
+        headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
 
         response = requests.get(url, data=None, verify=False, headers=headers)
         return response.content
@@ -161,11 +143,8 @@ class BulkJob():
     def close_job(self, job_id):
         url = self.base_url + "/job/%s" % job_id
         body = soap_bodies.close_job
-        headers = {
-            "X-SFDC-Session": globals()[self.username]["session_id"],
-            "Content-Type": "application/xml; charset=UTF-8",
-            "Accept": "text/plain"
-        }
+        headers = self.headers
+        headers["Content-Type"] = "application/xml; charset=UTF-8"
 
         response = requests.post(url, body, verify=False, headers=headers)
         return response.status_code
@@ -197,6 +176,7 @@ class BulkApi():
             outputfile = outputdir + "/%s-%s-%s.csv" % (self.sobject, operation, time_stamp)
         fp = open(outputfile, "wb")
         try:
+            print (result)
             fp.write(result)
             sublime.status_message(outputfile)
         except:
