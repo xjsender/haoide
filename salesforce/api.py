@@ -111,8 +111,7 @@ class SalesforceApi():
         result = {}
         status_code = response.status_code
         if status_code > 399:
-            response_result = response.json()[0]
-            result = response_result
+            result = response.json()[0]
             result["url"] = url
         else:
             try:
@@ -145,8 +144,7 @@ class SalesforceApi():
         result = {}
         status_code = response.status_code
         if status_code > 399:
-            response_result = response.json()[0]
-            result = response_result
+            result = response.json()[0]
             result["url"] = url
         else:
             result = response.json()
@@ -175,8 +173,7 @@ class SalesforceApi():
         result = {}
         status_code = response.status_code
         if status_code > 399:
-            response_result = response.json()[0]
-            result = response_result
+            result = response.json()[0]
             result["url"] = url
         else:
             result = response.json()
@@ -205,8 +202,7 @@ class SalesforceApi():
         result = {}
         status_code = response.status_code
         if status_code > 399:
-            response_result = response.json()[0]
-            result = response_result
+            result = response.json()[0]
             result["url"] = url
         else:
             result = response.json()
@@ -233,8 +229,7 @@ class SalesforceApi():
 
         result = {}
         if response.status_code > 399:
-            response_result = response.json()[0]
-            result = response_result
+            result = response.json()[0]
             result["url"] = url
         result["status_code"] = response.status_code
 
@@ -377,10 +372,9 @@ class SalesforceApi():
         """
 
         standard_sobjects = self.toolingapi_settings["common_sobjects"]
-        result = self.describe_global()
-        common_sobjects = \
-            [so["name"] for so in result["sobjects"] if so["custom"] or \
-             so["name"] in standard_sobjects]
+        custom_sobjects = self.describe_global_custom()
+        common_sobjects = standard_sobjects
+        common_sobjects.extend(custom_sobjects)
 
         self.result = common_sobjects
         return common_sobjects
@@ -391,6 +385,7 @@ class SalesforceApi():
 
         :traced_entity_id: Component Id or User Id
         """
+        
         while traced_entity_id == None and (self.username not in globals()):
             self.login(True)
             traced_entity_id = globals()[self.username]["user_id"]
