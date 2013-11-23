@@ -172,13 +172,14 @@
 
     // Frequently used standard sobjects
     "common_sobjects": [
-        "Account", "AccountContactRole", "Activity", "Asset", 
-        "Campaign", "CampaignMember", "Case", "Contact", 
-        "Contract", "Event", "Lead", "Opportunity", 
+        "Account", "AccountContactRole", "OpportunityContactRole",
+        "Task", "Event", "Asset", "Campaign", "CampaignMember", 
+        "Case", "Contact", "Contract", "Lead", "Opportunity", 
         "OpportunityLineItem", "Product2", "Pricebook2", "PricebookEntry",
         "UserRole", "Task", "User", "CampaignMemberStatus", "Attachment",
         "OpportunityLineItemSchedule", "Profile", "OpportunityTeamMember",
-        "RecordType", "Quote", "QuoteLineItem"
+        "RecordType", "Quote", "QuoteLineItem", 
+        "OpportunityHistory", "AccountShare", "ContactShare"
     ],
 
     // Components Directory

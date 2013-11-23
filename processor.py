@@ -374,8 +374,10 @@ def handle_initiate_sobjects_completions(timeout=120):
         # Save all sobject describe result to sublime settings
         s = sublime.load_settings("sobjects_completion.sublime-settings")
         sobjects_completion = {}
+
         for sobject_describe in results:
             # Initiate Sobject completions
+            if "name" not in sobject_describe: pprint.pprint(sobject_describe)
             sobject_name = sobject_describe["name"]
             sobjects_completion[sobject_name] = {
                 "keyPrefix": sobject_describe["keyPrefix"]
@@ -431,6 +433,7 @@ def handle_initiate_sobjects_completions(timeout=120):
         sobjects = api.result
         threads = []
         apis = []
+        print (sobjects)
         for sobject in sobjects:
             api = SalesforceApi(toolingapi_settings)
             thread = threading.Thread(target=api.describe_sobject, args=(sobject, ))
