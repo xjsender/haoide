@@ -176,7 +176,6 @@ class BulkApi():
             outputfile = outputdir + "/%s-%s-%s.csv" % (self.sobject, operation, time_stamp)
         fp = open(outputfile, "wb")
         try:
-            print (result)
             fp.write(result)
             sublime.status_message(outputfile)
         except:
