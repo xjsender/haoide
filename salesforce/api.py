@@ -419,7 +419,9 @@ class SalesforceApi():
         url = self.parse_url(retrieve_url)
         headers = self.headers.copy()
         headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
+        print (time.strftime("StartTime: %Y-%m-%d %H:%M:%S", time.localtime(time.time())))
         response = requests.get(url, verify=False, headers=headers, timeout=timeout)
+        print (time.strftime("End  Time: %Y-%m-%d %H:%M:%S", time.localtime(time.time())))
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
