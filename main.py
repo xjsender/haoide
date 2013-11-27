@@ -18,8 +18,8 @@ from .salesforce.bulkapi import BulkApi
 
 class ExecuteRestTestCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        self.items = ["GET", "DELETE", "HEAD"]
-        self.view.show_popup_menu(self.items, self.on_done)
+        self.items = ["GET", "DELETE", "HEAD", "Retrieve Body"]
+        self.view.show_popup_menu(self.items, self.on_done),
 
     def on_done(self, index):
         processor.handle_execute_rest_test(self.items[index], self.sel)

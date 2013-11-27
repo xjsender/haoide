@@ -122,7 +122,7 @@ def format_error_message(result):
     return error_message[:len(error_message)-1]
 
 def format_waiting_message(result, header=""):
-    error_message = header + "\n" + "-" * 150 + "\n"
+    error_message = header + "\n" + "-" * 100 + "\n"
     for key in result:
         if isinstance(result[key], list): continue
         error_message += "% 30s\t" % "{0}: ".format(key)

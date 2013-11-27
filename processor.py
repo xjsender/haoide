@@ -737,6 +737,8 @@ def handle_execute_rest_test(operation, url, timeout=120):
         target = api.put
     elif operation == "POST":
         target = api.post
+    elif operation == "Retrieve Body":
+        target = api.retrieve_body
     else:
         target = api.get
     thread = threading.Thread(target=target, args=(url, ))
@@ -1033,8 +1035,8 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.save_component, args=(component_attribute, body, ))
     thread.start()
-    ThreadProgress(api, thread, "Save Component " + component_name,
-        "Save Component " + component_name + " Succeed")
+    wait_message = "Save " + component_name
+    ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
     handle_thread(thread, timeout)
 
 def handle_create_component(data, component_name, component_type, view_id, timeout=120):
