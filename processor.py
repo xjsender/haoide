@@ -533,6 +533,7 @@ def handle_retrieve_all_thread(timeout=120):
 
         # Mkdir for output dir of zip file
         result = api.result
+        context.add_project_to_workspace(toolingapi_settings["workspace"])
         outputdir = toolingapi_settings["workspace"] + "/metadata"
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
@@ -547,7 +548,15 @@ def handle_retrieve_all_thread(timeout=120):
         # os.remove(zipdir)
 
         # Output package path
-        sublime.status_message("Your objects and workflows are exported to: " + outputdir)
+        success_message = message.SEPRATE.format("Your objects and workflows are exported to: " + outputdir)
+        view = util.get_view_by_name("Retrieve Metadata Status")
+        view.run_command("new_dynamic_view", {
+            "view_id": view.id(),
+            "view_name": "Retrieve Metadata Status",
+            "input": success_message,
+            "point": view.size()
+        })
+        sublime.status_message("Exported Path: " + outputdir)
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)

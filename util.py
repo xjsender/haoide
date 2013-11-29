@@ -17,6 +17,21 @@ from .salesforce import xmltodict
 from . import context
 from xml.sax.saxutils import unescape
 
+def get_view_by_name(view_name):
+    """
+    Get the view in the active window by the view_name
+
+    @view_id: view name
+    @return: view
+    """
+
+    view = None
+    for v in sublime.active_window().views():
+        if v.name() == view_name:
+            view = v
+
+    return view
+
 def get_view_by_id(view_id):
     """
     Get the view in the active window by the view_id
