@@ -907,7 +907,6 @@ def handle_run_test(class_name, class_id, timeout=120):
 
         pprint.pprint(api.result)
         code_coverage = util.parse_code_coverage(class_name, api.result)
-        print (code_coverage)
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
             "view_name": "Test Result",

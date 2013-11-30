@@ -260,7 +260,7 @@ def parse_code_coverage(class_name, result):
         columns += "%-*s" % (40, column)
 
     code_coverage = ""
-    for name in records:
+    for name in sorted(records):
         row = ""
         row += "%-*s" % (40, name)
         coverage = records[name]
