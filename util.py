@@ -244,6 +244,34 @@ def parse_all(apex):
             
     return apex_completions
 
+def parse_code_coverage(class_name, result):
+    records = {}
+    for record in result["records"]:
+        name = record["ApexClassOrTrigger"]["Name"]
+        records[name] = {
+            "NumLinesCovered" : record["NumLinesCovered"],
+            "NumLinesUncovered": record["NumLinesUncovered"]
+        }
+
+    code_coverage_desc = message.SEPRATE.format("TriggerOrClass Code Coverage:")
+
+    columns = ""
+    for column in ["ApexClassOrTrigger", "Percent", "Lines"]:
+        columns += "%-*s" % (40, column)
+
+    code_coverage = ""
+    for name in records:
+        row = ""
+        row += "%-*s" % (40, name)
+        coverage = records[name]
+        covered_lines = coverage["NumLinesCovered"]
+        total_lines = covered_lines + coverage["NumLinesUncovered"]
+        row += "%-*s" % (40, "%.2f%%" % (covered_lines / total_lines * 100))
+        row += "%-*s" % (40, "%s/%s" % (covered_lines, total_lines))
+        code_coverage += row + "\n"
+
+    return message.SEPRATE.format(code_coverage_desc + columns + "\n" + code_coverage)
+
 def parse_test_result(test_result):
     """
     format test result as specified format

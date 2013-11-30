@@ -15,13 +15,13 @@ from . import util
 from .salesforce import message
 from .salesforce.bulkapi import BulkApi
 
-
 class ExecuteRestTestCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         self.items = ["GET", "DELETE", "HEAD", "Retrieve Body"]
         self.view.show_popup_menu(self.items, self.on_done),
 
     def on_done(self, index):
+        if index == -1: return
         processor.handle_execute_rest_test(self.items[index], self.sel)
 
     def is_enabled(self):
@@ -149,7 +149,7 @@ class NewDynamicViewCommand(sublime_plugin.TextCommand):
             for v in sublime.active_window().views():
                 if v.id() == view_id: 
                     view = v
-
+        print (view.name())
         view.set_scratch(True)
         view.set_name(view_name)
         if erase_all: view.erase(edit, sublime.Region(0, view.size()))

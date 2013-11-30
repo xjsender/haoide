@@ -775,7 +775,7 @@ def handle_execute_query(soql, timeout=120):
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.query, args=(soql, ))
+    thread = threading.Thread(target=api.query, args=(soql,))
     thread.start()
     ThreadProgress(api, thread, "Execute Query", "Execute Query Succeed")
     handle_new_view_thread(thread, timeout)
@@ -878,15 +878,41 @@ def handle_run_test(class_name, class_id, timeout=120):
 
         # If succeed
         result = api.result
+
         # If error
         if "status_code" in result and result["status_code"] > 399: return
 
         # No error, just display log in a new view
         test_result = util.parse_test_result(result)
         view = sublime.active_window().new_file()
-        view.run_command("new_view", {
-            "name": "Test Result",
+        view.run_command("new_dynamic_view", {
+            "view_id": view.id(),
+            "view_name": "Test Result",
             "input": test_result
+        })
+
+        # After run test succeed, get ApexCodeCoverageAggreate
+        query = "SELECT ApexClassorTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage " +\
+                "FROM ApexCodeCoverage WHERE ApexTestClassId = '%s'" % class_id
+        thread = threading.Thread(target=api.query, args=(query, True, ))
+        thread.start()
+        wait_message = "Get Code Coverage of " + class_name
+        ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
+        handle_code_coverage_thread(thread, view, timeout)
+
+    def handle_code_coverage_thread(thread, view, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_code_coverage_thread(thread, view, timeout), timeout)
+            return
+
+        pprint.pprint(api.result)
+        code_coverage = util.parse_code_coverage(class_name, api.result)
+        print (code_coverage)
+        view.run_command("new_dynamic_view", {
+            "view_id": view.id(),
+            "view_name": "Test Result",
+            "input": code_coverage,
+            "point": view.size()
         })
 
     toolingapi_settings = context.get_toolingapi_settings()

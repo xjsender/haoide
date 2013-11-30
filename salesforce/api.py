@@ -291,6 +291,7 @@ class SalesforceApi():
                 # Include the new list of records with the previous list
                 previous_result['records'].extend(result['records'])
                 result['records'] = previous_result['records']
+
                 # Continue the recursion
                 return get_all_result(result)
 
