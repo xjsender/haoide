@@ -16,6 +16,46 @@ apex_namespaces = {
 }
 
 apex_completions = {
+    "limits": {
+        "name": "SaveResult",
+        "constructors": {},
+        "properties": {},
+        "customize": True,
+        "methods": {
+            "getAggregateQueries()\tInteger": "getAggregateQueries()$0",
+            "getLimitAggregateQueries()\tInteger": "getLimitAggregateQueries()$0",
+            "getCallouts()\tInteger": "getCallouts()$0",
+            "getLimitCallouts()\tInteger": "getLimitCallouts()$0",
+            "getChildRelationshipsDescribes()\tInteger": "getChildRelationshipsDescribes()$0",
+            "getLimitChildRelationshipsDescribes()\tInteger": "getLimitChildRelationshipsDescribes()$0",
+            "getCpuTime()\tInteger": "getCpuTime()$0",
+            "getLimitCpuTime()\tInteger": "getLimitCpuTime()$0",
+            "getDMLRows()\tInteger": "getDMLRows()$0",
+            "getLimitDMLRows()\tInteger": "getLimitDMLRows()$0",
+            "getDMLStatements()\tInteger": "getDMLStatements()$0",
+            "getLimitDMLStatements()\tInteger": "getLimitDMLStatements()$0",
+            "getFieldsDescribes()\tInteger": "getFieldsDescribes()$0",
+            "getLimitFieldsDescribes()\tInteger": "getLimitFieldsDescribes()$0",
+            "getFutureCalls()\tInteger": "getFutureCalls()$0",
+            "getLimitFutureCalls()\tInteger": "getLimitFutureCalls()$0",
+            "getHeapSize()\tInteger": "getHeapSize()$0",
+            "getLimitHeapSize()\tInteger": "getLimitHeapSize()$0",
+            "getInteractionQueries()\tInteger": "getInteractionQueries()$0",
+            "getLimitInteractionQueries()\tInteger": "getLimitInteractionQueries()$0",
+            "getQueries()\tInteger": "getQueries()$0",
+            "getLimitQueries()\tInteger": "getLimitQueries()$0",
+            "getPicklistDescribes()\tInteger": "getPicklistDescribes()$0",
+            "getLimitPicklistDescribes()\tInteger": "getLimitPicklistDescribes()$0",
+            "getQueryLocatorRows()\tInteger": "getQueryLocatorRows()$0",
+            "getLimitQueryLocatorRows()\tInteger": "getLimitQueryLocatorRows()$0",
+            "getQueryRows()\tInteger": "getQueryRows()$0",
+            "getLimitQueryRows()\tInteger": "getLimitQueryRows()$0",
+            "getRecordTypesDescribes()\tInteger": "getRecordTypesDescribes()$0",
+            "getLimitRecordTypesDescribes()\tInteger": "getLimitRecordTypesDescribes()$0",
+            "getSoslQueries()\tInteger": "getSoslQueries()$0",
+            "getLimitSoslQueries()\tInteger": "getLimitSoslQueries()$0"
+        }
+    },
     "saveresult": {
         "name": "SaveResult",
         "constructors": {},
