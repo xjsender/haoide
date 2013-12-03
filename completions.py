@@ -273,7 +273,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                     else:
                         completion_list.append((key + "\tProperty", properties[key]))
 
-        if prefix in "abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ":
+        elif prefix in "abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ":
              # Add all sobjects to <> completions
             metadata = get_sobject_completions()
             for key in sorted(metadata.keys()):

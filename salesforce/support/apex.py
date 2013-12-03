@@ -16,8 +16,20 @@ apex_namespaces = {
 }
 
 apex_completions = {
+    "picklistentry": {
+        "name": "PicklistEntry",
+        "constructors": {},
+        "properties": {},
+        "customize": True,
+        "methods": {
+            "getLabel()\tString": "getLabel()$0",
+            "getValue()\tString": "getValue()$0",
+            "isActive()\tBoolean": "isActive()$0",
+            "isDefaultValue()\tBoolean": "isDefaultValue()$0"
+        }
+    },
     "limits": {
-        "name": "SaveResult",
+        "name": "Limits",
         "constructors": {},
         "properties": {},
         "customize": True,
@@ -3869,7 +3881,7 @@ apex_completions = {
     "schema": {
         "name": "Schema",
         "constructors": {},
-        "properties": ["SoapType", "SObjectField", "DisplayType", "SObjectType", "DataCategoryGroupSobjectTypePair"],
+        "properties": ["SoapType", "SObjectField", "DisplayType", "SObjectType", "PicklistEntry", "DataCategoryGroupSobjectTypePair"],
         "methods": {
             "getAppDescribe(String appName)\tMAP<String,Schema.SObjectType>": "getAppDescribe($1)$0",
             "getModuleDescribe(String moduleName)\tMAP<String,Schema.SObjectType>": "getModuleDescribe($1)$0",
