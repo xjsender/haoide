@@ -156,7 +156,6 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
         if not view.match_selector(locations[0], "source.java"):
             return []
 
-        location = locations[0]
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
 
@@ -208,10 +207,8 @@ class ApexCompletions(sublime_plugin.EventListener):
         if not view.match_selector(locations[0], "source.java"):
             return []
 
-        location = locations[0]
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
-
         completion_list = []
         if ch == ".":
             # Get the variable name
@@ -276,15 +273,8 @@ class ApexCompletions(sublime_plugin.EventListener):
                     else:
                         completion_list.append((key + "\tProperty", properties[key]))
 
-        # After input <, list all sobjects and class
-        elif ch == "<":
-            # If list<, map< or set<, continue
-            full_line = view.full_line(pt)
-            matched_region = view.find("(list|map|set)<", full_line.begin(), sublime.IGNORECASE)
-            if not matched_region: return []
-            if not full_line.contains(matched_region): return []
-
-            # Add all sobjects to <> completions
+        if prefix in "abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ":
+             # Add all sobjects to <> completions
             metadata = get_sobject_completions()
             for key in sorted(metadata.keys()):
                 completion_list.append((key + "\t" + "Sobject", key))

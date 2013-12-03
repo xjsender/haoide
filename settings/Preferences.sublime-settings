@@ -1,7 +1,7 @@
 {
     // Auto completion after these characters
     "auto_complete_triggers": [{
-        "characters": ".<",
+        "characters": ".abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ",
         "selector": "source.java"
     }, {
         "characters": "<: =",
