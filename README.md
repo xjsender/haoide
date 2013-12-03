@@ -76,7 +76,7 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 + 2. ```Input .```, show all fields, parent relationship name and child relationship names
 + 3. ```Input .``` after sobject relationship name, show all fields of this relationship name
 + 4. ```Input .```, show all public methods of custom class if corresponding class view is open
-+ 5. ```Input <``` after list or set, list all sobjects and apex classes
++ 5. ```Input English Character```, show all sobject name and standard class name
 + 6. ```input <```, list all tag, including Visualforce Components and HTML Elements
 + 7. ```input :```, list all suffix of all visualforce Components
 + 8. ```input space```, list all attributes of tags, if tag attribute has predefined values, output attr, otherwise, output attr="$1"
@@ -168,6 +168,10 @@ If you just want to export some attributes of sobject workbook, you can do it by
 
 ## Export Available Picklist Values of Record Type
 You can click ```SublimeApex > Describe > Describe Layout``` to export the available picklist values of RecordType
+
+## Exceute Rest Test
+Up to now, just support HEAD, GET, DELETE and Retrieve Body Methods.
+Input ```/sobjects/Account/Describe``` and click ```F9```, context menu will show up, you can choose GET to retrieve Account Describe Result in the new view.
 
 ## Bulk Api
 + Export Single, click ```SublimeApex > Data Loader > Export Single```, and then choose the sobject name, plugin will export the records of this sobject to ```<workspace>/<project folder>/bulkout```
