@@ -196,11 +196,7 @@ def populate_sobjects_describe():
     while thread.is_alive() or api.result == None:
         time.sleep(1)
 
-    sobjects_describe = {}
-    for sd in api.result["sobjects"]:
-        sobjects_describe[sd["name"]] = {
-            "keyPrefix": sd["keyPrefix"]
-        }
+    sobjects_describe = api.result
 
     globals()[username + "sobjects"] = sobjects_describe
     return sobjects_describe
@@ -430,12 +426,10 @@ def handle_initiate_sobjects_completions(timeout=120):
             sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)
             return
 
-        sobjects_describe = api.result["sobjects"]
+        sobjects_describe = api.result
         threads = []
         apis = []
-        for sobject_describe in sobjects_describe:
-            if "name" not in sobject_describe: continue
-            sobject = sobject_describe["name"]
+        for sobject in sobjects_describe:
             api = SalesforceApi(toolingapi_settings)
             thread = threading.Thread(target=api.describe_sobject, args=(sobject, ))
             thread.start()
@@ -506,11 +500,10 @@ def handle_backup_all_sobjects_thread(timeout=120):
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
 
-        sobjects_describe = api.result["sobjects"]
+        sobjects_describe = api.result
         threads = []
-        for sobject_describe in sobjects_describe:
-            if "name" not in sobject_describe: continue
-            bulkapi = BulkApi(settings, sobject_describe["name"])
+        for sobject in sobjects_describe:
+            bulkapi = BulkApi(settings, sobject)
             thread = threading.Thread(target=bulkapi.query, args=())
             thread.start()
             threads.append(thread)
@@ -575,10 +568,8 @@ def handle_export_workflows(timeout=120):
             return
         
         # If succeed
-        sobjects_describe = api.result["sobjects"]
-        for sobject_describe in sobjects_describe:
-            if "name" not in sobject_describe: continue
-            sobject = sobject_describe["name"]
+        sobjects_describe = api.result
+        for sobject in sobjects_describe:
             util.parse_workflow_metadata(toolingapi_settings, sobject)
 
         print (message.SEPRATE.format("Outputdir: " + outputdir))
@@ -598,12 +589,7 @@ def handle_export_validation_rules(timeout=120):
             return
 
         # If succeed
-        sobjects_describe = api.result["sobjects"]
-        sobjects = []
-        for sobject_describe in sobjects_describe:
-            if "name" not in sobject_describe: continue
-            sobjects.append(sobject_describe["name"])
-
+        sobjects = api.result.keys()
         util.parse_validation_rule(toolingapi_settings, sobjects)
 
         print (message.SEPRATE.format("Outputdir: " + outputdir))
@@ -977,10 +963,8 @@ def handle_generate_all_workbooks(timeout=120):
             return
         
         # If succeed
-        sobjects_describe = api.result["sobjects"]
-        for sobject_describe in sobjects_describe:
-            if "name" not in sobject_describe: continue
-            sobject = sobject_describe["name"]
+        sobjects_describe = api.result
+        for sobject in sobjects_describe:
             thread = threading.Thread(target=api.generate_workbook, args=(sobject, ))
             thread.start()
 

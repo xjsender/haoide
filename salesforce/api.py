@@ -341,11 +341,17 @@ class SalesforceApi():
         """
         Sends a GET request. Return global describe
 
-        :return: sobjects 
+        :return: sobjects
         :return type: dict
         """
 
-        self.result = self.get("/sobjects")
+        result = {}
+        sobjects_describe = self.get("/sobjects").get("sobjects")
+        for sobject_describe in sobjects_describe:
+            if "name" in sobject_describe and sobject_describe["createable"] \
+                    and sobject_describe["queryable"]:
+                result[sobject_describe["name"]] = sobject_describe
+        self.result = result
         return self.result
 
     def create_trace_flag(self, traced_entity_id=None):
