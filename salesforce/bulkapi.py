@@ -174,17 +174,19 @@ class BulkApi():
             outputfile = outputdir + "/%s.csv" % (self.sobject)
         else:
             outputfile = outputdir + "/%s-%s-%s.csv" % (self.sobject, operation, time_stamp)
-        fp = open(outputfile, "wb")
-        try:
-            fp = open(outputfile, "wb")
-            fp.write(result)
-        except:
-            if isinstance(result, dict):
-                util.format_error_message(dict(result))
-            else:
-                print (result)
-        finally:
-            fp.close()
+
+        if isinstance(result, dict):
+            sublime.active_window().run_command("show_panel", 
+                {"panel": "console", "toggle": False})
+            util.format_error_message(dict(result))
+        else:
+            try:
+                fp = open(outputfile, "wb")
+                fp.write(result)
+            except:
+                print (sobject + " export is failed")
+            finally:
+                fp.close()
 
     def insert(self):
         result = self.do_operation('insert')
