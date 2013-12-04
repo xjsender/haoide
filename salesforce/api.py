@@ -349,37 +349,6 @@ class SalesforceApi():
         self.result = self.get("/sobjects")
         return self.result
 
-    def describe_global_custom(self):
-        """
-        Get the custom sobjects in global describe
-
-        :return: sobjects 
-        :return type: list
-        """
-
-        result = self.describe_global()
-        custom_sobjects = [so["name"] for so in result["sobjects"] if so["custom"]]
-
-        self.result = custom_sobjects
-        return custom_sobjects
-
-    def describe_global_common(self):
-        """
-        Get the common used sobjects in global describe, 
-        including custom sobject and common standard sobjects
-
-        :return: sobjects 
-        :return type: list
-        """
-
-        standard_sobjects = self.toolingapi_settings["common_sobjects"]
-        custom_sobjects = self.describe_global_custom()
-        common_sobjects = standard_sobjects
-        common_sobjects.extend(custom_sobjects)
-
-        self.result = common_sobjects
-        return common_sobjects
-
     def create_trace_flag(self, traced_entity_id=None):
         """
         Create Debug Log Trace by traced_entity_id
@@ -853,7 +822,6 @@ class SalesforceApi():
 
         # Display Deploy Result
         result = self.check_deploy_status(async_process_id)
-        pprint.pprint(result)
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
             "view_name": "Deploy Metadata Status",

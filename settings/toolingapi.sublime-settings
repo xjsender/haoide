@@ -170,18 +170,6 @@
         "errorDisplayField", "active", "description"
     ],
 
-    // Frequently used standard sobjects
-    "common_sobjects": [
-        "Account", "AccountContactRole", "OpportunityContactRole",
-        "Task", "Event", "Asset", "Campaign", "CampaignMember", 
-        "Case", "Contact", "Contract", "Lead", "Opportunity", 
-        "OpportunityLineItem", "Product2", "Pricebook2", "PricebookEntry",
-        "UserRole", "Task", "User", "CampaignMemberStatus", "Attachment",
-        "OpportunityLineItemSchedule", "Profile", "OpportunityTeamMember",
-        "RecordType", "Quote", "QuoteLineItem", 
-        "OpportunityHistory", "AccountShare", "ContactShare"
-    ],
-
     // Components Directory
     // You can change the folder but not the other component attributes
     "components": {

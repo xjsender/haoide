@@ -149,7 +149,7 @@ class NewDynamicViewCommand(sublime_plugin.TextCommand):
             for v in sublime.active_window().views():
                 if v.id() == view_id: 
                     view = v
-        print (view.name())
+
         view.set_scratch(True)
         view.set_name(view_name)
         if erase_all: view.erase(edit, sublime.Region(0, view.size()))

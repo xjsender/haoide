@@ -430,10 +430,12 @@ def handle_initiate_sobjects_completions(timeout=120):
             sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)
             return
 
-        sobjects = api.result
+        sobjects_describe = api.result["sobjects"]
         threads = []
         apis = []
-        for sobject in sobjects:
+        for sobject_describe in sobjects_describe:
+            if "name" not in sobject_describe: continue
+            sobject = sobject_describe["name"]
             api = SalesforceApi(toolingapi_settings)
             thread = threading.Thread(target=api.describe_sobject, args=(sobject, ))
             thread.start()
@@ -445,7 +447,7 @@ def handle_initiate_sobjects_completions(timeout=120):
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.describe_global_common, args=())
+    thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
     ThreadProgress(api, thread, "Global Describe", "Global Describe Succeed")
     handle_thread(api, thread, timeout)
@@ -517,7 +519,7 @@ def handle_backup_all_sobjects_thread(timeout=120):
 
     settings = context.get_toolingapi_settings()
     api = SalesforceApi(settings)
-    thread = threading.Thread(target=api.describe_global_common, args=())
+    thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
     ThreadProgress(api, thread, "Describe Global", "Describe Global Succeed")
     handle_thread(thread, timeout)
@@ -572,8 +574,10 @@ def handle_export_workflows(timeout=120):
             return
         
         # If succeed
-        sobjects = api.result
-        for sobject in sobjects:
+        sobjects_describe = api.result["sobjects"]
+        for sobject_describe in sobjects_describe:
+            if "name" not in sobject_describe: continue
+            sobject = sobject_describe["name"]
             util.parse_workflow_metadata(toolingapi_settings, sobject)
 
         print (message.SEPRATE.format("Outputdir: " + outputdir))
@@ -581,7 +585,7 @@ def handle_export_workflows(timeout=120):
     toolingapi_settings = context.get_toolingapi_settings()
     outputdir = toolingapi_settings["workspace"] + "/describe/workflows/"
     api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.describe_global_common, args=())
+    thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
     ThreadProgress(api, thread, "Export All Workflows", "Outputdir: " + outputdir)
     handle_thread(thread, 10)
@@ -593,7 +597,12 @@ def handle_export_validation_rules(timeout=120):
             return
 
         # If succeed
-        sobjects = api.result
+        sobjects_describe = api.result["sobjects"]
+        sobjects = []
+        for sobject_describe in sobjects_describe:
+            if "name" not in sobject_describe: continue
+            sobjects.append(sobject_describe["name"])
+
         util.parse_validation_rule(toolingapi_settings, sobjects)
 
         print (message.SEPRATE.format("Outputdir: " + outputdir))
@@ -601,7 +610,7 @@ def handle_export_validation_rules(timeout=120):
     toolingapi_settings = context.get_toolingapi_settings()
     outputdir = toolingapi_settings["workspace"] + "/describe/validation rules/validation rules.csv"
     api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.describe_global_common, args=())
+    thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
     ThreadProgress(api, thread, "Export All Validation Rules", "Outputdir: " + outputdir)
     handle_thread(thread, 10)
@@ -967,14 +976,16 @@ def handle_generate_all_workbooks(timeout=120):
             return
         
         # If succeed
-        result = api.result
-        for sobject in result:
+        sobjects_describe = api.result["sobjects"]
+        for sobject_describe in sobjects_describe:
+            if "name" not in sobject_describe: continue
+            sobject = sobject_describe["name"]
             thread = threading.Thread(target=api.generate_workbook, args=(sobject, ))
             thread.start()
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.describe_global_common, args=())
+    thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
     ThreadProgress(api, thread, "Global Describe Common", "Global Describe Common Succeed")
     handle_thread(thread, timeout)
