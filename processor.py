@@ -506,16 +506,17 @@ def handle_backup_all_sobjects_thread(timeout=120):
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
 
-        sobjects = api.result
+        sobjects_describe = api.result["sobjects"]
         threads = []
-        for sobject in sobjects:
-            bulkapi = BulkApi(settings, sobject)
+        for sobject_describe in sobjects_describe:
+            if "name" not in sobject_describe: continue
+            bulkapi = BulkApi(settings, sobject_describe["name"])
             thread = threading.Thread(target=bulkapi.query, args=())
             thread.start()
             threads.append(thread)
 
-        ThreadsProgress(threads, "Export All Sobjects Records", 
-            "Export All Sobjects Records Succeed")
+        wait_message = "Export All Sobjects Records"
+        ThreadsProgress(threads, wait_message, wait_message + " Succeed")
 
     settings = context.get_toolingapi_settings()
     api = SalesforceApi(settings)

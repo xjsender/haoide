@@ -8,7 +8,7 @@ from xml.sax.saxutils import unescape
 
 from .login import soap_login
 from . import soap_bodies, xmltodict
-from .. import requests
+from .. import requests, util
 from .api import SalesforceApi
 from ..util import getUniqueElementValueFromXmlString
 from ..progress import ThreadsProgress
@@ -176,10 +176,13 @@ class BulkApi():
             outputfile = outputdir + "/%s-%s-%s.csv" % (self.sobject, operation, time_stamp)
         fp = open(outputfile, "wb")
         try:
+            fp = open(outputfile, "wb")
             fp.write(result)
-            sublime.status_message(outputfile)
         except:
-            print (self.sobject + " failed")
+            if isinstance(result, dict):
+                util.format_error_message(dict(result))
+            else:
+                print (result)
         finally:
             fp.close()
 

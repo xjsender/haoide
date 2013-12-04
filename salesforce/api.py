@@ -313,14 +313,13 @@ class SalesforceApi():
     def combine_soql(self, sobject):
         sobject_describe = self.describe_sobject(sobject)
         sobject_fields = ""
-        sobject_name = sobject_describe["name"]
         for field in sobject_describe["fields"]:
             if field.get("type") in ["location"]:
                 continue
 
             sobject_fields += field.get("name") + ", "
 
-        return 'SELECT ' + sobject_fields[ : -2] + ' FROM ' + sobject_name
+        return 'SELECT ' + sobject_fields[ : -2] + ' FROM ' + sobject
 
     def describe_sobject(self, sobject):
         """
