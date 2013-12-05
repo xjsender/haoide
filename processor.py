@@ -379,11 +379,23 @@ def handle_initiate_sobjects_completions(timeout=120):
                 "keyPrefix": sobject_describe["keyPrefix"]
             }
 
-            # Combine fields dict
+            # Combine Fields dict, Picklist Field dict and parent relationship dict
             fields_dict = {}
+            picklist_field_dict = {}
             parent_relationship_dict = {}
             for f in sobject_describe["fields"]:
-                fields_dict[f["name"] + "\t" + f["type"] + "(" + format(f["length"]) + ")"] = f["name"]
+                field_name = f["name"]
+                # Fields Dict
+                fields_dict[field_name + "\t" + f["type"] + "(" + format(f["length"]) + ")"] = field_name
+
+                # Picklist Dcit
+                if f["type"] == "picklist":
+                    picklist_values = {}
+                    for picklist_value in f["picklistValues"]:
+                        label = picklist_value["label"]
+                        if not label: continue
+                        picklist_values[label + "\t" + field_name] = " '%s'" % label
+                    picklist_field_dict[field_name] = picklist_values
 
                 # List all Reference Field Relationship Name as fields
                 # Some fields has two more references, we can't list the fields of it
@@ -408,6 +420,7 @@ def handle_initiate_sobjects_completions(timeout=120):
 
             # Combine sobject fields dict and sobject child relationship dict
             sobjects_completion[sobject_name]["fields"] = fields_dict
+            sobjects_completion[sobject_name]["picklist_fields"] = picklist_field_dict
             sobjects_completion[sobject_name]["parentRelationships"] = parent_relationship_dict
             sobjects_completion[sobject_name]["childRelationships"] = child_relationship_dict
 
@@ -901,7 +914,6 @@ def handle_run_test(class_name, class_id, timeout=120):
             sublime.set_timeout(lambda: handle_code_coverage_thread(thread, view, timeout), timeout)
             return
 
-        pprint.pprint(api.result)
         code_coverage = util.parse_code_coverage(class_name, api.result)
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),

@@ -85,6 +85,50 @@ def get_sobject_completion_list(sobject_describe, sobject_prefix=""):
 
     return completion_list   
 
+class PicklistValueCompletions(sublime_plugin.EventListener):
+    def on_query_completions(self, view, prefix, locations):
+        if not view.match_selector(locations[0], "source.java"):
+            return []
+
+        location = locations[0]
+        pt = locations[0] - len(prefix) - 1
+        ch = view.substr(sublime.Region(pt, pt + 1))
+
+        if ch != "=": return []
+
+        # Get the begin point of current line
+        begin = view.full_line(pt).begin()
+
+        # Get Sobject Variable Name and Field Name
+        matched_region = view.find("[a-zA-Z_1-9]+\\.[a-zA-Z_1-9]+", begin)
+        if not matched_region: return []
+        variable_name, field_name = view.substr(matched_region).split(".")
+
+        # Get Sobject Name
+        matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[:;=)\\s]")
+        if not len(matched_regions): return []
+        matched_block = view.substr(matched_regions[0])
+        sobject_name = matched_block.split(" ")[0]
+
+        metadata = get_sobject_completions()
+        if not metadata: return []
+
+        if sobject_name.capitalize() in metadata:
+            sobject_name = sobject_name.capitalize()
+
+        # Get sobject describe
+        if sobject_name not in metadata: return []
+        if field_name not in metadata[sobject_name]["picklist_fields"]: return []
+
+        sobject_describe = metadata.get(sobject_name)
+        picklist_field_describe = sobject_describe["picklist_fields"][field_name]
+
+        completion_list = []
+        for picklist_field in sorted(picklist_field_describe.keys()):
+            completion_list.append((picklist_field, picklist_field_describe[picklist_field]))
+
+        return completion_list
+
 class SobjectCompletions(sublime_plugin.EventListener):
     """
     When you refresh all, your sobject completions will updated at the same time
@@ -135,7 +179,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
         else: 
             return []
 
-        sobject_describe = metadata.get(sobject)        
+        sobject_describe = metadata.get(sobject)
         completion_list = get_sobject_completion_list(sobject_describe)
 
         # If variable_name is not empty, show the methods extended from Sobject
@@ -210,6 +254,7 @@ class ApexCompletions(sublime_plugin.EventListener):
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
         completion_list = []
+
         if ch == ".":
             # Get the variable name
             variable_name = view.substr(view.word(pt - 1))
@@ -265,24 +310,22 @@ class ApexCompletions(sublime_plugin.EventListener):
             properties = apex.apex_completions[class_name]["properties"]
             if isinstance(properties, list):
                 for p in sorted(properties): 
-                    completion_list.append((p + "\t NameSpace Class", p))
+                    completion_list.append((p + "\tNameSpace Class", p))
             elif isinstance(properties, dict):
                 for key in sorted(properties.keys()): 
                     if "\t" in key:
                         completion_list.append((key, properties[key]))
                     else:
                         completion_list.append((key + "\tProperty", properties[key]))
-
-        elif prefix in "abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ":
-             # Add all sobjects to <> completions
+        elif ch != "=" and prefix in "abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ":
             metadata = get_sobject_completions()
             for key in sorted(metadata.keys()):
-                completion_list.append((key + "\t" + "Sobject", key))
+                completion_list.append((key + "\tSobject", key))
 
             # Add all apex class to <> completions
             for key in sorted(apex.apex_completions):
                 class_name = apex.apex_completions[key]["name"]
-                completion_list.append((class_name + "\t" + "Class", class_name))
+                completion_list.append((class_name + "\tClass", class_name))
 
         # Sort tuple list by the first element of tuple
         # completion_list.sort(key=lambda tup:tup[1])
