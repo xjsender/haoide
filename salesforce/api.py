@@ -491,8 +491,6 @@ class SalesforceApi():
 
         try:
             result = result["soapenv:Envelope"]["soapenv:Body"]["describeLayoutResponse"]["result"]
-            import json
-            json.dump(result, open("c:/layout.json",'w'))
         except (KeyError):
             result = {}
             result["errorCode"] = "Unknown"
