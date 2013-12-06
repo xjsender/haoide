@@ -83,8 +83,12 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         # Handle Save Current Component
         processor.handle_view_code_coverage(component_name, component_attribute, body)
 
-    def is_enabled(self):
-        return check_enabled(self.view.file_name())
+    def is_visible(self):
+        is_enabled = check_enabled(self.view.file_name())
+        name, extension = util.get_file_attr(file_name)
+        if is_enabled and extension == ".cls": return True
+
+        return False
 
 class SwitchProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
