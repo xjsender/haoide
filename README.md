@@ -3,7 +3,8 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 
 
 # New Feature:
-1. Add picklist value completions feature (2013-12-06)
++ Add picklist value completions feature (2013-12-06)
++ Export Sobject Data Template by Record Type (2013-12-07)
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control,
@@ -177,6 +178,9 @@ You can click ```SublimeApex > Describe > Describe Layout``` to export the avail
 ## Exceute Rest Test
 Up to now, just support HEAD, GET, DELETE and Retrieve Body Methods.
 Input ```/sobjects/Account/Describe``` and click ```F9```, context menu will show up, you can choose GET to retrieve Account Describe Result in the new view.
+
+## Export Data Template
+Click ```SublimeApex > Export > Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported
 
 ## Bulk Api
 + Export Single, click ```SublimeApex > Data Loader > Export Single```, and then choose the sobject name, plugin will export the records of this sobject to ```<workspace>/<project folder>/bulkout```

@@ -70,8 +70,10 @@ def get_sobject_completion_list(sobject_describe, sobject_prefix=""):
     completion_list = []
 
     # Fields Describe
-    for key in sorted(sobject_describe["fields"]):
-        completion_list.append((sobject_prefix + key, sobject_describe["fields"][key]))
+    for field_name in sorted(sobject_describe["fields"]):
+        field_attr = sobject_describe["fields"][field_name]
+        completion = ("%s\t%s(%s)" % (field_name, field_attr["type"], field_attr["length"]), field_name)
+        completion_list.append(completion)
 
     # Parent Relationship Describe
     for key in sorted(sobject_describe["parentRelationships"]):

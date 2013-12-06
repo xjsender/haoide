@@ -118,6 +118,12 @@
                         "id": "exportworkbook",
                         "caption": "Export Workbook",
                         "command": "export_workbook"
+                    },
+
+                    {
+                        "id": "exportdatatemplate",
+                        "caption": "Export Data Template",
+                        "command": "export_data_template"
                     }
                 ]
             },

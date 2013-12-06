@@ -15,6 +15,27 @@ from . import util
 from .salesforce import message
 from .salesforce.bulkapi import BulkApi
 
+class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ExportDataTemplateCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.sobject_recordtypes_attr = processor.populate_sobject_recordtypes()
+        self.sobject_recordtypes = sorted(list(self.sobject_recordtypes_attr.keys()))
+        self.window.show_quick_panel(self.sobject_recordtypes, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        # Get chosen item, sobject name and recordtype id
+        sobject_recordtype = self.sobject_recordtypes[index]
+        sobject = sobject_recordtype.split(",")[0].strip()
+        recordtype_name = sobject_recordtype.split(",")[1].strip()
+        recordtype_id = self.sobject_recordtypes_attr[sobject_recordtype]
+
+        # handle this describe request
+        processor.handle_export_data_template_thread(sobject, recordtype_name, recordtype_id)
+
 class ExecuteRestTestCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         self.items = ["GET", "DELETE", "HEAD", "Retrieve Body"]
@@ -239,20 +260,18 @@ class DescribeLayoutCommand(sublime_plugin.WindowCommand):
         super(DescribeLayoutCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        global sobject_recordtypes_attr
-        global sobject_recordtypes
-        sobject_recordtypes_attr = processor.populate_sobject_recordtypes()
-        sobject_recordtypes = sorted(list(sobject_recordtypes_attr.keys()))
-        self.window.show_quick_panel(sobject_recordtypes, self.on_done)
+        self.sobject_recordtypes_attr = processor.populate_sobject_recordtypes()
+        self.sobject_recordtypes = sorted(list(self.sobject_recordtypes_attr.keys()))
+        self.window.show_quick_panel(self.sobject_recordtypes, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
 
         # Get chosen item, sobject name and recordtype id
-        sobject_recordtype = sobject_recordtypes[index]
+        sobject_recordtype = self.sobject_recordtypes[index]
         sobject = sobject_recordtype.split(",")[0].strip()
         recordtype_name = sobject_recordtype.split(",")[1].strip()
-        recordtype_id = sobject_recordtypes_attr[sobject_recordtype]
+        recordtype_id = self.sobject_recordtypes_attr[sobject_recordtype]
 
         # handle this describe requst
         processor.handle_describe_layout(sobject, recordtype_name, recordtype_id)
