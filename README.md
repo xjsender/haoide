@@ -1,6 +1,10 @@
 # Sublime IDE for salesforce
 This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Linux.
 
+
+# New Feature:
+1. Add picklist value completions feature (2013-12-06)
+
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control,
 
@@ -81,6 +85,7 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 + 7. ```input :```, list all suffix of all visualforce Components
 + 8. ```input space```, list all attributes of tags, if tag attribute has predefined values, output attr, otherwise, output attr="$1"
 + 9. ```input =```, list all values of this corresponding attributes
++ 10. If sobject field type is picklist, after you input ```acc.StageName```, all available picklist values will be shown
 
 ### Completions Screenshots
 <img src="https://raw.github.com/xjsender/SublimeApexScreenshot/master/apex.jpg" /><br/>
