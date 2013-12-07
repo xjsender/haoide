@@ -616,7 +616,12 @@ def parse_data_template(sobject_describe, output_file_dir, result):
     fp = open(output_file_dir, "w", newline='')
 
     # Get Dict of Picklist Name => Values
-    picklistsForRecordType = result["recordTypeMappings"]["picklistsForRecordType"]
+    picklistsForRecordType = {}
+    try:
+        picklistsForRecordType = result["recordTypeMappings"]["picklistsForRecordType"]
+    except KeyError:
+        pass
+        
     picklist_values_key = {}
     for picklist in picklistsForRecordType:
         picklist_values = []
@@ -632,20 +637,16 @@ def parse_data_template(sobject_describe, output_file_dir, result):
     field_apis = []
     layout_fields = {}
     for edit_layout_section in result["layouts"]["editLayoutSections"]:
-        layout_rows = edit_layout_section["layoutRows"]
-        if isinstance(layout_rows, dict):
-            for layout_item in layout_rows["layoutItems"]:
+        layout_rows = edit_layout_section["layoutRows"] if isinstance(edit_layout_section["layoutRows"], list) \
+            else [edit_layout_section["layoutRows"]]
+        for layout_row in layout_rows:
+            layout_items = layout_row["layoutItems"] if isinstance(layout_row["layoutItems"], list) \
+                else [layout_row["layoutItems"]]
+            for layout_item in layout_items:
                 if not layout_item["label"]: continue
                 field_lables.append(layout_item["label"])
                 field_apis.append(layout_item["layoutComponents"]["value"])
                 layout_fields[layout_item["label"]] = layout_item
-        else:
-            for layout_row in layout_rows:
-                for layout_item in layout_row["layoutItems"]:
-                    if not layout_item["label"]: continue
-                    field_lables.append(layout_item["label"])
-                    field_apis.append(layout_item["layoutComponents"]["value"])
-                    layout_fields[layout_item["label"]] = layout_item
 
     # Write field_lables and field apis
     dict_write = csv.DictWriter(fp, field_lables, quoting=csv.QUOTE_ALL)
