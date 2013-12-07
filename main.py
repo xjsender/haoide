@@ -105,6 +105,7 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         processor.handle_view_code_coverage(component_name, component_attribute, body)
 
     def is_visible(self):
+        if not self.view.file_name(): return False
         is_enabled = check_enabled(self.view.file_name())
         name, extension = util.get_file_attr(self.view.file_name())
         if is_enabled and extension == ".cls": return True
