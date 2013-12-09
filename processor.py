@@ -405,9 +405,9 @@ def handle_initiate_sobjects_completions(timeout=120):
                 if f["type"] == "picklist":
                     picklist_values = {}
                     for picklist_value in f["picklistValues"]:
-                        label = picklist_value["label"]
-                        if not label: continue
-                        picklist_values[label + "\t" + field_name] = " '%s'" % label
+                        value = picklist_value["value"]
+                        if not value: continue
+                        picklist_values[value + "\t" + field_name] = " '%s'" % value
                     picklist_field_dict[field_name] = picklist_values
 
                 # List all Reference Field Relationship Name as fields
