@@ -69,28 +69,25 @@
     },
 
     {
-        "caption": "SublimeApex: Describe Layout",
-        "command": "describe_layout"
-    },
-
-    {
         "caption": "SublimeApex: Describe Sobject",
         "command": "describe_sobject"
     },
     {
         "caption": "SublimeApex: Export CustomField",
-        "command": "describe_custom_field"
+        "command": "export_custom_field"
     },
     {
         "caption": "SublimeApex: Export Workflow",
         "command": "export_workflows"
     },
-
     {
         "caption": "SublimeApex: Export Validation Rule",
         "command": "export_validation_rules"
     },
-
+    {
+        "caption": "SublimeApex: Export Data Template",
+        "command": "export_data_template"
+    },
     {
         "caption": "SublimeApex: Export Workbook",
         "command": "export_workbook"
