@@ -1,6 +1,7 @@
 import sublime, sublime_plugin
 
 from . import context
+from . import util
 from .salesforce.support import apex
 from .salesforce.support import vf
 from .salesforce.support import html
@@ -52,41 +53,6 @@ class symbol_table_completions(sublime_plugin.EventListener):
         completion_list.sort(key=lambda tup:tup[1])
         return completion_list
 
-def get_sobject_completions():
-    # Load sobjects compoletions
-    setting = sublime.load_settings("sobjects_completion.sublime-settings")
-
-    # Load sobjects field meatadata
-    toolingapi_settings = context.get_toolingapi_settings()
-    username = toolingapi_settings["username"]
-
-    # If current username is in settings, it means project is initiated
-    if not setting.has(username):
-        return {}
-
-    return setting.get(username)
-
-def get_sobject_completion_list(sobject_describe, sobject_prefix=""):
-    completion_list = []
-
-    # Fields Describe
-    for field_name in sorted(sobject_describe["fields"]):
-        field_attr = sobject_describe["fields"][field_name]
-        completion = ("%s\t%s(%s)" % (field_name, field_attr["type"], field_attr["length"]), field_name)
-        completion_list.append(completion)
-
-    # Parent Relationship Describe
-    for key in sorted(sobject_describe["parentRelationships"]):
-        parent_sobject = sobject_describe["parentRelationships"][key]["parentSobject"]
-        completion_list.append((sobject_prefix + key + "\t" + parent_sobject + "(c2p)", key)) 
-
-    # Child Relationship Describe
-    for key in sorted(sobject_describe["childRelationships"]):
-        child_sobject = sobject_describe["childRelationships"][key]["childSobject"]
-        completion_list.append((sobject_prefix + key + "\t" + child_sobject + "(p2c)", key))
-
-    return completion_list   
-
 class PicklistValueCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
         if not view.match_selector(locations[0], "source.java"):
@@ -112,7 +78,7 @@ class PicklistValueCompletions(sublime_plugin.EventListener):
         matched_block = view.substr(matched_regions[0])
         sobject_name = matched_block.split(" ")[0]
 
-        metadata = get_sobject_completions()
+        metadata = util.get_sobject_completions()
         if not metadata: return []
 
         if sobject_name.capitalize() in metadata:
@@ -153,12 +119,6 @@ class SobjectCompletions(sublime_plugin.EventListener):
         variable_name = view.substr(view.word(pt))
 
         # Get the matched region by variable name
-        # 1. Account.
-        # 2. Account acc;
-        # 3. Account acc = new Account()
-        # 4. for (Account acc : accs)
-        # 5. public static void updateAccount(Account acc)
-        # 6. public Account acc {get; set;}
         matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[:;=)\\s]")
         variable_type = ""
         if len(matched_regions) > 0:
@@ -166,7 +126,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
             variable_type = matched_block.split(" ")[0]
 
         # If username is in settings, get the sobject fields describe dict
-        metadata = get_sobject_completions()
+        metadata = util.get_sobject_completions()
         if not metadata: return []
 
         completion_list = []
@@ -182,7 +142,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
             return []
 
         sobject_describe = metadata.get(sobject)
-        completion_list = get_sobject_completion_list(sobject_describe)
+        completion_list = util.get_sobject_completion_list(sobject_describe)
 
         # If variable_name is not empty, show the methods extended from Sobject
         if not variable_type: return completion_list
@@ -211,7 +171,7 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
         relationship_name = view.substr(view.word(pt))
 
         # Get all sobject describe of current user
-        metadata = get_sobject_completions()
+        metadata = util.get_sobject_completions()
         if not metadata: return []
 
         # If relationship_name is not only Foreign Key Name but also Sobject Name,
@@ -239,10 +199,10 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
         # Because relationship name is not unique, so we need to display sobject name prefix
         completion_list = []
         if len(matched_sobjects) == 1:
-            completion_list = get_sobject_completion_list(metadata[matched_sobjects[0]])
+            completion_list = util.get_sobject_completion_list(metadata[matched_sobjects[0]])
         else:
             for sobject in matched_sobjects:
-                completion_list.extend(get_sobject_completion_list(metadata[sobject], 
+                completion_list.extend(util.get_sobject_completion_list(metadata[sobject], 
                     sobject_prefix=sobject+"."))
 
         return (completion_list, 
@@ -269,13 +229,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                 completion_list = [(c, c) for c in apex.apex_namespaces[variable_name]]
                 return completion_list
 
-            # Get the matched variable type 
-            # String str; 
-            # String str = 'abc';
-            # for (String str : strs) {}
-            # List<String> strs;
-            # Set<String> strs;
-            # Map<String> strs;
+            # Get the matched variable type
             pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+" + variable_name + "[;\\s:=){]"
             matched_regions = view.find_all(pattern, sublime.IGNORECASE)
             variable_type = ""
@@ -320,7 +274,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                     else:
                         completion_list.append((key + "\tProperty", properties[key]))
         elif ch != "=" and prefix in "abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ":
-            metadata = get_sobject_completions()
+            metadata = util.get_sobject_completions()
             for key in sorted(metadata.keys()):
                 completion_list.append((key + "\tSobject", key))
 

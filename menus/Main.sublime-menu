@@ -13,9 +13,9 @@
             { "caption": "-" },
 
             {
-                "id": "NewProject",
+                "id": "CreateNewProject",
                 "caption": "New Project",
-                "command": "new_project"
+                "command": "create_new_project"
             },
 
             {

@@ -668,9 +668,9 @@ class SaveComponentCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         return check_enabled(self.view.file_name())
 
-class NewProjectCommand(sublime_plugin.WindowCommand):
+class CreateNewProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(NewProjectCommand, self).__init__(*args, **kwargs)
+        super(CreateNewProjectCommand, self).__init__(*args, **kwargs)
 
     def run(self): 
         # Create Project Directory
