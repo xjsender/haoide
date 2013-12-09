@@ -654,124 +654,51 @@ def list2csv(fp, records):
     # Release fp
     fp.close()
 
-def parse_data_template(sobject_describe, output_file_dir, result):
+def parse_data_template(output_file_dir, result):
     # Create new csv
     fp = open(output_file_dir, "w", newline='')
-
-    # Get Dict of Picklist Name => Values
-    picklistsForRecordType = {}
-    try:
-        picklistsForRecordType = result["recordTypeMappings"]["picklistsForRecordType"]
-    except KeyError:
-        pass
-        
-    picklist_values_key = {}
-    for picklist in picklistsForRecordType:
-        picklist_values = []
-        if isinstance(picklist["picklistValues"], dict):
-            picklist_values.append(picklist["picklistValues"]["value"])
-        else:
-            for picklist_value_dict in picklist["picklistValues"]:
-                picklist_values.append(picklist_value_dict["value"])
-        picklist_values_key[picklist["picklistName"]] = picklist_values
 
     # Get all layoutItems
     field_lables = []
     field_apis = []
-    layout_fields = {}
-    for edit_layout_section in result["layouts"]["editLayoutSections"]:
-        layout_rows = edit_layout_section["layoutRows"] if isinstance(edit_layout_section["layoutRows"], list) \
-            else [edit_layout_section["layoutRows"]]
+    fields_required = []
+    fields_type = []
+    fields_picklistvalues = []
+    for edit_layout_section in result["editLayoutSections"]:
+        if isinstance(edit_layout_section["layoutRows"], list):
+            layout_rows = edit_layout_section["layoutRows"]
+        elif isinstance(edit_layout_section["layoutRows"], dict):
+            layout_rows = [edit_layout_section["layoutRows"]]
+
         for layout_row in layout_rows:
-            layout_items = layout_row["layoutItems"] if isinstance(layout_row["layoutItems"], list) \
-                else [layout_row["layoutItems"]]
+            if isinstance(layout_row["layoutItems"], list):
+                layout_items = layout_row["layoutItems"]
+            elif isinstance(layout_row["layoutItems"], dict):
+                layout_items = [layout_row["layoutItems"]]
+
             for layout_item in layout_items:
                 if not layout_item["label"]: continue
-                field_lables.append(layout_item["label"])
-                field_apis.append(layout_item["layoutComponents"]["value"])
-                layout_fields[layout_item["label"]] = layout_item
+                for layout_component in layout_item["layoutComponents"]:
+                    details = layout_component["details"]
+                    field_lables.append(details["label"])
+                    field_apis.append(details["name"])
+                    fields_required.append("Required" if layout_item["required"] else "")
+                    fields_type.append(details["type"].capitalize())
+
+                    picklist_values = []
+                    for picklist in details["picklistValues"]:
+                        picklist_values.append(picklist["label"])
+                    fields_picklistvalues.append("\n".join(picklist_values))
 
     # Write field_lables and field apis
     dict_write = csv.DictWriter(fp, field_lables, quoting=csv.QUOTE_ALL)
     dict_write.writer.writerow(field_lables)
     dict_write.writer.writerow(field_apis)
-
-    # Write Required Attribute
-    fields_required = []
-    fields_type = []
-    fields_picklistvalues = []
-    for field_label in field_lables:
-        layout_field = layout_fields[field_label]
-
-        # Field Required Part
-        if layout_field["required"] == "true": fields_required.append("Required")
-        else: fields_required.append("")
-
-        # Field Type Part
-        field_name = layout_field["layoutComponents"]["value"]
-        field_type = sobject_describe["fields"][field_name]["type"]
-        fields_type.append(field_type)
-
-        # Field Picklist Values
-        if field_name in picklist_values_key:
-            picklistValues = picklist_values_key[field_name]
-            fields_picklistvalues.append("\n".join(picklistValues))
-        else:
-            fields_picklistvalues.append("")
-
     dict_write.writer.writerow(fields_type)
     dict_write.writer.writerow(fields_required)
     dict_write.writer.writerow(fields_picklistvalues)
 
     # Close I/O Handler
-    fp.close()
-
-def parse_describe_layout_result(output_file_dir, result):
-    """
-    parse layout describe result, 
-    three part: 
-        1. Edit Layouts, 
-        2. View Layouts
-        3. Available Picklist Value
-
-    up to now, only the Available Picklist Value part is available
-
-    @result: page layout describe result of specified record type
-    """
-    #########################################
-    # Available Picklist Values for recordtype
-    #########################################
-    fp = open(output_file_dir, "w", newline='')
-    try:
-        picklistsForRecordType = result["recordTypeMappings"]["picklistsForRecordType"]
-    except KeyError:
-        fp.write("No available picklist field.")
-        fp.close()
-        return
-    
-    headers = ["Picklist Field", "Available Values"]
-    dict_write = csv.DictWriter(fp, headers, quoting=csv.QUOTE_ALL)
-
-    # Write headers
-    dict_write.writer.writerow(headers)
-
-    # Write body
-    for picklist in picklistsForRecordType:
-        field_name = picklist["picklistName"]
-        picklistValues = picklist["picklistValues"]
-
-        values = []
-        if isinstance(picklistValues, dict):
-            values.append(picklistValues["value"])
-        elif isinstance(picklistValues, list):
-            values = [p["value"] for p in picklistValues]
-
-        value = "\n".join(values)
-
-        # Write row
-        dict_write.writer.writerow([field_name, value])
-
-    # Close fp
     fp.close()
 
 def parse_execute_anonymous_xml(result):

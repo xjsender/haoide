@@ -81,12 +81,6 @@
                     },
 
                     {
-                        "id": "describelayout",
-                        "caption": "Describe Layout",
-                        "command": "describe_layout"
-                    },
-
-                    {
                         "id": "describesobject",
                         "caption": "Describe Sobject",
                         "command": "describe_sobject"

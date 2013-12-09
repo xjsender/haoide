@@ -702,58 +702,21 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
         result = api.result
         if result["status_code"] > 399 : return
 
-        # If totalSize is 0
-        if "totalSize" in result and result["totalSize"] == 0 :
-            util.sublime_error_message(result)
-            return
-
         # If outputdir is not exist, just make it
         if not os.path.exists(outputdir): os.makedirs(outputdir)
 
-        # Get sobjects describe
-        sobjects_describe = populate_sobjects_describe()
-        sobject_describe = sobjects_describe[sobject]
-        util.parse_data_template(sobject_describe, output_file_dir, result)
+        # Write parsed result to csv
+        util.parse_data_template(output_file_dir, result)
         print (message.SEPRATE.format("Data Template outputdir: " + output_file_dir))
 
     toolingapi_settings = context.get_toolingapi_settings()
     outputdir = toolingapi_settings["workspace"] + "/describe/template"
     output_file_dir = outputdir + "/" + sobject + "-" + recordtype_name + ".csv"
     api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.describe_layout, args=(sobject, recordtype_id, ))
+    url = "/sobjects/%s/describe/layouts/%s" % (sobject, recordtype_id)
+    thread = threading.Thread(target=api.get, args=(url, ))
     thread.start()
     wait_message = "Export Data Template of %s=>%s" % (sobject, recordtype_name)
-    ThreadProgress(api, thread, wait_message, "Outputdir: " + output_file_dir)
-    handle_thread(thread, 120)
-
-def handle_describe_layout(sobject, recordtype_name, recordtype_id, timeout=120):
-    def handle_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-        
-        # If succeed
-        result = api.result
-        if result["status_code"] > 399 : return
-
-        # If totalSize is 0
-        if "totalSize" in result and result["totalSize"] == 0 :
-            util.sublime_error_message(result)
-            return
-
-        # If outputdir is not exist, just make it
-        if not os.path.exists(outputdir): os.makedirs(outputdir)
-        
-        util.parse_describe_layout_result(output_file_dir, result)
-        print (message.SEPRATE.format("Layout describe outputdir: " + output_file_dir))
-
-    toolingapi_settings = context.get_toolingapi_settings()
-    outputdir = toolingapi_settings["workspace"] + "/describe/layout"
-    output_file_dir = outputdir + "/" + sobject + "-" + recordtype_name + ".csv"
-    api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.describe_layout, args=(sobject, recordtype_id, ))
-    thread.start()
-    wait_message = "Describe Layout of %s=>%s" % (sobject, recordtype_name)
     ThreadProgress(api, thread, wait_message, "Outputdir: " + output_file_dir)
     handle_thread(thread, 120)
 
