@@ -663,7 +663,8 @@ def parse_data_template(output_file_dir, result):
     field_apis = []
     fields_required = []
     fields_type = []
-    fields_picklistvalues = []
+    fields_picklist_labels = []
+    fields_picklist_values = []
     for edit_layout_section in result["editLayoutSections"]:
         if isinstance(edit_layout_section["layoutRows"], list):
             layout_rows = edit_layout_section["layoutRows"]
@@ -685,10 +686,14 @@ def parse_data_template(output_file_dir, result):
                     fields_required.append("Required" if layout_item["required"] else "")
                     fields_type.append(details["type"].capitalize())
 
+                    picklist_labels = []
                     picklist_values = []
                     for picklist in details["picklistValues"]:
-                        picklist_values.append(picklist["label"])
-                    fields_picklistvalues.append("\n".join(picklist_values))
+                        picklist_labels.append(picklist["label"])
+                        picklist_values.append(picklist["value"])
+                        
+                    fields_picklist_labels.append("\n".join(picklist_labels))
+                    fields_picklist_values.append("\n".join(picklist_values))
 
     # Write field_lables and field apis
     dict_write = csv.DictWriter(fp, field_lables, quoting=csv.QUOTE_ALL)
@@ -696,7 +701,8 @@ def parse_data_template(output_file_dir, result):
     dict_write.writer.writerow(field_apis)
     dict_write.writer.writerow(fields_type)
     dict_write.writer.writerow(fields_required)
-    dict_write.writer.writerow(fields_picklistvalues)
+    dict_write.writer.writerow(fields_picklist_labels)
+    dict_write.writer.writerow(fields_picklist_values)
 
     # Close I/O Handler
     fp.close()
