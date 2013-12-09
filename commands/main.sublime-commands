@@ -99,5 +99,34 @@
     {
         "caption": "SublimeApex: Login To Home Page",
         "command": "login_to_sfdc"
+    },
+    {
+        "caption": "SublimeApex: DataLoader - Export All",
+        "command": "bulk_export_all"
+    },
+    {
+        "caption": "SublimeApex: DataLoader - Export Single",
+        "command": "bulk_export_single"
+    },
+    {
+        "caption": "SublimeApex: DataLoader - insert",
+        "command": "bulk_operation",
+        "args": {
+            "operation": "insert"
+        }
+    },
+    {
+        "caption": "SublimeApex: DataLoader - Update",
+        "command": "bulk_operation",
+        "args": {
+            "operation": "update"
+        }
+    },
+    {
+        "caption": "SublimeApex: DataLoader - delete",
+        "command": "bulk_operation",
+        "args": {
+            "operation": "delete"
+        }
     }
 ]
