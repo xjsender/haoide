@@ -169,7 +169,10 @@ def populate_sobject_recordtypes():
         sobject_recordtypes[sobject_type + ", " + recordtype_name] = recordtype_id
 
     # Add Master of every sobject to List
-    for sobject_type in populate_sobjects_describe():
+    sobjects_describe = populate_sobjects_describe()
+    for sobject_type in sobjects_describe:
+        sobject_describe = sobjects_describe[sobject_type]
+        if not sobject_describe["layoutable"]: continue
         sobject_recordtypes[sobject_type + ", Master"] = "012000000000000AAA"
 
     globals()[username + "sobject_recordtypes"] = sobject_recordtypes
@@ -380,7 +383,10 @@ def handle_initiate_sobjects_completions(timeout=120):
             if "name" not in sobject_describe: continue
             sobject_name = sobject_describe["name"]
             sobjects_completion[sobject_name] = {
-                "keyPrefix": sobject_describe["keyPrefix"]
+                "keyPrefix": sobject_describe["keyPrefix"],
+                "createable": sobject_describe["createable"],
+                "queryable": sobject_describe["queryable"],
+                "layoutable": sobject_describe["layoutable"]
             }
 
             # Combine Fields dict, Picklist Field dict and parent relationship dict
