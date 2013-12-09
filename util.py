@@ -680,6 +680,7 @@ def parse_data_template(output_file_dir, result):
             for layout_item in layout_items:
                 if not layout_item["label"]: continue
                 for layout_component in layout_item["layoutComponents"]:
+                    if "details" not in layout_component: continue
                     details = layout_component["details"]
                     field_lables.append(details["label"])
                     field_apis.append(details["name"])

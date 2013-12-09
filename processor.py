@@ -163,13 +163,17 @@ def populate_sobject_recordtypes():
     records = api.result["records"]
     sobject_recordtypes = {}
     for recordtype in records:
-        sobjectype = recordtype["SobjectType"]
-        rtname = recordtype["Name"]
-        rtid = recordtype["Id"]
-        sobject_recordtypes[sobjectype + ", " + rtname] = rtid
+        sobject_type = recordtype["SobjectType"]
+        recordtype_name = recordtype["Name"]
+        recordtype_id = recordtype["Id"]
+        sobject_recordtypes[sobject_type + ", " + recordtype_name] = recordtype_id
+
+    # Add Master of every sobject to List
+    for sobject_type in populate_sobjects_describe():
+        sobject_recordtypes[sobject_type + ", Master"] = "012000000000000AAA"
 
     globals()[username + "sobject_recordtypes"] = sobject_recordtypes
-    return sobject_recordtypes  
+    return sobject_recordtypes
 
 def populate_sobjects_describe():
     """
