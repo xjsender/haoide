@@ -108,7 +108,7 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         if not self.view.file_name(): return False
         is_enabled = check_enabled(self.view.file_name())
         name, extension = util.get_file_attr(self.view.file_name())
-        if is_enabled and extension == ".cls": return True
+        if is_enabled and extension in [".cls", ".trigger"]: return True
 
         return False
 
@@ -235,12 +235,27 @@ class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         toolingapi_settings = context.get_toolingapi_settings()
-        workflow_path = toolingapi_settings["workspace"] + "/metadata/unpackaged/workflows"
+        workspace = toolingapi_settings["workspace"]
+        workflow_path = workspace + "/metadata/unpackaged/workflows"
         if not os.path.exists(workflow_path):
             sublime.error_message(message.METADATA_CHECK)
             return
 
         processor.handle_export_workflows()
+
+class ExportFieldDependencyCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ExportFieldDependencyCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        toolingapi_settings = context.get_toolingapi_settings()
+        workspace = toolingapi_settings["workspace"]
+        workflow_path = workspace + "/metadata/unpackaged/objects"
+        if not os.path.exists(workflow_path):
+            sublime.error_message(message.METADATA_CHECK)
+            return
+
+        processor.handle_export_field_dependencies()
 
 class ExportCustomFieldCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

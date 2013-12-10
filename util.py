@@ -325,11 +325,10 @@ def parse_test_result(test_result):
 
     # Parse Test Result
     if len(test_result) == 0: return "It's not test class"
-    separate = "-" * 100
     test_result_desc = ' Test Result\n'
     test_result_content = ""
     for record in test_result:
-        test_result_content += separate + "\n"
+        test_result_content += "-" * 100 + "\n"
         test_result_content += "% 30s    " % "MethodName: "
         test_result_content += "%-30s" % none_value(record["MethodName"]) + "\n"
         test_result_content += "% 30s    " % "TestTimestamp: "
@@ -653,6 +652,26 @@ def list2csv(fp, records):
 
     # Release fp
     fp.close()
+
+def parse_field_dependencies(settings, sobject):
+    if sobject != "VCC_Product_Configuration__c": return
+    # Open workflow source file
+    workspace = settings["workspace"]
+    path = workspace + "/metadata/unpackaged/objects/%s.object" % sobject
+    try:
+        fp = open(path, "rb")
+    except IOError:
+        return
+
+    # Outputdir
+    outputdir = "%s/describe/fieldDependencies" % workspace
+    if not os.path.exists(outputdir): os.makedirs(outputdir)
+
+    # Convert xml to dict
+    result = xmltodict.parse(fp.read())
+    fp.close()
+
+    pprint.pprint(result)
 
 def parse_data_template(output_file_dir, result):
     # Create new csv

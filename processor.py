@@ -570,7 +570,7 @@ def handle_retrieve_all_thread(timeout=120):
         # os.remove(zipdir)
 
         # Output package path
-        success_message = message.SEPRATE.format("Your objects and workflows are exported to: " + outputdir)
+        success_message = message.SEPRATE.format("Metadata are exported to: " + outputdir)
         view = util.get_view_by_name("Retrieve Metadata Status")
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
@@ -606,6 +606,27 @@ def handle_export_workflows(timeout=120):
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
     ThreadProgress(api, thread, "Export All Workflows", "Outputdir: " + outputdir)
+    handle_thread(thread, 10)
+
+def handle_export_field_dependencies(timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            return
+        
+        # If succeed
+        sobjects_describe = api.result
+        for sobject in sobjects_describe:
+            util.parse_field_dependencies(toolingapi_settings, sobject)
+
+        print (message.SEPRATE.format("Outputdir: " + outputdir))
+
+    toolingapi_settings = context.get_toolingapi_settings()
+    outputdir = toolingapi_settings["workspace"] + "/describe/fieldDependencies/"
+    api = SalesforceApi(toolingapi_settings)
+    thread = threading.Thread(target=api.describe_global, args=())
+    thread.start()
+    ThreadProgress(api, thread, "Export All Sobject Field Dependencies", "Outputdir: " + outputdir)
     handle_thread(thread, 10)
 
 def handle_export_validation_rules(timeout=120):

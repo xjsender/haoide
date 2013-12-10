@@ -119,6 +119,13 @@
                         "caption": "Export Data Template",
                         "command": "export_data_template"
                     }
+                    // ,
+
+                    // {
+                    //     "id": "exportfielddependencies",
+                    //     "caption": "Export Field Dependency",
+                    //     "command": "export_field_dependency"
+                    // }
                 ]
             },
 
