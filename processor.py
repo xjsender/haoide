@@ -256,6 +256,13 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
 
         uncovered_lines = result["records"][0]["Coverage"]["uncoveredLines"]
         covered_lines = result["records"][0]["Coverage"]["coveredLines"]
+        covered_lines_count = len(covered_lines)
+        uncovered_lines_count = len(uncovered_lines)
+        total_lines_count = covered_lines_count + uncovered_lines_count
+        if total_lines_count == 0:
+            print (message.SEPRATE.format("You should run test class firstly."))
+            return
+
         all_region_by_line = view.lines(sublime.Region(0, view.size()))
         uncovered_region = []
         for region in all_region_by_line:
@@ -263,13 +270,13 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
             if line in uncovered_lines:
                 uncovered_region.append(region)
 
-        view.add_regions("mark", uncovered_region, "bookmark", 'cross',
+        view.add_regions("mark", uncovered_region, "bookmark", 'markup.inserted',
             sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE | sublime.DRAW_STIPPLED_UNDERLINE)
 
-        covered_count = len(covered_lines)
-        total_count = len(covered_lines) + len(uncovered_lines)
-        coverage = covered_count / total_count * 100
-        print (message.SEPRATE.format("The coverage is %.2f%%(%s/%s)" % (coverage, covered_count, total_count)))
+        coverage = covered_lines_count / total_lines_count * 100
+        print (message.SEPRATE.format("The coverage is %.2f%%(%s/%s), " %\
+            (coverage, covered_lines_count, total_lines_count) + 
+            "uncovered lines are marked in the new open view"))
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
