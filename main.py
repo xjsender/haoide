@@ -95,22 +95,26 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         file_name = self.view.file_name()
         component_attribute, component_name = util.get_component_attribute(file_name)
 
-        # Read file content
-        try:
-            body = open(file_name, encoding="utf-8").read()
-        except:
-            body = open(file_name).read()
-
         # Handle Save Current Component
-        processor.handle_view_code_coverage(component_name, component_attribute, body)
+        processor.handle_view_code_coverage(component_name, component_attribute, self.body)
 
     def is_visible(self):
+        # Must Be File
         if not self.view.file_name(): return False
-        is_enabled = check_enabled(self.view.file_name())
-        name, extension = util.get_file_attr(self.view.file_name())
-        if is_enabled and extension in [".cls", ".trigger"]: return True
 
-        return False
+        # Must be valid component
+        is_enabled = check_enabled(self.view.file_name())
+        if not is_enabled: return False
+
+        # Must be class or trigger
+        name, extension = util.get_file_attr(self.view.file_name())
+        if extension not in [".cls", ".trigger"]: return False
+
+        # Can't be Test Class
+        self.body = open(self.view.file_name(), encoding="utf-8").read()
+        if "@istest" in self.body.lower(): return False
+
+        return True
 
 class SwitchProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
