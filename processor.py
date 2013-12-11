@@ -758,7 +758,7 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
     ThreadProgress(api, thread, wait_message, "Outputdir: " + output_file_dir)
     handle_thread(thread, 120)
 
-def handle_execute_rest_test(operation, url, timeout=120):
+def handle_execute_rest_test(operation, url, data=None, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
@@ -777,21 +777,22 @@ def handle_execute_rest_test(operation, url, timeout=120):
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
-    if operation == "GET":
+    if operation == "Get":
         target = api.get
-    elif operation == "DELETE":
+    elif operation == "Delete":
         target = api.delete
-    elif operation == "HEAD":
+    elif operation == "Head":
         target = api.head
-    elif operation == "PUT":
+    elif operation == "Put":
         target = api.put
-    elif operation == "POST":
+    elif operation == "Post":
         target = api.post
     elif operation == "Retrieve Body":
         target = api.retrieve_body
+    if data == None:
+        thread = threading.Thread(target=target, args=(url, ))
     else:
-        target = api.get
-    thread = threading.Thread(target=target, args=(url, ))
+        thread = threading.Thread(target=target, args=(url, data,))
     thread.start()
     progress_message = "Execute Rest %s Test" % operation
     ThreadProgress(api, thread, progress_message, progress_message + " Succeed")

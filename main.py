@@ -38,12 +38,24 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
 
 class ExecuteRestTestCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        self.items = ["GET", "DELETE", "HEAD", "Retrieve Body"]
-        self.view.show_popup_menu(self.items, self.on_done),
+        self.items = ["Get", "Post", "Put", "Delete", "Head", "Retrieve Body"]
+        self.view.show_popup_menu(self.items, self.on_choose_action),
 
-    def on_done(self, index):
+    def on_choose_action(self, index):
         if index == -1: return
-        processor.handle_execute_rest_test(self.items[index], self.sel)
+        self.chosen_action = self.items[index]
+        if self.chosen_action in ["Post", "Put"]:
+            self.view.window().show_input_panel("Body: ", "", self.on_input, None, None)
+        else:
+            processor.handle_execute_rest_test(self.chosen_action, self.sel)
+
+    def on_input(self, data):
+        try:
+            data = json.loads(data)
+        except:
+            sublime.error_message("Invalid data")
+            return
+        processor.handle_execute_rest_test(self.chosen_action, self.sel, data)
 
     def is_enabled(self):
         self.sel = self.view.substr(self.view.sel()[0])
