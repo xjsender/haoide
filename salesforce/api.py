@@ -450,7 +450,6 @@ class SalesforceApi():
             time.sleep(5)
             result = self.query(queue_item_soql)
 
-        pprint.pprint(result)
         test_result_soql = """SELECT ApexClass.Id,ApexClass.Name,ApexLogId,
             AsyncApexJobId,Id,Message,MethodName,Outcome,QueueItemId,StackTrace,
             TestTimestamp FROM ApexTestResult WHERE QueueItemId = '%s'""" % queue_item_id
