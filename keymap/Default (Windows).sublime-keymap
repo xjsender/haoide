@@ -3,7 +3,7 @@
     {"keys": ["alt+s"], "command": "switch_project"},
 
     // Download all code and save them to new project
-    {"keys": ["alt+f5"], "command": "new_project"},
+    {"keys": ["alt+f5"], "command": "create_new_project"},
 
     // Refresh Folder
     {"keys": ["alt+r","alt+f"], "command": "refresh_folder"},

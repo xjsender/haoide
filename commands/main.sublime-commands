@@ -3,7 +3,7 @@
 
     {
         "caption": "SublimeApex: New Project",
-        "command": "new_project"
+        "command": "create_new_project"
     },
 
     {
