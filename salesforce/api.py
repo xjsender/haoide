@@ -446,10 +446,11 @@ class SalesforceApi():
             return
         
         # If totalSize is Zero, it means we need to wait until test is finished
-        while result["totalSize"] == 0 or result["records"][0]["Status"] == "Queued":
+        while result["totalSize"] == 0 or result["records"][0]["Status"] in ["Queued", "Processing"]:
             time.sleep(5)
             result = self.query(queue_item_soql)
 
+        pprint.pprint(result)
         test_result_soql = """SELECT ApexClass.Id,ApexClass.Name,ApexLogId,
             AsyncApexJobId,Id,Message,MethodName,Outcome,QueueItemId,StackTrace,
             TestTimestamp FROM ApexTestResult WHERE QueueItemId = '%s'""" % queue_item_id
