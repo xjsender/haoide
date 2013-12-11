@@ -394,7 +394,7 @@ class PageCompletions(sublime_plugin.EventListener):
                         matched_attr_name in vf.tag_defs[matched_tag]["attribs"] and\
                         "values" in vf.tag_defs[matched_tag]["attribs"][matched_attr_name]:
                     for value in vf.tag_defs[matched_tag]["attribs"][matched_attr_name]["values"]:
-                        completion_list.append((value + "\tvalue", '"%s"' % value))
+                        completion_list.append((value + "\t" + matched_attr_name, '"%s"' % value))
 
             ##########################################
             # HTML Element Attribute Values Completions
@@ -402,7 +402,7 @@ class PageCompletions(sublime_plugin.EventListener):
             matched_attr_name = view.substr(view.word(pt - 1))
             if matched_attr_name in html.HTML_ATTRIBUTES_VALUES:
                 for attr_value in html.HTML_ATTRIBUTES_VALUES[matched_attr_name]:
-                    completion_list.append((attr_value + "\tvalue", '"%s"' % attr_value))
+                    completion_list.append((attr_value + "\t" + matched_attr_name, '"%s"' % attr_value))
 
             # Sort the completion_list by first element
             completion_list.sort(key=lambda tup:tup[1])
