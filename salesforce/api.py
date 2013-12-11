@@ -251,6 +251,9 @@ class SalesforceApi():
         else:
             url = self.base_url + "/query?" + soql
 
+        # Here has a bug, this is used to prevent this exception
+        if "query?q=q" in url: url.replace("query?q=q", "query?q=")
+
         response = requests.get(url, data=None, verify=False, 
             headers=self.headers, timeout=timeout)
             
