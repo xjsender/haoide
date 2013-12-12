@@ -176,8 +176,7 @@ If you just want to export some attributes of sobject workbook, you can do it by
 You can click ```SublimeApex > Describe > Describe Layout``` to export the available picklist values of RecordType
 
 ## Exceute Rest Test
-Up to now, just support HEAD, GET, DELETE and Retrieve Body Methods.
-Input ```/sobjects/Account/Describe``` and click ```F9```, context menu will show up, you can choose GET to retrieve Account Describe Result in the new view.
+Up to now, support Head, Get, Post, Delete and Retrieve Body Methods, for example, Input ```/sobjects/Account/Describe``` and click ```SublimeApex> Execute Rest Test``` in the context menu or press ```F9```, context dynamic menu will show up, you can choose GET to retrieve Account Describe Result in the new view.
 
 ## Export Data Template
 Click ```SublimeApex > Export > Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported

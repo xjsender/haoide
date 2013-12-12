@@ -46,7 +46,7 @@ class ExecuteRestTestCommand(sublime_plugin.TextCommand):
         if index == -1: return
         self.chosen_action = self.items[index]
         if self.chosen_action in ["Post", "Put"]:
-            self.view.window().show_input_panel("Body: ", "", self.on_input, None, None)
+            self.view.window().show_input_panel("Input JSON Body: ", "", self.on_input, None, None)
         else:
             processor.handle_execute_rest_test(self.chosen_action, self.sel)
 
