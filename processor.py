@@ -383,13 +383,15 @@ def handle_initiate_sobjects_completions(timeout=120):
 
         # Save all sobject describe result to sublime settings
         s = sublime.load_settings("sobjects_completion.sublime-settings")
-        sobjects_completion = {}
+        sobjects_completion = {"sobjects": {}}
 
+        all_parent_relationship_dict = {}
+        all_child_relationship_dict = {}
         for sobject_describe in results:
             # Initiate Sobject completions
             if "name" not in sobject_describe: continue
             sobject_name = sobject_describe["name"]
-            sobjects_completion[sobject_name] = {
+            sobjects_completion["sobjects"][sobject_name] = {
                 "keyPrefix": sobject_describe["keyPrefix"],
                 "createable": sobject_describe["createable"],
                 "queryable": sobject_describe["queryable"],
@@ -400,6 +402,7 @@ def handle_initiate_sobjects_completions(timeout=120):
             fields_dict = {}
             picklist_field_dict = {}
             parent_relationship_dict = {}
+            child_relationship_dict = {}
             for f in sobject_describe["fields"]:
                 field_name = f["name"]
                 # Fields Dict
@@ -420,29 +423,75 @@ def handle_initiate_sobjects_completions(timeout=120):
                 # List all Reference Field Relationship Name as fields
                 # Some fields has two more references, we can't list the fields of it
                 if not len(f["referenceTo"]) == 1: continue
-                if not f["relationshipName"]: continue
+                parentRelationshipName = f["relationshipName"]
+                if not parentRelationshipName: continue
+                parentSobject = f["referenceTo"][0]
+                if parentRelationshipName in all_parent_relationship_dict:
+                    is_duplicate = False
+                    for relationship in all_parent_relationship_dict[parentRelationshipName]:
+                        if parentSobject == relationship["parentSobject"]:
+                            is_duplicate = True
+                            break
+
+                    if not is_duplicate:
+                        all_parent_relationship_dict[parentRelationshipName].append({
+                            "parentSobject": parentSobject,
+                            "relationshipName": parentRelationshipName
+                        })
+                else:
+                    all_parent_relationship_dict[parentRelationshipName] = [{
+                        "parentSobject": parentSobject,
+                        "relationshipName": parentRelationshipName
+                    }]
+
+                # Add Parent Relationship Name
                 parent_relationship_dict[f["relationshipName"]] = {
-                    "parentSobject": f["referenceTo"][0],
-                    "relationshipName": f["relationshipName"],
+                    "parentSobject": parentSobject,
+                    "relationshipName": parentRelationshipName,
                     "field": f["name"]
                 }
             
             # Child Relationship dict
-            child_relationship_dict = {}
             for f in sobject_describe["childRelationships"]:
-                if not f["relationshipName"]: continue
+                childRelationshipName = f["relationshipName"]
+                childSobject = f["childSObject"]
+                if not childRelationshipName: continue
 
+                if childRelationshipName in all_child_relationship_dict:
+                    is_duplicate = False
+                    for relationship in all_child_relationship_dict[childRelationshipName]:
+                        if childSobject == relationship["childSobject"]:
+                            is_duplicate = True
+                            break
+
+                    if not is_duplicate:
+                        all_child_relationship_dict[childRelationshipName].append({
+                            "childSobject": childSobject,
+                            "relationshipName": childRelationshipName
+                        })
+                else:
+                    all_child_relationship_dict[childRelationshipName] = [{
+                        "childSobject": childSobject,
+                        "relationshipName": childRelationshipName
+                    }]
+
+                # Add Parent Relationship Name as Field
                 child_relationship_dict[f["relationshipName"]] = {
-                    "childSobject": f["childSObject"],
+                    "childSobject": childSobject,
                     "field": f["field"],
-                    "relationshipName": f["relationshipName"]
+                    "relationshipName": childRelationshipName
                 }
 
             # Combine sobject fields dict and sobject child relationship dict
-            sobjects_completion[sobject_name]["fields"] = fields_dict
-            sobjects_completion[sobject_name]["picklist_fields"] = picklist_field_dict
-            sobjects_completion[sobject_name]["parentRelationships"] = parent_relationship_dict
-            sobjects_completion[sobject_name]["childRelationships"] = child_relationship_dict
+            sobjects_completion["sobjects"][sobject_name]["fields"] = fields_dict
+            sobjects_completion["sobjects"][sobject_name]["picklist_fields"] = picklist_field_dict
+            sobjects_completion["sobjects"][sobject_name]["parentRelationships"] = parent_relationship_dict
+            sobjects_completion["sobjects"][sobject_name]["childRelationships"] = child_relationship_dict
+
+        # Populate Child Relationship and Parent Relationship
+
+        sobjects_completion["parentRelationships"] = all_parent_relationship_dict
+        sobjects_completion["childRelationships"] = all_child_relationship_dict
 
         # Every project has unique username
         username = toolingapi_settings["username"]

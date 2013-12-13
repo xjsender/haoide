@@ -78,7 +78,7 @@ class PicklistValueCompletions(sublime_plugin.EventListener):
         matched_block = view.substr(matched_regions[0])
         sobject_name = matched_block.split(" ")[0]
 
-        metadata = util.get_sobject_completions()
+        metadata = util.get_sobject_completions().get("sobjects")
         if not metadata: return []
 
         if sobject_name.capitalize() in metadata:
@@ -126,7 +126,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
             variable_type = matched_block.split(" ")[0]
 
         # If username is in settings, get the sobject fields describe dict
-        metadata = util.get_sobject_completions()
+        metadata = util.get_sobject_completions().get("sobjects")
         if not metadata: return []
 
         completion_list = []
@@ -174,36 +174,27 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
         metadata = util.get_sobject_completions()
         if not metadata: return []
 
+        sobjects_describe = metadata.get("sobjects")
+        parentRelationships = metadata.get("parentRelationships")
+        childRelationships = metadata.get("childRelationships")
+        
         # If relationship_name is not only Foreign Key Name but also Sobject Name,
         # In order to prevent duplicate, so just skip
-        if relationship_name in metadata: return []
+        if relationship_name in sobjects_describe: return []
 
-        matched_sobjects = []
-        for sobject in metadata:
-            sobject_describe = metadata[sobject]
-            if "parentRelationships" not in sobject_describe: continue
-
-            # If relationship_name is not capitalize
-            if relationship_name.capitalize() in sobject_describe["parentRelationships"]:
-                relationship_name = relationship_name.capitalize()
-
-            # Get the describe of this parent relationship field
-            if relationship_name in sobject_describe["parentRelationships"]:
-                parent_sobject = sobject_describe["parentRelationships"][relationship_name]["parentSobject"]
-                if parent_sobject in metadata: matched_sobjects.append(parent_sobject)
-
-        # Remove the duplicate value in matched_sobjects
-        matched_sobjects = list(set(matched_sobjects))
-        if len(matched_sobjects) == 0: return []
+        # Parent sobject Field completions
+        if relationship_name not in parentRelationships: return []
 
         # Because relationship name is not unique, so we need to display sobject name prefix
         completion_list = []
-        if len(matched_sobjects) == 1:
-            completion_list = util.get_sobject_completion_list(metadata[matched_sobjects[0]])
+        matched_relationships = parentRelationships[relationship_name]
+        if len(matched_relationships) == 1:
+            completion_list = util.get_sobject_completion_list(sobjects_describe[matched_relationships[0]["parentSobject"]])
         else:
-            for sobject in matched_sobjects:
-                completion_list.extend(util.get_sobject_completion_list(metadata[sobject], 
-                    sobject_prefix=sobject+"."))
+            for matched_relationship in matched_relationships:
+                sobject = matched_relationship["parentSobject"]
+                completion_list.extend(util.get_sobject_completion_list(sobjects_describe[sobject], 
+                    prefix=sobject+"."))
 
         return (completion_list, 
             sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
@@ -274,7 +265,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                     else:
                         completion_list.append((key + "\tProperty", properties[key]))
         elif ch != "=" and prefix in "abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ":
-            metadata = util.get_sobject_completions()
+            metadata = util.get_sobject_completions().get("sobjects")
             for key in sorted(metadata.keys()):
                 completion_list.append((key + "\tSobject", key))
 

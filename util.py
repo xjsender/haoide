@@ -35,7 +35,7 @@ def get_sobject_completions():
 
     return setting.get(username)
 
-def get_sobject_completion_list(sobject_describe, sobject_prefix=""):
+def get_sobject_completion_list(sobject_describe, prefix=""):
     """
     This method is used in completions.py
     """
@@ -45,18 +45,19 @@ def get_sobject_completion_list(sobject_describe, sobject_prefix=""):
     # Fields Describe
     for field_name in sorted(sobject_describe["fields"]):
         field_attr = sobject_describe["fields"][field_name]
-        completion = ("%s\t%s(%s)" % (field_name, field_attr["type"], field_attr["length"]), field_name)
+        completion = ("%s%s\t%s(%s)" % (prefix, field_name, 
+            field_attr["type"], field_attr["length"]), field_name)
         completion_list.append(completion)
 
     # Parent Relationship Describe
     for key in sorted(sobject_describe["parentRelationships"]):
         parent_sobject = sobject_describe["parentRelationships"][key]["parentSobject"]
-        completion_list.append((sobject_prefix + key + "\t" + parent_sobject + "(c2p)", key)) 
+        completion_list.append((prefix + key + "\t" + parent_sobject + "(c2p)", key)) 
 
     # Child Relationship Describe
     for key in sorted(sobject_describe["childRelationships"]):
         child_sobject = sobject_describe["childRelationships"][key]["childSobject"]
-        completion_list.append((sobject_prefix + key + "\t" + child_sobject + "(p2c)", key))
+        completion_list.append((prefix + key + "\t" + child_sobject + "(p2c)", key))
 
     return completion_list   
 
