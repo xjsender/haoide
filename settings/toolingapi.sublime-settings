@@ -178,6 +178,7 @@
         "CategoryData", "CategoryNode", "CategoryNodeLocalization", "CurrencyType",
         "CustomBrand", "CustomBrandAsset","ContentWorkspaceDoc", "DocumentAttachmentMap", 
         "EmailServicesAddress", "EmailServicesFunction", "EntitySubscription", "EventRelation",
+        "FieldPermissions",
         "Holiday", "Idea", "IdeaComment", "MailmergeTemplate", "NetworkMemberGroup",
         "ObjectPermissions", "OrgWideEmailAddress", "PermissionSet", "PermissionSetAssignment",
         "PermissionSetLicenseAssign", "PushTopic", "QueueSobject", 

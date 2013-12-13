@@ -51,12 +51,12 @@ def get_sobject_completion_list(sobject_describe, prefix=""):
 
     # Parent Relationship Describe
     for key in sorted(sobject_describe["parentRelationships"]):
-        parent_sobject = sobject_describe["parentRelationships"][key]["parentSobject"]
+        parent_sobject = sobject_describe["parentRelationships"][key]
         completion_list.append((prefix + key + "\t" + parent_sobject + "(c2p)", key)) 
 
     # Child Relationship Describe
     for key in sorted(sobject_describe["childRelationships"]):
-        child_sobject = sobject_describe["childRelationships"][key]["childSobject"]
+        child_sobject = sobject_describe["childRelationships"][key]
         completion_list.append((prefix + key + "\t" + child_sobject + "(p2c)", key))
 
     return completion_list   

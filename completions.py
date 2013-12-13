@@ -196,12 +196,11 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
 
         # Because relationship name is not unique, so we need to display sobject name prefix
         completion_list = []
-        matched_relationships = parentRelationships[relationship_name]
-        if len(matched_relationships) == 1:
-            completion_list = util.get_sobject_completion_list(sobjects_describe[matched_relationships[0]["parentSobject"]])
+        matched_sobjects = parentRelationships[relationship_name]
+        if len(matched_sobjects) == 1:
+            completion_list = util.get_sobject_completion_list(sobjects_describe[matched_sobjects[0]])
         else:
-            for matched_relationship in matched_relationships:
-                sobject = matched_relationship["parentSobject"]
+            for sobject in matched_sobjects:
                 completion_list.extend(util.get_sobject_completion_list(sobjects_describe[sobject], 
                     prefix=sobject+"."))
 
@@ -277,6 +276,7 @@ class ApexCompletions(sublime_plugin.EventListener):
             settings = context.get_toolingapi_settings()
             if not settings["disable_keyword_completion"]:
                 metadata = util.get_sobject_completions().get("sobjects")
+                if not metadata: return []
                 for key in sorted(metadata.keys()):
                     completion_list.append((key + "\tSobject", key))
 

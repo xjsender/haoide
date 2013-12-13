@@ -406,6 +406,7 @@ def handle_initiate_sobjects_completions(timeout=120):
             child_relationship_dict = {}
             for f in sobject_describe["fields"]:
                 field_name = f["name"]
+
                 # Fields Dict
                 fields_dict[field_name] = {
                     "type": f["type"].capitalize(),
@@ -429,28 +430,18 @@ def handle_initiate_sobjects_completions(timeout=120):
                 parentSobject = f["referenceTo"][0]
                 if parentRelationshipName in all_parent_relationship_dict:
                     is_duplicate = False
-                    for relationship in all_parent_relationship_dict[parentRelationshipName]:
-                        if parentSobject == relationship["parentSobject"]:
+                    for so in all_parent_relationship_dict[parentRelationshipName]:
+                        if parentSobject == so:
                             is_duplicate = True
                             break
 
                     if not is_duplicate:
-                        all_parent_relationship_dict[parentRelationshipName].append({
-                            "parentSobject": parentSobject,
-                            "relationshipName": parentRelationshipName
-                        })
+                        all_parent_relationship_dict[parentRelationshipName].append(parentSobject)
                 else:
-                    all_parent_relationship_dict[parentRelationshipName] = [{
-                        "parentSobject": parentSobject,
-                        "relationshipName": parentRelationshipName
-                    }]
+                    all_parent_relationship_dict[parentRelationshipName] = [parentSobject]
 
                 # Add Parent Relationship Name
-                parent_relationship_dict[f["relationshipName"]] = {
-                    "parentSobject": parentSobject,
-                    "relationshipName": parentRelationshipName,
-                    "field": f["name"]
-                }
+                parent_relationship_dict[f["relationshipName"]] = parentSobject
             
             # Child Relationship dict
             for f in sobject_describe["childRelationships"]:
@@ -460,28 +451,18 @@ def handle_initiate_sobjects_completions(timeout=120):
 
                 if childRelationshipName in all_child_relationship_dict:
                     is_duplicate = False
-                    for relationship in all_child_relationship_dict[childRelationshipName]:
-                        if childSobject == relationship["childSobject"]:
+                    for so in all_child_relationship_dict[childRelationshipName]:
+                        if childSobject == so:
                             is_duplicate = True
                             break
 
                     if not is_duplicate:
-                        all_child_relationship_dict[childRelationshipName].append({
-                            "childSobject": childSobject,
-                            "relationshipName": childRelationshipName
-                        })
+                        all_child_relationship_dict[childRelationshipName].append(childSobject)
                 else:
-                    all_child_relationship_dict[childRelationshipName] = [{
-                        "childSobject": childSobject,
-                        "relationshipName": childRelationshipName
-                    }]
+                    all_child_relationship_dict[childRelationshipName] = [childSobject]
 
                 # Add Parent Relationship Name as Field
-                child_relationship_dict[f["relationshipName"]] = {
-                    "childSobject": childSobject,
-                    "field": f["field"],
-                    "relationshipName": childRelationshipName
-                }
+                child_relationship_dict[f["relationshipName"]] = childSobject
 
             # Combine sobject fields dict and sobject child relationship dict
             sobjects_completion["sobjects"][sobject_name]["fields"] = fields_dict
