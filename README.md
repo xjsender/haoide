@@ -1,10 +1,11 @@
 # Sublime IDE for salesforce
 This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Linux.
 
-
 # New Feature:
 + Add picklist value completions feature (2013-12-06)
 + Export Sobject Data Template by Record Type (2013-12-07)
++ Refactoring sobject completion for those complicated orgs (2013-12-14)
++ Add four settings to permit user to close the code completion feature (2013-12-14)
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control,
