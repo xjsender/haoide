@@ -170,6 +170,33 @@
         "errorDisplayField", "active", "description"
     ],
 
+    // Excluded Standard Sobjects for code completion
+    "excluded_sobjects": [
+        "AdditionalNumber", "ApexClass", "ApexComponent", "ApexTrigger",
+        "ApexPage", "ApexTestQueueItem", "Approval", "AuthProvider",
+        "BrandTemplate", "BusinessHours", "BusinessProcess", "CallCenter",
+        "CategoryData", "CategoryNode", "CategoryNodeLocalization", "CurrencyType",
+        "CustomBrand", "CustomBrandAsset","ContentWorkspaceDoc", "DocumentAttachmentMap", 
+        "EmailServicesAddress", "EmailServicesFunction", "EntitySubscription", "EventRelation",
+        "Holiday", "Idea", "IdeaComment", "MailmergeTemplate", "NetworkMemberGroup",
+        "ObjectPermissions", "OrgWideEmailAddress", "PermissionSet", "PermissionSetAssignment",
+        "PermissionSetLicenseAssign", "PushTopic", "QueueSobject", 
+        "QuoteDocument", "RecordTypeLocalization", "SetupEntityAccess",
+        "WebLink", "WebLinkLocalization"
+    ],
+
+    // Indicate whether disable sobject fields completion
+    "disable_fields_completion": false,
+
+    // Indicate whether disable Relationship field completion
+    "disable_relationship_completion": false,
+
+    // Indicate whether disable picklist value completion
+    "disable_picklist_value_completion": false,
+
+    // Indicate whether disable keyword completion
+    "disable_keyword_completion": false,
+
     // Components Directory
     // You can change the folder but not the other component attributes
     "components": {

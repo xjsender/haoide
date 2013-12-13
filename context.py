@@ -84,6 +84,13 @@ def get_toolingapi_settings():
     # Set API Version
     settings["api_version"] = s.get("api_version", "28")
 
+    # Completions Part
+    settings["disable_fields_completion"] = s.get("disable_fields_completion", False)
+    settings["disable_keyword_completion"] = s.get("disable_keyword_completion", False)
+    settings["disable_picklist_value_completion"] = s.get("disable_picklist_value_completion", False)
+    settings["disable_relationship_completion"] = s.get("disable_relationship_completion", False)
+    settings["excluded_sobjects"] = s.get("excluded_sobjects", [])
+
     # Deploy Option
     settings["deploy_options"] = s.get("deploy_options")
 

@@ -55,6 +55,9 @@ class symbol_table_completions(sublime_plugin.EventListener):
 
 class PicklistValueCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
+        settings = context.get_toolingapi_settings()
+        if settings["disable_picklist_value_completion"]: return[]
+
         if not view.match_selector(locations[0], "source.java"):
             return []
 
@@ -106,6 +109,9 @@ class SobjectCompletions(sublime_plugin.EventListener):
     """
 
     def on_query_completions(self, view, prefix, locations):
+        settings = context.get_toolingapi_settings()
+        if settings["disable_fields_completion"]: return[]
+
         if not view.match_selector(locations[0], "source.java"):
             return []
 
@@ -159,6 +165,9 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
     """
 
     def on_query_completions(self, view, prefix, locations):
+        settings = context.get_toolingapi_settings()
+        if settings["disable_relationship_completion"]: return[]
+
         if not view.match_selector(locations[0], "source.java"):
             return []
 
@@ -265,9 +274,11 @@ class ApexCompletions(sublime_plugin.EventListener):
                     else:
                         completion_list.append((key + "\tProperty", properties[key]))
         elif ch != "=" and prefix in "abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ":
-            metadata = util.get_sobject_completions().get("sobjects")
-            for key in sorted(metadata.keys()):
-                completion_list.append((key + "\tSobject", key))
+            settings = context.get_toolingapi_settings()
+            if not settings["disable_keyword_completion"]:
+                metadata = util.get_sobject_completions().get("sobjects")
+                for key in sorted(metadata.keys()):
+                    completion_list.append((key + "\tSobject", key))
 
             # Add all apex class to <> completions
             for key in sorted(apex.apex_completions):

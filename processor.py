@@ -391,10 +391,11 @@ def handle_initiate_sobjects_completions(timeout=120):
             # Initiate Sobject completions
             if "name" not in sobject_describe: continue
             sobject_name = sobject_describe["name"]
+
+            # If sobject is excluded sobject, just continue
+            if sobject_name in toolingapi_settings["excluded_sobjects"]: continue
             sobjects_completion["sobjects"][sobject_name] = {
                 "keyPrefix": sobject_describe["keyPrefix"],
-                "createable": sobject_describe["createable"],
-                "queryable": sobject_describe["queryable"],
                 "layoutable": sobject_describe["layoutable"]
             }
 
