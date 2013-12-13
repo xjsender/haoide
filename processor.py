@@ -190,7 +190,7 @@ def populate_sobjects_describe():
     # If sobjects is exist in sobjects_completion.sublime-settings, just return it
     sobjects_completions = sublime.load_settings("sobjects_completion.sublime-settings")
     if sobjects_completions.has(username):
-        return sobjects_completions.get(username)
+        return sobjects_completions.get(username).get("sobjects")
 
     if (username + "sobjects") in globals():
         return globals()[username + "sobjects"]
@@ -1263,51 +1263,3 @@ def handle_delete_component(component_url, file_name, timeout=120):
     ThreadProgress(api, thread, "Deleting " + file_base_name,
         "Delete " + file_base_name + " Succeed")
     handle_thread(thread, timeout)
-
-def handle_push_topic(sobject, timeout=120):      
-    def handle_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
-            return
-
-        # If succeed
-        result = api.result
-        if result["status_code"] > 399: return
-
-        print (result)
-
-    toolingapi_settings = context.get_toolingapi_settings()
-    api_version = toolingapi_settings["api_version"]
-    api = SalesforceApi(toolingapi_settings)
-    post_url = "/sobjects/PushTopic"
-    post_data = {
-        "Name": sobject + "PushTopic",
-        "Query": get_sobject_soql(toolingapi_settings["username"], sobject),
-        "ApiVersion": "{0}.0".format(api_version),
-        "NotifyForOperations": "All",
-        "NotifyForFields": "Referenced"
-    }
-    thread = threading.Thread(target=api.post, args=(post_url, post_data, ))
-    thread.start()
-    ThreadProgress(api, thread, "Creating PushTopic", "PushTopic is created.")
-    handle_thread(thread, timeout)
-
-def get_sobject_soql(username, sobject):
-    sobject_fields = get_sobject_fields(username, sobject)
-    sobject_soql = 'SELECT ' + ",".join(sobject_fields) + " FROM " + sobject
-    return sobject_soql
-
-def get_sobject_fields(username, sobject):
-    # If sobjects is exist in globals()[], just return it
-    sobjects_completions = sublime.load_settings("sobjects_completion.sublime-settings")
-    if not sobjects_completions.has(username):
-        return ['Id', 'Name']
-
-    sobject_fields_describe = sobjects_completions.get(username)[sobject].keys()
-    sobject_fields = []
-    for des in sobject_fields_describe:
-        field_name, field_type = tuple(des.split("\t"))
-        if field_type in ["textarea", "location"]: continue
-        sobject_fields.append(field_name)
-
-    return sobject_fields
