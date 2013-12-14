@@ -190,7 +190,12 @@ def populate_sobjects_describe():
     # If sobjects is exist in sobjects_completion.sublime-settings, just return it
     sobjects_completions = sublime.load_settings("sobjects_completion.sublime-settings")
     if sobjects_completions.has(username):
-        return sobjects_completions.get(username).get("sobjects")
+        sobjects_describe = {}
+        sd = sobjects_completions.get(username)["sobjects"]
+        for key in sd:
+            sobject_describe = sd[key]
+            sobjects_describe[sobject_describe["name"]] = sobject_describe
+        return sobjects_describe
 
     if (username + "sobjects") in globals():
         return globals()[username + "sobjects"]
