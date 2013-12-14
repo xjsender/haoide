@@ -84,14 +84,13 @@ class PicklistValueCompletions(sublime_plugin.EventListener):
         metadata = util.get_sobject_completions().get("sobjects")
         if not metadata: return []
 
-        if sobject_name.capitalize() in metadata:
-            sobject_name = sobject_name.capitalize()
-
         # Get sobject describe
+        sobject_name = sobject_name.lower()
         if sobject_name not in metadata: return []
-        if field_name not in metadata[sobject_name]["picklist_fields"]: return []
-
         sobject_describe = metadata.get(sobject_name)
+
+        # Get sobject picklist field describe
+        if field_name not in sobject_describe["picklist_fields"]: return []
         picklist_field_describe = sobject_describe["picklist_fields"][field_name]
 
         completion_list = []
@@ -132,25 +131,21 @@ class SobjectCompletions(sublime_plugin.EventListener):
             variable_type = matched_block.split(" ")[0]
 
         # If username is in settings, get the sobject fields describe dict
-        metadata = util.get_sobject_completions().get("sobjects")
-        if not metadata: return []
+        sobjects_describe = util.get_sobject_completions().get("sobjects")
+        if not sobjects_describe: return []
 
         completion_list = []
-        if variable_type in metadata:
-            sobject = variable_type
-        elif variable_type.capitalize() in metadata:
-            sobject = variable_type.capitalize()
-        elif variable_name in metadata:
-            sobject = variable_name
-        elif variable_name.capitalize() in metadata:
-            sobject = variable_name.capitalize()
-        else: 
+        if variable_type.lower() in sobjects_describe:
+            sobject_name = variable_type.lower()
+        elif variable_name.lower() in sobjects_describe:
+            sobject_name = variable_name.lower()
+        else:
             return []
 
-        sobject_describe = metadata.get(sobject)
+        sobject_describe = sobjects_describe.get(sobject_name)
         completion_list = util.get_sobject_completion_list(sobject_describe)
-
-        # If variable_name is not empty, show the methods extended from Sobject
+        
+        # If variable_name is not empty, show the methods extended from sobject
         if not variable_type: return completion_list
         methods = apex.apex_completions["sobject"]["methods"]
         for key in sorted(methods.keys()):
@@ -189,7 +184,7 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
         
         # If relationship_name is not only Foreign Key Name but also Sobject Name,
         # In order to prevent duplicate, so just skip
-        if relationship_name in sobjects_describe: return []
+        if relationship_name.lower() in sobjects_describe: return []
 
         # Parent sobject Field completions
         if relationship_name not in parentRelationships: return []
@@ -198,10 +193,11 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
         completion_list = []
         matched_sobjects = parentRelationships[relationship_name]
         if len(matched_sobjects) == 1:
-            completion_list = util.get_sobject_completion_list(sobjects_describe[matched_sobjects[0]])
+            sobject_name = matched_sobjects[0].lower()
+            completion_list = util.get_sobject_completion_list(sobjects_describe[sobject_name])
         else:
             for sobject in matched_sobjects:
-                completion_list.extend(util.get_sobject_completion_list(sobjects_describe[sobject], 
+                completion_list.extend(util.get_sobject_completion_list(sobjects_describe[sobject.lower()], 
                     prefix=sobject+"."))
 
         return (completion_list, 
@@ -275,10 +271,11 @@ class ApexCompletions(sublime_plugin.EventListener):
         elif ch != "=" and prefix in "abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ":
             settings = context.get_toolingapi_settings()
             if not settings["disable_keyword_completion"]:
-                metadata = util.get_sobject_completions().get("sobjects")
-                if not metadata: return []
-                for key in sorted(metadata.keys()):
-                    completion_list.append((key + "\tSobject", key))
+                sobjects_describe = util.get_sobject_completions().get("sobjects")
+                if not sobjects_describe: return []
+                for key in sorted(sobjects_describe.keys()):
+                    sobject_name = sobjects_describe[key]["name"]
+                    completion_list.append((sobject_name + "\tSobject", sobject_name))
 
             # Add all apex class to <> completions
             for key in sorted(apex.apex_completions):

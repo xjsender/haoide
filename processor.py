@@ -394,7 +394,9 @@ def handle_initiate_sobjects_completions(timeout=120):
 
             # If sobject is excluded sobject, just continue
             if sobject_name in toolingapi_settings["excluded_sobjects"]: continue
+            sobject_name = sobject_name.lower()
             sobjects_completion["sobjects"][sobject_name] = {
+                "name": sobject_describe["name"],
                 "keyPrefix": sobject_describe["keyPrefix"],
                 "layoutable": sobject_describe["layoutable"]
             }
