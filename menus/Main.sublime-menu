@@ -11,7 +11,7 @@
             },
 
             { "caption": "-" },
-
+            
             {
                 "id": "CreateNewProject",
                 "caption": "New Project",

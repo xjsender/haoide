@@ -6,9 +6,11 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 + Export Sobject Data Template by Record Type (2013-12-07)
 + Refactoring sobject completion for those complicated orgs (2013-12-14)
 + Add four settings to permit user to close the code completion feature (2013-12-14)
++ Disable keyword completion by default, need enable manually (2013-12-14)
++ Change default workspace to ```C:/ForcedotcomWorkspace``` (2013-12-15)
 
 # Installation #
-You can install this plugin by search ```Salesforce IDE``` in package control,
+You can install this plugin by search ```Salesforce IDE``` in package control
 
 # Project Configuration #
 If your operation system is OSX, you must set the workspace in ```SublimeApex > Setting > Setting - User```.

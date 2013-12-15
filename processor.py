@@ -815,18 +815,16 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
-    if operation == "Get":
-        target = api.get
-    elif operation == "Delete":
-        target = api.delete
-    elif operation == "Head":
-        target = api.head
-    elif operation == "Put":
-        target = api.put
-    elif operation == "Post":
-        target = api.post
-    elif operation == "Retrieve Body":
-        target = api.retrieve_body
+    http_methods_target = {
+        "Get": api.get,
+        "Delete": api.delete,
+        "Head": api.head,
+        "Put": api.put,
+        "Post": api.post,
+        "Retrieve Body": api.retrieve_body
+    }
+    
+    target = http_methods_target[operation]
     if data == None:
         thread = threading.Thread(target=target, args=(url, ))
     else:

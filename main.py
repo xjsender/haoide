@@ -129,30 +129,6 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
 
         return True
 
-class SwitchProjectCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(SwitchProjectCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        global projects
-        toolingapi_settings = context.get_toolingapi_settings()
-        projects = toolingapi_settings["projects"]
-        projects = ["(" + ('Active' if projects[p]["default"] else 
-            'Inactive') + ") " + p for p in projects]
-        projects = sorted(projects, reverse=False)
-        self.window.show_quick_panel(projects, self.on_done)
-
-    def on_done(self, index):
-        if index == -1: return
-
-        # Change the chosen project as default
-        # Split with ") " and get the second project name
-        default_project = projects[index].split(") ")[1]
-        context.switch_project(default_project)
-
-        # After project is switch, login will be executed
-        processor.handle_login_thread(default_project)
-
 class NewViewCommand(sublime_plugin.TextCommand):
     """
     Create a new view with specified input
@@ -674,11 +650,35 @@ class SaveComponentCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         return check_enabled(self.view.file_name())
 
+class SwitchProjectCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(SwitchProjectCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        global projects
+        toolingapi_settings = context.get_toolingapi_settings()
+        projects = toolingapi_settings["projects"]
+        projects = ["(" + ('Active' if projects[p]["default"] else 
+            'Inactive') + ") " + p for p in projects]
+        projects = sorted(projects, reverse=False)
+        self.window.show_quick_panel(projects, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        # Change the chosen project as default
+        # Split with ") " and get the second project name
+        default_project = projects[index].split(") ")[1]
+        context.switch_project(default_project)
+
+        # After project is switch, login will be executed
+        processor.handle_login_thread(default_project)
+
 class CreateNewProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreateNewProjectCommand, self).__init__(*args, **kwargs)
 
-    def run(self): 
+    def run(self):
         # Create Project Directory
         context.make_dir()
 
@@ -687,8 +687,7 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
         context.add_project_to_workspace(toolingapi_settings["workspace"])
 
         # Open Console
-        self.window.run_command("show_panel", 
-            {"panel": "console", "toggle": False})
+        self.window.run_command("show_panel", {"panel": "console", "toggle": False})
 
         # Handle Refresh All
         processor.handle_new_project(toolingapi_settings)

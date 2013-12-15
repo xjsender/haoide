@@ -2994,7 +2994,7 @@ apex_completions = {
         }
     },
     "list": {
-        "name": "LIST",
+        "name": "List",
         "constructors": {},
         "properties": {},
         "methods": {
@@ -3052,7 +3052,7 @@ apex_completions = {
             "Time", "MathException", "LimitException", "Communities", "RestResponse", 
             "SelectOption", "SObjectException", "XmlStreamReader", "JSONParser", 
             "MultiStaticResourceCalloutMock", "Double", "SecurityException", "Url", 
-            "TypeException", "Network", "FlowException", "Crypto", "LIST", "Decimal", 
+            "TypeException", "Network", "FlowException", "Crypto", "List", "Decimal", 
             "SObject", "UnsupportedOperationException", "AsyncException", "Http", 
             "XmlStreamWriter", "Matcher", "StaticResourceCalloutMock", "ApplicationReadWriteMode", 
             "Messaging", "VisualforceException", "QueryException", "LicenseException", 
