@@ -310,7 +310,8 @@ def parse_code_coverage(class_name, result):
         coverage = records[name]
         covered_lines = coverage["NumLinesCovered"]
         total_lines = covered_lines + coverage["NumLinesUncovered"]
-        row += "%-*s" % (40, "%.2f%%" % (covered_lines / total_lines * 100))
+        coverage = covered_lines / total_lines * 100 if total_lines != 0 else 0
+        row += "%-*s" % (40, "%.2f%%" % coverage)
         row += "%-*s" % (40, "%s/%s" % (covered_lines, total_lines))
         code_coverage += row + "\n"
 
@@ -744,6 +745,7 @@ def parse_execute_anonymous_xml(result):
     @return: formated string
     """
 
+    print (result)
     compiled = result["compiled"]
     debugLog = result["debugLog"]
 
