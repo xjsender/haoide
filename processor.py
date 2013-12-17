@@ -970,8 +970,8 @@ def handle_run_test(class_name, class_id, timeout=120):
         })
 
         # After run test succeed, get ApexCodeCoverageAggreate
-        query = "SELECT ApexClassorTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage " +\
-                "FROM ApexCodeCoverage WHERE ApexTestClassId = '%s'" % class_id
+        query = "SELECT ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage " +\
+                "FROM ApexCodeCoverageAggregate"
         thread = threading.Thread(target=api.query, args=(query, True, ))
         thread.start()
         wait_message = "Get Code Coverage of " + class_name
