@@ -194,6 +194,7 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
         matched_sobjects = parentRelationships[relationship_name]
         if len(matched_sobjects) == 1:
             sobject_name = matched_sobjects[0].lower()
+            if sobject_name not in sobjects_describe: return []
             completion_list = util.get_sobject_completion_list(sobjects_describe[sobject_name])
         else:
             for sobject in matched_sobjects:
