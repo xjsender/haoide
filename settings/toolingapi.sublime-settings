@@ -22,6 +22,9 @@
         }
     },
 
+    // API version
+    "api_version": 29,
+
     // Indicate whether add project name time suffix
     // When this setting value is true, you create a new project at yestoday and you refresh 
     // it's code today, a new project folder will be created to keep the refreshed code
@@ -53,8 +56,45 @@
     // It may stop your work
     "get_static_resource_body": false,
 
-    // API version
-    "api_version": 29,
+    // Indicate whether disable sobject fields completion
+    "disable_fields_completion": false,
+
+    // Indicate whether disable Relationship field completion
+    "disable_relationship_completion": false,
+
+    // Indicate whether disable picklist value completion
+    "disable_picklist_value_completion": false,
+
+    // Indicate whether disable keyword completion
+    "disable_keyword_completion": true,
+
+    // Log Levels for anonymous code
+    "anonymous_log_levels": [
+        {
+            "log_category": "Apex_Code",
+            "log_level": "Finest"
+        },
+        {
+            "log_category": "Apex_Profiling",
+            "log_level": "Info"
+        },
+        {
+            "log_category": "Callout",
+            "log_level": "Info"
+        },
+        {
+            "log_category": "DB",
+            "log_level": "Info"
+        },
+        {
+            "log_category": "Validation",
+            "log_level": "Info"
+        },
+        {
+            "log_category": "Workflow",
+            "log_level": "Info"
+        }
+    ],
 
     // Deploy Options
     "deploy_options": {
@@ -185,18 +225,6 @@
         "QuoteDocument", "RecordTypeLocalization", "SetupEntityAccess",
         "WebLink", "WebLinkLocalization"
     ],
-
-    // Indicate whether disable sobject fields completion
-    "disable_fields_completion": false,
-
-    // Indicate whether disable Relationship field completion
-    "disable_relationship_completion": false,
-
-    // Indicate whether disable picklist value completion
-    "disable_picklist_value_completion": false,
-
-    // Indicate whether disable keyword completion
-    "disable_keyword_completion": true,
 
     // Components Directory
     // You can change the folder but not the other component attributes

@@ -148,6 +148,7 @@ class SalesforceApi():
             result["url"] = url
         else:
             result = response.json()
+
         result["status_code"] = status_code
 
         # Self.result is used to keep thread result
@@ -206,6 +207,7 @@ class SalesforceApi():
             result["url"] = url
         else:
             result = response.json()
+
         result["status_code"] = status_code
 
         # Self.result is used to keep thread result
@@ -526,7 +528,17 @@ class SalesforceApi():
         # Element type "String" must be followed by either attribute specifications, ">" or "/>"
         # http://wiki.python.org/moin/EscapingXml
         apex_string = quoteattr(apex_string).replace('"', '')
+        log_levels = ""
+        for log_level in self.toolingapi_settings["anonymous_log_levels"]:
+            log_levels += """
+            <apex:categories>
+                <apex:category>%s</apex:category>
+                <apex:level>%s</apex:level>
+            </apex:categories>
+            """ % (log_level["log_category"], log_level["log_level"])
+
         soap_body = soap_bodies.execute_anonymous_body.format(
+            log_levels=log_levels,
             session_id=globals()[self.username]["session_id"], 
             apex_string = apex_string)
 

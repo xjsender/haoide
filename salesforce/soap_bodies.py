@@ -29,7 +29,7 @@ execute_anonymous_body = """
     xmlns:apex="http://soap.sforce.com/2006/08/apex">
        <soapenv:Header>
           <apex:DebuggingHeader>
-             <apex:debugLevel>Detail</apex:debugLevel>
+            {log_levels}
           </apex:DebuggingHeader>
           <apex:SessionHeader>
             <sessionId>{session_id}</sessionId>

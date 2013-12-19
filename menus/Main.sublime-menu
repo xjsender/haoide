@@ -49,7 +49,7 @@
                 ]
             },
             {
-                "caption": "Apex Test",
+                "caption": "Debug",
                 "children": [
                     {
                         "id": "createdebuglog",

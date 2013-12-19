@@ -91,6 +91,9 @@ def get_toolingapi_settings():
     settings["disable_relationship_completion"] = s.get("disable_relationship_completion", False)
     settings["excluded_sobjects"] = s.get("excluded_sobjects", [])
 
+    # Log Levels of Anonymous Code
+    settings["anonymous_log_levels"] = s.get("anonymous_log_levels")
+
     # Deploy Option
     settings["deploy_options"] = s.get("deploy_options")
 
