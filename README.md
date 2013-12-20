@@ -8,6 +8,7 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 + Add four settings to permit user to close the code completion feature (2013-12-14)
 + Disable keyword completion by default, need enable manually (2013-12-14)
 + Change default workspace to ```C:/ForcedotcomWorkspace``` (2013-12-15)
++ Add support for log levels for anonymous code (2013-12-22)
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control
@@ -97,6 +98,8 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 
 ## Execute Anonymous
 Choose any apex code snippet, press ```Ctrl+Alt+E``` or click ```SublimeApex > Execute Anonymous```, the executed result will be shown in a new view.
+
+There has a ```log_levels``` setting in the default setting, If you want to change anonymous log levels, you can put your log levels settings into your user setting.
 
 ## Execute Query
 After any snippet which start with SELECT is chosen, you can press ```Ctrl+Alt+Q``` or click ```SublimeApex > Execute Query```, the queried result will be shown in a new view.
