@@ -45,8 +45,22 @@ def get_sobject_completion_list(sobject_describe, prefix=""):
     # Fields Describe
     for field_name in sorted(sobject_describe["fields"]):
         field_attr = sobject_describe["fields"][field_name]
-        completion = ("%s%s\t%s(%s)" % (prefix, field_name, 
-            field_attr["type"], field_attr["length"]), field_name)
+        precision = field_attr["precision"]
+        scale = field_attr["scale"]
+        length = field_attr["length"]
+        field_type = field_attr["type"]
+        field_desc_dict = {
+            "Double": "Double(%s, %s)" % (precision, scale),
+            "Currency": "Currency(%s, %s)" % (precision, scale),
+            "Boolean": "Boolean",
+            "Reference": "Reference"
+        }
+
+        if field_type in field_desc_dict:
+            field_desc = field_desc_dict[field_type]
+        else:
+            field_desc = "%s(%s)" % (field_type, length)
+        completion = ("%s%s\t%s" % (prefix, field_name, field_desc), field_name)
         completion_list.append(completion)
 
     # Parent Relationship Describe

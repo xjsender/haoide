@@ -417,7 +417,10 @@ def handle_initiate_sobjects_completions(timeout=120):
                 # Fields Dict
                 fields_dict[field_name] = {
                     "type": f["type"].capitalize(),
-                    "length": f["length"]
+                    "length": f["length"],
+                    "precision": f["precision"],
+                    "label": f["label"],
+                    "scale": f["scale"]
                 }
 
                 # Picklist Dcit
