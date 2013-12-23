@@ -857,7 +857,7 @@ tag_defs = {
                 "type": "Integer"
             },
             "position": {
-                "type": "String",
+                "type": "Picklist",
                 "values": [
                     "bottom",
                     "gauge",
@@ -936,7 +936,7 @@ tag_defs = {
                 "type": "String"
             },
             "orientation": {
-                "type": "String",
+                "type": "Picklist",
                 "values": [
                     "horizontal",
                     "vertical"
@@ -1128,7 +1128,7 @@ tag_defs = {
                 "type": "String"
             },
             "display": {
-                "type": "String",
+                "type": "Picklist",
                 "values": [
                     "insideEnd",
                     "insideStart",
@@ -1153,7 +1153,7 @@ tag_defs = {
                 "type": "Integer"
             },
             "orientation": {
-                "type": "String",
+                "type": "Picklist",
                 "values": [
                     "horizontal",
                     "vertical"
@@ -2975,7 +2975,7 @@ tag_defs = {
                 "type": "Integer"
             },
             "position": {
-                "type": "String",
+                "type": "Picklist",
                 "values": [
                     "bottom",
                     "left",
@@ -3031,7 +3031,7 @@ tag_defs = {
                 "type": "Integer"
             },
             "markerType": {
-                "type": "String",
+                "type": "Picklist",
                 "values": [
                     "circle",
                     "cross"
@@ -3730,7 +3730,7 @@ tag_defs = {
                 "type": "String"
             },
             "location": {
-                "type": "String",
+                "type": "Picklist",
                 "values": [
                     "both",
                     "bottom",
@@ -4493,7 +4493,7 @@ tag_defs = {
                 "type": "Integer"
             },
             "markerType": {
-                "type": "String",
+                "type": "Picklist",
                 "values": [
                     "circle",
                     "cross"
@@ -4617,7 +4617,7 @@ tag_defs = {
                 "type": "Integer"
             },
             "markerType": {
-                "type": "String",
+                "type": "Picklist",
                 "values": [
                     "circle",
                     "cross"
