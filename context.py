@@ -89,6 +89,7 @@ def get_toolingapi_settings():
     settings["disable_keyword_completion"] = s.get("disable_keyword_completion", False)
     settings["disable_picklist_value_completion"] = s.get("disable_picklist_value_completion", False)
     settings["disable_relationship_completion"] = s.get("disable_relationship_completion", False)
+    settings["display_field_name_and_label"] = s.get("display_field_name_and_label", True)
     settings["excluded_sobjects"] = s.get("excluded_sobjects", [])
 
     # Log Levels of Anonymous Code

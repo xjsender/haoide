@@ -68,6 +68,9 @@
     // Indicate whether disable keyword completion
     "disable_keyword_completion": true,
 
+    // Indicate whether display both field name and field label for sobject field completion
+    "display_field_name_and_label": true,
+
     // Log Levels for anonymous code
     "anonymous_log_levels": [
         {

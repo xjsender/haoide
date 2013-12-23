@@ -35,7 +35,7 @@ def get_sobject_completions():
 
     return setting.get(username)
 
-def get_sobject_completion_list(sobject_describe, prefix=""):
+def get_sobject_completion_list(sobject_describe, prefix="", display_field_name_and_label=False):
     """
     This method is used in completions.py
     """
@@ -45,6 +45,7 @@ def get_sobject_completion_list(sobject_describe, prefix=""):
     # Fields Describe
     for field_name in sorted(sobject_describe["fields"]):
         field_attr = sobject_describe["fields"][field_name]
+        field_label = field_attr["label"]
         precision = field_attr["precision"]
         scale = field_attr["scale"]
         length = field_attr["length"]
@@ -57,10 +58,12 @@ def get_sobject_completion_list(sobject_describe, prefix=""):
         }
 
         if field_type in field_desc_dict:
-            field_desc = field_desc_dict[field_type]
+            field_type_desc = field_desc_dict[field_type]
         else:
-            field_desc = "%s(%s)" % (field_type, length)
-        completion = ("%s%s\t%s" % (prefix, field_name, field_desc), field_name)
+            field_type_desc = "%s(%s)" % (field_type, length)
+
+        field_name_desc = "%s(%s)" % (field_name, field_label) if display_field_name_and_label else field_name
+        completion = ("%s%s\t%s" % (prefix, field_name_desc, field_type_desc), field_name)
         completion_list.append(completion)
 
     # Parent Relationship Describe

@@ -1040,6 +1040,7 @@ class SalesforceApi():
                 }
 
         if state == "Failed":
+            # pprint.pprint(result)
             # This error need more process, because of confused single quote
             compile_errors = unescape(result["CompilerErrors"])
             compile_errors = json.loads(compile_errors)

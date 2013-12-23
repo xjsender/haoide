@@ -143,7 +143,8 @@ class SobjectCompletions(sublime_plugin.EventListener):
             return []
 
         sobject_describe = sobjects_describe.get(sobject_name)
-        completion_list = util.get_sobject_completion_list(sobject_describe)
+        completion_list = util.get_sobject_completion_list(sobject_describe, 
+            display_field_name_and_label=settings["display_field_name_and_label"])
         
         # If variable_name is not empty, show the methods extended from sobject
         if not variable_type: return completion_list
@@ -195,11 +196,12 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
         if len(matched_sobjects) == 1:
             sobject_name = matched_sobjects[0].lower()
             if sobject_name not in sobjects_describe: return []
-            completion_list = util.get_sobject_completion_list(sobjects_describe[sobject_name])
+            completion_list = util.get_sobject_completion_list(sobjects_describe[sobject_name], 
+                display_field_name_and_label=settings["display_field_name_and_label"])
         else:
             for sobject in matched_sobjects:
                 completion_list.extend(util.get_sobject_completion_list(sobjects_describe[sobject.lower()], 
-                    prefix=sobject+"."))
+                    prefix=sobject+".", display_field_name_and_label=settings["display_field_name_and_label"]))
 
         return (completion_list, 
             sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
