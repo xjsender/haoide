@@ -228,7 +228,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                 return completion_list
 
             # Get the matched variable type
-            pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+" + variable_name + "[;\\s:=){]"
+            pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+" + variable_name + "[,;\\s:=){]"
             matched_regions = view.find_all(pattern, sublime.IGNORECASE)
             variable_type = ""
 
