@@ -10,6 +10,7 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 + Change default workspace to ```C:/ForcedotcomWorkspace``` (2013-12-15)
 + Add support for log levels for anonymous code (2013-12-22)
 + Add a new setting for disabling field name and label completion (2013-12-23)
++ Fix bug for completion: variable in method parameter (2013-12-24)
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control
