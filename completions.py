@@ -76,7 +76,7 @@ class PicklistValueCompletions(sublime_plugin.EventListener):
         variable_name, field_name = view.substr(matched_region).split(".")
 
         # Get Sobject Name
-        matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[:;=)\\s]")
+        matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[,:;=)\\s]")
         if not len(matched_regions): return []
         matched_block = view.substr(matched_regions[0])
         sobject_name = matched_block.split(" ")[0]
@@ -124,7 +124,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
         variable_name = view.substr(view.word(pt))
 
         # Get the matched region by variable name
-        matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[:;=)\\s]")
+        matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[,:;=)\\s]")
         variable_type = ""
         if len(matched_regions) > 0:
             matched_block = view.substr(matched_regions[0])
