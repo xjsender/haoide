@@ -76,17 +76,22 @@ class PicklistValueCompletions(sublime_plugin.EventListener):
         variable_name, field_name = view.substr(matched_region).split(".")
 
         # Get Sobject Name
-        matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[,:;=)\\s]")
-        if not len(matched_regions): return []
-        matched_block = view.substr(matched_regions[0])
-        sobject_name = matched_block.split(" ")[0]
+        matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[:;=)\\s]")
+        sobject_name = ""
+        if len(matched_regions): 
+            matched_block = view.substr(matched_regions[0])
+            sobject_name = matched_block.split(" ")[0]
 
         metadata = util.get_sobject_completions().get("sobjects")
         if not metadata: return []
 
         # Get sobject describe
-        sobject_name = sobject_name.lower()
-        if sobject_name not in metadata: return []
+        if sobject_name.lower() in metadata:
+            sobject_name = sobject_name.lower()
+        elif variable_name.lower() in metadata:
+            sobject_name = variable_name.lower()
+        else:
+            return []
         sobject_describe = metadata.get(sobject_name)
 
         # Get sobject picklist field describe
