@@ -35,7 +35,9 @@ def get_sobject_completions():
 
     return setting.get(username)
 
-def get_sobject_completion_list(sobject_describe, prefix="", display_field_name_and_label=False):
+def get_sobject_completion_list(sobject_describe, prefix="", 
+    display_field_name_and_label=False,
+    display_child_relationships=True):
     """
     This method is used in completions.py
     """
@@ -72,9 +74,10 @@ def get_sobject_completion_list(sobject_describe, prefix="", display_field_name_
         completion_list.append((prefix + key + "\t" + parent_sobject + "(c2p)", key)) 
 
     # Child Relationship Describe
-    for key in sorted(sobject_describe["childRelationships"]):
-        child_sobject = sobject_describe["childRelationships"][key]
-        completion_list.append((prefix + key + "\t" + child_sobject + "(p2c)", key))
+    if display_child_relationships:
+        for key in sorted(sobject_describe["childRelationships"]):
+            child_sobject = sobject_describe["childRelationships"][key]
+            completion_list.append((prefix + key + "\t" + child_sobject + "(p2c)", key))
 
     return completion_list   
 
@@ -292,6 +295,7 @@ def parse_all(apex):
             constructors_dict = parse_constructors(class_name, class_detail["constructors"])
             methods_dict = parse_method(class_name, class_detail["methods"])
             properties_dict = parse_properties(class_name, class_detail["properties"])
+
             # all_dict = dict(list(methods_dict.items()) + list(properties_dict.items()))
 
             # Parse constructor, methods and properties

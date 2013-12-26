@@ -202,11 +202,14 @@ class SobjectRelationshipCompletions(sublime_plugin.EventListener):
             sobject_name = matched_sobjects[0].lower()
             if sobject_name not in sobjects_describe: return []
             completion_list = util.get_sobject_completion_list(sobjects_describe[sobject_name], 
-                display_field_name_and_label=settings["display_field_name_and_label"])
+                display_field_name_and_label=settings["display_field_name_and_label"],
+                display_child_relationships=False)
         else:
             for sobject in matched_sobjects:
                 completion_list.extend(util.get_sobject_completion_list(sobjects_describe[sobject.lower()], 
-                    prefix=sobject+".", display_field_name_and_label=settings["display_field_name_and_label"]))
+                    prefix=sobject+".", 
+                    display_field_name_and_label=settings["display_field_name_and_label"],
+                    display_child_relationships=False))
 
         return (completion_list, 
             sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
