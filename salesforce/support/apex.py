@@ -109,6 +109,24 @@ apex_completions = {
             "size\tInteger" : "size$0"
         }
     },
+    # Approval Namespace
+    "approval": {
+        "name": "Approval",
+        "constructors": {},
+        "properties": {
+            "ProcessResult\tNamespace Class": "ProcessResult",
+            "ProcessRequest\tNamespace Class": "ProcessRequest",
+            "ProcessSubmitRequest\tNamespace Class": "ProcessSubmitRequest",
+            "ProcessWorkitemRequest\tNamespace Class": "ProcessWorkitemRequest"
+        },
+        "customize": True,
+        "methods": {
+            "process(Approval.ProcessRequest request)\tApproval.ProcessResult": "process($1)$0",
+            "processprocess(Approval.ProcessRequest processRequests, Boolean opt_allOrNone)\tApproval.ProcessResult": "process($1)$0",
+            "process(Approval.ProcessRequest[] processRequests)\tApproval.ProcessResult[]": "process($1)$0",
+            "process(Approval.ProcessRequest[] processRequests, Boolean opt_allOrNone)\tApproval.ProcessResult[]": "process($1)$0"
+        }
+    },
     "organization" : {
         "constructors" : {},
         "name" : "Organization",
