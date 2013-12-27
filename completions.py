@@ -283,10 +283,10 @@ class ApexCompletions(sublime_plugin.EventListener):
             settings = context.get_toolingapi_settings()
             if not settings["disable_keyword_completion"]:
                 sobjects_describe = util.get_sobject_completions().get("sobjects")
-                if not sobjects_describe: return []
-                for key in sorted(sobjects_describe.keys()):
-                    sobject_name = sobjects_describe[key]["name"]
-                    completion_list.append((sobject_name + "\tSobject", sobject_name))
+                if sobjects_describe:
+                    for key in sorted(sobjects_describe.keys()):
+                        sobject_name = sobjects_describe[key]["name"]
+                        completion_list.append((sobject_name + "\tSobject", sobject_name))
 
             # Add all apex class to <> completions
             for key in sorted(apex.apex_completions):
