@@ -33,7 +33,20 @@ class BulkOperationCommand(sublime_plugin.WindowCommand):
 
     def on_done(self, index):
         if index == -1: return
-        processor.handle_bulk_operation_thread(self.sobjects[index], self.operation)
+        self.sobject = self.sobjects[index]
+        self.window.show_input_panel("Input CSV Path: ", "", self.on_input, None, None)
+
+    def on_input(self, file_path):
+        if not file_path.endswith('csv'): 
+            sublime.error_message("Input file must be CSV")
+            return
+
+        import os
+        if not os.path.exists(file_path):
+            sublime.error_message(file_path + " is not valid file")
+            return
+
+        processor.handle_bulk_operation_thread(self.sobject, file_path, self.operation)
 
 class BulkUpsertCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

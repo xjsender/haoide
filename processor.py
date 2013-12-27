@@ -538,14 +538,14 @@ def handle_deploy_metadata_thread(zipfile, timeout=120):
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
     handle_thread(thread, timeout)
 
-def handle_bulk_operation_thread(sobject, operation, timeout=120):
+def handle_bulk_operation_thread(sobject, file_path, operation, timeout=120):
     settings = context.get_toolingapi_settings()
-    csv_file = settings["workspace"] + "/bulkin/%s.csv" % sobject
-    if not os.path.exists(csv_file):
-        sublime.error_message(csv_file + " is not exist")
-        return
+    records = open(file_path, "rb").read()
 
-    records = open(csv_file, "rb").read()
+    # If csv encode is UTF-8 With BOM, just remove the BOM
+    if records[:3] == b'\xef\xbb\xbf':
+        records = records[3:]
+
     bulkapi = BulkApi(settings, sobject, records)
     if operation == "insert":
         target = bulkapi.insert

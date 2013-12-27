@@ -12,6 +12,8 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 + Add a new setting for disabling field name and label completion (2013-12-23)
 + Fix bug for completion: variable in method parameter (2013-12-24)
 + Add picklist value completion support for ```sObject.PicklistField =``` (2013-12-25)
++ Allow us to input file path when using Bulk Api to CRUD on data (2013-12-27)
++ Automatically detect BOM header when CRUD on data (2013-12-27)
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control
