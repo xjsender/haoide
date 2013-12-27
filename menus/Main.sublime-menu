@@ -23,7 +23,11 @@
                 "caption": "New Component",
                 "command": "create_component"
             },
-
+            {
+                "id": "reloadcache",
+                "caption": "Reload Cache",
+                "command": "reload_cache"
+            },
             {
                 "id": "RefreshFolder",
                 "caption": "Refresh Folder",

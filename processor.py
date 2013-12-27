@@ -457,20 +457,20 @@ def handle_initiate_sobjects_completions(timeout=120):
                 childSobject = f["childSObject"]
                 if not childRelationshipName: continue
 
-                if childRelationshipName in all_child_relationship_dict:
-                    is_duplicate = False
-                    for so in all_child_relationship_dict[childRelationshipName]:
-                        if childSobject == so:
-                            is_duplicate = True
-                            break
+                # if childRelationshipName in all_child_relationship_dict:
+                #     is_duplicate = False
+                #     for so in all_child_relationship_dict[childRelationshipName]:
+                #         if childSobject == so:
+                #             is_duplicate = True
+                #             break
 
-                    if not is_duplicate:
-                        all_child_relationship_dict[childRelationshipName].append(childSobject)
-                else:
-                    all_child_relationship_dict[childRelationshipName] = [childSobject]
+                #     if not is_duplicate:
+                #         all_child_relationship_dict[childRelationshipName].append(childSobject)
+                # else:
+                #     all_child_relationship_dict[childRelationshipName] = [childSobject]
 
                 # Add Parent Relationship Name as Field
-                child_relationship_dict[f["relationshipName"]] = childSobject
+                child_relationship_dict[childRelationshipName] = childSobject
 
             # Combine sobject fields dict and sobject child relationship dict
             sobjects_completion["sobjects"][sobject_name]["fields"] = fields_dict
@@ -481,7 +481,7 @@ def handle_initiate_sobjects_completions(timeout=120):
         # Populate Child Relationship and Parent Relationship
 
         sobjects_completion["parentRelationships"] = all_parent_relationship_dict
-        sobjects_completion["childRelationships"] = all_child_relationship_dict
+        # sobjects_completion["childRelationships"] = all_child_relationship_dict
 
         # Every project has unique username
         username = toolingapi_settings["username"]
@@ -508,7 +508,7 @@ def handle_initiate_sobjects_completions(timeout=120):
             threads.append(thread)
             apis.append(api)
 
-        ThreadsProgress(threads, "Describe All Sobjects", "Describe All Sobjects Succeed")
+        ThreadsProgress(threads, "Download Cache of Sobjects", "Download Cache of Sobjects Succeed")
         handle_threads(apis, threads, 10)
 
     toolingapi_settings = context.get_toolingapi_settings()

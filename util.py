@@ -17,17 +17,13 @@ from .salesforce import xmltodict
 from . import context
 from xml.sax.saxutils import unescape
 
-def get_sobject_completions():
+def get_sobject_completions(username):
     """
     This method is used in completions.py
     """
 
     # Load sobjects compoletions
     setting = sublime.load_settings("sobjects_completion.sublime-settings")
-
-    # Load sobjects field meatadata
-    toolingapi_settings = context.get_toolingapi_settings()
-    username = toolingapi_settings["username"]
 
     # If current username is in settings, it means project is initiated
     if not setting.has(username):

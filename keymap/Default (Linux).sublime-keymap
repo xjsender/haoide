@@ -5,6 +5,9 @@
     // Download all code and save them to new project
     {"keys": ["alt+f5"], "command": "create_new_project"},
 
+    // Download all code and save them to new project
+    {"keys": ["alt+f6"], "command": "reload_cache"},
+
     // Refresh Folder
     {"keys": ["alt+r","alt+f"], "command": "refresh_folder"},
 

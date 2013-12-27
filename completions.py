@@ -53,57 +53,6 @@ class symbol_table_completions(sublime_plugin.EventListener):
         completion_list.sort(key=lambda tup:tup[1])
         return completion_list
 
-class PicklistValueCompletions(sublime_plugin.EventListener):
-    def on_query_completions(self, view, prefix, locations):
-        settings = context.get_toolingapi_settings()
-        if settings["disable_picklist_value_completion"]: return[]
-
-        if not view.match_selector(locations[0], "source.java"):
-            return []
-
-        location = locations[0]
-        pt = locations[0] - len(prefix) - 1
-        ch = view.substr(sublime.Region(pt, pt + 1))
-
-        if ch != "=": return []
-
-        # Get the begin point of current line
-        begin = view.full_line(pt).begin()
-
-        # Get Sobject Variable Name and Field Name
-        matched_region = view.find("[a-zA-Z_1-9]+\\.[a-zA-Z_1-9]+", begin)
-        if not matched_region: return []
-        variable_name, field_name = view.substr(matched_region).split(".")
-
-        # Get Sobject Name
-        matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[:;=)\\s]")
-        sobject_name = ""
-        if len(matched_regions): 
-            matched_block = view.substr(matched_regions[0])
-            sobject_name = matched_block.split(" ")[0]
-
-        metadata = util.get_sobject_completions().get("sobjects")
-        if not metadata: return []
-
-        # Get sobject describe
-        if sobject_name.lower() in metadata:
-            sobject_name = sobject_name.lower()
-        elif variable_name.lower() in metadata:
-            sobject_name = variable_name.lower()
-        else:
-            return []
-        sobject_describe = metadata.get(sobject_name)
-
-        # Get sobject picklist field describe
-        if field_name not in sobject_describe["picklist_fields"]: return []
-        picklist_field_describe = sobject_describe["picklist_fields"][field_name]
-
-        completion_list = []
-        for picklist_field in sorted(picklist_field_describe.keys()):
-            completion_list.append((picklist_field, picklist_field_describe[picklist_field]))
-
-        return completion_list
-
 class SobjectCompletions(sublime_plugin.EventListener):
     """
     When you refresh all, your sobject completions will updated at the same time
@@ -113,106 +62,115 @@ class SobjectCompletions(sublime_plugin.EventListener):
     """
 
     def on_query_completions(self, view, prefix, locations):
-        settings = context.get_toolingapi_settings()
-        if settings["disable_fields_completion"]: return[]
-
-        if not view.match_selector(locations[0], "source.java"):
-            return []
+        if not view.match_selector(locations[0], "source.java"): return []
 
         location = locations[0]
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
+        if ch not in [".", "="]: return []
 
-        if ch != ".": return []
-
-        # Get the variable name
-        variable_name = view.substr(view.word(pt))
-
-        # Get the matched region by variable name
-        matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[,:;=)\\s]")
-        variable_type = ""
-        if len(matched_regions) > 0:
-            matched_block = view.substr(matched_regions[0])
-            variable_type = matched_block.split(" ")[0]
-
-        # If username is in settings, get the sobject fields describe dict
-        sobjects_describe = util.get_sobject_completions().get("sobjects")
-        if not sobjects_describe: return []
-
-        completion_list = []
-        if variable_type.lower() in sobjects_describe:
-            sobject_name = variable_type.lower()
-        elif variable_name.lower() in sobjects_describe:
-            sobject_name = variable_name.lower()
-        else:
-            return []
-
-        sobject_describe = sobjects_describe.get(sobject_name)
-        completion_list = util.get_sobject_completion_list(sobject_describe, 
-            display_field_name_and_label=settings["display_field_name_and_label"])
-        
-        # If variable_name is not empty, show the methods extended from sobject
-        if not variable_type: return completion_list
-        methods = apex.apex_completions["sobject"]["methods"]
-        for key in sorted(methods.keys()):
-            completion_list.append(("Sobject." + key, methods[key]))
-
-        return completion_list
-
-class SobjectRelationshipCompletions(sublime_plugin.EventListener):
-    """
-    Find the Child Sobject Name or Parent Sobject Name according to relationship Name
-    and show the completions of the found sobject
-    """
-
-    def on_query_completions(self, view, prefix, locations):
         settings = context.get_toolingapi_settings()
-        if settings["disable_relationship_completion"]: return[]
-
-        if not view.match_selector(locations[0], "source.java"):
-            return []
-
-        pt = locations[0] - len(prefix) - 1
-        ch = view.substr(sublime.Region(pt, pt + 1))
-
-        if ch != ".": return []
-
-        # Get the variable name
-        relationship_name = view.substr(view.word(pt))
-
-        # Get all sobject describe of current user
-        metadata = util.get_sobject_completions()
+        metadata = util.get_sobject_completions(settings["username"])
         if not metadata: return []
 
-        sobjects_describe = metadata.get("sobjects")
-        parentRelationships = metadata.get("parentRelationships")
-        childRelationships = metadata.get("childRelationships")
-        
-        # If relationship_name is not only Foreign Key Name but also Sobject Name,
-        # In order to prevent duplicate, so just skip
-        if relationship_name.lower() in sobjects_describe: return []
+        # Get all related settings
+        disable_fields_completion = settings["disable_fields_completion"]
+        disable_relationship_completion = settings["disable_relationship_completion"]
+        display_field_name_and_label = settings["display_field_name_and_label"]
+        disable_picklist_value_completion = settings["disable_picklist_value_completion"]
 
-        # Parent sobject Field completions
-        if relationship_name not in parentRelationships: return []
-
-        # Because relationship name is not unique, so we need to display sobject name prefix
         completion_list = []
-        matched_sobjects = parentRelationships[relationship_name]
-        if len(matched_sobjects) == 1:
-            sobject_name = matched_sobjects[0].lower()
-            if sobject_name not in sobjects_describe: return []
-            completion_list = util.get_sobject_completion_list(sobjects_describe[sobject_name], 
-                display_field_name_and_label=settings["display_field_name_and_label"],
-                display_child_relationships=False)
-        else:
-            for sobject in matched_sobjects:
-                completion_list.extend(util.get_sobject_completion_list(sobjects_describe[sobject.lower()], 
-                    prefix=sobject+".", 
-                    display_field_name_and_label=settings["display_field_name_and_label"],
-                    display_child_relationships=False))
+        if ch == ".":
+            # Get the variable name
+            variable_name = view.substr(view.word(pt-1))
 
-        return (completion_list, 
-            sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+            completion_list = []
+            if not disable_fields_completion:
+                # Get the matched region by variable name
+                matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[,:;=)\\s]")
+                variable_type = ""
+                if len(matched_regions) > 0:
+                    matched_block = view.substr(matched_regions[0])
+                    variable_type = matched_block.split(" ")[0]
+
+                sobjects_describe = metadata["sobjects"]
+                if not sobjects_describe: return []
+                if variable_type.lower() in sobjects_describe:
+                    sobject_name = variable_type.lower()
+                elif variable_name.lower() in sobjects_describe:
+                    sobject_name = variable_name.lower()
+                else:
+                    return []
+
+                sobject_describe = sobjects_describe.get(sobject_name)
+                completion_list = util.get_sobject_completion_list(sobject_describe, 
+                    display_field_name_and_label=display_field_name_and_label)
+                
+                # If variable_name is not empty, show the methods extended from sobject
+                if variable_type: 
+                    methods = apex.apex_completions["sobject"]["methods"]
+                    for key in sorted(methods.keys()):
+                        completion_list.append(("Sobject." + key, methods[key]))
+
+            if not disable_relationship_completion and not completion_list:
+                sobjects_describe = metadata.get("sobjects")
+                parentRelationships = metadata.get("parentRelationships")
+                
+                # Parent sobject Field completions
+                if variable_name not in parentRelationships: return []
+
+                # Because relationship name is not unique, so we need to display sobject name prefix
+                matched_sobjects = parentRelationships[variable_name]
+                if len(matched_sobjects) == 1:
+                    sobject_name = matched_sobjects[0].lower()
+                    if sobject_name not in sobjects_describe: return []
+                    completion_list = util.get_sobject_completion_list(sobjects_describe[sobject_name], 
+                        display_field_name_and_label=settings["display_field_name_and_label"],
+                        display_child_relationships=False)
+                else:
+                    for sobject in matched_sobjects:
+                        completion_list.extend(util.get_sobject_completion_list(sobjects_describe[sobject.lower()], 
+                            prefix=sobject+".", 
+                            display_field_name_and_label=settings["display_field_name_and_label"],
+                            display_child_relationships=False))
+
+        elif ch == "=":
+            if disable_picklist_value_completion: return []
+
+            # Get the begin point of current line
+            begin = view.full_line(pt).begin()
+
+            # Get Sobject Variable Name and Field Name
+            matched_region = view.find("[a-zA-Z_1-9]+\\.[a-zA-Z_1-9]+", begin)
+            if not matched_region: return []
+            variable_name, field_name = view.substr(matched_region).split(".")
+
+            # Get Sobject Name
+            matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[:;=)\\s]")
+            sobject_name = ""
+            if len(matched_regions): 
+                matched_block = view.substr(matched_regions[0])
+                sobject_name = matched_block.split(" ")[0]
+
+            # Get sobject describe
+            sobjects_describe = metadata["sobjects"]
+            if sobject_name.lower() in sobjects_describe:
+                sobject_name = sobject_name.lower()
+            elif variable_name.lower() in sobjects_describe:
+                sobject_name = variable_name.lower()
+            else:
+                return []
+            sobject_describe = sobjects_describe.get(sobject_name)
+
+            # Get sobject picklist field describe
+            if field_name not in sobject_describe["picklist_fields"]: return []
+            picklist_field_describe = sobject_describe["picklist_fields"][field_name]
+
+            completion_list = []
+            for picklist_field in sorted(picklist_field_describe.keys()):
+                completion_list.append((picklist_field, picklist_field_describe[picklist_field]))
+
+        return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
 class ApexCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
@@ -221,8 +179,8 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
-        completion_list = []
 
+        completion_list = []
         if ch == ".":
             # Get the variable name
             variable_name = view.substr(view.word(pt - 1))
@@ -282,7 +240,7 @@ class ApexCompletions(sublime_plugin.EventListener):
         elif ch != "=" and prefix in "abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ":
             settings = context.get_toolingapi_settings()
             if not settings["disable_keyword_completion"]:
-                sobjects_describe = util.get_sobject_completions().get("sobjects")
+                sobjects_describe = util.get_sobject_completions(settings["username"]).get("sobjects")
                 if sobjects_describe:
                     for key in sorted(sobjects_describe.keys()):
                         sobject_name = sobjects_describe[key]["name"]
@@ -311,9 +269,7 @@ class PageCompletions(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
         # Only trigger within HTML
-        if not view.match_selector(locations[0],
-                "text.html - source"):
-            return []
+        if not view.match_selector(locations[0], "text.html - source"): return []
 
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))

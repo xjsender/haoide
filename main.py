@@ -692,6 +692,13 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
         # Handle Refresh All
         processor.handle_new_project(toolingapi_settings)
 
+class ReloadCacheCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ReloadCacheCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        processor.handle_initiate_sobjects_completions()
+
 class RefreshComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Get file_name and component_attribute

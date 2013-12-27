@@ -1,20 +1,22 @@
 # Sublime IDE for salesforce
 This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Linux.
 
-# New Feature:
-+ Add picklist value completions feature (2013-12-06)
-+ Export Sobject Data Template by Record Type (2013-12-07)
-+ Refactoring sobject completion for those complicated orgs (2013-12-14)
-+ Add four settings to permit user to close the code completion feature (2013-12-14)
-+ Disable keyword completion by default, need enable manually (2013-12-14)
-+ Change default workspace to ```C:/ForcedotcomWorkspace``` (2013-12-15)
-+ Add support for log levels of anonymous code (2013-12-22)
-+ Add a new setting for disabling field name and label completion (2013-12-23)
-+ Fix bug for completion: variable in method parameter (2013-12-24)
-+ Add picklist value completion support for ```sObject.PicklistField =``` (2013-12-25)
-+ Allow us to input file path when using Bulk Api to CRUD on data (2013-12-27)
-+ Automatically detect BOM header when CRUD on data (2013-12-27)
-+ After CRUD on csv data, put the log at the same path of this csv data (2013-12-27)
+# Change Logs:
++ 2013-12-06: Add picklist value completions feature
++ 2013-12-07: Export Sobject Data Template by Record Type
++ 2013-12-14: Refactoring sobject completion for those complicated orgs
++ 2013-12-14: Add four settings to permit user to close the code completion feature
++ 2013-12-14: Disable keyword completion by default, need enable manually
++ 2013-12-15: Change default workspace to ```C:/ForcedotcomWorkspace```
++ 2013-12-22: Add support for log levels of anonymous code
++ 2013-12-23: Add a new setting for disabling field name and label completion
++ 2013-12-24: Fix bug for completion: variable in method parameter
++ 2013-12-25: Add picklist value completion support for ```sObject.PicklistField =```
++ 2013-12-27: Allow us to input file path when using Bulk Api to CRUD on data
++ 2013-12-27: Automatically detect BOM header when CRUD on data
++ 2013-12-27: After CRUD on csv data, put the log at the same path of this csv data
++ 2013-12-27: Refactoring code completion for sobject field, relationship and picklist value
++ 2013-12-27: Add command for reloading cache of sobjects
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control
