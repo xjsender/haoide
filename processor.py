@@ -390,6 +390,7 @@ def handle_initiate_sobjects_completions(timeout=120):
 
         all_parent_relationship_dict = {}
         all_child_relationship_dict = {}
+        display_field_name_and_label = toolingapi_settings["display_field_name_and_label"]
         for sobject_describe in results:
             # Initiate Sobject completions
             if "name" not in sobject_describe: continue
@@ -411,15 +412,26 @@ def handle_initiate_sobjects_completions(timeout=120):
             child_relationship_dict = {}
             for f in sobject_describe["fields"]:
                 field_name = f["name"]
+                precision = f["precision"]
+                scale = f["scale"]
+                field_type = f["type"]
 
-                # Fields Dict
-                fields_dict[field_name] = {
-                    "type": f["type"].capitalize(),
-                    "length": f["length"],
-                    "precision": f["precision"],
-                    "label": f["label"],
-                    "scale": f["scale"]
+                field_desc_dict = {
+                    "double": "Double(%s, %s)" % (precision, scale),
+                    "currency": "Currency(%s, %s)" % (precision, scale),
+                    "boolean": "Boolean",
+                    "reference": "Reference"
                 }
+
+                field_name_desc = "%s(%s)" % (field_name, f["label"]) \
+                    if display_field_name_and_label else field_name
+                if field_type in field_desc_dict:
+                    field_type_desc = field_desc_dict[field_type]
+                else:
+                    field_type_desc = "%s(%s)" % (field_type.capitalize(), f["length"])
+
+                fd = "%s\t%s" % (field_name_desc, field_type_desc)
+                fields_dict[fd] = field_name
 
                 # Picklist Dcit
                 if f["type"] == "picklist":

@@ -17,6 +17,7 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 + 2013-12-27: After CRUD on csv data, put the log at the same path of this csv data
 + 2013-12-27: Refactoring code completion for sobject field, relationship and picklist value
 + 2013-12-27: Add command for reloading cache of sobjects
++ 2013-12-27: Refactoring sobject field cache structure for speeding up field completion
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control
