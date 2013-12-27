@@ -150,10 +150,10 @@ class BulkJob():
         return response.status_code
 
 class BulkApi():
-    def __init__(self, settings, sobject, records=None, external_field=None):
+    def __init__(self, settings, sobject, inputfile=None, external_field=None):
         self.settings = settings
         self.sobject = sobject
-        self.records = records
+        self.inputfile = inputfile
         self.external_field = external_field
         self.result = None
     
@@ -164,16 +164,15 @@ class BulkApi():
 
     def write_csv_to_file(self, result, operation):
         # Write result to csv
-        path = "bulkout" if operation == "query" else "bulkin/log"
-        outputdir = self.settings["workspace"] + "/%s" % path
-        if not os.path.exists(outputdir):
-            os.makedirs(outputdir)
-
         time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
-        if operation == "query":
-            outputfile = outputdir + "/%s.csv" % (self.sobject)
+        if self.inputfile:
+            outputfile = os.path.dirname(self.inputfile) +\
+                "/log/%s-%s-%s.csv" % (self.sobject, operation, time_stamp)
         else:
-            outputfile = outputdir + "/%s-%s-%s.csv" % (self.sobject, operation, time_stamp)
+            outputfile = self.settings["workspace"] + "/bulkout/%s.csv" % (self.sobject)
+
+        if not os.path.exists(os.path.dirname(outputfile)):
+            os.mkdir(os.path.dirname(outputfile))
 
         if isinstance(result, dict):
             sublime.active_window().run_command("show_panel", 
@@ -205,7 +204,15 @@ class BulkApi():
         self.write_csv_to_file(result, "delete")
 
     def do_operation(self, operation):
-        job = BulkJob(self.settings, operation, self.sobject, self.records, self.external_field)
+        if self.inputfile:
+            # Read file content, if csv encode is UTF-8 With BOM, just remove the BOM
+            records = open(self.inputfile, "rb").read()
+            if records[:3] == b'\xef\xbb\xbf':
+                records = records[3:]
+        else:
+            records = None
+
+        job = BulkJob(self.settings, operation, self.sobject, records, self.external_field)
         job_id = job.create_job()
         result = job.create_batch(job_id)
         if isinstance(result, dict):

@@ -14,6 +14,7 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 + Add picklist value completion support for ```sObject.PicklistField =``` (2013-12-25)
 + Allow us to input file path when using Bulk Api to CRUD on data (2013-12-27)
 + Automatically detect BOM header when CRUD on data (2013-12-27)
++ After CRUD on csv data, put the log at the same path of this csv data (2013-12-27)
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control
