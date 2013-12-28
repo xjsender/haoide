@@ -439,7 +439,6 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
             if (content_type) and (not 'content-type' in self.headers):
                 self.headers['Content-Type'] = content_type
 
-        print (self.headers)
         self.body = body
 
     def prepare_content_length(self, body):
