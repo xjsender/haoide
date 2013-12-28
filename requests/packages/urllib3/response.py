@@ -74,6 +74,7 @@ class HTTPResponse(io.IOBase):
     """
 
     CONTENT_DECODERS = ['gzip', 'deflate']
+    REDIRECT_STATUSES = [301, 302, 303, 307, 308]
 
     def __init__(self, body='', headers=None, status=0, version=0, reason=None,
                  strict=0, preload_content=True, decode_content=True,
@@ -89,6 +90,7 @@ class HTTPResponse(io.IOBase):
         self._body = body if body and isinstance(body, basestring) else None
         self._fp = None
         self._original_response = original_response
+        self._fp_bytes_read = 0
 
         self._pool = pool
         self._connection = connection
@@ -107,7 +109,7 @@ class HTTPResponse(io.IOBase):
             code and valid location. ``None`` if redirect status and no
             location. ``False`` if not a redirect status code.
         """
-        if self.status in [301, 302, 303, 307]:
+        if self.status in self.REDIRECT_STATUSES:
             return self.headers.get('location')
 
         return False
@@ -127,6 +129,14 @@ class HTTPResponse(io.IOBase):
 
         if self._fp:
             return self.read(cache_content=True)
+
+    def tell(self):
+        """
+        Obtain the number of bytes pulled over the wire so far. May differ from
+        the amount of content returned by :meth:``HTTPResponse.read`` if bytes
+        are encoded on the wire (e.g, compressed).
+        """
+        return self._fp_bytes_read
 
     def read(self, amt=None, decode_content=None, cache_content=False):
         """
@@ -182,14 +192,18 @@ class HTTPResponse(io.IOBase):
                     self._fp.close()
                     flush_decoder = True
 
+            self._fp_bytes_read += len(data)
+
             try:
                 if decode_content and self._decoder:
                     data = self._decoder.decompress(data)
-            except (IOError, zlib.error):
-                raise DecodeError("Received response with content-encoding: %s, but "
-                                  "failed to decode it." % content_encoding)
+            except (IOError, zlib.error) as e:
+                raise DecodeError(
+                    "Received response with content-encoding: %s, but "
+                    "failed to decode it." % content_encoding,
+                    e)
 
-            if flush_decoder and self._decoder:
+            if flush_decoder and decode_content and self._decoder:
                 buf = self._decoder.decompress(binary_type())
                 data += buf + self._decoder.flush()
 

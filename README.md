@@ -18,6 +18,7 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 + 2013-12-27: Refactoring code completion for sobject field, relationship and picklist value
 + 2013-12-27: Add command for reloading cache of sobjects
 + 2013-12-27: Refactoring sobject field cache structure for speeding up field completion
++ 2013-12-28: `Fix bulk api issue <https://github.com/kennethreitz/requests/issues/1833>`_
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control
