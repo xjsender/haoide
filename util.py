@@ -58,7 +58,7 @@ def get_sobject_completion_list(sobject_describe, prefix="",
             child_sobject = sobject_describe["childRelationships"][key]
             completion_list.append((prefix + key + "\t" + child_sobject + "(p2c)", key))
 
-    return completion_list   
+    return completion_list
 
 def get_view_by_name(view_name):
     """

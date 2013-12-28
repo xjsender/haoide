@@ -71,7 +71,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
 
         settings = context.get_toolingapi_settings()
         metadata = util.get_sobject_completions(settings["username"])
-        if not metadata: return []
+        if not metadata or "sobjects" not in metadata: return []
 
         # Get all related settings
         disable_fields_completion = settings["disable_fields_completion"]
@@ -94,23 +94,23 @@ class SobjectCompletions(sublime_plugin.EventListener):
                     variable_type = matched_block.split(" ")[0]
 
                 sobjects_describe = metadata["sobjects"]
-                if not sobjects_describe: return []
                 if variable_type.lower() in sobjects_describe:
                     sobject_name = variable_type.lower()
                 elif variable_name.lower() in sobjects_describe:
                     sobject_name = variable_name.lower()
                 else:
-                    return []
+                    sobject_name = ""
 
-                sobject_describe = sobjects_describe.get(sobject_name)
-                completion_list = util.get_sobject_completion_list(sobject_describe, 
-                    display_field_name_and_label=display_field_name_and_label)
-                
-                # If variable_name is not empty, show the methods extended from sobject
-                if variable_type: 
-                    methods = apex.apex_completions["sobject"]["methods"]
-                    for key in sorted(methods.keys()):
-                        completion_list.append(("Sobject." + key, methods[key]))
+                if sobject_name in sobjects_describe:
+                    sobject_describe = sobjects_describe.get(sobject_name)
+                    completion_list = util.get_sobject_completion_list(sobject_describe, 
+                        display_field_name_and_label=display_field_name_and_label)
+                    
+                    # If variable_name is not empty, show the methods extended from sobject
+                    if variable_type: 
+                        methods = apex.apex_completions["sobject"]["methods"]
+                        for key in sorted(methods.keys()):
+                            completion_list.append(("Sobject." + key, methods[key]))
 
             if not disable_relationship_completion and not completion_list:
                 sobjects_describe = metadata.get("sobjects")
