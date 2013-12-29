@@ -699,6 +699,21 @@ class ReloadCacheCommand(sublime_plugin.WindowCommand):
     def run(self):
         processor.handle_initiate_sobjects_completions()
 
+class ClearCacheCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ClearCacheCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.usernames = util.get_sobject_caches()
+        if not self.usernames:
+            sublime.message_dialog("No sobject cache already")
+            return
+        self.window.show_quick_panel(self.usernames, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+        util.clear_cache(self.usernames[index])
+
 class RefreshComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Get file_name and component_attribute

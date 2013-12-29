@@ -27,18 +27,22 @@ def get_toolingapi_settings():
 
     default_project = None
     default_project_name = None
+    usernames = []
     for project_name in projects.keys():
         project_attr = projects[project_name]
         if project_attr["default"]: 
             default_project_name = project_name
             default_project = project_attr
             default_project["project_name"] = default_project_name
+        else:
+            usernames.append(project_attr["username"])
 
     if default_project == None:
         sublime.error_message("You should has one default project at least. please check you settings.")
         return
 
     # Default Project Part
+    settings["usernames"] = usernames
     settings["default_project"] = default_project
     settings["default_project_name"] = default_project_name
 

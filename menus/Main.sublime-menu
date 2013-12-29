@@ -24,34 +24,30 @@
                 "command": "create_component"
             },
             {
-                "id": "reloadcache",
-                "caption": "Reload Cache",
-                "command": "reload_cache"
-            },
-            {
                 "id": "RefreshFolder",
                 "caption": "Refresh Folder",
                 "command": "refresh_folder"
             },
-            
+
             { "caption": "-" },
 
             {
-                "caption": "Migration",
+                "caption": "Cache",
                 "children": [
                     {
-                        "id": "retrievemetadata",
-                        "caption": "Retrieve Metadata",
-                        "command": "retrieve_metadata"
+                        "id": "reloadcache",
+                        "caption": "Reload Active",
+                        "command": "reload_cache"
                     },
 
                     {
-                        "id": "deploymetadata",
-                        "caption": "Deploy Metadata(Ongoing...)",
-                        "command": "deploy_metadata"
+                        "id": "clearcache",
+                        "caption": "Clear Inactive",
+                        "command": "clear_cache"
                     }
                 ]
             },
+
             {
                 "caption": "Debug",
                 "children": [
@@ -134,7 +130,7 @@
             },
 
             {
-                "caption": "Login To",
+                "caption": "LoginTo",
                 "children": [
                     {
                         "id": "ViewComponentInSFDC",
@@ -202,7 +198,22 @@
                     }
                 ]
             },
+            {
+                "caption": "Migration",
+                "children": [
+                    {
+                        "id": "retrievemetadata",
+                        "caption": "Retrieve Metadata",
+                        "command": "retrieve_metadata"
+                    },
 
+                    {
+                        "id": "deploymetadata",
+                        "caption": "Deploy Metadata(Ongoing...)",
+                        "command": "deploy_metadata"
+                    }
+                ]
+            },
             { "caption": "-" },
 
             {

@@ -17,19 +17,40 @@ from .salesforce import xmltodict
 from . import context
 from xml.sax.saxutils import unescape
 
+def get_sobject_caches():
+    """
+    Get the usernames which has cache
+    """
+
+    settings = context.get_toolingapi_settings()
+    usernames = settings["usernames"]
+    settings = sublime.load_settings("sobjects_completion.sublime-settings")
+    caches = []
+    for username in usernames:
+        if settings.has(username):
+            caches.append(username)
+
+    return caches
+
+def clear_cache(username):
+    settings = sublime.load_settings("sobjects_completion.sublime-settings")
+    settings = settings.erase(username)
+    sublime.save_settings("sobjects_completion.sublime-settings")
+    sublime.status_message(username + " cache is cleared")
+
 def get_sobject_completions(username):
     """
     This method is used in completions.py
     """
 
     # Load sobjects compoletions
-    setting = sublime.load_settings("sobjects_completion.sublime-settings")
+    settings = sublime.load_settings("sobjects_completion.sublime-settings")
 
     # If current username is in settings, it means project is initiated
-    if not setting.has(username):
+    if not settings.has(username):
         return {}
 
-    return setting.get(username)
+    return settings.get(username)
 
 def get_sobject_completion_list(sobject_describe, prefix="", 
     display_field_name_and_label=False,
