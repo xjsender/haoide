@@ -712,6 +712,8 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
 
     def on_done(self, index):
         if index == -1: return
+        confirm = sublime.ok_cancel_dialog("Are you sure you really want to clear this?")
+        if confirm == False: return
         util.clear_cache(self.usernames[index])
 
 class RefreshComponentCommand(sublime_plugin.TextCommand):
