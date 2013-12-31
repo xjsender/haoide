@@ -140,7 +140,7 @@ apex_completions = {
         "name" : "GetDeletedResult",
         "properties" : {},
         "methods" : {
-            "getDeletedRecords()\tLIST<Database.DeletedRecord>" : "getDeletedRecords()$0",
+            "getDeletedRecords()\tList<Database.DeletedRecord>" : "getDeletedRecords()$0",
             "getEarliestDateAvailable()\tDate" : "getEarliestDateAvailable()$0",
             "getLatestDateCovered()\tDate" : "getLatestDateCovered()$0"
         }
@@ -279,7 +279,7 @@ apex_completions = {
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0",
-            "values()\tLIST<Process.PluginDescribeResult.ParameterType>" : "values()$0"
+            "values()\tList<Process.PluginDescribeResult.ParameterType>" : "values()$0"
         }
     },
     "topicpage" : {
@@ -302,7 +302,7 @@ apex_completions = {
         "name" : "DeleteResult",
         "properties" : {},
         "methods" : {
-            "getErrors()\tLIST<Database.Error>" : "getErrors()$0",
+            "getErrors()\tList<Database.Error>" : "getErrors()$0",
             "isSuccess()\tBoolean" : "isSuccess()$0",
             "getId()\tId" : "getId()$0"
         }
@@ -317,7 +317,7 @@ apex_completions = {
             "getStatusCode()\tInteger" : "getStatusCode()$0",
             "getBody()\tString" : "getBody()$0",
             "getStatus()\tString" : "getStatus()$0",
-            "getHeaderKeys()\tLIST<String>" : "getHeaderKeys()$0",
+            "getHeaderKeys()\tList<String>" : "getHeaderKeys()$0",
             "setStatus(String status)\tvoid" : "setStatus($1)$0",
             "setBodyAsBlob(Blob body)\tvoid" : "setBodyAsBlob($1)$0",
             "getBodyAsBlob()\tBlob" : "getBodyAsBlob()$0",
@@ -339,7 +339,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<reports.ReportFormat>" : "values()$0",
+            "values()\tList<reports.ReportFormat>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -388,7 +388,7 @@ apex_completions = {
             "Link" : "Link$0"
         },
         "methods" : {
-            "values()\tLIST<ConnectApi.MessageSegmentType>" : "values()$0",
+            "values()\tList<ConnectApi.MessageSegmentType>" : "values()$0",
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
@@ -406,7 +406,7 @@ apex_completions = {
         "name" : "MobilePushNotification",
         "properties" : {},
         "methods" : {
-            "send(String application, SET<String> users)\tvoid" : "send($1)$0",
+            "send(String application, Set<String> users)\tvoid" : "send($1)$0",
             "setPayload(MAP<String,ANY> payload)\tvoid" : "setPayload($1)$0",
             "setTtl(Integer ttl)\tvoid" : "setTtl($1)$0"
         }
@@ -504,7 +504,7 @@ apex_completions = {
             "AlphaAsc" : "AlphaAsc$0"
         },
         "methods" : {
-            "values()\tLIST<ConnectApi.TopicSort>" : "values()$0",
+            "values()\tList<ConnectApi.TopicSort>" : "values()$0",
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
@@ -564,7 +564,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.ZoneSearchResultType>" : "values()$0",
+            "values()\tList<ConnectApi.ZoneSearchResultType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -578,7 +578,7 @@ apex_completions = {
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0",
-            "values()\tLIST<ConnectApi.GroupVisibilityType>" : "values()$0"
+            "values()\tList<ConnectApi.GroupVisibilityType>" : "values()$0"
         }
     },
     "batchable" : {
@@ -586,7 +586,7 @@ apex_completions = {
         "name" : "Batchable",
         "properties" : {},
         "methods" : {
-            "execute(Database.BatchableContext param1, LIST<ANY> param2)\tvoid" : "execute($1)$0",
+            "execute(Database.BatchableContext param1, List<ANY> param2)\tvoid" : "execute($1)$0",
             "start(Database.BatchableContext param1)\tsystem.Iterable" : "start($1)$0",
             "finish(Database.BatchableContext param1)\tvoid" : "finish($1)$0"
         }
@@ -727,7 +727,7 @@ apex_completions = {
             "READ_ONLY" : "READ_ONLY$0"
         },
         "methods" : {
-            "values()\tLIST<system.ApplicationReadWriteMode>" : "values()$0",
+            "values()\tList<system.ApplicationReadWriteMode>" : "values()$0",
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
@@ -835,7 +835,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.FeedType>" : "values()$0",
+            "values()\tList<ConnectApi.FeedType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -1028,37 +1028,37 @@ apex_completions = {
         "name" : "Database",
         "properties" : ["AssignmentRuleHeader", "QueryLocatorIterator", "BatchableContext", "Batchable", "QueryLocator", "BatchableContextImpl", "QueryLocatorChunkIterator", "LeadConvert", "DMLOptions", "EmailHeader"],
         "methods" : {
-            "convertLead(LIST<Database.LeadConvert> leadConverts, Boolean allOrNothing)\tLIST<Database.LeadConvertResult>" : "convertLead($1)$0",
+            "convertLead(List<Database.LeadConvert> leadConverts, Boolean allOrNothing)\tList<Database.LeadConvertResult>" : "convertLead($1)$0",
             "convertLead(Database.LeadConvert leadConvert)\tDatabase.LeadConvertResult" : "convertLead($1)$0",
             "merge(SObject master, Id duplicate, Boolean allOrNothing)\tDatabase.MergeResult" : "merge($1)$0",
-            "delete(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.DeleteResult>" : "delete($1)$0",
+            "delete(List<SObject> sobjects, Boolean allOrNothing)\tList<Database.DeleteResult>" : "delete($1)$0",
             "delete(Id id)\tDatabase.DeleteResult" : "delete($1)$0",
             "delete(SObject sobject, Boolean allOrNothing)\tDatabase.DeleteResult" : "delete($1)$0",
-            "getQueryLocator(LIST<SObject> query)\tDatabase.QueryLocator" : "getQueryLocator($1)$0",
+            "getQueryLocator(List<SObject> query)\tDatabase.QueryLocator" : "getQueryLocator($1)$0",
             "undelete(Id id, Boolean allOrNothing)\tDatabase.UndeleteResult" : "undelete($1)$0",
             "update(SObject sobject, APEX_OBJECT allOrNothing)\tDatabase.SaveResult" : "update($1)$0",
             "delete(Id id, Boolean allOrNothing)\tDatabase.DeleteResult" : "delete($1)$0",
             "rollback(System.Savepoint savepoint)\tvoid" : "rollback($1)$0",
-            "undelete(LIST<Id> ids, Boolean allOrNothing)\tLIST<Database.UndeleteResult>" : "undelete($1)$0",
-            "query(String query)\tLIST<SObject>" : "query($1)$0",
-            "update(LIST<SObject> sobjects)\tLIST<Database.SaveResult>" : "update($1)$0",
+            "undelete(List<Id> ids, Boolean allOrNothing)\tList<Database.UndeleteResult>" : "undelete($1)$0",
+            "query(String query)\tList<SObject>" : "query($1)$0",
+            "update(List<SObject> sobjects)\tList<Database.SaveResult>" : "update($1)$0",
             "merge(SObject master, SObject duplicate, Boolean allOrNothing)\tDatabase.MergeResult" : "merge($1)$0",
             "update(SObject sobject)\tDatabase.SaveResult" : "update($1)$0",
-            "merge(SObject master, LIST<Id> duplicates)\tLIST<Database.MergeResult>" : "merge($1)$0",
-            "delete(LIST<SObject> sobjects)\tLIST<Database.DeleteResult>" : "delete($1)$0",
-            "upsert(LIST<SObject> sobjects, Schema.SObjectField field)\tLIST<Database.UpsertResult>" : "upsert($1)$0",
-            "update(LIST<SObject> sobjects, APEX_OBJECT allOrNothing)\tLIST<Database.SaveResult>" : "update($1)$0",
-            "emptyRecycleBin(LIST<SObject> sobjects)\tLIST<Database.EmptyRecycleBinResult>" : "emptyRecycleBin($1)$0",
+            "merge(SObject master, List<Id> duplicates)\tList<Database.MergeResult>" : "merge($1)$0",
+            "delete(List<SObject> sobjects)\tList<Database.DeleteResult>" : "delete($1)$0",
+            "upsert(List<SObject> sobjects, Schema.SObjectField field)\tList<Database.UpsertResult>" : "upsert($1)$0",
+            "update(List<SObject> sobjects, APEX_OBJECT allOrNothing)\tList<Database.SaveResult>" : "update($1)$0",
+            "emptyRecycleBin(List<SObject> sobjects)\tList<Database.EmptyRecycleBinResult>" : "emptyRecycleBin($1)$0",
             "upsert(SObject sobject, Boolean allOrNothing)\tDatabase.UpsertResult" : "upsert($1)$0",
             "setSavepoint()\tSystem.Savepoint" : "setSavepoint()$0",
             "insert(SObject sobject)\tDatabase.SaveResult" : "insert($1)$0",
             "emptyRecycleBin(SObject sobject)\tDatabase.EmptyRecycleBinResult" : "emptyRecycleBin($1)$0",
             "undelete(SObject sobject, Boolean allOrNothing)\tDatabase.UndeleteResult" : "undelete($1)$0",
-            "update(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.SaveResult>" : "update($1)$0",
+            "update(List<SObject> sobjects, Boolean allOrNothing)\tList<Database.SaveResult>" : "update($1)$0",
             "countQuery(String query)\tInteger" : "countQuery($1)$0",
-            "insert(LIST<SObject> sobjects)\tLIST<Database.SaveResult>" : "insert($1)$0",
-            "insert(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.SaveResult>" : "insert($1)$0",
-            "merge(SObject master, LIST<Id> duplicates, Boolean allOrNothing)\tLIST<Database.MergeResult>" : "merge($1)$0",
+            "insert(List<SObject> sobjects)\tList<Database.SaveResult>" : "insert($1)$0",
+            "insert(List<SObject> sobjects, Boolean allOrNothing)\tList<Database.SaveResult>" : "insert($1)$0",
+            "merge(SObject master, List<Id> duplicates, Boolean allOrNothing)\tList<Database.MergeResult>" : "merge($1)$0",
             "convertLead(Database.LeadConvert leadConvert, Boolean allOrNothing)\tDatabase.LeadConvertResult" : "convertLead($1)$0",
             "undelete(Id id)\tDatabase.UndeleteResult" : "undelete($1)$0",
             "insert(SObject sobject, Boolean allOrNothing)\tDatabase.SaveResult" : "insert($1)$0",
@@ -1069,26 +1069,26 @@ apex_completions = {
             "update(SObject sobject, Boolean allOrNothing)\tDatabase.SaveResult" : "update($1)$0",
             "merge(SObject master, Id duplicate)\tDatabase.MergeResult" : "merge($1)$0",
             "undelete(SObject sobject)\tDatabase.UndeleteResult" : "undelete($1)$0",
-            "insert(LIST<SObject> sobjects, APEX_OBJECT DmlOptions)\tLIST<Database.SaveResult>" : "insert($1)$0",
-            "undelete(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.UndeleteResult>" : "undelete($1)$0",
-            "undelete(LIST<Id> ids)\tLIST<Database.UndeleteResult>" : "undelete($1)$0",
+            "insert(List<SObject> sobjects, APEX_OBJECT DmlOptions)\tList<Database.SaveResult>" : "insert($1)$0",
+            "undelete(List<SObject> sobjects, Boolean allOrNothing)\tList<Database.UndeleteResult>" : "undelete($1)$0",
+            "undelete(List<Id> ids)\tList<Database.UndeleteResult>" : "undelete($1)$0",
             "delete(SObject sobject)\tDatabase.DeleteResult" : "delete($1)$0",
-            "undelete(LIST<SObject> sobjects)\tLIST<Database.UndeleteResult>" : "undelete($1)$0",
+            "undelete(List<SObject> sobjects)\tList<Database.UndeleteResult>" : "undelete($1)$0",
             "merge(SObject master, SObject duplicate)\tDatabase.MergeResult" : "merge($1)$0",
             "executeBatch(APEX_OBJECT batchable, Integer batchSize)\tString" : "executeBatch($1)$0",
-            "upsert(LIST<SObject> sobjects, Schema.SObjectField field, Boolean allOrNothing)\tLIST<Database.UpsertResult>" : "upsert($1)$0",
-            "upsert(LIST<SObject> sobjects)\tLIST<Database.UpsertResult>" : "upsert($1)$0",
-            "merge(SObject master, LIST<SObject> duplicates, Boolean allOrNothing)\tLIST<Database.MergeResult>" : "merge($1)$0",
-            "delete(LIST<Id> ids, Boolean allOrNothing)\tLIST<Database.DeleteResult>" : "delete($1)$0",
-            "convertLead(LIST<Database.LeadConvert> leadConverts)\tLIST<Database.LeadConvertResult>" : "convertLead($1)$0",
+            "upsert(List<SObject> sobjects, Schema.SObjectField field, Boolean allOrNothing)\tList<Database.UpsertResult>" : "upsert($1)$0",
+            "upsert(List<SObject> sobjects)\tList<Database.UpsertResult>" : "upsert($1)$0",
+            "merge(SObject master, List<SObject> duplicates, Boolean allOrNothing)\tList<Database.MergeResult>" : "merge($1)$0",
+            "delete(List<Id> ids, Boolean allOrNothing)\tList<Database.DeleteResult>" : "delete($1)$0",
+            "convertLead(List<Database.LeadConvert> leadConverts)\tList<Database.LeadConvertResult>" : "convertLead($1)$0",
             "getUpdated(String sobjectType, Datetime startDate, Datetime endDate)\tDatabase.GetUpdatedResult" : "getUpdated($1)$0",
-            "delete(LIST<Id> ids)\tLIST<Database.DeleteResult>" : "delete($1)$0",
-            "merge(SObject master, LIST<SObject> duplicates)\tLIST<Database.MergeResult>" : "merge($1)$0",
+            "delete(List<Id> ids)\tList<Database.DeleteResult>" : "delete($1)$0",
+            "merge(SObject master, List<SObject> duplicates)\tList<Database.MergeResult>" : "merge($1)$0",
             "upsert(SObject sobject)\tDatabase.UpsertResult" : "upsert($1)$0",
-            "emptyRecycleBin(LIST<Id> ids)\tLIST<Database.EmptyRecycleBinResult>" : "emptyRecycleBin($1)$0",
+            "emptyRecycleBin(List<Id> ids)\tList<Database.EmptyRecycleBinResult>" : "emptyRecycleBin($1)$0",
             "getDeleted(String sobjectType, Datetime startDate, Datetime endDate)\tDatabase.GetDeletedResult" : "getDeleted($1)$0",
             "getQueryLocator(String query)\tDatabase.QueryLocator" : "getQueryLocator($1)$0",
-            "upsert(LIST<SObject> sobjects, Boolean allOrNothing)\tLIST<Database.UpsertResult>" : "upsert($1)$0"
+            "upsert(List<SObject> sobjects, Boolean allOrNothing)\tList<Database.UpsertResult>" : "upsert($1)$0"
         }
     },
     "moderationflags" : {
@@ -1186,7 +1186,7 @@ apex_completions = {
             "getFieldSets()\tSchema.SObjectTypeFieldSets" : "getFieldSets()$0",
             "isAccessible()\tBoolean" : "isAccessible()$0",
             "isFeedEnabled()\tBoolean" : "isFeedEnabled()$0",
-            "getRecordTypeInfos()\tLIST<Schema.RecordTypeInfo>" : "getRecordTypeInfos()$0",
+            "getRecordTypeInfos()\tList<Schema.RecordTypeInfo>" : "getRecordTypeInfos()$0",
             "isMergeable()\tBoolean" : "isMergeable()$0",
             "getRecordTypeInfosById()\tMAP<Id,Schema.RecordTypeInfo>" : "getRecordTypeInfosById()$0",
             "isSearchable()\tBoolean" : "isSearchable()$0",
@@ -1195,7 +1195,7 @@ apex_completions = {
             "getKeyPrefix()\tString" : "getKeyPrefix()$0",
             "isUndeletable()\tBoolean" : "isUndeletable()$0",
             "getLabelPlural()\tString" : "getLabelPlural()$0",
-            "getChildRelationships()\tLIST<Schema.ChildRelationship>" : "getChildRelationships()$0"
+            "getChildRelationships()\tList<Schema.ChildRelationship>" : "getChildRelationships()$0"
         }
     },
     "zones" : {
@@ -1561,7 +1561,7 @@ apex_completions = {
             "ActivityEvent" : "ActivityEvent$0"
         },
         "methods" : {
-            "values()\tLIST<ConnectApi.FeedItemType>" : "values()$0",
+            "values()\tList<ConnectApi.FeedItemType>" : "values()$0",
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
@@ -1633,7 +1633,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<reports.DateGranularity>" : "values()$0",
+            "values()\tList<reports.DateGranularity>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -1668,7 +1668,7 @@ apex_completions = {
         "name" : "UndeleteResult",
         "properties" : {},
         "methods" : {
-            "getErrors()\tLIST<Database.Error>" : "getErrors()$0",
+            "getErrors()\tList<Database.Error>" : "getErrors()$0",
             "isSuccess()\tBoolean" : "isSuccess()$0",
             "getId()\tId" : "getId()$0"
         }
@@ -1685,7 +1685,7 @@ apex_completions = {
             "getAttributeValueNs(String key, String keyNamespace)\tString" : "getAttributeValueNs($1)$0",
             "getAttribute(String key, String keyNamespace)\tString" : "getAttribute($1)$0",
             "getName()\tString" : "getName()$0",
-            "getChildElements()\tLIST<dom.XmlNode>" : "getChildElements()$0",
+            "getChildElements()\tList<dom.XmlNode>" : "getChildElements()$0",
             "getNamespace()\tString" : "getNamespace()$0",
             "getAttributeValue(String key, String keyNamespace)\tString" : "getAttributeValue($1)$0",
             "getNamespaceFor(String prefix)\tString" : "getNamespaceFor($1)$0",
@@ -1699,7 +1699,7 @@ apex_completions = {
             "getParent()\tdom.XmlNode" : "getParent()$0",
             "getAttributeKeyNsAt(Integer index)\tString" : "getAttributeKeyNsAt($1)$0",
             "getNodeType()\tDom.XmlNodeType" : "getNodeType()$0",
-            "getChildren()\tLIST<dom.XmlNode>" : "getChildren()$0",
+            "getChildren()\tList<dom.XmlNode>" : "getChildren()$0",
             "removeAttribute(String key, String keyNamespace)\tBoolean" : "removeAttribute($1)$0",
             "addCommentNode(String text)\tdom.XmlNode" : "addCommentNode($1)$0"
         }
@@ -1711,7 +1711,7 @@ apex_completions = {
         "methods" : {
             "getMessage()\tString" : "getMessage()$0",
             "getStatusCode()\tsystem.StatusCode" : "getStatusCode()$0",
-            "getFields()\tLIST<String>" : "getFields()$0"
+            "getFields()\tList<String>" : "getFields()$0"
         }
     },
     "context" : {
@@ -1728,8 +1728,8 @@ apex_completions = {
         "name" : "Dimension",
         "properties" : {},
         "methods" : {
-            "getGroupings()\tLIST<reports.GroupingValue>" : "getGroupings()$0",
-            "setGroupings(LIST<reports.GroupingValue> groupings)\tvoid" : "setGroupings($1)$0"
+            "getGroupings()\tList<reports.GroupingValue>" : "getGroupings()$0",
+            "setGroupings(List<reports.GroupingValue> groupings)\tvoid" : "setGroupings($1)$0"
         }
     },
     "emailmessagedirection" : {
@@ -1741,7 +1741,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.EmailMessageDirection>" : "values()$0",
+            "values()\tList<ConnectApi.EmailMessageDirection>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -1808,7 +1808,7 @@ apex_completions = {
             "setOptions(APEX_OBJECT options)\tvoid" : "setOptions($1)$0",
             "put(Schema.SObjectField field, Object value)\tObject" : "put($1)$0",
             "addError(String msg)\tvoid" : "addError($1)$0",
-            "getSObjects(Schema.SObjectField field)\tLIST<SObject>" : "getSObjects($1)$0",
+            "getSObjects(Schema.SObjectField field)\tList<SObject>" : "getSObjects($1)$0",
             "getSObject(String field)\tSObject" : "getSObject($1)$0",
             "getSObjectType()\tSchema.SObjectType" : "getSObjectType()$0",
             "getQuickActionName()\tString" : "getQuickActionName()$0",
@@ -1818,7 +1818,7 @@ apex_completions = {
             "putSObject(Schema.SObjectField field, SObject value)\tSObject" : "putSObject($1)$0",
             "getOptions()\tDatabase.DMLOptions" : "getOptions()$0",
             "clone(Boolean preserveId, Boolean deep)\tSObject" : "clone($1)$0",
-            "getSObjects(String field)\tLIST<SObject>" : "getSObjects($1)$0"
+            "getSObjects(String field)\tList<SObject>" : "getSObjects($1)$0"
         }
     },
     "userprofile" : {
@@ -1923,20 +1923,20 @@ apex_completions = {
         "name" : "Set",
         "properties" : {},
         "methods" : {
-            "retainAll(SET elements)\tBoolean" : "retainAll($1)$0",
-            "addAll(LIST elements)\tBoolean" : "addAll($1)$0",
+            "retainAll(Set elements)\tBoolean" : "retainAll($1)$0",
+            "addAll(List elements)\tBoolean" : "addAll($1)$0",
             "clear()\tvoid" : "clear()$0",
             "iterator()\tsystem.ListIterator" : "iterator()$0",
-            "clone()\tSET<String>" : "clone()$0",
+            "clone()\tSet<String>" : "clone()$0",
             "contains(ANY element)\tBoolean" : "contains($1)$0",
-            "retainAll(LIST elements)\tBoolean" : "retainAll($1)$0",
-            "removeAll(SET elements)\tBoolean" : "removeAll($1)$0",
-            "addAll(SET elements)\tBoolean" : "addAll($1)$0",
+            "retainAll(List elements)\tBoolean" : "retainAll($1)$0",
+            "removeAll(Set elements)\tBoolean" : "removeAll($1)$0",
+            "addAll(Set elements)\tBoolean" : "addAll($1)$0",
             "remove(ANY element)\tBoolean" : "remove($1)$0",
-            "containsAll(LIST elements)\tBoolean" : "containsAll($1)$0",
-            "removeAll(LIST elements)\tBoolean" : "removeAll($1)$0",
+            "containsAll(List elements)\tBoolean" : "containsAll($1)$0",
+            "removeAll(List elements)\tBoolean" : "removeAll($1)$0",
             "equals(ANY obj)\tBoolean" : "equals($1)$0",
-            "containsAll(SET elements)\tBoolean" : "containsAll($1)$0",
+            "containsAll(Set elements)\tBoolean" : "containsAll($1)$0",
             "size()\tInteger" : "size()$0",
             "add(ANY element)\tBoolean" : "add($1)$0",
             "hashCode()\tInteger" : "hashCode()$0",
@@ -1948,8 +1948,8 @@ apex_completions = {
         "name" : "ReportDetailRow",
         "properties" : {},
         "methods" : {
-            "setDataCells(LIST<reports.ReportDataCell> dataCells)\tvoid" : "setDataCells($1)$0",
-            "getDataCells()\tLIST<reports.ReportDataCell>" : "getDataCells()$0"
+            "setDataCells(List<reports.ReportDataCell> dataCells)\tvoid" : "setDataCells($1)$0",
+            "getDataCells()\tList<reports.ReportDataCell>" : "getDataCells()$0"
         }
     },
     "recordfield" : {
@@ -2002,7 +2002,7 @@ apex_completions = {
             "getParameters()\tMAP<String,String>" : "getParameters()$0",
             "getContentAsPDF()\tBlob" : "getContentAsPDF()$0",
             "getContent()\tBlob" : "getContent()$0",
-            "setCookies(LIST<System.Cookie> cookies)\tvoid" : "setCookies($1)$0",
+            "setCookies(List<System.Cookie> cookies)\tvoid" : "setCookies($1)$0",
             "getHeaders()\tMAP<String,String>" : "getHeaders()$0",
             "getUrl()\tString" : "getUrl()$0",
             "getRedirect()\tBoolean" : "getRedirect()$0",
@@ -2158,10 +2158,10 @@ apex_completions = {
         "name" : "Messaging",
         "properties" : ["BinaryAttachment", "EmailFileAttachment", "Header", "TextAttachment", "MassEmailMessage", "EmailToSalesforceHandler", "InboundEmailResult", "SingleEmailMessage", "InboundEmail", "EmailAttachment", "InboundEnvelope", "InboundEmailHandler"],
         "methods" : {
-            "sendEmailMessage(LIST<Id> emailMessagesIds, Boolean allOrNothing)\tLIST<Messaging.SendEmailResult>" : "sendEmailMessage($1)$0",
-            "sendEmailMessage(LIST<Id> emailMessagesIds)\tLIST<Messaging.SendEmailResult>" : "sendEmailMessage($1)$0",
-            "sendEmail(LIST<Messaging.Email> emailMessages, Boolean allOrNothing)\tLIST<Messaging.SendEmailResult>" : "sendEmail($1)$0",
-            "sendEmail(LIST<Messaging.Email> emailMessages)\tLIST<Messaging.SendEmailResult>" : "sendEmail($1)$0",
+            "sendEmailMessage(List<Id> emailMessagesIds, Boolean allOrNothing)\tList<Messaging.SendEmailResult>" : "sendEmailMessage($1)$0",
+            "sendEmailMessage(List<Id> emailMessagesIds)\tList<Messaging.SendEmailResult>" : "sendEmailMessage($1)$0",
+            "sendEmail(List<Messaging.Email> emailMessages, Boolean allOrNothing)\tList<Messaging.SendEmailResult>" : "sendEmail($1)$0",
+            "sendEmail(List<Messaging.Email> emailMessages)\tList<Messaging.SendEmailResult>" : "sendEmail($1)$0",
             "reserveMassEmailCapacity(Integer count)\tvoid" : "reserveMassEmailCapacity($1)$0",
             "reserveSingleEmailCapacity(Integer count)\tvoid" : "reserveSingleEmailCapacity($1)$0"
         }
@@ -2189,7 +2189,7 @@ apex_completions = {
             "Portal" : "Portal$0"
         },
         "methods" : {
-            "values()\tLIST<ConnectApi.ZoneShowIn>" : "values()$0",
+            "values()\tList<ConnectApi.ZoneShowIn>" : "values()$0",
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
@@ -2199,7 +2199,7 @@ apex_completions = {
         "name" : "Mentions",
         "properties" : {},
         "methods" : {
-            "getMentionValidations(String communityId, String parentId, LIST<String> recordIds, ConnectApi.FeedItemVisibilityType visibility)\tConnectApi.MentionValidations" : "getMentionValidations($1)$0",
+            "getMentionValidations(String communityId, String parentId, List<String> recordIds, ConnectApi.FeedItemVisibilityType visibility)\tConnectApi.MentionValidations" : "getMentionValidations($1)$0",
             "getMentionCompletions(String communityId, String q, String contextId)\tConnectApi.MentionCompletionPage" : "getMentionCompletions($1)$0",
             "setTestGetMentionCompletions(String communityId, String q, String contextId, ConnectApi.MentionCompletionType type, Integer pageParam, Integer pageSize, ConnectApi.MentionCompletionPage result)\tvoid" : "setTestGetMentionCompletions($1)$0",
             "getMentionCompletions(String communityId, String q, String contextId, ConnectApi.MentionCompletionType type, Integer pageParam, Integer pageSize)\tConnectApi.MentionCompletionPage" : "getMentionCompletions($1)$0",
@@ -2217,11 +2217,11 @@ apex_completions = {
             "getDmlMessage(Integer index)\tString" : "getDmlMessage($1)$0",
             "initCause(APEX_OBJECT cause)\tvoid" : "initCause($1)$0",
             "getNumDml()\tInteger" : "getNumDml()$0",
-            "getDmlFields(Integer index)\tLIST<Schema.SObjectField>" : "getDmlFields($1)$0",
+            "getDmlFields(Integer index)\tList<Schema.SObjectField>" : "getDmlFields($1)$0",
             "getDmlType(Integer index)\tsystem.StatusCode" : "getDmlType($1)$0",
             "getDmlIndex(Integer index)\tInteger" : "getDmlIndex($1)$0",
             "getLineNumber()\tInteger" : "getLineNumber()$0",
-            "getDmlFieldNames(Integer index)\tLIST<String>" : "getDmlFieldNames($1)$0",
+            "getDmlFieldNames(Integer index)\tList<String>" : "getDmlFieldNames($1)$0",
             "setMessage(String message)\tvoid" : "setMessage($1)$0",
             "getDmlStatusCode(Integer index)\tString" : "getDmlStatusCode($1)$0",
             "getStackTraceString()\tString" : "getStackTraceString()$0",
@@ -2271,7 +2271,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.GroupMembershipType>" : "values()$0",
+            "values()\tList<ConnectApi.GroupMembershipType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -2284,7 +2284,7 @@ apex_completions = {
             "isPlaceholder()\tBoolean" : "isPlaceholder()$0",
             "getLabel()\tString" : "getLabel()$0",
             "isRequired()\tBoolean" : "isRequired()$0",
-            "getLayoutComponents()\tLIST<QuickAction.DescribeLayoutComponent>" : "getLayoutComponents()$0"
+            "getLayoutComponents()\tList<QuickAction.DescribeLayoutComponent>" : "getLayoutComponents()$0"
         }
     },
     "canvastemplateattachment" : {
@@ -2364,8 +2364,8 @@ apex_completions = {
         "name" : "ReportTypeMetadata",
         "properties" : {},
         "methods" : {
-            "setCategories(LIST<reports.ReportTypeColumnCategory> categories)\tvoid" : "setCategories($1)$0",
-            "getCategories()\tLIST<reports.ReportTypeColumnCategory>" : "getCategories()$0"
+            "setCategories(List<reports.ReportTypeColumnCategory> categories)\tvoid" : "setCategories($1)$0",
+            "getCategories()\tList<reports.ReportTypeColumnCategory>" : "getCategories()$0"
         }
     },
     "chattergrouppage" : {
@@ -2431,10 +2431,10 @@ apex_completions = {
             "pattern()\tString" : "pattern()$0",
             "compile(String regex)\tsystem.Pattern" : "compile($1)$0",
             "matches(String regex, String input)\tBoolean" : "matches($1)$0",
-            "split(String input, Integer n)\tLIST<String>" : "split($1)$0",
+            "split(String input, Integer n)\tList<String>" : "split($1)$0",
             "matcher(String input)\tsystem.Matcher" : "matcher($1)$0",
             "quote(String s)\tString" : "quote($1)$0",
-            "split(String input)\tLIST<String>" : "split($1)$0"
+            "split(String input)\tList<String>" : "split($1)$0"
         }
     },
     "community" : {
@@ -2473,7 +2473,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.WorkflowProcessStatus>" : "values()$0",
+            "values()\tList<ConnectApi.WorkflowProcessStatus>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -2589,7 +2589,7 @@ apex_completions = {
         "name" : "QueryLocatorChunkIterator",
         "properties" : {},
         "methods" : {
-            "next()\tLIST<SObject>" : "next()$0",
+            "next()\tList<SObject>" : "next()$0",
             "hasNext()\tBoolean" : "hasNext()$0"
         }
     },
@@ -2623,7 +2623,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.GroupMembershipRequestStatus>" : "values()$0",
+            "values()\tList<ConnectApi.GroupMembershipRequestStatus>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -2641,7 +2641,7 @@ apex_completions = {
         "name" : "SaveResult",
         "properties" : {},
         "methods" : {
-            "getErrors()\tLIST<Database.Error>" : "getErrors()$0",
+            "getErrors()\tList<Database.Error>" : "getErrors()$0",
             "isSuccess()\tBoolean" : "isSuccess()$0",
             "getId()\tId" : "getId()$0"
         }
@@ -2719,7 +2719,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.FeedSortOrder>" : "values()$0",
+            "values()\tList<ConnectApi.FeedSortOrder>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -2738,7 +2738,7 @@ apex_completions = {
         "properties" : ["IdeaStandardSetController", "Component", "StandardController", "IdeaStandardController", "KnowledgeArticleVersionStandardController", "ComponentIteration", "StandardSetController", "Message", "Severity", "Action"],
         "methods" : {
             "currentPage()\tSystem.PageReference" : "currentPage()$0",
-            "getMessages()\tLIST<ApexPages.Message>" : "getMessages()$0",
+            "getMessages()\tList<ApexPages.Message>" : "getMessages()$0",
             "hasMessages()\tBoolean" : "hasMessages()$0",
             "hasMessages(ApexPages.Severity severity)\tBoolean" : "hasMessages($1)$0",
             "addMessage(ApexPages.Message message)\tvoid" : "addMessage($1)$0",
@@ -2771,7 +2771,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.RecordFieldType>" : "values()$0",
+            "values()\tList<ConnectApi.RecordFieldType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -2785,7 +2785,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<Dom.XmlNodeType>" : "values()$0",
+            "values()\tList<Dom.XmlNodeType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -2855,7 +2855,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.FeedDensity>" : "values()$0",
+            "values()\tList<ConnectApi.FeedDensity>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -2891,7 +2891,7 @@ apex_completions = {
         "properties" : {},
         "methods" : {
             "mapRequestUrl(System.PageReference param1)\tSystem.PageReference" : "mapRequestUrl($1)$0",
-            "generateUrlFor(LIST<System.PageReference> param1)\tLIST<System.PageReference>" : "generateUrlFor($1)$0"
+            "generateUrlFor(List<System.PageReference> param1)\tList<System.PageReference>" : "generateUrlFor($1)$0"
         }
     },
     "double" : {
@@ -2930,17 +2930,17 @@ apex_completions = {
         "properties" : {},
         "methods" : {
             "clone()\tMAP<String,String>" : "clone()$0",
-            "putAll(LIST entries)\tvoid" : "putAll($1)$0",
+            "putAll(List entries)\tvoid" : "putAll($1)$0",
             "deepClone()\tMAP<String,String>" : "deepClone()$0",
             "clear()\tvoid" : "clear()$0",
             "hashCode()\tInteger" : "hashCode()$0",
             "remove(ANY key)\tString" : "remove($1)$0",
             "put(ANY key, ANY value)\tString" : "put($1)$0",
             "getSObjectType()\tSchema.SObjectType" : "getSObjectType()$0",
-            "values()\tLIST<String>" : "values()$0",
+            "values()\tList<String>" : "values()$0",
             "get(ANY key)\tString" : "get($1)$0",
             "equals(ANY obj)\tBoolean" : "equals($1)$0",
-            "keySet()\tSET<String>" : "keySet()$0",
+            "keySet()\tSet<String>" : "keySet()$0",
             "containsKey(ANY key)\tBoolean" : "containsKey($1)$0",
             "size()\tInteger" : "size()$0",
             "putAll(MAP entries)\tvoid" : "putAll($1)$0",
@@ -3022,7 +3022,7 @@ apex_completions = {
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0",
-            "values()\tLIST<ConnectApi.FeedFavoriteType>" : "values()$0"
+            "values()\tList<ConnectApi.FeedFavoriteType>" : "values()$0"
         }
     },
     "chatteractivity" : {
@@ -3072,7 +3072,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.MentionCompletionType>" : "values()$0",
+            "values()\tList<ConnectApi.MentionCompletionType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -3081,7 +3081,7 @@ apex_completions = {
         "name" : "GetUpdatedResult",
         "properties" : {},
         "methods" : {
-            "getIds()\tLIST<Id>" : "getIds()$0",
+            "getIds()\tList<Id>" : "getIds()$0",
             "getLatestDateCovered()\tDate" : "getLatestDateCovered()$0"
         }
     },
@@ -3163,8 +3163,8 @@ apex_completions = {
             "getValue()\tObject" : "getValue()$0",
             "getLabel()\tString" : "getLabel()$0",
             "setLabel(String label)\tvoid" : "setLabel($1)$0",
-            "getGroupings()\tLIST<reports.GroupingValue>" : "getGroupings()$0",
-            "setGroupings(LIST<reports.GroupingValue> groupings)\tvoid" : "setGroupings($1)$0",
+            "getGroupings()\tList<reports.GroupingValue>" : "getGroupings()$0",
+            "setGroupings(List<reports.GroupingValue> groupings)\tvoid" : "setGroupings($1)$0",
             "setValue(Object value)\tvoid" : "setValue($1)$0",
             "getKey()\tString" : "getKey()$0",
             "setKey(String key)\tvoid" : "setKey($1)$0"
@@ -3211,7 +3211,7 @@ apex_completions = {
             "containsWhitespace()\tBoolean" : "containsWhitespace()$0",
             "lastIndexOf(String str)\tInteger" : "lastIndexOf($1)$0",
             "reverse()\tString" : "reverse()$0",
-            "splitByCharacterType()\tLIST<String>" : "splitByCharacterType()$0",
+            "splitByCharacterType()\tList<String>" : "splitByCharacterType()$0",
             "indexOf(String str, Integer startPos)\tInteger" : "indexOf($1)$0",
             "abbreviate(Integer maxWidth, Integer offset)\tString" : "abbreviate($1)$0",
             "center(Integer size)\tString" : "center($1)$0",
@@ -3223,7 +3223,7 @@ apex_completions = {
             "equals(String other)\tBoolean" : "equals($1)$0",
             "left(Integer len)\tString" : "left($1)$0",
             "toUpperCase(String locale)\tString" : "toUpperCase($1)$0",
-            "splitByCharacterTypeCamelCase()\tLIST<String>" : "splitByCharacterTypeCamelCase()$0",
+            "splitByCharacterTypeCamelCase()\tList<String>" : "splitByCharacterTypeCamelCase()$0",
             "lastIndexOfIgnoreCase(String searchStr, Integer startPos)\tInteger" : "lastIndexOfIgnoreCase($1)$0",
             "getLevenshteinDistance(String other, Integer threshold)\tInteger" : "getLevenshteinDistance($1)$0",
             "contains(String str)\tBoolean" : "contains($1)$0",
@@ -3234,7 +3234,7 @@ apex_completions = {
             "unescapeEcmaScript()\tString" : "unescapeEcmaScript()$0",
             "swapCase()\tString" : "swapCase()$0",
             "indexOfAnyBut(String searchChars)\tInteger" : "indexOfAnyBut($1)$0",
-            "split(String regex)\tLIST<String>" : "split($1)$0",
+            "split(String regex)\tList<String>" : "split($1)$0",
             "indexOf(String str)\tInteger" : "indexOf($1)$0",
             "unescapeHtml4()\tString" : "unescapeHtml4()$0",
             "escapeHtml4()\tString" : "escapeHtml4()$0",
@@ -3255,10 +3255,10 @@ apex_completions = {
             "isAsciiPrintable()\tBoolean" : "isAsciiPrintable()$0",
             "repeat(Integer numTimes)\tString" : "repeat($1)$0",
             "deleteWhitespace()\tString" : "deleteWhitespace()$0",
-            "format(String format, LIST<String> arguments)\tString" : "format($1)$0",
+            "format(String format, List<String> arguments)\tString" : "format($1)$0",
             "indexOfDifference(String other)\tInteger" : "indexOfDifference($1)$0",
             "isNumeric()\tBoolean" : "isNumeric()$0",
-            "getCommonPrefix(LIST strings)\tString" : "getCommonPrefix($1)$0",
+            "getCommonPrefix(List strings)\tString" : "getCommonPrefix($1)$0",
             "isNotEmpty(String str)\tBoolean" : "isNotEmpty($1)$0",
             "endsWith(String str)\tBoolean" : "endsWith($1)$0",
             "escapeCsv()\tString" : "escapeCsv()$0",
@@ -3283,7 +3283,7 @@ apex_completions = {
             "lastIndexOf(String searchStr, Integer startPos)\tInteger" : "lastIndexOf($1)$0",
             "valueOf(Datetime dt)\tString" : "valueOf($1)$0",
             "unescapeHtml3()\tString" : "unescapeHtml3()$0",
-            "fromCharArray(LIST<Integer> charArr)\tString" : "fromCharArray($1)$0",
+            "fromCharArray(List<Integer> charArr)\tString" : "fromCharArray($1)$0",
             "rightPad(Integer len, String padStr)\tString" : "rightPad($1)$0",
             "valueOf(Integer i)\tString" : "valueOf($1)$0",
             "isWhitespace()\tBoolean" : "isWhitespace()$0",
@@ -3302,7 +3302,7 @@ apex_completions = {
             "replaceAll(String regex, String replacement)\tString" : "replaceAll($1)$0",
             "substringAfter(String separator)\tString" : "substringAfter($1)$0",
             "remove(String toRemove)\tString" : "remove($1)$0",
-            "split(String regex, Integer limit)\tLIST<String>" : "split($1)$0",
+            "split(String regex, Integer limit)\tList<String>" : "split($1)$0",
             "escapeSingleQuotes(String s)\tString" : "escapeSingleQuotes($1)$0",
             "valueOf(Date d)\tString" : "valueOf($1)$0",
             "equalsIgnoreCase(String other)\tBoolean" : "equalsIgnoreCase($1)$0",
@@ -3354,7 +3354,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.UserType>" : "values()$0",
+            "values()\tList<ConnectApi.UserType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -3408,10 +3408,10 @@ apex_completions = {
         "name" : "ProcessRequest",
         "properties" : {},
         "methods" : {
-            "setNextApproverIds(LIST<Id> param1)\tvoid" : "setNextApproverIds($1)$0",
+            "setNextApproverIds(List<Id> param1)\tvoid" : "setNextApproverIds($1)$0",
             "setComments(String param1)\tvoid" : "setComments($1)$0",
             "getComments()\tString" : "getComments()$0",
-            "getNextApproverIds()\tLIST<Id>" : "getNextApproverIds()$0"
+            "getNextApproverIds()\tList<Id>" : "getNextApproverIds()$0"
         }
     },
     "leadconvertresult" : {
@@ -3422,7 +3422,7 @@ apex_completions = {
             "getLeadId()\tId" : "getLeadId()$0",
             "getContactId()\tId" : "getContactId()$0",
             "isSuccess()\tBoolean" : "isSuccess()$0",
-            "getErrors()\tLIST<Database.Error>" : "getErrors()$0",
+            "getErrors()\tList<Database.Error>" : "getErrors()$0",
             "getOpportunityId()\tId" : "getOpportunityId()$0",
             "getAccountId()\tId" : "getAccountId()$0"
         }
@@ -3445,25 +3445,25 @@ apex_completions = {
         "methods" : {
             "last()\tvoid" : "last()$0",
             "getPageNumber()\tInteger" : "getPageNumber()$0",
-            "getRecords()\tLIST<SObject>" : "getRecords()$0",
+            "getRecords()\tList<SObject>" : "getRecords()$0",
             "setPageSize(Integer pageSize)\tvoid" : "setPageSize($1)$0",
             "getRecord()\tSObject" : "getRecord()$0",
             "previous()\tvoid" : "previous()$0",
-            "addFields(LIST<String> fieldNames)\tvoid" : "addFields($1)$0",
-            "getSelected()\tLIST<SObject>" : "getSelected()$0",
+            "addFields(List<String> fieldNames)\tvoid" : "addFields($1)$0",
+            "getSelected()\tList<SObject>" : "getSelected()$0",
             "setFilterId(String filterId)\tvoid" : "setFilterId($1)$0",
             "reset()\tvoid" : "reset()$0",
             "getHasNext()\tBoolean" : "getHasNext()$0",
-            "getListViewOptions()\tLIST<System.SelectOption>" : "getListViewOptions()$0",
+            "getListViewOptions()\tList<System.SelectOption>" : "getListViewOptions()$0",
             "save()\tSystem.PageReference" : "save()$0",
             "next()\tvoid" : "next()$0",
-            "setSelected(LIST<SObject> selected)\tvoid" : "setSelected($1)$0",
+            "setSelected(List<SObject> selected)\tvoid" : "setSelected($1)$0",
             "setPageNumber(Integer pageNumber)\tvoid" : "setPageNumber($1)$0",
             "getResultSize()\tInteger" : "getResultSize()$0",
             "getHasPrevious()\tBoolean" : "getHasPrevious()$0",
             "getFilterId()\tString" : "getFilterId()$0",
             "first()\tvoid" : "first()$0",
-            "getIdeaList()\tLIST<Idea>" : "getIdeaList()$0",
+            "getIdeaList()\tList<Idea>" : "getIdeaList()$0",
             "getCompleteResult()\tBoolean" : "getCompleteResult()$0",
             "getPageSize()\tInteger" : "getPageSize()$0",
             "cancel()\tSystem.PageReference" : "cancel()$0"
@@ -3540,7 +3540,7 @@ apex_completions = {
         "name" : "DescribeDataCategoryGroupStructureResult",
         "properties" : {},
         "methods" : {
-            "getTopCategories()\tLIST<Schema.DataCategory>" : "getTopCategories()$0",
+            "getTopCategories()\tList<Schema.DataCategory>" : "getTopCategories()$0",
             "getName()\tString" : "getName()$0",
             "getSobject()\tString" : "getSobject()$0",
             "getLabel()\tString" : "getLabel()$0",
@@ -3570,13 +3570,13 @@ apex_completions = {
             "isRestrictedDelete()\tBoolean" : "isRestrictedDelete()$0",
             "getInlineHelpText()\tString" : "getInlineHelpText()$0",
             "getByteLength()\tInteger" : "getByteLength()$0",
-            "getReferenceTo()\tLIST<Schema.SObjectType>" : "getReferenceTo()$0",
+            "getReferenceTo()\tList<Schema.SObjectType>" : "getReferenceTo()$0",
             "isRestrictedPicklist()\tBoolean" : "isRestrictedPicklist()$0",
             "getType()\tSchema.DisplayType" : "getType()$0",
             "isNameField()\tBoolean" : "isNameField()$0",
             "getLength()\tInteger" : "getLength()$0",
             "isDependentPicklist()\tBoolean" : "isDependentPicklist()$0",
-            "getPicklistValues()\tLIST<Schema.PicklistEntry>" : "getPicklistValues()$0",
+            "getPicklistValues()\tList<Schema.PicklistEntry>" : "getPicklistValues()$0",
             "isExternalId()\tBoolean" : "isExternalId()$0",
             "isHtmlFormatted()\tBoolean" : "isHtmlFormatted()$0",
             "isCascadeDelete()\tBoolean" : "isCascadeDelete()$0",
@@ -3704,7 +3704,7 @@ apex_completions = {
             "PrivateAccess" : "PrivateAccess$0"
         },
         "methods" : {
-            "values()\tLIST<ConnectApi.FilePublishStatus>" : "values()$0",
+            "values()\tList<ConnectApi.FilePublishStatus>" : "values()$0",
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
@@ -3759,7 +3759,7 @@ apex_completions = {
         "name" : "DataCategory",
         "properties" : {},
         "methods" : {
-            "getChildCategories()\tLIST<Schema.DataCategory>" : "getChildCategories()$0",
+            "getChildCategories()\tList<Schema.DataCategory>" : "getChildCategories()$0",
             "getLabel()\tString" : "getLabel()$0",
             "getName()\tString" : "getName()$0"
         }
@@ -3838,10 +3838,10 @@ apex_completions = {
         "name" : "QuickActionResult",
         "properties" : {},
         "methods" : {
-            "getErrors()\tLIST<Database.Error>" : "getErrors()$0",
+            "getErrors()\tList<Database.Error>" : "getErrors()$0",
             "isCreated()\tBoolean" : "isCreated()$0",
             "isSuccess()\tBoolean" : "isSuccess()$0",
-            "getIds()\tLIST<Id>" : "getIds()$0"
+            "getIds()\tList<Id>" : "getIds()$0"
         }
     },
     "nodatafoundexception" : {
@@ -3863,10 +3863,10 @@ apex_completions = {
         "name" : "MergeResult",
         "properties" : {},
         "methods" : {
-            "getErrors()\tLIST<Database.Error>" : "getErrors()$0",
-            "getMergedRecordIds()\tLIST<String>" : "getMergedRecordIds()$0",
+            "getErrors()\tList<Database.Error>" : "getErrors()$0",
+            "getMergedRecordIds()\tList<String>" : "getMergedRecordIds()$0",
             "isSuccess()\tBoolean" : "isSuccess()$0",
-            "getUpdatedRelatedIds()\tLIST<String>" : "getUpdatedRelatedIds()$0",
+            "getUpdatedRelatedIds()\tList<String>" : "getUpdatedRelatedIds()$0",
             "getId()\tId" : "getId()$0"
         }
     },
@@ -3964,8 +3964,8 @@ apex_completions = {
         "name" : "ReportFactWithDetails",
         "properties" : {},
         "methods" : {
-            "getRows()\tLIST<reports.ReportDetailRow>" : "getRows()$0",
-            "setRows(LIST<reports.ReportDetailRow> rows)\tvoid" : "setRows($1)$0"
+            "getRows()\tList<reports.ReportDetailRow>" : "getRows()$0",
+            "setRows(List<reports.ReportDetailRow> rows)\tvoid" : "setRows($1)$0"
         }
     },
     "applauncherapexcontroller" : {
@@ -3973,7 +3973,7 @@ apex_completions = {
         "name" : "AppLauncherApexController",
         "properties" : {},
         "methods" : {
-            "getApps()\tLIST<AppMenuItem>" : "getApps()$0"
+            "getApps()\tList<AppMenuItem>" : "getApps()$0"
         }
     },
     "chattermessages" : {
@@ -4121,7 +4121,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.SortOrder>" : "values()$0",
+            "values()\tList<ConnectApi.SortOrder>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -4167,10 +4167,10 @@ apex_completions = {
         "name" : "Ideas",
         "properties" : {},
         "methods" : {
-            "getReadRecentReplies(String userId, String communityId)\tLIST<Id>" : "getReadRecentReplies($1)$0",
-            "findSimilar(SObject idea)\tLIST<Id>" : "findSimilar($1)$0",
-            "getUnreadRecentReplies(String userId, String communityId)\tLIST<Id>" : "getUnreadRecentReplies($1)$0",
-            "getAllRecentReplies(String userId, String communityId)\tLIST<Id>" : "getAllRecentReplies($1)$0",
+            "getReadRecentReplies(String userId, String communityId)\tList<Id>" : "getReadRecentReplies($1)$0",
+            "findSimilar(SObject idea)\tList<Id>" : "findSimilar($1)$0",
+            "getUnreadRecentReplies(String userId, String communityId)\tList<Id>" : "getUnreadRecentReplies($1)$0",
+            "getAllRecentReplies(String userId, String communityId)\tList<Id>" : "getAllRecentReplies($1)$0",
             "markRead(String ideaId)\tvoid" : "markRead($1)$0"
         }
     },
@@ -4206,7 +4206,7 @@ apex_completions = {
         "name" : "UpsertResult",
         "properties" : {},
         "methods" : {
-            "getErrors()\tLIST<Database.Error>" : "getErrors()$0",
+            "getErrors()\tList<Database.Error>" : "getErrors()$0",
             "isCreated()\tBoolean" : "isCreated()$0",
             "isSuccess()\tBoolean" : "isSuccess()$0",
             "getId()\tId" : "getId()$0"
@@ -4289,7 +4289,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.FeedItemAttachmentType>" : "values()$0",
+            "values()\tList<ConnectApi.FeedItemAttachmentType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -4303,12 +4303,12 @@ apex_completions = {
             "edit()\tSystem.PageReference" : "edit()$0",
             "reset()\tvoid" : "reset()$0",
             "getId()\tString" : "getId()$0",
-            "getCommentList()\tLIST<IdeaComment>" : "getCommentList()$0",
+            "getCommentList()\tList<IdeaComment>" : "getCommentList()$0",
             "cancel()\tSystem.PageReference" : "cancel()$0",
             "getRecord()\tSObject" : "getRecord()$0",
             "save()\tSystem.PageReference" : "save()$0",
             "view()\tSystem.PageReference" : "view()$0",
-            "addFields(LIST<String> fieldNames)\tvoid" : "addFields($1)$0"
+            "addFields(List<String> fieldNames)\tvoid" : "addFields($1)$0"
         }
     },
     "feediteminput" : {
@@ -4337,7 +4337,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.CommentType>" : "values()$0",
+            "values()\tList<ConnectApi.CommentType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -4418,7 +4418,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<system.XmlTag>" : "values()$0",
+            "values()\tList<system.XmlTag>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -4461,7 +4461,7 @@ apex_completions = {
             "UnpublishExsiting" : "UnpublishExsiting$0"
         },
         "methods" : {
-            "values()\tLIST<ConnectApi.CaseCommentEventType>" : "values()$0",
+            "values()\tList<ConnectApi.CaseCommentEventType>" : "values()$0",
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
@@ -4488,7 +4488,7 @@ apex_completions = {
         "name" : "SendEmailResult",
         "properties" : {},
         "methods" : {
-            "getErrors()\tLIST<Messaging.SendEmailError>" : "getErrors()$0",
+            "getErrors()\tList<Messaging.SendEmailError>" : "getErrors()$0",
             "isSuccess()\tBoolean" : "isSuccess()$0"
         }
     },
@@ -4524,7 +4524,7 @@ apex_completions = {
         "methods" : {
             "getRows()\tInteger" : "getRows()$0",
             "getColumns()\tInteger" : "getColumns()$0",
-            "getLayoutRows()\tLIST<QuickAction.DescribeLayoutRow>" : "getLayoutRows()$0",
+            "getLayoutRows()\tList<QuickAction.DescribeLayoutRow>" : "getLayoutRows()$0",
             "isUseCollapsibleSection()\tBoolean" : "isUseCollapsibleSection()$0",
             "isUseHeading()\tBoolean" : "isUseHeading()$0",
             "getHeading()\tString" : "getHeading()$0"
@@ -4605,7 +4605,7 @@ apex_completions = {
             "isSelected()\tBoolean" : "isSelected()$0",
             "getNamespace()\tString" : "getNamespace()$0",
             "getLabel()\tString" : "getLabel()$0",
-            "getTabs()\tLIST<Schema.DescribeTabResult>" : "getTabs()$0"
+            "getTabs()\tList<Schema.DescribeTabResult>" : "getTabs()$0"
         }
     },
     "network" : {
@@ -4655,7 +4655,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.FieldChangeValueType>" : "values()$0",
+            "values()\tList<ConnectApi.FieldChangeValueType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -4706,8 +4706,8 @@ apex_completions = {
             "INTEGER" : "INTEGER$0",
             "LOCATION" : "LOCATION$0",
             "URL" : "URL$0",
-            "PICKLIST" : "PICKLIST$0",
-            "MULTIPICKLIST" : "MULTIPICKLIST$0",
+            "PICKList" : "PICKList$0",
+            "MULTIPICKList" : "MULTIPICKList$0",
             "ENCRYPTEDSTRING" : "ENCRYPTEDSTRING$0",
             "DATACATEGORYGROUPREFERENCE" : "DATACATEGORYGROUPREFERENCE$0",
             "TEXTAREA" : "TEXTAREA$0",
@@ -4725,7 +4725,7 @@ apex_completions = {
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0",
-            "values()\tLIST<Schema.DisplayType>" : "values()$0"
+            "values()\tList<Schema.DisplayType>" : "values()$0"
         }
     },
     "blob" : {
@@ -4761,8 +4761,8 @@ apex_completions = {
         "name" : "ReportFact",
         "properties" : {},
         "methods" : {
-            "getAggregates()\tLIST<reports.SummaryValue>" : "getAggregates()$0",
-            "setAggregates(LIST<reports.SummaryValue> aggregates)\tvoid" : "setAggregates($1)$0",
+            "getAggregates()\tList<reports.SummaryValue>" : "getAggregates()$0",
+            "setAggregates(List<reports.SummaryValue> aggregates)\tvoid" : "setAggregates($1)$0",
             "getKey()\tString" : "getKey()$0",
             "setKey(String key)\tvoid" : "setKey($1)$0"
         }
@@ -4792,13 +4792,13 @@ apex_completions = {
         "name" : "SingleEmailMessage",
         "properties" : {},
         "methods" : {
-            "getToAddresses()\tLIST<String>" : "getToAddresses()$0",
+            "getToAddresses()\tList<String>" : "getToAddresses()$0",
             "setHtmlBody(String param1)\tvoid" : "setHtmlBody($1)$0",
             "getEmailPriority()\tString" : "getEmailPriority()$0",
             "setReplyTo(String param1)\tvoid" : "setReplyTo($1)$0",
-            "getFileAttachments()\tLIST<Messaging.EmailFileAttachment>" : "getFileAttachments()$0",
-            "setDocumentAttachments(LIST<String> param1)\tvoid" : "setDocumentAttachments($1)$0",
-            "setCcAddresses(LIST<String> param1)\tvoid" : "setCcAddresses($1)$0",
+            "getFileAttachments()\tList<Messaging.EmailFileAttachment>" : "getFileAttachments()$0",
+            "setDocumentAttachments(List<String> param1)\tvoid" : "setDocumentAttachments($1)$0",
+            "setCcAddresses(List<String> param1)\tvoid" : "setCcAddresses($1)$0",
             "getTargetObjectId()\tId" : "getTargetObjectId()$0",
             "getPlainTextBody()\tString" : "getPlainTextBody()$0",
             "getSaveAsActivity()\tBoolean" : "getSaveAsActivity()$0",
@@ -4817,21 +4817,21 @@ apex_completions = {
             "getInReplyTo()\tString" : "getInReplyTo()$0",
             "setOrgWideEmailAddressId(Id param1)\tvoid" : "setOrgWideEmailAddressId($1)$0",
             "getUseSignature()\tBoolean" : "getUseSignature()$0",
-            "getDocumentAttachments()\tLIST<String>" : "getDocumentAttachments()$0",
-            "setBccAddresses(LIST<String> param1)\tvoid" : "setBccAddresses($1)$0",
-            "setFileAttachments(LIST<Messaging.EmailFileAttachment> param1)\tvoid" : "setFileAttachments($1)$0",
+            "getDocumentAttachments()\tList<String>" : "getDocumentAttachments()$0",
+            "setBccAddresses(List<String> param1)\tvoid" : "setBccAddresses($1)$0",
+            "setFileAttachments(List<Messaging.EmailFileAttachment> param1)\tvoid" : "setFileAttachments($1)$0",
             "getReplyTo()\tString" : "getReplyTo()$0",
             "setCharset(String param1)\tvoid" : "setCharset($1)$0",
             "getTemplateId()\tId" : "getTemplateId()$0",
             "setTargetObjectId(Id param1)\tvoid" : "setTargetObjectId($1)$0",
-            "getCcAddresses()\tLIST<String>" : "getCcAddresses()$0",
+            "getCcAddresses()\tList<String>" : "getCcAddresses()$0",
             "getCharset()\tString" : "getCharset()$0",
             "setTemplateId(Id param1)\tvoid" : "setTemplateId($1)$0",
             "getHtmlBody()\tString" : "getHtmlBody()$0",
             "setSenderDisplayName(String param1)\tvoid" : "setSenderDisplayName($1)$0",
             "setEmailPriority(String param1)\tvoid" : "setEmailPriority($1)$0",
-            "setToAddresses(LIST<String> param1)\tvoid" : "setToAddresses($1)$0",
-            "getBccAddresses()\tLIST<String>" : "getBccAddresses()$0",
+            "setToAddresses(List<String> param1)\tvoid" : "setToAddresses($1)$0",
+            "getBccAddresses()\tList<String>" : "getBccAddresses()$0",
             "getOrgWideEmailAddressId()\tId" : "getOrgWideEmailAddressId()$0",
             "setInReplyTo(String param1)\tvoid" : "setInReplyTo($1)$0",
             "getWhatId()\tId" : "getWhatId()$0"
@@ -4843,30 +4843,30 @@ apex_completions = {
         "properties" : {},
         "methods" : {
             "setDeveloperName(String developerName)\tvoid" : "setDeveloperName($1)$0",
-            "setGroupingsAcross(LIST<reports.GroupingInfo> groupingsAcross)\tvoid" : "setGroupingsAcross($1)$0",
+            "setGroupingsAcross(List<reports.GroupingInfo> groupingsAcross)\tvoid" : "setGroupingsAcross($1)$0",
             "setCurrencyCode(String currencyCode)\tvoid" : "setCurrencyCode($1)$0",
             "getCurrencyCode()\tString" : "getCurrencyCode()$0",
             "getId()\tId" : "getId()$0",
-            "setGroupingsDown(LIST<reports.GroupingInfo> groupingsDown)\tvoid" : "setGroupingsDown($1)$0",
+            "setGroupingsDown(List<reports.GroupingInfo> groupingsDown)\tvoid" : "setGroupingsDown($1)$0",
             "getReportType()\treports.ReportType" : "getReportType()$0",
             "setName(String name)\tvoid" : "setName($1)$0",
             "getName()\tString" : "getName()$0",
             "getDeveloperName()\tString" : "getDeveloperName()$0",
-            "setAggregates(LIST<String> aggregates)\tvoid" : "setAggregates($1)$0",
-            "getReportFilters()\tLIST<reports.ReportFilter>" : "getReportFilters()$0",
-            "setDetailColumns(LIST<String> detailColumns)\tvoid" : "setDetailColumns($1)$0",
-            "getGroupingsDown()\tLIST<reports.GroupingInfo>" : "getGroupingsDown()$0",
+            "setAggregates(List<String> aggregates)\tvoid" : "setAggregates($1)$0",
+            "getReportFilters()\tList<reports.ReportFilter>" : "getReportFilters()$0",
+            "setDetailColumns(List<String> detailColumns)\tvoid" : "setDetailColumns($1)$0",
+            "getGroupingsDown()\tList<reports.GroupingInfo>" : "getGroupingsDown()$0",
             "setReportBooleanFilter(String reportBooleanFilter)\tvoid" : "setReportBooleanFilter($1)$0",
             "getReportFormat()\treports.ReportFormat" : "getReportFormat()$0",
             "setReportType(reports.ReportType reportType)\tvoid" : "setReportType($1)$0",
             "getReportBooleanFilter()\tString" : "getReportBooleanFilter()$0",
             "setReportFormat(String value)\tvoid" : "setReportFormat($1)$0",
-            "getGroupingsAcross()\tLIST<reports.GroupingInfo>" : "getGroupingsAcross()$0",
+            "getGroupingsAcross()\tList<reports.GroupingInfo>" : "getGroupingsAcross()$0",
             "setReportFormat(reports.ReportFormat reportFormat)\tvoid" : "setReportFormat($1)$0",
             "setId(Id id)\tvoid" : "setId($1)$0",
-            "setReportFilters(LIST<reports.ReportFilter> reportFilters)\tvoid" : "setReportFilters($1)$0",
-            "getAggregates()\tLIST<String>" : "getAggregates()$0",
-            "getDetailColumns()\tLIST<String>" : "getDetailColumns()$0"
+            "setReportFilters(List<reports.ReportFilter> reportFilters)\tvoid" : "setReportFilters($1)$0",
+            "getAggregates()\tList<String>" : "getAggregates()$0",
+            "getDetailColumns()\tList<String>" : "getDetailColumns()$0"
         }
     },
     "reportchartcomponent" : {
@@ -4895,9 +4895,9 @@ apex_completions = {
             "TIME_DATA" : "TIME_DATA$0",
             "DOUBLE_DATA" : "DOUBLE_DATA$0",
             "URL_DATA" : "URL_DATA$0",
-            "PICKLIST_DATA" : "PICKLIST_DATA$0",
+            "PICKList_DATA" : "PICKList_DATA$0",
             "PHONE_DATA" : "PHONE_DATA$0",
-            "MULTIPICKLIST_DATA" : "MULTIPICKLIST_DATA$0",
+            "MULTIPICKList_DATA" : "MULTIPICKList_DATA$0",
             "PERCENT_DATA" : "PERCENT_DATA$0",
             "CURRENCY_DATA" : "CURRENCY_DATA$0",
             "TEXTAREA_DATA" : "TEXTAREA_DATA$0",
@@ -4906,7 +4906,7 @@ apex_completions = {
             "ID_DATA" : "ID_DATA$0"
         },
         "methods" : {
-            "values()\tLIST<reports.ColumnDataType>" : "values()$0",
+            "values()\tList<reports.ColumnDataType>" : "values()$0",
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
@@ -4998,13 +4998,13 @@ apex_completions = {
             "setDataType(reports.ColumnDataType dataType)\tvoid" : "setDataType($1)$0",
             "setName(String name)\tvoid" : "setName($1)$0",
             "getLabel()\tString" : "getLabel()$0",
-            "getFilterValues()\tLIST<reports.FilterValue>" : "getFilterValues()$0",
+            "getFilterValues()\tList<reports.FilterValue>" : "getFilterValues()$0",
             "setLabel(String label)\tvoid" : "setLabel($1)$0",
             "setFilterable(Boolean filterable)\tvoid" : "setFilterable($1)$0",
             "getDataType()\treports.ColumnDataType" : "getDataType()$0",
             "getFilterable()\tBoolean" : "getFilterable()$0",
             "setDataType(String value)\tvoid" : "setDataType($1)$0",
-            "setFilterValues(LIST<reports.FilterValue> filterValues)\tvoid" : "setFilterValues($1)$0",
+            "setFilterValues(List<reports.FilterValue> filterValues)\tvoid" : "setFilterValues($1)$0",
             "getName()\tString" : "getName()$0"
         }
     },
@@ -5053,11 +5053,11 @@ apex_completions = {
         "properties" : {},
         "methods" : {
             "getTargetParentField()\tString" : "getTargetParentField()$0",
-            "getDefaultValues()\tLIST<QuickAction.DescribeQuickActionDefaultValue>" : "getDefaultValues()$0",
-            "getColors()\tLIST<Schema.DescribeColorResult>" : "getColors()$0",
+            "getDefaultValues()\tList<QuickAction.DescribeQuickActionDefaultValue>" : "getDefaultValues()$0",
+            "getColors()\tList<Schema.DescribeColorResult>" : "getColors()$0",
             "getHeight()\tInteger" : "getHeight()$0",
             "getCanvasApplicationName()\tString" : "getCanvasApplicationName()$0",
-            "getIcons()\tLIST<Schema.DescribeIconResult>" : "getIcons()$0",
+            "getIcons()\tList<Schema.DescribeIconResult>" : "getIcons()$0",
             "getWidth()\tInteger" : "getWidth()$0",
             "getSourceSobjectType()\tString" : "getSourceSobjectType()$0",
             "getIconUrl()\tString" : "getIconUrl()$0",
@@ -5096,7 +5096,7 @@ apex_completions = {
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0",
-            "values()\tLIST<system.LoggingLevel>" : "values()$0"
+            "values()\tList<system.LoggingLevel>" : "values()$0"
         }
     },
     "textsegment" : {
@@ -5163,8 +5163,8 @@ apex_completions = {
         "name" : "MergeRequest",
         "properties" : {},
         "methods" : {
-            "setRecordToMergeIds(LIST<String> param1)\tvoid" : "setRecordToMergeIds($1)$0",
-            "getRecordToMergeIds()\tLIST<String>" : "getRecordToMergeIds()$0",
+            "setRecordToMergeIds(List<String> param1)\tvoid" : "setRecordToMergeIds($1)$0",
+            "getRecordToMergeIds()\tList<String>" : "getRecordToMergeIds()$0",
             "getMasterRecord()\tSObject" : "getMasterRecord()$0",
             "setMasterRecord(SObject param1)\tvoid" : "setMasterRecord($1)$0"
         }
@@ -5222,7 +5222,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.UserProfileTabType>" : "values()$0",
+            "values()\tList<ConnectApi.UserProfileTabType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -5268,7 +5268,7 @@ apex_completions = {
             "cancel()\tSystem.PageReference" : "cancel()$0",
             "getRecord()\tSObject" : "getRecord()$0",
             "view()\tSystem.PageReference" : "view()$0",
-            "addFields(LIST<String> fieldNames)\tvoid" : "addFields($1)$0"
+            "addFields(List<String> fieldNames)\tvoid" : "addFields($1)$0"
         }
     },
     "emptyrecyclebinresult" : {
@@ -5276,7 +5276,7 @@ apex_completions = {
         "name" : "EmptyRecycleBinResult",
         "properties" : {},
         "methods" : {
-            "getErrors()\tLIST<Database.Error>" : "getErrors()$0",
+            "getErrors()\tList<Database.Error>" : "getErrors()$0",
             "isSuccess()\tBoolean" : "isSuccess()$0",
             "getId()\tId" : "getId()$0"
         }
@@ -5293,7 +5293,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.FileSharingType>" : "values()$0",
+            "values()\tList<ConnectApi.FileSharingType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -5302,9 +5302,9 @@ apex_completions = {
         "name" : "DescribeTabResult",
         "properties" : {},
         "methods" : {
-            "getIcons()\tLIST<Schema.DescribeIconResult>" : "getIcons()$0",
+            "getIcons()\tList<Schema.DescribeIconResult>" : "getIcons()$0",
             "isCustom()\tBoolean" : "isCustom()$0",
-            "getColors()\tLIST<Schema.DescribeColorResult>" : "getColors()$0",
+            "getColors()\tList<Schema.DescribeColorResult>" : "getColors()$0",
             "getSobjectName()\tString" : "getSobjectName()$0",
             "getLabel()\tString" : "getLabel()$0",
             "getUrl()\tString" : "getUrl()$0",
@@ -5318,7 +5318,7 @@ apex_completions = {
         "properties" : {},
         "methods" : {
             "getName()\tString" : "getName()$0",
-            "getFields()\tLIST<Schema.FieldSetMember>" : "getFields()$0",
+            "getFields()\tList<Schema.FieldSetMember>" : "getFields()$0",
             "getDescription()\tString" : "getDescription()$0",
             "getNameSpace()\tString" : "getNameSpace()$0",
             "getSObjectType()\tSchema.SObjectType" : "getSObjectType()$0",
@@ -5336,7 +5336,7 @@ apex_completions = {
             "CONFIRM" : "CONFIRM$0"
         },
         "methods" : {
-            "values()\tLIST<ApexPages.Severity>" : "values()$0",
+            "values()\tList<ApexPages.Severity>" : "values()$0",
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
@@ -5378,13 +5378,13 @@ apex_completions = {
         "methods" : {
             "invokePage(System.PageReference p)\tComponent.apex.page" : "invokePage($1)$0",
             "startTest()\tvoid" : "startTest()$0",
-            "loadData(Schema.SObjectType sobjectType, String staticResourceName)\tLIST<SObject>" : "loadData($1)$0",
+            "loadData(Schema.SObjectType sobjectType, String staticResourceName)\tList<SObject>" : "loadData($1)$0",
             "testUninstall(system.UninstallHandler script)\tvoid" : "testUninstall($1)$0",
             "isRunningTest()\tBoolean" : "isRunningTest()$0",
             "setMock(system.Type interfaceType, Object mock)\tvoid" : "setMock($1)$0",
             "setCurrentPageReference(Object pageReference)\tvoid" : "setCurrentPageReference($1)$0",
             "stopTest()\tvoid" : "stopTest()$0",
-            "setFixedSearchResults(LIST<String> searchResultsIds)\tvoid" : "setFixedSearchResults($1)$0",
+            "setFixedSearchResults(List<String> searchResultsIds)\tvoid" : "setFixedSearchResults($1)$0",
             "testInstall(system.InstallHandler script, system.Version version)\tvoid" : "testInstall($1)$0",
             "testInstall(system.InstallHandler script, system.Version version, Boolean isPush)\tvoid" : "testInstall($1)$0",
             "setReadOnlyApplicationMode(Boolean readOnlyApplicationMode)\tvoid" : "setReadOnlyApplicationMode($1)$0",
@@ -5396,7 +5396,7 @@ apex_completions = {
         "name" : "DescribeLayoutRow",
         "properties" : {},
         "methods" : {
-            "getLayoutItems()\tLIST<QuickAction.DescribeLayoutItem>" : "getLayoutItems()$0",
+            "getLayoutItems()\tList<QuickAction.DescribeLayoutItem>" : "getLayoutItems()$0",
             "getNumItems()\tInteger" : "getNumItems()$0"
         }
     },
@@ -5547,7 +5547,7 @@ apex_completions = {
         "name" : "SparkPlugApi",
         "properties" : {},
         "methods" : {
-            "describePlugins()\tLIST<Process.SparkPlugApi.SparkPlugDescribeResult>" : "describePlugins()$0",
+            "describePlugins()\tList<Process.SparkPlugApi.SparkPlugDescribeResult>" : "describePlugins()$0",
             "invokePluginWithJson(String className, String parameters)\tString" : "invokePluginWithJson($1)$0",
             "describePlugin(String className)\tProcess.SparkPlugApi.SparkPlugDescribeResult" : "describePlugin($1)$0"
         }
@@ -5653,7 +5653,7 @@ apex_completions = {
             "UNKNOWN_EXCEPTION" : "UNKNOWN_EXCEPTION$0",
             "INVALID_CROSS_REFERENCE_KEY" : "INVALID_CROSS_REFERENCE_KEY$0",
             "INVALID_CURRENCY_CORP_RATE" : "INVALID_CURRENCY_CORP_RATE$0",
-            "INVALID_SETUP_OWNER" : "INVALID_SETUP_OWNER$0",
+            "INVALID_SetUP_OWNER" : "INVALID_SetUP_OWNER$0",
             "MAXIMUM_HIERARCHY_LEVELS_REACHED" : "MAXIMUM_HIERARCHY_LEVELS_REACHED$0",
             "INVALID_TYPE" : "INVALID_TYPE$0",
             "USER_WITH_APEX_SHARES_EXCEPTION" : "USER_WITH_APEX_SHARES_EXCEPTION$0",
@@ -5671,7 +5671,7 @@ apex_completions = {
             "UNSUPPORTED_APEX_TRIGGER_OPERATON" : "UNSUPPORTED_APEX_TRIGGER_OPERATON$0",
             "UNAVAILABLE_RECORDTYPE_EXCEPTION" : "UNAVAILABLE_RECORDTYPE_EXCEPTION$0",
             "FAILED_ACTIVATION" : "FAILED_ACTIVATION$0",
-            "TABSET_LIMIT_EXCEEDED" : "TABSET_LIMIT_EXCEEDED$0",
+            "TABSet_LIMIT_EXCEEDED" : "TABSet_LIMIT_EXCEEDED$0",
             "ALREADY_IN_PROCESS" : "ALREADY_IN_PROCESS$0",
             "MISSING_ARGUMENT" : "MISSING_ARGUMENT$0",
             "MALFORMED_ID" : "MALFORMED_ID$0",
@@ -5685,7 +5685,7 @@ apex_completions = {
             "INVALID_MESSAGE_ID_REFERENCE" : "INVALID_MESSAGE_ID_REFERENCE$0",
             "CANNOT_FREEZE_SELF" : "CANNOT_FREEZE_SELF$0",
             "WEBLINK_URL_INVALID" : "WEBLINK_URL_INVALID$0",
-            "TEXT_DATA_OUTSIDE_SUPPORTED_CHARSET" : "TEXT_DATA_OUTSIDE_SUPPORTED_CHARSET$0",
+            "TEXT_DATA_OUTSIDE_SUPPORTED_CHARSet" : "TEXT_DATA_OUTSIDE_SUPPORTED_CHARSet$0",
             "INVALID_DATA_URI" : "INVALID_DATA_URI$0",
             "INVALID_TYPE_FOR_OPERATION" : "INVALID_TYPE_FOR_OPERATION$0",
             "CUSTOM_TAB_LIMIT_EXCEEDED" : "CUSTOM_TAB_LIMIT_EXCEEDED$0",
@@ -5702,7 +5702,7 @@ apex_completions = {
             "INVALID_OPERATION" : "INVALID_OPERATION$0",
             "LIMIT_EXCEEDED" : "LIMIT_EXCEEDED$0",
             "PACKAGE_LICENSE_REQUIRED" : "PACKAGE_LICENSE_REQUIRED$0",
-            "INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST" : "INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST$0",
+            "INVALID_OR_NULL_FOR_RESTRICTED_PICKList" : "INVALID_OR_NULL_FOR_RESTRICTED_PICKList$0",
             "REQUIRED_FEATURE_MISSING" : "REQUIRED_FEATURE_MISSING$0",
             "INVALID_CREDIT_CARD_INFO" : "INVALID_CREDIT_CARD_INFO$0",
             "NUMBER_OUTSIDE_VALID_RANGE" : "NUMBER_OUTSIDE_VALID_RANGE$0",
@@ -5727,7 +5727,7 @@ apex_completions = {
             "CANNOT_PASSWORD_LOCKOUT" : "CANNOT_PASSWORD_LOCKOUT$0",
             "INVALID_PERSON_ACCOUNT_OPERATION" : "INVALID_PERSON_ACCOUNT_OPERATION$0",
             "FILTERED_LOOKUP_LIMIT_EXCEEDED" : "FILTERED_LOOKUP_LIMIT_EXCEEDED$0",
-            "CANT_UNSET_CORP_CURRENCY" : "CANT_UNSET_CORP_CURRENCY$0",
+            "CANT_UNSet_CORP_CURRENCY" : "CANT_UNSet_CORP_CURRENCY$0",
             "INVALID_SAVE_AS_ACTIVITY_FLAG" : "INVALID_SAVE_AS_ACTIVITY_FLAG$0",
             "REQUIRED_FIELD_MISSING" : "REQUIRED_FIELD_MISSING$0",
             "NUM_HISTORY_FIELDS_BY_SOBJECT_EXCEEDED" : "NUM_HISTORY_FIELDS_BY_SOBJECT_EXCEEDED$0",
@@ -5752,7 +5752,7 @@ apex_completions = {
             "TEMPLATE_NOT_ACTIVE" : "TEMPLATE_NOT_ACTIVE$0",
             "INVALID_MASTER_OR_TRANSLATED_SOLUTION" : "INVALID_MASTER_OR_TRANSLATED_SOLUTION$0",
             "CUSTOM_ENTITY_OR_FIELD_LIMIT" : "CUSTOM_ENTITY_OR_FIELD_LIMIT$0",
-            "PRIVATE_CONTACT_ON_ASSET" : "PRIVATE_CONTACT_ON_ASSET$0",
+            "PRIVATE_CONTACT_ON_ASSet" : "PRIVATE_CONTACT_ON_ASSet$0",
             "OPTED_OUT_OF_MASS_MAIL" : "OPTED_OUT_OF_MASS_MAIL$0",
             "QUERY_TIMEOUT" : "QUERY_TIMEOUT$0",
             "LIGHT_PORTAL_USER_EXCEPTION" : "LIGHT_PORTAL_USER_EXCEPTION$0",
@@ -5790,7 +5790,7 @@ apex_completions = {
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0",
-            "values()\tLIST<system.StatusCode>" : "values()$0"
+            "values()\tList<system.StatusCode>" : "values()$0"
         }
     },
     "invalidparametervalueexception" : {
@@ -5881,7 +5881,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.FeedItemVisibilityType>" : "values()$0",
+            "values()\tList<ConnectApi.FeedItemVisibilityType>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -5942,7 +5942,7 @@ apex_completions = {
         "name" : "LiveAgentRealTimeSystem",
         "properties" : {},
         "methods" : {
-            "routeChatRequests(LIST<LiveAgent.LiveChatRoutingRoute> routes)\tLIST<LiveAgent.LiveChatRoutingResult>" : "routeChatRequests($1)$0",
+            "routeChatRequests(List<LiveAgent.LiveChatRoutingRoute> routes)\tList<LiveAgent.LiveChatRoutingResult>" : "routeChatRequests($1)$0",
             "setButtonStatus(String liveChatButtonId, Boolean online)\tvoid" : "setButtonStatus($1)$0"
         }
     },
@@ -6003,7 +6003,7 @@ apex_completions = {
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0",
-            "values()\tLIST<Schema.SoapType>" : "values()$0"
+            "values()\tList<Schema.SoapType>" : "values()$0"
         }
     },
     "describedatacategorygroupresult" : {
@@ -6110,7 +6110,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<system.SetupScope>" : "values()$0",
+            "values()\tList<system.SetupScope>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -6153,7 +6153,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.GroupArchiveStatus>" : "values()$0",
+            "values()\tList<ConnectApi.GroupArchiveStatus>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -6169,7 +6169,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.GroupEmailFrequency>" : "values()$0",
+            "values()\tList<ConnectApi.GroupEmailFrequency>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -6180,22 +6180,22 @@ apex_completions = {
         "methods" : {
             "setBccSender(Boolean param1)\tvoid" : "setBccSender($1)$0",
             "setSenderDisplayName(String param1)\tvoid" : "setSenderDisplayName($1)$0",
-            "setWhatIds(LIST<Id> param1)\tvoid" : "setWhatIds($1)$0",
+            "setWhatIds(List<Id> param1)\tvoid" : "setWhatIds($1)$0",
             "setReplyTo(String param1)\tvoid" : "setReplyTo($1)$0",
             "setSaveAsActivity(Boolean param1)\tvoid" : "setSaveAsActivity($1)$0",
-            "getWhatIds()\tLIST<Id>" : "getWhatIds()$0",
+            "getWhatIds()\tList<Id>" : "getWhatIds()$0",
             "getBccSender()\tBoolean" : "getBccSender()$0",
             "getSenderDisplayName()\tString" : "getSenderDisplayName()$0",
             "getSubject()\tString" : "getSubject()$0",
             "getDescription()\tString" : "getDescription()$0",
             "getUseSignature()\tBoolean" : "getUseSignature()$0",
             "getSaveAsActivity()\tBoolean" : "getSaveAsActivity()$0",
-            "getTargetObjectIds()\tLIST<Id>" : "getTargetObjectIds()$0",
+            "getTargetObjectIds()\tList<Id>" : "getTargetObjectIds()$0",
             "getReplyTo()\tString" : "getReplyTo()$0",
             "getTemplateId()\tId" : "getTemplateId()$0",
             "setDescription(String param1)\tvoid" : "setDescription($1)$0",
             "setSubject(String param1)\tvoid" : "setSubject($1)$0",
-            "setTargetObjectIds(LIST<Id> param1)\tvoid" : "setTargetObjectIds($1)$0",
+            "setTargetObjectIds(List<Id> param1)\tvoid" : "setTargetObjectIds($1)$0",
             "setTemplateId(Id param1)\tvoid" : "setTemplateId($1)$0",
             "setUseSignature(Boolean param1)\tvoid" : "setUseSignature($1)$0",
             "setEmailPriority(String param1)\tvoid" : "setEmailPriority($1)$0",
@@ -6274,10 +6274,10 @@ apex_completions = {
         "properties" : ["SoapType", "SObjectField", "DisplayType", "SObjectType", "DataCategoryGroupSobjectTypePair"],
         "methods" : {
             "getModuleDescribe(String moduleName)\tMAP<String,Schema.SObjectType>" : "getModuleDescribe($1)$0",
-            "describeDataCategoryGroupStructures(LIST<Schema.DataCategoryGroupSobjectTypePair> pairs, Boolean topCategoriesOnly)\tLIST<Schema.DescribeDataCategoryGroupStructureResult>" : "describeDataCategoryGroupStructures($1)$0",
-            "describeDataCategoryGroups(LIST<String> sobjects)\tLIST<Schema.DescribeDataCategoryGroupResult>" : "describeDataCategoryGroups($1)$0",
-            "describeTabs()\tLIST<Schema.DescribeTabSetResult>" : "describeTabs()$0",
-            "describeSObjects(LIST<String> types)\tLIST<Schema.DescribeSObjectResult>" : "describeSObjects($1)$0",
+            "describeDataCategoryGroupStructures(List<Schema.DataCategoryGroupSobjectTypePair> pairs, Boolean topCategoriesOnly)\tList<Schema.DescribeDataCategoryGroupStructureResult>" : "describeDataCategoryGroupStructures($1)$0",
+            "describeDataCategoryGroups(List<String> sobjects)\tList<Schema.DescribeDataCategoryGroupResult>" : "describeDataCategoryGroups($1)$0",
+            "describeTabs()\tList<Schema.DescribeTabSetResult>" : "describeTabs()$0",
+            "describeSObjects(List<String> types)\tList<Schema.DescribeSObjectResult>" : "describeSObjects($1)$0",
             "getAppDescribe(String appName)\tMAP<String,Schema.SObjectType>" : "getAppDescribe($1)$0",
             "getGlobalDescribe()\tMAP<String,Schema.SObjectType>" : "getGlobalDescribe()$0",
             "getModuleDescribe()\tMAP<String,Schema.SObjectType>" : "getModuleDescribe()$0"
@@ -6301,7 +6301,7 @@ apex_completions = {
         "properties" : {},
         "methods" : {
             "apple(String alert, String sound, Integer badgeCount, MAP<String,ANY> userData)\tMAP<String,ANY>" : "apple($1)$0",
-            "apple(String alertBody, String actionLocKey, String locKey, LIST<String> locArgs, String launchImage, String sound, Integer badgeCount, MAP<String,ANY> userData)\tMAP<String,ANY>" : "apple($1)$0"
+            "apple(String alertBody, String actionLocKey, String locKey, List<String> locArgs, String launchImage, String sound, Integer badgeCount, MAP<String,ANY> userData)\tMAP<String,ANY>" : "apple($1)$0"
         }
     },
     "httpcalloutmock" : {
@@ -6336,7 +6336,7 @@ apex_completions = {
             "stopListingPopularityJob()\tvoid" : "stopListingPopularityJob()$0",
             "getCookie(String name)\tString" : "getCookie($1)$0",
             "createSession(String appExchangeOrgId, String portalId, String siteId, String portalUserId)\tString" : "createSession($1)$0",
-            "getTrialTemplates(String callerOrgId, String lmPkgId, String username)\tLIST<TrialTemplate>" : "getTrialTemplates($1)$0",
+            "getTrialTemplates(String callerOrgId, String lmPkgId, String username)\tList<TrialTemplate>" : "getTrialTemplates($1)$0",
             "isGuestUser()\tBoolean" : "isGuestUser()$0",
             "setLicenseManagementOrganization(String pkgVersionId, String orgId, String username, String password)\tString" : "setLicenseManagementOrganization($1)$0",
             "calculateListingPopularity(String testUserName, String testCronString)\tvoid" : "calculateListingPopularity($1)$0",
@@ -6349,7 +6349,7 @@ apex_completions = {
             "getOrgName(String orgId)\tString" : "getOrgName($1)$0",
             "updateSingleAsAdmin(SObject sobj)\tDatabase.SaveResult" : "updateSingleAsAdmin($1)$0",
             "setCookie(String name, String value)\tvoid" : "setCookie($1)$0",
-            "getInstalledPackageVersions(String orgId)\tLIST<String>" : "getInstalledPackageVersions($1)$0",
+            "getInstalledPackageVersions(String orgId)\tList<String>" : "getInstalledPackageVersions($1)$0",
             "to18(String id)\tString" : "to18($1)$0",
             "validateLMAInstalled(String username, String password)\tString" : "validateLMAInstalled($1)$0",
             "getPortalId()\tString" : "getPortalId()$0",
@@ -6374,11 +6374,11 @@ apex_completions = {
             "getDmlMessage(Integer index)\tString" : "getDmlMessage($1)$0",
             "initCause(APEX_OBJECT cause)\tvoid" : "initCause($1)$0",
             "getNumDml()\tInteger" : "getNumDml()$0",
-            "getDmlFields(Integer index)\tLIST<Schema.SObjectField>" : "getDmlFields($1)$0",
+            "getDmlFields(Integer index)\tList<Schema.SObjectField>" : "getDmlFields($1)$0",
             "getDmlType(Integer index)\tsystem.StatusCode" : "getDmlType($1)$0",
             "getDmlIndex(Integer index)\tInteger" : "getDmlIndex($1)$0",
             "getLineNumber()\tInteger" : "getLineNumber()$0",
-            "getDmlFieldNames(Integer index)\tLIST<String>" : "getDmlFieldNames($1)$0",
+            "getDmlFieldNames(Integer index)\tList<String>" : "getDmlFieldNames($1)$0",
             "setMessage(String message)\tvoid" : "setMessage($1)$0",
             "getDmlStatusCode(Integer index)\tString" : "getDmlStatusCode($1)$0",
             "getStackTraceString()\tString" : "getStackTraceString()$0",
@@ -6401,7 +6401,7 @@ apex_completions = {
             "selectDataCategory(String categoryGroup, String category)\tvoid" : "selectDataCategory($1)$0",
             "save()\tSystem.PageReference" : "save()$0",
             "cancel()\tSystem.PageReference" : "cancel()$0",
-            "addFields(LIST<String> fieldNames)\tvoid" : "addFields($1)$0"
+            "addFields(List<String> fieldNames)\tvoid" : "addFields($1)$0"
         }
     },
     "header" : {
@@ -6450,7 +6450,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<reports.ColumnSortOrder>" : "values()$0",
+            "values()\tList<reports.ColumnSortOrder>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -6547,9 +6547,9 @@ apex_completions = {
             "getEntityId()\tString" : "getEntityId()$0",
             "getInstanceStatus()\tString" : "getInstanceStatus()$0",
             "getInstanceId()\tString" : "getInstanceId()$0",
-            "getNewWorkitemIds()\tLIST<Id>" : "getNewWorkitemIds()$0",
-            "getErrors()\tLIST<Database.Error>" : "getErrors()$0",
-            "getActorIds()\tLIST<Id>" : "getActorIds()$0",
+            "getNewWorkitemIds()\tList<Id>" : "getNewWorkitemIds()$0",
+            "getErrors()\tList<Database.Error>" : "getErrors()$0",
+            "getActorIds()\tList<Id>" : "getActorIds()$0",
             "isSuccess()\tBoolean" : "isSuccess()$0"
         }
     },
@@ -6620,28 +6620,28 @@ apex_completions = {
     },
     "list" : {
         "constructors" : {},
-        "name" : "LIST",
+        "name" : "List",
         "properties" : {},
         "methods" : {
             "add(Integer index, ANY element)\tvoid" : "add($1)$0",
             "remove(Integer index)\tObject" : "remove($1)$0",
-            "deepClone(Boolean preserveId)\tLIST<String>" : "deepClone($1)$0",
-            "deepClone(Boolean preserveId, Boolean preserveReadOnlyTimestamps)\tLIST<String>" : "deepClone($1)$0",
+            "deepClone(Boolean preserveId)\tList<String>" : "deepClone($1)$0",
+            "deepClone(Boolean preserveId, Boolean preserveReadOnlyTimestamps)\tList<String>" : "deepClone($1)$0",
             "clear()\tvoid" : "clear()$0",
-            "clone()\tLIST<String>" : "clone()$0",
+            "clone()\tList<String>" : "clone()$0",
             "iterator()\tsystem.ListIterator" : "iterator()$0",
             "hashCode()\tInteger" : "hashCode()$0",
             "get(Integer index)\tObject" : "get($1)$0",
             "getSObjectType()\tSchema.SObjectType" : "getSObjectType()$0",
             "set(Integer index, ANY value)\tvoid" : "set($1)$0",
-            "addAll(SET elements)\tvoid" : "addAll($1)$0",
+            "addAll(Set elements)\tvoid" : "addAll($1)$0",
             "equals(ANY obj)\tBoolean" : "equals($1)$0",
             "add(ANY element)\tObject" : "add($1)$0",
             "sort()\tvoid" : "sort()$0",
             "size()\tInteger" : "size()$0",
-            "deepClone(Boolean preserveId, Boolean preserveReadOnlyTimestamps, Boolean preserveAutoNumbers)\tLIST<String>" : "deepClone($1)$0",
-            "addAll(LIST elements)\tvoid" : "addAll($1)$0",
-            "deepClone()\tLIST<String>" : "deepClone()$0",
+            "deepClone(Boolean preserveId, Boolean preserveReadOnlyTimestamps, Boolean preserveAutoNumbers)\tList<String>" : "deepClone($1)$0",
+            "addAll(List elements)\tvoid" : "addAll($1)$0",
+            "deepClone()\tList<String>" : "deepClone()$0",
             "isEmpty()\tBoolean" : "isEmpty()$0"
         }
     },
@@ -6656,7 +6656,7 @@ apex_completions = {
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0",
-            "values()\tLIST<ConnectApi.MentionValidationStatus>" : "values()$0"
+            "values()\tList<ConnectApi.MentionValidationStatus>" : "values()$0"
         }
     },
     "followerpage" : {
@@ -6698,7 +6698,7 @@ apex_completions = {
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0",
-            "values()\tLIST<ConnectApi.RecordColumnOrder>" : "values()$0"
+            "values()\tList<ConnectApi.RecordColumnOrder>" : "values()$0"
         }
     },
     "percentrecordfield" : {
@@ -6733,7 +6733,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<system.JSONToken>" : "values()$0",
+            "values()\tList<system.JSONToken>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -6778,7 +6778,7 @@ apex_completions = {
         },
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
-            "values()\tLIST<ConnectApi.CommunityStatus>" : "values()$0",
+            "values()\tList<ConnectApi.CommunityStatus>" : "values()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0"
         }
     },
@@ -6956,7 +6956,7 @@ apex_completions = {
         "methods" : {
             "hashCode()\tInteger" : "hashCode()$0",
             "equals(Object obj)\tBoolean" : "equals($1)$0",
-            "values()\tLIST<ConnectApi.CaseActorType>" : "values()$0"
+            "values()\tList<ConnectApi.CaseActorType>" : "values()$0"
         }
     },
     "standardsetcontroller" : {
@@ -6966,19 +6966,19 @@ apex_completions = {
         "methods" : {
             "last()\tvoid" : "last()$0",
             "getPageNumber()\tInteger" : "getPageNumber()$0",
-            "getRecords()\tLIST<SObject>" : "getRecords()$0",
+            "getRecords()\tList<SObject>" : "getRecords()$0",
             "setPageSize(Integer pageSize)\tvoid" : "setPageSize($1)$0",
             "getRecord()\tSObject" : "getRecord()$0",
             "previous()\tvoid" : "previous()$0",
-            "addFields(LIST<String> fieldNames)\tvoid" : "addFields($1)$0",
-            "getSelected()\tLIST<SObject>" : "getSelected()$0",
+            "addFields(List<String> fieldNames)\tvoid" : "addFields($1)$0",
+            "getSelected()\tList<SObject>" : "getSelected()$0",
             "setFilterId(String filterId)\tvoid" : "setFilterId($1)$0",
             "reset()\tvoid" : "reset()$0",
             "getHasNext()\tBoolean" : "getHasNext()$0",
-            "getListViewOptions()\tLIST<System.SelectOption>" : "getListViewOptions()$0",
+            "getListViewOptions()\tList<System.SelectOption>" : "getListViewOptions()$0",
             "save()\tSystem.PageReference" : "save()$0",
             "next()\tvoid" : "next()$0",
-            "setSelected(LIST<SObject> selected)\tvoid" : "setSelected($1)$0",
+            "setSelected(List<SObject> selected)\tvoid" : "setSelected($1)$0",
             "setPageNumber(Integer pageNumber)\tvoid" : "setPageNumber($1)$0",
             "getResultSize()\tInteger" : "getResultSize()$0",
             "getHasPrevious()\tBoolean" : "getHasPrevious()$0",
@@ -7073,7 +7073,7 @@ apex_completions = {
         "properties" : {},
         "methods" : {
             "setBestReply(String questionId, String bestReplyId)\tvoid" : "setBestReply($1)$0",
-            "findSimilar(SObject question)\tLIST<Id>" : "findSimilar($1)$0"
+            "findSimilar(SObject question)\tList<Id>" : "findSimilar($1)$0"
         }
     },
     "system" : {
@@ -7094,13 +7094,13 @@ apex_completions = {
             "schedule(String jobName, String cronExp, APEX_OBJECT schedulable)\tString" : "schedule($1)$0",
             "isBatch()\tBoolean" : "isBatch()$0",
             "assertNotEquals(ANY expected, ANY actual, ANY msg)\tvoid" : "assertNotEquals($1)$0",
-            "process(LIST workitemIds, String action, String commments, String nextApprover)\tLIST<Id>" : "process($1)$0",
+            "process(List workitemIds, String action, String commments, String nextApprover)\tList<Id>" : "process($1)$0",
             "currentTimeMillis()\tLong" : "currentTimeMillis()$0",
             "runAs(Package.Version version)\tvoid" : "runAs($1)$0",
             "isScheduled()\tBoolean" : "isScheduled()$0",
             "today()\tDate" : "today()$0",
             "scheduleBatch(APEX_OBJECT batchable, String jobName, Integer minutesFromNow)\tString" : "scheduleBatch($1)$0",
-            "submit(LIST ids, String commments, String nextApprover)\tLIST<Id>" : "submit($1)$0",
+            "submit(List ids, String commments, String nextApprover)\tList<Id>" : "submit($1)$0",
             "resetPassword(Id userId, Boolean sendUserEmail)\tSystem.ResetPasswordResult" : "resetPassword($1)$0",
             "runAs(SObject user, ANY block)\tvoid" : "runAs($1)$0",
             "assert(Boolean condition)\tvoid" : "assert($1)$0",
@@ -7201,7 +7201,7 @@ apex_completions = {
             "getMessage()\tString" : "getMessage()$0",
             "getStatusCode()\tsystem.StatusCode" : "getStatusCode()$0",
             "getTargetObjectId()\tString" : "getTargetObjectId()$0",
-            "getFields()\tLIST<String>" : "getFields()$0"
+            "getFields()\tList<String>" : "getFields()$0"
         }
     },
     "groupmembershiprequests" : {
@@ -7235,7 +7235,7 @@ apex_completions = {
         "name" : "LiveChatRouter",
         "properties" : {},
         "methods" : {
-            "doRouting(LIST<LiveAgent.LiveChatRoutingRequest> param1)\tvoid" : "doRouting($1)$0"
+            "doRouting(List<LiveAgent.LiveChatRoutingRequest> param1)\tvoid" : "doRouting($1)$0"
         }
     },
     "reportdatacell" : {
