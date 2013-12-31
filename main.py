@@ -354,8 +354,8 @@ class RunTestCommand(sublime_plugin.TextCommand):
         file_name = self.view.file_name()
         if file_name == None: return False
 
-        body = open(file_name, encoding="utf-8").read()
-        if ".cls" not in file_name or "@istest" not in body.lower():
+        body = open(file_name, "rb").read()
+        if ".cls" not in file_name or b"@istest" not in body.lower():
             return False
 
         return True
