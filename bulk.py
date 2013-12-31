@@ -34,7 +34,8 @@ class BulkOperationCommand(sublime_plugin.WindowCommand):
     def on_done(self, index):
         if index == -1: return
         self.sobject = self.sobjects[index]
-        self.window.show_input_panel("Input CSV Path: ", "", self.on_input, None, None)
+        self.window.show_input_panel("Input CSV Path: ", 
+            sublime.get_clipboard(), self.on_input, None, None)
 
     def on_input(self, file_path):
         if not file_path.endswith('csv'): 
