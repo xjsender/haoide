@@ -1,19 +1,14 @@
 import sublime
-import threading
 import time
 import pprint
 import os
 import csv
-import re
-import threading
-from xml.sax.saxutils import unescape
 
 from .login import soap_login
 from . import soap_bodies, xmltodict
 from .. import requests, util
 from .api import SalesforceApi
 from ..util import getUniqueElementValueFromXmlString
-from ..progress import ThreadsProgress
 
 class BulkJob():
     def __init__(self, settings, operation, sobject, external_field=None, **kwargs):
@@ -203,43 +198,40 @@ class BulkApi():
         result = self.do_operation('delete')
         self.write_csv_to_file(result, "delete")
     
-    def detect_bom(self, inputfile):
-        # Detect BOM Header
+    def read_csv(self, inputfile):
+        from ..requests.packages import chardet
         csvfile = open(inputfile, "rb")
-        has_bom = True if csvfile.read(3) == b'\xef\xbb\xbf' else False
+        chardet_result = chardet.detect(csvfile.read(1000))
+        csvfile.close()
 
-        return has_bom
+        # Get Reader handler by encoding type
+        encoding = chardet_result["encoding"]
+        if "utf" in encoding.lower():
+            csvfile = open(inputfile, encoding=encoding)
+            reader = csv.reader(csvfile)
+        else:
+            reader = csv.reader(open(inputfile))
+
+        return reader
 
     def create_batchs(self, job, inputfile):
         maxBytesPerBatch = self.settings["maximum_batch_bytes"] 
         maxRowsPerBatch = self.settings["maximum_batch_size"] 
 
-        batch_ids = [] # Batch List
-
         # Reader Content
         currentBytes = 0
         currentLines = 0
         batchRecord = ""
-        headerBytesLength = 0
-        try:
-            # Assume file encoding is utf-8
-            csvfile = open(inputfile, encoding="utf-8")
-            if self.detect_bom(inputfile): csvfile.seek(3)
-            reader = csv.reader(csvfile)
-            for row in reader: 
-                header = ",".join(row) + "\n"
-                headerBytesLength = len(header)
-                break
-        except:
-            reader = csv.reader(open(inputfile))
-            for row in reader:
-                header = ",".join(row) + "\n"
-                headerBytesLength = len(header)
-                break
-        else:
-            pass
-
+        batch_ids = []
+        reader = self.read_csv(inputfile)
         for row in reader:
+            if reader.line_num == 1:
+                if "\ufeff" in row[0]:
+                    row[0] = row[0].replace("\ufeff", "").replace('"', '')
+                header = ",".join(row) + "\n"
+                headerBytesLength = len(header)
+                continue
+
             rowLength = len(str(row) + "\n")
             if len(batchRecord) > maxBytesPerBatch or currentLines > maxRowsPerBatch:
                 batch_id = job.create_batch(batchRecord.encode("utf-8"))
