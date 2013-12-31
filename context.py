@@ -96,6 +96,10 @@ def get_toolingapi_settings():
     settings["display_field_name_and_label"] = s.get("display_field_name_and_label", True)
     settings["excluded_sobjects"] = s.get("excluded_sobjects", [])
 
+    # Bulk Api batch size and batch bytes
+    settings["maximum_batch_size"] = s.get("maximum_batch_size", 10000)
+    settings["maximum_batch_bytes"] = s.get("maximum_batch_bytes", 100000)
+
     # Log Levels of Anonymous Code
     settings["anonymous_log_levels"] = s.get("anonymous_log_levels")
 

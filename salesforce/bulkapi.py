@@ -203,27 +203,43 @@ class BulkApi():
         result = self.do_operation('delete')
         self.write_csv_to_file(result, "delete")
     
+    def detect_bom(self, inputfile):
+        # Detect BOM Header
+        csvfile = open(inputfile, "rb")
+        has_bom = True if csvfile.read(3) == b'\xef\xbb\xbf' else False
+
+        return has_bom
+
     def create_batchs(self, job, inputfile):
-        maxBytesPerBatch = 1000000 # Maximum 10 million bytes per batch
-        maxRowsPerBatch = 5000 # Maximum 10 thousand rows per batch
+        maxBytesPerBatch = self.settings["maximum_batch_bytes"] 
+        maxRowsPerBatch = self.settings["maximum_batch_size"] 
 
         batch_ids = [] # Batch List
-        reader = csv.reader(open(inputfile)) # Reader CSV Content
 
         # Reader Content
         currentBytes = 0
         currentLines = 0
         batchRecord = ""
-        for row in reader:
-            # Read Header
-            if reader.line_num == 1:
-                # Remove Bom Header if has
-                if "\ufeff" in row[0]:
-                    row[0] = row[0].replace("\ufeff", "").replace('"', '')
+        headerBytesLength = 0
+        try:
+            # Assume file encoding is utf-8
+            csvfile = open(inputfile, encoding="utf-8")
+            if self.detect_bom(inputfile): csvfile.seek(3)
+            reader = csv.reader(csvfile)
+            for row in reader: 
                 header = ",".join(row) + "\n"
                 headerBytesLength = len(header)
-                continue
+                break
+        except:
+            reader = csv.reader(open(inputfile))
+            for row in reader:
+                header = ",".join(row) + "\n"
+                headerBytesLength = len(header)
+                break
+        else:
+            pass
 
+        for row in reader:
             rowLength = len(str(row) + "\n")
             if len(batchRecord) > maxBytesPerBatch or currentLines > maxRowsPerBatch:
                 batch_id = job.create_batch(batchRecord.encode("utf-8"))
@@ -251,7 +267,7 @@ class BulkApi():
         combined_result = results[0]
         for result in results[1:]:
             result = result.replace(b'"Id","Success","Created","Error"\n', b"")
-            combined_result += b"\n" + result
+            combined_result += result
 
         return combined_result
 

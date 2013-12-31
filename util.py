@@ -329,6 +329,8 @@ def parse_code_coverage(class_name, result):
         row = ""
         row += "%-*s" % (40, name)
         coverage = records[name]
+        if coverage["NumLinesCovered"] == None or coverage["NumLinesUncovered"] == None:
+            continue
         covered_lines = coverage["NumLinesCovered"]
         total_lines = covered_lines + coverage["NumLinesUncovered"]
         coverage = covered_lines / total_lines * 100 if total_lines != 0 else 0

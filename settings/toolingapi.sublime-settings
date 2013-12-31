@@ -71,7 +71,13 @@
     // Indicate whether display both field name and field label for sobject field completion,
     // If set false, it means just display field name
     "display_field_name_and_label": true,
-    
+
+    // Bulk API batch size and batch bytes
+    // Maximum 10000 rows per batch
+    // Maximum 1000000 bytes per batch
+    "maximum_batch_size": 50,
+    "maximum_batch_bytes": 1000000,
+
     // Log Levels for anonymous code
     "anonymous_log_levels": [
         {

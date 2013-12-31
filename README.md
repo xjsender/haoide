@@ -21,7 +21,9 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 + 2013-12-28: [Fix bulk api issue](https://github.com/kennethreitz/requests/issues/1833)
 + 2013-12-29: Add command for clearing cache of sobjects
 + 2013-12-29: Rearrange main menu items
-+ 2013-12-31: Support to upload data if record count is more than 10K
++ 2013-12-31: Automatically divide upload record by 10K every batch
++ 2013-12-31: Add two settings for bulk load: ```maximum_batch_size``` and ```maximum_batch_bytes```
++ 2013-12-31: Support data upload for ```ANSI``` and ```UTF-8``` with or without BOM
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control
@@ -32,7 +34,7 @@ If your operation system is OSX, you must set the workspace in ```SublimeApex > 
 There is a default test org in this plugin, you can see it by clicking ```SublimeApex > Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project
 
 In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```SublimeApex > Settings > Setting - User```.
-
+re
 You can setup your projects follow below sample by clicking ```SublimeApex > Settings > Setting - User``` in the main menu, projects must be included in {}.
 
 When you initiate your settings, you can have more than one project in "projects", however, only one project default should be true.
