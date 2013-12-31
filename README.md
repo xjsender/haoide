@@ -203,12 +203,10 @@ Up to now, support Head, Get, Post, Delete and Retrieve Body Methods, for exampl
 Click ```SublimeApex > Export > Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported
 
 ## Bulk Api
-+ Export Single, click ```SublimeApex > Data Loader > Export Single```, and then choose the sobject name, plugin will export the records of this sobject to ```<workspace>/<project folder>/bulkout```
-+ Export All, click ```SublimeApex > Data Loader > Export All``` to export the records of all sobjects
-+ Insert, click ```SublimeApex > Data Loader > Insert```, choose the sobject name, plugin will automaticall find the corresponding csv file in ```<workspace>/<project folder>/bulkin```, N.B., csv file name must same with sobject name, otherwise, you will get the error message alert
-+ Update, ongoing...
-+ Upsert, ongoing...
-+ Delete, ongoing...
++ Up to now, support export, insert, update and delete.
++ You can set the batch size and batch bytes for every batch by put ```maximum_batch_size``` and ```maximum_batch_bytes``` in your user settings, you should be aware, maximum records of single batch is **10K** and maximum bytes of single batch is **1000K**
++ This tool will get your CSV file encoding type by detecting the first **1000** bytes of the CSV file, as a best practice, you should prepare CSV file which encoding type is ```ANSI``` or ```UTF-8```.
++ If you want to insert a CSV file, you'd better open the CSV file in sublime and copy the file path, after you choose the sobject that you want to insert records, this tool will automatically get the file path from the clipboard
 
 ## Proxy
 Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanced/#proxies)
@@ -222,7 +220,7 @@ With these settings, after we input characters described in below, sublime will 
 {
     // Auto completion after these characters
     "auto_complete_triggers": [{
-        "characters": ".<",
+        "characters": ".<=",
         "selector": "source.java"
     }, {
         "characters": "<: =",
@@ -234,6 +232,7 @@ With these settings, after we input characters described in below, sublime will 
 Because you can't edit the default setting, however, if you want to change these settings, you should open ```SublimeApex > Settings > Setting - User``` and put all your change here.
 ```javascript
 {
+
     // Indicate whether add project name time suffix
     // When this setting value is true, you create a new project at yestoday and you refresh 
     // it's code today, a new project folder will be created to keep the refreshed code
@@ -248,7 +247,7 @@ Because you can't edit the default setting, however, if you want to change these
     "output_session_info": false,
 
     // Indicate whether keep local history history
-    "keep_local_change_history": true,
+    "keep_local_change_history": false,
 
     // Every time when you save component and error happened, the console will be open.
     // When you edit the code according to the error message, this flag is used to indicate
@@ -260,8 +259,61 @@ Because you can't edit the default setting, however, if you want to change these
     // so I put it here but not in project property
     "allowed_packages": ["sinaweibo", "twitter", "facebook"],
 
-    // API version
-    "api_version": 28,
+    // Indicate whether download StaticResource body, it is very time-consuming.
+    // If you open this functionality and your StaticResources are very large
+    // It may stop your work
+    "get_static_resource_body": false,
+
+    // Indicate whether disable sobject fields completion
+    "disable_fields_completion": false,
+
+    // Indicate whether disable Relationship field completion
+    "disable_relationship_completion": false,
+
+    // Indicate whether disable picklist value completion
+    "disable_picklist_value_completion": false,
+
+    // Indicate whether disable keyword completion
+    "disable_keyword_completion": true,
+
+    // Indicate whether display both field name and field label for sobject field completion,
+    // If set false, it means just display field name
+    "display_field_name_and_label": true,
+
+    // Bulk API batch size and batch bytes
+    // Maximum 10000 rows per batch
+    // Maximum 1000000 bytes per batch
+    "maximum_batch_size": 10000,
+    "maximum_batch_bytes": 1000000,
+
+    // Log Levels for anonymous code
+    "anonymous_log_levels": [
+        {
+            "log_category": "Apex_Code",
+            "log_level": "Finest"
+        },
+        {
+            "log_category": "Apex_Profiling",
+            "log_level": "Info"
+        },
+        {
+            "log_category": "Callout",
+            "log_level": "Info"
+        },
+        {
+            "log_category": "DB",
+            "log_level": "Info"
+        },
+        {
+            "log_category": "Validation",
+            "log_level": "Info"
+        },
+        {
+            "log_category": "Workflow",
+            "log_level": "Info"
+        }
+    ],
+
 
     ... 
 
