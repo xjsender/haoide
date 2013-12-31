@@ -3,6 +3,8 @@ import threading
 import time
 import pprint
 import os
+import csv
+import re
 import threading
 from xml.sax.saxutils import unescape
 
@@ -14,12 +16,11 @@ from ..util import getUniqueElementValueFromXmlString
 from ..progress import ThreadsProgress
 
 class BulkJob():
-    def __init__(self, settings, operation, sobject, records=None, external_field=None, **kwargs):
+    def __init__(self, settings, operation, sobject, external_field=None, **kwargs):
         self.settings = settings
         self.username = settings["username"]
         self.operation = operation
         self.sobject = sobject
-        self.records = records
         self.result = None
         
     def login(self, session_id_expired):
@@ -54,22 +55,20 @@ class BulkJob():
         headers["Content-Type"] = "application/xml; charset=UTF-8"
 
         response = requests.post(url, body, verify=False, headers=headers)
-        job_id = getUniqueElementValueFromXmlString(response.content, "id")
-
-        return job_id
+        self.job_id = getUniqueElementValueFromXmlString(response.content, "id")
 
     # https://instance.salesforce.com/services/async/27.0/job/jobId/batch
-    def create_batch(self, job_id):
-        url = self.base_url + "/job/%s/batch" % job_id
+    def create_batch(self, records=None):
+        url = self.base_url + "/job/%s/batch" % self.job_id
 
         headers = self.headers
         headers["Content-Type"] = "text/csv; charset=UTF-8"
 
-        if self.operation == "query" and self.records == None:
+        if self.operation == "query" and not records:
             api = SalesforceApi(self.settings)
-            self.records = api.combine_soql(self.sobject)
+            records = api.combine_soql(self.sobject)
 
-        response = requests.post(url, self.records, verify=False, headers=headers)
+        response = requests.post(url, records, verify=False, headers=headers)
         if response.status_code == 400:
             return self.parse_response(response, url)
 
@@ -78,8 +77,8 @@ class BulkJob():
         return batch_id
 
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId
-    def check_job_status(self, job_id):
-        url = self.base_url + "/job/%s" % job_id
+    def check_job_status(self):
+        url = self.base_url + "/job/%s" % self.job_id
         response = requests.get(url, data=None, verify=False, 
             headers=self.headers)
         job_status = getUniqueElementValueFromXmlString(response.content, "state")
@@ -87,8 +86,8 @@ class BulkJob():
         return job_status
 
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId
-    def check_batch_status(self, job_id, batch_id):
-        url = self.base_url + "/job/%s/batch/%s" % (job_id, batch_id)
+    def check_batch_status(self, batch_id):
+        url = self.base_url + "/job/%s/batch/%s" % (self.job_id, batch_id)
         response = requests.get(url, data=None, verify=False, 
             headers=self.headers)
 
@@ -115,8 +114,8 @@ class BulkJob():
         return result
 
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result
-    def get_batch_result_id(self, job_id, batch_id):
-        url = self.base_url + "/job/%s/batch/%s/result" % (job_id, batch_id)
+    def get_batch_result_id(self, batch_id):
+        url = self.base_url + "/job/%s/batch/%s/result" % (self.job_id, batch_id)
         headers = self.headers
         headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
 
@@ -126,13 +125,13 @@ class BulkJob():
         return result_id
 
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result/resultId
-    def get_batch_result(self, job_id, batch_id, result_id=None):
+    def get_batch_result(self, batch_id, result_id=None):
         if result_id != None:
             # Query action
-            url = self.base_url + "/job/%s/batch/%s/result/%s" % (job_id, batch_id, result_id)
+            url = self.base_url + "/job/%s/batch/%s/result/%s" % (self.job_id, batch_id, result_id)
         else:
             # Other actions
-            url = self.base_url + "/job/%s/batch/%s/result" % (job_id, batch_id)
+            url = self.base_url + "/job/%s/batch/%s/result" % (self.job_id, batch_id)
 
         headers = self.headers
         headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
@@ -140,8 +139,8 @@ class BulkJob():
         response = requests.get(url, data=None, verify=False, headers=headers)
         return response.content
 
-    def close_job(self, job_id):
-        url = self.base_url + "/job/%s" % job_id
+    def close_job(self):
+        url = self.base_url + "/job/%s" % self.job_id
         body = soap_bodies.close_job
         headers = self.headers
         headers["Content-Type"] = "application/xml; charset=UTF-8"
@@ -181,6 +180,7 @@ class BulkApi():
         else:
             try:
                 fp = open(outputfile, "wb")
+                fp.write(u'\ufeff'.encode('utf8'))
                 fp.write(result)
             except:
                 print (sobject + " export is failed")
@@ -202,40 +202,94 @@ class BulkApi():
     def delete(self):
         result = self.do_operation('delete')
         self.write_csv_to_file(result, "delete")
+    
+    def create_batchs(self, job, inputfile):
+        maxBytesPerBatch = 1000000 # Maximum 10 million bytes per batch
+        maxRowsPerBatch = 5000 # Maximum 10 thousand rows per batch
+
+        batch_ids = [] # Batch List
+        reader = csv.reader(open(inputfile)) # Reader CSV Content
+
+        # Reader Content
+        currentBytes = 0
+        currentLines = 0
+        batchRecord = ""
+        for row in reader:
+            # Read Header
+            if reader.line_num == 1:
+                # Remove Bom Header if has
+                if "\ufeff" in row[0]:
+                    row[0] = row[0].replace("\ufeff", "").replace('"', '')
+                header = ",".join(row) + "\n"
+                headerBytesLength = len(header)
+                continue
+
+            rowLength = len(str(row) + "\n")
+            if len(batchRecord) > maxBytesPerBatch or currentLines > maxRowsPerBatch:
+                batch_id = job.create_batch(batchRecord.encode("utf-8"))
+                batch_ids.append(batch_id)
+                batchRecord = ""
+                currentBytes = 0;
+                currentLines = 0;
+
+            if currentBytes == 0:
+                batchRecord += header
+                currentBytes = headerBytesLength;
+                currentLines = 1;
+
+            batchRecord += ",".join(row) + "\n"
+            currentBytes += rowLength
+            currentLines = currentLines + 1
+
+        if currentLines > 1:
+            batch_id = job.create_batch(batchRecord.encode("utf-8"))
+            batch_ids.append(batch_id)
+
+        return batch_ids
+
+    def combine_results(self, results):
+        combined_result = results[0]
+        for result in results[1:]:
+            result = result.replace(b'"Id","Success","Created","Error"\n', b"")
+            combined_result += b"\n" + result
+
+        return combined_result
 
     def do_operation(self, operation):
-        if self.inputfile:
-            # Read file content, if csv encode is UTF-8 With BOM, just remove the BOM
-            records = open(self.inputfile, "rb").read()
-            if records[:3] == b'\xef\xbb\xbf':
-                records = records[3:]
+        job = BulkJob(self.settings, operation, self.sobject, self.external_field)
+        job.create_job()
+        if not self.inputfile:
+            batch_ids = [job.create_batch()]
         else:
-            records = None
-
-        job = BulkJob(self.settings, operation, self.sobject, records, self.external_field)
-        job_id = job.create_job()
-        result = job.create_batch(job_id)
-        if isinstance(result, dict):
-            self.result = result
-            return result
-        
-        batch_id = result
-        job.close_job(job_id)
-
-        # Check batch status util batch is finished
-        while True:
-            result = job.check_batch_status(job_id, batch_id)
-            if isinstance(result, dict):
-                self.result = result
+            batch_ids = self.create_batchs(job, self.inputfile)
+        for batch_id in batch_ids:
+            if isinstance(batch_id, dict):
+                self.result = batch_id
                 return self.result
-            if result == "Completed": break
-            time.sleep(3)
+        
+        # Close job
+        job.close_job()
+
+        # Check batch status until all batchs are finished
+        for batch_id in batch_ids:
+            while True:
+                result = job.check_batch_status(batch_id)
+                if isinstance(result, dict):
+                    self.result = result
+                    return self.result
+                if result == "Completed": break
+                time.sleep(3)
 
         if operation == "query":
-            result_id = job.get_batch_result_id(job_id, batch_id)
-            result = job.get_batch_result(job_id, batch_id, result_id)
+            result_id = job.get_batch_result_id(batch_id)
+            result = job.get_batch_result(batch_id, result_id)
         else:
-            result = job.get_batch_result(job_id, batch_id)
+            results = []
+            for batch_id in batch_ids:
+                result = job.get_batch_result(batch_id)
+                results.append(result)
+
+            result = self.combine_results(results)
 
         self.result = result
         return result

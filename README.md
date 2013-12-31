@@ -21,6 +21,7 @@ This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Lin
 + 2013-12-28: [Fix bulk api issue](https://github.com/kennethreitz/requests/issues/1833)
 + 2013-12-29: Add command for clearing cache of sobjects
 + 2013-12-29: Rearrange main menu items
++ 2013-12-31: Support to upload data if record count is more than 10K
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control
