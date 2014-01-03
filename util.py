@@ -701,9 +701,6 @@ def parse_field_dependencies(settings, sobject):
     pprint.pprint(result)
 
 def parse_data_template(output_file_dir, result):
-    # Create new csv
-    fp = open(output_file_dir, "w", newline='')
-
     # Get all layoutItems
     field_lables = []
     field_apis = []
@@ -746,20 +743,19 @@ def parse_data_template(output_file_dir, result):
                         picklist_labels.append(picklist["label"])
                         picklist_values.append(picklist["value"])
                         
-                    fields_picklist_labels.append("\n".join(picklist_labels))
-                    fields_picklist_values.append("\n".join(picklist_values))
+                    fields_picklist_labels.append('"%s"' % "\n".join(picklist_labels))
+                    fields_picklist_values.append('"%s"' % "\n".join(picklist_values))
 
     # Write field_lables and field apis
-    dict_write = csv.DictWriter(fp, field_lables, quoting=csv.QUOTE_ALL)
-    dict_write.writer.writerow(field_lables)
-    dict_write.writer.writerow(field_apis)
-    dict_write.writer.writerow(fields_type)
-    dict_write.writer.writerow(fields_required)
-    dict_write.writer.writerow(fields_picklist_labels)
-    dict_write.writer.writerow(fields_picklist_values)
-
-    # Close I/O Handler
-    fp.close()
+    # Create new csv
+    with open(output_file_dir, "wb") as fp:
+        fp.write(u'\ufeff'.encode('utf8'))
+        fp.write(",".join(field_lables).encode("utf-8") + b"\n")
+        fp.write(",".join(field_apis).encode("utf-8") + b"\n")
+        fp.write(",".join(fields_type).encode("utf-8") + b"\n")
+        fp.write(",".join(fields_required).encode("utf-8") + b"\n")
+        fp.write(",".join(fields_picklist_labels).encode("utf-8") + b"\n")
+        fp.write(",".join(fields_picklist_values).encode("utf-8") + b"\n")
 
 def parse_execute_anonymous_xml(result):
     """
