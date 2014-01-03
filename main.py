@@ -256,13 +256,6 @@ class ExportCustomFieldCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         processor.handle_export_customfield()
-        
-class DescribeGlobalCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(DescribeGlobalCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        processor.handle_describe_global()
 
 class DescribeSobjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -639,10 +632,7 @@ class SaveComponentCommand(sublime_plugin.TextCommand):
         component_attribute, component_name = util.get_component_attribute(file_name)
 
         # Read file content
-        try:
-            body = open(file_name, encoding="utf-8").read()
-        except:
-            body = open(file_name).read()
+        body = open(file_name, encoding="utf-8").read()
 
         # Handle Save Current Component
         processor.handle_save_component(component_name, component_attribute, body)

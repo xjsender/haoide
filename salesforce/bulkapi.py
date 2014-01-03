@@ -270,6 +270,19 @@ class BulkApi():
             batch_ids = [job.create_batch()]
         else:
             batch_ids = self.create_batchs(job, self.inputfile)
+
+        """
+        Error need to process in future
+        --------------------------------------------------------------------------------
+                  @xmlns:   http://www.force.com/2009/06/asyncapi/dataload  
+           exceptionCode:   ExceededQuota                   
+        exceptionMessage:   ApiBatchItems Limit exceeded.   
+                     URL:   https://cs5.salesforce.com/services/async/29.0/job/750O0000000E0edIAC/batch 
+             status_code:   400                             
+               Operation:   insert                          
+                 Sobject:   Widget__c                       
+        --------------------------------------------------------------------------------
+        """
         for batch_id in batch_ids:
             if isinstance(batch_id, dict):
                 self.result = batch_id

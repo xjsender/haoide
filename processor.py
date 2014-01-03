@@ -711,22 +711,13 @@ def handle_export_customfield(timeout=120):
         result = api.result
         if result["status_code"] > 399 : return
 
-        if not os.path.exists(outputdir): os.makedirs(outputdir)
-        output_file_dir = outputdir + "/customfield.csv"
-        if util.is_python3x():
-            fp = open(output_file_dir, "w", newline='')
-        else:
-            fp = open(output_file_dir, "wb")
-
         # Write list to csv
+        if not os.path.exists(outputdir): os.makedirs(outputdir)
         records = sorted(result["records"], key=lambda k : k['TableEnumOrId'])
-        util.list2csv(fp, records)
-
-        # Release fp
-        fp.close()
+        util.list2csv(outputdir + "/customfield.csv", records)
 
         # Output log
-        print (message.SEPRATE.format(output_file_dir))
+        print (message.SEPRATE.format(outputdir))
 
     toolingapi_settings = context.get_toolingapi_settings()
     workspace = context.get_toolingapi_settings().get("workspace")
@@ -738,42 +729,6 @@ def handle_export_customfield(timeout=120):
     ThreadProgress(api, thread, 'Describe CustomField', 
         'Outputdir: ' + outputdir + "/customfield.csv")
     handle_thread(thread, 10)
-
-def handle_describe_global(timeout=120):
-    def handle_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-
-        result = api.result
-
-        # Error Message are prcoessed in ThreadProgress
-        if result["status_code"] > 399 :return
-
-        if not os.path.exists(outputdir):
-            os.makedirs(outputdir)
-
-        # Open output csv
-        output_file_dir = outputdir + "/sobjects.csv"
-        if util.is_python3x():
-            fp = open(output_file_dir, "w", newline='')
-        else:
-            fp = open(output_file_dir, "wb")
-
-        # Write list to csv
-        util.list2csv(fp, result["sobjects"])
-
-        # Console Log
-        print ("Output Directory: " + outputdir + "sobjects.csv")
-
-    toolingapi_settings = context.get_toolingapi_settings()
-    workspace = context.get_toolingapi_settings().get("workspace")
-    outputdir = workspace + "/describe/global"
-    api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.describe_global, args=())
-    thread.start()
-    ThreadProgress(api, thread, 'Describe Global...', "Output Directory: " + outputdir + "sobjects.csv")
-    handle_thread(thread, timeout)
 
 def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, timeout=120):
     def handle_thread(thread, timeout):

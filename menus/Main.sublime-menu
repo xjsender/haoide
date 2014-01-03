@@ -75,12 +75,6 @@
                 "caption": "Describe",
                 "children": [
                     {
-                        "id": "describeglobal",
-                        "caption": "Describe Global",
-                        "command": "describe_global"
-                    },
-
-                    {
                         "id": "describesobject",
                         "caption": "Describe Sobject",
                         "command": "describe_sobject"

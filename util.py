@@ -661,7 +661,7 @@ def write_metadata_to_csv(dict_write, columns, metadata, sobject):
         dict_write.writer.writerow(row_value)
 
 NOT_INCLUDED_COLUMNS = ["urls", "attributes"]
-def list2csv(fp, records):
+def list2csv(file_path, records):
     """
     convert simple dict in list to csv
 
@@ -669,14 +669,16 @@ def list2csv(fp, records):
     """
     # If records size is 0, just return
     if len(records) == 0: return "No Custom Fields"
-    
-    writer = csv.DictWriter(fp, [k.capitalize() for k in records[0] if k not in NOT_INCLUDED_COLUMNS])
-    writer.writeheader()
-    for record in records:
-        writer.writerow(dict((k.capitalize(), v) for k, v in record.items() if k not in NOT_INCLUDED_COLUMNS))
 
-    # Release fp
-    fp.close()
+    header = [k.encode('utf-8') for k in records[0] if k not in NOT_INCLUDED_COLUMNS]
+    with open(file_path, "wb") as fp:
+        fp.write(b",".join(header) + b"\n")
+        for record in records:
+            values = []
+            for k, v in record.items():
+                if k.encode('utf-8') in header:
+                    values.append(none_value(v).encode("utf-8"))
+            fp.write(b",".join(values) + b"\n")
 
 def parse_field_dependencies(settings, sobject):
     if sobject != "VCC_Product_Configuration__c": return
@@ -871,75 +873,6 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
 
     # Return outputdir
     return outputdir
-
-seprate = 100 * "-" + "\n"
-def parse_execute_query_result(result):
-    """
-    Parse the soql query result to formated string
-
-    @result: soql query result, it's a dict
-
-    @return: formated string
-    """
-
-    def parse_records(value, view_result):
-        #------------------------------------------------------------
-        # Part of TotalSize, Title and seprate line
-        #------------------------------------------------------------
-        # Get the field list of record and remove attributes
-        records = value["records"]
-        record_keys = records[0].keys()
-        record_keys = [ele for ele in record_keys if ele != "attributes"]
-
-        # Append columns part into view_result
-        columns = ""
-        for key in record_keys:
-            columns += "%-30s" % key
-
-        view_result += records[0]["attributes"]["type"] + " totalSize: \t" +\
-            str(value.get("totalSize")) + "\n"
-        view_result += seprate
-        view_result += columns + "\n" + len(columns) * "-" + "\n"
-
-        #------------------------------------------------------------
-        # Part of Field Value
-        #------------------------------------------------------------
-        for record in value.get("records"):
-            row = ""
-            for key in record_keys:
-                # Get field value by field API
-                row_value = record.get(key)
-                if row_value == None:
-                    row_value = ""
-
-                if isinstance(row_value, dict):
-                    row_value = str(len(row_value["records"]))
-                else:
-                    row_value = "%-30s" % row_value
-                row += row_value
-            view_result += row + "\n"
-            
-        return view_result
-
-    # If no query result, just...
-    if "totalSize" in result and result.get("totalSize") == 0:
-        return "No query result."
-
-    parent_view_result = ""
-    parent_view_result = parse_records(result, parent_view_result)
-
-    child_view_result = ""
-    for parent_record in result["records"]:
-        for key in parent_record.keys():
-            if key == "attributes":
-                continue
-
-            value = parent_record[key]
-            if isinstance(value, dict) and value != None:
-                child_view_result = parse_records(value, child_view_result)
-                child_view_result += "\n"
-
-    return parent_view_result + child_view_result
 
 record_keys = ["label", "name", "type", "length"]
 record_key_width = {

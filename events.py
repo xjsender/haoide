@@ -53,10 +53,7 @@ class SFDCEventListener(sublime_plugin.EventListener):
 
         # Get current file name and Read file content
         file_name = view.file_name()
-        try:
-            body = open(file_name, encoding="utf-8").read()
-        except:
-            body = open(file_name, "rb").read()
+        body = open(file_name, "rb").read()
 
         # Get component_name amd component_type
         name, extension = util.get_file_attr(file_name)
@@ -73,7 +70,7 @@ class SFDCEventListener(sublime_plugin.EventListener):
 
         # Backup current file
         time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
-        fp = open(workspace + "/" + name + "-" + time_stamp + extension, "w")
+        fp = open(workspace + "/" + name + "-" + time_stamp + extension, "wb")
 
         fp.write(body)
         fp.close()
