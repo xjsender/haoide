@@ -1,7 +1,7 @@
 <snippet>
     <content><![CDATA[
-<script src="/soap/ajax/27.0/connection.js" type="text/javascript"></script>
-<script src="/soap/ajax/27.0/apex.js" type="text/javascript"></script>
+<script src="/soap/ajax/29.0/connection.js" type="text/javascript"></script>
+<script src="/soap/ajax/29.0/apex.js" type="text/javascript"></script>
 
 $0
 ]]></content>

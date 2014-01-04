@@ -4,7 +4,7 @@ SavePoint sp = Database.setSavePoint();
 $0
 Database.rollback(sp);
 ]]></content>
-    <tabTrigger>transaction</tabTrigger>
+    <tabTrigger>savepoint</tabTrigger>
     <scope>source.java</scope>
-    <description>事务处理</description>
+    <description>Transaction Process</description>
 </snippet>
