@@ -53,6 +53,7 @@ class SFDCEventListener(sublime_plugin.EventListener):
 
         # Get current file name and Read file content
         file_name = view.file_name()
+        if not os.path.isfile(file_name): return
         body = open(file_name, "rb").read()
 
         # Get component_name amd component_type

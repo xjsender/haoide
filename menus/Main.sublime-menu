@@ -266,14 +266,6 @@
                     {
                         "command": "open_file", 
                         "args": {
-                            "file": "${packages}/user/toolingapi.sublime-settings"
-                        },
-                        "caption": "Settings – User"
-                    },
-
-                    {
-                        "command": "open_file", 
-                        "args": {
                             "file": "${packages}/Salesforce IDE/settings/preferences.sublime-settings"
                         },
                         "caption": "Settings – Completions"
@@ -285,6 +277,22 @@
                             "file": "${packages}/Salesforce IDE/settings/Widget.sublime-settings"
                         },
                         "caption": "Settings – Console"
+                    },
+
+                    {
+                        "command": "open_file", 
+                        "args": {
+                            "file": "${packages}/Salesforce IDE/settings/template.sublime-settings"
+                        },
+                        "caption": "Settings – Apex Template"
+                    },
+
+                    {
+                        "command": "open_file", 
+                        "args": {
+                            "file": "${packages}/user/toolingapi.sublime-settings"
+                        },
+                        "caption": "Settings – User"
                     }
                 ]
             },

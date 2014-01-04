@@ -1,0 +1,32 @@
+{
+    "template": {
+        "StandardController": {
+            "extension": ".cls",
+            "body": "public with sharing class class_name {\n\tpublic class_name(ApexPages.StandardController con) {\n\n\t}\n}"
+        },
+        "StandardSetController": {
+            "extension": ".cls",
+            "body": "public with sharing class class_name {\n\tpublic class_name(ApexPages.StandardSetController con) {\n\n\t}\n}"
+        },
+        "Schedule Class": {
+            "extension": ".cls",
+            "body": "global class class_name implements Schedulable {\n\tglobal void execute(SchedulableContext sc) {\n\n\t}\n}"
+        },
+        "Exception Class": {
+            "extension": ".cls",
+            "body": "public class class_name extends Exception {}"
+        },
+        "ApexTrigger": {
+            "extension": ".trigger",
+            "body": "trigger %s on %s(before insert) {\n\t\n}"
+        },
+        "ApexComponent": {
+            "extension": ".component",
+            "body": "<apex:component>\n\t\n</apex:component>"
+        },
+        "ApexPage": {
+            "extension": ".page",
+            "body": "<apex:page>\n\t\n</apex:page>"
+        }
+    }
+}

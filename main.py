@@ -549,77 +549,74 @@ def delete_components(files):
 
 class CreateComponentCommand(sublime_plugin.WindowCommand):
     """
-    user input, for example,
-        1. TestTrigger.trigger, sobject_name
-        2. TestClass.cls
-        3. TestPage.page
-        4. TestComponent.component
+    user input
     """
 
     def __init__(self, *args, **kwargs):
         super(CreateComponentCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.window.show_input_panel("Follow [Name.trigger,Sobject | Name.page | Name.cls | Name.component]", 
+        template_settings = sublime.load_settings("template.sublime-settings")
+        self.templates = template_settings.get("template")
+        self.template_names = sorted(list(self.templates.keys()))
+        self.window.show_quick_panel(self.template_names, self.on_choose_template)
+
+    def on_choose_template(self, index):
+        if index == -1: return
+        self.template_name = self.template_names[index]
+        self.template_attr = self.templates[self.template_name]
+        self.window.show_input_panel("Follow [Name<,sobject for trigger>]", 
             "", self.on_input, None, None)
 
     def on_input(self, input):
-        # Valid user input
-        if "." not in input:
-            sublime.error_message(message.INVALID_NEW_COMPONENT_FORMAT)
-            return
-
-        # Get toolingapi settings
-        toolingapi_settings = context.get_toolingapi_settings()
-
         # Create component to local according to user input
-        is_success, sobject_name, file_name = context.make_component(input)
-        if is_success == False:
-            sublime.error_message(message.INVALID_NEW_COMPONENT_FORMAT)
-            return
-
-        self.window.open_file(file_name)
-
-        # Before you save it to server, save it to local
-        self.view = self.window.active_view()
-        if self.view.is_dirty():
-            self.view.run_command("save")
-
-        # Get Current File Name
-        file_name = self.view.file_name()
-
-        # Read file content
-        body = open(file_name).read()
+        if self.template_attr["extension"] == ".trigger":
+            if not re.match('^[a-zA-Z]+\\w+,[_a-zA-Z]+\\w+$', input):
+                sublime.error_message("Invalid format")
+                return
+            name, sobject = [ele.strip() for ele in input.split(",")]
+        else:
+            if not re.match('^[a-zA-Z]+\\w+$', input):
+                sublime.error_message("Invalid format")
+                return
+            name = input
         
-        # Get component type and component_name (Class Name, Trigger Name, etc.)
-        name, extension = util.get_file_attr(file_name)
-        component_type = toolingapi_settings[extension]
+        extension = self.template_attr["extension"]
+        body = self.template_attr["body"]
+        if extension == ".trigger":
+            body = body % (name, sobject)
+        elif extension == ".cls":
+            body = body.replace("class_name", name)
 
-        # There has bug on creating ApexTrigger, but fixed on 2013 May 6 at 21:
-        # Create Trigger is different from others, we can't use tooling/sobjects/ApexTrigger,
-        # We should use sobjects/ApexTrigger
-        # http://salesforce.stackexchange.com/questions/9603/how-do-i-use-the-tooling-api-to-create-a-new-apex-trigger
-        # If component type is not in range, just show error message
-        if extension not in toolingapi_settings["component_extensions"]:
-            sublime.error_message(message.INVALID_COMPONENT)
+        settings = context.get_toolingapi_settings()
+        component_type = settings[extension]
+        component_outputdir = settings[component_type]["outputdir"]
+        if not os.path.exists(component_outputdir):
+            os.makedirs(component_outputdir)
+            context.add_project_to_workspace(toolingapi_settings["workspace"])
+
+        file_name = "%s/%s" % (component_outputdir, name + extension)
+        if os.path.isfile(file_name):
+            self.window.open_file(file_name)
+            sublime.error_message(name + " is already exist")
             return
 
-        # Get Component body Metadata Attribute in SFDC
-        component_body = toolingapi_settings[component_type]["body"]
+        with open(file_name, "w") as fp:
+            fp.write(body)
 
         # Compose data
         data = {
             "name": name,
-            component_body: body,
+            settings[component_type]["body"]: body,
         }
         if component_type == "ApexClass":
             data["IsValid"] = True
         elif component_type == "ApexTrigger":
-            data["TableEnumOrId"] = sobject_name
+            data["TableEnumOrId"] = sobject
         elif component_type in ["ApexPage", "ApexComponent"]:
             data["MasterLabel"] = name
 
-        processor.handle_create_component(data, name, component_type, self.view.id())
+        processor.handle_create_component(data, name, component_type, file_name)
 
 class SaveComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):

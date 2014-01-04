@@ -1112,7 +1112,7 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
     ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_create_component(data, component_name, component_type, view_id, timeout=120):
+def handle_create_component(data, component_name, component_type, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -1123,11 +1123,12 @@ def handle_create_component(data, component_name, component_type, view_id, timeo
 
         # If created failed, just remove it
         if result["status_code"] > 399:
-            view = util.get_view_by_id(view_id)
-            os.remove(view.file_name())
-            view.run_command("close")
+            os.remove(file_name)
             return
-        
+
+        # If created succeed, just open it
+        sublime.active_window().open_file(file_name)
+
         # Get the created component id
         component_id = result.get("id")
         body = toolingapi_settings[component_type]["body"]

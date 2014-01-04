@@ -184,7 +184,7 @@ class ApexCompletions(sublime_plugin.EventListener):
         if ch == ".":
             # Get the variable name
             variable_name = view.substr(view.word(pt - 1))
-
+            
             # If variable_name is namespace, just display classes of this namespace
             # Strange Class: System, ApexPages, Database, Schema, Site, Messaging
             # these class has the same name with namespace, so just put these namespace classes
