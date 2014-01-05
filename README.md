@@ -472,7 +472,6 @@ If you have your own shortcut key convention, you should put it here
 # Dependency Lib #
 + [requests](https://github.com/kennethreitz/requests)
 + [xmltodict](https://github.com/martinblech/xmltodict)
-+ [AllViewCompletions](https://github.com/alienhard/SublimeAllAutocomplete/blob/master/all_views_completions.py)
 
 # Notes: #
 1. Every time when we refresh all apex code from server, the sobject field completions will be initiated at the same time.

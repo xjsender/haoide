@@ -16,6 +16,7 @@ class BulkJob():
         self.username = settings["username"]
         self.operation = operation
         self.sobject = sobject
+        self.batchs = []
         self.result = None
         
     def login(self, session_id_expired):
@@ -66,6 +67,8 @@ class BulkJob():
         response = requests.post(url, records, verify=False, headers=headers)
         if response.status_code == 400:
             return self.parse_response(response, url)
+
+        self.batchs.append(xmltodict.parse(response.text))
 
         batch_id = getUniqueElementValueFromXmlString(response.content, "id")
 
@@ -150,6 +153,8 @@ class BulkApi():
         self.inputfile = inputfile
         self.external_field = external_field
         self.result = None
+        self.job = None
+        self.monitor_batchs()
     
     def query(self):
         # Get batch result
@@ -200,12 +205,13 @@ class BulkApi():
     
     def read_csv(self, inputfile):
         from ..requests.packages import chardet
-        csvfile = open(inputfile, "rb")
-        chardet_result = chardet.detect(csvfile.read(1000))
-        csvfile.close()
+        with open(inputfile, "rb") as csvfile:
+            if csvfile.read(3) == b'\xef\xbb\xbf':
+                encoding = 'utf-8'
+            else:
+                chardet_result = chardet.detect(csvfile.read(1000))
+                encoding = chardet_result["encoding"]
 
-        # Get Reader handler by encoding type
-        encoding = chardet_result["encoding"]
         if "utf" in encoding.lower():
             csvfile = open(inputfile, encoding=encoding)
             reader = csv.reader(csvfile)
@@ -264,12 +270,12 @@ class BulkApi():
         return combined_result
 
     def do_operation(self, operation):
-        job = BulkJob(self.settings, operation, self.sobject, self.external_field)
-        job.create_job()
+        self.job = BulkJob(self.settings, operation, self.sobject, self.external_field)
+        self.job.create_job()
         if not self.inputfile:
-            batch_ids = [job.create_batch()]
+            batch_ids = [self.job.create_batch()]
         else:
-            batch_ids = self.create_batchs(job, self.inputfile)
+            batch_ids = self.create_batchs(self.job, self.inputfile)
 
         """
         Error need to process in future
@@ -289,12 +295,12 @@ class BulkApi():
                 return self.result
         
         # Close job
-        job.close_job()
+        self.job.close_job()
 
         # Check batch status until all batchs are finished
         for batch_id in batch_ids:
             while True:
-                result = job.check_batch_status(batch_id)
+                result = self.job.check_batch_status(batch_id)
                 if isinstance(result, dict):
                     self.result = result
                     return self.result
@@ -302,12 +308,12 @@ class BulkApi():
                 time.sleep(3)
 
         if operation == "query":
-            result_id = job.get_batch_result_id(batch_id)
-            result = job.get_batch_result(batch_id, result_id)
+            result_id = self.job.get_batch_result_id(batch_id)
+            result = self.job.get_batch_result(batch_id, result_id)
         else:
             results = []
             for batch_id in batch_ids:
-                result = job.get_batch_result(batch_id)
+                result = self.job.get_batch_result(batch_id)
                 results.append(result)
 
             result = self.combine_results(results)
