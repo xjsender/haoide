@@ -969,31 +969,32 @@ class SalesforceApi():
         component_body = component_attribute["body"]
 
         # Get MetadataContainerId
-        if component_id in globals():
-            container_id = globals()[component_id]
-        else:
-            data = {  
-                "name": "Save" + component_type[4 : len(component_type)] + component_id
-            }
-            container_url = "/tooling/sobjects/MetadataContainer"
-            result = self.post(container_url, data)
+        data = {  
+            "name": "Save" + component_type[4 : len(component_type)] + component_id
+        }
+        container_url = "/tooling/sobjects/MetadataContainer"
+        result = self.post(container_url, data)
+        # print ("MetadataContainer Response: ", result)
 
-            # If status_code < 399, it means post succeed
-            if result["status_code"] < 399:
-                container_id = result.get("id")
+        # If status_code < 399, it means post succeed
+        if result["status_code"] < 399:
+            container_id = result.get("id")
+        else:
+            # If status_code < 399, it means post failed, 
+            # If DUPLICATE Container Id, just delete it and restart this function
+            if result["errorCode"] == "DUPLICATE_VALUE":
+                error_message = result["message"]
+                container_id = error_message[error_message.rindex("1dc"): len(error_message)]
+                delete_result = self.delete(container_url + "/" + container_id)
+                if delete_result["status_code"] < 399:
+                    sublime.set_timeout(lambda:sublime.status_message("container_id is deleted."), 10)
+                
+                # We can't reuse the container_id which caused error
+                # Post Request to get MetadataContainerId
+                return self.save_component(component_attribute, body)
             else:
-                # If status_code < 399, it means post failed, 
-                # If DUPLICATE Container Id, just delete it and restart this function
-                if result["errorCode"] == "DUPLICATE_VALUE":
-                    error_message = result["message"]
-                    container_id = error_message[error_message.rindex("1dc"): len(error_message)]
-                else:
-                    self.result = {
-                        "success": False,
-                        "Error Message": "Unknown Reason"
-                    }
-                    return
-            globals()[component_id] = container_id
+                util.sublime_error_message(result)
+                return
 
         # Post ApexComponentMember
         data = {
@@ -1001,9 +1002,8 @@ class SalesforceApi():
             "MetadataContainerId": container_id,
             "Body": body
         }
-        member_url = "/tooling/sobjects/" + component_type + "Member"
-        result = self.post(member_url, data)
-        member_id = result["id"]
+        url = "/tooling/sobjects/" + component_type + "Member"
+        result = self.post(url, data)
         # print ("Post ApexComponentMember: ", result)
 
         # Post ContainerAsyncRequest
@@ -1017,6 +1017,7 @@ class SalesforceApi():
         # print ("Post ContainerAsyncRequest: ", result)
 
         # Get ContainerAsyncRequest Result
+        
         result = self.get(sync_request_url + "/" + request_id)
         state = result["State"]
         # print ("Get ContainerAsyncRequest: ", result)
@@ -1029,7 +1030,7 @@ class SalesforceApi():
 
         while state == "Queued":
             # print ("Async Request is queued, please wait for 5 seconds...")
-            time.sleep(3)
+            time.sleep(5)
 
             result = self.get(sync_request_url + "/" + request_id)
             state = result["State"]
@@ -1039,7 +1040,6 @@ class SalesforceApi():
                 }
 
         if state == "Failed":
-            # pprint.pprint(result)
             # This error need more process, because of confused single quote
             compile_errors = unescape(result["CompilerErrors"])
             compile_errors = json.loads(compile_errors)
@@ -1052,7 +1052,7 @@ class SalesforceApi():
             return_result["success"] =  False
 
         # Whatever succeed or failed, just delete MetadataContainerId
-        delete_result = self.delete(member_url + "/" + member_id)
+        delete_result = self.delete(container_url + "/" + container_id)
 
         # Result used in thread invoke
         self.result = return_result
