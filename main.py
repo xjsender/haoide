@@ -572,12 +572,18 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         # Create component to local according to user input
         if self.template_attr["extension"] == ".trigger":
             if not re.match('^[a-zA-Z]+\\w+,[_a-zA-Z]+\\w+$', input):
-                sublime.error_message("Invalid format")
+                message = 'Invalid format, do you want to try again?'
+                if not sublime.ok_cancel_dialog(message): return
+                self.window.show_input_panel("Follow [Name<,sobject for trigger>]", 
+                    "", self.on_input, None, None)
                 return
             name, sobject = [ele.strip() for ele in input.split(",")]
         else:
             if not re.match('^[a-zA-Z]+\\w+$', input):
-                sublime.error_message("Invalid format")
+                message = 'Invalid format, are you want to input again?'
+                if not sublime.ok_cancel_dialog(message): return
+                self.window.show_input_panel("Follow [Name<,sobject for trigger>]", 
+                    "", self.on_input, None, None)
                 return
             name = input
         
@@ -593,7 +599,8 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         component_outputdir = settings[component_type]["outputdir"]
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
-            context.add_project_to_workspace(toolingapi_settings["workspace"])
+            settings = context.get_toolingapi_settings()
+            context.add_project_to_workspace(settings["workspace"])
 
         file_name = "%s/%s" % (component_outputdir, name + extension)
         if os.path.isfile(file_name):

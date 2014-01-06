@@ -274,14 +274,6 @@
                     {
                         "command": "open_file", 
                         "args": {
-                            "file": "${packages}/Salesforce IDE/config/settings/Widget.sublime-settings"
-                        },
-                        "caption": "Settings – Console"
-                    },
-
-                    {
-                        "command": "open_file", 
-                        "args": {
                             "file": "${packages}/Salesforce IDE/config/settings/template.sublime-settings"
                         },
                         "caption": "Settings – Apex Template"

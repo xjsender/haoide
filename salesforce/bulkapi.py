@@ -154,7 +154,6 @@ class BulkApi():
         self.external_field = external_field
         self.result = None
         self.job = None
-        self.monitor_batchs()
     
     def query(self):
         # Get batch result
