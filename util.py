@@ -157,9 +157,45 @@ def extract_zip(base64String, outputdir):
 def format_debug_logs(toolingapi_settings, records):
     if len(records) == 0: return "No available logs."
 
-    # Get debug_log_headers and debug_log_headers_properties
-    debug_log_headers = toolingapi_settings["debug_log_headers"]
-    debug_log_headers_properties = toolingapi_settings["debug_log_headers_properties"]
+    # Used to list debug logs as below format
+    debug_log_headers = [
+        "Id", "Request", "Application", "Status",
+        "DurationMilliseconds", "LogLength", "StartTime", "Operation"
+    ]
+    debug_log_headers_properties = {
+        "Id": {
+            "width": 20,
+            "label": "Log Id"
+        },
+        "StartTime": {
+            "width": 22,
+            "label": "Start Time"
+        },
+        "Request": {
+            "width": 13,
+            "label": "Request Type"
+        },
+        "Application": {
+            "width": 12,
+            "label": "Application"
+        },
+        "Status": {
+            "width": 10,
+            "label": "Status"
+        },
+        "LogLength": {
+            "width": 8,
+            "label": "Size(b)"
+        },
+        "DurationMilliseconds": {
+            "width": 13,
+            "label": "Duration(ms)"
+        },
+        "Operation": {
+            "width": 200,
+            "label": "Operation"
+        }
+    }
 
     # Headers
     headers = ""
@@ -194,9 +230,11 @@ def format_error_message(result):
     """
 
     error_message = ""
-    for key in result:
+    for key, value in result.items():
         error_message += "% 30s\t" % "{0}: ".format(key)
-        error_message += "%-30s\t" % none_value(result[key]) + "\n"
+        value = urllib.parse.unquote(unescape(none_value(value), 
+            {"&apos;": "'", "&quot;": '"'}))
+        error_message += "%-30s\t" % value + "\n"
 
     return error_message[:len(error_message)-1]
 
@@ -228,7 +266,7 @@ def none_value(value):
     """
 
     if value == None: return ""
-    return value
+    return "%s" % value
     
 def is_python3x():
     """

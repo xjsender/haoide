@@ -71,10 +71,6 @@ def get_toolingapi_settings():
     # Trace Flag
     settings["trace_flag"] = s.get("trace_flag")
 
-    # Trace Flag (Debug Log) Headers
-    settings["debug_log_headers"] = s.get("debug_log_headers")
-    settings["debug_log_headers_properties"] = s.get("debug_log_headers_properties")
-
     # Every time when you save component and error happened, the console will be open.
     # When you edit the code according to the error message, this flag used to indicate
     # whether the console will be hidden automatically

@@ -3,6 +3,13 @@
 Release History
 ---------------
 
+0.0.2 (2014-01-07)
+++++++++++++++++++
+
+- Remove ``debug_log_headers`` and ``debug_log_headers_properties`` settings
+- Unquote and unescape the error message returned by ``Save to Server``
+- If ``testMethod`` or ``@IsTest`` is in class body, run test command should be enabled
+
 Patch for 0.0.1 (2014-01-06)
 ++++++++++++++++++
 
@@ -19,10 +26,32 @@ Patch for 0.0.1 (2014-01-06)
 - Remove ``all_views_completions.py`` dependency lib
 - Move ``commands``, ``keymap``, ``menus``, ``mousemap``, ``settings`` and ``snippet`` path to new config folder
 
-x.x.x (yyyy-mm-dd)
+Pre-release x.x.x (2013-12-06 -> 2013-12-31)
 ++++++++++++++++++
 
 - There is a long confusing term on github version control
+- Add picklist value completions feature
+- Export Sobject Data Template by Record Type
+- Refactoring sobject completion for those complicated orgs
+- Add four settings to permit user to close the code completion feature
+- Disable keyword completion by default, need enable manually
+- Change default workspace to ``C:/ForcedotcomWorkspace``
+- Add support for log levels of anonymous code
+- Add a new setting for disabling field name and label completion
+- Fix bug for completion: variable in method parameter
+- Add picklist value completion support for ``sObject.PicklistFrield =``
+- Allow us to input file path when using Bulk Api to CRUD on data
+- Automatically detect BOM header when CRUD on data
+- After CRUD on csv data, put the log at the same path of this csv data
+- Refactoring code completion for sobject field, relationship and picklist value
+- Add command for reloading cache of sobjects
+- Refactoring sobject field cache structure for speeding up field completion
+- [Fix bulk api issue](https://github.com/kennethreitz/requests/issues/1833)
+- Add command for clearing cache of sobjects
+- Rearrange main menu items
+- Automatically divide upload record by 10K every batch
+- Add two settings for bulk load: ``maximum_batch_size`` and ``maximum_batch_bytes``
+- Support data upload for ``ANSI`` and ``UTF-8`` with or without BOM
 
 0.0.0 (2013-04-14)
 ++++++++++++++++++

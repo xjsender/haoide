@@ -2,28 +2,7 @@
 This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Linux.
 
 # Change Logs:
-+ 2013-12-06: Add picklist value completions feature
-+ 2013-12-07: Export Sobject Data Template by Record Type
-+ 2013-12-14: Refactoring sobject completion for those complicated orgs
-+ 2013-12-14: Add four settings to permit user to close the code completion feature
-+ 2013-12-14: Disable keyword completion by default, need enable manually
-+ 2013-12-15: Change default workspace to ```C:/ForcedotcomWorkspace```
-+ 2013-12-22: Add support for log levels of anonymous code
-+ 2013-12-23: Add a new setting for disabling field name and label completion
-+ 2013-12-24: Fix bug for completion: variable in method parameter
-+ 2013-12-25: Add picklist value completion support for ```sObject.PicklistFrield =```
-+ 2013-12-27: Allow us to input file path when using Bulk Api to CRUD on data
-+ 2013-12-27: Automatically detect BOM header when CRUD on data
-+ 2013-12-27: After CRUD on csv data, put the log at the same path of this csv data
-+ 2013-12-27: Refactoring code completion for sobject field, relationship and picklist value
-+ 2013-12-27: Add command for reloading cache of sobjects
-+ 2013-12-27: Refactoring sobject field cache structure for speeding up field completion
-+ 2013-12-28: [Fix bulk api issue](https://github.com/kennethreitz/requests/issues/1833)
-+ 2013-12-29: Add command for clearing cache of sobjects
-+ 2013-12-29: Rearrange main menu items
-+ 2013-12-31: Automatically divide upload record by 10K every batch
-+ 2013-12-31: Add two settings for bulk load: ```maximum_batch_size``` and ```maximum_batch_bytes```
-+ 2013-12-31: Support data upload for ```ANSI``` and ```UTF-8``` with or without BOM
+See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 
 # Installation #
 You can install this plugin by search ```Salesforce IDE``` in package control

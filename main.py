@@ -345,10 +345,15 @@ class RunTestCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         # Get current file name and Read file content
         file_name = self.view.file_name()
-        if file_name == None: return False
+        if not file_name or not file_name.endswith(".cls"): 
+            return False
 
+        # Test class must be class firstly
         body = open(file_name, "rb").read()
-        if ".cls" not in file_name or b"@istest" not in body.lower():
+
+        # Test class must contains "testMethod" or @isTest notation
+        lower_body = body.lower()
+        if b"testmethod" not in lower_body and b"@istest" not in lower_body:
             return False
 
         return True
