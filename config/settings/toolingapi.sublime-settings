@@ -11,11 +11,11 @@
     // Every time you switch the project, the update projects settings will be saved to user settings.
     "workspace": "C:/ForcedotcomWorkspace",
     "projects": {
-        "Exercise-Pro": {
+        "pro-test": {
             "default": true,
             "login_url": "https://login.salesforce.com",
-            "password": "bp333333",
-            "username": "mouse@exercise.com",
+            "password": "SublimeApex333333",
+            "username": "apex.sublime@dev.com",
             // If you don't need security token, 
             // just leave it as below or just delete below
             "security_token": ""

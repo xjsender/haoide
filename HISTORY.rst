@@ -3,6 +3,11 @@
 Release History
 ---------------
 
+Patch 0.0.2 (2014-01-11)
+++++++++++++++++++
+
+- Change the default test project
+
 0.0.2 (2014-01-07)
 ++++++++++++++++++
 
