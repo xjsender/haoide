@@ -623,7 +623,7 @@ def handle_retrieve_all_thread(timeout=120):
 
         # Output package path
         success_message = message.SEPRATE.format("Metadata are exported to: " + outputdir)
-        view = util.get_view_by_name("Retrieve Metadata Status")
+        view = util.get_view_by_name("Progress Monitor: Retrieve Metadata")
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
             "view_name": "Retrieve Metadata Status",

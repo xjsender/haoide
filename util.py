@@ -228,6 +228,8 @@ def format_error_message(result):
     @result: dict error when request status code > 399
     @return: formated error message   
     """
+    # Add time stamp
+    result["Time Stamp"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
 
     error_message = ""
     for key, value in result.items():

@@ -702,7 +702,7 @@ class SalesforceApi():
         view = sublime.active_window().new_file()
         header = "Retrieve Metadata Status(Keep This View Open, Auto Refreshed Every 6 seconds)"
         view.run_command("new_dynamic_view", {
-            "view_name": "Retrieve Metadata Status",
+            "view_name": "Progress Monitor: Retrieve Metadata",
             "input": util.format_waiting_message(result, header)
         })
         while result["done"] == "false":
@@ -711,7 +711,7 @@ class SalesforceApi():
             result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
             view.run_command("new_dynamic_view", {
                 "view_id": view.id(),
-                "view_name": "Retrieve Metadata Status",
+                "view_name": "Progress Monitor: Retrieve Metadata",
                 "input": util.format_waiting_message(result, header),
                 "erase_all": True
             })
@@ -824,7 +824,7 @@ class SalesforceApi():
         header = "Deploy Metadata Status(Keep This View Open, Auto Refreshed Every 6 seconds)"
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
-            "view_name": "Deploy Metadata Status",
+            "view_name": "Progress Monitor: Deploy Metadata",
             "input": util.format_waiting_message(result, header)
         })
         while result["done"] == "false":
@@ -833,7 +833,7 @@ class SalesforceApi():
             result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
             view.run_command("new_dynamic_view", {
                 "view_id": view.id(),
-                "view_name": "Deploy Metadata Status",
+                "view_name": "Progress Monitor: Deploy Metadata",
                 "input": util.format_waiting_message(result, header),
                 "erase_all": True
             })

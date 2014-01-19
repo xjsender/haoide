@@ -200,8 +200,9 @@ class DeployMetadataCommand(sublime_plugin.WindowCommand):
         super(DeployMetadataCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.window.show_input_panel("Input Zip File Path:", 
-            "C:/Users/Administrator/Dropbox/workspace/pro-exericse-20130924/metadata/src.zip", self.on_input, None, None)
+        sublime.message_dialog("Ongoing")
+        return
+        self.window.show_input_panel("Input Zip File Path:", "", self.on_input, None, None)
 
     def on_input(self, input):
         if not input.endswith('.zip'):

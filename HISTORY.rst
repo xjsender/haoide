@@ -3,6 +3,12 @@
 Release History
 ---------------
 
+0.0.3 (2014-01-19)
+++++++++++++++++++
+
+- Add time stamp for all error message displayed in console
+- Disable deploy metadata command
+
 Patch 0.0.2 (2014-01-11)
 ++++++++++++++++++
 
