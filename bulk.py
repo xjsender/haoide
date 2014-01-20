@@ -1,4 +1,6 @@
-import sublime, sublime_plugin
+import sublime
+import sublime_plugin
+import os
 from . import processor
 
 class BulkExportSingleCommand(sublime_plugin.WindowCommand):
@@ -34,15 +36,16 @@ class BulkOperationCommand(sublime_plugin.WindowCommand):
     def on_done(self, index):
         if index == -1: return
         self.sobject = self.sobjects[index]
+        path = sublime.get_clipboard()
+        if not os.path.isfile(path): path = ""
         self.window.show_input_panel("Input CSV Path: ", 
-            sublime.get_clipboard(), self.on_input, None, None)
+            path, self.on_input, None, None)
 
     def on_input(self, file_path):
         if not file_path.endswith('csv'): 
             sublime.error_message("Input file must be CSV")
             return
 
-        import os
         if not os.path.exists(file_path):
             sublime.error_message(file_path + " is not valid file")
             return

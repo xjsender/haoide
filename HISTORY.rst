@@ -3,11 +3,13 @@
 Release History
 ---------------
 
-0.0.3 (2014-01-19)
+0.0.3 (2014-01-20)
 ++++++++++++++++++
 
 - Add time stamp for all error message displayed in console
 - Disable deploy metadata command
+- When use bulk CUD, If clipboard content is file, just paste it into file path input panel
+- Remove the ``(0)`` from ``Datetime(0)`` and ``Date(0)`` completion for Date and Datetime field
 
 Patch 0.0.2 (2014-01-11)
 ++++++++++++++++++

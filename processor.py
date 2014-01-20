@@ -419,6 +419,8 @@ def handle_initiate_sobjects_completions(timeout=120):
                 field_desc_dict = {
                     "double": "Double(%s, %s)" % (precision, scale),
                     "currency": "Currency(%s, %s)" % (precision, scale),
+                    "date": "Date",
+                    "datetime": "Datetime",
                     "boolean": "Boolean",
                     "reference": "Reference"
                 }
