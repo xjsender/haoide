@@ -211,6 +211,24 @@ def populate_sobjects_describe():
     globals()[username + "sobjects"] = sobjects_describe
     return sobjects_describe
 
+def populate_all_test_classes():
+    # Get username
+    settings = context.get_toolingapi_settings()
+    username = settings["username"]
+
+    component_metadata = sublime.load_settings("component_metadata.sublime-settings")
+    if not component_metadata.has(username):
+        sublime.error_message("No Cache, Please New Project Firstly.")
+        return
+
+    classes = component_metadata.get(username)["ApexClass"]
+    test_class_ids = []
+    for class_name, class_attr in classes.items():
+        if not class_attr["is_test"]: continue
+        test_class_ids.append(class_attr["id"])
+
+    return test_class_ids
+
 def handle_login_thread(default_project, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -912,6 +930,75 @@ def handle_view_debug_log_detail(log_id, timeout=120):
         "Get Log Detail of " + log_id + " Succeed")
     handle_thread(thread, timeout)
 
+def handle_run_all_test(timeout=120):
+    def handle_threads(api_threads, timeout):
+        for api, thread in api_threads:
+            if thread.is_alive():
+                sublime.set_timeout(lambda: handle_threads(api_threads, timeout), timeout)
+                return
+            else:
+                result = api.result
+                if "status_code" in result and result["status_code"] > 399: continue
+
+                # No error, just display log in a new view
+                test_result = util.parse_test_result(result)
+                view = util.get_view_by_name("Run All Test Result")
+                if not view:
+                    view = sublime.active_window().new_file()
+                    view.run_command("new_dynamic_view", {
+                        "view_id": view.id(),
+                        "view_name": "Run All Test Result",
+                        "input": util.parse_test_result(result) + "\n" * 4 + "*" * 100
+                    })
+                else:
+                    view.run_command("new_dynamic_view", {
+                        "view_id": view.id(),
+                        "view_name": "Run All Test Result",
+                        "input": "\n" + util.parse_test_result(result) + "\n" * 4 + "*" * 100,
+                        "point": view.size()
+                    })
+
+                api_threads.remove((api, thread))
+
+        # After run test succeed, get ApexCodeCoverageAggreate
+        query = "SELECT ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage " +\
+                "FROM ApexCodeCoverageAggregate"
+        api = SalesforceApi(toolingapi_settings)
+        thread = threading.Thread(target=api.query, args=(query, True, ))
+        thread.start()
+        wait_message = "Get Code Coverage of All Class"
+        ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
+        handle_code_coverage_thread(thread, api, view, timeout)
+
+    def handle_code_coverage_thread(thread, api, view, timeout=120):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_code_coverage_thread(thread, api, view, timeout), timeout)
+            return
+
+        code_coverage = util.parse_code_coverage(api.result)
+        view.run_command("new_dynamic_view", {
+            "view_id": view.id(),
+            "view_name": "Run All Test Result",
+            "input": code_coverage,
+            "point": view.size()
+        })
+
+    class_ids = populate_all_test_classes()
+    if not class_ids: return
+
+    toolingapi_settings = context.get_toolingapi_settings()
+
+    api_threads = []
+    threads = []
+    for class_id in class_ids:
+        api = SalesforceApi(toolingapi_settings)
+        thread = threading.Thread(target=api.run_test, args=(class_id, ))
+        threads.append(thread)
+        api_threads.append((api, thread))
+        thread.start()
+    ThreadsProgress(threads, "Run All Test", "Run All Test Succeed")
+    handle_threads(api_threads, timeout)
+
 def handle_run_test(class_name, class_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -947,7 +1034,7 @@ def handle_run_test(class_name, class_id, timeout=120):
             sublime.set_timeout(lambda: handle_code_coverage_thread(thread, view, timeout), timeout)
             return
 
-        code_coverage = util.parse_code_coverage(class_name, api.result)
+        code_coverage = util.parse_code_coverage(api.result)
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
             "view_name": "Test Result",

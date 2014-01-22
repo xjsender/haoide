@@ -313,6 +313,13 @@ class ViewComponentInSfdcCommand(sublime_plugin.WindowCommand):
         startURL = "/" + class_id
         self.window.run_command("login_to_sfdc", {"startURL": startURL})
 
+class RunAllTestCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RunAllTestCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        processor.handle_run_all_test()
+
 class RunOneTestCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(RunOneTestCommand, self).__init__(*args, **kwargs)

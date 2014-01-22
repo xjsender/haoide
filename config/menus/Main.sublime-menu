@@ -67,6 +67,12 @@
                         "id": "runonetest",
                         "caption": "Run Test",
                         "command": "run_one_test"
+                    },
+
+                    {
+                        "id": "runalltest",
+                        "caption": "Run All Test",
+                        "command": "run_all_test"
                     }
                 ]
             },

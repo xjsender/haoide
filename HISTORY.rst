@@ -3,10 +3,18 @@
 Release History
 ---------------
 
+0.0.5 (2014-01-22)
+++++++++++++++++++
+
+- Add Run All Test functionality
+- Adjust the format of test run result of single test class
+
+
 0.0.4 (2014-01-21)
 ++++++++++++++++++
 
 - Remove ``Widget.sublime-settings`` from plugin
+
 
 0.0.3 (2014-01-20)
 ++++++++++++++++++
@@ -16,10 +24,12 @@ Release History
 - When use bulk CUD, If clipboard content is file, just paste it into file path input panel
 - Remove the ``(0)`` from ``Datetime(0)`` and ``Date(0)`` completion for Date and Datetime field
 
+
 Patch 0.0.2 (2014-01-11)
 ++++++++++++++++++
 
 - Change the default test project
+
 
 0.0.2 (2014-01-07)
 ++++++++++++++++++
@@ -27,6 +37,7 @@ Patch 0.0.2 (2014-01-11)
 - Remove ``debug_log_headers`` and ``debug_log_headers_properties`` settings
 - Unquote and unescape the error message returned by ``Save to Server``
 - If ``testMethod`` or ``@IsTest`` is in class body, run test command should be enabled
+
 
 Patch for 0.0.1 (2014-01-06)
 ++++++++++++++++++
@@ -37,12 +48,14 @@ Patch for 0.0.1 (2014-01-06)
 - Remove ``Widget`` settings and ``Setting - Console`` main menu
 - Roll back save_component function to last version
 
+
 0.0.1 (2014-01-05)
 ++++++++++++++++++
 
 - Remove ``Loop - for.sublime-snippet`` snippet
 - Remove ``all_views_completions.py`` dependency lib
 - Move ``commands``, ``keymap``, ``menus``, ``mousemap``, ``settings`` and ``snippet`` path to new config folder
+
 
 Pre-release x.x.x (2013-12-06 -> 2013-12-31)
 ++++++++++++++++++
@@ -70,6 +83,7 @@ Pre-release x.x.x (2013-12-06 -> 2013-12-31)
 - Automatically divide upload record by 10K every batch
 - Add two settings for bulk load: ``maximum_batch_size`` and ``maximum_batch_bytes``
 - Support data upload for ``ANSI`` and ``UTF-8`` with or without BOM
+
 
 0.0.0 (2013-04-14)
 ++++++++++++++++++

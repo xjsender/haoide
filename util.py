@@ -17,6 +17,7 @@ from .salesforce import xmltodict
 from . import context
 from xml.sax.saxutils import unescape
 
+
 def get_sobject_caches():
     """
     Get the usernames which has cache
@@ -349,7 +350,7 @@ def parse_all(apex):
             
     return apex_completions
 
-def parse_code_coverage(class_name, result):
+def parse_code_coverage(result):
     records = {}
     for record in result["records"]:
         name = record["ApexClassOrTrigger"]["Name"]
@@ -408,7 +409,7 @@ def parse_test_result(test_result):
         test_result_content += "% 30s    " % "Stack Trace: "
         test_result_content += "%-30s" % none_value(record["StackTrace"]) + "\n"
 
-    return_result = class_name + test_result_desc + test_result_content + "\n"
+    return_result = class_name + test_result_desc + test_result_content[:-1]
 
     # Parse Debug Log Part
     debug_log_desc = message.SEPRATE.format("You can choose the LogId and view log detail in Sublime or Salesforce by context menu")
