@@ -3,6 +3,11 @@
 Release History
 ---------------
 
+0.0.4 (2014-01-21)
+++++++++++++++++++
+
+- Remove ``Widget.sublime-settings`` from plugin
+
 0.0.3 (2014-01-20)
 ++++++++++++++++++
 
