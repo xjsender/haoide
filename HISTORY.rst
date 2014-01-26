@@ -8,6 +8,7 @@ Release History
 
 - Add Run All Test functionality
 - Adjust the format of test run result of single test class
+- Update README.MD
 
 
 0.0.4 (2014-01-21)

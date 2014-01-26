@@ -8,7 +8,7 @@ See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 You can install this plugin by search ```Salesforce IDE``` in package control
 
 # Project Configuration #
-If your operation system is OSX, you must set the workspace in ```SublimeApex > Setting > Setting - User```.
+If your operation system is **OSX**, you must set the workspace in ```SublimeApex > Setting > Setting - User```.
 
 There is a default test org in this plugin, you can see it by clicking ```SublimeApex > Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project
 
@@ -84,7 +84,7 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 + 7. ```input :```, list all suffix of all visualforce Components
 + 8. ```input space```, list all attributes of tags, if tag attribute has predefined values, output attr, otherwise, output attr="$1"
 + 9. ```input =```, list all values of this corresponding attributes
-+ 10. If sobject field type is picklist, after you input ```acc.StageName```, all available picklist values will be shown
++ 10. If sobject field type is picklist, after you input ```opp.StageName``` or ```Opportunity.StageName```, all available picklist values will be shown
 
 ### Completions Screenshots
 <img src="https://raw.github.com/xjsender/SublimeApexScreenshot/master/apex.jpg" /><br/>
@@ -96,8 +96,7 @@ Choose any apex code snippet, press ```Ctrl+Alt+E``` or click ```SublimeApex > E
 There has a ```log_levels``` setting in the default setting, If you want to change anonymous log levels, you can put your log levels settings into your user setting.
 
 ## Execute Query
-After any snippet which start with SELECT is chosen, you can press ```Ctrl+Alt+Q``` or click ```SublimeApex > Execute Query```, the queried result will be shown in a new view.
-Not support relationship query now.
+After any snippet which start with SELECT is chosen, you can press ```Ctrl+Alt+Q``` or click ```SublimeApex > Execute Query```, the queried json result will be formated and shown in a new view.
 
 ## Save component
 + This command is only enabled in salesforce code file
@@ -112,12 +111,12 @@ Not support relationship query now.
 + If component is useless and you want to delete it from server, click ```SublimeApex > Delete From Server```
 
 ## New Component #
-Press ```Ctrl+Alt+N``` or click ```SublimeApex > New Component``` to invoke the input panel, and then input the new component info according to guide as below
+Press ```Ctrl+Alt+N``` or click ```SublimeApex > New Component``` to invoke the choose the template you want to use, and then input the component name and sobject name follow below guide, after new component is created, the new component with predefined body will be open in the new view, if created failed, the console will be open with the error message and new component will not be created.
 ```
-1. Create new trigger: Trigger-Name.trigger, Sobject-Name
-2. Create new class: Class-Name.cls
-3. Create new component: Component-Name.component
-4. Create new Page: Page-Name.page
+1. Create new trigger: Trigger-Name, Sobject-Name
+2. Create new class: Class-Name
+3. Create new component: Component-Name
+4. Create new Page: Page-Name
 ```
 
 ## Create Debug Log
