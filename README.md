@@ -82,9 +82,9 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 + 5. ```Input English Character```, show all sobject name and standard class name
 + 6. ```input <```, list all tag, including Visualforce Components and HTML Elements
 + 7. ```input :```, list all suffix of all visualforce Components
-+ 8. ```input space```, list all attributes of tags, if tag attribute has predefined values, output attr, otherwise, output attr="$1"
-+ 9. ```input =```, list all values of this corresponding attributes
-+ 10. If sobject field type is picklist, after you input ```opp.StageName``` or ```Opportunity.StageName```, all available picklist values will be shown
++ 8. ```input space```, list all attributes of tags
++ 9. ```input =```, list all values of this corresponding attributes in Visualforce page
++ 10. If sobject field type is picklist, after you input ```opp.StageName =``` or ```Opportunity.StageName =```, all available picklist values will be shown
 
 ### Completions Screenshots
 <img src="https://raw.github.com/xjsender/SublimeApexScreenshot/master/apex.jpg" /><br/>
@@ -100,7 +100,7 @@ After any snippet which start with SELECT is chosen, you can press ```Ctrl+Alt+Q
 
 ## Save component
 + This command is only enabled in salesforce code file
-+ After code is updated, click ```SublimeApex > Save to Server```
++ After code is updated, click ```SublimeApex > Save to Server``` or press ```Ctrl+Alt+S```
 
 ## Refresh component
 + This command is only enabled in salesforce code file

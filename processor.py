@@ -646,7 +646,7 @@ def handle_retrieve_all_thread(timeout=120):
         view = util.get_view_by_name("Progress Monitor: Retrieve Metadata")
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
-            "view_name": "Retrieve Metadata Status",
+            "view_name": "Progress Monitor: Retrieve Metadata",
             "input": success_message,
             "point": view.size()
         })

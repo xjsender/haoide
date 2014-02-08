@@ -700,7 +700,7 @@ class SalesforceApi():
         result = self.check_status(async_process_id)
         result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         view = sublime.active_window().new_file()
-        header = "Retrieve Metadata Status(Keep This View Open, Auto Refreshed Every 6 seconds)"
+        header = "Progress Monitor: Retrieve Metadata Status(Keep This View Open, Auto Refreshed Every 6 seconds)"
         view.run_command("new_dynamic_view", {
             "view_name": "Progress Monitor: Retrieve Metadata",
             "input": util.format_waiting_message(result, header)
@@ -724,7 +724,7 @@ class SalesforceApi():
         sublime.set_timeout(lambda:sublime.status_message("Downloading zipFile"), 10)
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
-            "view_name": "Retrieve Metadata Status",
+            "view_name": "Progress Monitor: Retrieve Metadata",
             "input": message.SEPRATE.format("Downloading the zipFile, it will be very time-consuming"),
             "point": view.size()
         })

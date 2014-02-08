@@ -3,6 +3,18 @@
 Release History
 ---------------
 
+Release 0.0.6 (2014-02-08)
+++++++++++++++++++
+
+- Fix retrieve metadata exception
+
+
+Patch for 0.0.5 (2014-01-31)
+++++++++++++++++++
+
+- Update README.MD
+
+
 0.0.5 (2014-01-22)
 ++++++++++++++++++
 
