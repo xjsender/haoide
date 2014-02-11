@@ -3,6 +3,13 @@
 Release History
 ---------------
 
+Release 0.0.7 (2014-02-08)
+++++++++++++++++++
+
+- Fix problem when execute anonymous return error
+- Change ``disable_keyword_completion`` from true to false
+
+
 Release 0.0.6 (2014-02-08)
 ++++++++++++++++++
 

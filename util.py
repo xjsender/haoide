@@ -807,7 +807,6 @@ def parse_execute_anonymous_xml(result):
     @return: formated string
     """
 
-    print (result)
     compiled = result["compiled"]
     debugLog = result["debugLog"]
 
@@ -819,14 +818,10 @@ def parse_execute_anonymous_xml(result):
         column = result["column"]
         compileProblem = result["compileProblem"]
         view_result = compileProblem + " at line " + line +\
-            " column " + column + "\n" + "-" * 100 + "\n" + debugLog
+            " column " + column
 
-    if is_python3x():
-        view_result = urllib.parse.unquote(unescape(view_result, 
-            {"&apos;": "'", "&quot;": '"'}))
-    else:
-        view_result = urllib.unquote(unescape(view_result, 
-            {"&apos;": "'", "&quot;": '"'}))
+    view_result = urllib.parse.unquote(unescape(view_result, 
+        {"&apos;": "'", "&quot;": '"'}))
 
     return view_result
 
