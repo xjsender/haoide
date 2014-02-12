@@ -3,6 +3,12 @@
 Release History
 ---------------
 
+Patch for 0.0.7 (2014-02-12)
+++++++++++++++++++
+
+- Fix bug for [Issue #11](https://github.com/xjsender/SublimeApex/issues/11)
+
+
 Release 0.0.7 (2014-02-08)
 ++++++++++++++++++
 

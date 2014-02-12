@@ -926,6 +926,7 @@ childrelationship_key_width = {
     "cascadeDelete": 12
 }
 
+seprate = 100 * "-" + "\n"
 def parse_sobject_field_result(result):
     """
     According to sobject describe result, display recordtype information, child sobjects 
@@ -946,7 +947,6 @@ def parse_sobject_field_result(result):
     # Record Type Part
     #------------------------------------------------
     recordtypes = result.get("recordTypeInfos")
-    pprint.pprint(recordtypes)
     view_result += seprate
     view_result += "Record Type Info: \t" + str(len(recordtypes)) + "\n"
     view_result += seprate
