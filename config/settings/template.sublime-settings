@@ -1,5 +1,13 @@
 {
     "template": {
+        "Utility Class": {
+            "extension": ".cls",
+            "body": "public class class_name {\n\t\n}"
+        },
+        "Controller": {
+            "extension": ".cls",
+            "body": "public with sharing class class_name {\n\tpublic class_name() {\n\n\t}\n}"
+        },
         "StandardController": {
             "extension": ".cls",
             "body": "public with sharing class class_name {\n\tpublic class_name(ApexPages.StandardController con) {\n\n\t}\n}"

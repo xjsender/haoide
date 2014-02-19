@@ -3,6 +3,12 @@
 Release History
 ---------------
 
+Patch for 0.0.8 (2014-02-12)
+++++++++++++++++++
+
+- Add two template for new component command: Controller and Utility Class
+- Add two snippets
+
 Patch for 0.0.7 (2014-02-12)
 ++++++++++++++++++
 

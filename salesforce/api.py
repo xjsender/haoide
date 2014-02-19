@@ -540,7 +540,7 @@ class SalesforceApi():
         soap_body = soap_bodies.execute_anonymous_body.format(
             log_levels=log_levels,
             session_id=globals()[self.username]["session_id"], 
-            apex_string = apex_string)
+            apex_string=apex_string)
 
         response = requests.post(self.apex_url, soap_body, verify=False, 
             headers=headers)

@@ -1,0 +1,21 @@
+<snippet>
+    <content><![CDATA[
+{!REQUIRESCRIPT("/support/console/27.0/integration.js")} 
+{!REQUIRESCRIPT("/soap/ajax/27.0/apex.js")}
+
+if (sforce.console.isInConsole()) {
+    javascript: var showTabId = function showTabId(result) {
+        var tabid = result.id;
+        sforce.console.openSubtab(tabid,
+            '/apex/Page?accountId={!Account.Id}&retURL=%2f{!Account.Id}&tabId=' + tabid,
+            true, 'Test');
+    };
+    sforce.console.getEnclosingPrimaryTabId(showTabId);
+} else {
+    window.open("/apex/Page?accountId={!Account.Id}&retURL=%2f{!Account.Id}", "", "width = 800,height = 600");
+}
+]]></content>
+    <tabTrigger>opensubtab</tabTrigger>
+    <scope>source.java</scope>
+    <description>Open subtab in custom button</description>
+</snippet>
