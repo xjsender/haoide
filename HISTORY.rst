@@ -9,6 +9,8 @@ Release 0.0.9 (2014-02-19)
 - Update the snippets for debug
 - Add a new snippet "ReRender Form in JavaScript"
 - Display the exception when delete MetadataContainerId, ie., unable to obtain exclusive access to this record
+- When creating trigger by template, automatically remove the space input by user
+- Change the create component input guide
 
 
 Patch for 0.0.8 (2014-02-12)

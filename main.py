@@ -578,13 +578,13 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         if index == -1: return
         self.template_name = self.template_names[index]
         self.template_attr = self.templates[self.template_name]
-        self.window.show_input_panel("Follow [Name<,sobject for trigger>]", 
+        self.window.show_input_panel("Trigger Format: Name,Sobject, Others Format: Name]", 
             "", self.on_input, None, None)
 
     def on_input(self, input):
         # Create component to local according to user input
         if self.template_attr["extension"] == ".trigger":
-            if not re.match('^[a-zA-Z]+\\w+,[_a-zA-Z]+\\w+$', input):
+            if not re.match('^[a-zA-Z]+\\w+,\s*[_a-zA-Z]+\\w+$', input):
                 message = 'Invalid format, do you want to try again?'
                 if not sublime.ok_cancel_dialog(message): return
                 self.window.show_input_panel("Follow [Name<,sobject for trigger>]", 
