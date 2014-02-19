@@ -3,11 +3,20 @@
 Release History
 ---------------
 
+Release 0.0.9 (2014-02-19)
+++++++++++++++++++
+
+- Update the snippets for debug
+- Add a new snippet "ReRender Form in JavaScript"
+- Display the exception when delete MetadataContainerId, ie., unable to obtain exclusive access to this record
+
+
 Patch for 0.0.8 (2014-02-12)
 ++++++++++++++++++
 
 - Add two template for new component command: Controller and Utility Class
 - Add two snippets
+
 
 Patch for 0.0.7 (2014-02-12)
 ++++++++++++++++++

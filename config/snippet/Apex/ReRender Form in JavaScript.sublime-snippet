@@ -1,0 +1,15 @@
+<snippet>
+    <content><![CDATA[
+<apex:actionFunction name="rerenderTopPanel" rerender="TopPanel" />
+<apex:outputPanel id="TopPanel" />
+
+<script type="text/javascript">
+    function reRenderForm() {
+        rerenderTopPanel();
+    }
+</script>
+]]></content>
+    <tabTrigger>rerender form</tabTrigger>
+    <scope>source.java</scope>
+    <description>ReRender Form in JS</description>
+</snippet>

@@ -974,7 +974,7 @@ class SalesforceApi():
         }
         container_url = "/tooling/sobjects/MetadataContainer"
         result = self.post(container_url, data)
-        # print ("MetadataContainer Response: ", result)
+        print ("MetadataContainer Response: ", result)
 
         # If status_code < 399, it means post succeed
         if result["status_code"] < 399:
@@ -988,6 +988,9 @@ class SalesforceApi():
                 delete_result = self.delete(container_url + "/" + container_id)
                 if delete_result["status_code"] < 399:
                     sublime.set_timeout(lambda:sublime.status_message("container_id is deleted."), 10)
+                else:
+                    self.result = delete_result
+                    return delete_result
                 
                 # We can't reuse the container_id which caused error
                 # Post Request to get MetadataContainerId
@@ -1029,6 +1032,7 @@ class SalesforceApi():
             }
 
         while state == "Queued":
+            print (state)
             # print ("Async Request is queued, please wait for 5 seconds...")
             time.sleep(5)
 
