@@ -191,7 +191,7 @@ class SalesforceApi():
         self.login(False)
 
         url = self.parse_url(post_url)
-        response = requests.post(url, data=json.dumps(data), verify=False, 
+        response = requests.post(url, data=json.dumps(data), verify=False,
             headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
@@ -974,7 +974,7 @@ class SalesforceApi():
         }
         container_url = "/tooling/sobjects/MetadataContainer"
         result = self.post(container_url, data)
-        print ("MetadataContainer Response: ", result)
+        # print ("MetadataContainer Response: ", result)
 
         # If status_code < 399, it means post succeed
         if result["status_code"] < 399:

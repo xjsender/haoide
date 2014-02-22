@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[
+HYPERLINK("javascript&colon;if(typeof(srcUp)=='function') {srcUp('/URLDomainName?isdtp=vw&accid='+Id); } "+
+"else {window.location.href='/URLDomainName?isdtp=vw&accid='+Id}","salesforceTab", "_parent")
+]]></content>
+    <tabTrigger>formula subtab</tabTrigger>
+    <scope>source.java</scope>
+    <description>Open subtab by formula</description>
+</snippet>

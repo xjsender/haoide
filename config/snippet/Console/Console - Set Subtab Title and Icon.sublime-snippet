@@ -1,0 +1,15 @@
+<snippet>
+    <content><![CDATA[
+<apex:includeScript value="/support/console/29.0/integration.js"/>
+<script>
+    // After this page is loaded, change the tab title and tab icon
+    sforce.console.getFocusedSubtabId(function(result){
+        sforce.console.setTabTitle('name', result.id);
+        sforce.console.setTabIcon("/img/icon/custom51_100/apple32.png", result.id);
+    });
+</script>
+]]></content>
+    <tabTrigger>set subtab</tabTrigger>
+    <scope>source.java</scope>
+    <description>Set Subtab Title and Icon</description>
+</snippet>

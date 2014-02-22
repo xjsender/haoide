@@ -3,6 +3,14 @@
 Release History
 ---------------
 
+Release 0.1.0 (2014-02-20)
+++++++++++++++++++
+
+- Add snippets for console toolkit
+- Update README
+- When menu item is not enabled, show the message in the status bar
+
+
 Release 0.0.9 (2014-02-19)
 ++++++++++++++++++
 

@@ -769,18 +769,24 @@ def check_enabled(file_name):
 
     # Check Component Type
     name, extension = util.get_file_attr(file_name)
-    if extension not in toolingapi_settings["component_extensions"]: return False
+    if extension not in toolingapi_settings["component_extensions"]: 
+        sublime.status_message("This component is not salesforce component")
+        return False
 
     # StaticResource is exclude
     # if component_type == "StaticResource": return False
 
     # Check whether project of current file is active project
     default_project_name = toolingapi_settings["default_project_name"]
-    if not default_project_name in file_name: return False
+    if not default_project_name in file_name: 
+        sublime.status_message('This project is not active project');
+        return False
 
     # Check whether active component is in active project
     username = toolingapi_settings["username"]
     component_attribute, component_name = util.get_component_attribute(file_name)
-    if component_attribute == None: return False
+    if component_attribute == None: 
+        sublime.status_message("This component is not active component")
+        return False
     
     return True
