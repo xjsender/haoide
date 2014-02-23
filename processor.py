@@ -1191,7 +1191,9 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
         result = api.result
         file_base_name = component_name + component_attribute["extension"]
         if "success" in result and result["success"]:
-            print (message.SEPRATE.format(message.SAVE_SUCCESSFULLY.format(file_base_name)))
+            print (message.SEPRATE.format(
+                "{0} is saved successfully at {1}".format(file_base_name, 
+                    time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))))
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
@@ -1240,7 +1242,7 @@ def handle_create_component(data, component_name, component_type, file_name, tim
         # Save settings and show success message
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
         file_base_name = component_name + extension
-        print (message.SEPRATE.format(message.CREATE_SUCCESSFULLY.format(file_base_name)))
+        print (message.SEPRATE.format("{0} is created successfully".format(file_base_name)))
                 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)

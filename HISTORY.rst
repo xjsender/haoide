@@ -3,6 +3,15 @@
 Release History
 ---------------
 
+Release 0.1.1 (2014-02-22)
+++++++++++++++++++
+
+- Add snippets for console toolkit
+- Add time stamp for success message of save component result
+- Remove some useless message from message.py
+- Enhancement for `Issue #12 <https://github.com/xjsender/SublimeApex/issues/12>`_
+
+
 Release 0.1.0 (2014-02-20)
 ++++++++++++++++++
 
@@ -31,7 +40,7 @@ Patch for 0.0.8 (2014-02-12)
 Patch for 0.0.7 (2014-02-12)
 ++++++++++++++++++
 
-- Fix bug for [Issue #11](https://github.com/xjsender/SublimeApex/issues/11)
+- Fix bug for `Issue #11 <https://github.com/xjsender/SublimeApex/issues/11>`_
 
 
 Release 0.0.7 (2014-02-08)
