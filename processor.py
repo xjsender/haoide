@@ -786,8 +786,7 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         
         # If succeed
         result = api.result
-        if result["status_code"] > 399: return
-
+        
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
@@ -813,7 +812,7 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         thread = threading.Thread(target=target, args=(url, data,))
     thread.start()
     progress_message = "Execute Rest %s Test" % operation
-    ThreadProgress(api, thread, progress_message, progress_message + " Succeed")
+    ThreadProgress(api, thread, progress_message, progress_message + " Succeed", open_console=False)
     handle_new_view_thread(thread, timeout)
 
 def handle_execute_query(soql, timeout=120):

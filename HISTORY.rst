@@ -3,6 +3,14 @@
 Release History
 ---------------
 
+Release 0.1.2 (2014-02-22)
+++++++++++++++++++
+
+- Add a new setting ``default_browser_path``
+- Optimize the ``Rest Explorer`` functionality
+- When execute ``Rest Explorer``, if input json body is not valid, allow trying again.
+
+
 Release 0.1.1 (2014-02-22)
 ++++++++++++++++++
 

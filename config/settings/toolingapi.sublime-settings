@@ -25,6 +25,9 @@
     // API version
     "api_version": 29,
 
+    // Browser Path, you should set a valid browser path, otherwise, it will have problem
+    "default_browser_path": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+
     // Indicate whether add time suffix for project name
     // When this setting value is true, you create a new project at yestoday and 
     // you refresh it's code today, a new project folder will be created to keep the refreshed code

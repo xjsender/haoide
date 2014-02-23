@@ -54,7 +54,10 @@ class ExecuteRestTestCommand(sublime_plugin.TextCommand):
         try:
             data = json.loads(data)
         except:
-            sublime.error_message("Invalid data")
+            message = 'Invalid data, do you want to try again?'
+            if not sublime.ok_cancel_dialog(message): return
+            self.view.window().show_input_panel("Input JSON Body: ", 
+                "", self.on_input, None, None)
             return
         processor.handle_execute_rest_test(self.chosen_action, self.sel, data)
 
@@ -500,12 +503,12 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
 
     def run(self, startURL=""):
         # Get toolingapi settings
-        toolingapi_settings = context.get_toolingapi_settings()
+        settings = context.get_toolingapi_settings()
 
         # Combine Login URL
         show_params = {
-            "un": toolingapi_settings["username"],
-            "pw": toolingapi_settings["password"],
+            "un": settings["username"],
+            "pw": settings["password"],
             "startURL": startURL
         }
 
@@ -514,17 +517,29 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
         else:
             show_params = urllib.urlencode(show_params)
 
-        show_url = toolingapi_settings["login_url"] + '?%s' % show_params
+        show_url = settings["login_url"] + '?%s' % show_params
 
-        # Open this component in salesforce web
-        webbrowser.open_new_tab(show_url)
+        browser_path = settings["default_browser_path"]
+        if os.path.exists(browser_path):
+            webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
+            webbrowser.get('chrome').open_new_tab(show_url)
+        else:
+            webbrowser.open_new_tab(show_url)
 
 class AboutCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(AboutCommand, self).__init__(*args, **kwargs)
 
-    def run(self): 
-        webbrowser.open_new_tab("https://github.com/xjsender/SublimeApex")
+    def run(self):
+        settings = context.get_toolingapi_settings()
+        browser_path = settings["default_browser_path"]
+
+        plugin_url = "https://github.com/xjsender/SublimeApex"
+        if os.path.exists(browser_path):
+            webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
+            webbrowser.get('chrome').open_new_tab(plugin_url)
+        else:
+            webbrowser.open_new_tab(plugin_url)
 
 class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

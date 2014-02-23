@@ -2,7 +2,7 @@
     <content><![CDATA[
 <project name="Ant Build" default="deploy" basedir="." xmlns:sf="antlib:com.salesforce">
     <tstamp/>
-    <property name="orgNickName" value="pro-exercise"/>
+    <property name="orgNickName" value="source"/>
     <property name="mydir" value="\${orgNickName}-\${DSTAMP}"/>
     <property file="build.properties"/>
     <property environment="env"/>
@@ -27,7 +27,7 @@
             serverurl="\${sf.target.serverurl}" 
             deployRoot="\${mydir}" 
             checkOnly="true" 
-            apiVersion="25.0"/>
+            apiVersion="29.0"/>
     </target>
 </project>
 ]]></content>

@@ -18,7 +18,7 @@ class ThreadProgress():
         The message to display once the thread is complete
     """
 
-    def __init__(self, api, thread, message, success_message):
+    def __init__(self, api, thread, message, success_message, open_console=True):
         self.api = api
         self.thread = thread
         self.message = message
@@ -47,9 +47,11 @@ class ThreadProgress():
             if isinstance(result, dict) and\
                 (("status_code" in result and result["status_code"] > 399) or\
                  ("success" in result and not result["success"])):
-                sublime.active_window().run_command("show_panel", 
-                    {"panel": "console", "toggle": False})
+                
                 print (message.SEPRATE.format(util.format_error_message(result)))
+                if open_console:
+                    sublime.active_window().run_command("show_panel", 
+                        {"panel": "console", "toggle": False})
             else:
                 sublime.status_message(self.success_message)
             return

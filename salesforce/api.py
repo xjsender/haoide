@@ -111,14 +111,16 @@ class SalesforceApi():
         result = {}
         status_code = response.status_code
         if status_code > 399:
-            result = response.json()[0]
-            result["url"] = url
+            if (response.headers["content-type"].startswith('application/json')):
+                result = response.json()[0]
+                result["url"] = url
+            else:
+                result = {
+                    "message": response.text,
+                    "url": url
+                }
         else:
-            try:
-                result = response.json()
-            except:
-                result = response.text
-                return result
+            result = response.json()
         result["status_code"] = status_code
         
         # Self.result is used to keep thread result
