@@ -3,6 +3,13 @@
 Release History
 ---------------
 
+Release 0.1.3 (2014-02-22)
+++++++++++++++++++
+
+- Add the support the static resource refresh functionality for the side bar menu
+- Add the support the static resource refresh functionality for the context menu
+- Add ``Patch`` method for ``Rest Explorer``
+
 Release 0.1.2 (2014-02-22)
 ++++++++++++++++++
 

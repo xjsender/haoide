@@ -39,13 +39,13 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
 
 class ExecuteRestTestCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        self.items = ["Get", "Post", "Put", "Delete", "Head", "Retrieve Body"]
+        self.items = ["Get", "Post", "Put", "Patch", "Delete", "Head", "Retrieve Body"]
         self.view.show_popup_menu(self.items, self.on_choose_action),
 
     def on_choose_action(self, index):
         if index == -1: return
         self.chosen_action = self.items[index]
-        if self.chosen_action in ["Post", "Put"]:
+        if self.chosen_action in ["Post", "Put", "Patch"]:
             self.view.window().show_input_panel("Input JSON Body: ", "", self.on_input, None, None)
         else:
             processor.handle_execute_rest_test(self.chosen_action, self.sel)
@@ -749,7 +749,10 @@ class RefreshComponentCommand(sublime_plugin.TextCommand):
         component_attribute = util.get_component_attribute(file_name)[0]
         
         # Handle Refresh Current Component
-        processor.handle_refresh_component(component_attribute, file_name)
+        if component_attribute["type"] == "StaticResource":
+            processor.handle_refresh_static_resource(component_attribute, file_name)
+        else:
+            processor.handle_refresh_component(component_attribute, file_name)
 
     def is_enabled(self):
         return check_enabled(self.view.file_name())
@@ -760,9 +763,14 @@ class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
 
     def run(self, files):
         sublime.active_window().run_command("show_panel", {"panel": "console", "toggle": False})
-        for file in files:
-            component_attribute = util.get_component_attribute(file)[0]
-            processor.handle_refresh_component(component_attribute, file)
+        for file_name in files:
+            component_attribute = util.get_component_attribute(file_name)[0]
+
+            # Handle Refresh Current Component
+            if component_attribute["type"] == "StaticResource":
+                processor.handle_refresh_static_resource(component_attribute, file_name)
+            else:
+                processor.handle_refresh_component(component_attribute, file_name)
 
     def is_enabled(self, files):
         if len(files) == 0: return False

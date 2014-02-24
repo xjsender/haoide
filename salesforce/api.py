@@ -172,14 +172,12 @@ class SalesforceApi():
             self.login(True)
             return self.patch(patch_url, data)
         
-        # If status_code is > 399, which means it has error
+        # Patch Request return no data
         result = {}
         status_code = response.status_code
         if status_code > 399:
             result = response.json()[0]
             result["url"] = url
-        else:
-            result = response.json()
         result["status_code"] = status_code
 
         # Self.result is used to keep thread result

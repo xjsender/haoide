@@ -71,8 +71,7 @@ def populate_components():
 
     # If sobjects is exist in globals()[], just return it
     component_metadata = sublime.load_settings("component_metadata.sublime-settings")
-    if not component_metadata.has(username):
-        return []
+    if not component_metadata.has(username): return []
 
     return_component_attributes = {}
     for component_type in component_metadata.get(username).keys():
@@ -802,7 +801,8 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         "Head": api.head,
         "Put": api.put,
         "Post": api.post,
-        "Retrieve Body": api.retrieve_body
+        "Retrieve Body": api.retrieve_body,
+        "Patch": api.patch
     }
     
     target = http_methods_target[operation]
@@ -1252,6 +1252,28 @@ def handle_create_component(data, component_name, component_type, file_name, tim
         "Creating Component " + component_name + " Succeed")
     handle_thread(thread, timeout)
 
+def handle_refresh_static_resource(component_attribute, file_name, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+        
+        result = api.result
+
+        # If error, just skip, error is processed in ThreadProgress
+        if result["status_code"] > 399: return
+
+        fp = open(file_name, "wb")
+        fp.write(bytes(result["body"], "utf-8"))
+
+    toolingapi_settings = context.get_toolingapi_settings()
+    api = SalesforceApi(toolingapi_settings)
+    url = component_attribute["url"] + "/body"
+    thread = threading.Thread(target=api.retrieve_body, args=(url, ))
+    thread.start()
+    ThreadProgress(api, thread, 'Refresh StaticResource', 'Refresh StaticResource Succeed')
+    handle_thread(thread, timeout)
+
 def handle_refresh_component(component_attribute, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1271,7 +1293,6 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
             body = result[component_body].encode("UTF-8")
 
         fp.write(body)
-        file_base_name = os.path.basename(file_name)
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
