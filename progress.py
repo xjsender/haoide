@@ -49,7 +49,7 @@ class ThreadProgress():
                  ("success" in result and not result["success"])):
                 
                 print (message.SEPRATE.format(util.format_error_message(result)))
-                if open_console:
+                if open_console == None or open_console:
                     sublime.active_window().run_command("show_panel", 
                         {"panel": "console", "toggle": False})
             else:
