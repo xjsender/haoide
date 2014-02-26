@@ -178,6 +178,10 @@ class SalesforceApi():
         if status_code > 399:
             result = response.json()[0]
             result["url"] = url
+        elif status_code == 200:
+            result = response.json(0)
+        elif status_code == 204:
+            pass
         result["status_code"] = status_code
 
         # Self.result is used to keep thread result

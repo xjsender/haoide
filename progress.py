@@ -25,6 +25,7 @@ class ThreadProgress():
         self.success_message = success_message
         self.addend = 1
         self.size = 15
+        self.open_console = open_console
         sublime.set_timeout(lambda: self.run(0), 100)
 
     def run(self, i):
@@ -49,7 +50,7 @@ class ThreadProgress():
                  ("success" in result and not result["success"])):
                 
                 print (message.SEPRATE.format(util.format_error_message(result)))
-                if open_console == None or open_console:
+                if self.open_console:
                     sublime.active_window().run_command("show_panel", 
                         {"panel": "console", "toggle": False})
             else:

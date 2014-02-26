@@ -3,7 +3,14 @@
 Release History
 ---------------
 
-Release 0.1.3 (2014-02-22)
+Release 0.1.4 (2014-02-26)
+++++++++++++++++++
+
+- Update comments for ``toolingapi.sublime-settings``
+- Fix the bug for ``open console``
+
+
+Release 0.1.3 (2014-02-24)
 ++++++++++++++++++
 
 - Add the support the static resource refresh functionality for the side bar menu
