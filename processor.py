@@ -801,7 +801,7 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         "Delete": api.delete,
         "Head": api.head,
         "Put": api.put,
-        "Post": api.post
+        "Post": api.post,
         "Query": api.query,
         "Query All": api.query_all,
         "Retrieve Body": api.retrieve_body,
