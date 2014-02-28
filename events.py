@@ -7,7 +7,7 @@ from . import context
 from . import util
 
 class SFDCEventListener(sublime_plugin.EventListener):
-    def on_new_async(self, view):
+    def on_new(self, view):
         """
         1. Eveytime when you open a new view, default syntax is Apex
         2. Set Status with current default project

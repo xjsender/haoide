@@ -3,6 +3,14 @@
 Release History
 ---------------
 
+Release 0.1.5 (2014-02-26)
+++++++++++++++++++
+
+- Change new view event type from ``on_new_sync`` to ``on_new``
+- Set the default format for rest test result to ``JavaScript``
+- Add ``Query`` and ``Query All`` function for ``Rest Explorer``
+
+
 Release 0.1.4 (2014-02-26)
 ++++++++++++++++++
 
