@@ -1,11 +1,11 @@
 # Sublime IDE for salesforce
-This plugin support ```Sublime Text 3``` for windows and OSX, not tested for Linux.
+This plugin supports ```Sublime Text 3``` for windows and OSX, not tested for Linux.
 
 # Change Logs:
 See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 
 # Installation #
-This plugin is hosted on ```[package control](https://sublime.wbond.net/packages/Salesforce IDE)```, You can install this plugin by searching ```Salesforce IDE``` in package control
+This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), you can install this plugin by searching ```Salesforce IDE``` in package control
 
 # Project Configuration #
 If your operation system is **OSX**, you must set the workspace in ```SublimeApex > Setting > Setting - User```.

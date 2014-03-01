@@ -21,9 +21,9 @@ class SalesforceApi():
         self.toolingapi_settings = toolingapi_settings
         self.api_version = toolingapi_settings["api_version"]
         self.username = toolingapi_settings["username"]
-        self.result = None
+        self.result = {}
 
-    def login(self, session_id_expired):
+    def login(self, session_id_expired=False):
         if self.username not in globals() or session_id_expired:
             result = soap_login(self.toolingapi_settings)
 
@@ -54,14 +54,39 @@ class SalesforceApi():
     def parse_url(self, component_url):
         if "/services/" in component_url:
             url = self.instance_url + component_url
+        elif "https://" in component_url:
+            url = component_url
         else:
             url = self.base_url + component_url
 
         return url
 
+    def parse_response(self, res):
+        if res.status_code > 399:
+            try:
+                response_result = res.json()
+                if isinstance(response_result, list):
+                    response_result = response_result[0]
+            except:
+                response_result = {"errorMessage": res.text}
+
+            response_result["url"] = res.url
+        else:
+            try:
+                response_result = {}
+                if isinstance(res.json(), list):
+                    response_result["result"] = res.json()
+                elif isinstance(res.json(), dict):
+                    response_result = res.json()
+            except:
+                response_result = {}
+
+        response_result["status_code"] = res.status_code
+        return response_result
+        
     def head(self, component_url, timeout=120):
         # Firstly, login
-        self.login(False)
+        self.login()
 
         url = self.parse_url(component_url)
         response = requests.head(url, verify=False, 
@@ -72,18 +97,7 @@ class SalesforceApi():
             self.login(True)
             return self.head(component_url)
         
-        # If status_code is > 399, which means it has error
-        result = {}
-        status_code = response.status_code
-        if status_code > 399:
-            response_result = response.json()[0]
-            result = response_result
-            result["url"] = url
-        else:
-            result = dict(response.headers)
-        result["status_code"] = status_code
-        
-        # Self.result is used to keep thread result
+        result = self.parse_response(response)
         self.result = result
 
         # This result is used for invoker
@@ -96,7 +110,7 @@ class SalesforceApi():
         :component_url: Component URL, for exmaple, /services/data/v28.0/sobjects/Contact/describe
         """
         # Firstly, login
-        self.login(False)
+        self.login()
 
         url = self.parse_url(component_url)
         response = requests.get(url, data=None, verify=False, 
@@ -107,23 +121,7 @@ class SalesforceApi():
             self.login(True)
             return self.get(component_url)
         
-        # If status_code is > 399, which means it has error
-        result = {}
-        status_code = response.status_code
-        if status_code > 399:
-            if (response.headers["content-type"].startswith('application/json')):
-                result = response.json()[0]
-                result["url"] = url
-            else:
-                result = {
-                    "message": response.text,
-                    "url": url
-                }
-        else:
-            result = response.json()
-        result["status_code"] = status_code
-        
-        # Self.result is used to keep thread result
+        result = self.parse_response(response)
         self.result = result
 
         # This result is used for invoker
@@ -131,7 +129,7 @@ class SalesforceApi():
 
     def put(self, put_url, data, timeout=120):
         # Firstly, login
-        self.login(False)
+        self.login()
 
         url = self.parse_url(put_url)
         response = requests.put(url, data=json.dumps(data), verify=False, 
@@ -142,18 +140,7 @@ class SalesforceApi():
             self.login(True)
             return self.put(put_url, data)
         
-        # If status_code is > 399, which means it has error
-        result = {}
-        status_code = response.status_code
-        if status_code > 399:
-            result = response.json()[0]
-            result["url"] = url
-        else:
-            result = response.json()
-
-        result["status_code"] = status_code
-
-        # Self.result is used to keep thread result
+        result = self.parse_response(response)
         self.result = result
 
         # This result is used for invoker
@@ -161,7 +148,7 @@ class SalesforceApi():
 
     def patch(self, patch_url, data, timeout=120):
         # Firstly, login
-        self.login(False)
+        self.login()
 
         url = self.parse_url(patch_url)
         response = requests.patch(url, data=json.dumps(data), verify=False, 
@@ -172,19 +159,7 @@ class SalesforceApi():
             self.login(True)
             return self.patch(patch_url, data)
         
-        # Patch Request return no data
-        result = {}
-        status_code = response.status_code
-        if status_code > 399:
-            result = response.json()[0]
-            result["url"] = url
-        elif status_code == 200:
-            result = response.json(0)
-        elif status_code == 204:
-            pass
-        result["status_code"] = status_code
-
-        # Self.result is used to keep thread result
+        result = self.parse_response(response)
         self.result = result
 
         # This result is used for invoker
@@ -192,7 +167,7 @@ class SalesforceApi():
 
     def post(self, post_url, data, timeout=120):
         # Firstly, login
-        self.login(False)
+        self.login()
 
         url = self.parse_url(post_url)
         response = requests.post(url, data=json.dumps(data), verify=False,
@@ -203,18 +178,7 @@ class SalesforceApi():
             self.login(True)
             return self.post(post_url, data)
         
-        # If status_code is > 399, which means it has error
-        result = {}
-        status_code = response.status_code
-        if status_code > 399:
-            result = response.json()[0]
-            result["url"] = url
-        else:
-            result = response.json()
-
-        result["status_code"] = status_code
-
-        # Self.result is used to keep thread result
+        result = self.parse_response(response)
         self.result = result
 
         # This result is used for invoker
@@ -222,7 +186,7 @@ class SalesforceApi():
 
     def delete(self, component_url, timeout=120):
         # Firstly, login
-        self.login(False)
+        self.login()
 
         url = self.parse_url(component_url)
         response = requests.delete(url, data=None, verify=False, 
@@ -233,13 +197,7 @@ class SalesforceApi():
             self.login(True)
             return self.delete(component_url)
 
-        result = {}
-        if response.status_code > 399:
-            result = response.json()[0]
-            result["url"] = url
-        result["status_code"] = response.status_code
-
-        # Self.result is used to keep thread result
+        result = self.parse_response(response)
         self.result = result
 
         # This result is used for invoker
@@ -247,7 +205,7 @@ class SalesforceApi():
 
     def query(self, soql, is_toolingapi=False, timeout=120):
         # Firstly, login
-        self.login(False)
+        self.login()
 
         soql = urllib.parse.urlencode({'q' : soql})
 
@@ -268,20 +226,7 @@ class SalesforceApi():
             self.login(True)
             return self.query(soql)
 
-        # If status_code is > 399, which means it has error
-        result = {}
-        status_code = response.status_code
-        if status_code > 399:
-            response_result = response.json()[0]
-            result = response_result
-            result["url"] = url
-        else:
-            result = response.json()
-        
-        # Save status_code into result
-        result["status_code"] = status_code
-            
-        # Self.result is used to keep thread result
+        result = self.parse_response(response)
         self.result = result
 
         # This result is used for invoker
@@ -304,7 +249,7 @@ class SalesforceApi():
                 # Continue the recursion
                 return get_all_result(result)
 
-        if not self.login(False): return
+        if not self.login(): return
         result = self.query(soql, is_toolingapi=is_toolingapi)
         # Database.com not support ApexComponent
         if result["status_code"] > 399: 
@@ -398,7 +343,7 @@ class SalesforceApi():
         :return: raw data of log
         """
         # Firstly Login
-        self.login(False)
+        self.login()
 
         url = self.parse_url(retrieve_url)
         headers = self.headers.copy()
@@ -427,7 +372,7 @@ class SalesforceApi():
         :traced_entity_id: Component Id or User Id
         """
         # Firstly Login
-        self.login(False)
+        self.login()
 
         # Create trace flag
         traced_entity_id = globals()[self.username]["user_id"]
@@ -476,7 +421,7 @@ class SalesforceApi():
         :recordtype_name: RecordType Name
         """
         # Firstly Login
-        self.login(False)
+        self.login()
 
         # Combine server_url and headers and soap_body
         headers = {
@@ -520,7 +465,7 @@ class SalesforceApi():
         :apex_string: Apex Snippet
         """
         # Firstly Login
-        self.login(False)
+        self.login()
 
         # https://gist.github.com/richardvanhook/1245068
         headers = {
@@ -666,7 +611,7 @@ class SalesforceApi():
         5. Use Python Lib zipFile to unzip the zip file to path
         """
         # Firstly Login
-        self.login(False)
+        self.login()
 
         # 1. Issue a retrieve request to start the asynchronous retrieval
         headers = {
@@ -772,7 +717,7 @@ class SalesforceApi():
         
     def deploy_metadata(self, zipfile):
         # Firstly Login
-        self.login(False)
+        self.login()
 
         # 1. Issue a retrieve request to start the asynchronous retrieval
         headers = {

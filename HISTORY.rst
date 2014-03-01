@@ -3,7 +3,14 @@
 Release History
 ---------------
 
-Release 0.1.5 (2014-02-26)
+Release 0.1.6 (2014-03-01)
+++++++++++++++++++
+
+- Update README.MD
+- Refractoring api.py
+
+
+Release 0.1.5 (2014-02-28)
 ++++++++++++++++++
 
 - Change new view event type from ``on_new_sync`` to ``on_new``
