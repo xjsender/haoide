@@ -3,6 +3,16 @@
 Release History
 ---------------
 
+Release 0.1.7 (2014-03-04)
+++++++++++++++++++
+
+- If project is not created, ``New Component`` and ``Refresh Folder`` are disabled
+- Allow empty json body for ``Post`` Action
+- If rest response is list, return the list
+- When switching project, stop checking login if login session is already in cache
+- Fix a completion bug on ``__kav``
+
+
 Release 0.1.6 (2014-03-01)
 ++++++++++++++++++
 

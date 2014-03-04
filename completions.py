@@ -129,6 +129,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
                         display_child_relationships=False)
                 else:
                     for sobject in matched_sobjects:
+                        if sobject.lower() not in sobjects_describe: continue
                         completion_list.extend(util.get_sobject_completion_list(sobjects_describe[sobject.lower()], 
                             prefix=sobject+".", 
                             display_field_name_and_label=settings["display_field_name_and_label"],

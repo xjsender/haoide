@@ -785,6 +785,7 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         
         # If succeed
         result = api.result
+        if "list" in result: result = result["list"]
         
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
@@ -809,10 +810,10 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
     }
     
     target = http_methods_target[operation]
-    if data == None:
-        thread = threading.Thread(target=target, args=(url,))
-    else:
+    if operation in ['Put', 'Post', 'Patch']:
         thread = threading.Thread(target=target, args=(url, data,))
+    else:
+        thread = threading.Thread(target=target, args=(url,))
     thread.start()
     progress_message = "Execute Rest %s Test" % operation
     ThreadProgress(api, thread, progress_message, progress_message + " Succeed", open_console=False)

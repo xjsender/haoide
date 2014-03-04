@@ -53,7 +53,10 @@ class ExecuteRestTestCommand(sublime_plugin.TextCommand):
 
     def on_input(self, data):
         try:
-            data = json.loads(data)
+            if data != '' and not data:
+                data = json.loads(data)
+            else:
+                data = None
         except:
             message = 'Invalid data, do you want to try again?'
             if not sublime.ok_cancel_dialog(message): return
@@ -184,7 +187,6 @@ class RefreshFolderCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         global folders
-        self.settings = context.get_toolingapi_settings()
         folders = sorted(list(self.settings["component_folders"]))
         self.window.show_quick_panel(folders, self.on_done)
 
@@ -195,6 +197,13 @@ class RefreshFolderCommand(sublime_plugin.WindowCommand):
             processor.handle_get_static_resource_body(self.settings)
         else:
             processor.handle_refresh_folder(folders[index])
+
+    def is_enabled(self):
+        self.settings = context.get_toolingapi_settings()
+        if not os.path.exists(self.settings["workspace"]):
+            return False
+
+        return True
 
 class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -581,10 +590,6 @@ def delete_components(files):
         processor.handle_delete_component(component_attribute["url"], f)
 
 class CreateComponentCommand(sublime_plugin.WindowCommand):
-    """
-    user input
-    """
-
     def __init__(self, *args, **kwargs):
         super(CreateComponentCommand, self).__init__(*args, **kwargs)
 
@@ -627,13 +632,13 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         elif extension == ".cls":
             body = body.replace("class_name", name)
 
-        settings = context.get_toolingapi_settings()
-        component_type = settings[extension]
-        component_outputdir = settings[component_type]["outputdir"]
+        self.settings = context.get_toolingapi_settings()
+        component_type = self.settings[extension]
+        component_outputdir = self.settings[component_type]["outputdir"]
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
-            settings = context.get_toolingapi_settings()
-            context.add_project_to_workspace(settings["workspace"])
+            self.settings = context.get_toolingapi_settings()
+            context.add_project_to_workspace(self.settings["workspace"])
 
         file_name = "%s/%s" % (component_outputdir, name + extension)
         if os.path.isfile(file_name):
@@ -647,7 +652,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         # Compose data
         data = {
             "name": name,
-            settings[component_type]["body"]: body,
+            self.settings[component_type]["body"]: body,
         }
         if component_type == "ApexClass":
             data["IsValid"] = True
@@ -657,6 +662,13 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
             data["MasterLabel"] = name
 
         processor.handle_create_component(data, name, component_type, file_name)
+
+    def is_enabled(self):
+        self.settings = context.get_toolingapi_settings()
+        if not os.path.exists(self.settings["workspace"]): 
+            return False
+
+        return True
 
 class SaveComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):

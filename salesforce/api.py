@@ -52,10 +52,10 @@ class SalesforceApi():
         return result
 
     def parse_url(self, component_url):
-        if "/services/" in component_url:
-            url = self.instance_url + component_url
-        elif "https://" in component_url:
+        if "https://" in component_url:
             url = component_url
+        elif "/services" in component_url:
+            url = self.instance_url + component_url
         else:
             url = self.base_url + component_url
 
@@ -75,7 +75,7 @@ class SalesforceApi():
             try:
                 response_result = {}
                 if isinstance(res.json(), list):
-                    response_result["result"] = res.json()
+                    response_result["list"] = res.json()
                 elif isinstance(res.json(), dict):
                     response_result = res.json()
             except:
@@ -981,7 +981,6 @@ class SalesforceApi():
             }
 
         while state == "Queued":
-            print (state)
             # print ("Async Request is queued, please wait for 5 seconds...")
             time.sleep(5)
 
