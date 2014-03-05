@@ -1109,7 +1109,7 @@ def handle_generate_all_workbooks(timeout=120):
     ThreadProgress(api, thread, "Global Describe Common", "Global Describe Common Succeed")
     handle_thread(thread, timeout)
 
-def handle_new_project(toolingapi_settings, timeout=120):
+def handle_new_project(settings, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -1125,7 +1125,7 @@ def handle_new_project(toolingapi_settings, timeout=120):
         # Every org has one local repository
         component_metadata = result
         component_settings = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
-        component_settings.set(toolingapi_settings["username"], component_metadata)
+        component_settings.set(settings["username"], component_metadata)
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
         print (message.SEPRATE.format('All code are Downloaded.'))
         sublime.status_message(message.DOWNLOAD_ALL_SUCCESSFULLY)
@@ -1135,11 +1135,12 @@ def handle_new_project(toolingapi_settings, timeout=120):
 
         # If get_static_resource_body is true, 
         # start to get all binary body of static resource
-        if toolingapi_settings["get_static_resource_body"]:
-            handle_get_static_resource_body(toolingapi_settings)
+        if settings["get_static_resource_body"]:
+            folder_name = settings["StaticResource"]["folder"]
+            handle_get_static_resource_body(folder_name)
 
-    api = SalesforceApi(toolingapi_settings)
-    component_types = toolingapi_settings["component_types"]
+    api = SalesforceApi(settings)
+    component_types = settings["component_types"]
     thread = threading.Thread(target=api.refresh_components, args=(component_types, ))
     thread.start()
     ThreadProgress(api, thread, "Initiate Project, Please Wait...", "New Project Succeed")
@@ -1157,6 +1158,8 @@ def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeo
         # Mkdir for output dir of zip file
         result = api.result
         if not static_resource_dir:
+            print (settings["workspace"])
+            print (folder_name)
             static_resource_dir = settings["workspace"] + "/" + folder_name
         if not os.path.exists(static_resource_dir): os.makedirs(static_resource_dir)
 

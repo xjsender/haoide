@@ -6,6 +6,11 @@ Release History
 
 Release 0.1.8 (2014-03-05)
 ++++++++++++++++++
+- Fix the static resource bug ``Can't convert 'dict' object to str implicitly``
+
+
+Pre-release 0.1.8 (2014-03-05)
+++++++++++++++++++
 
 - When save component and error happened, ``go to`` the error line
 - Change the ``new component`` to separate ones
