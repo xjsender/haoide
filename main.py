@@ -181,27 +181,108 @@ class NewDynamicViewCommand(sublime_plugin.TextCommand):
         if erase_all: view.erase(edit, sublime.Region(0, view.size()))
         view.insert(edit, point, input)
 
-class RefreshFolderCommand(sublime_plugin.WindowCommand):
+class RefreshClassFolderCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(RefreshFolderCommand, self).__init__(*args, **kwargs)
+        super(RefreshClassFolderCommand, self).__init__(*args, **kwargs)
 
-    def run(self):
-        global folders
-        folders = sorted(list(self.settings["component_folders"]))
-        self.window.show_quick_panel(folders, self.on_done)
+    def run(self, dirs):
+        processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
 
-    def on_done(self, index):
-        if index == -1: return
-        component_type = self.settings[folders[index]]
-        if component_type == "StaticResource":
-            processor.handle_get_static_resource_body(self.settings)
-        else:
-            processor.handle_refresh_folder(folders[index])
+    def is_visible(self, dirs):
+        if not dirs: return False
+        self.component_outputdir = dirs[0]
+        self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
 
-    def is_enabled(self):
+        # Check whether the project is exist in settings
         self.settings = context.get_toolingapi_settings()
-        if not os.path.exists(self.settings["workspace"]):
-            return False
+        if self.folder_name not in self.settings: return False
+        component_type = self.settings[self.folder_name]
+        if component_type != "ApexClass": return False
+        if self.project_name != self.settings["default_project_name"]: return False
+
+        return True
+
+class RefreshComponentFolderCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RefreshComponentFolderCommand, self).__init__(*args, **kwargs)
+
+    def run(self, dirs):
+        processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
+
+    def is_visible(self, dirs):
+        if not dirs: return False
+        self.component_outputdir = dirs[0]
+        self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
+
+        # Check whether the project is exist in settings
+        self.settings = context.get_toolingapi_settings()
+        if self.folder_name not in self.settings: return False
+        component_type = self.settings[self.folder_name]
+        if component_type != "ApexComponent": return False
+        if self.project_name != self.settings["default_project_name"]: return False
+
+        return True
+
+class RefreshPageFolderCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RefreshPageFolderCommand, self).__init__(*args, **kwargs)
+
+    def run(self, dirs):
+        processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
+
+    def is_visible(self, dirs):
+        if not dirs: return False
+        self.component_outputdir = dirs[0]
+        self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
+
+        # Check whether the project is exist in settings
+        self.settings = context.get_toolingapi_settings()
+        if self.folder_name not in self.settings: return False
+        component_type = self.settings[self.folder_name]
+        if component_type != "ApexPage": return False
+        if self.project_name != self.settings["default_project_name"]: return False
+
+        return True
+
+class RefreshTriggerFolderCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RefreshTriggerFolderCommand, self).__init__(*args, **kwargs)
+
+    def run(self, dirs):
+        processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
+
+    def is_visible(self, dirs):
+        if not dirs: return False
+        self.component_outputdir = dirs[0]
+        self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
+
+        # Check whether the project is exist in settings
+        self.settings = context.get_toolingapi_settings()
+        if self.folder_name not in self.settings: return False
+        component_type = self.settings[self.folder_name]
+        if component_type != "ApexTrigger": return False
+        if self.project_name != self.settings["default_project_name"]: return False
+
+        return True
+
+class RefreshStaticResourceFolderCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RefreshStaticResourceFolderCommand, self).__init__(*args, **kwargs)
+
+    def run(self, dirs):
+        processor.handle_get_static_resource_body(self.folder_name, self.component_outputdir)
+
+    def is_visible(self, dirs):
+        if not dirs: return False
+        self.component_outputdir = dirs[0]
+        self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
+
+        # Check whether the project is exist in settings
+        self.settings = context.get_toolingapi_settings()
+        if self.folder_name not in self.settings: return False
+        component_type = self.settings[self.folder_name]
+        if component_type != "StaticResource": return False
+        if self.project_name != self.settings["default_project_name"]: return False
 
         return True
 
@@ -280,14 +361,13 @@ class DescribeSobjectCommand(sublime_plugin.WindowCommand):
         super(DescribeSobjectCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        global sobjects
         sobjects_describe = processor.populate_sobjects_describe()
-        sobjects = sorted(sobjects_describe.keys())
-        self.window.show_quick_panel(sobjects, self.on_done)
+        self.sobjects = sorted(sobjects_describe.keys())
+        self.window.show_quick_panel(self.sobjects, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
-        processor.handle_describe_sobject(sobjects[index])
+        processor.handle_describe_sobject(self.sobjects[index])
 
 class ExportWorkbookCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -589,46 +669,80 @@ def delete_components(files):
         component_attribute = util.get_component_attribute(f)[0]
         processor.handle_delete_component(component_attribute["url"], f)
 
+class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateApexTriggerCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        sobjects_describe = processor.populate_sobjects_describe()
+        self.sobjects = sorted(sobjects_describe.keys())
+        self.window.show_quick_panel(self.sobjects, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+        self.window.run_command("create_component", {
+            "component_type": "ApexTrigger",
+            "sobject_name": self.sobjects[index]
+        })
+
+class CreateApexPageCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateApexPageCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.window.run_command("create_component", {"component_type": "ApexPage"})
+
+class CreateApexComponentCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateApexComponentCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.window.run_command("create_component", {"component_type": "ApexComponent"})
+
+class CreateApexClassCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateApexClassCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.window.run_command("create_component", {"component_type": "ApexClass"})
+
 class CreateComponentCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreateComponentCommand, self).__init__(*args, **kwargs)
 
-    def run(self):
+    def run(self, component_type=None, sobject_name=None):
+        self.sobject_name = sobject_name
+        self.component_type = component_type
         template_settings = sublime.load_settings("template.sublime-settings")
         self.templates = template_settings.get("template")
-        self.template_names = sorted(list(self.templates.keys()))
-        self.window.show_quick_panel(self.template_names, self.on_choose_template)
+        self.template_names = sorted(list(self.templates[self.component_type].keys()))
+
+        # If component type is ApexTrigger, we need to choose sobject and template,
+        # however, sublime Quick panel will be unavailable for the second choose panel,
+        if self.component_type == "ApexTrigger":
+            self.on_choose_template(0)
+        else:
+            self.window.show_quick_panel(self.template_names, self.on_choose_template)
 
     def on_choose_template(self, index):
         if index == -1: return
         self.template_name = self.template_names[index]
-        self.template_attr = self.templates[self.template_name]
-        self.window.show_input_panel("Trigger Format: Name,Sobject, Others Format: Name]", 
-            "", self.on_input, None, None)
+        self.template_attr = self.templates[self.component_type][self.template_name]
+        self.window.show_input_panel("Please Input Name: ", "", self.on_input, None, None)
 
     def on_input(self, input):
         # Create component to local according to user input
-        if self.template_attr["extension"] == ".trigger":
-            if not re.match('^[a-zA-Z]+\\w+,\s*[_a-zA-Z]+\\w+$', input):
-                message = 'Invalid format, do you want to try again?'
-                if not sublime.ok_cancel_dialog(message): return
-                self.window.show_input_panel("Follow [Name<,sobject for trigger>]", 
-                    "", self.on_input, None, None)
-                return
-            name, sobject = [ele.strip() for ele in input.split(",")]
-        else:
-            if not re.match('^[a-zA-Z]+\\w+$', input):
-                message = 'Invalid format, are you want to input again?'
-                if not sublime.ok_cancel_dialog(message): return
-                self.window.show_input_panel("Follow [Name<,sobject for trigger>]", 
-                    "", self.on_input, None, None)
-                return
-            name = input
+        if not re.match('^[a-zA-Z]+\\w+$', input):
+            message = 'Invalid format, are you want to input again?'
+            if not sublime.ok_cancel_dialog(message): return
+            self.window.show_input_panel("Please Input Name: ", "", self.on_input, None, None)
+            return
+        name = input
         
         extension = self.template_attr["extension"]
         body = self.template_attr["body"]
         if extension == ".trigger":
-            body = body % (name, sobject)
+            body = body % (name, self.sobject_name)
         elif extension == ".cls":
             body = body.replace("class_name", name)
 
@@ -657,7 +771,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         if component_type == "ApexClass":
             data["IsValid"] = True
         elif component_type == "ApexTrigger":
-            data["TableEnumOrId"] = sobject
+            data["TableEnumOrId"] = self.sobject_name
         elif component_type in ["ApexPage", "ApexComponent"]:
             data["MasterLabel"] = name
 
@@ -718,18 +832,34 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
         super(CreateNewProjectCommand, self).__init__(*args, **kwargs)
 
     def run(self):
+        global projects
+        toolingapi_settings = context.get_toolingapi_settings()
+        projects = toolingapi_settings["projects"]
+        projects = ["(" + ('Active' if projects[p]["default"] else 
+            'Inactive') + ") " + p for p in projects]
+        projects = sorted(projects, reverse=False)
+        self.window.show_quick_panel(projects, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        # Change the chosen project as default
+        # Split with ") " and get the second project name
+        default_project = projects[index].split(") ")[1]
+        context.switch_project(default_project)
+
         # Create Project Directory
         context.make_dir()
 
         # Get toolingapi_settings
-        toolingapi_settings = context.get_toolingapi_settings()
-        context.add_project_to_workspace(toolingapi_settings["workspace"])
+        settings = context.get_toolingapi_settings()
+        context.add_project_to_workspace(settings["workspace"])
 
         # Open Console
         self.window.run_command("show_panel", {"panel": "console", "toggle": False})
 
         # Handle Refresh All
-        processor.handle_new_project(toolingapi_settings)
+        processor.handle_new_project(settings)
 
 class ReloadCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

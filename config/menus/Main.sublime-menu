@@ -13,20 +13,37 @@
             { "caption": "-" },
             
             {
-                "id": "CreateNewProject",
-                "caption": "New Project",
-                "command": "create_new_project"
-            },
+                "caption": "New",
+                "children": [
+                    {
+                        "id": "CreateNewProject",
+                        "caption": "New Project",
+                        "command": "create_new_project"
+                    },
+                    {
+                        "id": "createtrigger",
+                        "caption": "New ApexTrigger",
+                        "command": "create_apex_trigger"
+                    },
 
-            {
-                "id": "createcomponent",
-                "caption": "New Component",
-                "command": "create_component"
-            },
-            {
-                "id": "RefreshFolder",
-                "caption": "Refresh Folder",
-                "command": "refresh_folder"
+                    {
+                        "id": "createclass",
+                        "caption": "New ApexClass",
+                        "command": "create_apex_class"
+                    },
+
+                    {
+                        "id": "createpage",
+                        "caption": "New ApexPage",
+                        "command": "create_apex_page"
+                    },
+
+                    {
+                        "id": "createcomponent",
+                        "caption": "New ApexComponent",
+                        "command": "create_apex_component"
+                    }
+                ]
             },
 
             { "caption": "-" },

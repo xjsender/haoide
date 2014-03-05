@@ -308,7 +308,7 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         "View Code Coverage of " + component_name + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_refresh_folder(folder, timeout=120):
+def handle_refresh_folder(folder_name, component_outputdir, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -372,9 +372,8 @@ def handle_refresh_folder(folder, timeout=120):
     api = SalesforceApi(toolingapi_settings)
 
     # Get component attributes by component_type
-    component_type = toolingapi_settings[folder]
+    component_type = toolingapi_settings[folder_name]
     component_attribute = toolingapi_settings[component_type]
-    component_outputdir = component_attribute["outputdir"]
     component_body = component_attribute["body"]
     component_extension = component_attribute["extension"]
     component_soql = component_attribute["soql"]
@@ -1146,10 +1145,10 @@ def handle_new_project(toolingapi_settings, timeout=120):
     ThreadProgress(api, thread, "Initiate Project, Please Wait...", "New Project Succeed")
     handle_thread(thread, timeout)
 
-def handle_get_static_resource_body(toolingapi_settings, timeout=120):
-    def handle_thread(thread, timeout):
+def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeout=120):
+    def handle_thread(thread, static_resource_dir, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda:handle_thread(thread, static_resource_dir, timeout), timeout)
             return
         
         if api.result == None: return
@@ -1157,15 +1156,16 @@ def handle_get_static_resource_body(toolingapi_settings, timeout=120):
 
         # Mkdir for output dir of zip file
         result = api.result
-        outputdir = toolingapi_settings["workspace"] + "/staticresources"
-        if not os.path.exists(outputdir): os.makedirs(outputdir)
+        if not static_resource_dir:
+            static_resource_dir = settings["workspace"] + "/" + folder_name
+        if not os.path.exists(static_resource_dir): os.makedirs(static_resource_dir)
 
         # Extract zip
-        util.extract_zip(result["zipFile"], outputdir)
+        util.extract_zip(result["zipFile"], static_resource_dir)
 
         # Move the file to staticresources path
-        root_src_dir = outputdir + "/unpackaged/staticresources"
-        root_dst_dir = toolingapi_settings["workspace"] + "/staticresources"
+        root_src_dir = static_resource_dir + "/unpackaged/" + folder_name
+        root_dst_dir = static_resource_dir
         for x in os.walk(root_src_dir):
             if not x[-1]: continue
             for _file in x[-1]:
@@ -1174,16 +1174,16 @@ def handle_get_static_resource_body(toolingapi_settings, timeout=120):
                     os.remove(root_dst_dir + '/' + _file)
                 os.rename(x[0] + '/' + _file, root_dst_dir + '/' + _file) 
 
-        shutil.rmtree(outputdir + "/unpackaged", ignore_errors=True)
-        os.remove(outputdir + "/package.zip")
+        shutil.rmtree(static_resource_dir + "/unpackaged", ignore_errors=True)
+        os.remove(static_resource_dir + "/package.zip")
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_toolingapi_settings()
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.retrieve, 
         args=(soap_bodies.retrieve_static_resources_body, ))
     thread.start()
+    handle_thread(thread, static_resource_dir, timeout)
     ThreadProgress(api, thread, "Retrieve StaticResource", "Retrieve StaticResource Succeed")
-    handle_thread(thread, timeout)
 
 def handle_save_component(component_name, component_attribute, body, timeout=120):
     def handle_thread(thread, timeout):
@@ -1192,14 +1192,19 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
             return
 
         result = api.result
-        file_base_name = component_name + component_attribute["extension"]
+        file_base_name =  component_name + component_attribute["extension"]
         if "success" in result and result["success"]:
             print (message.SEPRATE.format(
                 "{0} is saved successfully at {1}".format(file_base_name, 
                     time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))))
+        # If not succeed, just go to the error line
+        elif "success" in result and not result["success"]:
+            view = sublime.active_window().active_view()
+            if file_base_name in view.file_name():
+                view.run_command("goto_line", {"line": result["line"]})
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_toolingapi_settings()
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.save_component, args=(component_attribute, body, ))
     thread.start()
     wait_message = "Save " + component_name

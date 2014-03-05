@@ -15,6 +15,31 @@
             {
                 "caption": "Delete Selected Components", "command": "delete_selected_components",
                 "args": {"files": []}
+            },
+
+            {
+                "caption": "Refresh Triggers", "command": "refresh_trigger_folder",
+                "args": {"dirs": []}
+            },
+
+            {
+                "caption": "Refresh Classes", "command": "refresh_class_folder",
+                "args": {"dirs": []}
+            },
+
+            {
+                "caption": "Refresh Pages", "command": "refresh_page_folder",
+                "args": {"dirs": []}
+            },
+
+            {
+                "caption": "Refresh Components", "command": "refresh_component_folder",
+                "args": {"dirs": []}
+            },
+
+            {
+                "caption": "Refresh Static Resources", "command": "refresh_static_resource_folder",
+                "args": {"dirs": []}
             }
         ]
     }

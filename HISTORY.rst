@@ -1,7 +1,21 @@
 .. :changelog:
 
 Release History
+
 ---------------
+
+Release 0.1.8 (2014-03-05)
+++++++++++++++++++
+
+- When save component and error happened, ``go to`` the error line
+- Change the ``new component`` to separate ones
+- When creating ``trigger``, we just need to choose sobject and input the trigger name
+- When creating ``class``, ``component`` or ``page``, we need to choose template and input the name
+- Change the ``Component Template``
+- Change the ``Main Menu`` and ``Sidebar Menu``
+- Move ``Refresh Folder`` function to ``Side Bar`` menu
+- When ``New Project``, we need to choose the project, and then create project
+
 
 Release 0.1.7 (2014-03-04)
 ++++++++++++++++++

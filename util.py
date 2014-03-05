@@ -97,6 +97,21 @@ def get_view_by_name(view_name):
 
     return view
 
+def get_view_by_file_name(file_name):
+    """
+    Get the view in the active window by the view_name
+
+    @view_id: view name
+    @return: view
+    """
+
+    view = None
+    for v in sublime.active_window().views():
+        if file_name in v.file_name():
+            view = v
+
+    return view
+
 def get_view_by_id(view_id):
     """
     Get the view in the active window by the view_id
@@ -1069,6 +1084,17 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
     if len(elementsByName) > 0:
         elementValue = elementsByName[0].toxml().replace('<' + elementName + '>','').replace('</' + elementName + '>','')
     return elementValue
+
+def get_path_attr(path_dir):
+    # Get the Folder Name and Project Name
+    path, folder_name = os.path.split(path_dir)
+    path, project_name = os.path.split(path)
+
+    # Assume the project name has time suffix, 
+    year = time.strftime("%Y", time.localtime())
+    if year in project_name: project_name = project_name[:-9]
+
+    return project_name, folder_name
 
 def get_file_attr(file_name):
     try:
