@@ -669,13 +669,18 @@ def delete_components(files):
         component_attribute = util.get_component_attribute(f)[0]
         processor.handle_delete_component(component_attribute["url"], f)
 
+def check_new_component_enabled():
+    settings = context.get_toolingapi_settings()
+    return os.path.exists(settings["workspace"])
+
 class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreateApexTriggerCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         sobjects_describe = processor.populate_sobjects_describe()
-        self.sobjects = sorted(sobjects_describe.keys())
+        self.sobjects = sorted([name for name in sobjects_describe\
+            if sobjects_describe[name]["triggerable"]])
         self.window.show_quick_panel(self.sobjects, self.on_done)
 
     def on_done(self, index):
@@ -685,6 +690,9 @@ class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
             "sobject_name": self.sobjects[index]
         })
 
+    def is_enabled(self):
+        return check_new_component_enabled()
+
 class CreateApexPageCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreateApexPageCommand, self).__init__(*args, **kwargs)
@@ -692,12 +700,18 @@ class CreateApexPageCommand(sublime_plugin.WindowCommand):
     def run(self):
         self.window.run_command("create_component", {"component_type": "ApexPage"})
 
+    def is_enabled(self):
+        return check_new_component_enabled()
+
 class CreateApexComponentCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreateApexComponentCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.window.run_command("create_component", {"component_type": "ApexComponent"})
+        self.window.run_command("create_component", {"component_type": "ApexComponent"})    
+
+    def is_enabled(self):
+        return check_new_component_enabled()
 
 class CreateApexClassCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -705,6 +719,9 @@ class CreateApexClassCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         self.window.run_command("create_component", {"component_type": "ApexClass"})
+
+    def is_enabled(self):
+        return check_new_component_enabled()
 
 class CreateComponentCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -776,13 +793,6 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
             data["MasterLabel"] = name
 
         processor.handle_create_component(data, name, component_type, file_name)
-
-    def is_enabled(self):
-        self.settings = context.get_toolingapi_settings()
-        if not os.path.exists(self.settings["workspace"]): 
-            return False
-
-        return True
 
 class SaveComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):

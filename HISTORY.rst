@@ -4,9 +4,12 @@ Release History
 
 ---------------
 
-Release 0.1.8 (2014-03-05)
+Release 0.1.9 (2014-03-06)
 ++++++++++++++++++
 - Fix the static resource bug ``Can't convert 'dict' object to str implicitly``
+- When creating trigger, just list the triggerable sobject
+- If project is not created, ``New Component`` and ``Refresh Folder`` are disabled
+- Update snippets(``Debug - schedule test`` and ``Debug - debug variable``)
 
 
 Pre-release 0.1.8 (2014-03-05)

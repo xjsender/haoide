@@ -1,10 +1,17 @@
 <snippet>
     <content><![CDATA[
-${1:} schClass = new ${1:}();
-// Seconds Minutes Hours Day_of_month Month Day_of_week optional_year
-String sch = '0 30 16 14 6 ? 2013';
-String jobName = '${1}' + Math.rint(Math.random() * 1000000);
-System.schedule(jobName, sch, schClass);
+$1 schClass = new $1();
+Datetime dtNext5Seconds = System.now().addSeconds(5);
+String sch = String.format('{0} {1} {2} {3} {4} ? {5}', new List<String> {
+    String.valueOf(dtNext5Seconds.second()),
+    String.valueOf(dtNext5Seconds.minute()),
+    String.valueOf(dtNext5Seconds.hour()),
+    String.valueOf(dtNext5Seconds.day()),
+    String.valueOf(dtNext5Seconds.month()),
+    String.valueOf(dtNext5Seconds.year())
+});
+String jobName = '$1' + Math.rint(Math.random() * 100000000);
+System.schedule(jobName, sch, schClass);$0
 ]]></content>
     Optional: Set a tabTrigger to define how to trigger the snippet
     <tabTrigger>schedule</tabTrigger>

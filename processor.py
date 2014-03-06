@@ -418,7 +418,8 @@ def handle_initiate_sobjects_completions(timeout=120):
             sobjects_completion["sobjects"][sobject_name] = {
                 "name": sobject_describe["name"],
                 "keyPrefix": sobject_describe["keyPrefix"],
-                "layoutable": sobject_describe["layoutable"]
+                "layoutable": sobject_describe["layoutable"],
+                "triggerable": sobject_describe["triggerable"]
             }
 
             # Combine Fields dict, Picklist Field dict and parent relationship dict
@@ -1158,8 +1159,6 @@ def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeo
         # Mkdir for output dir of zip file
         result = api.result
         if not static_resource_dir:
-            print (settings["workspace"])
-            print (folder_name)
             static_resource_dir = settings["workspace"] + "/" + folder_name
         if not os.path.exists(static_resource_dir): os.makedirs(static_resource_dir)
 
