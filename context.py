@@ -85,7 +85,7 @@ def get_toolingapi_settings():
     settings["api_version"] = s.get("api_version", "28")
 
     # Browser Path
-    settings["default_browser_path"] = s.get("default_browser_path")
+    settings["default_chrome_path"] = s.get("default_chrome_path")
 
     # Completions Part
     settings["disable_fields_completion"] = s.get("disable_fields_completion", False)

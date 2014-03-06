@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 0.2.0 (2014-03-07)
+++++++++++++++++++
+- Change ``default_browser_path`` setting name to ``default_chrome_path``
+- Add a new salesforce reference function from [Salesforce Reference](https://github.com/Oblongmana/sublime-salesforce-reference)
+- Add a new snippet ``Custom Button - Disable Button``
+
+
 Release 0.1.9 (2014-03-06)
 ++++++++++++++++++
 - Fix the static resource bug ``Can't convert 'dict' object to str implicitly``
@@ -67,7 +74,7 @@ Release 0.1.3 (2014-02-24)
 Release 0.1.2 (2014-02-22)
 ++++++++++++++++++
 
-- Add a new setting ``default_browser_path``
+- Add a new setting ``default_chrome_path``
 - Optimize the ``Rest Explorer`` functionality
 - When execute ``Rest Explorer``, if input json body is not valid, allow trying again.
 

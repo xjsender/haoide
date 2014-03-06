@@ -8,6 +8,9 @@
     // Download all code and save them to new project
     {"keys": ["alt+f6"], "command": "reload_cache"},
 
+    // Open Document
+    {"keys": ["ctrl+alt+o"], "command": "open_documentation"},
+
     // Refresh Folder
     {"keys": ["alt+r","alt+f"], "command": "refresh_folder"},
 

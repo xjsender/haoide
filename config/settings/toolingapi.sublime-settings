@@ -27,7 +27,7 @@
 
     // Browser Path, you should set a valid browser path, otherwise, it will have problem
     // Some policy prevents setting chrome as default browser, so this setting is here
-    "default_browser_path": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+    "default_chrome_path": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
 
     // Indicate whether add time suffix for project name
     // When this setting value is true, you create a new project at yestoday and 

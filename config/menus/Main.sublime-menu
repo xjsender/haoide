@@ -49,6 +49,23 @@
             { "caption": "-" },
 
             {
+                "caption": "Reference",
+                "children": [
+                    {
+                        "id": "reload_salesforce_reference",
+                        "caption": "Reload Salesforce Reference",
+                        "command": "reload_salesforce_reference"
+                    },
+
+                    {
+                        "id": "opendocumentation",
+                        "caption": "Open Documentation",
+                        "command": "open_documentation"
+                    }
+                ]
+            },
+
+            {
                 "caption": "Cache",
                 "children": [
                     {

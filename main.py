@@ -609,7 +609,7 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
 
         show_url = settings["login_url"] + '?%s' % show_params
 
-        browser_path = settings["default_browser_path"]
+        browser_path = settings["default_chrome_path"]
         if os.path.exists(browser_path):
             webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
             webbrowser.get('chrome').open_new_tab(show_url)
@@ -622,7 +622,7 @@ class AboutCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         settings = context.get_toolingapi_settings()
-        browser_path = settings["default_browser_path"]
+        browser_path = settings["default_chrome_path"]
 
         plugin_url = "https://github.com/xjsender/SublimeApex"
         if os.path.exists(browser_path):
