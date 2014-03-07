@@ -52,7 +52,7 @@ After your project configuration is finished, you can click ```SublimeApex > new
 
 ## New Project
 + This command is used to download or update your project
-+ Once you click this command, a new project will be downloaded and appeared in the sidebar
++ Once you click this command and choose a project setting,  a new project will be downloaded and appeared in the sidebar
 + Just after new project is finished, sobject completions will work
 + Project Folder Name Convention: the project name set in user settings append with date literal of today, for example,
 if today is ```2013/07/30``` and user settings is 
@@ -95,6 +95,8 @@ Choose any apex code snippet, press ```Ctrl+Alt+E``` or click ```SublimeApex > E
 
 There has a ```log_levels``` setting in the default setting, If you want to change anonymous log levels, you can put your log levels settings into your user setting.
 
+If your chosen code snippet contains non-english word, there will have problem.
+
 ## Execute Query
 After any snippet which start with SELECT is chosen, you can press ```Ctrl+Alt+Q``` or click ```SublimeApex > Execute Query```, the queried json result will be formated and shown in a new view.
 
@@ -110,14 +112,17 @@ After any snippet which start with SELECT is chosen, you can press ```Ctrl+Alt+Q
 + This command is only enabled in salesforce code file
 + If component is useless and you want to delete it from server, click ```SublimeApex > Delete From Server```
 
-## New Component #
-Press ```Ctrl+Alt+N``` or click ```SublimeApex > New Component``` to invoke the choose the template you want to use, and then input the component name and sobject name follow below guide, after new component is created, the new component with predefined body will be open in the new view, if created failed, the console will be open with the error message and new component will not be created.
-```
-1. Create new trigger: Trigger-Name, Sobject-Name
-2. Create new class: Class-Name
-3. Create new component: Component-Name
-4. Create new Page: Page-Name
-```
+## New ApexClass #
+Click ```SublimeApex > New > New ApexClass```, choose the predefined template, and then input the class name in the input panel at the bottom, after that, your class will be created.
+
+## New ApexPage #
+Click ```SublimeApex > New > New ApexPage```, choose the predefined template (Just have only one template now), and then input the page name in the input panel at the bottom, after that, your page will be created.
+
+## New ApexComponent #
+Click ```SublimeApex > New > New ApexComponent```, choose the predefined template (Just have only one template now), and then input the component name in the input panel at the bottom, after that, your component will be created.
+
+## New ApexTrigger #
+Click ```SublimeApex > New > New ApexTrigger```, choose the sobject on which you will create trigger, and then input the trigger name in the input panel at the bottom, after that, your trigger will be created.
 
 ## Create Debug Log
 If you want to track the log of any user, click ```SublimeApex > Apex Test > Create Debug Log```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
@@ -125,11 +130,9 @@ If you want to track the log of any user, click ```SublimeApex > Apex Test > Cre
 ## List Debug Log
 If you want to see the log list of any user, click ```SublimeApex > Apex Test > List Debug Logs```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
 
-## View Debug Log Detail in Salesforce Web
-Choose any Log Id and click ```SublimeApex > View Id In Salesforce Web```, wait for a moment, browser will be open and redirect to the log detail page.
+You can choose the ```Log Id``` and click ```SublimeApex > View Debug Log In Sublime``` command in the context menu, wait for the end of the progress on the status bar, after it is finished, a new view with the log detail will be opened.
 
-## View Debug Log Detail
-Choose any Log Id and click ```SublimeApex > View Detail Log Detail```, wait for a moment, you will see a new view with the log detail will be open.
+Or, you can choose any Log Id and click ```SublimeApex > View Id In Salesforce Web```, wait for a moment, browser will be open and redirect to the log detail page.
 
 ## Run Test
 There are two methods to run test, one is by Main Menu, other is in the context menu
@@ -138,10 +141,15 @@ There are two methods to run test, one is by Main Menu, other is in the context 
 
 ## View Code Coverage
 This feature just works when api version is >= 29.0
-In the context menu of open class or trigger, click ```button2 > SublimeApex > View Code Coverage```, after the thread is over, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
+In the context menu of open class or trigger, click ```SublimeApex > View Code Coverage``` in the context menu, ait for the end of the progress on the status bar, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
 
 ## Refresh Folder
-Click SublimeApex > Refresh Folder to refresh folder
+Click the folder in the side bar, refresh that you want to refresh, if you choose the classes folder, the ```Refresh ApexClass``` command will be visible, ```ApexTrigger```, ```ApexComponent```, ```ApexPage``` and ```StaticResource``` is same.
+
+## Salesforce Document Quick Reference
+I forked this idea from [Salesforce Referencee](https://github.com/Oblongmana/sublime-salesforce-reference) and added some feature based on it.
+
+Click the ```SublimeApex > Reference > Reload Salesforce Reference``` in the main menu, wait for a moment until the ```Open Document``` command is enabled, at this moment, you can press ```Ctrl+Shift+O``` or Click it to invoke the ```Open Document``` command, nearly all reference api will be shown in the list, you can try to choose any one and it will be opened in browser.
 
 ## Refresh Multiply Components
 Choose the components you want to refresh, and then Click ```SublimeApex > Refresh Selected Components``` in the Sidebar Menu

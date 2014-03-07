@@ -35,7 +35,7 @@ class ReloadSalesforceReferenceCommand(sublime_plugin.WindowCommand):
                 "pattern": "*[@Title='Standard Component Reference'].//TocEntry[@DescendantCount='0'].."
             },
             "chatterapi": {
-               "catalog": "Apex",
+               "catalog": "Chatter Api",
                "pattern": ".//TocEntry[@DescendantCount='0']"
             },
             "api_streaming": {
@@ -61,15 +61,14 @@ class ReloadSalesforceReferenceCommand(sublime_plugin.WindowCommand):
 
             for parent in leaf_parents:
                 parent_title = parent.attrib["Title"]
-                print (parent_title)
-                title_link[doc_attr["catalog"] + "=> " + parent_title] = {
+                title_link[doc_attr["catalog"] + "=>" + parent_title] = {
                     "url": parent.attrib["Link"],
                     "attr": doc
                 }
                 
                 parent_title = parent_title.replace(" Methods", ".")
                 for child in parent.getchildren():
-                    title_link[doc_attr["catalog"] + "=> " + parent_title + child.attrib["Title"]] = {
+                    title_link[doc_attr["catalog"] + "=>" + parent_title + "=>" + child.attrib["Title"]] = {
                         "url": child.attrib["Link"],
                         "attr": doc
                     }
@@ -93,7 +92,6 @@ class OpenDocumentationCommand(sublime_plugin.WindowCommand):
 
         link = self.title_link[self.titles[index]]
         show_url= 'http://www.salesforce.com/us/developer/docs/%s%s' % (link["attr"], link["url"])
-        print (show_url)
         settings = context.get_toolingapi_settings()
         browser_path = settings["default_chrome_path"]
         if os.path.exists(browser_path):

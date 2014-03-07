@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 0.2.2 (2014-03-07)
+++++++++++++++++++
+
+- Remove some useless print statement in the document.py
+- Update README.MD for latest release
+
+
 Release 0.2.1 (2014-03-07)
 ++++++++++++++++++
 
