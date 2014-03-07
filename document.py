@@ -23,18 +23,59 @@ class ReloadSalesforceReferenceCommand(sublime_plugin.WindowCommand):
         sublime.set_timeout_async(self.retrieve_index, 200)
     
     def retrieve_index(self):
-        sf_xml_url = 'http://www.salesforce.com/us/developer/docs/apexcode/Data/Toc.xml'
-        res = requests.get(sf_xml_url, headers={"Accept": "application/xml"})
+        # Retrieve the apex code tree
+        title_link = {}
+        docs = {
+            "apexcode": {
+               "catalog": "Apex",
+               "pattern": "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
+            },
+            "pages": {
+                "catalog": "Visualforce",
+                "pattern": "*[@Title='Standard Component Reference'].//TocEntry[@DescendantCount='0'].."
+            },
+            "chatterapi": {
+               "catalog": "Apex",
+               "pattern": ".//TocEntry[@DescendantCount='0']"
+            },
+            "api_streaming": {
+               "catalog": "Streaming Api",
+               "pattern": ".//TocEntry[@DescendantCount='0']"
+            },
+            "api_asynch": {
+               "catalog": "Bulk Api",
+               "pattern": "*[@Link].//TocEntry[@DescendantCount='0'].."
+            },
+            "api_rest": {
+               "catalog": "Rest Api",
+               "pattern": ".//TocEntry[@DescendantCount='0']"
+            }
+        }
 
-        sf_tree = ElementTree.fromstring(res.content)
-        leaf_parents = sf_tree.findall("*[@Title='Reference'].//TocEntry[@DescendantCount='0']..")
+        for doc in docs:
+            doc_attr = docs[doc]
+            xml_url = 'http://www.salesforce.com/us/developer/docs/%s/Data/Toc.xml' % doc
+            res = requests.get(xml_url, headers={"Accept": "application/xml"})
+            tree = ElementTree.fromstring(res.content)
+            leaf_parents = tree.findall(doc_attr["pattern"])
 
-        self.title_link = {}
-        for parent in leaf_parents:
-            self.title_link[parent.attrib["Title"]] = parent.attrib["Link"]
+            for parent in leaf_parents:
+                parent_title = parent.attrib["Title"]
+                print (parent_title)
+                title_link[doc_attr["catalog"] + "=> " + parent_title] = {
+                    "url": parent.attrib["Link"],
+                    "attr": doc
+                }
+                
+                parent_title = parent_title.replace(" Methods", ".")
+                for child in parent.getchildren():
+                    title_link[doc_attr["catalog"] + "=> " + parent_title + child.attrib["Title"]] = {
+                        "url": child.attrib["Link"],
+                        "attr": doc
+                    }
 
         salesforce_reference = sublime.load_settings("salesforce_reference.sublime-settings")
-        salesforce_reference.set("salesforce_reference", self.title_link)
+        salesforce_reference.set("salesforce_reference", title_link)
         sublime.save_settings("salesforce_reference.sublime-settings")
 
 class OpenDocumentationCommand(sublime_plugin.WindowCommand):
@@ -50,8 +91,9 @@ class OpenDocumentationCommand(sublime_plugin.WindowCommand):
     def open_documentation(self, index):
         if index == -1: return
 
-        base_url= 'http://www.salesforce.com/us/developer/docs/apexcode'
-        show_url = base_url + self.title_link[self.titles[index]]
+        link = self.title_link[self.titles[index]]
+        show_url= 'http://www.salesforce.com/us/developer/docs/%s%s' % (link["attr"], link["url"])
+        print (show_url)
         settings = context.get_toolingapi_settings()
         browser_path = settings["default_chrome_path"]
         if os.path.exists(browser_path):
@@ -60,7 +102,7 @@ class OpenDocumentationCommand(sublime_plugin.WindowCommand):
         else:
             webbrowser.open_new_tab(show_url)
 
-    def is_visible(self):
+    def is_enabled(self):
         reference_settings = sublime.load_settings("salesforce_reference.sublime-settings")
         return reference_settings.has("salesforce_reference")
 

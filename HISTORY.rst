@@ -4,10 +4,18 @@ Release History
 
 ---------------
 
+Release 0.2.1 (2014-03-07)
+++++++++++++++++++
+
+- Add ``Rest Api``, ``Visualforce``, ``Chatter Api``, ``Streaming Api`` and ``Bulk Api`` to document list
+- Add methods redirect to document list
+
+
 Release 0.2.0 (2014-03-07)
 ++++++++++++++++++
+
 - Change ``default_browser_path`` setting name to ``default_chrome_path``
-- Add a new salesforce reference function from [Salesforce Reference](https://github.com/Oblongmana/sublime-salesforce-reference)
+- Add a new salesforce reference function from `Salesforce Reference <https://github.com/Oblongmana/sublime-salesforce-reference>`_
 - Add a new snippet ``Custom Button - Disable Button``
 
 
