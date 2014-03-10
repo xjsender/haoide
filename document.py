@@ -11,9 +11,9 @@ import os
 import threading
 from . import requests, context
 
-class ReloadSalesforceReferenceCommand(sublime_plugin.WindowCommand):
+class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(ReloadSalesforceReferenceCommand, self).__init__(*args, **kwargs)
+        super(ReloadSalesforceDocumentCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         self.retrieve_index_async()
@@ -49,6 +49,18 @@ class ReloadSalesforceReferenceCommand(sublime_plugin.WindowCommand):
             "api_rest": {
                "catalog": "Rest Api",
                "pattern": ".//TocEntry[@DescendantCount='0']"
+            },
+            "api_tooling": {
+               "catalog": "Tooling Api",
+               "pattern": ".//TocEntry[@DescendantCount='0']"
+            },
+            "api_console": {
+               "catalog": "Console Toolkit",
+               "pattern": ".//TocEntry[@DescendantCount='0']"
+            },
+            "object_reference": {
+               "catalog": "Standard Objects",
+               "pattern": "*.//TocEntry[@DescendantCount='0'].."
             }
         }
 
@@ -58,7 +70,6 @@ class ReloadSalesforceReferenceCommand(sublime_plugin.WindowCommand):
             res = requests.get(xml_url, headers={"Accept": "application/xml"})
             tree = ElementTree.fromstring(res.content)
             leaf_parents = tree.findall(doc_attr["pattern"])
-
             for parent in leaf_parents:
                 parent_title = parent.attrib["Title"]
                 title_link[doc_attr["catalog"] + "=>" + parent_title] = {
@@ -66,9 +77,13 @@ class ReloadSalesforceReferenceCommand(sublime_plugin.WindowCommand):
                     "attr": doc
                 }
                 
-                parent_title = parent_title.replace(" Methods", ".")
+                if " Methods" in parent_title:
+                    parent_title = parent_title.replace(" Methods", ".")
+                else:
+                    parent_title = parent_title + " "
+                    
                 for child in parent.getchildren():
-                    title_link[doc_attr["catalog"] + "=>" + parent_title + "=>" + child.attrib["Title"]] = {
+                    title_link[doc_attr["catalog"] + "=>" + parent_title + child.attrib["Title"]] = {
                         "url": child.attrib["Link"],
                         "attr": doc
                     }

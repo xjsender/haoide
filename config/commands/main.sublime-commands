@@ -7,10 +7,25 @@
     },
 
     {
-        "caption": "SublimeApex: New Component",
-        "command": "create_component"
+        "caption": "SublimeApex: New ApexTrigger",
+        "command": "create_apex_trigger"
     },
-
+    {
+        "caption": "SublimeApex: New ApexClass",
+        "command": "create_apex_class"
+    },
+    {
+        "caption": "SublimeApex: New ApexComponent",
+        "command": "create_apex_component"
+    },
+    {
+        "caption": "SublimeApex: New ApexComponent",
+        "command": "create_apex_component"
+    },
+    {
+        "caption": "SublimeApex: Reload Salesforce Document",
+        "command": "reload_salesforce_document"
+    },
     {
         "caption": "SublimeApex: Save Component",
         "command": "save_component"

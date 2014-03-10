@@ -4,6 +4,18 @@ Release History
 
 ---------------
 
+Release 0.2.3 (2014-03-10)
+++++++++++++++++++
+
+- Add ``Console Toolkit``, ``Standard Objects``, ``Data Model`` and ``Tooling APi`` references to document list
+- Update Main Menu Item
+- Open ``View Debug Log Detail`` context menu item
+- Add a new command ``Update Project``, you can invoke this command by press ``Alt+f7``
+- Add sublime commands for new commands
+- Add time stamp to succeed message for ``Create Code`` and ``Delete Code``
+- Update README.MD for ``Update Project``
+
+
 Release 0.2.2 (2014-03-07)
 ++++++++++++++++++
 

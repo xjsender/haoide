@@ -9,16 +9,19 @@
                 "caption": "Switch Project",
                 "command": "switch_project"
             },
-
-            { "caption": "-" },
             
+            { "caption": "-" },
+
             {
                 "caption": "New",
                 "children": [
                     {
                         "id": "CreateNewProject",
                         "caption": "New Project",
-                        "command": "create_new_project"
+                        "command": "create_new_project", 
+                        "args": {
+                            "switch_project": true
+                        }
                     },
                     {
                         "id": "createtrigger",
@@ -49,12 +52,12 @@
             { "caption": "-" },
 
             {
-                "caption": "Reference",
+                "caption": "Document",
                 "children": [
                     {
-                        "id": "reload_salesforce_reference",
-                        "caption": "Reload Salesforce Reference",
-                        "command": "reload_salesforce_reference"
+                        "id": "reload_salesforce_document",
+                        "caption": "Reload Salesforce Document",
+                        "command": "reload_salesforce_document"
                     },
 
                     {

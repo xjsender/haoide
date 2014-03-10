@@ -51,6 +51,7 @@ After your project configuration is finished, you can click ```SublimeApex > new
 ```
 
 ## New Project
++ You need to choose which pre-defined org to start new project
 + This command is used to download or update your project
 + Once you click this command and choose a project setting,  a new project will be downloaded and appeared in the sidebar
 + Just after new project is finished, sobject completions will work
@@ -73,6 +74,9 @@ if today is ```2013/07/30``` and user settings is
 }
 ```
 your project folder name should be ```Exercise-Pro-20130730```, you can close this time suffix feature by setting ```keep_project_name_time_suffix``` to false
+
+### Update Project
+You can press ```Alt+f7``` to update your active project
 
 ## Completions:
 + 1. ```Input .```, show all methods of class

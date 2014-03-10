@@ -9,11 +9,11 @@
                 "extension": ".cls",
                 "body": "public with sharing class class_name {\n\tpublic class_name() {\n\n\t}\n}"
             },
-            "StandardController": {
+            "StandardController Extension": {
                 "extension": ".cls",
                 "body": "public with sharing class class_name {\n\tpublic class_name(ApexPages.StandardController con) {\n\n\t}\n}"
             },
-            "StandardSetController": {
+            "StandardSetController Extension": {
                 "extension": ".cls",
                 "body": "public with sharing class class_name {\n\tpublic class_name(ApexPages.StandardSetController con) {\n\n\t}\n}"
             },
@@ -30,7 +30,7 @@
         "ApexTrigger": {
             "Basic": {
                 "extension": ".trigger",
-                "body": "trigger %s on %s(before insert) {\n\t\n}"
+                "body": "trigger trigger_name on sobject_name(before insert) {\n\t\n}"
             }
         },
         "ApexComponent": {

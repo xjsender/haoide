@@ -468,19 +468,17 @@ class CreateDebugLogCommand(sublime_plugin.WindowCommand):
         super(CreateDebugLogCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        global users
-        global users_name
-        users = processor.populate_users()
-        users_name = sorted(users.keys(), reverse=False)
-        self.window.show_quick_panel(users_name, self.on_done)
+        self.users = processor.populate_users()
+        self.users_name = sorted(self.users.keys(), reverse=False)
+        self.window.show_quick_panel(self.users_name, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
 
         # Change the chosen project as default
         # Split with ") " and get the second project name
-        user_name = users_name[index]
-        user_id = users[user_name]
+        user_name = self.users_name[index]
+        user_id = self.users[user_name]
         processor.handle_create_debug_log(user_name, user_id)
 
 class ListDebugLogsCommand(sublime_plugin.WindowCommand):
@@ -507,7 +505,7 @@ class ViewDebugLogDetail(sublime_plugin.TextCommand):
     def run(self, view):
         processor.handle_view_debug_log_detail(self.log_id)
 
-    def is_visible(self):
+    def is_enabled(self):
         # Choose the valid Id, you will see this command
         if util.is_python3x():
             self.log_id = self.view.substr(self.view.sel()[0])
@@ -759,7 +757,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         extension = self.template_attr["extension"]
         body = self.template_attr["body"]
         if extension == ".trigger":
-            body = body % (name, self.sobject_name)
+            body = body.replace("trigger_name", name).replace("sobject_name", self.sobject_name)
         elif extension == ".cls":
             body = body.replace("class_name", name)
 
@@ -793,7 +791,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
             data["MasterLabel"] = name
 
         processor.handle_create_component(data, name, component_type, file_name)
-
+        
 class SaveComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Automatically save current file if dirty
@@ -841,22 +839,25 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreateNewProjectCommand, self).__init__(*args, **kwargs)
 
-    def run(self):
-        global projects
-        toolingapi_settings = context.get_toolingapi_settings()
-        projects = toolingapi_settings["projects"]
-        projects = ["(" + ('Active' if projects[p]["default"] else 
-            'Inactive') + ") " + p for p in projects]
-        projects = sorted(projects, reverse=False)
-        self.window.show_quick_panel(projects, self.on_done)
+    def run(self, switch_project=True):
+        if switch_project:
+            global projects
+            toolingapi_settings = context.get_toolingapi_settings()
+            projects = toolingapi_settings["projects"]
+            projects = ["(" + ('Active' if projects[p]["default"] else 
+                'Inactive') + ") " + p for p in projects]
+            projects = sorted(projects, reverse=False)
+            self.window.show_quick_panel(projects, self.on_done)
+        else:
+            self.on_done(100)
 
     def on_done(self, index):
         if index == -1: return
-
-        # Change the chosen project as default
-        # Split with ") " and get the second project name
-        default_project = projects[index].split(") ")[1]
-        context.switch_project(default_project)
+        if index != 100:
+            # Change the chosen project as default
+            # Split with ") " and get the second project name
+            default_project = projects[index].split(") ")[1]
+            context.switch_project(default_project)
 
         # Create Project Directory
         context.make_dir()

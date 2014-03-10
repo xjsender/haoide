@@ -3,7 +3,18 @@
     {"keys": ["alt+s"], "command": "switch_project"},
 
     // Download all code and save them to new project
-    {"keys": ["alt+f5"], "command": "create_new_project"},
+    {"keys": ["alt+f5"], "command": "create_new_project", 
+        "args": {
+            "switch_project": true
+        }
+    },
+
+    // Download all code and save them to new project
+    {"keys": ["alt+f7"], "command": "create_new_project", 
+        "args": {
+            "switch_project": false
+        }
+    },
 
     // Download all code and save them to new project
     {"keys": ["alt+f6"], "command": "reload_cache"},
