@@ -1,0 +1,27 @@
+{
+    "template": {
+        "ApexClass": {
+            "Batch": "/SublimeApex/config/templates/classes/Batch.cls",
+            "Controller": "/SublimeApex/config/templates/classes/Controller.cls",
+            "Exception": "/SublimeApex/config/templates/classes/Exception.cls",
+            "Inbound Email Service": "/SublimeApex/config/templates/classes/Inbound Email Service.cls",
+            "Schedule": "/SublimeApex/config/templates/classes/Schedule.cls",
+            "StandardController Extension": "/SublimeApex/config/templates/classes/StandardController Extension.cls",
+            "StandardSetController Extension": "/SublimeApex/config/templates/classes/StandardSetController Extension.cls",
+            "Test": "/SublimeApex/config/templates/classes/Test.cls",
+            "Utility": "/SublimeApex/config/templates/classes/Utility.cls"
+        },
+
+        "ApexTrigger": {
+            "Basic": "/SublimeApex/config/templates/triggers/Basic.trigger"
+        },
+
+        "ApexComponent": {
+            "Basic": "/SublimeApex/config/templates/components/Basic.component"
+        },
+
+        "ApexPage": {
+            "Basic": "/SublimeApex/config/templates/pages/Basic.trigger"
+        }
+    }
+}

@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+Release 0.2.4 (2014-03-11)
+++++++++++++++++++
+
+- Update README.MD
+- Remove shortcut key ``Ctrl+Alt+N`` for creating new component
+- Add new shortcut keys for separated four new component commands
+
+
 Release 0.2.3 (2014-03-10)
 ++++++++++++++++++
 

@@ -37,6 +37,18 @@
     // Execute chosen anonymous code snippet
     {"keys": ["ctrl+alt+e"], "command": "execute_anonymous"},
 
+    // Create Apex Class
+    {"keys": ["ctrl+alt+2"], "command": "create_apex_class"},
+
+    // Create Apex Trigger
+    {"keys": ["ctrl+alt+1"], "command": "create_apex_trigger"},
+
+    // Create Apex Page
+    {"keys": ["ctrl+alt+3"], "command": "create_apex_page"},
+
+    // Create Apex Component
+    {"keys": ["ctrl+alt+4"], "command": "create_apex_component"},
+
     // Run current Test Class in edit mode, it's Context Menu Item
     // Problem here, don't know why?
     {"keys": ["ctrl+alt+t"], "command": "run_test"},
@@ -52,9 +64,6 @@
 
     // Delete the current Component
     {"keys": ["ctrl+alt+d"], "command": "delete_component"},
-
-    // Create new component
-    {"keys": ["ctrl+alt+n"], "command": "create_component"},
 
     // View Code Coverage
     {"keys": ["ctrl+alt+c"], "command": "view_code_coverage"},
