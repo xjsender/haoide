@@ -81,12 +81,11 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
         sel_text = self.view.substr(sel)
         sel_text = self.view.substr(self.view.word(sel.begin()))
         
-        project_folder = os.path.split(os.path.split(self.view.file_name())[0])[0]
-        toolingapi_settings = context.get_toolingapi_settings()
-        for component_type in toolingapi_settings["component_types"]:
-            folder = toolingapi_settings[component_type]["folder"]
-            extension = toolingapi_settings[component_type]["extension"]
-            target_file = project_folder + "/%s/%s%s" % (folder, sel_text, extension)
+        settings = context.get_toolingapi_settings()
+        for component_type in settings["component_types"]:
+            folder = settings[component_type]["folder"]
+            extension = settings[component_type]["extension"]
+            target_file = settings["workspace"] + "/%s/%s%s" % (folder, sel_text, extension)
             if os.path.isfile(target_file):
                 self.view.window().open_file(target_file)
 

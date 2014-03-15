@@ -18,10 +18,7 @@
                     {
                         "id": "CreateNewProject",
                         "caption": "New Project",
-                        "command": "create_new_project", 
-                        "args": {
-                            "switch_project": true
-                        }
+                        "command": "create_new_project"
                     },
                     {
                         "id": "createtrigger",

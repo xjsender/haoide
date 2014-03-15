@@ -328,7 +328,6 @@ class SalesforceApi():
         nextday = datetime.date.today() + datetime.timedelta(1)
         nextday_str = datetime.datetime.strftime(nextday, "%Y-%m-%d")
         trace_flag["ExpirationDate"] = nextday_str
-
         post_url = "/tooling/sobjects/TraceFlag"
         result = self.post(post_url, trace_flag)
 

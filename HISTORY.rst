@@ -4,6 +4,16 @@ Release History
 
 ---------------
 
+Release 0.2.5 (2014-03-15)
+++++++++++++++++++
+
+- Remove the command ``New Component`` from the side bar
+- Remove four shortcut keys for the four new component
+- Add a new command for ``Update Project``
+- Update the menu item and shortcuts for ``New Project``
+- Optimize ``Quick Goto`` functionality, just choosing code name will work.
+
+
 Release 0.2.4 (2014-03-11)
 ++++++++++++++++++
 

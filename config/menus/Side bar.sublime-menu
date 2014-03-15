@@ -5,8 +5,6 @@
         "caption": "SublimeApex",
         "children":
         [
-            {"caption": "Create New Component", "command": "create_component"},
-
             {
                 "caption": "Refresh Selected Components", "command": "refresh_selected_components",
                 "args": {"files": []}

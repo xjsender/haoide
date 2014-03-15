@@ -7,6 +7,14 @@
     },
 
     {
+        "caption": "SublimeApex: Update Project",
+        "command": "create_new_project", 
+        "args": {
+            "switch_project": false
+        }
+    },
+
+    {
         "caption": "SublimeApex: New ApexTrigger",
         "command": "create_apex_trigger"
     },
