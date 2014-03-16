@@ -175,8 +175,7 @@ def format_debug_logs(toolingapi_settings, records):
 
     # Used to list debug logs as below format
     debug_log_headers = [
-        "Id", "Request", "Application", "Status",
-        "DurationMilliseconds", "LogLength", "StartTime", "Operation"
+        "Id", "StartTime", "Operation", "Status"
     ]
     debug_log_headers_properties = {
         "Id": {
@@ -208,7 +207,7 @@ def format_debug_logs(toolingapi_settings, records):
             "label": "Duration(ms)"
         },
         "Operation": {
-            "width": 200,
+            "width": 50,
             "label": "Operation"
         }
     }

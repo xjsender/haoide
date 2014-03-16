@@ -4,6 +4,16 @@ Release History
 
 ---------------
 
+
+Release 0.2.6 (2014-03-16)
+++++++++++++++++++
+
+- Fix the bug of ``Rest Post``
+- Remove ``Request``, ``Application``, ``LogLength``, ``DurationMilliseconds`` from ``List Debug Log`` columns
+- Update description for ``display_field_name_and_label`` settings
+- Fix bug: saving conflict on the same component
+
+
 Release 0.2.5 (2014-03-15)
 ++++++++++++++++++
 

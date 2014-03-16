@@ -53,10 +53,7 @@ class ExecuteRestTestCommand(sublime_plugin.TextCommand):
 
     def on_input(self, data):
         try:
-            if data != '' and not data:
-                data = json.loads(data)
-            else:
-                data = None
+            data = json.loads(data) if data else None
         except:
             message = 'Invalid data, do you want to try again?'
             if not sublime.ok_cancel_dialog(message): return

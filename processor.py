@@ -1193,6 +1193,9 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
 
+        # After thread is end, set the flag to False
+        globals()[username + component_name] = False
+
         result = api.result
         file_base_name =  component_name + component_attribute["extension"]
         if "success" in result and result["success"]:
@@ -1206,9 +1209,23 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
                 view.run_command("goto_line", {"line": result["line"]})
 
     settings = context.get_toolingapi_settings()
+
+    # If saving is in process, just skip
+    username = settings["username"]
+    if username + component_name in globals():
+        flag = globals()[username + component_name]
+        print ('Saving is in process: ' + str(flag));
+        if flag: return
+
     api = SalesforceApi(settings)
-    thread = threading.Thread(target=api.save_component, args=(component_attribute, body, ))
+    thread = threading.Thread(target=api.save_component,
+        args=(component_attribute, body, ))
     thread.start()
+
+    # If saving thread is started, set the flag to True
+    globals()[username + component_name] = True
+
+    # Display thread progress
     wait_message = "Save " + component_name
     ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
     handle_thread(thread, timeout)

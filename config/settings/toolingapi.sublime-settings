@@ -72,6 +72,7 @@
 
     // Indicate whether display both field name and field label for sobject field completion,
     // If set false, it means just display field name
+    // If you change this setting, you need to reload active cache to ensure it work
     "display_field_name_and_label": true,
 
     // Bulk API batch size and batch bytes
