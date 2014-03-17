@@ -3,7 +3,7 @@
 https://XXX.salesforce.com/p/setup/layout/AddApexDebugLogUser?retURL=%2Fsetup%2Fui%2FlistApexTraces.apexp&UserLookupInput_lkid=$1
 &UserLookupInput=Connection%20User
 ]]></content>
-    <tabTrigger>create sf2sf debug log</tabTrigger>
+    <tabTrigger>sf2sf</tabTrigger>
     <scope>source.java</scope>
     <description>Create Debug Log for SF2SF Connection User</description>
 </snippet>

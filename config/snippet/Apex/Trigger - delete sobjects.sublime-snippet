@@ -8,7 +8,7 @@ catch (DMLException e) {
     System.debug('$2 DML Exception: ' + e);
 }
 ]]></content>
-    <tabTrigger>deleteso</tabTrigger>
+    <tabTrigger>ds</tabTrigger>
     <scope>source.java</scope>
     <description>insert sobjects</description>
 </snippet>

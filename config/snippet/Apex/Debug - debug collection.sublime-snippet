@@ -4,7 +4,7 @@ for (${1:DATA-TYPE} variable : ${2:COLLECTOIN}) {
     System.debug('***Debug Output ' + variable + '');
 }
 ]]></content>
-    <tabTrigger>debugc</tabTrigger>
+    <tabTrigger>dbc</tabTrigger>
     <scope>source.java</scope>
     <description>output collection</description>
 </snippet>

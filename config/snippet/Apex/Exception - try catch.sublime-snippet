@@ -7,7 +7,7 @@ catch (${2:EXCEPTION-TYPE} e) {
     ${3:CATCH-PROCESS}
 }
 ]]></content>
-    <tabTrigger>tryc</tabTrigger>
+    <tabTrigger>tc</tabTrigger>
     <scope>source.java</scope>
     <description>try catch</description>
 </snippet>

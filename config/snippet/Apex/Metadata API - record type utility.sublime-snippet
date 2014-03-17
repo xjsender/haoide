@@ -102,7 +102,7 @@ public with sharing class UtilRecordType {
     }
 }
 ]]></content>
-    <tabTrigger>recordtypeu</tabTrigger>
+    <tabTrigger>ru</tabTrigger>
     <scope>source.java</scope>
     <description>recordtype util</description>
 </snippet>

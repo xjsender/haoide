@@ -12,7 +12,7 @@ public class ${1} implements Comparable {
     }
 }
 ]]></content>
-    <tabTrigger>compare interface</tabTrigger>
+    <tabTrigger>ci</tabTrigger>
     <scope>source.java</scope>
     <description>Comparable Interface</description>
 </snippet>

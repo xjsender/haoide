@@ -10,7 +10,7 @@ finally {
     ${4:CATCH-PROCESS}
 }
 ]]></content>
-    <tabTrigger>tryf</tabTrigger>
+    <tabTrigger>tf</tabTrigger>
     <scope>source.java</scope>
     <description>try catch finally</description>
 </snippet>

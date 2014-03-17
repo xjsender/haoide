@@ -5,7 +5,7 @@ do {
 } 
 while (${2:CONDITION}});
 ]]></content>
-    <tabTrigger>dow</tabTrigger>
+    <tabTrigger>dw</tabTrigger>
     <scope>source.java</scope>
     <description>do while</description>
 </snippet>

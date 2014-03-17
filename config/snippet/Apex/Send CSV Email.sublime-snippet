@@ -23,7 +23,7 @@ email.setFileAttachments(new Messaging.EmailFileAttachment[]{csvAttc});
 Messaging.SendEmailResult [] r = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {email});
 $0
 ]]></content>
-    <tabTrigger>sendcsvemail</tabTrigger>
+    <tabTrigger>sce</tabTrigger>
     <scope>source.java</scope>
     <description>Send CSV Email</description>
 </snippet>

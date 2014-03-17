@@ -4,7 +4,7 @@ if (trigger.isAfter && trigger.isUpdate) {
     $0
 }
 ]]></content>
-    <tabTrigger>afteru</tabTrigger>
+    <tabTrigger>au</tabTrigger>
     <scope>source.java</scope>
     <description>after update</description>
 </snippet>

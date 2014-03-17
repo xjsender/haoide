@@ -4,7 +4,7 @@ SavePoint sp = Database.setSavePoint();
 $0
 Database.rollback(sp);
 ]]></content>
-    <tabTrigger>savepoint</tabTrigger>
+    <tabTrigger>sp</tabTrigger>
     <scope>source.java</scope>
     <description>Transaction Process</description>
 </snippet>

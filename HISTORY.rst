@@ -5,6 +5,12 @@ Release History
 ---------------
 
 
+Release 0.2.7 (2014-03-17)
+++++++++++++++++++
+
+- Update the tabTrigger from muti-bytes to less than 5-bytes for all snippets
+
+
 Release 0.2.6 (2014-03-16)
 ++++++++++++++++++
 

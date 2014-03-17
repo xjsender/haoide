@@ -4,7 +4,7 @@ if (trigger.isAfter && trigger.isDelete) {
     $0
 }
 ]]></content>
-    <tabTrigger>afterd</tabTrigger>
+    <tabTrigger>ad</tabTrigger>
     <scope>source.java</scope>
     <description>after delete</description>
 </snippet>

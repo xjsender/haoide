@@ -25,7 +25,7 @@
     <version>27.0</version>
 </Package>
 ]]></content>
-    <tabTrigger>package</tabTrigger>
+    <tabTrigger>px</tabTrigger>
     <scope>source.java</scope>
     <description>package.xml</description>
 </snippet>

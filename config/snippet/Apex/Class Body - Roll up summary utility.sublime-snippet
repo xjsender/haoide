@@ -102,7 +102,7 @@ public class RollUpSummaryUtility {
  
 }
 ]]></content>
-    <tabTrigger>rollups</tabTrigger>
+    <tabTrigger>rollu</tabTrigger>
     <scope>source.java</scope>
     <description>rollup summary utility</description>
 </snippet>

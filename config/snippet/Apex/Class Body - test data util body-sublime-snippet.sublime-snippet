@@ -139,7 +139,7 @@ Public class UtilTestData {
     }
 }
 ]]></content>
-    <tabTrigger>testu</tabTrigger>
+    <tabTrigger>td</tabTrigger>
     <scope>source.java</scope>
     <description>test data utility</description>
 </snippet>

@@ -22,7 +22,7 @@ sf.target.serverurl = https://${6:test}.salesforce.com
 # If your network requires an HTTP proxy, see http://ant.apache.org/manual/proxy.html for configuration.
 #
 ]]></content>
-    <tabTrigger>buildp</tabTrigger>
+    <tabTrigger>bp</tabTrigger>
     <scope>source.java</scope>
     <description>build.properties</description>
 </snippet>

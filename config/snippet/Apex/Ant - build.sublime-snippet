@@ -31,7 +31,7 @@
     </target>
 </project>
 ]]></content>
-    <tabTrigger>build</tabTrigger>
+    <tabTrigger>bu</tabTrigger>
     <scope>source.java</scope>
     <description>build.xml</description>
 </snippet>
