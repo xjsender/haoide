@@ -87,14 +87,14 @@
                 "children": [
                     {
                         "id": "createdebuglog",
-                        "caption": "Create Debug Log",
-                        "command": "create_debug_log"
+                        "caption": "Track Debug Log",
+                        "command": "track_debug_log"
                     },
 
                     {
                         "id": "listdebuglogs",
-                        "caption": "List Debug Logs",
-                        "command": "list_debug_logs"
+                        "caption": "Fetch Debug Log",
+                        "command": "fetch_debug_log"
                     },
 
                     {

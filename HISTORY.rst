@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+Release 0.2.8 (2014-03-19)
+++++++++++++++++++
+
+- Add ``Tooling Query`` for ``Rest Explorer``
+- Add ``SOQL & SOSL`` for Salesforce Document Reference
+- Change ``ListDebugLogs`` and ``CreateDebugLog`` commands to ``FetchDebugLog`` and ``TrackDebugLog``
+- Remove shortcuts for four new commands
+
 
 Release 0.2.7 (2014-03-17)
 ++++++++++++++++++

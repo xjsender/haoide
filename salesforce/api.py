@@ -943,9 +943,6 @@ class SalesforceApi():
                 # We can't reuse the container_id which caused error
                 # Post Request to get MetadataContainerId
                 return self.save_component(component_attribute, body)
-            else:
-                util.sublime_error_message(result)
-                return
 
         # Post ApexComponentMember
         data = {
@@ -954,13 +951,14 @@ class SalesforceApi():
             "Body": body
         }
         url = "/tooling/sobjects/" + component_type + "Member"
-        result = self.post(url, data)
+        member_result = self.post(url, data)
         # print ("Post ApexComponentMember: ", result)
 
         # Post ContainerAsyncRequest
         data = {
             "MetadataContainerId": container_id,
-            "isCheckOnly": False
+            "IsCheckOnly": False,
+            "IsRunTests": False
         }
         sync_request_url = '/tooling/sobjects/ContainerAsyncRequest'
         result = self.post(sync_request_url, data)

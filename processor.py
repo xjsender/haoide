@@ -804,6 +804,7 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         "Put": api.put,
         "Post": api.post,
         "Query": api.query,
+        "Tooling Query": api.query,
         "Query All": api.query_all,
         "Retrieve Body": api.retrieve_body,
         "Patch": api.patch
@@ -812,6 +813,8 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
     target = http_methods_target[operation]
     if operation in ['Put', 'Post', 'Patch']:
         thread = threading.Thread(target=target, args=(url, data,))
+    elif operation == "Tooling Query":
+        thread = threading.Thread(target=target, args=(url, True))
     else:
         thread = threading.Thread(target=target, args=(url,))
     thread.start()
@@ -1193,9 +1196,10 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
 
-        # After thread is end, set the flag to False
+        # Set Thread alive flag to False
         globals()[username + component_name] = False
 
+        # Process request result
         result = api.result
         file_base_name =  component_name + component_attribute["extension"]
         if "success" in result and result["success"]:
@@ -1213,9 +1217,10 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
     # If saving is in process, just skip
     username = settings["username"]
     if username + component_name in globals():
-        flag = globals()[username + component_name]
-        print ('Saving is in process: ' + str(flag));
-        if flag: return
+        is_thread_alive = globals()[username + component_name]
+        if is_thread_alive:
+            print ('%s saving is in process' % component_name);
+            return
 
     api = SalesforceApi(settings)
     thread = threading.Thread(target=api.save_component,
@@ -1226,7 +1231,7 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
     globals()[username + component_name] = True
 
     # Display thread progress
-    wait_message = "Save " + component_name
+    wait_message = "Saving " + component_name
     ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
     handle_thread(thread, timeout)
 

@@ -61,6 +61,10 @@ class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
             "object_reference": {
                "catalog": "Standard Objects",
                "pattern": "*.//TocEntry[@DescendantCount='0'].."
+            },
+            "soql_sosl": {
+                "catalog": "SOQL & SOSL",
+               "pattern": "*.//TocEntry[@DescendantCount='0'].."
             }
         }
 

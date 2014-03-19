@@ -39,7 +39,7 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
 
 class ExecuteRestTestCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        self.items = ["Get", "Post", "Put", "Patch", "Delete", 
+        self.items = ["Get", "Post", "Put", "Patch", "Delete", "Tooling Query",
                       "Query", "Query All", "Head", "Retrieve Body"]
         self.view.show_popup_menu(self.items, self.on_choose_action),
 
@@ -459,9 +459,9 @@ class RunTestCommand(sublime_plugin.TextCommand):
 
         return True
 
-class CreateDebugLogCommand(sublime_plugin.WindowCommand):
+class TrackDebugLogCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(CreateDebugLogCommand, self).__init__(*args, **kwargs)
+        super(TrackDebugLogCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         self.users = processor.populate_users()
@@ -477,9 +477,9 @@ class CreateDebugLogCommand(sublime_plugin.WindowCommand):
         user_id = self.users[user_name]
         processor.handle_create_debug_log(user_name, user_id)
 
-class ListDebugLogsCommand(sublime_plugin.WindowCommand):
+class FetchDebugLogCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(ListDebugLogsCommand, self).__init__(*args, **kwargs)
+        super(FetchDebugLogCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         global users
@@ -787,7 +787,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
             data["MasterLabel"] = name
 
         processor.handle_create_component(data, name, component_type, file_name)
-        
+
 class SaveComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Automatically save current file if dirty

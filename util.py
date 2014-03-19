@@ -1068,7 +1068,7 @@ def parse_sobject_field_result(result):
         view_result += row + "\n"
 
     return view_result
-    
+
 def getUniqueElementValueFromXmlString(xmlString, elementName):
     """
     Extracts an element value from an XML string.
