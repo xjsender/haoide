@@ -4,6 +4,15 @@ Release History
 
 ---------------
 
+Release 0.2.9 (2014-03-20)
+++++++++++++++++++
+
+- Move the fields describe part from the bottom to top in the sobject describe result
+- Change the default apex log level from ``Finest`` to ``Debug``
+- Fix a completion regular expression bug for sobject and class which is start with ``j`` or ``J``
+- When create new component, if there just have only one template, just choose the only one and no need to manually choose it.
+
+
 Release 0.2.8 (2014-03-19)
 ++++++++++++++++++
 

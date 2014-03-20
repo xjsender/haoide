@@ -730,7 +730,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
 
         # If component type is ApexTrigger, we need to choose sobject and template,
         # however, sublime Quick panel will be unavailable for the second choose panel,
-        if self.component_type == "ApexTrigger":
+        if self.component_type == "ApexTrigger" or len(self.template_names) == 1:
             self.on_choose_template(0)
         else:
             self.window.show_quick_panel(self.template_names, self.on_choose_template)

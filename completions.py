@@ -238,7 +238,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                         completion_list.append((key, properties[key]))
                     else:
                         completion_list.append((key + "\tProperty", properties[key]))
-        elif ch != "=" and prefix in "abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ":
+        elif ch != "=" and prefix in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
             settings = context.get_toolingapi_settings()
             if not settings["disable_keyword_completion"]:
                 sobjects_describe = util.get_sobject_completions(settings["username"]).get("sobjects")

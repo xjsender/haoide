@@ -925,7 +925,7 @@ record_key_width = {
     "label": 40, 
     "name": 40, 
     "type": 15, 
-    "length": 2
+    "length": 10
 }
 recordtype_key_width = {
     "available": 10,
@@ -956,6 +956,42 @@ def parse_sobject_field_result(result):
 
     # View Name or Header
     view_result = sobject + " Describe:\n"
+
+    #------------------------------------------------
+    # Fields Part
+    #------------------------------------------------
+    # Output totalSize Part
+    fields = result.get("fields")
+    view_result += seprate
+    view_result += "Total Fields: \t" + str(len(fields)) + "\n"
+    view_result += seprate
+
+    # Ouput Title and seprate line
+    columns = ""
+    for key in record_keys:
+        key_width = record_key_width[key]
+        columns += "%-*s" % (key_width, key.capitalize())
+
+    view_result += columns + "\n"
+    view_result += len(columns) * "-" + "\n"
+
+    # Sort fields list by lable of every field
+    fields = sorted(fields, key=lambda k : k['label'])
+
+    # Output field values
+    for record in fields:
+        row = ""
+        for key in record_keys:
+            row_value = record.get(key)
+            if row_value == None:
+                row_value = ""
+
+            key_width = record_key_width[key]
+            row_value = "%-*s" % (key_width, row_value)
+            row += row_value
+
+        view_result += row + "\n"
+    view_result += "\n"
 
     #------------------------------------------------
     # Record Type Part
@@ -1031,41 +1067,6 @@ def parse_sobject_field_result(result):
         view_result += row + "\n"
 
     view_result += "\n"
-
-    #------------------------------------------------
-    # Fields Part
-    #------------------------------------------------
-    # Output totalSize Part
-    fields = result.get("fields")
-    view_result += seprate
-    view_result += "Total Fields: \t" + str(len(fields)) + "\n"
-    view_result += seprate
-
-    # Ouput Title and seprate line
-    columns = ""
-    for key in record_keys:
-        key_width = record_key_width[key]
-        columns += "%-*s" % (key_width, key.capitalize())
-
-    view_result += columns + "\n"
-    view_result += len(columns) * "-" + "\n"
-
-    # Sort fields list by lable of every field
-    fields = sorted(fields, key=lambda k : k['label'])
-
-    # Output field values
-    for record in fields:
-        row = ""
-        for key in record_keys:
-            row_value = record.get(key)
-            if row_value == None:
-                row_value = ""
-
-            key_width = record_key_width[key]
-            row_value = "%-*s" % (key_width, row_value)
-            row += row_value
-
-        view_result += row + "\n"
 
     return view_result
 

@@ -85,7 +85,7 @@
     "anonymous_log_levels": [
         {
             "log_category": "Apex_Code",
-            "log_level": "Finest"
+            "log_level": "Debug"
         },
         {
             "log_category": "Apex_Profiling",
