@@ -4,6 +4,15 @@ Release History
 
 ---------------
 
+
+Release 0.3.0 (2014-03-20)
+++++++++++++++++++
+
+- Remove the duplicate ``New Component`` command and add ``New ApexPage`` command in the quick command plate
+- Update the apex standard class lib
+- Add SymbolTable support for completions (Completion Parser is copy from Mavensmate)
+
+
 Release 0.2.9 (2014-03-20)
 ++++++++++++++++++
 

@@ -999,6 +999,12 @@ class SalesforceApi():
                 return_result["Error Message"] = result["ErrorMsg"]
             
             return_result["success"] =  False
+        
+        if return_result["success"]:
+            query = "SELECT Id, SymbolTable " +\
+                    "FROM ApexClassMember WHERE Id ='%s'" % member_result["id"]
+            member = self.query(query, True)
+            return_result["symbol_table"] = member["records"][0]["SymbolTable"]
 
         # Whatever succeed or failed, just delete MetadataContainerId
         delete_result = self.delete(container_url + "/" + container_id)

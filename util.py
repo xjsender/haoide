@@ -82,6 +82,99 @@ def get_sobject_completion_list(sobject_describe, prefix="",
 
     return completion_list
 
+def get_variable_type(view, variable_name):
+    """
+    Get the variable type by variable name in the view
+    """
+
+    # Get the matched variable type
+    pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+" +\
+        variable_name + "[,;\\s:=){]"
+    matched_regions = view.find_all(pattern, sublime.IGNORECASE)
+    variable_type = ""
+
+    if len(matched_regions) > 0:
+        matched_block = view.substr(matched_regions[0]).strip()
+        # If list, map, set
+        if "<" in matched_block and ">" in matched_block:
+            variable_type = matched_block.split("<")[0].strip()
+        # String[] strs;
+        elif "[]" in matched_block:
+            variable_type = 'list'
+        # String str;
+        else:
+            variable_type = matched_block.split(" ")[0]
+
+    return variable_type
+
+def get_symbol_table_completions(symbol_table):
+    """
+    Copy from MavensMate, need update in future
+    """
+    
+    completions = []
+    if 'constructors' in symbol_table:
+        for c in symbol_table['constructors']:
+            params = []
+            if not 'visibility' in c:
+                c['visibility'] = 'PUBLIC'
+            if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
+                for p in c['parameters']:
+                    params.append(p["type"] + " " + p["name"])
+                paramStrings = []
+                for i, p in enumerate(params):
+                    paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
+                paramString = ", ".join(paramStrings)
+                completions.append((c["visibility"] + " " + c["name"]+"("+", ".join(params)+")", c["name"]+"("+paramString+")"))
+            else:
+                completions.append((c["visibility"] + " " + c["name"]+"()", c["name"]+"()${1:}"))
+    if 'properties' in symbol_table:
+        for c in symbol_table['properties']:
+            if not 'visibility' in c:
+                c['visibility'] = 'PUBLIC'
+            if "type" in c and c["type"] != None and c["type"] != "null":
+                completions.append((c["visibility"] + " " + c["name"] + "\t" + c["type"], c["name"]))
+            else:
+                completions.append((c["visibility"] + " " + c["name"], c["name"]))
+    if 'methods' in symbol_table:
+        for c in symbol_table['methods']:
+            params = []
+            if not 'visibility' in c:
+                c['visibility'] = 'PUBLIC'
+            if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
+                for p in c['parameters']:
+                    params.append(p["type"] + " " + p["name"])
+            if len(params) == 1:
+                completions.append((c["visibility"] + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], c["name"]+"(${1:"+", ".join(params)+"})"))
+            elif len(params) > 1:
+                paramStrings = []
+                for i, p in enumerate(params):
+                    paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
+                paramString = ", ".join(paramStrings)
+                completions.append((c["visibility"] + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], c["name"]+"("+paramString+")"))
+            else:
+                completions.append((c["visibility"] + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], c["name"]+"()${1:}"))
+    if 'innerClasses' in symbol_table:
+        for c in symbol_table["innerClasses"]:
+            if 'constructors' in c and len(c['constructors']) > 0:
+                for con in c['constructors']:
+                    if not 'visibility' in con:
+                        con['visibility'] = 'PUBLIC'
+                    params = []
+                    if 'parameters' in con and type(con['parameters']) is list and len(con['parameters']) > 0:
+                        for p in con['parameters']:
+                            params.append(p["type"] + " " + p["name"])
+                        paramStrings = []
+                        for i, p in enumerate(params):
+                            paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
+                        paramString = ", ".join(paramStrings)
+                        completions.append((con["visibility"] + " " + con["name"]+"("+", ".join(params)+")", c["name"]+"("+paramString+")"))
+                    else:
+                        completions.append((con["visibility"] + " " + con["name"]+"()", c["name"]+"()${1:}"))
+            else:
+                completions.append(("INNER CLASS " + c["name"] + "\t", c["name"] + "$1"))
+    return sorted(completions)
+
 def get_view_by_name(view_name):
     """
     Get the view in the active window by the view_name

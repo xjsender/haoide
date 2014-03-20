@@ -1203,9 +1203,20 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
         result = api.result
         file_base_name =  component_name + component_attribute["extension"]
         if "success" in result and result["success"]:
+            # Save symbolTable to component_metadata.sublime-settings
+            s = sublime.load_settings("symbol_table.sublime-settings")
+            components_dict = {}
+            components_dict = s.get(username) if s.has(username) else {}
+            components_dict[component_name.lower()] = result["symbol_table"]
+
+            s.set(username, components_dict)
+            sublime.save_settings("symbol_table.sublime-settings")
+
+            # Output succeed message in the console
             print (message.SEPRATE.format(
                 "{0} is saved successfully at {1}".format(file_base_name, 
                     time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))))
+
         # If not succeed, just go to the error line
         elif "success" in result and not result["success"]:
             view = sublime.active_window().active_view()

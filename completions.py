@@ -6,52 +6,6 @@ from .salesforce.support import apex
 from .salesforce.support import vf
 from .salesforce.support import html
 
-class symbol_table_completions(sublime_plugin.EventListener):
-    """
-    Just when utility class is open, completions list will show up
-    """
-
-    def on_query_completions(self, view, prefix, locations):
-        if not view.match_selector(locations[0], "source.java"): return []
-
-        location = locations[0]
-        pt = locations[0] - len(prefix) - 1
-        ch = view.substr(sublime.Region(pt, pt + 1))
-        if ch != ".": return
-
-        # Get the variable name
-        variable_name = view.substr(view.word(pt))
-
-        # Get the symbols in open view
-        window = sublime.active_window()
-        symbol_locations = window.lookup_symbol_in_index(variable_name)
-        if len(symbol_locations) == 0: return
-        view = window.find_open_file(symbol_locations[0][0])
-        if view == None: return
-        
-        completion_list = []
-        for region, func in view.symbols():
-            func = func.strip()
-            func_name = func.split("(")[0]
-
-            # Exclude private method and not static method
-            full_line = view.full_line(region)
-            full_line_text = view.substr(full_line)
-            if "private" in full_line_text: continue
-            if "static" not in full_line_text: continue
-
-            # Exclude if and class notation
-            if func.startswith('if') or func.startswith('class'): continue
-            matched_func_type_region = view.find("\\w+\\s+" + func_name, full_line.begin())
-            matched_region_text = view.substr(matched_func_type_region)
-            func_type = matched_region_text.split(' ')[0]
-
-            # If no parameter, put the foucs at the end
-            completion_list.append((func + "\t" + func_type, 
-                func_name +  ("()$0" if "()" in func else "($1)$0")))
-
-        completion_list.sort(key=lambda tup:tup[1])
-        return completion_list
 
 class SobjectCompletions(sublime_plugin.EventListener):
     """
@@ -180,77 +134,77 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
-
+        
+        settings = context.get_toolingapi_settings()
         completion_list = []
         if ch == ".":
             # Get the variable name
             variable_name = view.substr(view.word(pt - 1))
-            
-            # If variable_name is namespace, just display classes of this namespace
-            # Strange Class: System, ApexPages, Database, Schema, Site, Messaging
-            # these class has the same name with namespace, so just put these namespace classes
-            # to class property
-            if variable_name in apex.apex_namespaces:
-                completion_list = [(c, c) for c in apex.apex_namespaces[variable_name]]
-                return completion_list
+            variable_type = util.get_variable_type(view, variable_name)
 
-            # Get the matched variable type
-            pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+" + variable_name + "[,;\\s:=){]"
-            matched_regions = view.find_all(pattern, sublime.IGNORECASE)
-            variable_type = ""
-
-            if len(matched_regions) > 0:
-                matched_block = view.substr(matched_regions[0]).strip()
-                # If list, map, set
-                if "<" in matched_block and ">" in matched_block:
-                    variable_type = matched_block.split("<")[0].strip()
-                # String[] strs;
-                elif "[]" in matched_block:
-                    variable_type = 'list'
-                # String str;
-                else:
-                    variable_type = matched_block.split(" ")[0]
-
-            class_name = ""
+            # Check whether variable is standard class
             if variable_name.lower() in apex.apex_completions:
                 class_name = variable_name.lower()
             elif variable_type.lower() in apex.apex_completions:
                 class_name = variable_type.lower()
             else:
-                return
+                class_name = ""
 
-            # If class_name is "", it means not found in this view
-            if class_name == "": return []
+            # If variable is standard class
+            if class_name != "":
+                # Get the methods by class_name
+                methods = apex.apex_completions[class_name]["methods"]
+                for key in sorted(methods.keys()):
+                    completion_list.append((key, methods[key]))
 
-            # Get the methods by class_name
-            methods = apex.apex_completions[class_name]["methods"]
-            for key in sorted(methods.keys()):
-                completion_list.append((key, methods[key]))
+                # Get the properties by class_name
+                properties = apex.apex_completions[class_name]["properties"]
+                if isinstance(properties, list):
+                    for p in sorted(properties): 
+                        completion_list.append((p + "\tNameSpace Class", p))
+                elif isinstance(properties, dict):
+                    for key in sorted(properties.keys()): 
+                        if "\t" in key:
+                            completion_list.append((key, properties[key]))
+                        else:
+                            completion_list.append((key + "\tProperty", properties[key]))
+            else:
+                s = sublime.load_settings("symbol_table.sublime-settings")
+                username = settings["username"]
+                if not s.has(username): return []
 
-            # Get the properties by class_name
-            properties = apex.apex_completions[class_name]["properties"]
-            if isinstance(properties, list):
-                for p in sorted(properties): 
-                    completion_list.append((p + "\tNameSpace Class", p))
-            elif isinstance(properties, dict):
-                for key in sorted(properties.keys()): 
-                    if "\t" in key:
-                        completion_list.append((key, properties[key]))
-                    else:
-                        completion_list.append((key + "\tProperty", properties[key]))
+                symbol_tables = s.get(username)
+                if variable_name.lower() in symbol_tables:
+                    symbol_table = symbol_tables[variable_name.lower()]
+                elif variable_type.lower() in symbol_tables:
+                    symbol_table = symbol_tables[variable_type.lower()]
+                else:
+                    return []
+
+                completion_list = util.get_symbol_table_completions(symbol_table)
+
         elif ch != "=" and prefix in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
-            settings = context.get_toolingapi_settings()
             if not settings["disable_keyword_completion"]:
+                # Add all object name to keyword completions
                 sobjects_describe = util.get_sobject_completions(settings["username"]).get("sobjects")
                 if sobjects_describe:
                     for key in sorted(sobjects_describe.keys()):
                         sobject_name = sobjects_describe[key]["name"]
                         completion_list.append((sobject_name + "\tSobject", sobject_name))
 
-            # Add all apex class to <> completions
-            for key in sorted(apex.apex_completions):
-                class_name = apex.apex_completions[key]["name"]
-                completion_list.append((class_name + "\tClass", class_name))
+                # Add all standard class to keyword completions
+                for key in sorted(apex.apex_completions):
+                    class_name = apex.apex_completions[key]["name"]
+                    completion_list.append((class_name + "\tStandard Class", class_name))
+
+                # Add all custom class to keyword completions
+                s = sublime.load_settings("symbol_table.sublime-settings")
+                username = settings["username"]
+                if not s.has(username): return completion_list
+                symbol_tables = s.get(username)
+                for key in symbol_tables:
+                    class_name = symbol_tables[key]["name"]
+                    completion_list.append((class_name + "\tCustom Class", class_name))
 
         # Sort tuple list by the first element of tuple
         # completion_list.sort(key=lambda tup:tup[1])

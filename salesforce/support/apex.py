@@ -1,21 +1,36 @@
 apex_namespaces = {
-     # "Schema" : ["SoapType", "SObjectField", "DisplayType", "SObjectType", "DataCategoryGroupSobjectTypePair"],
-    "Process" : ["Plugin", "PluginResult", "PluginRequest", "ParameterType", "SparkPlugDescribeResult", "OutputParameter", "SparkPlugApi", "SparkPlugParameter", "InputParameter", "PluginDescribeResult"],
-    "dom" : ["XmlNode", "Document", "XmlNodeType"],
-     # "Database" : ["AssignmentRuleHeader", "QueryLocatorIterator", "BatchableContext", "Batchable", "QueryLocator", "BatchableContextImpl", "QueryLocatorChunkIterator", "LeadConvert", "DMLOptions", "EmailHeader"],
-     # "Messaging" : ["BinaryAttachment", "EmailFileAttachment", "Header", "TextAttachment", "MassEmailMessage", "EmailToSalesforceHandler", "InboundEmailResult", "SingleEmailMessage", "InboundEmail", "EmailAttachment", "InboundEnvelope", "InboundEmailHandler"],
     "Flow" : ["Interview"],
-     # "Site" : ["UrlRewriter"],
-    "ConnectApi" : ["FeedItemAttachmentType", "PollAttachmentInput", "ChatterGroupPage", "MentionSegmentInput", "Address", "MessageSegment", "TextSegment", "FollowingCounts", "ChatterGroupDetail", "FollowerPage", "ChatterGroups", "ChatterActivity", "GroupInformation", "UnauthenticatedUser", "ConnectApiException", "Community", "Motif", "ContentAttachment", "ChatterLikePage", "Actor", "Features", "MoreChangesSegment", "ChatterLike", "ApprovalAttachment", "WorkflowProcessStatus", "ChatterFavorites", "MessageSegmentType", "Records", "BinaryInput", "FeedModifiedInfo", "Communities", "ChatterUsers", "NewFileAttachmentInput", "FeedItemInput", "FollowingPage", "UserChatterSettings", "Reference", "ComplexSegment", "CaseComment", "GroupMembershipRequestStatus", "MessageSegmentInput", "FeedSortOrder", "TextSegmentInput", "ChatterGroupInput", "ActorWithId", "ChatterFeeds", "FeedType", "ClientInfo", "ApprovalPostTemplateField", "Organization", "OrganizationSettings", "FeedItemType", "DashboardComponentAttachment", "FeedItemVisibilityType", "GroupVisibilityType", "GroupMembershipRequest", "FeedPoll", "BasicTemplateAttachment", "UserDetail", "FeedItem", "Chatter", "ChatterGroupSummary", "CommentInput", "FeedFavorite", "RecordSummary", "FieldChangeNameSegment", "User", "ChatterGroup", "GroupEmailFrequency", "UserPage", "GroupMembershipRequests", "CommentPage", "ContentAttachmentInput", "UserSummary", "UserGroupPage", "MentionSegment", "MessageBodyInput", "GroupMemberPage", "CommentType", "Icon", "Photo", "FieldChangeSegment", "FeedFavoriteType", "FileSummary", "CaseActorType", "HashtagSegment", "FeedBody", "PhoneNumber", "FeedItemPage", "LinkSegmentInput", "LinkSegment", "UserSettings", "MessageBody", "Feed", "GroupChatterSettings", "HashtagSegmentInput", "RateLimitException", "EntityLinkSegment", "GroupMember", "LinkAttachmentInput", "UserType", "FeedItemAttachment", "FieldChangeValueSegment", "FeedItemAttachmentInput", "CommunityPage", "Subscription", "ResourceLinkSegment", "NotFoundException", "GroupInformationInput", "FeedFavorites", "Comment", "FeedPollChoice", "GroupMembershipType", "AbstractMessageBody", "LinkAttachment", "GlobalInfluence", "CommunityStatus"],
     "MobilePNS" : ["MobilePushNotification", "MobilePushPayload"],
-     # "System" : ["CalloutException", "Iterator", "InvalidParameterValueException", "BusinessHours", "NoSuchElementException", "LoggingLevel", "System", "XmlTag", "NonePointerException", "WebServiceMock", "TimeZone", "Site", "NoAccessException", "HttpCalloutMock", "Datetime", "TouchHandledException", "String", "DmlException", "Integer", "RestContext", "Map", "JSONGenerator", "XmlException", "ListException", "ApexPages", "ProcedureException", "Cases", "SetupScope", "StringException", "NoDataFoundException", "SerializationException", "JSONToken", "Id", "SearchException", "InvalidReadOnlyUserDmlException", "SchedulableContext", "Cookie", "InvalidHeaderException", "Set", "StatusCode", "CURRENCY", "JSONException", "Database", "AssertException", "EncodingUtil", "Test", "RestRequest", "Boolean", "EmailException", "FinalException", "Date", "UnexpectedException", "Exception", "Schedulable", "Type", "Version", "PageReference", "Long", "Comparable", "Math", "Blob", "Answers", "AppExchange", "Schema", "HandledException", "RequiredFeatureMissingException", "Iterable", "JSON", "HttpResponse", "Time", "MathException", "LimitException", "Communities", "RestResponse", "SelectOption", "SObjectException", "XmlStreamReader", "JSONParser", "MultiStaticResourceCalloutMock", "Double", "SecurityException", "Url", "TypeException", "Network", "FlowException", "Crypto", "List", "Decimal", "SObject", "UnsupportedOperationException", "AsyncException", "Http", "XmlStreamWriter", "Matcher", "StaticResourceCalloutMock", "ApplicationReadWriteMode", "Messaging", "VisualforceException", "QueryException", "LicenseException", "Pattern", "HttpRequest", "Ideas", "UserInfo"],
     "KbManagement" : ["PublishingService"],
     "Support" : ["EmailToCaseHandler", "EmailTemplateSelector"],
-     # "ApexPages" : ["IdeaStandardSetController", "Component", "StandardController", "IdeaStandardController", "KnowledgeArticleVersionStandardController", "ComponentIteration", "StandardSetController", "Message", "Severity", "Action"],
     "Apex" : ["Stack", "EmptyStackException"]
 }
 
 apex_completions = {
+    "dom" : {
+        "name" : "Dom",
+        "constructors" : {},
+        "properties" : ["XmlNode", "Document", "XmlNodeType"],
+        "customize" : True,
+        "methods" : {}
+    },
+
+    "process" : {
+        "name" : "Process",
+        "constructors" : {},
+        "properties" : ["Plugin", "PluginResult", "PluginRequest", "ParameterType", "SparkPlugDescribeResult", "OutputParameter", "SparkPlugApi", "SparkPlugParameter", "InputParameter", "PluginDescribeResult"],
+        "customize" : True,
+        "methods" : {}
+    },
+
+    "connectingapi": {
+        "name" : "ConnectingApi",
+        "constructors" : {},
+        "properties" : ["FeedItemAttachmentType", "PollAttachmentInput", "ChatterGroupPage", "MentionSegmentInput", "Address", "MessageSegment", "TextSegment", "FollowingCounts", "ChatterGroupDetail", "FollowerPage", "ChatterGroups", "ChatterActivity", "GroupInformation", "UnauthenticatedUser", "ConnectApiException", "Community", "Motif", "ContentAttachment", "ChatterLikePage", "Actor", "Features", "MoreChangesSegment", "ChatterLike", "ApprovalAttachment", "WorkflowProcessStatus", "ChatterFavorites", "MessageSegmentType", "Records", "BinaryInput", "FeedModifiedInfo", "Communities", "ChatterUsers", "NewFileAttachmentInput", "FeedItemInput", "FollowingPage", "UserChatterSettings", "Reference", "ComplexSegment", "CaseComment", "GroupMembershipRequestStatus", "MessageSegmentInput", "FeedSortOrder", "TextSegmentInput", "ChatterGroupInput", "ActorWithId", "ChatterFeeds", "FeedType", "ClientInfo", "ApprovalPostTemplateField", "Organization", "OrganizationSettings", "FeedItemType", "DashboardComponentAttachment", "FeedItemVisibilityType", "GroupVisibilityType", "GroupMembershipRequest", "FeedPoll", "BasicTemplateAttachment", "UserDetail", "FeedItem", "Chatter", "ChatterGroupSummary", "CommentInput", "FeedFavorite", "RecordSummary", "FieldChangeNameSegment", "User", "ChatterGroup", "GroupEmailFrequency", "UserPage", "GroupMembershipRequests", "CommentPage", "ContentAttachmentInput", "UserSummary", "UserGroupPage", "MentionSegment", "MessageBodyInput", "GroupMemberPage", "CommentType", "Icon", "Photo", "FieldChangeSegment", "FeedFavoriteType", "FileSummary", "CaseActorType", "HashtagSegment", "FeedBody", "PhoneNumber", "FeedItemPage", "LinkSegmentInput", "LinkSegment", "UserSettings", "MessageBody", "Feed", "GroupChatterSettings", "HashtagSegmentInput", "RateLimitException", "EntityLinkSegment", "GroupMember", "LinkAttachmentInput", "UserType", "FeedItemAttachment", "FieldChangeValueSegment", "FeedItemAttachmentInput", "CommunityPage", "Subscription", "ResourceLinkSegment", "NotFoundException", "GroupInformationInput", "FeedFavorites", "Comment", "FeedPollChoice", "GroupMembershipType", "AbstractMessageBody", "LinkAttachment", "GlobalInfluence", "CommunityStatus"],
+        "customize" : True,
+        "methods": {}
+    },
+
     "limits" : {
         "name" : "Limits",
         "constructors" : {},

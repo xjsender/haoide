@@ -27,8 +27,8 @@
         "command": "create_apex_component"
     },
     {
-        "caption": "SublimeApex: New ApexComponent",
-        "command": "create_apex_component"
+        "caption": "SublimeApex: New ApexPage",
+        "command": "create_apex_page"
     },
     {
         "caption": "SublimeApex: Reload Salesforce Document",
