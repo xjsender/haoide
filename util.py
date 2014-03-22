@@ -116,63 +116,62 @@ def get_symbol_table_completions(symbol_table):
     if 'constructors' in symbol_table:
         for c in symbol_table['constructors']:
             params = []
-            if not 'visibility' in c:
-                c['visibility'] = 'PUBLIC'
+            visibility = c["visibility"].capitalize() if "visibility" in c else "Public"
+
             if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
                 for p in c['parameters']:
-                    params.append(p["type"] + " " + p["name"])
+                    params.append(p["type"].capitalize() + " " + p["name"])
                 paramStrings = []
                 for i, p in enumerate(params):
                     paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
                 paramString = ", ".join(paramStrings)
-                completions.append((c["visibility"] + " " + c["name"]+"("+", ".join(params)+")", c["name"]+"("+paramString+")"))
+                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+")", 
+                    c["name"]+"("+paramString+")"))
             else:
-                completions.append((c["visibility"] + " " + c["name"]+"()", c["name"]+"()${1:}"))
+                completions.append((visibility + " " + c["name"]+"()", c["name"]+"()${1:}"))
+
     if 'properties' in symbol_table:
         for c in symbol_table['properties']:
-            if not 'visibility' in c:
-                c['visibility'] = 'PUBLIC'
-            if "type" in c and c["type"] != None and c["type"] != "null":
-                completions.append((c["visibility"] + " " + c["name"] + "\t" + c["type"], c["name"]))
-            else:
-                completions.append((c["visibility"] + " " + c["name"], c["name"]))
+            visibility = c["visibility"].capitalize() if "visibility" in c else "Public"
+            property_type = c["type"].capitalize() if "type" in c and c["type"] else ""
+            completions.append((visibility + " " + c["name"] + "\t" + property_type, c["name"]))
+
     if 'methods' in symbol_table:
         for c in symbol_table['methods']:
             params = []
-            if not 'visibility' in c:
-                c['visibility'] = 'PUBLIC'
+            visibility = c["visibility"].capitalize() if "visibility" in c else "Public"
             if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
                 for p in c['parameters']:
                     params.append(p["type"] + " " + p["name"])
             if len(params) == 1:
-                completions.append((c["visibility"] + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], c["name"]+"(${1:"+", ".join(params)+"})"))
+                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], c["name"]+"(${1:"+", ".join(params)+"})"))
             elif len(params) > 1:
                 paramStrings = []
                 for i, p in enumerate(params):
                     paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
                 paramString = ", ".join(paramStrings)
-                completions.append((c["visibility"] + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], c["name"]+"("+paramString+")"))
+                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], c["name"]+"("+paramString+")"))
             else:
-                completions.append((c["visibility"] + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], c["name"]+"()${1:}"))
+                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], c["name"]+"()${1:}"))
+
     if 'innerClasses' in symbol_table:
         for c in symbol_table["innerClasses"]:
             if 'constructors' in c and len(c['constructors']) > 0:
                 for con in c['constructors']:
-                    if not 'visibility' in con:
-                        con['visibility'] = 'PUBLIC'
+                    visibility = con["visibility"].capitalize() if "visibility" in con else "Public"
                     params = []
                     if 'parameters' in con and type(con['parameters']) is list and len(con['parameters']) > 0:
                         for p in con['parameters']:
-                            params.append(p["type"] + " " + p["name"])
+                            params.append(p["type"].capitalize() + " " + p["name"])
                         paramStrings = []
                         for i, p in enumerate(params):
                             paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
                         paramString = ", ".join(paramStrings)
-                        completions.append((con["visibility"] + " " + con["name"]+"("+", ".join(params)+")", c["name"]+"("+paramString+")"))
+                        completions.append((visibility + " " + con["name"]+"("+", ".join(params)+")", c["name"]+"("+paramString+")"))
                     else:
-                        completions.append((con["visibility"] + " " + con["name"]+"()", c["name"]+"()${1:}"))
+                        completions.append((visibility + " " + con["name"]+"()", c["name"]+"()${1:}"))
             else:
-                completions.append(("INNER CLASS " + c["name"] + "\t", c["name"] + "$1"))
+                completions.append(("Inner Class " + c["name"] + "\t", c["name"] + "$1"))
     return sorted(completions)
 
 def get_view_by_name(view_name):
@@ -388,22 +387,47 @@ def is_python3x():
 """
 Below three functions are used to parse completions out of box.
 """
-def parse_method(classname, methods):
+def parse_namespace(publicDeclarations):
+    """
+    from . import util
+    import json
+    namespace_json = util.parse_namespace(publicDeclarations["publicDeclarations"])
+    json.dump(namespace_json, open("c:/namespace.json",'w'))
+    """
+
+    namespaces_dict = {}
+    for namespace in publicDeclarations:
+        namespaces_dict[namespace] = list(publicDeclarations[namespace].keys())
+
+    return namespaces_dict
+
+def parse_method(methods, is_method=True):
+    if not methods: return {}
+
     methods_dict = {}
     for method in methods:
-        if not method["parameters"]:
-            methods_dict[method["name"] + "()\t" + method["returnType"]] = method["name"] + "()$0"
+        if method["name"] == None: continue
+        if not is_method:
+            returnType = ''
         else:
-            parameters = ''
+            returnType = method["returnType"]
+        if not method["parameters"]:
+            methods_dict["%s()\t%s" % (method["name"], returnType)] = method["name"] + "()$0"
+        else:
+            display_parameters = []
             for parameter in method["parameters"]:
-                parameters += parameter["type"] + " " + parameter["name"] + ", "
-            parameters = parameters[ : -2]
-            methods_dict[method["name"] + "(" + parameters + ")\t" +\
-                method["returnType"]] = method["name"] + "($1)$0"
+                display_parameters.append(parameter["type"] + " " + parameter["name"])
+
+            return_parameters = []
+            for i in range(len(display_parameters)):
+                return_parameters.append("${%s:%s}" % (i + 1, display_parameters[i]))
+
+            methods_dict["%s(%s)\t%s" % (method["name"], ','.join(display_parameters), returnType)] =\
+                "%s(%s)$0" % (method["name"], ','.join(return_parameters))
 
     return methods_dict
 
-def parse_properties(classname, properties):
+def parse_properties(properties):
     if not properties: return {}
     properties_dict = {}
     for property in properties:
@@ -411,27 +435,21 @@ def parse_properties(classname, properties):
 
     return properties_dict
 
-def parse_constructors(classname, constructors):
-    if not constructors: return {}
-    constructors_dict = {}
-    for constructor in constructors:
-        if constructor["name"] == None: continue
-        if not constructor["parameters"]:
-            constructors_dict[constructor["name"] + "()"] = constructor["name"] + "()$0"
-        else:
-            parameters = ''
-            for parameter in constructor["parameters"]:
-                parameters += parameter["type"] + " " + parameter["name"] + ", "
-            parameters = parameters[ : -2]
-            constructors_dict[constructor["name"] + "(" + parameters + ")"] = constructor["name"] + "($0)"
-
 def parse_all(apex):
     """
     Usage:
-        from .salesforce import util
+        from . import util
         import json
-        apex_json = util.parse_all(apex)
-        json.dump(apex_json, open("c:/text.json",'w'))
+        apex_json = util.parse_all(publicDeclarations["publicDeclarations"])
+        json.dump(apex_json, open("c:/apex.json",'w'))
+
+        from .salesforce.support import apex
+        return_apex = {}
+        for lib in apex.apex_completions:
+            if "customize" in apex.apex_completions[lib]:
+                return_apex[lib] = apex.apex_completions[lib]
+
+        json.dump(return_apex, open("c:/customize.json",'w'))
 
     """
 
@@ -440,9 +458,9 @@ def parse_all(apex):
         for class_name in apex[namespace]:
             class_detail = apex[namespace][class_name]
 
-            constructors_dict = parse_constructors(class_name, class_detail["constructors"])
-            methods_dict = parse_method(class_name, class_detail["methods"])
-            properties_dict = parse_properties(class_name, class_detail["properties"])
+            constructors_dict = parse_method(class_detail["constructors"], False)
+            methods_dict = parse_method(class_detail["methods"])
+            properties_dict = parse_properties(class_detail["properties"])
 
             # all_dict = dict(list(methods_dict.items()) + list(properties_dict.items()))
 

@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+**Release 0.3.1** (Milestone of Code Completion) (2014-03-22)
+++++++++++++++++++
+
+- Fix bug: ``KeyError: 'symbol_table'`` when save component is not ``ApexClass``
+- Add some new standard class to completion
+- Keep the parameter info in the completion result
+- Update README.MD
+
 
 Release 0.3.0 (2014-03-20)
 ++++++++++++++++++

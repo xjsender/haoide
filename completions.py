@@ -142,6 +142,11 @@ class ApexCompletions(sublime_plugin.EventListener):
             variable_name = view.substr(view.word(pt - 1))
             variable_type = util.get_variable_type(view, variable_name)
 
+            # Add standard class in specified namespace to completions
+            if variable_name in apex.apex_namespaces:
+                for standard_class in apex.apex_namespaces[variable_name]:
+                    completion_list.append(("%s\tNameSpace Class" % standard_class, standard_class))
+
             # Check whether variable is standard class
             if variable_name.lower() in apex.apex_completions:
                 class_name = variable_name.lower()
@@ -159,32 +164,28 @@ class ApexCompletions(sublime_plugin.EventListener):
 
                 # Get the properties by class_name
                 properties = apex.apex_completions[class_name]["properties"]
-                if isinstance(properties, list):
-                    for p in sorted(properties): 
-                        completion_list.append((p + "\tNameSpace Class", p))
-                elif isinstance(properties, dict):
+                if isinstance(properties, dict):
                     for key in sorted(properties.keys()): 
-                        if "\t" in key:
-                            completion_list.append((key, properties[key]))
-                        else:
-                            completion_list.append((key + "\tProperty", properties[key]))
+                        completion_list.append((key + "\tProperty", properties[key]))
             else:
                 s = sublime.load_settings("symbol_table.sublime-settings")
-                username = settings["username"]
-                if not s.has(username): return []
+                symbol_table = {}
+                if s.has(settings["username"]):
+                    symbol_tables = s.get(settings["username"])
+                    if variable_name.lower() in symbol_tables:
+                        symbol_table = symbol_tables[variable_name.lower()]
+                    elif variable_type.lower() in symbol_tables:
+                        symbol_table = symbol_tables[variable_type.lower()]
 
-                symbol_tables = s.get(username)
-                if variable_name.lower() in symbol_tables:
-                    symbol_table = symbol_tables[variable_name.lower()]
-                elif variable_type.lower() in symbol_tables:
-                    symbol_table = symbol_tables[variable_type.lower()]
-                else:
-                    return []
-
-                completion_list = util.get_symbol_table_completions(symbol_table)
+                if symbol_table:
+                    completion_list = util.get_symbol_table_completions(symbol_table)
 
         elif ch != "=" and prefix in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
             if not settings["disable_keyword_completion"]:
+                # Add namespace to  keyword completions
+                for namespace in apex.apex_namespaces:
+                    completion_list.append(("%s\tNameSpace" % namespace, namespace))
+
                 # Add all object name to keyword completions
                 sobjects_describe = util.get_sobject_completions(settings["username"]).get("sobjects")
                 if sobjects_describe:
