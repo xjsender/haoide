@@ -469,6 +469,7 @@ def parse_all(apex):
             apex_completions[class_name.lower()]["constructors"] = constructors_dict
             apex_completions[class_name.lower()]["methods"] = methods_dict
             apex_completions[class_name.lower()]["properties"] = properties_dict
+            apex_completions[class_name.lower()]["namespace"] = namespace
 
             # Class Name Full Name Attribute
             apex_completions[class_name.lower()]["name"] = class_name

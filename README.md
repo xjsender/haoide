@@ -183,9 +183,6 @@ You can click ```SublimeApex > Export > Export CustomFields``` to export all cus
 You can click ```SublimeApex > Export > Export Workbook``` to export all sobject workbooks in your org to csv.
 If you just want to export some attributes of sobject workbook, you can do it by setting workbook_field_describe_columns in ```SublimeApex > Settings > Setting - User.
 
-## Export Available Picklist Values of Record Type
-You can click ```SublimeApex > Describe > Describe Layout``` to export the available picklist values of RecordType
-
 ## Exceute Rest Test
 Up to now, support Head, Get, Post, Delete and Retrieve Body Methods, for example, Input ```/sobjects/Account/Describe``` and click ```SublimeApex> Execute Rest Test``` in the context menu or press ```F9```, context dynamic menu will show up, you can choose GET to retrieve Account Describe Result in the new view.
 

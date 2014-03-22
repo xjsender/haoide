@@ -195,8 +195,9 @@ class ApexCompletions(sublime_plugin.EventListener):
 
                 # Add all standard class to keyword completions
                 for key in sorted(apex.apex_completions):
-                    class_name = apex.apex_completions[key]["name"]
-                    completion_list.append((class_name + "\tStandard Class", class_name))
+                    class_attr = apex.apex_completions[key]
+                    completion_list.append(("%s\t%s" % (class_attr["name"], class_attr["namespace"]), 
+                        class_attr["name"]))
 
                 # Add all custom class to keyword completions
                 s = sublime.load_settings("symbol_table.sublime-settings")

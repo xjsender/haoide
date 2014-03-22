@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 0.3.2  (2014-03-22)
+++++++++++++++++++
+
+- Upgrade ``xmltodict`` lib to latest
+- Add ``namespace`` for standard class in the completion
+
+
 **Release 0.3.1** (Milestone of Code Completion) (2014-03-22)
 ++++++++++++++++++
 
