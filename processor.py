@@ -42,7 +42,7 @@ def populate_users():
     # If sobjects is not exist in globals(), post request to pouplate it
     api = SalesforceApi(toolingapi_settings)
     query = """SELECT Id, FirstName, LastName FROM User WHERE LastName != null 
-               AND FirstName != null AND IsActive = true"""
+               AND IsActive = true"""
     thread = threading.Thread(target=api.query_all, args=(query, ))
     thread.start()
 
@@ -52,10 +52,10 @@ def populate_users():
     records = api.result["records"]
     users = {}
     for user in records:
-        user_first_name = user["FirstName"]
-        user_last_name = user["LastName"]
-        user_id = user["Id"]
-        users[user_last_name + " " + user_first_name] = user_id
+        if not user["FirstName"]:
+            users[user["LastName"]] = user["Id"]
+        else:
+            users[user["LastName"] + " " + user["FirstName"]] = user["Id"]
 
     globals()[username + "users"] = users
     return users  
