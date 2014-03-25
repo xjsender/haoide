@@ -6,8 +6,17 @@
         [
             // {"caption": "Retrieve StaticResource Body", "command": "retrieve_static_resource_body"},
             {"caption": "Refresh from Server", "command": "refresh_component"},
+            // Save component
             {"caption": "Save to Server", "command": "save_component"},
+
             {"caption": "Delete from Server", "command": "delete_component"},
+            
+            // Compile component but not save
+            {"caption": "Compile Component", "command": "save_component", 
+                "args": {
+                    "is_check_only": true
+                }
+            },
 
             // {"caption": "-"},
             // {"caption": "Set Check Point", "command": "set_check_point"},

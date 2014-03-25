@@ -1190,7 +1190,7 @@ def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeo
     handle_thread(thread, static_resource_dir, timeout)
     ThreadProgress(api, thread, "Retrieve StaticResource", "Retrieve StaticResource Succeed")
 
-def handle_save_component(component_name, component_attribute, body, timeout=120):
+def handle_save_component(component_name, component_attribute, body, is_check_only=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -1236,7 +1236,7 @@ def handle_save_component(component_name, component_attribute, body, timeout=120
 
     api = SalesforceApi(settings)
     thread = threading.Thread(target=api.save_component,
-        args=(component_attribute, body, ))
+        args=(component_attribute, body, is_check_only, ))
     thread.start()
 
     # If saving thread is started, set the flag to True

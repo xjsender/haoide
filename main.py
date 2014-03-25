@@ -789,7 +789,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         processor.handle_create_component(data, name, component_type, file_name)
 
 class SaveComponentCommand(sublime_plugin.TextCommand):
-    def run(self, view):
+    def run(self, edit, is_check_only=False):
         # Automatically save current file if dirty
         if self.view.is_dirty():
             self.view.run_command("save")
@@ -802,7 +802,7 @@ class SaveComponentCommand(sublime_plugin.TextCommand):
         body = open(file_name, encoding="utf-8").read()
 
         # Handle Save Current Component
-        processor.handle_save_component(component_name, component_attribute, body)
+        processor.handle_save_component(component_name, component_attribute, body, is_check_only)
 
     def is_enabled(self):
         return check_enabled(self.view.file_name())
@@ -894,6 +894,9 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
 
 class RefreshComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
+        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        if confirm == False: return
+    
         # Get file_name and component_attribute
         file_name = self.view.file_name()
         component_attribute = util.get_component_attribute(file_name)[0]

@@ -895,7 +895,7 @@ class SalesforceApi():
                 "/" + sobject + ".csv"
             print (sobject + " workbook outputdir: " + outputdir)
 
-    def save_component(self, component_attribute, body):
+    def save_component(self, component_attribute, body, is_check_only):
         """
         This method contains 5 steps:
         1. Post classid to get MetadataContainerId
@@ -957,7 +957,7 @@ class SalesforceApi():
         # Post ContainerAsyncRequest
         data = {
             "MetadataContainerId": container_id,
-            "IsCheckOnly": False,
+            "IsCheckOnly": is_check_only,
             "IsRunTests": False
         }
         sync_request_url = '/tooling/sobjects/ContainerAsyncRequest'

@@ -38,7 +38,17 @@
         "caption": "SublimeApex: Save Component",
         "command": "save_component"
     },
-
+    {
+        "caption": "SublimeApex: Compile Component",
+        "command": "save_component",
+        "args": {
+            "is_check_only": true
+        }
+    },
+    {
+        "caption": "SublimeApex: Compile Component",
+        "command": "compile_component",
+    },
     {
         "caption": "SublimeApex: Refresh Component",
         "command": "refresh_component"

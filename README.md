@@ -4,6 +4,33 @@ This plugin supports ```Sublime Text 3``` for windows and OSX, not tested for Li
 # Change Logs:
 See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 
+# Supported Feature:
++ Muti-project management
++ Configurable API Version
++ View Code Coverage
++ Create Debug Log
++ Retrieve Debug Logs of Specified User
++ Apex Code CRUD
++ Apex Code Folder Refresh
++ Run Test Class
++ Apex Code Local History
++ Execute Anonymous
++ Execute Query
++ Quick Documents Reference Search for kinds of Salesforce APIs
++ Kinds of code completions, see sector "Completions"
++ Generate All or Specified Sobject Workbook
++ Generate Custom Field Workbook (Including Field Id)
++ Generate Global Describe Workbook
++ Generate Layout Avaiable PicklistValues
++ Export Data Template for Specified Recod Types
++ Export Validation Rule and Workflow
++ Quick Login to Home Page, Console, Debug Log...
++ Quick View chosen Id in SFDC Web
++ Quick View Apex Code in SFDC Web
++ Backup All or Specified Sobjects in Muti-thread (Very Fast)
++ Many common used snippets
++ Manually Update Plugin
+
 # Installation #
 This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), you can install this plugin by searching ```Salesforce IDE``` in package control
 
@@ -197,31 +224,6 @@ Click ```SublimeApex > Export > Export Data Template```, wait for a moment, choo
 
 ## Proxy
 Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanced/#proxies)
-
-# Supported Feature: #
-+ Muti-project management
-+ Configurable API Version
-+ View Code Coverage
-+ Create Debug Log
-+ Retrieve Debug Logs of Specified User
-+ Apex Code CRUD
-+ Apex Code Folder Refresh
-+ Run Test Class
-+ Apex Code Local History
-+ Execute Anonymous
-+ Execute Query
-+ Kinds of code completions, see sector "Completions"
-+ Generate All or Specified Sobject Workbook
-+ Generate Custom Field Workbook (Including Field Id)
-+ Generate Global Describe Workbook
-+ Generate Layout Avaiable PicklistValues
-+ Export Validation Rule and Workflow
-+ Quick Login to Home Page, Console, Debug Log...
-+ Quick View chosen Id in SFDC Web
-+ Quick View Apex Code in SFDC Web
-+ Backup All or Specified Sobjects in Muti-thread (Very Fast)
-+ Many common used snippets
-+ Manually Update Plugin
 
 # Dependency Lib #
 + [requests](https://github.com/kennethreitz/requests)

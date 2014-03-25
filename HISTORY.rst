@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+Release 0.3.3  (2014-03-22)
+++++++++++++++++++
+
+- Add confirmation for ``Refresh Component``
+- Add a new command for ``Compile Component``
+- Update README
+
+
 Release 0.3.2  (2014-03-22)
 ++++++++++++++++++
 
