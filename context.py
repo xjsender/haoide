@@ -20,6 +20,8 @@ def get_toolingapi_settings():
     settings = {}
 
     if not s.has("projects"):
+        sublime.active_window().run_command("show_panel", 
+            {"panel": "console", "toggle": False})
         sublime.error_message("You should set your user credentials.")
         return
 
