@@ -360,7 +360,7 @@
 
             {
                 "id": "about",
-                "caption": "About",
+                "caption": "Help",
                 "command": "about"
             }
         ]

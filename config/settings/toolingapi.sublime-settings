@@ -185,16 +185,14 @@
 
     // Excluded Standard Sobjects for code completion
     "excluded_sobjects": [
-        "AdditionalNumber", "ApexClass", "ApexComponent", "ApexTrigger",
-        "ApexPage", "ApexTestQueueItem", "Approval", "AuthProvider",
+        "AdditionalNumber", "ApexTestQueueItem", "Approval", "AuthProvider",
         "BrandTemplate", "BusinessHours", "BusinessProcess", "CallCenter",
         "CategoryData", "CategoryNode", "CategoryNodeLocalization", "CurrencyType",
         "CustomBrand", "CustomBrandAsset","ContentWorkspaceDoc", "DocumentAttachmentMap", 
         "EmailServicesAddress", "EmailServicesFunction", "EntitySubscription", "EventRelation",
-        "FieldPermissions",
-        "Holiday", "Idea", "IdeaComment", "MailmergeTemplate", "NetworkMemberGroup",
+        "FieldPermissions", "Holiday", "Idea", "IdeaComment", "MailmergeTemplate", 
         "ObjectPermissions", "OrgWideEmailAddress", "PermissionSet", "PermissionSetAssignment",
-        "PermissionSetLicenseAssign", "PushTopic", "QueueSobject", 
+        "PermissionSetLicenseAssign", "PushTopic", "QueueSobject", "NetworkMemberGroup",
         "QuoteDocument", "RecordTypeLocalization", "SetupEntityAccess",
         "WebLink", "WebLinkLocalization"
     ],

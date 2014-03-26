@@ -1,5 +1,5 @@
 # Sublime IDE for salesforce
-This plugin supports ```Sublime Text 3``` for windows and OSX, not tested for Linux.
+This plugin supports ```Sublime Text 3``` for windows and OSX, not tested for Linux. **If you think this plugin is helpful, please star this plugin.**
 
 # Change Logs:
 See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
