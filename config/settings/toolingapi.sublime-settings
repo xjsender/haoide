@@ -9,7 +9,7 @@
     // User Settings is prior to Default Settings, it's very important.
     // You should have more than one project in "projects", however, only one project can be default
     // Every time you switch the project, the update projects settings will be saved to user settings.
-    "workspace": "c:/Forcedotcom",
+    "workspace": "C:/ForcedotcomWorkspace",
     "projects": {
         "pro-test": {
             "default": true,
