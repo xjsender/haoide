@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+Release 0.3.5  (2014-03-29)
+++++++++++++++++++
+
+- Clarify Usage of kinds of feature in README.MD
+
+
 Release 0.3.4  (2014-03-26)
 ++++++++++++++++++
 

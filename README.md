@@ -1,5 +1,6 @@
 # Sublime IDE for salesforce
-This plugin supports ```Sublime Text 3``` for windows and OSX, not tested for Linux. **If you think this plugin is helpful, please star this plugin.**
+This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change Workspace in OSX**), not tested for Linux.
+**If you think this plugin is helpful, please star this plugin.**
 
 # Change Logs:
 See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
@@ -29,7 +30,6 @@ See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 + Quick View Apex Code in SFDC Web
 + Backup All or Specified Sobjects in Muti-thread (Very Fast)
 + Many common used snippets
-+ Manually Update Plugin
 
 # Installation #
 This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), you can install this plugin by searching ```Salesforce IDE``` in package control
@@ -147,16 +147,18 @@ After any snippet which start with SELECT is chosen, you can press ```Ctrl+Alt+Q
 Click ```SublimeApex > New > New ApexClass```, choose the predefined template, and then input the class name in the input panel at the bottom, after that, your class will be created.
 
 ## New ApexPage #
-Click ```SublimeApex > New > New ApexPage```, choose the predefined template (Just have only one template now), and then input the page name in the input panel at the bottom, after that, your page will be created.
+Click ```SublimeApex > New > New ApexPage```, and then input the page name in the input panel at the bottom, after that, your page will be created.
 
 ## New ApexComponent #
-Click ```SublimeApex > New > New ApexComponent```, choose the predefined template (Just have only one template now), and then input the component name in the input panel at the bottom, after that, your component will be created.
+Click ```SublimeApex > New > New ApexComponent```, and then input the component name in the input panel at the bottom, after that, your component will be created.
 
 ## New ApexTrigger #
 Click ```SublimeApex > New > New ApexTrigger```, choose the sobject on which you will create trigger, and then input the trigger name in the input panel at the bottom, after that, your trigger will be created.
 
 ## Create Debug Log
 If you want to track the log of any user, click ```SublimeApex > Apex Test > Create Debug Log```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
+
+There is a default ```trace_flag``` settings that is used to define the debug log level in the default settings, you can put your own change into your user settings
 
 ## List Debug Log
 If you want to see the log list of any user, click ```SublimeApex > Apex Test > List Debug Logs```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
@@ -195,7 +197,7 @@ Put the focus in the Class Name, and then, press ```shift```,  and click ```butt
 Click ```SublimeApex > Retrieve Metadata``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
 
 ## Deploy Metadata
-This functionality is not perfect now, but it can work now.
+Executing...
 
 ## Export Workflow Rules
 After you downloaded all metadata by clicking ```SublimeApex > Migration > Retrieve Metadata```, you can click ```SublimeApex > Export > Export Workflow``` to backup all workflows in your org to csv.
@@ -208,13 +210,83 @@ You can click ```SublimeApex > Export > Export CustomFields``` to export all cus
 
 ## Export Workbook of sobjects
 You can click ```SublimeApex > Export > Export Workbook``` to export all sobject workbooks in your org to csv.
-If you just want to export some attributes of sobject workbook, you can do it by setting workbook_field_describe_columns in ```SublimeApex > Settings > Setting - User.
+If you just want to export some attributes of sobject workbook, you can put the ```workbook_field_describe_columns``` setting into your own user settings
 
 ## Exceute Rest Test
-Up to now, support Head, Get, Post, Delete and Retrieve Body Methods, for example, Input ```/sobjects/Account/Describe``` and click ```SublimeApex> Execute Rest Test``` in the context menu or press ```F9```, context dynamic menu will show up, you can choose GET to retrieve Account Describe Result in the new view.
+Up to now, support ```Get```, ```Post```, ```Put```, ```Patch```, ```Delete```, ```Tooling Query```, ```Query```, ```Query All```, ```Head```, ```Retrieve Body``` methods.
+
+for example, 
+
++ **Query Sample**, you can input ```SELECT Id, Name FROM Account LIMIT 1``` and choose it, choose the intput SOQL, and then click ```Execute Rest Test``` in the context menu, choose the ```Query``` in the popup menu, wait for a moment, the queried json result will be shown in the new view.
+```
+{
+    'done': True,
+    'records': [{
+        'Id': '001O000000M1mPwIAJ',
+        'Name': '周星驰',
+        'attributes': {
+            'type': 'Account',
+            'url': '/services/data/v30.0/sobjects/Account/001O000000M1mPwIAJ'
+        }
+    }],
+    'status_code': 200,
+    'totalSize': 1
+}
+```
+
++ **Tooling Query Sample**, you can input ```SELECT Id, Name FROM ApexClass``` and choose it, choose the intput SOQL, and then click ```Execute Rest Test``` in the context menu, choose the ```Tooling Query``` in the popup menu, wait for a moment, the queried json result will be shown in the new view.
+
++ **Post Sample**: you can input ```/sobjects/Account``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Post``` in the popup menu and input the json ```{"Name": "Test Rest Test"}``` in the input panel, wait for a moment, the inserted new account will be shown in the new view.
+```
+{
+    'errors': [],
+    'id': '001O000000MIiSXIA1',
+    'status_code': 201,
+    'success': True
+}
+```
+
++ **Get Sample**: input ```/sobjects/Account/001O000000MIiSXIA1``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Get``` in the popup menu, wait for a moment, the detail information of the specified Id will be shown in the new view:
+```
+{
+    'BillingAddress': {
+        'city': None,
+        'country': 'United States',
+        ...
+    },
+    'BillingCity': None,
+    'BillingCountry': 'United States',
+    'BillingCountryCode': 'US',
+    ...
+    'status_code': 200
+}
+```
+
++ **Delete Sample**: input ```/sobjects/Account/001O000000MIiSXIA1``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Delete``` in the popup menu, wait for a moment, the delete result will be shown in the new view:
+```
+{
+    'status_code': 204
+}
+```
+
++ **Patch Sample**: Sometimes, you want to update some fields of record, you can input ```/sobjects/Account/001O000000MIiSXIA1``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Delete``` in the popup menu and input ```{"Name": "Test Path"}``` in the input panel, wait for a moment, the patch result will be shown in the new view:
+```
+{
+    'status_code': 204
+}
+```
+
 
 ## Export Data Template
-Click ```SublimeApex > Export > Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported
+Click ```SublimeApex > Export > Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported. From the row 1 to row 6, meaning is show as below,
+```
+[Field Label]...
+[Field API]...
+[Field Type]...
+[Layout Required]...
+[Picklist Label if has]...
+[Picklist Value if has]
+```
 
 ## Bulk Api
 + Up to now, support export, insert, update and delete.
