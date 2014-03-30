@@ -198,42 +198,42 @@
     ],
 
     "docs": {
-        // "Apex": {
-        //    "keyword": "apexcode",
-        //    "pattern": "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
-        // },
-        // "Visualforce": {
-        //     "keyword": "pages",
-        //     "pattern": "*[@Title='Standard Component Reference'].//TocEntry[@DescendantCount='0'].."
-        // },
-        // "Chatter Api": {
-        //    "keyword": "chatterapi",
-        //    "pattern": ".//TocEntry[@DescendantCount='0']"
-        // },
-        // "Streaming Api": {
-        //    "keyword": "api_streaming",
-        //    "pattern": ".//TocEntry[@DescendantCount='0']"
-        // },
-        // "Bulk Api": {
-        //    "keyword": "api_asynch",
-        //    "pattern": "*[@Link].//TocEntry[@DescendantCount='0'].."
-        // },
-        // "Rest Api": {
-        //    "keyword": "api_rest",
-        //    "pattern": ".//TocEntry[@DescendantCount='0']"
-        // },
-        // "Tooling Api": {
-        //    "keyword": "api_tooling",
-        //    "pattern": ".//TocEntry[@DescendantCount='0']"
-        // },
-        // "Console Toolkit": {
-        //    "keyword": "api_console",
-        //    "pattern": ".//TocEntry[@DescendantCount='0']"
-        // },
-        // "Standard Objects": {
-        //    "catalog": "object_reference",
-        //    "pattern": "*.//TocEntry[@DescendantCount='0'].."
-        // },
+        "Apex": {
+           "keyword": "apexcode",
+           "pattern": "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
+        },
+        "Visualforce": {
+            "keyword": "pages",
+            "pattern": "*[@Title='Standard Component Reference'].//TocEntry[@DescendantCount='0'].."
+        },
+        "Chatter Api": {
+           "keyword": "chatterapi",
+           "pattern": ".//TocEntry[@DescendantCount='0']"
+        },
+        "Streaming Api": {
+           "keyword": "api_streaming",
+           "pattern": ".//TocEntry[@DescendantCount='0']"
+        },
+        "Bulk Api": {
+           "keyword": "api_asynch",
+           "pattern": "*[@Link].//TocEntry[@DescendantCount='0'].."
+        },
+        "Rest Api": {
+           "keyword": "api_rest",
+           "pattern": ".//TocEntry[@DescendantCount='0']"
+        },
+        "Tooling Api": {
+           "keyword": "api_tooling",
+           "pattern": ".//TocEntry[@DescendantCount='0']"
+        },
+        "Console Toolkit": {
+           "keyword": "api_console",
+           "pattern": ".//TocEntry[@DescendantCount='0']"
+        },
+        "Standard Objects": {
+           "catalog": "object_reference",
+           "pattern": "*.//TocEntry[@DescendantCount='0'].."
+        },
         "SOQL & SOSL": {
             "keyword": "soql_sosl",
            "pattern": "*.//TocEntry[@DescendantCount='0'].."

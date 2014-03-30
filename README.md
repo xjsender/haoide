@@ -194,11 +194,11 @@ There is default ```docs``` settings, if you want to add some other document ref
     ...
 },
 ```
-**apexdoc**: the highlight part in ```http://www.salesforce.com/us/developer/docs/**apexdoc**/Data/Toc.xml```
-**Apex**: the document prefix in the quick search panel
-**pattern**: the XPath pattern for parse the content from the response
++ **apexdoc**: the highlight part in ```http://www.salesforce.com/us/developer/docs/**apexdoc**/Data/Toc.xml```
++ **Apex**: the document prefix in the quick search panel
++ **pattern**: the XPath pattern for parse the content from the response
 
-**You should be aware that every reloading is time-consuming, generally, you should reload it in every salesforce reference**
+**You should be aware that every reloading is time-consuming, generally, you should reload it in every salesforce release**
 
 ## Refresh Multiply Components
 Choose the components you want to refresh, and then Click ```SublimeApex > Refresh Selected Components``` in the Sidebar Menu
