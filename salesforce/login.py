@@ -9,7 +9,7 @@ from ..util import getUniqueElementValueFromXmlString
 def soap_login(settings, timeout=120):
     login_soap_request_body = soap_bodies.login_body.format(
         username = settings["username"], 
-        password = escape(settings["password"] + settings["security_token"]))
+        password = escape(settings["password"]) + settings["security_token"])
 
     login_soap_request_headers = {
         'content-type': 'text/xml',

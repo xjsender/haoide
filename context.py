@@ -122,6 +122,9 @@ def get_toolingapi_settings():
     for pa in allowed_packages:
         allowed_packages_soql += "'%s'" % pa + ","
     allowed_packages_soql = allowed_packages_soql[:-1] + ")"
+    
+    # Document Reference Attrs
+    settings["docs"] = s.get("docs", {})
 
     # Populate all global variables
     components = s.get("components")

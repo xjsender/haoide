@@ -9,76 +9,61 @@ import xml.etree.ElementTree as ElementTree
 import webbrowser
 import os
 import threading
+import urllib
 from . import requests, context
+from .progress import ThreadProgress
 
 class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ReloadSalesforceDocumentCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.retrieve_index_async()
-        
-    def retrieve_index_async(self):
-        sublime.status_message('Retrieving Salesforce Reference Index...')
-        sublime.set_timeout_async(self.retrieve_index, 200)
-    
-    def retrieve_index(self):
-        # Retrieve the apex code tree
-        title_link = {}
-        docs = {
-            "apexcode": {
-               "catalog": "Apex",
-               "pattern": "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
-            },
-            "pages": {
-                "catalog": "Visualforce",
-                "pattern": "*[@Title='Standard Component Reference'].//TocEntry[@DescendantCount='0'].."
-            },
-            "chatterapi": {
-               "catalog": "Chatter Api",
-               "pattern": ".//TocEntry[@DescendantCount='0']"
-            },
-            "api_streaming": {
-               "catalog": "Streaming Api",
-               "pattern": ".//TocEntry[@DescendantCount='0']"
-            },
-            "api_asynch": {
-               "catalog": "Bulk Api",
-               "pattern": "*[@Link].//TocEntry[@DescendantCount='0'].."
-            },
-            "api_rest": {
-               "catalog": "Rest Api",
-               "pattern": ".//TocEntry[@DescendantCount='0']"
-            },
-            "api_tooling": {
-               "catalog": "Tooling Api",
-               "pattern": ".//TocEntry[@DescendantCount='0']"
-            },
-            "api_console": {
-               "catalog": "Console Toolkit",
-               "pattern": ".//TocEntry[@DescendantCount='0']"
-            },
-            "object_reference": {
-               "catalog": "Standard Objects",
-               "pattern": "*.//TocEntry[@DescendantCount='0'].."
-            },
-            "soql_sosl": {
-                "catalog": "SOQL & SOSL",
-               "pattern": "*.//TocEntry[@DescendantCount='0'].."
-            }
-        }
+        message = "Generally, you should reload it every salesforce release, " +\
+                  "do you really want to continue?"
+        confirm = sublime.ok_cancel_dialog(message)
+        if not confirm: return
 
-        for doc in docs:
-            doc_attr = docs[doc]
-            xml_url = 'http://www.salesforce.com/us/developer/docs/%s/Data/Toc.xml' % doc
-            res = requests.get(xml_url, headers={"Accept": "application/xml"})
+        settings = context.get_toolingapi_settings()
+        self.rd = ReloadDocument(settings["docs"])
+        thread = threading.Thread(target=self.rd.reload_document)
+        thread.start()
+        message = "Reloading Salesforce Document Reference"
+        ThreadProgress(self.rd, thread, message, message + " Succeed")
+        self.handle_thread(thread)
+
+    def handle_thread(self, thread, timeout=120):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:self.handle_thread(thread), timeout)
+            return
+
+        result = self.rd.result
+        salesforce_reference = sublime.load_settings("salesforce_reference.sublime-settings")
+        salesforce_reference.set("salesforce_reference", result)
+        sublime.save_settings("salesforce_reference.sublime-settings")
+
+class ReloadDocument():
+    def __init__(self, docs, **kwargs):
+        self.docs = docs
+        self.result = None
+
+    def reload_document(self):
+        title_link = {}
+        for prefix in self.docs:
+            doc_attr = self.docs[prefix]
+            sublime.status_message("Processing %s..." % prefix)
+            print ("Processing %s" % prefix)
+            xml_url = 'http://www.salesforce.com/us/developer/docs/%s/Data/Toc.xml' % doc_attr["keyword"]
+            try: 
+                res = requests.get(xml_url, headers={"Accept": "application/xml"})
+            except: 
+                continue
             tree = ElementTree.fromstring(res.content)
             leaf_parents = tree.findall(doc_attr["pattern"])
             for parent in leaf_parents:
                 parent_title = parent.attrib["Title"]
-                title_link[doc_attr["catalog"] + "=>" + parent_title] = {
+                title_link[prefix + "=>" + parent_title] = {
                     "url": parent.attrib["Link"],
-                    "attr": doc
+                    "attr": doc_attr["keyword"]
                 }
                 
                 if " Methods" in parent_title:
@@ -87,14 +72,12 @@ class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
                     parent_title = parent_title + " "
                     
                 for child in parent.getchildren():
-                    title_link[doc_attr["catalog"] + "=>" + parent_title + child.attrib["Title"]] = {
+                    title_link[prefix + "=>" + parent_title + child.attrib["Title"]] = {
                         "url": child.attrib["Link"],
-                        "attr": doc
+                        "attr": doc_attr["keyword"]
                     }
 
-        salesforce_reference = sublime.load_settings("salesforce_reference.sublime-settings")
-        salesforce_reference.set("salesforce_reference", title_link)
-        sublime.save_settings("salesforce_reference.sublime-settings")
+        self.result = title_link
 
 class OpenDocumentationCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -122,6 +105,3 @@ class OpenDocumentationCommand(sublime_plugin.WindowCommand):
     def is_enabled(self):
         reference_settings = sublime.load_settings("salesforce_reference.sublime-settings")
         return reference_settings.has("salesforce_reference")
-
-
-

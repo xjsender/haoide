@@ -180,9 +180,25 @@ In the context menu of open class or trigger, click ```SublimeApex > View Code C
 Click the folder in the side bar, refresh that you want to refresh, if you choose the classes folder, the ```Refresh ApexClass``` command will be visible, ```ApexTrigger```, ```ApexComponent```, ```ApexPage``` and ```StaticResource``` is same.
 
 ## Salesforce Document Quick Reference
-I forked this idea from [Salesforce Referencee](https://github.com/Oblongmana/sublime-salesforce-reference) and added some feature based on it.
+I get the idea idea from [Salesforce Referencee](https://github.com/Oblongmana/sublime-salesforce-reference) and added some feature based on it.
 
-Click the ```SublimeApex > Reference > Reload Salesforce Reference``` in the main menu, wait for a moment until the ```Open Document``` command is enabled, at this moment, you can press ```Ctrl+Shift+O``` or Click it to invoke the ```Open Document``` command, nearly all reference api will be shown in the list, you can try to choose any one and it will be opened in browser.
+Click the ```SublimeApex > Reference > Reload Salesforce Reference``` in the main menu, you need to confirm whether continue, after you confirmed it, then wait for a moment until the ```Open Document``` command is enabled, at this moment, you can press ```Ctrl+Shift+O``` or Click it to invoke the ```Open Document``` command, nearly all reference api will be shown in the list, you can try to choose any one and it will be opened in browser.
+
+There is default ```docs``` settings, if you want to add some other document reference to here, you can customize it yourself.
+```
+"docs": {
+    "apexcode": {
+       "catalog": "Apex",
+       "pattern": "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
+    },
+    ...
+},
+```
+**apexdoc**: the highlight part in ```http://www.salesforce.com/us/developer/docs/**apexdoc**/Data/Toc.xml```
+**Apex**: the document prefix in the quick search panel
+**pattern**: the XPath pattern for parse the content from the response
+
+**You should be aware that every reloading is time-consuming, generally, you should reload it in every salesforce reference**
 
 ## Refresh Multiply Components
 Choose the components you want to refresh, and then Click ```SublimeApex > Refresh Selected Components``` in the Sidebar Menu

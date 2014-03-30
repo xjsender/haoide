@@ -4,6 +4,15 @@ Release History
 
 ---------------
 
+
+Release 0.3.6  (2014-03-30)
+++++++++++++++++++
+
+- Add thread progress for document reloading
+- Add confirm request for document reloading
+- Add default ``docs`` setting for `user customization <https://github.com/xjsender/SublimeApex#salesforce-document-quick-reference>`_
+
+
 Release 0.3.5  (2014-03-29)
 ++++++++++++++++++
 
@@ -19,7 +28,7 @@ Release 0.3.4  (2014-03-26)
 Release 0.3.3  (2014-03-22)
 ++++++++++++++++++
 
-- Add confirmation for ``Refresh Component``
+- Add confirmation request for ``Refresh Component``
 - Add a new command for ``Compile Component``
 - Update README
 
