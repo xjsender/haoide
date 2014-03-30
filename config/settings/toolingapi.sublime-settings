@@ -231,7 +231,7 @@
            "pattern": ".//TocEntry[@DescendantCount='0']"
         },
         "Standard Objects": {
-           "catalog": "object_reference",
+           "keyword": "object_reference",
            "pattern": "*.//TocEntry[@DescendantCount='0'].."
         },
         "SOQL & SOSL": {
