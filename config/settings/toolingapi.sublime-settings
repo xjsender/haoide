@@ -52,7 +52,8 @@
     // Sometimes, you may want to develop package, so you need to just download the code 
     // in the allowed packages, because package name is unique in the whole salesforce org, 
     // so I put it here but not in project property
-    "allowed_packages": ["sinaweibo", "twitter", "facebook"],
+    // for example, "allowed_packages": ["sinaweibo", "twitter", "facebook"],
+    "allowed_packages": [],
 
     // Indicate whether download StaticResource body
     // This job is processed by Metadata API

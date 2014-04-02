@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+Release 0.3.7  (2014-04-02)
+++++++++++++++++++
+
+- Remove default value for ``allowed_packages``
+- Try to fix `issue #23 <https://github.com/xjsender/SublimeApex/issues/23>`_
+
 
 Release 0.3.6  (2014-03-30)
 ++++++++++++++++++
