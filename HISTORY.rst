@@ -4,6 +4,15 @@ Release History
 
 ---------------
 
+Release 0.3.8  (2014-04-03)
+++++++++++++++++++
+
+- Add ``Metadata Api`` for document reference
+- Display namespace name for standard class in completion
+- Just goto error line if component is ``ApexClass`` when saving component
+- Update README.MD
+
+
 Release 0.3.7  (2014-04-02)
 ++++++++++++++++++
 

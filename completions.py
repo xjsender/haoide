@@ -145,7 +145,7 @@ class ApexCompletions(sublime_plugin.EventListener):
             # Add standard class in specified namespace to completions
             if variable_name in apex.apex_namespaces:
                 for standard_class in apex.apex_namespaces[variable_name]:
-                    completion_list.append(("%s\tNameSpace Class" % standard_class, standard_class))
+                    completion_list.append(("%s\t%s" % (standard_class, variable_name), standard_class))
 
             # Check whether variable is standard class
             if variable_name.lower() in apex.apex_completions:

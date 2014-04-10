@@ -95,6 +95,7 @@ def get_variable_type(view, variable_name):
 
     if len(matched_regions) > 0:
         matched_block = view.substr(matched_regions[0]).strip()
+        
         # If list, map, set
         if "<" in matched_block and ">" in matched_block:
             variable_type = matched_block.split("<")[0].strip()

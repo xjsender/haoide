@@ -1201,7 +1201,8 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
 
         # Process request result
         result = api.result
-        file_base_name =  component_name + component_attribute["extension"]
+        extension = component_attribute["extension"]
+        file_base_name =  component_name + extension
         if "success" in result and result["success"]:
             if "symbol_table" in result:
                 # Save symbolTable to component_metadata.sublime-settings
@@ -1219,9 +1220,10 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
                     time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))))
 
         # If not succeed, just go to the error line
+        # Because error line in page is always at the line 1, so just work in class or trigger
         elif "success" in result and not result["success"]:
             view = sublime.active_window().active_view()
-            if file_base_name in view.file_name():
+            if file_base_name in view.file_name() and extension in [".trigger", ".cls"]:
                 view.run_command("goto_line", {"line": result["line"]})
 
     settings = context.get_toolingapi_settings()

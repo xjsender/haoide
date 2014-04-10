@@ -169,12 +169,16 @@ Or, you can choose any Log Id and click ```SublimeApex > View Id In Salesforce W
 
 ## Run Test
 There are two methods to run test, one is by Main Menu, other is in the context menu
-+ 1. By Main Menu: click ```SublimeApex > Apex Test > Run Test```, choose the test class and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
-+ 2. By Context Menu: in the context of opened class, click ```SublimeApex > Run Test Class```, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
+By Main Menu: click ```SublimeApex > Apex Test > Run Test```, choose the test class and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
+By Context Menu: in the context of opened class, click ```SublimeApex > Run Test Class```, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
 
 ## View Code Coverage
 This feature just works when api version is >= 29.0
 In the context menu of open class or trigger, click ```SublimeApex > View Code Coverage``` in the context menu, ait for the end of the progress on the status bar, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
+
+## Keep Apex Code Local History
+When you save code, this plugin will keep the change every minute.
+You can close this feature by setting ```keep_local_history_change``` to false
 
 ## Refresh Folder
 Click the folder in the side bar, refresh that you want to refresh, if you choose the classes folder, the ```Refresh ApexClass``` command will be visible, ```ApexTrigger```, ```ApexComponent```, ```ApexPage``` and ```StaticResource``` is same.
@@ -182,7 +186,7 @@ Click the folder in the side bar, refresh that you want to refresh, if you choos
 ## Salesforce Document Quick Reference
 I get the idea idea from [Salesforce Referencee](https://github.com/Oblongmana/sublime-salesforce-reference) and added some feature based on it.
 
-Click the ```SublimeApex > Reference > Reload Salesforce Reference``` in the main menu, you need to confirm whether continue, after you confirmed it, then wait for a moment until the ```Open Document``` command is enabled, at this moment, you can press ```Ctrl+Shift+O``` or Click it to invoke the ```Open Document``` command, nearly all reference api will be shown in the list, you can try to choose any one and it will be opened in browser.
+Click the ```SublimeApex > Document > Reload Salesforce Reference``` in the main menu, you need to confirm whether continue, after you confirmed it, then wait for a moment until the ```Open Document``` command is enabled, at this moment, you can press ```Ctrl+Shift+O``` or Click it to invoke the ```Open Document``` command, nearly all reference api will be shown in the list, you can try to choose any one and it will be opened in browser.
 
 There is default ```docs``` settings, if you want to add some other document reference to here, you can customize it yourself.
 ```
