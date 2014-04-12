@@ -908,7 +908,7 @@ def handle_create_debug_log(user_name, user_id, timeout=120):
 
         result = api.result
         if result["status_code"] > 399: return
-        print (message.SEPRATE.format("Create Debug Log for '{0}' Succeed.".format(user_name)))
+        print (message.SEPRATE.format(user_name + " " + result["message"]) )
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)

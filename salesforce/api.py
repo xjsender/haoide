@@ -324,11 +324,25 @@ class SalesforceApi():
 
         :traced_entity_id: Component Id or User Id
         """
-        
+
+        # If traced_entity_id is none, just set it as current user
         while not traced_entity_id and (self.username not in globals()):
             self.login(True)
             traced_entity_id = globals()[self.username]["user_id"]
-            
+
+        # Check whether traced user already has trace flag
+        # If not, just create it for him/her
+        query = """
+            SELECT COUNT() FROM TraceFlag 
+            WHERE TracedEntityId = '%s' 
+            AND ExpirationDate >= TODAY
+        """ % traced_entity_id
+        result = self.query(query, True)
+        if result["totalSize"] > 0:
+            result["message"] = "TraceFlag already exist"
+            self.result = result
+            return self.result
+
         # Create Trace Flag
         trace_flag = self.toolingapi_settings["trace_flag"]
         trace_flag["TracedEntityId"] = traced_entity_id
@@ -341,6 +355,7 @@ class SalesforceApi():
         post_url = "/tooling/sobjects/TraceFlag"
         result = self.post(post_url, trace_flag)
 
+        result["message"] = "TraceFlag creation succeed"
         self.result = result
         return result
 
@@ -373,7 +388,7 @@ class SalesforceApi():
         self.result = result
         return result
 
-    def run_test(self, class_id, traced_entity_id=None):
+    def run_test(self, class_id):
         """
         Run Test according to test class_id, return error if has
 
@@ -383,7 +398,6 @@ class SalesforceApi():
         # Firstly Login
         self.login()
 
-        # Create trace flag
         traced_entity_id = globals()[self.username]["user_id"]
         self.create_trace_flag(traced_entity_id)
 
