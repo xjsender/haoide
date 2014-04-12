@@ -118,6 +118,11 @@
                         "id": "describesobject",
                         "caption": "Describe Sobject",
                         "command": "describe_sobject"
+                    },
+                    {
+                        "id": "generatesoql",
+                        "caption": "Generate SOQL",
+                        "command": "generate_soql"
                     }
                 ]
             },

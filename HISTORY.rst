@@ -4,12 +4,28 @@ Release History
 
 ---------------
 
+Release 0.3.9  (2014-04-12)
+++++++++++++++++++
+
+- Update project folder structure, you can change it to original strcture by remove the ``src/`` from every component attribute
+- If visualforce component attribute type is ``Object`` in visualforce completion, return ``<apex:inputField value="{!}"``
+- Correct compile command thread status message
+- Add local history for ``execute anonymous``, ``execute query``, ``describe sobject`` and ``Run Test``
+- Add ``keep_operation_history`` setting to control whether add operation history
+- If export something, check workspace availability, if not available, just make it
+- Change password of default test org and set password policy to never expire
+- Change the default ``api_version`` setting to ``30``
+- Add confirmation request for every refresh operation, for example, ``Refresh Classes``, ``Refresh Selected Component``
+- Add ``delay_seconds_for_hidden_console`` setting to hide console automatically if save error happen and console is opened, the default **default seconds** is ``10``
+- Add a new class template ``Batch Class``
+- Add a new command for generating SOQL for specified sobject
+
 Release 0.3.8  (2014-04-03)
 ++++++++++++++++++
 
 - Add ``Metadata Api`` for document reference
 - Display namespace name for standard class in completion
-- Just goto error line if component is ``ApexClass`` when saving component
+- when saving component, just goto error line if component is ``ApexClass`` or  ``ApexTrigger``
 - Update README.MD
 
 

@@ -131,9 +131,19 @@ There has a ```log_levels``` setting in the default setting, If you want to chan
 ## Execute Query
 After any snippet which start with SELECT is chosen, you can press ```Ctrl+Alt+Q``` or click ```SublimeApex > Execute Query```, the queried json result will be formated and shown in a new view.
 
+## Describe Sobject
+Click ```SublimeApex > Describe > Describe Sobect``` and then choose a sobject in the selection panel, the describe result will appear in the new view
+
+## Generate SOQL
+Click ```SublimeApex > Describe > Generate SOQL``` and then choose a sobject in the selection panel, the sobject SOQL will appear in the new view
+
+## Keep Operation History
+By default, the operation of ```Execute Query```, ```Describe Sobject```, ```Gernate SOQL```, ```Execute Anonymous``` and ```Run Test``` will be kept into the ```.history``` path in current project, you can disable this feature by setting ```keep_operation_history``` to false
+
 ## Save component
 + This command is only enabled in salesforce code file
-+ After code is updated, click ```SublimeApex > Save to Server``` or press ```Ctrl+Alt+S```
++ After code is updated, click ```SublimeApex > Save to Server``` in the context menu or press ```Ctrl+Alt+S```
++ If the saving process failed, the console will be open and automatically hidden in **10** seconds, if you think **10** seconds is not enough to check the error message, you add it up to more by setting ```delay_seconds_for_hidden_console```
 
 ## Refresh component
 + This command is only enabled in salesforce code file
@@ -198,7 +208,7 @@ There is default ```docs``` settings, if you want to add some other document ref
     ...
 },
 ```
-+ **apexdoc**: the highlight part in ```http://www.salesforce.com/us/developer/docs/**apexdoc**/Data/Toc.xml```
++ **apexdoc**: the part in ```http://www.salesforce.com/us/developer/docs/apexdoc/Data/Toc.xml```
 + **Apex**: the document prefix in the quick search panel
 + **pattern**: the XPath pattern for parse the content from the response
 
@@ -317,6 +327,6 @@ Click ```SublimeApex > Export > Export Data Template```, wait for a moment, choo
 ## Proxy
 Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanced/#proxies)
 
-# Dependency Lib #
+# Build-in Dependency Lib #
 + [requests](https://github.com/kennethreitz/requests)
 + [xmltodict](https://github.com/martinblech/xmltodict)

@@ -82,6 +82,24 @@ def get_sobject_completion_list(sobject_describe, prefix="",
 
     return completion_list
 
+def hide_panel(toggle=False):
+    """
+    uSed for hiding pandel
+
+    :toggle: if true, just toggle, else, just hiden panel
+    """
+    sublime.active_window().run_command("hide_panel", 
+        {"panel": "console", "toggle": toggle})
+
+def show_panel(toggle=False):
+    """
+    uSed for showing pandel
+
+    :toggle: if true, just toggle, else, just show panel
+    """
+    sublime.active_window().run_command("show_panel", 
+        {"panel": "console", "toggle": toggle})
+
 def get_variable_type(view, variable_name):
     """
     Get the variable type by variable name in the view
@@ -174,6 +192,42 @@ def get_symbol_table_completions(symbol_table):
             else:
                 completions.append(("Inner Class " + c["name"] + "\t", c["name"] + "$1"))
     return sorted(completions)
+
+def add_operation_history(operation, history_content):
+    """
+    Keep the history in the local history rep
+
+    :operation: the operation source
+    :history_content: the content needed to keep
+    """
+    settings = context.get_toolingapi_settings()
+    if not settings["keep_operation_history"]: return
+
+    folder, operation = operation.split("/")
+    outputdir = settings["workspace"] + "/.history/" + folder
+    if not os.path.exists(outputdir):
+        os.makedirs(outputdir)
+
+    time_stamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+    seprate = "\n" + 100 * "-" + "\n"
+    history = time_stamp + seprate + history_content + "\n" * 2
+    fp = open(outputdir + "/%s.txt" % operation, "a")
+    fp.write(history)
+    fp.close()
+
+def check_new_component_enabled():
+    settings = context.get_toolingapi_settings()
+    return os.path.exists(settings["workspace"])
+    
+def check_workspace_available(settings=None):
+    """
+    Check workspace is available, if not make it
+    """
+    if not settings: settings = context.get_toolingapi_settings()
+    if not os.path.exists(settings["workspace"]):
+        sublime.active_window().run_command('create_new_project', {
+            "switch_project": False
+        })
 
 def get_view_by_name(view_name):
     """
@@ -375,7 +429,7 @@ def none_value(value):
     @value: value
     """
 
-    if value == None: return ""
+    if not value: return ""
     return "%s" % value
     
 def is_python3x():
@@ -407,7 +461,7 @@ def parse_method(methods, is_method=True):
 
     methods_dict = {}
     for method in methods:
-        if method["name"] == None: continue
+        if not method["name"]: continue
         if not is_method:
             returnType = ''
         else:
@@ -497,7 +551,7 @@ def parse_code_coverage(result):
         row = ""
         row += "%-*s" % (40, name)
         coverage = records[name]
-        if coverage["NumLinesCovered"] == None or coverage["NumLinesUncovered"] == None:
+        if not coverage["NumLinesCovered"] or not coverage["NumLinesUncovered"]:
             continue
         covered_lines = coverage["NumLinesCovered"]
         total_lines = covered_lines + coverage["NumLinesUncovered"]
@@ -558,7 +612,7 @@ def parse_validation_rule(toolingapi_settings, sobjects):
     """
 
     # Open target file
-    outputdir = toolingapi_settings["workspace"] + "/describe/validation rules"
+    outputdir = toolingapi_settings["workspace"] + "/validation"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -615,7 +669,7 @@ def parse_workflow_metadata(toolingapi_settings, sobject):
 
     # Outputdir for save workflow rule, field update, email alert
     # and outbound message and task
-    outputdir = toolingapi_settings["workspace"] + "/describe/workflows"
+    outputdir = toolingapi_settings["workspace"] + "/workflow"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -796,14 +850,14 @@ def write_metadata_to_csv(dict_write, columns, metadata, sobject):
             elif isinstance(cell_value, dict):
                 value = ''
                 for cell_key in cell_value.keys():
-                    if cell_value[cell_key] == None:
+                    if not cell_value[cell_key]:
                         value += cell_key + ": ' '" + "\n"
                     else:
                         value += cell_key + ": " + cell_value[cell_key] + "\n"
 
                 cell_value = value[ : -1]
 
-            elif cell_value == None:
+            elif not cell_value:
                 cell_value = ""
 
             else:
@@ -859,7 +913,7 @@ def parse_field_dependencies(settings, sobject):
         return
 
     # Outputdir
-    outputdir = "%s/describe/fieldDependencies" % workspace
+    outputdir = "%s/fieldDependencies" % workspace
     if not os.path.exists(outputdir): os.makedirs(outputdir)
 
     # Convert xml to dict
@@ -969,7 +1023,7 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
     fields_key = workbook_field_describe_columns
 
     # If workbook path is not exist, just make it
-    outputdir = workspace + "/describe/sobject workbooks"
+    outputdir = workspace + "/workbooks"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -1011,7 +1065,7 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
                         row_value = row_value[0]
                     else:
                         row_value = ""
-            elif row_value == None:
+            elif not row_value:
                 row_value = ""
             else:
                 row_value = "%s" % row_value
@@ -1096,7 +1150,7 @@ def parse_sobject_field_result(result):
         row = ""
         for key in record_keys:
             row_value = record.get(key)
-            if row_value == None:
+            if not row_value:
                 row_value = ""
 
             key_width = record_key_width[key]
@@ -1137,7 +1191,7 @@ def parse_sobject_field_result(result):
             # Get field value by field API
             # and convert it to str
             row_value = recordtype.get(key)
-            if row_value == None:
+            if not row_value:
                 row_value = ""
 
             key_width = recordtype_key_width[key]
@@ -1171,7 +1225,7 @@ def parse_sobject_field_result(result):
             # Get field value by field API
             # and convert it to str
             row_value = childRelationship.get(key)
-            if row_value == None:
+            if not row_value:
                 row_value = ""
 
             row_value = "%-*s" % (30, row_value)
@@ -1200,14 +1254,26 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
 
 def get_path_attr(path_dir):
     # Get the Folder Name and Project Name
-    path, folder_name = os.path.split(path_dir)
-    path, project_name = os.path.split(path)
+    path, folder = os.path.split(path_dir)
+    path, src = os.path.split(path)
+    
+    if "src" not in src:
+        project_name = src
+    else:
+        path, project_name = os.path.split(path)
+        folder = src + "/" + folder
 
     # Assume the project name has time suffix, 
-    year = time.strftime("%Y", time.localtime())
+    year = get_current_year()
     if year in project_name: project_name = project_name[:-9]
 
-    return project_name, folder_name
+    return project_name, folder
+
+def get_current_year():
+    """
+    Get the current year
+    """
+    return time.strftime("%Y", time.localtime())
 
 def get_file_attr(file_name):
     try:
@@ -1245,7 +1311,7 @@ def get_component_attribute(file_name):
     name, extension = get_file_attr(file_name)
 
     # If extension is None, just return
-    if extension == None or extension not in toolingapi_settings["component_extensions"]:
+    if not extension or extension not in toolingapi_settings["component_extensions"]:
         return
 
     component_type = toolingapi_settings[extension]

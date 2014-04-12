@@ -30,16 +30,11 @@ class SFDCEventListener(sublime_plugin.EventListener):
         toolingapi_settings = context.get_toolingapi_settings() 
 
         # If it is not SFDC Component, just return
-        if view.file_name() == None: return
+        if not view.file_name(): return
         name, extension = util.get_file_attr(view.file_name())
         if extension not in toolingapi_settings["component_extensions"]: return
 
-        # If functionality is close, just return
-        if not toolingapi_settings["hidden_console_on_modify"]: return
-
-        # Hidden Console
-        sublime.active_window().run_command("hide_panel", 
-            {"panel": "console", "toggle": False})
+        if toolingapi_settings["hidden_console_on_modify"]: util.hide_panel()
 
     def on_pre_save_async(self, view):
         """

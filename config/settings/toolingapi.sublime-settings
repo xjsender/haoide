@@ -14,7 +14,7 @@
         "pro-test": {
             "default": true,
             "login_url": "https://login.salesforce.com",
-            "password": "SublimeApex333333",
+            "password": "sublime222222",
             "username": "apex.sublime@dev.com",
             // If you don't need security token, 
             // just leave it as below or just delete below
@@ -23,7 +23,7 @@
     },
 
     // API version
-    "api_version": 29,
+    "api_version": 30,
 
     // Browser Path, you should set a valid browser path, otherwise, it will have problem
     // Some policy prevents setting chrome as default browser, so this setting is here
@@ -48,6 +48,10 @@
     // When you edit the code according to the error message, this flag is used to indicate
     // whether the console will be hidden automatically
     "hidden_console_on_modify": true,
+
+    // Every time when you save component and error happened, the console will be open.
+    // however, you want it to be hidden automatically after several seconds
+    "delay_seconds_for_hidden_console": 10,
 
     // Sometimes, you may want to develop package, so you need to just download the code 
     // in the allowed packages, because package name is unique in the whole salesforce org, 
@@ -75,6 +79,9 @@
     // If set false, it means just display field name
     // If you change this setting, you need to reload active cache to ensure it work
     "display_field_name_and_label": true,
+
+    // Indicate whether keep execute_anonymous, query and run test history to local
+    "keep_operation_history": true,
 
     // Bulk API batch size and batch bytes
     // Maximum 10000 rows per batch
@@ -249,31 +256,31 @@
     // You can change the folder but not the other component attributes
     "components": {
         "ApexClass": {
-            "folder": "classes", // Directory Name
+            "folder": "src/classes", // Directory Name
             "body": "Body", // Meatadata Name of Component
             "extension": ".cls" // Output File Extendsion
         },
 
         "ApexTrigger": {
-            "folder": "triggers",
+            "folder": "src/triggers",
             "body": "Body",
             "extension": ".trigger"
         },
 
         "ApexComponent": {
-            "folder": "components",
+            "folder": "src/components",
             "body": "Markup",
             "extension": ".component"
         },
 
         "ApexPage": {
-            "folder": "pages",
+            "folder": "src/pages",
             "body": "Markup",
             "extension": ".page"
         },
 
         "StaticResource": {
-            "folder": "staticresources",
+            "folder": "src/staticresources",
             "body": "Body",
             "extension": ".resource"
         }

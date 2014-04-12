@@ -21,7 +21,7 @@ class SalesforceApi():
         self.toolingapi_settings = toolingapi_settings
         self.api_version = toolingapi_settings["api_version"]
         self.username = toolingapi_settings["username"]
-        self.result = {}
+        self.result = None
 
     def login(self, session_id_expired=False):
         if self.username not in globals() or session_id_expired:
@@ -265,15 +265,25 @@ class SalesforceApi():
         return all_result
 
     def combine_soql(self, sobject):
-        sobject_describe = self.describe_sobject(sobject)
+        """
+        Get the full field list soql by sobject
+
+        :sobject: sobject name, for example, Account, Contact
+        """
+        result = self.describe_sobject(sobject)
+        fields = sorted(result["fields"], key=lambda k : k['custom'])
         sobject_fields = ""
-        for field in sobject_describe["fields"]:
+        for field in fields:
             if field.get("type") in ["location"]:
                 continue
 
             sobject_fields += field.get("name") + ", "
 
-        return 'SELECT ' + sobject_fields[ : -2] + ' FROM ' + sobject
+        self.result = {
+            "status_code": result["status_code"],
+            "soql": 'SELECT ' + sobject_fields[ : -2] + ' FROM ' + sobject
+        }
+        return self.result
 
     def describe_sobject(self, sobject):
         """
@@ -315,7 +325,7 @@ class SalesforceApi():
         :traced_entity_id: Component Id or User Id
         """
         
-        while traced_entity_id == None and (self.username not in globals()):
+        while not traced_entity_id and (self.username not in globals()):
             self.login(True)
             traced_entity_id = globals()[self.username]["user_id"]
             
@@ -819,7 +829,7 @@ class SalesforceApi():
             # The users password has expired, you must call SetPassword 
             # before attempting any other API operations
             # Database.com not support StaticResource, ApexComponent and ApexPage
-            if result == None: return
+            if not result: return
             if result["status_code"] == 400: continue
 
             if result["status_code"] > 399:

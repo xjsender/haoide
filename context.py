@@ -39,7 +39,7 @@ def get_toolingapi_settings():
         else:
             usernames.append(project_attr["username"])
 
-    if default_project == None:
+    if not default_project:
         sublime.error_message("You should has one default project at least. please check you settings.")
         return
 
@@ -62,7 +62,7 @@ def get_toolingapi_settings():
 
     login_url = default_project.get("login_url")
     settings["login_url"] = login_url
-    settings["soap_login_url"] = login_url + "/services/Soap/u/v{0}.0".format(s.get("api_version", "28"))
+    settings["soap_login_url"] = login_url + "/services/Soap/u/v{0}.0".format(s.get("api_version", "29"))
 
     # This flag indicate whether output session id
     settings["output_session_info"] = s.get("output_session_info", False)
@@ -78,6 +78,10 @@ def get_toolingapi_settings():
     # whether the console will be hidden automatically
     settings["hidden_console_on_modify"] = s.get("hidden_console_on_modify", True)
 
+    # Every time when you save component and error happened, the console will be open.
+    # however, you want it to be hidden automatically after several seconds
+    settings["delay_seconds_for_hidden_console"] = s.get("delay_seconds_for_hidden_console", 6)
+
     # Indicate whether download StaticResource body, it is very time-consuming.
     # If you open this functionality and your StaticResources are very large
     # It may stop your work
@@ -88,6 +92,9 @@ def get_toolingapi_settings():
 
     # Browser Path
     settings["default_chrome_path"] = s.get("default_chrome_path")
+
+    # Indicate whether keep history to local
+    settings["keep_operation_history"] = s.get("keep_operation_history", True)
 
     # Completions Part
     settings["disable_fields_completion"] = s.get("disable_fields_completion", False)
@@ -199,7 +206,7 @@ def add_project_to_workspace(workspace):
 
     # Just ST3 supports, ST2 is not
     project_data = sublime.active_window().project_data()
-    if project_data == None: project_data = {}
+    if not project_data: project_data = {}
     folders = []
     if "folders" in project_data:
         folders = project_data["folders"]

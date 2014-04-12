@@ -1,6 +1,7 @@
 import sublime
 from .salesforce import message
 from . import util
+from . import context
 
 class ThreadProgress():
     """
@@ -34,11 +35,8 @@ class ThreadProgress():
                 sublime.status_message('')
                 return
 
-            # Invoked in update.py
-            if self.api == None: return
-
             # If result is None, it means timeout
-            if self.api.result == None: 
+            if not self.api.result:
                 sublime.error_message("Request timeout, please check your network access")
                 return
 
@@ -50,9 +48,11 @@ class ThreadProgress():
                  ("success" in result and not result["success"])):
                 
                 print (message.SEPRATE.format(util.format_error_message(result)))
-                if self.open_console:
-                    sublime.active_window().run_command("show_panel", 
-                        {"panel": "console", "toggle": False})
+                if self.open_console: util.show_panel()
+
+                settings = context.get_toolingapi_settings()
+                delay_seconds = settings["delay_seconds_for_hidden_console"]
+                sublime.set_timeout_async(util.hide_panel, delay_seconds * 1000)
             else:
                 sublime.status_message(self.success_message)
             return

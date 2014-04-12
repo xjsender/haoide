@@ -16,6 +16,19 @@ from . import util
 from .salesforce import message
 from .salesforce.bulkapi import BulkApi
 
+class GenerateSoqlCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(GenerateSoqlCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        sobjects_describe = processor.populate_sobjects_describe()
+        self.sobjects = sorted(sobjects_describe.keys())
+        self.window.show_quick_panel(self.sobjects, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+        processor.handle_generate_sobject_soql(self.sobjects[index])
+
 class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ExportDataTemplateCommand, self).__init__(*args, **kwargs)
@@ -35,6 +48,7 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
         recordtype_id = self.sobject_recordtypes_attr[sobject_recordtype]
 
         # handle this describe request
+        util.check_workspace_available()
         processor.handle_export_data_template_thread(sobject, recordtype_name, recordtype_id)
 
 class ExecuteRestTestCommand(sublime_plugin.TextCommand):
@@ -182,6 +196,9 @@ class RefreshClassFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshClassFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
+        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        if not confirm: return
+
         processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
 
     def is_visible(self, dirs):
@@ -203,6 +220,9 @@ class RefreshComponentFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshComponentFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
+        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        if not confirm: return
+
         processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
 
     def is_visible(self, dirs):
@@ -224,6 +244,9 @@ class RefreshPageFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshPageFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
+        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        if not confirm: return
+
         processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
 
     def is_visible(self, dirs):
@@ -245,6 +268,9 @@ class RefreshTriggerFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshTriggerFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
+        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        if not confirm: return
+
         processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
 
     def is_visible(self, dirs):
@@ -266,6 +292,9 @@ class RefreshStaticResourceFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshStaticResourceFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
+        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        if not confirm: return
+        
         processor.handle_get_static_resource_body(self.folder_name, self.component_outputdir)
 
     def is_visible(self, dirs):
@@ -343,6 +372,7 @@ class ExportFieldDependencyCommand(sublime_plugin.WindowCommand):
             sublime.error_message(message.METADATA_CHECK)
             return
 
+        util.check_workspace_available()
         processor.handle_export_field_dependencies()
 
 class ExportCustomFieldCommand(sublime_plugin.WindowCommand):
@@ -350,6 +380,7 @@ class ExportCustomFieldCommand(sublime_plugin.WindowCommand):
         super(ExportCustomFieldCommand, self).__init__(*args, **kwargs)
 
     def run(self):
+        util.check_workspace_available()
         processor.handle_export_customfield()
 
 class DescribeSobjectCommand(sublime_plugin.WindowCommand):
@@ -377,6 +408,7 @@ class ExportWorkbookCommand(sublime_plugin.WindowCommand):
         # Display the fields in a new view
         input = input.replace(" ", "")
 
+        util.check_workspace_available()
         if input == "*":
             processor.handle_generate_all_workbooks(5)
         else:
@@ -663,10 +695,6 @@ def delete_components(files):
         component_attribute = util.get_component_attribute(f)[0]
         processor.handle_delete_component(component_attribute["url"], f)
 
-def check_new_component_enabled():
-    settings = context.get_toolingapi_settings()
-    return os.path.exists(settings["workspace"])
-
 class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreateApexTriggerCommand, self).__init__(*args, **kwargs)
@@ -685,7 +713,7 @@ class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
         })
 
     def is_enabled(self):
-        return check_new_component_enabled()
+        return util.check_new_component_enabled()
 
 class CreateApexPageCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -695,7 +723,7 @@ class CreateApexPageCommand(sublime_plugin.WindowCommand):
         self.window.run_command("create_component", {"component_type": "ApexPage"})
 
     def is_enabled(self):
-        return check_new_component_enabled()
+        return util.check_new_component_enabled()
 
 class CreateApexComponentCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -705,7 +733,7 @@ class CreateApexComponentCommand(sublime_plugin.WindowCommand):
         self.window.run_command("create_component", {"component_type": "ApexComponent"})    
 
     def is_enabled(self):
-        return check_new_component_enabled()
+        return util.check_new_component_enabled()
 
 class CreateApexClassCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -715,7 +743,7 @@ class CreateApexClassCommand(sublime_plugin.WindowCommand):
         self.window.run_command("create_component", {"component_type": "ApexClass"})
 
     def is_enabled(self):
-        return check_new_component_enabled()
+        return util.check_new_component_enabled()
 
 class CreateComponentCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -895,7 +923,7 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
 class RefreshComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
         confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
-        if confirm == False: return
+        if not confirm: return
     
         # Get file_name and component_attribute
         file_name = self.view.file_name()
@@ -915,6 +943,9 @@ class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
         super(RefreshSelectedComponentsCommand, self).__init__(*args, **kwargs)
 
     def run(self, files):
+        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        if not confirm: return
+
         sublime.active_window().run_command("show_panel", {"panel": "console", "toggle": False})
         for file_name in files:
             component_attribute = util.get_component_attribute(file_name)[0]
@@ -942,14 +973,14 @@ def check_enabled(file_name):
     Return: 
         Bool
     """
-    if file_name == None: return False
+    if not file_name: return False
 
     # Get toolingapi settings
-    toolingapi_settings = context.get_toolingapi_settings()
+    settings = context.get_toolingapi_settings()
 
     # Check Component Type
     name, extension = util.get_file_attr(file_name)
-    if extension not in toolingapi_settings["component_extensions"]: 
+    if extension not in settings["component_extensions"]: 
         sublime.status_message("This component is not salesforce component")
         return False
 
@@ -957,15 +988,15 @@ def check_enabled(file_name):
     # if component_type == "StaticResource": return False
 
     # Check whether project of current file is active project
-    default_project_name = toolingapi_settings["default_project_name"]
+    default_project_name = settings["default_project_name"]
     if not default_project_name in file_name: 
         sublime.status_message('This project is not active project');
         return False
 
     # Check whether active component is in active project
-    username = toolingapi_settings["username"]
+    username = settings["username"]
     component_attribute, component_name = util.get_component_attribute(file_name)
-    if component_attribute == None: 
+    if not component_attribute: 
         sublime.status_message("This component is not active component")
         return False
     

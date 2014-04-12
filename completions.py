@@ -280,7 +280,10 @@ class PageCompletions(sublime_plugin.EventListener):
                         if "values" in value:
                             completion_list.append((key + '\t' + value['type'], key))
                         else:
-                            completion_list.append((key + '\t' + value['type'], key+'="$1"$0'))
+                            if value["type"] == "Object":
+                                completion_list.append((key + '\t' + value['type'], key+'="{!$1}"$0'))
+                            else:
+                                completion_list.append((key + '\t' + value['type'], key+'="$1"$0'))
 
             ##########################################
             # HTML Element Attribute Completions

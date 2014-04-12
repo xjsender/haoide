@@ -46,7 +46,7 @@ def populate_users():
     thread = threading.Thread(target=api.query_all, args=(query, ))
     thread.start()
 
-    while thread.is_alive() or api.result == None:
+    while thread.is_alive() or not api.result:
         time.sleep(1)
 
     records = api.result["records"]
@@ -110,7 +110,7 @@ def populate_classes():
     thread = threading.Thread(target=api.query_all, args=(query, ))
     thread.start()
 
-    while thread.is_alive() or api.result == None:
+    while thread.is_alive() or not api.result:
         time.sleep(1)
 
     classes = {}
@@ -154,7 +154,7 @@ def populate_sobject_recordtypes():
     thread = threading.Thread(target=api.query_all, args=(query, ))
     thread.start()
 
-    while thread.is_alive() or api.result == None:
+    while thread.is_alive() or not api.result:
         time.sleep(1)
 
     records = api.result["records"]
@@ -202,7 +202,7 @@ def populate_sobjects_describe():
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
 
-    while thread.is_alive() or api.result == None:
+    while thread.is_alive() or not api.result:
         time.sleep(1)
 
     sobjects_describe = api.result
@@ -262,8 +262,9 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
             print (message.SEPRATE.format(error_message))
             return
 
-        sublime.active_window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
+        # Show panel
+        util.show_panel()
+
         if result["totalSize"] == 0:
             print (message.SEPRATE.format("You should run test class firstly."))
             return
@@ -621,7 +622,7 @@ def handle_retrieve_all_thread(timeout=120):
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         
-        if api.result == None: return
+        if not api.result: return
         if api.result["status_code"] > 399: return
 
         # Mkdir for output dir of zip file
@@ -630,9 +631,6 @@ def handle_retrieve_all_thread(timeout=120):
         outputdir = toolingapi_settings["workspace"] + "/metadata"
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
-
-        # Define zip file path and extracted zip file path
-        outputdir = toolingapi_settings["workspace"] + "/metadata"
 
         # Extract zip
         util.extract_zip(result["zipFile"], outputdir)
@@ -672,7 +670,7 @@ def handle_export_workflows(timeout=120):
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
     toolingapi_settings = context.get_toolingapi_settings()
-    outputdir = toolingapi_settings["workspace"] + "/describe/workflows/"
+    outputdir = toolingapi_settings["workspace"] + "/workflow/"
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
@@ -693,7 +691,7 @@ def handle_export_field_dependencies(timeout=120):
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
     toolingapi_settings = context.get_toolingapi_settings()
-    outputdir = toolingapi_settings["workspace"] + "/describe/fieldDependencies/"
+    outputdir = toolingapi_settings["workspace"] + "/fieldDependencies/"
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
@@ -713,7 +711,7 @@ def handle_export_validation_rules(timeout=120):
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
     toolingapi_settings = context.get_toolingapi_settings()
-    outputdir = toolingapi_settings["workspace"] + "/describe/validation rules/validation rules.csv"
+    outputdir = toolingapi_settings["workspace"] + "/validation/validation rules.csv"
     api = SalesforceApi(toolingapi_settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
@@ -740,7 +738,7 @@ def handle_export_customfield(timeout=120):
 
     toolingapi_settings = context.get_toolingapi_settings()
     workspace = context.get_toolingapi_settings().get("workspace")
-    outputdir = workspace + "/describe/customfield"
+    outputdir = workspace + "/customfield"
     api = SalesforceApi(toolingapi_settings)
     query = "SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName FROM CustomField"
     thread = threading.Thread(target=api.query_all, args=(query, True,))
@@ -767,7 +765,7 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
         print (message.SEPRATE.format("Data Template outputdir: " + output_file_dir))
 
     toolingapi_settings = context.get_toolingapi_settings()
-    outputdir = toolingapi_settings["workspace"] + "/describe/template"
+    outputdir = toolingapi_settings["workspace"] + "/template"
     output_file_dir = outputdir + "/" + sobject + "-" + recordtype_name + ".csv"
     api = SalesforceApi(toolingapi_settings)
     url = "/sobjects/%s/describe/layouts/%s" % (sobject, recordtype_id)
@@ -839,8 +837,11 @@ def handle_execute_query(soql, timeout=120):
             "input": pprint.pformat(result)
         })
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+        # Keep the history in the local history rep
+        util.add_operation_history('execute_query', soql.decode("utf-8"))
+
+    settings = context.get_toolingapi_settings()
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.query, args=(soql,))
     thread.start()
     ThreadProgress(api, thread, "Execute Query", "Execute Query Succeed")
@@ -863,8 +864,11 @@ def handle_execute_anonymous(apex_string, timeout=120):
             "input": util.parse_execute_anonymous_xml(result)
         })
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+        # Keep the history apex script to local
+        util.add_operation_history('execute_anonymous', apex_string)
+
+    settings = context.get_toolingapi_settings()
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.execute_anonymous, args=(apex_string, ))
     thread.start()
     ThreadProgress(api, thread, "Execute Anonymous", "Execute Anonymous Succeed")
@@ -1019,12 +1023,16 @@ def handle_run_test(class_name, class_id, timeout=120):
 
         # No error, just display log in a new view
         test_result = util.parse_test_result(result)
+        class_name = result[0]["ApexClass"]["Name"]
         view = sublime.active_window().new_file()
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
             "view_name": "Test Result",
             "input": test_result
         })
+        
+        # Keep the history in the local history rep
+        util.add_operation_history('test/' + class_name, test_result)
 
         # After run test succeed, get ApexCodeCoverageAggreate
         query = "SELECT ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage " +\
@@ -1048,12 +1056,42 @@ def handle_run_test(class_name, class_id, timeout=120):
             "point": view.size()
         })
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_toolingapi_settings()
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.run_test, args=(class_id, ))
     thread.start()
     ThreadProgress(api, thread, "Run Test Class " + class_name, "Run Test for " + class_name + " Succeed")
     handle_thread(thread, timeout)
+
+def handle_generate_sobject_soql(sobject, timeout=120):
+    def handle_new_view_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
+            return
+
+        # If succeed
+        result = api.result
+        
+        # Error Message are prcoessed in ThreadProgress
+        if result["status_code"] > 399: return
+
+        # No error, just display log in a new view
+        view = sublime.active_window().new_file()
+        view.run_command("new_view", {
+            "name": sobject + " SOQL",
+            "input": result["soql"]
+        })
+
+        # Keep sobject describe history
+        util.add_operation_history('soql/' + sobject, result["soql"])
+
+    settings = context.get_toolingapi_settings()
+    api = SalesforceApi(settings)
+    thread = threading.Thread(target=api.combine_soql, args=(sobject, ))
+    thread.start()
+    wait_message = 'Generate SOQL for ' + sobject
+    ThreadProgress(api, thread, wait_message, wait_message + ' Succeed')
+    handle_new_view_thread(thread, timeout)
 
 def handle_describe_sobject(sobject, timeout=120):
     def handle_new_view_thread(thread, timeout):
@@ -1069,10 +1107,14 @@ def handle_describe_sobject(sobject, timeout=120):
 
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
+        describe_result = util.parse_sobject_field_result(result)
         view.run_command("new_view", {
             "name": sobject + " Describe Result",
-            "input": util.parse_sobject_field_result(result)
+            "input": describe_result
         })
+
+        # Keep sobject describe history
+        util.add_operation_history('describe/' + sobject, describe_result)
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
@@ -1122,7 +1164,7 @@ def handle_new_project(settings, timeout=120):
         # If succeed, something may happen,
         # for example, user password is expired
         result = api.result
-        if result == None: return
+        if not result: return
         if "status_code" in result and result["status_code"] > 399: return
 
         # Load COMPONENT_METADATA_SETTINGS Settings and put all result into it
@@ -1156,20 +1198,20 @@ def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeo
             sublime.set_timeout(lambda:handle_thread(thread, static_resource_dir, timeout), timeout)
             return
         
-        if api.result == None: return
+        if not api.result: return
         if api.result["status_code"] > 399: return
 
         # Mkdir for output dir of zip file
         result = api.result
         if not static_resource_dir:
-            static_resource_dir = settings["workspace"] + "/" + folder_name
+            static_resource_dir = settings["workspace"] + folder_name
         if not os.path.exists(static_resource_dir): os.makedirs(static_resource_dir)
 
         # Extract zip
         util.extract_zip(result["zipFile"], static_resource_dir)
 
         # Move the file to staticresources path
-        root_src_dir = static_resource_dir + "/unpackaged/" + folder_name
+        root_src_dir = static_resource_dir + "/unpackaged/staticresources"
         root_dst_dir = static_resource_dir
         for x in os.walk(root_src_dir):
             if not x[-1]: continue
@@ -1233,7 +1275,7 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
     if username + component_name in globals():
         is_thread_alive = globals()[username + component_name]
         if is_thread_alive:
-            print ('%s saving is in process' % component_name);
+            print ('%s is in process' % component_name);
             return
 
     api = SalesforceApi(settings)
@@ -1245,7 +1287,7 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
     globals()[username + component_name] = True
 
     # Display thread progress
-    wait_message = "Saving " + component_name
+    wait_message = ("Compiling " if is_check_only else "Saving ") + component_name
     ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
     handle_thread(thread, timeout)
 

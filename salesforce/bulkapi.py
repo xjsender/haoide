@@ -62,7 +62,8 @@ class BulkJob():
 
         if self.operation == "query" and not records:
             api = SalesforceApi(self.settings)
-            records = api.combine_soql(self.sobject)
+            result = api.combine_soql(self.sobject)
+            records = result["soql"]
 
         response = requests.post(url, records, verify=False, headers=headers)
         if response.status_code == 400:
@@ -173,8 +174,7 @@ class BulkApi():
             os.mkdir(os.path.dirname(outputfile))
 
         if isinstance(result, dict):
-            sublime.active_window().run_command("show_panel", 
-                {"panel": "console", "toggle": False})
+            util.show_panel()
             util.format_error_message(dict(result))
         else:
             try:
