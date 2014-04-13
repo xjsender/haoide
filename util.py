@@ -203,7 +203,11 @@ def add_operation_history(operation, history_content):
     settings = context.get_toolingapi_settings()
     if not settings["keep_operation_history"]: return
 
-    folder, operation = operation.split("/")
+    splits = operation.split("/")
+    if len(splits) == 1:
+        folder, operation = "", splits[0]
+    elif len(splits) == 2:
+        folder, operation = splits
     outputdir = settings["workspace"] + "/.history/" + folder
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
