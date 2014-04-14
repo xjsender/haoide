@@ -312,8 +312,7 @@ class SalesforceApi():
         result = {}
         sobjects_describe = self.get("/sobjects").get("sobjects")
         for sobject_describe in sobjects_describe:
-            if "name" in sobject_describe and sobject_describe["createable"] \
-                    and sobject_describe["queryable"]:
+            if "name" in sobject_describe:
                 result[sobject_describe["name"]] = sobject_describe
         self.result = result
         return self.result
@@ -332,12 +331,12 @@ class SalesforceApi():
 
         # Check whether traced user already has trace flag
         # If not, just create it for him/her
-        query = """
-            SELECT COUNT() FROM TraceFlag 
-            WHERE TracedEntityId = '%s' 
-            AND ExpirationDate >= TODAY
-        """ % traced_entity_id
+        time_stamp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.localtime(time.time()))
+        query = "SELECT Id, ExpirationDate FROM TraceFlag " +\
+                "WHERE TracedEntityId = '%s' AND ExpirationDate >= %s" % (traced_entity_id, time_stamp)
         result = self.query(query, True)
+        pprint.pprint(result)
+
         if result["totalSize"] > 0:
             result["message"] = "TraceFlag already exist"
             self.result = result

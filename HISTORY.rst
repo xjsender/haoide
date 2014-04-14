@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+
+Release 0.4.0 (2014-04-14)
+++++++++++++++++++
+- ``Track Trace Flag`` expiration date verify logic change
+- Return all sobjects when call ``Global Describe`` method in api.py, originally default return value is createable and queryable sobjects 
+
+
 Release 0.3.9  (2014-04-12)
 ++++++++++++++++++
 
