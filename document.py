@@ -61,6 +61,7 @@ class ReloadDocument():
             leaf_parents = tree.findall(doc_attr["pattern"])
             for parent in leaf_parents:
                 parent_title = parent.attrib["Title"]
+                if "Link" not in parent.attrib: continue
                 title_link[prefix + "=>" + parent_title] = {
                     "url": parent.attrib["Link"],
                     "attr": doc_attr["keyword"]

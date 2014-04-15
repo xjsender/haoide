@@ -1,4 +1,5 @@
-import sublime, sublime_plugin
+import sublime
+import sublime_plugin
 
 from . import context
 from . import util

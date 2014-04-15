@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+Release 0.4.1 (2014-04-14)
+++++++++++++++++++
+- Update ``Visualforce`` xPath and Document source code
+- Change ``api_version`` back to 29
+- Change the default test org password to updated one
+
 
 Release 0.4.0 (2014-04-14)
 ++++++++++++++++++
