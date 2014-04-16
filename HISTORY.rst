@@ -4,6 +4,16 @@ Release History
 
 ---------------
 
+
+Release 0.4.2 (2014-04-16) (Millstone for fixing some flaw in completion)
+++++++++++++++++++
+- Change ``display_field_name_and_label`` setting default value to false
+- BUG: Find variable type by variable name in view (Ignore comment code)
+- BUG: Find matched block in visualforce page (the matched region must contains current cursor point)
+- Add SOQL field completion, it's very useful feature
+- Add a new snippet for ``SELECT * FROM Account``, which is useful for corporation with SOQL field completion
+
+
 Release 0.4.1 (2014-04-14)
 ++++++++++++++++++
 - Update ``Visualforce`` xPath and Document source code

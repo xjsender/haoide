@@ -22,6 +22,13 @@ class SFDCEventListener(sublime_plugin.EventListener):
 
         context.display_active_project(view)
 
+    def on_activated(self, view):
+        """
+        Set Status with current default project
+        """
+
+        context.display_active_project(view)
+
     def on_modified_async(self, view):
         """
         Every time when you modified the context, just hide the console, 

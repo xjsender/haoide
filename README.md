@@ -116,6 +116,7 @@ You can press ```Alt+f7``` to update your active project
 + 8. ```input space```, list all attributes of tags
 + 9. ```input =```, list all values of this corresponding attributes in Visualforce page
 + 10. If sobject field type is picklist, after you input ```opp.StageName =``` or ```Opportunity.StageName =```, all available picklist values will be shown
++ 11. SOQL fields completion, input ```se``` to call build-in snippet, press ```Enter```, ```SELECT Id, FROM ``` will be inserted, after input sobject name, press ```Tab```, focus will be moved to field list part, input the field name, you will see the field completions
 
 ### Completions Screenshots
 <img src="https://raw.github.com/xjsender/SublimeApexScreenshot/master/apex.jpg" /><br/>

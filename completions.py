@@ -22,7 +22,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
         location = locations[0]
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
-        if ch not in [".", "="]: return []
+        if ch not in [".", "=", " "]: return []
 
         settings = context.get_toolingapi_settings()
         metadata = util.get_sobject_completions(settings["username"])
@@ -35,19 +35,54 @@ class SobjectCompletions(sublime_plugin.EventListener):
         disable_picklist_value_completion = settings["disable_picklist_value_completion"]
 
         completion_list = []
-        if ch == ".":
+        if ch == " ":
+            pattern = "SELECT\\s+[\\w\\n,.:_\\s()]*\\s+FROM\\s+\\w+"
+            matched_regions = view.find_all(pattern, sublime.IGNORECASE)
+            matched_region = None
+            for m in matched_regions:
+                if m.contains(pt):
+                    matched_region = m
+                    break
+
+            if not matched_region: return []
+            match_str = view.substr(matched_region)
+
+            # Get the fields list already input
+            match_begin = matched_region.begin()
+            select_pos = match_str.lower().find("select")
+            from_pos = match_str.lower().rfind("from")
+            
+            # Get the FROM Sobject Name
+            if pt < (select_pos + match_begin) or pt > (from_pos + match_begin): return []
+            sobject_name = match_str[from_pos+5:]
+
+            # Check whether there has fields completions
+            sobjects_describe = metadata["sobjects"]
+            if sobject_name.lower() in sobjects_describe:
+                sobject_name = sobject_name.lower()
+            else:
+                sobject_name = ""
+
+            if sobject_name in sobjects_describe:
+                sobject_describe = sobjects_describe.get(sobject_name)
+                completion_list = util.get_sobject_completion_list(sobject_describe)
+
+        elif ch == ".":
             # Get the variable name
             variable_name = view.substr(view.word(pt-1))
 
             completion_list = []
             if not disable_fields_completion:
                 # Get the matched region by variable name
-                matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[,:;=)\\s]")
-                variable_type = ""
-                if len(matched_regions) > 0:
-                    matched_block = view.substr(matched_regions[0])
-                    variable_type = matched_block.split(" ")[0]
+                pattern = "[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[,:;=)\\s]"
+                variable_type = util.get_variable_type(view, pt, pattern)
 
+                # variable_type = ""
+                # if len(matched_regions) > 0:
+                #     matched_block = view.substr(matched_regions[0])
+                #     variable_type = matched_block.split(" ")[0]
+
+                # print (variable_type)
                 sobjects_describe = metadata["sobjects"]
                 if variable_type.lower() in sobjects_describe:
                     sobject_name = variable_type.lower()
@@ -58,8 +93,7 @@ class SobjectCompletions(sublime_plugin.EventListener):
 
                 if sobject_name in sobjects_describe:
                     sobject_describe = sobjects_describe.get(sobject_name)
-                    completion_list = util.get_sobject_completion_list(sobject_describe, 
-                        display_field_name_and_label=display_field_name_and_label)
+                    completion_list = util.get_sobject_completion_list(sobject_describe)
                     
                     # If variable_name is not empty, show the methods extended from sobject
                     if variable_type: 
@@ -79,15 +113,13 @@ class SobjectCompletions(sublime_plugin.EventListener):
                 if len(matched_sobjects) == 1:
                     sobject_name = matched_sobjects[0].lower()
                     if sobject_name not in sobjects_describe: return []
-                    completion_list = util.get_sobject_completion_list(sobjects_describe[sobject_name], 
-                        display_field_name_and_label=settings["display_field_name_and_label"],
+                    completion_list = util.get_sobject_completion_list(sobjects_describe[sobject_name],
                         display_child_relationships=False)
                 else:
                     for sobject in matched_sobjects:
                         if sobject.lower() not in sobjects_describe: continue
                         completion_list.extend(util.get_sobject_completion_list(sobjects_describe[sobject.lower()], 
                             prefix=sobject+".", 
-                            display_field_name_and_label=settings["display_field_name_and_label"],
                             display_child_relationships=False))
 
         elif ch == "=":
@@ -135,13 +167,16 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
-        
+        if not ch in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.": return []
+
         settings = context.get_toolingapi_settings()
         completion_list = []
         if ch == ".":
             # Get the variable name
             variable_name = view.substr(view.word(pt - 1))
-            variable_type = util.get_variable_type(view, variable_name)
+            pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+" +\
+                variable_name + "[,;\\s:=){]"
+            variable_type = util.get_variable_type(view, pt, pattern)
 
             # Add standard class in specified namespace to completions
             if variable_name in apex.apex_namespaces:
@@ -181,7 +216,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                 if symbol_table:
                     completion_list = util.get_symbol_table_completions(symbol_table)
 
-        elif ch != "=" and prefix in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        elif prefix in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
             if not settings["disable_keyword_completion"]:
                 # Add namespace to  keyword completions
                 for namespace in apex.apex_namespaces:
@@ -290,7 +325,10 @@ class PageCompletions(sublime_plugin.EventListener):
             # HTML Element Attribute Completions
             ##########################################
             matched_region = view.find("<\\w+\\s+", begin)
-            if matched_region:
+
+            # If matched region is found and matched block contains cursor point
+            if matched_region and matched_region.contains(pt):
+                completion_list = []
                 matched_tag = view.substr(matched_region)[1:].strip()
                 if matched_tag in html.HTML_ELEMENTS_ATTRIBUTES:
                     def_entry = html.HTML_ELEMENTS_ATTRIBUTES[matched_tag]

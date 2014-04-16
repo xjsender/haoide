@@ -54,7 +54,6 @@ def get_sobject_completions(username):
     return settings.get(username)
 
 def get_sobject_completion_list(sobject_describe, prefix="", 
-    display_field_name_and_label=False,
     display_child_relationships=True):
     """
     This method is used in completions.py
@@ -100,29 +99,109 @@ def show_panel(toggle=False):
     sublime.active_window().run_command("show_panel", 
         {"panel": "console", "toggle": toggle})
 
-def get_variable_type(view, variable_name):
+def advance_to_first_non_white_space_on_line(view, pt):
+    while True:
+        c = view.substr(pt)
+        if c == " " or c == "\t":
+            pt += 1
+        else:
+            break
+
+    return pt
+
+def has_non_white_space_on_line(view, pt):
+    while True:
+        c = view.substr(pt)
+        if c == " " or c == "\t":
+            pt += 1
+        else:
+            return c != "\n"
+
+def build_comment_data(view, pt):
+    shell_vars = view.meta_info("shellVariables", pt)
+    if not shell_vars:
+        return ([], [])
+
+    # transform the list of dicts into a single dict
+    all_vars = {}
+    for v in shell_vars:
+        if 'name' in v and 'value' in v:
+            all_vars[v['name']] = v['value']
+
+    line_comments = []
+    block_comments = []
+
+    # transform the dict into a single array of valid comments
+    suffixes = [""] + ["_" + str(i) for i in range(1, 10)]
+    for suffix in suffixes:
+        start = all_vars.setdefault("TM_COMMENT_START" + suffix)
+        end = all_vars.setdefault("TM_COMMENT_END" + suffix)
+        mode = all_vars.setdefault("TM_COMMENT_MODE" + suffix)
+        disable_indent = all_vars.setdefault("TM_COMMENT_DISABLE_INDENT" + suffix)
+
+        if start and end:
+            block_comments.append((start, end, disable_indent == 'yes'))
+            block_comments.append((start.strip(), end.strip(), disable_indent == 'yes'))
+        elif start:
+            line_comments.append((start, disable_indent == 'yes'))
+            line_comments.append((start.strip(), disable_indent == 'yes'))
+
+    return (line_comments, block_comments)
+
+def is_entirely_line_commented(view, comment_data, region):
+    (line_comments, block_comments) = comment_data
+
+    start_positions = [advance_to_first_non_white_space_on_line(view, r.begin())
+        for r in view.lines(region)]
+
+    start_positions = list(filter(lambda p: has_non_white_space_on_line(view, p),
+        start_positions))
+
+    if len(start_positions) == 0:
+        return False
+
+    for pos in start_positions:
+        found_line_comment = False
+        for c in line_comments:
+            (start, disable_indent) = c
+            comment_region = sublime.Region(pos,
+                pos + len(start))
+            if view.substr(comment_region) == start:
+                found_line_comment = True
+        if not found_line_comment:
+            return False
+
+    return True
+
+def get_variable_type(view, pt, pattern):
     """
     Get the variable type by variable name in the view
     """
 
     # Get the matched variable type
-    pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+" +\
-        variable_name + "[,;\\s:=){]"
     matched_regions = view.find_all(pattern, sublime.IGNORECASE)
     variable_type = ""
 
-    if len(matched_regions) > 0:
-        matched_block = view.substr(matched_regions[0]).strip()
-        
-        # If list, map, set
-        if "<" in matched_block and ">" in matched_block:
-            variable_type = matched_block.split("<")[0].strip()
-        # String[] strs;
-        elif "[]" in matched_block:
-            variable_type = 'list'
-        # String str;
-        else:
-            variable_type = matched_block.split(" ")[0]
+    comment_data = build_comment_data(view, pt)
+    match_region = None
+    for match_region in matched_regions:
+        # Skip comment line
+        match_str = view.substr(match_region)
+        is_comment = is_entirely_line_commented(view, comment_data, match_region)
+        if not is_comment: break
+
+    if not match_region: return ""
+    matched_block = view.substr(match_region).strip()
+    
+    # If list, map, set
+    if "<" in matched_block and ">" in matched_block:
+        variable_type = matched_block.split("<")[0].strip()
+    # String[] strs;
+    elif "[]" in matched_block:
+        variable_type = 'list'
+    # String str;
+    else:
+        variable_type = matched_block.split(" ")[0]
 
     return variable_type
 
