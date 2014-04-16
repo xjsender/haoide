@@ -54,7 +54,7 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
 class ExecuteRestTestCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         self.items = ["Get", "Post", "Put", "Patch", "Delete", "Tooling Query",
-                      "Query", "Query All", "Head", "Retrieve Body"]
+                      "Query", "Query All", "Search", "Quick Search", "Head", "Retrieve Body"]
         self.view.show_popup_menu(self.items, self.on_choose_action),
 
     def on_choose_action(self, index):

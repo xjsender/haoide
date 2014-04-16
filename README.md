@@ -5,32 +5,6 @@ This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change Wor
 # Change Logs:
 See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 
-# Supported Feature:
-+ Muti-project management
-+ Configurable API Version
-+ View Code Coverage
-+ Create Debug Log
-+ Retrieve Debug Logs of Specified User
-+ Apex Code CRUD
-+ Apex Code Folder Refresh
-+ Run Test Class
-+ Apex Code Local History
-+ Execute Anonymous
-+ Execute Query
-+ Quick Documents Reference Search for kinds of Salesforce APIs
-+ Kinds of code completions, see sector "Completions"
-+ Generate All or Specified Sobject Workbook
-+ Generate Custom Field Workbook (Including Field Id)
-+ Generate Global Describe Workbook
-+ Generate Layout Avaiable PicklistValues
-+ Export Data Template for Specified Recod Types
-+ Export Validation Rule and Workflow
-+ Quick Login to Home Page, Console, Debug Log...
-+ Quick View chosen Id in SFDC Web
-+ Quick View Apex Code in SFDC Web
-+ Backup All or Specified Sobjects in Muti-thread (Very Fast)
-+ Many common used snippets
-
 # Installation #
 This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), you can install this plugin by searching ```Salesforce IDE``` in package control
 
@@ -305,6 +279,28 @@ for example,
 {
     'status_code': 204
 }
+```
+
++ **Search Sample**: Sometimes, want to test search action, you can input ```FIND {test}``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Search``` in the popup menu, wait for a moment, the patch result will be shown in the new view:
+```
+[{
+    'Id': '001O0000001OWv5IAG',
+    'attributes': {
+        'type': 'Account',
+        'url': '/services/data/v29.0/sobjects/Account/001O0000001OWv5IAG'
+    }
+}]
+```
+
++ **Quick Search Sample**: Sometimes, want to search something, you can input ```test``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Quick Search``` in the popup menu, wait for a moment, the patch result will be shown in the new view:
+```
+[{
+    'Id': '001O0000001OWv5IAG',
+    'attributes': {
+        'type': 'Account',
+        'url': '/services/data/v29.0/sobjects/Account/001O0000001OWv5IAG'
+    }
+}]
 ```
 
 

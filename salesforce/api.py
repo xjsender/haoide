@@ -203,6 +203,51 @@ class SalesforceApi():
         # This result is used for invoker
         return result
 
+    def search(self, sosl, timeout=120):
+        """Returns the result of a Salesforce search as a dict decoded from
+        the Salesforce response JSON payload.
+
+        Arguments:
+
+        * search -- the fully formatted SOSL search string, e.g.
+                    `FIND {test}`
+        """
+
+        # Firstly, login
+        self.login()
+
+        sosl = urllib.parse.urlencode({'q' : sosl})
+        url = self.base_url + "/search?" + sosl
+        if "search?q=q=" in url: url.replace("search?q=q=", "search?q=")
+
+        response = requests.get(url, data=None, verify=False, 
+            headers=self.headers, timeout=timeout)
+            
+        # Check whether session_id is expired
+        if "INVALID_SESSION_ID" in response.text:
+            self.login(True)
+            return self.search(sosl)
+
+        result = self.parse_response(response)
+        self.result = result
+        return self.result
+
+    def quick_search(self, sosl_string, timeout=120):
+        """Returns the result of a Salesforce search as a dict decoded from
+        the Salesforce response JSON payload.
+
+        Arguments:
+
+        * search -- the non-SOSL search string, e.g. `test`. This search
+                    string will be wrapped to read `FIND {test}` before being
+                    sent to Salesforce
+        """
+
+        sosl_string = 'FIND {%s}' % sosl_string
+        result = self.search(sosl_string)
+        self.result = result
+        return self.result
+
     def query(self, soql, is_toolingapi=False, timeout=120):
         # Firstly, login
         self.login()

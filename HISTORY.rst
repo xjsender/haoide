@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 0.4.3 (2014-04-16)
+++++++++++++++++++
+- Add ``Search`` and ``Quick Search`` for ``Execute Rest Test``
+- Update ``README.MD``
+- When view is activated, display the default project in the sidebar
+
+
 Release 0.4.2 (2014-04-16) (Millstone for fixing some flaw in completion)
 ++++++++++++++++++
 - Change ``display_field_name_and_label`` setting default value to false
@@ -42,6 +49,7 @@ Release 0.3.9  (2014-04-12)
 - Add ``delay_seconds_for_hidden_console`` setting to hide console automatically if save error happen and console is opened, the default **default seconds** is ``10``
 - Add a new class template ``Batch Class``
 - Add a new command for generating SOQL for specified sobject
+
 
 Release 0.3.8  (2014-04-03)
 ++++++++++++++++++

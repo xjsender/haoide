@@ -805,7 +805,9 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         "Tooling Query": api.query,
         "Query All": api.query_all,
         "Retrieve Body": api.retrieve_body,
-        "Patch": api.patch
+        "Patch": api.patch,
+        "Search": api.search,
+        "Quick Search": api.quick_search
     }
     
     target = http_methods_target[operation]
