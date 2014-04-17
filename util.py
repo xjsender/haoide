@@ -19,10 +19,12 @@ from xml.sax.saxutils import unescape
 
 
 def get_sobject_caches():
-    """
-    Get the usernames which has cache
-    """
+    """Return the sobject local cache of default project
 
+    Return:
+
+    * caches -- sobject local cache in default project
+    """
     settings = context.get_toolingapi_settings()
     usernames = settings["usernames"]
     settings = sublime.load_settings("sobjects_completion.sublime-settings")
@@ -34,14 +36,23 @@ def get_sobject_caches():
     return caches
 
 def clear_cache(username):
+    """Clear the sobject local cache of specified project
+
+    Arguments:
+
+    * username -- the login username of default project
+    """
     settings = sublime.load_settings("sobjects_completion.sublime-settings")
     settings = settings.erase(username)
     sublime.save_settings("sobjects_completion.sublime-settings")
     sublime.status_message(username + " cache is cleared")
 
 def get_sobject_completions(username):
-    """
-    This method is used in completions.py
+    """Return the sobjects describe of specified project
+
+    Arguments:
+
+    * username -- the login username of default project
     """
 
     # Load sobjects compoletions
@@ -53,15 +64,18 @@ def get_sobject_completions(username):
 
     return settings.get(username)
 
-def get_sobject_completion_list(sobject_describe, prefix="", 
-    display_child_relationships=True):
-    """
-    This method is used in completions.py
-    """
+def get_sobject_completion_list(sobject_describe, prefix="", display_child_relationships=True):
+    """Return the formatted completion list of sobject
 
-    completion_list = []
+    Arguments:
 
+    * sobject_describe  -- describe result of sobject
+    * prefix            -- optional; sometimes, parent relationshipName may refer to multiple sobject,
+                           so we need to add the prefix to distinct different completions
+    * display_child_relationships -- optional; indicate whether display sobject child relationship names
+    """
     # Fields Describe
+    completion_list = []
     fields = sobject_describe["fields"]
     for field_name_desc in sorted(fields):
         field_name = fields[field_name_desc]
@@ -82,19 +96,21 @@ def get_sobject_completion_list(sobject_describe, prefix="",
     return completion_list
 
 def hide_panel(toggle=False):
-    """
-    uSed for hiding pandel
+    """uSed for hiding panel in sublime
 
-    :toggle: if true, just toggle, else, just hiden panel
+    Arguments:
+
+    * toggle  -- optional; if true, just toggle, else, just hide panel
     """
     sublime.active_window().run_command("hide_panel", 
         {"panel": "console", "toggle": toggle})
 
 def show_panel(toggle=False):
-    """
-    uSed for showing pandel
+    """uSed for showing panel in sublime
 
-    :toggle: if true, just toggle, else, just show panel
+    Arguments:
+
+    * toggle  -- optional; if true, just toggle, else, just show panel
     """
     sublime.active_window().run_command("show_panel", 
         {"panel": "console", "toggle": toggle})
@@ -174,10 +190,14 @@ def is_entirely_line_commented(view, comment_data, region):
     return True
 
 def get_variable_type(view, pt, pattern):
-    """
-    Get the variable type by variable name in the view
-    """
+    """Return the matched soql region
 
+    Arguments:
+
+    * view -- current active view
+    * pt - the cursor point
+    * pattern - the regular expression for finding matched soql region
+    """
     # Get the matched variable type
     matched_regions = view.find_all(pattern, sublime.IGNORECASE)
     variable_type = ""
@@ -205,11 +225,51 @@ def get_variable_type(view, pt, pattern):
 
     return variable_type
 
+def get_soql_match_region(view, pt):
+    """Return the matched soql region
+
+    Arguments:
+
+    * view -- current Active View
+
+    Return:
+
+    * matched_region -- Found SOQL
+    * sobject_name -- Found Sobject Name in SOQL
+    * is_between_start_and_from -- the cursor point is between start and the last from
+    """
+    pattern = "SELECT\\s+[\\w\\n,.:_\\s()]*\\s+FROM\\s+\\w+"
+    matched_regions = view.find_all(pattern, sublime.IGNORECASE)
+    matched_region = None
+    is_between_start_and_from = False
+    sobject_name = None
+    for m in matched_regions:
+        if m.contains(pt):
+            matched_region = m
+            break
+
+    if not matched_region: 
+        return (matched_region, is_between_start_and_from, sobject_name)
+
+    match_str = view.substr(matched_region)
+    match_begin = matched_region.begin()
+    select_pos = match_str.lower().find("select")
+    from_pos = match_str.lower().rfind("from")
+
+    if pt >= (select_pos + match_begin) and pt <= (from_pos + match_begin):
+        is_between_start_and_from = True
+        sobject_name = match_str[from_pos+5:]
+        return (matched_region, is_between_start_and_from, sobject_name)
+
+    return (matched_region, is_between_start_and_from, sobject_name)
+
 def get_symbol_table_completions(symbol_table):
+    """Parse the symbol_table to completion (Copied From MavensMate)
+
+    Arguments:
+
+    * symbol_table -- ApexClass Symbol Table
     """
-    Copy from MavensMate, need update in future
-    """
-    
     completions = []
     if 'constructors' in symbol_table:
         for c in symbol_table['constructors']:
@@ -273,11 +333,12 @@ def get_symbol_table_completions(symbol_table):
     return sorted(completions)
 
 def add_operation_history(operation, history_content):
-    """
-    Keep the history in the local history rep
+    """Keep the history in the local history
 
-    :operation: the operation source
-    :history_content: the content needed to keep
+    Arguments:
+
+    * operation -- the operation source
+    * history_content -- the content needed to keep
     """
     settings = context.get_toolingapi_settings()
     if not settings["keep_operation_history"]: return
@@ -299,12 +360,21 @@ def add_operation_history(operation, history_content):
     fp.close()
 
 def check_new_component_enabled():
+    """If project in current date is not created, new component is not enabled
+
+    Returns:
+
+    * * -- whether project in current date is exist
+    """
     settings = context.get_toolingapi_settings()
     return os.path.exists(settings["workspace"])
     
 def check_workspace_available(settings=None):
-    """
-    Check workspace is available, if not make it
+    """Check workspace is available, if not make it
+
+    Arguments:
+
+    * settings -- settings of this plugin
     """
     if not settings: settings = context.get_toolingapi_settings()
     if not os.path.exists(settings["workspace"]):
@@ -313,13 +383,16 @@ def check_workspace_available(settings=None):
         })
 
 def get_view_by_name(view_name):
-    """
-    Get the view in the active window by the view_name
+    """Get view by view name
 
-    @view_id: view name
-    @return: view
-    """
+    Arguments:
 
+    * view_name -- name of view in sublime
+
+    Returns:
+
+    * view -- sublime open tab
+    """
     view = None
     for v in sublime.active_window().views():
         if v.name() == view_name:
@@ -331,8 +404,13 @@ def get_view_by_file_name(file_name):
     """
     Get the view in the active window by the view_name
 
-    @view_id: view name
-    @return: view
+    Arguments:
+
+    * view_id: view name
+
+    Returns:
+
+    * return: view
     """
 
     view = None
@@ -346,8 +424,8 @@ def get_view_by_id(view_id):
     """
     Get the view in the active window by the view_id
 
-    @view_id: id of view
-    @return: view
+    * view_id: id of view
+    * return: view
     """
 
     view = None
@@ -463,15 +541,14 @@ def format_debug_logs(toolingapi_settings, records):
     return headers + "\n" + content[:len(content)-1]
 
 def format_error_message(result):
-    """
-    Format message as below format
+    """Format message as below format
            message:     The requested resource does not exist   
                url:     url
          errorCode:     NOT_FOUND                       
        status_code:     404     
 
-    @result: dict error when request status code > 399
-    @return: formated error message   
+    * result -- dict error when request status code > 399
+    * return -- formated error message   
     """
     # Add time stamp
     result["Time Stamp"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
@@ -649,8 +726,8 @@ def parse_test_result(test_result):
     """
     format test result as specified format
 
-    @result: Run Test Request result
-    @return: formated string
+    * result: Run Test Request result
+    * return: formated string
     """
 
     # Parse Test Result
@@ -686,12 +763,11 @@ def parse_test_result(test_result):
     return return_result
 
 def parse_validation_rule(toolingapi_settings, sobjects):
-    """
-    Parse the validation rule in Sobject.object to csv
+    """ Parse the validation rule in Sobject.object to csv
 
-    @toolingapi_settings: toolingapi.sublime-settings reference
-    @sobject: sobject name
-    @validation_rule_path: downloaded objects path by Force.com IDE or ANT
+    * toolingapi_settings -- toolingapi.sublime-settings reference
+    * sobject -- sobject name
+    * validation_rule_path -- downloaded objects path by Force.com IDE or ANT
     """
 
     # Open target file
@@ -736,12 +812,11 @@ def parse_validation_rule(toolingapi_settings, sobjects):
     fp_validationrules.close()
 
 def parse_workflow_metadata(toolingapi_settings, sobject):
-    """
-    Parse Sobject.workflow to csv, including rule, field update and alerts
+    """Parse Sobject.workflow to csv, including rule, field update and alerts
 
-    @toolingapi_settings: toolingapi.sublime-settings reference
-    @sobject: sobject name
-    @workflow_metadata_path: downloaded workflow path by Force.com IDE or ANT
+    * toolingapi_settings -- toolingapi.sublime-settings reference
+    * sobject -- sobject name
+    * workflow_metadata_path -- downloaded workflow path by Force.com IDE or ANT
     """
     # Open workflow source file
     workflow_metadata_path = toolingapi_settings["workspace"] + "/metadata/unpackaged/workflows"
@@ -886,12 +961,13 @@ def parse_workflow_metadata(toolingapi_settings, sobject):
     fp.close()
 
 def write_metadata_to_csv(dict_write, columns, metadata, sobject):
-    """
-    this method is invoked by function in this module
+    """ This method is invoked by function in this module
 
-    @fp: output csv file open reference
-    @columns: your specified metadata workbook columns in settings file
-    @metadata: metadata describe
+    Arguments:
+
+    * fp -- output csv file open reference
+    * columns -- your specified metadata workbook columns in settings file
+    * metadata -- metadata describe
     """
 
     # If sobject has only one rule, it will be dict
@@ -967,10 +1043,11 @@ def write_metadata_to_csv(dict_write, columns, metadata, sobject):
 
 NOT_INCLUDED_COLUMNS = ["urls", "attributes"]
 def list2csv(file_path, records):
-    """
-    convert simple dict in list to csv
+    """convert simple dict in list to csv
 
-    @records: [{"1": 1}, {"2": 2}]
+    Arguments:
+
+    * records -- [{"1": 1}, {"2": 2}]
     """
     # If records size is 0, just return
     if len(records) == 0: return "No Custom Fields"
@@ -1006,7 +1083,14 @@ def parse_field_dependencies(settings, sobject):
     pprint.pprint(result)
 
 def parse_data_template(output_file_dir, result):
-    # Get all layoutItems
+    """Parse the data template to csv by page layout
+
+    Arguments:
+    
+    * output_file_dir -- output dir for parsed result
+    * result -- page layout describe result
+    """
+
     field_lables = []
     field_apis = []
     fields_required = []
@@ -1063,12 +1147,12 @@ def parse_data_template(output_file_dir, result):
         fp.write(",".join(fields_picklist_values).encode("utf-8") + b"\n")
 
 def parse_execute_anonymous_xml(result):
-    """
-    Get the compile result in the xml result
+    """Return the formatted anonymous execute result
 
-    @result: execute anonymous result, it's a xml
+    Arguments:
 
-    @return: formated string
+    * result -- execute anonymous result, it's a xml
+    * return -- formated string
     """
 
     compiled = result["compiled"]
@@ -1090,13 +1174,14 @@ def parse_execute_anonymous_xml(result):
     return view_result
 
 def generate_workbook(result, workspace, workbook_field_describe_columns):
-    """
-    generate workbook for sobject according to user customized columns
+    """ generate workbook for sobject according to user customized columns
     you can change the workbook_field_describe_columns in default settings
 
-    @result: sobject describe result
-    @workspace: your specified workspace in toolingapi.sublime-settings
-    @workflow_field_update_columns: your specified workbook columns in toolingapi.sublime-settings
+    Arguments:
+
+    * result -- sobject describe result
+    * workspace -- your specified workspace in toolingapi.sublime-settings
+    * workflow_field_update_columns -- your specified workbook columns in toolingapi.sublime-settings
     """
     # Get sobject name
     sobject = result.get("name")
@@ -1192,13 +1277,13 @@ childrelationship_key_width = {
 
 seprate = 100 * "-" + "\n"
 def parse_sobject_field_result(result):
-    """
-    According to sobject describe result, display recordtype information, child sobjects 
-    information and the field information.
+    """According to sobject describe result, display record type information, 
+    child sobjects information and the field information.
 
-    @result: sobject describe information, it's a dict
+    Arguments:
 
-    @return: formated string including the three parts
+    * result -- sobject describe information, it's a dict
+    * return -- formated string including the three parts
     """
 
     # Get sobject name
@@ -1336,6 +1421,17 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
     return elementValue
 
 def get_path_attr(path_dir):
+    """Return project name and component folder attribute
+
+    Arguments:
+
+    * path_dir -- full path of specified file
+
+    Returns:
+
+    * project_name -- project name of default project
+    * folder -- folder describe defined in settings, for example, ApexClass foder is 'src/classes'
+    """
     # Get the Folder Name and Project Name
     path, folder = os.path.split(path_dir)
     path, src = os.path.split(path)
@@ -1353,8 +1449,11 @@ def get_path_attr(path_dir):
     return project_name, folder
 
 def get_current_year():
-    """
-    Get the current year
+    """Get the current year
+
+    Returns:
+
+    * year -- year literal in current time
     """
     return time.strftime("%Y", time.localtime())
 
@@ -1375,10 +1474,14 @@ def get_component_attribute(file_name):
     get the component name by file_name, and then get the component_url and component_id
     by component name and local settings
 
-    @file_name: local component full file name, for example:
-    D:\ForcedotcomWorkspace\pro-exercise-20130625\ApexClass\AccountChartController.cls
+    Arguments:
 
-    @return: for example, component_attribute = {
+    * file_name -- Local component full file name, for example:
+        D:\ForcedotcomWorkspace\pro-exercise-20130625\ApexClass\AccountChartController.cls
+
+    Returns: 
+
+    * (component_attribute, file name) -- for example, component_attribute = {
         "body": "Body",
         "extension": ".cls",
         "id": "01pO00000009isEIAQ",

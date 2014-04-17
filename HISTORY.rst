@@ -5,6 +5,15 @@ Release History
 ---------------
 
 
+Release 0.4.4 (2014-04-17)
+++++++++++++++++++
+- Optimize SOQL Field completion
+- Update build-in apex lib
+- Update ``query_all`` rest api from ``query`` to ``queryAll`` which is available since winter 14
+- Add ``disable_soql_field_completion`` setting for controlling soql field completion
+- In order to keep high efficient for code completion, add some not common used standard sobjects to ``Excluded_Sobjects`` setting for code completion
+
+
 Release 0.4.3 (2014-04-16)
 ++++++++++++++++++
 - Add ``Search`` and ``Quick Search`` for ``Execute Rest Test``

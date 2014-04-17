@@ -6,8 +6,5 @@
     }, {
         "characters": "<: =",
         "selector": "text.html - source"
-    },{
-        "characters": ".",
-        "selector": "source.python"
     }]
 }

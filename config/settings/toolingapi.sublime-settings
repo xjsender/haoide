@@ -47,7 +47,7 @@
     // Every time when you save component and error happened, the console will be open.
     // When you edit the code according to the error message, this flag is used to indicate
     // whether the console will be hidden automatically
-    "hidden_console_on_modify": true,
+    "hidden_console_on_modify": false,
 
     // Every time when you save component and error happened, the console will be open.
     // however, you want it to be hidden automatically after several seconds
@@ -74,6 +74,9 @@
 
     // Indicate whether disable keyword completion
     "disable_keyword_completion": false,
+
+    // Indicate whether disable keyword completion
+    "disable_soql_field_completion": false,
 
     // Indicate whether display both field name and field label for sobject field completion,
     // If set false, it means just display field name
@@ -202,7 +205,10 @@
         "ObjectPermissions", "OrgWideEmailAddress", "PermissionSet", "PermissionSetAssignment",
         "PermissionSetLicenseAssign", "PushTopic", "QueueSobject", "NetworkMemberGroup",
         "QuoteDocument", "RecordTypeLocalization", "SetupEntityAccess",
-        "WebLink", "WebLinkLocalization"
+        "WebLink", "WebLinkLocalization", "AcceptedEventRelation", "Announcement",
+        "AppMenuItem", "Assert", "AssertFeed", "AssignmentRule", "AuthSession",
+        "ClientBrowser", "CombinedAttachment", "Community", "EventWhoRelation",
+        "SupervisorAgentConfigSkill", "TaskWhoRelation", "UndecidedEventRelation"
     ],
 
     "docs": {

@@ -33,39 +33,24 @@ class SobjectCompletions(sublime_plugin.EventListener):
         disable_relationship_completion = settings["disable_relationship_completion"]
         display_field_name_and_label = settings["display_field_name_and_label"]
         disable_picklist_value_completion = settings["disable_picklist_value_completion"]
+        disable_soql_field_completion = settings["disable_soql_field_completion"]
 
         completion_list = []
         if ch == " ":
-            pattern = "SELECT\\s+[\\w\\n,.:_\\s()]*\\s+FROM\\s+\\w+"
-            matched_regions = view.find_all(pattern, sublime.IGNORECASE)
-            matched_region = None
-            for m in matched_regions:
-                if m.contains(pt):
-                    matched_region = m
-                    break
+            if not disable_soql_field_completion:
+                matched_region, is_between_start_and_from, sobject_name = util.get_soql_match_region(view, pt)
+                if not is_between_start_and_from or not sobject_name: return []
 
-            if not matched_region: return []
-            match_str = view.substr(matched_region)
+                # Check whether there has fields completions
+                sobjects_describe = metadata["sobjects"]
+                if sobject_name.lower() in sobjects_describe:
+                    sobject_name = sobject_name.lower()
+                else:
+                    sobject_name = ""
 
-            # Get the fields list already input
-            match_begin = matched_region.begin()
-            select_pos = match_str.lower().find("select")
-            from_pos = match_str.lower().rfind("from")
-            
-            # Get the FROM Sobject Name
-            if pt < (select_pos + match_begin) or pt > (from_pos + match_begin): return []
-            sobject_name = match_str[from_pos+5:]
-
-            # Check whether there has fields completions
-            sobjects_describe = metadata["sobjects"]
-            if sobject_name.lower() in sobjects_describe:
-                sobject_name = sobject_name.lower()
-            else:
-                sobject_name = ""
-
-            if sobject_name in sobjects_describe:
-                sobject_describe = sobjects_describe.get(sobject_name)
-                completion_list = util.get_sobject_completion_list(sobject_describe)
+                if sobject_name in sobjects_describe:
+                    sobject_describe = sobjects_describe.get(sobject_name)
+                    completion_list = util.get_sobject_completion_list(sobject_describe)
 
         elif ch == ".":
             # Get the variable name
@@ -217,6 +202,11 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         elif prefix in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
             if not settings["disable_keyword_completion"]:
+                # Check whether has SOQL Completion
+                if not settings["disable_soql_field_completion"]:
+                    matched_region, is_between_start_and_from, sobject_name = util.get_soql_match_region(view, pt)
+                    if is_between_start_and_from: return []
+
                 # Add namespace to  keyword completions
                 for namespace in apex.apex_namespaces:
                     completion_list.append(("%s\tNameSpace" % namespace, namespace))

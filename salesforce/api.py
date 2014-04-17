@@ -255,10 +255,7 @@ class SalesforceApi():
         soql = urllib.parse.urlencode({'q' : soql})
 
         # Just API 28 support CustomField
-        if is_toolingapi:
-            url = self.base_url + "/tooling/query?" + soql
-        else:
-            url = self.base_url + "/query?" + soql
+        url = self.base_url + ("/tooling" if is_toolingapi else "") + "/query?" + soql
 
         # Here has a bug, this is used to prevent this exception
         if "query?q=q=" in url: url.replace("query?q=q=", "query?q=")
@@ -280,7 +277,7 @@ class SalesforceApi():
     def query_more(self, nextRecordUrl, is_toolingapi=False):
         return self.get(nextRecordUrl)
 
-    def query_all(self, soql, is_toolingapi=False):
+    def query_all(self, soql, is_toolingapi=False, timeout=120):
         def get_all_result(previous_result):
             if "done" in previous_result and previous_result['done']:
                 return previous_result
@@ -295,7 +292,19 @@ class SalesforceApi():
                 return get_all_result(result)
 
         if not self.login(): return
-        result = self.query(soql, is_toolingapi=is_toolingapi)
+
+        soql = urllib.parse.urlencode({'q' : soql})
+        url = self.base_url + ("/tooling" if is_toolingapi else "") + "/queryAll?" + soql
+        response = requests.get(url, data=None, verify=False, 
+            headers=self.headers, timeout=timeout)
+
+        # Check whether session_id is expired
+        if "INVALID_SESSION_ID" in response.text:
+            self.login(True)
+            return self.query_all(soql)
+
+        result = self.parse_response(response)
+        
         # Database.com not support ApexComponent
         if result["status_code"] > 399: 
             self.result = result
