@@ -167,7 +167,6 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
-        if not ch in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.": return []
 
         settings = context.get_toolingapi_settings()
         completion_list = []
