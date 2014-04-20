@@ -19,9 +19,6 @@
             },
 
             // {"caption": "-"},
-            // {"caption": "Set Check Point", "command": "set_check_point"},
-            // {"caption": "Remove Check Point", "command": "remove_check_point"},
-
             {"caption": "-"},
             {"caption": "Execute Rest Test","command": "execute_rest_test"},
             {"caption": "Execute Anonymous","command": "execute_anonymous"},

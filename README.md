@@ -141,7 +141,7 @@ Click ```SublimeApex > New > New ApexComponent```, and then input the component 
 Click ```SublimeApex > New > New ApexTrigger```, choose the sobject on which you will create trigger, and then input the trigger name in the input panel at the bottom, after that, your trigger will be created.
 
 ## Create Debug Log
-If you want to track the log of any user, click ```SublimeApex > Apex Test > Create Debug Log```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
+If you want to track the log of any user, click ```SublimeApex > Debug > Create Debug Log```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
 
 There is a default ```trace_flag``` settings that is used to define the debug log level in the default settings, you can put your own change into your user settings
 
@@ -154,7 +154,7 @@ Or, you can choose any Log Id and click ```SublimeApex > View Id In Salesforce W
 
 ## Run Test
 There are two methods to run test, one is by Main Menu, other is in the context menu
-By Main Menu: click ```SublimeApex > Apex Test > Run Test```, choose the test class and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
+By Main Menu: click ```SublimeApex > Debug > Run Test```, choose the test class and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
 By Context Menu: in the context of opened class, click ```SublimeApex > Run Test Class```, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
 
 ## View Code Coverage

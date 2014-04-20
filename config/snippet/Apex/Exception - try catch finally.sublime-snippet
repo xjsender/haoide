@@ -3,14 +3,15 @@
 try {
     $1
 }
-catch (${2:EXCEPTION-TYPE} e) {
+catch ($2 e) {
     $3
 }
 finally {
-    ${4:CATCH-PROCESS}
+    $4
 }
+$0
 ]]></content>
-    <tabTrigger>tf</tabTrigger>
+    <tabTrigger>tryf</tabTrigger>
     <scope>source.java</scope>
     <description>try catch finally</description>
 </snippet>

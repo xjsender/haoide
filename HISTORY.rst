@@ -5,6 +5,16 @@ Release History
 ---------------
 
 
+Release 0.4.5 (2014-04-20)
+++++++++++++++++++
+- Update snippet: ``Exception - try catch finally`` and ``Exception - try catch``
+- Add doc for api.py
+- Originally, Keyword completion will exclude the existing-variable completion, now, bug mei le.
+- Bug: ``Execute Anonymous`` apex string contains non-english character
+- Combine ApexCompletion and SobjectCompletion
+- If save error happened, the error line will be highlighted and the highlight line will be canceled after ``delay_seconds_for_hidden_console`` seconds
+
+
 Release 0.4.4 (2014-04-17)
 ++++++++++++++++++
 - Optimize SOQL Field completion

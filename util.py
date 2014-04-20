@@ -196,7 +196,7 @@ def get_variable_type(view, pt, pattern):
 
     * view -- current active view
     * pt - the cursor point
-    * pattern - the regular expression for finding matched soql region
+    * pattern - the regular expression for finding matched region
     """
     # Get the matched variable type
     matched_regions = view.find_all(pattern, sublime.IGNORECASE)

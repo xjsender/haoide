@@ -24,6 +24,19 @@ class SalesforceApi():
         self.result = None
 
     def login(self, session_id_expired=False):
+        """ Login with default project credentials
+
+        Arguments:
+
+        * session_id_expired -- Optional; generally, session in globals() is expired, 
+            if INVALID_SESSION_ID appeared in response requested by session in globals(),
+            we need to call this method with expired session flag again
+
+        Returns:
+
+        * result -- Keep the session info, if `output_session_info` in plugin setting is True, 
+            session info will be outputted to console
+        """
         if self.username not in globals() or session_id_expired:
             result = soap_login(self.toolingapi_settings)
 
@@ -52,6 +65,16 @@ class SalesforceApi():
         return result
 
     def parse_url(self, component_url):
+        """ Return the valid salesforce REST URI by specified url
+
+        Arguments:
+
+        * component_url -- the rest URI, this method is designed for `Execute Rest Test` command
+
+        Returns:
+
+        * url -- the valid salesforce REST URI
+        """
         if "https://" in component_url:
             url = component_url
         elif "/services" in component_url:
@@ -62,6 +85,16 @@ class SalesforceApi():
         return url
 
     def parse_response(self, res):
+        """ parse the response with json format
+
+        Arguments:
+
+        * res -- response by request
+
+        Returns:
+
+        * response_result -- json formatted response
+        """
         if res.status_code > 399:
             try:
                 response_result = res.json()
@@ -85,6 +118,12 @@ class SalesforceApi():
         return response_result
         
     def head(self, component_url, timeout=120):
+        """ 'head' request
+
+        Arguments:
+
+        * component_url -- REST URI
+        """
         # Firstly, login
         self.login()
 
@@ -104,10 +143,11 @@ class SalesforceApi():
         return result
 
     def get(self, component_url, timeout=120):
-        """
-        Get component describe result according to component_url
+        """ 'get' request
 
-        :component_url: Component URL, for exmaple, /services/data/v28.0/sobjects/Contact/describe
+        Arguments:
+
+        * component_url -- REST URI
         """
         # Firstly, login
         self.login()
@@ -128,6 +168,13 @@ class SalesforceApi():
         return result
 
     def put(self, put_url, data, timeout=120):
+        """ 'put' request
+
+        Arguments:
+
+        * put_url -- REST URI
+        * data -- form data needed to send to server
+        """
         # Firstly, login
         self.login()
 
@@ -147,6 +194,13 @@ class SalesforceApi():
         return result
 
     def patch(self, patch_url, data, timeout=120):
+        """ 'patch' request
+
+        Arguments:
+
+        * patch_url -- REST URI
+        * data -- form data needed to send to server
+        """
         # Firstly, login
         self.login()
 
@@ -166,6 +220,13 @@ class SalesforceApi():
         return result
 
     def post(self, post_url, data, timeout=120):
+        """ 'post' request
+
+        Arguments:
+
+        * post_url -- REST URI
+        * data -- form data needed to send to server
+        """
         # Firstly, login
         self.login()
 
@@ -185,6 +246,12 @@ class SalesforceApi():
         return result
 
     def delete(self, component_url, timeout=120):
+        """ 'delete' request
+
+        Arguments:
+
+        * component_url -- REST URI
+        """
         # Firstly, login
         self.login()
 
@@ -204,8 +271,8 @@ class SalesforceApi():
         return result
 
     def search(self, sosl, timeout=120):
-        """Returns the result of a Salesforce search as a dict decoded from
-        the Salesforce response JSON payload.
+        """ Returns the result of a Salesforce search as a dict decoded from
+            the Salesforce response JSON payload.
 
         Arguments:
 
@@ -233,8 +300,8 @@ class SalesforceApi():
         return self.result
 
     def quick_search(self, sosl_string, timeout=120):
-        """Returns the result of a Salesforce search as a dict decoded from
-        the Salesforce response JSON payload.
+        """ Returns the result of a Salesforce search as a dict decoded from
+            the Salesforce response JSON payload.
 
         Arguments:
 
@@ -249,6 +316,14 @@ class SalesforceApi():
         return self.result
 
     def query(self, soql, is_toolingapi=False, timeout=120):
+        """ Returns the result of a Salesforce query as a dict decoded from
+            the Salesforce response JSON payload.
+
+        Arguments:
+
+        * soql -- the query string, e.g. SELECT Id FROM Account
+        * is_toolingapi -- Optional; indicate whether is tooling query
+        """
         # Firstly, login
         self.login()
 
@@ -319,10 +394,9 @@ class SalesforceApi():
         return all_result
 
     def combine_soql(self, sobject):
-        """
-        Get the full field list soql by sobject
+        """ Get the full field list soql by sobject
 
-        :sobject: sobject name, for example, Account, Contact
+        * sobject -- sobject name, for example, Account, Contact
         """
         result = self.describe_sobject(sobject)
         fields = sorted(result["fields"], key=lambda k : k['custom'])
@@ -340,8 +414,7 @@ class SalesforceApi():
         return self.result
 
     def describe_sobject(self, sobject):
-        """
-        Sends a GET request. Return sobject describe result
+        """ Sends a GET request. Return sobject describe result
 
         :sobject: sObjectType
         """
@@ -356,11 +429,11 @@ class SalesforceApi():
         return result
 
     def describe_global(self):
-        """
-        Sends a GET request. Return global describe
+        """ Sends a GET request. Return global describe
 
-        :return: sobjects
-        :return type: dict
+        Returns:
+
+        * * -- sobjects describe dict
         """
 
         result = {}
@@ -372,10 +445,11 @@ class SalesforceApi():
         return self.result
 
     def create_trace_flag(self, traced_entity_id=None):
-        """
-        Create Debug Log Trace by traced_entity_id
+        """ Create Debug Log Trace by traced_entity_id
 
-        :traced_entity_id: Component Id or User Id
+        Arguments:
+
+        * traced_entity_id -- Optional; Component Id or User Id
         """
 
         # If traced_entity_id is none, just set it as current user
@@ -413,11 +487,15 @@ class SalesforceApi():
         return result
 
     def retrieve_body(self, retrieve_url, timeout=120):
-        """
-        Retrieve a raw log by ID
+        """ Retrieve a raw log by ID
 
-        :url: url
-        :return: raw data of log
+        Arguments:
+
+        * retrieve_url -- retrieve url
+
+        Returns:
+
+        * raw data -- raw data of log
         """
         # Firstly Login
         self.login()
@@ -442,11 +520,12 @@ class SalesforceApi():
         return result
 
     def run_test(self, class_id):
-        """
-        Run Test according to test class_id, return error if has
+        """ Run Test according to test class_id, return error if has
 
-        :class_id: Apex Test Class Id
-        :traced_entity_id: Component Id or User Id
+        Arguments:
+
+        * class_id -- Apex Test Class Id
+        * traced_entity_id -- Component Id or User Id
         """
         # Firstly Login
         self.login()
@@ -489,12 +568,13 @@ class SalesforceApi():
         self.result = result
 
     def describe_layout(self, sobject, recordtype_id):
-        """
-        Get Page Layout Describe result, including Edit Layout Elements
-        View Layout Elements and Available Picklist Values
+        """ Get Page Layout Describe result, including Edit Layout Elements
+            View Layout Elements and Available Picklist Values
 
-        :sobject: sObjectType
-        :recordtype_name: RecordType Name
+        Arguments:
+
+        * sobject -- sobject name
+        * recordtype_id -- RecordType Id
         """
         # Firstly Login
         self.login()
@@ -535,10 +615,11 @@ class SalesforceApi():
         return result
 
     def execute_anonymous(self, apex_string):
-        """
-        Generate a new view to display executed reusult of Apex Snippet
+        """ Generate a new view to display executed reusult of Apex Snippet
 
-        :apex_string: Apex Snippet
+        Arguments:
+
+        * apex_string -- Apex Snippet
         """
         # Firstly Login
         self.login()
@@ -567,8 +648,17 @@ class SalesforceApi():
             session_id=globals()[self.username]["session_id"], 
             apex_string=apex_string)
 
-        response = requests.post(self.apex_url, soap_body, verify=False, 
-            headers=headers)
+        try:
+            response = requests.post(self.apex_url, soap_body, verify=False, 
+                headers=headers)
+        except UnicodeEncodeError as ue:
+            result = {
+                "Error Message": "Anonymous code can't contain non-english character",
+                "Error Code": "Customize",
+                "status_code": 500
+            }
+            self.result = result
+            return self.result
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -604,10 +694,10 @@ class SalesforceApi():
         return result
 
     def check_status(self, async_process_id):
-        """
-        Ensure the retrieve request is done and then we can continue other work
+        """ Ensure the retrieve request is done and then we can 
+            continue other work
 
-        @async_process_id: retrieve request asyncProcessId
+        * async_process_id -- retrieve request asyncProcessId
         """
 
         # Check the status of retrieve job
@@ -646,13 +736,13 @@ class SalesforceApi():
         return result
 
     def check_retrieve_status(self, async_process_id):
-        """
-        After async process is done, post a checkRetrieveStatus to 
-        obtain the zipFile(base64)
+        """ After async process is done, post a checkRetrieveStatus to 
+            obtain the zipFile(base64)
 
-        @async_process_id: retrieve request asyncProcessId
-        """
+        Arguments:
 
+        * async_process_id -- asyncProcessId of retrieve request 
+        """
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "Accept-Encoding": 'identity, deflate, compress, gzip',
@@ -677,14 +767,17 @@ class SalesforceApi():
         return result
 
     def retrieve(self, soap_body):
-        """
-        1. Issue a retrieve request to start the asynchronous retrieval and asyncProcessId is returned
-        2. Thread sleep for a while and then issue a checkStatus request to check whether the async 
-           process job is completed.
-        3. After the job is completed, issue a checkRetrieveStatus request to obtain the zipFile(base64) 
-           in the retrieve result.
-        4. Use Python Lib base64 to convert the base64 string to zip file.
-        5. Use Python Lib zipFile to unzip the zip file to path
+        """ 1. Issue a retrieve request to start the asynchronous retrieval and asyncProcessId is returned
+            2. Thread sleep for a while and then issue a checkStatus request to check whether the async 
+               process job is completed.
+            3. After the job is completed, issue a checkRetrieveStatus request to obtain the zipFile(base64) 
+               in the retrieve result.
+            4. Use Python Lib base64 to convert the base64 string to zip file.
+            5. Use Python Lib zipFile to unzip the zip file to path
+
+        Arguments:
+
+        * soap_body -- soap_body for retrieving
         """
         # Firstly Login
         self.login()
@@ -757,10 +850,12 @@ class SalesforceApi():
         self.result = result
 
     def check_deploy_status(self, async_process_id): 
-        """
-        After async process is done, post a checkDeployResult to get the deploy result
+        """ After async process is done, post a checkDeployResult to 
+            get the deploy result
 
-        @async_process_id: retrieve request asyncProcessId
+        Arguments:
+
+        * async_process_id -- retrieve request asyncProcessId
         """
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
@@ -792,6 +887,12 @@ class SalesforceApi():
         return result
         
     def deploy_metadata(self, zipfile):
+        """ Deploy zip file
+
+        Arguments:
+
+        * zipFile -- base64 encoded zipfile 
+        """
         # Firstly Login
         self.login()
 
@@ -875,10 +976,11 @@ class SalesforceApi():
         })
 
     def refresh_components(self, component_types):
-        """
-        Download the specified components
+        """ Download the specified components
 
-        @component_types: just support ApexPage, ApexComponent, ApexTrigger and ApexClass
+        Arguments:
+
+        * component_types -- Just support ApexPage, ApexComponent, ApexTrigger and ApexClass
         """
         # Firstly Login
         self.login(True)
@@ -961,6 +1063,12 @@ class SalesforceApi():
         self.result = component_metadata
 
     def generate_workbook(self, sobject):
+        """ Generate CSV for Sobject Workbook
+
+        Arguments:
+
+        * sobject -- sobject name
+        """
         result = self.describe_sobject(sobject)
 
         if result["status_code"] > 399:
@@ -973,20 +1081,21 @@ class SalesforceApi():
             print (sobject + " workbook outputdir: " + outputdir)
 
     def save_component(self, component_attribute, body, is_check_only):
-        """
-        This method contains 5 steps:
-        1. Post classid to get MetadataContainerId
-        2. Post Component Member
-        3. Post ContainerAsyncRequest to get AsyncRequest Id
-        4. Get ContainerAsyncRequest Response by Id in step 3
-        5. Delete the MetadataContainerId
+        """ This method contains 5 steps:
+            1. Post classid to get MetadataContainerId
+            2. Post Component Member
+            3. Post ContainerAsyncRequest to get AsyncRequest Id
+            4. Get ContainerAsyncRequest Response by Id in step 3
+            5. Delete the MetadataContainerId
 
         Notes: Because if ContainerAsyncRequest has problem, we can't reuse the 
             MetadataContainerId, so we need to delete it and get it every time.
 
-        @component_attribute
-        @body: Code content
+        Arguments:
 
+        * component_attribute - attribute of component, e.g., component id, url
+        * body -- Code content
+        * is_check_only -- indicate compile or save
         """
         # Component Attribute
         component_type = component_attribute["type"]

@@ -103,14 +103,14 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
         if is_background: self.view.window().focus_view(self.view)
 
 class SetCheckPointCommand(sublime_plugin.TextCommand):
-    def run(self, edit):
-        mark = [s for s in self.view.sel()]
-        self.view.add_regions("mark", mark, "red", 'circle',
-            sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE | sublime.DRAW_STIPPLED_UNDERLINE)
+    def run(self, edit, mark):
+        sel = [s for s in self.view.sel()]
+        self.view.add_regions(mark, sel, "red", "dot",
+            sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
 
 class RemoveCheckPointCommand(sublime_plugin.TextCommand):
-    def run(self, edit):
-        self.view.erase_regions('mark')
+    def run(self, edit, mark):
+        self.view.erase_regions(mark)
 
 class ListCodeCoverageCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
