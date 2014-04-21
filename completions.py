@@ -117,7 +117,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                 # Parent sobject Field completions
                 if variable_name in parentRelationships:
                     # Because relationship name is not unique, so we need to display sobject name prefix
-                    matched_sobjects = parentRelationships[variable_name.capitalize()]
+                    matched_sobjects = parentRelationships[variable_name]
                     if len(matched_sobjects) == 1:
                         sobject_name = matched_sobjects[0].lower()
                         if sobject_name in sobjects_describe:
@@ -186,7 +186,6 @@ class ApexCompletions(sublime_plugin.EventListener):
                     sobject_name = matched_block.split(" ")[0]
 
                 # Get sobject describe
-                sobjects_describe = metadata["sobjects"]
                 if sobject_name.lower() in sobjects_describe:
                     sobject_name = sobject_name.lower()
                 elif variable_name.lower() in sobjects_describe:
