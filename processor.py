@@ -38,7 +38,6 @@ def populate_users():
     # If sobjects is exist in globals()[], just return it
     if (username + "users") in globals(): 
         return globals()[username + "users"]
-
     # If sobjects is not exist in globals(), post request to pouplate it
     api = SalesforceApi(toolingapi_settings)
     query = """SELECT Id, FirstName, LastName FROM User WHERE LastName != null 
@@ -864,7 +863,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
     ThreadProgress(api, thread, "Execute Anonymous", "Execute Anonymous Succeed")
     handle_new_view_thread(thread, timeout)
 
-def handle_list_debug_logs(user_full_name, user_id, timeout=120):
+def handle_fetch_logs(user_full_name, user_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -872,18 +871,19 @@ def handle_list_debug_logs(user_full_name, user_id, timeout=120):
 
         result = api.result
         records = result["records"]
-        debug_logs_table = util.format_debug_logs(toolingapi_settings, records)
+        debug_logs_table = util.format_debug_logs(settings, records)
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "Debug Logs",
             "input": debug_logs_table
         })
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_toolingapi_settings()
+    api = SalesforceApi(settings)
     query = "SELECT Id,LogUserId,LogLength,Request,Operation,Application," +\
             "Status,DurationMilliseconds,StartTime,Location FROM ApexLog " +\
-            "WHERE LogUserId='{0}'".format(user_id)
+            "WHERE LogUserId='%s' ORDER BY StartTime LIMIT %s" % (user_id, settings["last_n_logs"])
+    print (query)
     thread = threading.Thread(target=api.query_all, args=(query, ))
     thread.start()
     ThreadProgress(api, thread, "List Debug Logs for " + user_full_name, 
@@ -1266,9 +1266,8 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
                     {"mark":component_id+"error"}), 
                     settings["delay_seconds_for_hidden_console"] * 1000)
 
-    settings = context.get_toolingapi_settings()
-
     # If saving is in process, just skip
+    settings = context.get_toolingapi_settings()
     username = settings["username"]
     if username + component_name in globals():
         is_thread_alive = globals()[username + component_name]

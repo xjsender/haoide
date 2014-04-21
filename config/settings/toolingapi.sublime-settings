@@ -44,6 +44,9 @@
     // Indicate whether keep local change history
     "keep_local_change_history": false,
 
+    // Check whether the LastModifiedById is current user
+    "check_save_conflict": true,
+
     // Every time when you save component and error happened, the console will be open.
     // When you edit the code according to the error message, this flag is used to indicate
     // whether the console will be hidden automatically
@@ -133,6 +136,9 @@
         "runTests": "",
         "singlePackage": true
     },
+
+    // The return number of "fetch logs" command
+    "last_n_logs": 10,
 
     // TraceFlag Debug Log Level
     "trace_flag": {

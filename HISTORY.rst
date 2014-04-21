@@ -5,6 +5,12 @@ Release History
 ---------------
 
 
+Release 0.4.6 (2014-04-21)
+++++++++++++++++++
+- Add ``last_n_logs`` setting to control the return number by fetching logs
+- Add ``check_save_conflict`` setting to control saving conflict when LastModifiedBy is not running user
+
+
 Release 0.4.5 (2014-04-20)
 ++++++++++++++++++
 - Update snippet: ``Exception - try catch finally`` and ``Exception - try catch``

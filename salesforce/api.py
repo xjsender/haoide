@@ -17,10 +17,10 @@ from .login import soap_login
 from xml.sax.saxutils import unescape, quoteattr
 
 class SalesforceApi():
-    def __init__(self, toolingapi_settings, **kwargs):
-        self.toolingapi_settings = toolingapi_settings
-        self.api_version = toolingapi_settings["api_version"]
-        self.username = toolingapi_settings["username"]
+    def __init__(self, settings, **kwargs):
+        self.settings = settings
+        self.api_version = settings["api_version"]
+        self.username = settings["username"]
         self.result = None
 
     def login(self, session_id_expired=False):
@@ -38,11 +38,11 @@ class SalesforceApi():
             session info will be outputted to console
         """
         if self.username not in globals() or session_id_expired:
-            result = soap_login(self.toolingapi_settings)
+            result = soap_login(self.settings)
 
             # If login succeed, display error and return False
             if result["status_code"] > 399:
-                result["default_project"] = self.toolingapi_settings["default_project"]["project_name"]
+                result["default_project"] = self.settings["default_project"]["project_name"]
                 self.result = result
                 return False
 
@@ -471,7 +471,7 @@ class SalesforceApi():
             return self.result
 
         # Create Trace Flag
-        trace_flag = self.toolingapi_settings["trace_flag"]
+        trace_flag = self.settings["trace_flag"]
         trace_flag["TracedEntityId"] = traced_entity_id
 
         # We must set the expiration date to next day, 
@@ -635,7 +635,7 @@ class SalesforceApi():
         # http://wiki.python.org/moin/EscapingXml
         apex_string = quoteattr(apex_string).replace('"', '')
         log_levels = ""
-        for log_level in self.toolingapi_settings["anonymous_log_levels"]:
+        for log_level in self.settings["anonymous_log_levels"]:
             log_levels += """
             <apex:categories>
                 <apex:category>%s</apex:category>
@@ -903,7 +903,7 @@ class SalesforceApi():
         }
 
         # Populate the soap_body with actual session id
-        deploy_options = self.toolingapi_settings["deploy_options"]
+        deploy_options = self.settings["deploy_options"]
         soap_body = soap_bodies.deploy_package.format(
             globals()[self.username]["session_id"], 
             util.base64_zip(zipfile),
@@ -988,7 +988,7 @@ class SalesforceApi():
         # Put totalSize at first item
         component_metadata = {}
         for component_type in component_types:
-            component_type_attrs = self.toolingapi_settings[component_type]
+            component_type_attrs = self.settings[component_type]
             component_outputdir = component_type_attrs["outputdir"]
             component_body = component_type_attrs["body"]
             component_extension = component_type_attrs["extension"]
@@ -1074,9 +1074,9 @@ class SalesforceApi():
         if result["status_code"] > 399:
             sublime.set_timeout(lambda:sublime.status_message(result["message"]), 10)
         else:
-            workspace = self.toolingapi_settings.get("workspace")
+            workspace = self.settings.get("workspace")
             outputdir = util.generate_workbook(result, workspace, 
-                self.toolingapi_settings.get("workbook_field_describe_columns")) + \
+                self.settings.get("workbook_field_describe_columns")) + \
                 "/" + sobject + ".csv"
             print (sobject + " workbook outputdir: " + outputdir)
 
@@ -1097,10 +1097,20 @@ class SalesforceApi():
         * body -- Code content
         * is_check_only -- indicate compile or save
         """
+
         # Component Attribute
         component_type = component_attribute["type"]
         component_id = component_attribute["id"]
         component_body = component_attribute["body"]
+
+        if self.settings["check_save_conflict"]:
+            query = "SELECT Id, LastModifiedById " +\
+                    "FROM %s WHERE Id = '%s'" % (component_type, component_id)
+            result = self.query(query, True)
+            user_id = globals()[self.username]["user_id"]
+            if not result["records"][0]["LastModifiedById"] == user_id:
+                confirm = sublime.ok_cancel_dialog('LastModifiedBy is not you, continue?')
+                if confirm == False: return
 
         # Get MetadataContainerId
         data = {  

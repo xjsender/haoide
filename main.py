@@ -527,7 +527,7 @@ class FetchDebugLogCommand(sublime_plugin.WindowCommand):
         # Split with ") " and get the second project name
         user_name = users_name[index]
         user_id = users[user_name]
-        processor.handle_list_debug_logs(user_name, user_id)
+        processor.handle_fetch_logs(user_name, user_id)
 
 class ViewDebugLogDetail(sublime_plugin.TextCommand):
     def run(self, view):

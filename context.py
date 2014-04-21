@@ -70,8 +70,12 @@ def get_toolingapi_settings():
     # Indicate whether keep local change history
     settings["keep_local_change_history"] = s.get("keep_local_change_history", True)
 
+    # Check whether the LastModifiedById is current user
+    settings["check_save_conflict"] = s.get("check_save_conflict", True)
+
     # Trace Flag
     settings["trace_flag"] = s.get("trace_flag")
+    settings["last_n_logs"] = s.get("last_n_logs", 10)
 
     # Every time when you save component and error happened, the console will be open.
     # When you edit the code according to the error message, this flag used to indicate
