@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 0.4.8 (2014-04-27)
+++++++++++++++++++
+- Optimize picklist value completion
+- Remove ``.no-sublime-package``
+- Replace ``excluded_sobjects`` settings with ``allowed_sobjects`` settings
+- Optimize the sobject cache initiation for OSX
+- Upgrade ``requests`` to latest version
 
 Release 0.4.7 (2014-04-26)
 ++++++++++++++++++

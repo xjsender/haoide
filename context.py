@@ -107,7 +107,7 @@ def get_toolingapi_settings():
     settings["disable_relationship_completion"] = s.get("disable_relationship_completion", False)
     settings["disable_soql_field_completion"] = s.get("disable_soql_field_completion", False)
     settings["display_field_name_and_label"] = s.get("display_field_name_and_label", True)
-    settings["excluded_sobjects"] = s.get("excluded_sobjects", [])
+    settings["allowed_sobjects"] = s.get("allowed_sobjects", [])
 
     # Bulk Api batch size and batch bytes
     settings["maximum_batch_size"] = s.get("maximum_batch_size", 10000)

@@ -200,21 +200,40 @@
         "errorDisplayField", "active", "description"
     ],
 
-    // Excluded Standard Sobjects for code completion
-    "excluded_sobjects": [
-        "AdditionalNumber", "ApexTestQueueItem", "Approval", "AuthProvider",
-        "BrandTemplate", "BusinessHours", "BusinessProcess", "CallCenter",
-        "CategoryData", "CategoryNode", "CategoryNodeLocalization", "CurrencyType",
-        "CustomBrand", "CustomBrandAsset","ContentWorkspaceDoc", "DocumentAttachmentMap", 
-        "EmailServicesAddress", "EmailServicesFunction", "EntitySubscription", "EventRelation",
-        "FieldPermissions", "Holiday", "Idea", "IdeaComment", "MailmergeTemplate", 
-        "ObjectPermissions", "OrgWideEmailAddress", "PermissionSet", "PermissionSetAssignment",
-        "PermissionSetLicenseAssign", "PushTopic", "QueueSobject", "NetworkMemberGroup",
-        "QuoteDocument", "RecordTypeLocalization", "SetupEntityAccess",
-        "WebLink", "WebLinkLocalization", "AcceptedEventRelation", "Announcement",
-        "AppMenuItem", "Assert", "AssertFeed", "AssignmentRule", "AuthSession",
-        "ClientBrowser", "CombinedAttachment", "Community", "EventWhoRelation",
-        "SupervisorAgentConfigSkill", "TaskWhoRelation", "UndecidedEventRelation"
+    // Allowed Standard Sobjects for kind of use, including describe, trigger, code completion
+    "allowed_sobjects": [
+        // Sales Sobject
+        "Account", "Partner", "PartnerRole", "Contact", "Assert", 
+        "Opportunity", "OpportunityLineItem", "OpportunityStage", "OpportunityCompetitor",  
+        "Product2", "Pricebook2", "PricebookEntry", "Quote", "QuoteLineItem", "Order",
+        "Lead", "LeadStatus", "Campaign", "CampaignMember", "CampaignMemberStatus",
+        "Case", "CaseStatus", "CaseComment", "Contract", "Solution",
+        "OpportunityContactRole", "ContractContactRole", "AccountContactRole",
+        
+        // Task and Event Sobjects
+        "Event", "EventRelation", "Task", "TaskStatus", "TaskPriority", 
+
+        // Content
+        "Attachment", "Content", "ContentVersion", "Note", "Document", "Folder",
+
+        // Process
+        "ProcessInstance", "ProcessInstanceHistory", "ProcessInstanceStep", "ProcessInstanceWorkitem",
+
+        // Stable Sobject
+        "Profile", "User", "UserRole", "BusinessProcess", "RecordType", "Period",
+
+        // Forecast
+        "Forecast", "ForecastingQuota", "ForecastShare",
+
+        // Feed
+        "FeedItem", "FeedLike", "FeedComment", "AccountFeed", "OpportunityFeed", 
+        "CaseFeed", "ContactFeed", "LeadFeed", "CampaignFeed",
+
+        // Share
+        "AccountShare", "ContactShare", "OpportunityShare", "LeadShare", "CampaignShare", "UserShare",
+
+        // Team Member
+        "AccountTeamMember", "OpportunityTeamMember", "CaseTeamMember", "UserTeamMember"
     ],
 
     "docs": {

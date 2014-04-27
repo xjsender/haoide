@@ -406,14 +406,13 @@ def handle_initiate_sobjects_completions(timeout=120):
 
         all_parent_relationship_dict = {}
         all_child_relationship_dict = {}
-        display_field_name_and_label = toolingapi_settings["display_field_name_and_label"]
+        display_field_name_and_label = settings["display_field_name_and_label"]
         for sobject_describe in results:
             # Initiate Sobject completions
             if "name" not in sobject_describe: continue
             sobject_name = sobject_describe["name"]
 
             # If sobject is excluded sobject, just continue
-            if sobject_name in toolingapi_settings["excluded_sobjects"]: continue
             sobject_name = sobject_name.lower()
             sobjects_completion["sobjects"][sobject_name] = {
                 "name": sobject_describe["name"],
@@ -454,11 +453,10 @@ def handle_initiate_sobjects_completions(timeout=120):
 
                 # Picklist Dcit
                 if f["type"] == "picklist":
-                    picklist_values = {}
+                    picklist_values = []
                     for picklist_value in f["picklistValues"]:
                         value = picklist_value["value"]
-                        if not value: continue
-                        picklist_values[value + "\t" + field_name] = " '%s'" % value
+                        if value: picklist_values.append(value)
                     picklist_field_dict[field_name] = picklist_values
 
                 # List all Reference Field Relationship Name as fields
@@ -503,7 +501,7 @@ def handle_initiate_sobjects_completions(timeout=120):
         # sobjects_completion["childRelationships"] = all_child_relationship_dict
 
         # Every project has unique username
-        username = toolingapi_settings["username"]
+        username = settings["username"]
         s.set(username, sobjects_completion)
 
         # Save settings
@@ -521,17 +519,19 @@ def handle_initiate_sobjects_completions(timeout=120):
         threads = []
         apis = []
         for sobject in sobjects_describe:
-            api = SalesforceApi(toolingapi_settings)
-            thread = threading.Thread(target=api.describe_sobject, args=(sobject, ))
-            thread.start()
-            threads.append(thread)
-            apis.append(api)
+            sobject_describe = sobjects_describe[sobject]
+            if sobject in settings["allowed_sobjects"] or sobject_describe["custom"]:
+                api = SalesforceApi(settings)
+                thread = threading.Thread(target=api.describe_sobject, args=(sobject, ))
+                thread.start()
+                threads.append(thread)
+                apis.append(api)
 
         ThreadsProgress(threads, "Download Cache of Sobjects", "Download Cache of Sobjects Succeed")
         handle_threads(apis, threads, 10)
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_toolingapi_settings()
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
     ThreadProgress(api, thread, "Global Describe", "Global Describe Succeed")
