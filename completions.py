@@ -9,11 +9,14 @@ from .salesforce.support import html
 
 
 class ApexCompletions(sublime_plugin.EventListener):
-    """
-    When you refresh all, your sobject completions will updated at the same time
-
-    when you input a variable, this part will get the variable type by the variable
-    and then get the field information according to the variable type
+    """ There are two type of completions:
+    1. Keyword Completion, including Standard Class Names, Custom Class Names and All Sobject Names
+    2. Method and Properties Completion of Apex Standard Class and Custom Class
+    3. Sobject Completion, e.g. 
+        2.1 Field Completion, including fields, parentRelationships and childRelationships
+        2.2 Picklist Value Completion
+        2.3 Fields of parentRelationships
+        2.4 SOQL Field List Completion
     """
 
     def on_query_completions(self, view, prefix, locations):
@@ -24,25 +27,18 @@ class ApexCompletions(sublime_plugin.EventListener):
         ch = view.substr(sublime.Region(pt, pt + 1))
         variable_name = view.substr(view.word(pt-1))
 
-        # Get settings and username
+        # Get plugin settings
         settings = context.get_toolingapi_settings()
-        username = settings["username"]
 
-        # Get Sobjects Describe
-        metadata = util.get_sobject_completions(username)
-        if not metadata or "sobjects" not in metadata: 
-            sobjects_describe = {}
-            parentRelationships = {}
-        else:
+        # Get sobjects metadata and symbol tables
+        metadata, symbol_tables = util.get_sobject_metadata_and_symbol_tables(settings["username"])
+
+        # Get Sobjects Describe and ParentRelationships Describe
+        sobjects_describe = {}
+        parentRelationships = {}
+        if metadata and "sobjects" in metadata: 
             sobjects_describe = metadata["sobjects"]
             parentRelationships = metadata.get("parentRelationships")
-
-        # Get SymbolTables
-        s = sublime.load_settings("symbol_table.sublime-settings")
-        if s.has(username):
-            symbol_tables = s.get(username)
-        else:
-            symbol_tables = {}
 
         completion_list = []
         if ch not in [".", "="]:
@@ -156,7 +152,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                 properties = apex.apex_completions[class_name]["properties"]
                 if isinstance(properties, dict):
                     for key in sorted(properties.keys()): 
-                        completion_list.append((key + "\tProperty", properties[key]))
+                        completion_list.append((key if "\t" in key else (key + "\tProperty"), properties[key]))
             else:
                 if variable_name.lower() in symbol_tables:
                     symbol_table = symbol_tables[variable_name.lower()]
@@ -205,12 +201,12 @@ class ApexCompletions(sublime_plugin.EventListener):
         return completion_list
 
 class PageCompletions(sublime_plugin.EventListener):
-    """
-    vf.py is stolen from https://github.com/joeferraro/MavensMate-SublimeText/blob/master/lib/vf.py
-    html.py is stolen from https://github.com/sergeche/emmet-sublime/blob/master/emmet_completions/meta.py
+    """ There are two kinds of completion, Visualforce and Html
+    Visualforce Lib is based on Mavensmate
+    Html Lib is based on EMMET
     
-    1. input <, list all tag
-    2. input : list all suffix of all visualforce Components
+    1. input <, list all Tags of Visualforce and Html
+    2. input :, list suffix of all Visualforce Components
     3. input space, list all attributes of tags, if tag attribute has predefined values, 
        output attr, otherwise, output attr="$1"
     4. input =, list all values of this corresponding attribute

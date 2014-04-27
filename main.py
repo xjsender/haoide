@@ -701,8 +701,14 @@ class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         sobjects_describe = processor.populate_sobjects_describe()
+
+        # Just for tracking issue # 28
+        for name in sobjects_describe:
+            if "triggerable" not in sobjects_describe[name]:
+                print ('Not triggerable sobject: ' + name)
+
         self.sobjects = sorted([name for name in sobjects_describe\
-            if sobjects_describe[name]["triggerable"]])
+            if "triggerable" in sobjects_describe[name] and sobjects_describe[name]["triggerable"]])
         self.window.show_quick_panel(self.sobjects, self.on_done)
 
     def on_done(self, index):

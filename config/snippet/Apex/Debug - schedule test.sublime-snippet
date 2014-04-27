@@ -14,7 +14,7 @@ String jobName = '$1' + Math.rint(Math.random() * 100000000);
 System.schedule(jobName, sch, schClass);$0
 ]]></content>
     Optional: Set a tabTrigger to define how to trigger the snippet
-    <tabTrigger>sc</tabTrigger>
+    <tabTrigger>ts</tabTrigger>
     <scope>source.java</scope>
     <description>Test Schedule</description>
 </snippet>

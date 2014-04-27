@@ -5,6 +5,14 @@ Release History
 ---------------
 
 
+Release 0.4.7 (2014-04-26)
+++++++++++++++++++
+- Fix some flaw for trigger completion
+- Optimize Apex Completion
+- Update READMD.MD
+- Add ``.no-sublime-package`` to tell sublime to unzip the package
+
+
 Release 0.4.6 (2014-04-21)
 ++++++++++++++++++
 - Add ``last_n_logs`` setting to control the return number by fetching logs

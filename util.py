@@ -19,7 +19,7 @@ from xml.sax.saxutils import unescape
 
 
 def get_sobject_caches():
-    """Return the sobject local cache of default project
+    """ Return the sobject local cache of default project
 
     Return:
 
@@ -36,7 +36,7 @@ def get_sobject_caches():
     return caches
 
 def clear_cache(username):
-    """Clear the sobject local cache of specified project
+    """ Clear the sobject local cache of specified project
 
     Arguments:
 
@@ -47,25 +47,30 @@ def clear_cache(username):
     sublime.save_settings("sobjects_completion.sublime-settings")
     sublime.status_message(username + " cache is cleared")
 
-def get_sobject_completions(username):
-    """Return the sobjects describe of specified project
+def get_sobject_metadata_and_symbol_tables(username):
+    """ Return the sobject cache of default project
 
     Arguments:
+    * username -- username of current default project
 
-    * username -- the login username of default project
+    Returns:
+    * sobject metadata -- the sobject metadata of default project
     """
+    sobjects_metadata = {}
+    symbol_tables = {}
 
-    # Load sobjects compoletions
-    settings = sublime.load_settings("sobjects_completion.sublime-settings")
+    sobjects_settings = sublime.load_settings("sobjects_completion.sublime-settings")
+    symbol_tables_settings = sublime.load_settings("symbol_table.sublime-settings")
+    if sobjects_settings.has(username):
+        sobjects_metadata = sobjects_settings.get(username)
 
-    # If current username is in settings, it means project is initiated
-    if not settings.has(username):
-        return {}
+    if symbol_tables_settings.has(username):
+        symbol_tables = symbol_tables_settings.get(username)
 
-    return settings.get(username)
+    return sobjects_metadata, symbol_tables
 
 def get_sobject_completion_list(sobject_describe, prefix="", display_child_relationships=True):
-    """Return the formatted completion list of sobject
+    """ Return the formatted completion list of sobject
 
     Arguments:
 
@@ -96,7 +101,7 @@ def get_sobject_completion_list(sobject_describe, prefix="", display_child_relat
     return completion_list
 
 def hide_panel(toggle=False):
-    """uSed for hiding panel in sublime
+    """ uSed for hiding panel in sublime
 
     Arguments:
 
@@ -106,7 +111,7 @@ def hide_panel(toggle=False):
         {"panel": "console", "toggle": toggle})
 
 def show_panel(toggle=False):
-    """uSed for showing panel in sublime
+    """ uSed for showing panel in sublime
 
     Arguments:
 
