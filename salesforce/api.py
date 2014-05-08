@@ -519,6 +519,28 @@ class SalesforceApi():
         self.result = result
         return result
 
+    def run_tests_asynchronous(self, class_ids):
+        """ Run asynchronous test for specified class ids
+
+        Arguments:
+
+        * class_ids -- Apex Test Class Id List
+        """
+        url = "/tooling/runTestsAsynchronous/?classids=" + ",".join(class_ids)
+        self.result = self.get(url)
+        return self.result
+
+    def run_tests_synchronous(self, class_names):
+        """ Run synchronous test for specified class ids
+
+        Arguments:
+
+        * class_names -- Apex Test Class Name List
+        """
+        url = "/tooling/runTestsSynchronous/?classnames=" + ",".join(class_names)
+        self.result = self.get(url)
+        return self.result
+
     def run_test(self, class_id):
         """ Run Test according to test class_id, return error if has
 

@@ -5,6 +5,14 @@
         "caption": "SublimeApex",
         "children":
         [
+            // {
+            //     "caption": "Run Sync Test", "command": "run_sync_test_classes",
+            //     "args": {"files": []}
+            // },
+            // {
+            //     "caption": "Run Async Test", "command": "run_async_test_classes",
+            //     "args": {"files": []}
+            // },
             {
                 "caption": "Refresh Selected Components", "command": "refresh_selected_components",
                 "args": {"files": []}

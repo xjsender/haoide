@@ -241,9 +241,17 @@
                 "caption": "Migration",
                 "children": [
                     {
-                        "id": "retrievemetadata",
+                        "id": "retrieveallmetadata",
                         "caption": "Retrieve Metadata",
                         "command": "retrieve_metadata"
+                    },
+                    {
+                        "id": "retrievesobjectmetadata",
+                        "caption": "Retrieve Sobject And Workflow",
+                        "command": "retrieve_metadata", 
+                        "args": {
+                            "retrieve_all": false
+                        }
                     },
 
                     {

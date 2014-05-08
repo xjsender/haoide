@@ -112,13 +112,6 @@ class RemoveCheckPointCommand(sublime_plugin.TextCommand):
     def run(self, edit, mark):
         self.view.erase_regions(mark)
 
-class ListCodeCoverageCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(ListCodeCoverageCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        pass
-
 class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         # Get file_name and component_attribute
@@ -315,8 +308,8 @@ class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(RetrieveMetadataCommand, self).__init__(*args, **kwargs)
 
-    def run(self):
-        processor.handle_retrieve_all_thread()
+    def run(self, retrieve_all=True):
+        processor.handle_retrieve_all_thread(retrieve_all=retrieve_all)
 
 class DeployMetadataCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -465,6 +458,57 @@ class RunOneTestCommand(sublime_plugin.WindowCommand):
         class_name = class_names[index]
         class_id = classes_attr[class_name]["id"]
         processor.handle_run_test(class_name, class_id)
+
+class FetchOrgWideCoverageCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(FetchOrgWideCoverageCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        pass
+
+class RunSyncTestClassesCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RunSyncTestClassesCommand, self).__init__(*args, **kwargs)
+
+    def run(self, files):
+        processor.handle_run_sync_test_classes(self.class_names)
+
+    def is_enabled(self, files):
+        # Check whether any classes are chosen
+        if len(files) == 0: return False
+
+        # Check whether there are test class in chosen classes 
+        self.class_names = []
+        for f in files:
+            component_attribute, name = util.get_component_attribute(f)
+            if not component_attribute or not component_attribute["is_test"]:
+                continue
+
+            self.class_names.append(name)
+        
+        return len(self.class_names) > 0
+
+class RunAsyncTestClassesCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RunAsyncTestClassesCommand, self).__init__(*args, **kwargs)
+
+    def run(self, files):
+        processor.handle_run_async_test_classes(self.class_ids)
+
+    def is_enabled(self, files):
+        # Check whether any classes are chosen
+        if len(files) == 0: return False
+
+        # Check whether there are test class in chosen classes 
+        self.class_ids = []
+        for f in files:
+            component_attribute, name = util.get_component_attribute(f)
+            if not component_attribute or not component_attribute["is_test"]:
+                continue
+
+            self.class_ids.append(component_attribute["id"])
+        
+        return len(self.class_ids) > 0
 
 class RunTestCommand(sublime_plugin.TextCommand):
     def run(self, view):

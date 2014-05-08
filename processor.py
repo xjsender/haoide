@@ -603,7 +603,7 @@ def handle_backup_all_sobjects_thread(timeout=120):
     ThreadProgress(api, thread, "Describe Global", "Describe Global Succeed")
     handle_thread(thread, timeout)
 
-def handle_retrieve_all_thread(timeout=120):
+def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -638,7 +638,13 @@ def handle_retrieve_all_thread(timeout=120):
 
     toolingapi_settings = context.get_toolingapi_settings()
     api = SalesforceApi(toolingapi_settings)
-    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_all_task_body, ))
+
+    if retrieve_all:
+        soap_body = soap_bodies.retrieve_all_task_body
+    else:
+        soap_body = soap_bodies.retrieve_sobjects_workflow_task_body
+
+    thread = threading.Thread(target=api.retrieve, args=(soap_body, ))
     thread.start()
     ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
     handle_thread(thread, timeout)
@@ -999,6 +1005,7 @@ def handle_run_all_test(timeout=120):
     ThreadsProgress(threads, "Run All Test", "Run All Test Succeed")
     handle_threads(api_threads, timeout)
 
+
 def handle_run_test(class_name, class_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1052,6 +1059,47 @@ def handle_run_test(class_name, class_id, timeout=120):
     thread.start()
     ThreadProgress(api, thread, "Run Test Class " + class_name, "Run Test for " + class_name + " Succeed")
     handle_thread(thread, timeout)
+
+def handle_run_sync_test_classes(class_names, timeout=120):
+    def handle_new_view_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
+            return
+        elif not api.result:
+            return
+
+        # If succeed
+        result = api.result
+        pprint.pprint(result)
+        pprint.pprint(util.parse_code_coverage(result))
+
+    settings = context.get_toolingapi_settings()
+    api = SalesforceApi(settings)
+    thread = threading.Thread(target=api.run_tests_synchronous, args=(class_names, ))
+    thread.start()
+    wait_message = 'Run Sync Test Classes for Specified Test Class'
+    ThreadProgress(api, thread, wait_message, wait_message + ' Succeed')
+    handle_new_view_thread(thread, timeout)
+
+def handle_run_async_test_classes(class_ids, timeout=120):
+    def handle_new_view_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
+            return
+        elif not api.result:
+            return
+
+        # If succeed
+        result = api.result
+        pprint.pprint(result)
+
+    settings = context.get_toolingapi_settings()
+    api = SalesforceApi(settings)
+    thread = threading.Thread(target=api.run_tests_asynchronous, args=(class_ids, ))
+    thread.start()
+    wait_message = 'Run Sync Test Classes for Specified Test Class'
+    ThreadProgress(api, thread, wait_message, wait_message + ' Succeed')
+    handle_new_view_thread(thread, timeout)
 
 def handle_generate_sobject_soql(sobject, timeout=120):
     def handle_new_view_thread(thread, timeout):

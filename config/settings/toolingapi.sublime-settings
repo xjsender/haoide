@@ -23,7 +23,7 @@
     },
 
     // API version
-    "api_version": 29,
+    "api_version": 30,
 
     // Browser Path, you should set a valid browser path, otherwise, it will have problem
     // Some policy prevents setting chrome as default browser, so this setting is here
@@ -54,7 +54,7 @@
 
     // Every time when you save component and error happened, the console will be open.
     // however, you want it to be hidden automatically after several seconds
-    "delay_seconds_for_hidden_console": 10,
+    "delay_seconds_for_hidden_console": 15,
 
     // Sometimes, you may want to develop package, so you need to just download the code 
     // in the allowed packages, because package name is unique in the whole salesforce org, 

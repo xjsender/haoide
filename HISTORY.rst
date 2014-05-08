@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 0.4.9 (2014-05-04)
+++++++++++++++++++
+- Change default setting ``delay_seconds_for_hidden_console`` from ``10`` to ``15``
+- Change default ``api_version`` from ``29`` to ``30``
+- Add command ``Retrieve Sobject And Workflow``
+
+
 Release 0.4.8 (2014-04-27)
 ++++++++++++++++++
 - Optimize picklist value completion
@@ -11,6 +18,7 @@ Release 0.4.8 (2014-04-27)
 - Replace ``excluded_sobjects`` settings with ``allowed_sobjects`` settings
 - Optimize the sobject cache initiation for OSX
 - Upgrade ``requests`` to latest version
+
 
 Release 0.4.7 (2014-04-26)
 ++++++++++++++++++
