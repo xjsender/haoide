@@ -3,7 +3,7 @@ This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change Wor
 **If you think this plugin is helpful, please star this plugin.**
 
 # Change Logs:
-See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
+Refer to [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
  
 # Installation #
 This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), you can install this plugin by searching ```Salesforce IDE``` in package control
@@ -23,7 +23,7 @@ If your own org login need security token, just set it as sample.
 
 Every time you want to switch the project, you can click ```SublimeApex``` > ```Switch Project``` in the main menu and choose that you want, and then the updated projects settings will be saved to user settings.
 
-If you want to check the current active project, you can check the most left of side bar or press ```alt+s```
+If you want to check the current active project, you can check the most left of side bar or press <kbd>ALT</kbd>+<kbd>S</kbd>
 
 After your project configuration is finished, you can click ```SublimeApex``` > ```new project``` in the main menu to download your code.
 ```javascript
@@ -77,30 +77,35 @@ if today is ```2013/07/30``` and user settings is
 your project folder name should be ```Exercise-Pro-20130730```, you can close this time suffix feature by setting ```keep_project_name_time_suffix``` to false
 
 ## Update Project
-You can press ```Alt+f7``` to update your active project
+You can press <kbd>Alt</kbd>+<kbd>F7</kbd> to update your active project
 
-## Completions:
-> * ```Input .```, show all methods of class
-> * ```Input .```, show all fields, parent relationship name and child relationship names
-> * ```Input .``` after sobject relationship name, show all fields of this relationship name
-> * ```Input .```, show all public methods of custom class if corresponding class view is open
-> * ```Input English Character```, show all sobject name and standard class name
-> * ```input <```, list all tag, including Visualforce Components and HTML Elements
-> * ```input :```, list all suffix of all visualforce Components
-> * ```input space```, list all attributes of tags
-> * ```input =```, list all values of this corresponding attributes in Visualforce page
-> * If sobject field type is picklist, after you input ```opp.StageName =``` or ```Opportunity.StageName =```, all available picklist values will be shown
-+ 11. SOQL fields completion, input ```se``` to call build-in snippet, press ```Enter```, ```SELECT Id, FROM ``` will be inserted, after input sobject name, press ```Tab```, focus will be moved to field list part, input the field name, you will see the field completions
++  Completions:
++ ```Input .```, show all methods of class
+* ```Input .```, show all fields, parent relationship name and child + lationship names
+* ```Input .``` after sobject relationship name, show all fields of this + lationship name
+* ```Input .```, show all public methods of custom class if corresponding + class view is open
++ ```Input English Character```, show all sobject name and standard class name
+* ```input <```, list all tag, including Visualforce Components and HTML + ements
++ ```input :```, list all suffix of all visualforce Components
++ ```input space```, list all attributes of tags
+* ```input =```, list all values of this corresponding attributes in + sualforce page
+* If sobject field type is picklist, after you input ```opp.StageName =``` or + `Opportunity.StageName =```, all available picklist values will be shown
+* SOQL fields completion, input ```se``` to call build-in snippet, press <kbd>Enter</kbd>, ```SELECT Id, FROM ``` will be inserted, after input sobject name, press <kbd>Tab</kbd>, focus will be moved to field list part, input the field name, you will see the field completions
+
+### Completions Screenshots
+<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Trigger.gif" /><br/>
+
+<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif" /><br/>
 
 ## Execute Anonymous
-Choose any apex code snippet, press ```Ctrl+Alt+E``` or click ```SublimeApex``` > ```Execute Anonymous```, the executed result will be shown in a new view.
+Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```SublimeApex``` > ```Execute Anonymous```, the executed result will be shown in a new view.
 
 There has a ```log_levels``` setting in the default setting, If you want to change anonymous log levels, you can put your log levels settings into your user setting.
 
 **If your chosen code snippet contains non-english word, there will have problem.**
 
 ## Execute Query
-After any snippet which start with SELECT is chosen, you can press ```Ctrl+Alt+Q``` or click ```SublimeApex``` > ```Execute Query```, the queried json result will be formated and shown in a new view.
+After any snippet which start with SELECT is chosen, you can press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Q</kbd> or click ```SublimeApex``` > ```Execute Query```, the queried json result will be formated and shown in a new view.
 
 ## Describe Sobject
 Click ```SublimeApex``` > ```Describe``` > ```Describe Sobect``` and then choose a sobject in the selection panel, the describe result will appear in the new view
@@ -112,17 +117,17 @@ Click ```SublimeApex``` > ```Describe``` > ```Generate SOQL``` and then choose a
 By default, the operation of ```Execute Query```, ```Describe Sobject```, ```Gernate SOQL```, ```Execute Anonymous``` and ```Run Test``` will be kept into the ```.history``` path in current project, you can disable this feature by setting ```keep_operation_history``` to false
 
 ## Save component
-> * This command is only enabled in salesforce code file
-> * After code is updated, click ```SublimeApex``` > ```Save to Server``` in the context menu or press ```Ctrl+Alt+S```
-> * If the saving process failed, the console will be open and automatically hidden in **10** seconds, if you think **10** seconds is not enough to check the error message, you add it up to more by setting ```delay_seconds_for_hidden_console```
++ This command is only enabled in salesforce code file
++ After code is updated, click ```SublimeApex``` > ```Save to Server``` in the context menu or press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>
++ If the saving process failed, the console will be open and automatically hidden in **10** seconds, if you think **10** seconds is not enough to check the error message, you add it up to more by setting ```delay_seconds_for_hidden_console```
 
 ## Refresh component
-> * This command is only enabled in salesforce code file
-> * After code is updated in UI or other IDE, press ```Ctrl+Alt+R``` or click ```SublimeApex``` > ```Refresh From Server``` to refresh it server.
++ This command is only enabled in salesforce code file
++ After code is updated in UI or other IDE, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>R</kbd> or click ```SublimeApex``` > ```Refresh From Server``` to refresh it server.
 
 ## Delete component
-> * This command is only enabled in salesforce code file
-> * If component is useless and you want to delete it from server, click ```SublimeApex``` > ```Delete From Server```
++ This command is only enabled in salesforce code file
++ If component is useless and you want to delete it from server, click ```SublimeApex``` > ```Delete From Server```
 
 ## New ApexClass #
 Click ```SublimeApex``` > ```New``` > ```New ApexClass```, choose the predefined template, and then input the class name in the input panel at the bottom, after that, your class will be created.
@@ -142,7 +147,7 @@ If you want to track the log of any user, click ```SublimeApex``` > ```Debug``` 
 There is a default ```trace_flag``` settings that is used to define the debug log level in the default settings, you can put your own change into your user settings
 
 ## List Debug Log
-If you want to see the log list of any user, click ```SublimeApex``` > ```Apex Test``` > ```List Debug Logs```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
+If you want to see the log list of any user, click ```SublimeApex``` > ```Apex Test``` > ```List Debug Logs```, wait for a moment, you will see the user list, choose one and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
 
 You can choose the ```Log Id``` and click ```SublimeApex``` > ```View Debug Log In Sublime``` command in the context menu, wait for the end of the progress on the status bar, after it is finished, a new view with the log detail will be opened.
 
@@ -150,7 +155,7 @@ Or, you can choose any Log Id and click ```SublimeApex``` > ```View Id In Salesf
 
 ## Run Test
 There are two methods to run test, one is by Main Menu, other is in the context menu
-By Main Menu: click ```SublimeApex``` > ```Debug``` > ```Run Test```, choose the test class and press enter, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
+By Main Menu: click ```SublimeApex``` > ```Debug``` > ```Run Test```, choose the test class and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
 By Context Menu: in the context of opened class, click ```SublimeApex``` > ```Run Test Class```, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
 
 ## View Code Coverage
@@ -167,7 +172,7 @@ Click the folder in the side bar, refresh that you want to refresh, if you choos
 ## Salesforce Document Quick Reference
 I get the idea idea from [Salesforce Referencee](https://github.com/Oblongmana/sublime-salesforce-reference) and added some feature based on it.
 
-Click the ```SublimeApex``` > ```Document``` > ```Reload Salesforce Reference``` in the main menu, you need to confirm whether continue, after you confirmed it, then wait for a moment until the ```Open Document``` command is enabled, at this moment, you can press ```Ctrl+Shift+O``` or Click it to invoke the ```Open Document``` command, nearly all reference api will be shown in the list, you can try to choose any one and it will be opened in browser.
+Click the ```SublimeApex``` > ```Document``` > ```Reload Salesforce Reference``` in the main menu, you need to confirm whether continue, after you confirmed it, then wait for a moment until the ```Open Document``` command is enabled, at this moment, you can press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd> or Click it to invoke the ```Open Document``` command, nearly all reference api will be shown in the list, you can try to choose any one and it will be opened in browser.
 
 There is default ```docs``` settings, if you want to add some other document reference to here, you can customize it yourself.
 ```
@@ -192,7 +197,7 @@ Choose the components you want to refresh, and then Click ```SublimeApex``` > ``
 Choose the components you want to delete, and then Click ```SublimeApex``` > ```Delete Selected Components``` in the Sidebar Menu
 
 ## Quick Goto Component
-Put the focus in the Class Name, and then, press ```shift```,  and click ```button1``` for twice, the class file will be open in background if this class file is exist, however, if you want to open this class in the foreground, you should press ```shift``` and click ```button1``` for triple.
+Put the focus in the Class Name, and then, press <kbd>shift</kbd>,  and click ```button1``` for twice, the class file will be open in background if this class file is exist, however, if you want to open this class in the foreground, you should press <kbd>shift</kbd> and click ```button1``` for triple.
 
 ## Retrieve All Metadata
 Click ```SublimeApex``` > ```Retrieve Metadata``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.

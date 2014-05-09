@@ -780,192 +780,101 @@ def parse_validation_rule(toolingapi_settings, sobjects):
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
-    # Create or Edit csv File
-    if is_python3x():
-        fp_validationrules = open(outputdir + "/validation rules.csv", "a", newline='')
-    else:
-        fp_validationrules = open(outputdir + "/validation rules.csv", "ab")
-
     # Initiate CSV Writer and Write headers
     columns = toolingapi_settings["validation_rule_columns"]
-    dict_write = csv.DictWriter(fp_validationrules, columns)
-    dict_write.writer.writerow([v.capitalize() for v in columns])
+    with open(outputdir + "/Validation Rules.csv", "wb") as fp:
+        fp.write(u'\ufeff'.encode('utf8')) # Write BOM Header
+        fp.write(",".join(columns).encode("utf-8") + b"\n") # Write Header
 
     # Open workflow source file
     validation_rule_path = toolingapi_settings["workspace"] + "/metadata/unpackaged/objects"
     for sobject in sobjects:
         try:
-            fp = open(validation_rule_path + "/" + sobject + ".object", "rb")
+            with open(validation_rule_path + "/" + sobject + ".object", "rb") as f:
+                result = xmltodict.parse(f.read())
         except IOError:
             # If one sobject is not exist, We don't need do anything
             continue
 
-        result = xmltodict.parse(fp.read())
-        fp.close()
-        
         ######################################
         # Rules Part
         ######################################
         try:
             rules = result["CustomObject"]["validationRules"]
-            write_metadata_to_csv(dict_write, columns, rules, sobject)
+            fp = open(outputdir + "/Validation Rules.csv", "ab")
+            write_metadata_to_csv(fp, columns, rules, sobject)
         except KeyError:
             # If one sobject doesn't have vr, We don't need do anything
             pass
 
-    # Close fp
-    fp_validationrules.close()
-
-def parse_workflow_metadata(toolingapi_settings, sobject):
+def parse_workflow_metadata(toolingapi_settings, sobjects):
     """Parse Sobject.workflow to csv, including rule, field update and alerts
 
     * toolingapi_settings -- toolingapi.sublime-settings reference
     * sobject -- sobject name
     * workflow_metadata_path -- downloaded workflow path by Force.com IDE or ANT
     """
-    # Open workflow source file
-    workflow_metadata_path = toolingapi_settings["workspace"] + "/metadata/unpackaged/workflows"
-    try:
-        fp = open(workflow_metadata_path + "/" + sobject + ".workflow", "rb")
-    except IOError:
-        return
-
-    # Outputdir for save workflow rule, field update, email alert
-    # and outbound message and task
+    # Create workflow dir
     outputdir = toolingapi_settings["workspace"] + "/workflow"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
-    # Convert xml to dict
-    result = xmltodict.parse(fp.read())
-    fp.close()
+    workflow_config = {
+        "rules": {
+            "file_name": "Workflow Rules",
+            "setting_name": "workflow_rule_columns"
+        },
+        "fieldUpdates": {
+            "file_name": "Workflow Field Updates",
+            "setting_name": "workflow_field_update_columns"
+        },
+        "alerts": {
+            "file_name": "Workflow Email Alerts",
+            "setting_name": "workflow_email_alert_columns"
+        },
+        "outboundMessages": {
+            "file_name": "Workflow Outbound Messages",
+            "setting_name": "workflow_outbound_message_columns"
+        },
+        "tasks": {
+            "file_name": "Workflow Tasks",
+            "setting_name": "workflow_task_columns"
+        }
+    }
 
-    ######################################
-    # Rules Part
-    ######################################
-    try:
-        rules = result["Workflow"]["rules"]
-    except KeyError:
-        return
+    for config in workflow_config:
+        setting_name = workflow_config[config]["setting_name"]
+        file_name = workflow_config[config]["file_name"]
+        columns = toolingapi_settings[setting_name]
+        rule_outputdir = outputdir + "/%s.csv" % file_name
 
-    # Initiate CSV Writer and Write headers
-    columns = toolingapi_settings["workflow_rule_columns"]
-    try:
-        # Python 3.x
-        fp = open(outputdir + "/" + sobject + " workflow rule.csv", "wt", newline='')
-    except:
-        # Python 2.x
-        fp = open(outputdir + "/" + sobject + " workflow rule.csv", "wb")
-    dict_write = csv.DictWriter(fp, columns, dialect=csv.excel)
-    dict_write.writer.writerow([v.capitalize() for v in columns])
+        # If file is exist, just remove it
+        if os.path.isfile(rule_outputdir):
+            os.remove(rule_outputdir)
 
-    # Write rows
-    write_metadata_to_csv(dict_write, columns, rules, sobject)
+        # Write Header
+        with open(rule_outputdir, "wb") as fp:
+            fp.write(u'\ufeff'.encode('utf8')) # Write BOM Header
+            fp.write(",".join(columns).encode("utf-8") + b"\n") # Write Header
 
-    # Close fp
-    fp.close()
+        # Append Body
+        rule_path = toolingapi_settings["workspace"] + "/metadata/unpackaged/workflows"
+        for sobject in sobjects:
+            try:
+                with open(rule_path + "/" + sobject + ".workflow", "rb") as f:
+                    result = xmltodict.parse(f.read())
+            except IOError:
+                # If one sobject is not exist, We don't need do anything
+                continue
 
-    ######################################
-    # Field Update Part
-    ######################################
-    try:
-        fieldUpdates = result["Workflow"]["fieldUpdates"]
-    except KeyError:
-        return
+            try:
+                rules = result["Workflow"][config]
+                write_metadata_to_csv(open(rule_outputdir, "ab"), columns, rules, sobject)
+            except KeyError:
+                # If one sobject doesn't have vr, We don't need do anything
+                pass
 
-    # Initiate CSV Writer and Write headers
-    columns = toolingapi_settings["workflow_field_update_columns"]
-    try:
-        # Python 3.x
-        fp = open(outputdir + "/" + sobject + " workflow field update.csv", "wt", newline='')
-    except:
-        # Python 2.x
-        fp = open(outputdir + "/" + sobject + " workflow field update.csv", "wb")
-    dict_write = csv.DictWriter(fp, columns)
-    dict_write.writer.writerow([v.capitalize() for v in columns])
-
-    # Write rows
-    write_metadata_to_csv(dict_write, columns, fieldUpdates, sobject)
-
-    # Close fp
-    fp.close()
-
-    ######################################
-    # Email Alert Part
-    ######################################
-    try:
-        alerts = result["Workflow"]["alerts"]
-    except KeyError:
-        return
-
-    # Initiate CSV Writer and Write headers
-    columns = toolingapi_settings["workflow_email_alert_columns"]
-    try:
-        # Python 3.x
-        fp = open(outputdir + "/" + sobject + " email alert.csv", "wt", newline='')
-    except:
-        # Python 2.x
-        fp = open(outputdir + "/" + sobject + " email alert.csv", "wb")
-    dict_write = csv.DictWriter(fp, columns)
-    dict_write.writer.writerow([v.capitalize() for v in columns])
-
-    # Write rows
-    write_metadata_to_csv(dict_write, columns, alerts, sobject)
-
-    # Close fp
-    fp.close()
-
-    ######################################
-    # Outbound Message Part
-    ######################################
-    try:
-        outboundMessages = result["Workflow"]["outboundMessages"]
-    except KeyError:
-        return
-
-    # Initiate CSV Writer and Write headers
-    columns = toolingapi_settings["workflow_outbound_message_columns"]
-    try:
-        # Python 3.x
-        fp = open(outputdir + "/" + sobject + " outbound message.csv", "wt", newline='')
-    except:
-        # Python 2.x
-        fp = open(outputdir + "/" + sobject + " outbound message.csv", "wb")
-    dict_write = csv.DictWriter(fp, columns)
-    dict_write.writer.writerow([v.capitalize() for v in columns])
-
-    # Write rows
-    write_metadata_to_csv(dict_write, columns, outboundMessages, sobject)
-
-    # Close fp
-    fp.close()
-
-    ######################################
-    # Task Part
-    ######################################
-    try:
-        tasks = result["Workflow"]["tasks"]
-    except KeyError:
-        return
-
-    # Initiate CSV Writer and Write headers
-    columns = toolingapi_settings["workflow_task_columns"]
-    try:
-        # Python 3.x
-        fp = open(outputdir + "/" + sobject + " task.csv", "wt", newline='')
-    except:
-        # Python 2.x
-        fp = open(outputdir + "/" + sobject + " task.csv", "wb")
-    dict_write = csv.DictWriter(fp, columns)
-    dict_write.writer.writerow([v.capitalize() for v in columns])
-
-    # Write rows
-    write_metadata_to_csv(dict_write, columns, tasks, sobject)
-
-    # Close fp
-    fp.close()
-
-def write_metadata_to_csv(dict_write, columns, metadata, sobject):
+def write_metadata_to_csv(fp, columns, metadata, sobject):
     """ This method is invoked by function in this module
 
     Arguments:
@@ -981,10 +890,9 @@ def write_metadata_to_csv(dict_write, columns, metadata, sobject):
         metadata_temp = [metadata]
         metadata = metadata_temp
 
-    # We just use sobject as column, 
-    # it's value is assigned with sobject parameter
     columns = [col for col in columns if col != "sobject"]
 
+    row_values = b""
     for rule in metadata:
         row_value = [sobject]
         for key in columns:
@@ -1023,28 +931,26 @@ def write_metadata_to_csv(dict_write, columns, metadata, sobject):
 
             elif not cell_value:
                 cell_value = ""
-
             else:
                 cell_value = "%s" % cell_value
 
             # Unescape special code to normal
-            try:
-                # Python 3.x
-                cell_value = urllib.parse.unquote(unescape(cell_value, 
-                    {"&apos;": "'", "&quot;": '"'}))
-            except:
-                # Python 2.x
-                cell_value = urllib.unquote(unescape(cell_value, 
-                    {"&apos;": "'", "&quot;": '"'}))
+            cell_value = urllib.parse.unquote(unescape(cell_value, 
+                {"&apos;": "'", "&quot;": '"'}))
 
             # Append cell_value to list in order to write list to csv
-            if is_python3x():
-                row_value.append(cell_value)
+            if '"' in cell_value:
+                cell_value = '"%s"' % cell_value.replace('"', '""')
             else:
-                row_value.append(cell_value.encode("utf-8"))
+                cell_value = '"%s"' % cell_value
+            row_value.append(cell_value)
 
         # Write row
-        dict_write.writer.writerow(row_value)
+        row_value_bin = ",".join(row_value)
+        row_values += row_value_bin.encode("utf-8") + b"\n"
+
+    fp.write(row_values) # Write Body
+    fp.close()
 
 NOT_INCLUDED_COLUMNS = ["urls", "attributes"]
 def list2csv(file_path, records):
@@ -1084,8 +990,6 @@ def parse_field_dependencies(settings, sobject):
     # Convert xml to dict
     result = xmltodict.parse(fp.read())
     fp.close()
-
-    pprint.pprint(result)
 
 def parse_data_template(output_file_dir, result):
     """Parse the data template to csv by page layout

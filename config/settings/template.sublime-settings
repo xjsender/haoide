@@ -34,7 +34,7 @@
         "ApexTrigger": {
             "Basic": {
                 "extension": ".trigger",
-                "body": "trigger trigger_name on sobject_name(before insert) {\n    \n}"
+                "body": "trigger trigger_name on sobject_name(before insert) {\n\n}"
             }
         },
         "ApexComponent": {

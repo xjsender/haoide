@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+
+Release 0.5.0 (2014-05-04)
+++++++++++++++++++
+- Update ``README.MD``
+- Fix bug UnicodeError for ``Export Workflows`` and ``Export Validation Rule`` in OSX
+- Remove some useless code, for example, ``Export Field Dependency``
+
+
 Release 0.4.9 (2014-05-04)
 ++++++++++++++++++
 - Change default setting ``delay_seconds_for_hidden_console`` from ``10`` to ``15``
