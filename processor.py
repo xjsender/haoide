@@ -677,7 +677,6 @@ def handle_export_validation_rules(timeout=120):
         # If succeed
         sobjects = api.result.keys()
         util.parse_validation_rule(toolingapi_settings, sobjects)
-
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
     toolingapi_settings = context.get_toolingapi_settings()
