@@ -402,9 +402,8 @@ class SalesforceApi():
         fields = sorted(result["fields"], key=lambda k : k['custom'])
         sobject_fields = ""
         for field in fields:
-            if field.get("type") in ["location"]:
-                continue
-
+            # http://www.salesforce.com/us/developer/docs/api/Content/compound_fields_address.htm
+            if field.get("queryByDistance"): continue
             sobject_fields += field.get("name") + ", "
 
         self.result = {

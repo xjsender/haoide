@@ -800,7 +800,7 @@ def handle_execute_query(soql, timeout=120):
         # If succeed
         result = api.result
         if result["status_code"] > 399: return
-
+        
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
         view.run_command("new_view", {

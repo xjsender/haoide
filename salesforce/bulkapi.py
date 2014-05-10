@@ -54,26 +54,25 @@ class BulkJob():
         self.job_id = getUniqueElementValueFromXmlString(response.content, "id")
 
     # https://instance.salesforce.com/services/async/27.0/job/jobId/batch
-    def create_batch(self, soql=None, records=None):
+    def create_batch(self, records=None):
         url = self.base_url + "/job/%s/batch" % self.job_id
 
         headers = self.headers
         headers["Content-Type"] = "text/csv; charset=UTF-8"
 
-        if self.operation == "query" and soql:
-            records = soql
-        elif self.operation == "query" and not records:
+        if self.operation == "query" and not records:
             api = SalesforceApi(self.settings)
             result = api.combine_soql(self.sobject)
             records = result["soql"]
-        print (records)
 
         response = requests.post(url, records, verify=False, headers=headers)
         if response.status_code == 400:
-            return self.parse_response(response, url)
+            result = self.parse_response(response, url)
+            result["operation"] = self.operation
+            result["action"] = "Create Batch"
+            return result
 
         self.batchs.append(xmltodict.parse(response.text))
-
         batch_id = getUniqueElementValueFromXmlString(response.content, "id")
 
         return batch_id
@@ -81,8 +80,7 @@ class BulkJob():
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId
     def check_job_status(self):
         url = self.base_url + "/job/%s" % self.job_id
-        response = requests.get(url, data=None, verify=False, 
-            headers=self.headers)
+        response = requests.get(url, data=None, verify=False, headers=self.headers)
         job_status = getUniqueElementValueFromXmlString(response.content, "state")
 
         return job_status
@@ -90,18 +88,22 @@ class BulkJob():
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId
     def check_batch_status(self, batch_id):
         url = self.base_url + "/job/%s/batch/%s" % (self.job_id, batch_id)
-        response = requests.get(url, data=None, verify=False, 
-            headers=self.headers)
+        response = requests.get(url, data=None, verify=False, headers=self.headers)
 
         # Convert xml to dict
         result = xmltodict.parse(response.content)
         if response.status_code == 400:
-            return self.parse_response(response, url)
+            result = self.parse_response(response, url)
+            result["success"] = false
+            result["action"] = "Check Batch Status"
+            return result
 
         result = result["batchInfo"]
         batch_status = result["state"]
         if batch_status == "Failed":
             result["success"] = False
+            result["operation"] = self.operation
+            result["action"] = "Check Batch Status"
             return result
 
         return batch_status
@@ -111,8 +113,8 @@ class BulkJob():
         result = result["error"]
         result["URL"] = url
         result["status_code"] = response.status_code
-        result["Operation"] = self.operation
-        result["Sobject"] = self.sobject
+        result["operation"] = self.operation
+        result["sobject"] = self.sobject
         return result
 
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result
@@ -151,12 +153,11 @@ class BulkJob():
         return response.status_code
 
 class BulkApi():
-    def __init__(self, settings, sobject, soql=None, inputfile=None, external_field=None):
+    def __init__(self, settings, sobject, input=None, external_field=None):
         self.settings = settings
         self.sobject = sobject
-        self.inputfile = inputfile
+        self.input = input
         self.external_field = external_field
-        self.soql = soql
         self.result = None
         self.job = None
     
@@ -168,8 +169,8 @@ class BulkApi():
     def write_csv_to_file(self, result, operation):
         # Write result to csv
         time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
-        if self.inputfile:
-            outputfile = os.path.dirname(self.inputfile) +\
+        if operation != "query":
+            outputfile = os.path.dirname(self.input) +\
                 "/log/%s-%s-%s.csv" % (self.sobject, operation, time_stamp)
         else:
             outputfile = self.settings["workspace"] + "/bulkout/%s.csv" % (self.sobject)
@@ -206,9 +207,9 @@ class BulkApi():
         result = self.do_operation('delete')
         self.write_csv_to_file(result, "delete")
     
-    def read_csv(self, inputfile):
+    def read_csv(self, input):
         from ..requests.packages import chardet
-        with open(inputfile, "rb") as csvfile:
+        with open(input, "rb") as csvfile:
             if csvfile.read(3) == b'\xef\xbb\xbf':
                 encoding = 'utf-8'
             else:
@@ -216,14 +217,14 @@ class BulkApi():
                 encoding = chardet_result["encoding"]
 
         if "utf" in encoding.lower():
-            csvfile = open(inputfile, encoding=encoding)
+            csvfile = open(input, encoding=encoding)
             reader = csv.reader(csvfile)
         else:
-            reader = csv.reader(open(inputfile))
+            reader = csv.reader(open(input))
 
         return reader
 
-    def create_batchs(self, job, inputfile):
+    def create_batchs(self, job, input):
         maxBytesPerBatch = self.settings["maximum_batch_bytes"] 
         maxRowsPerBatch = self.settings["maximum_batch_size"] 
 
@@ -232,7 +233,7 @@ class BulkApi():
         currentLines = 0
         batchRecord = ""
         batch_ids = []
-        reader = self.read_csv(inputfile)
+        reader = self.read_csv(input)
         for row in reader:
             if reader.line_num == 1:
                 if "\ufeff" in row[0]:
@@ -275,10 +276,12 @@ class BulkApi():
     def do_operation(self, operation):
         self.job = BulkJob(self.settings, operation, self.sobject, self.external_field)
         self.job.create_job()
-        if not self.inputfile:
-            batch_ids = [self.job.create_batch(self.soql)]
+        if operation == "query" and self.input:
+            batch_ids = [self.job.create_batch(self.input)]
+        elif operation == "query" and not self.input:
+            batch_ids = [self.job.create_batch()]
         else:
-            batch_ids = self.create_batchs(self.job, self.inputfile)
+            batch_ids = self.create_batchs(self.job, self.input)
 
         """
         Error need to process in future

@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+
+Release 0.5.2 (2014-05-10)
+++++++++++++++++++
+- Since from API 30, compound field (queryByDistance=true) can't be in soql field list
+- Fix bug for bulk api caused by release 0.5.1
+
+
 Release 0.5.1 (2014-05-10)
 ++++++++++++++++++
 - Fix Bug: ``Export CustomField``
