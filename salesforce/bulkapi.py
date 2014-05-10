@@ -54,16 +54,19 @@ class BulkJob():
         self.job_id = getUniqueElementValueFromXmlString(response.content, "id")
 
     # https://instance.salesforce.com/services/async/27.0/job/jobId/batch
-    def create_batch(self, records=None):
+    def create_batch(self, soql=None, records=None):
         url = self.base_url + "/job/%s/batch" % self.job_id
 
         headers = self.headers
         headers["Content-Type"] = "text/csv; charset=UTF-8"
 
-        if self.operation == "query" and not records:
+        if self.operation == "query" and soql:
+            records = soql
+        elif self.operation == "query" and not records:
             api = SalesforceApi(self.settings)
             result = api.combine_soql(self.sobject)
             records = result["soql"]
+        print (records)
 
         response = requests.post(url, records, verify=False, headers=headers)
         if response.status_code == 400:
@@ -148,11 +151,12 @@ class BulkJob():
         return response.status_code
 
 class BulkApi():
-    def __init__(self, settings, sobject, inputfile=None, external_field=None):
+    def __init__(self, settings, sobject, soql=None, inputfile=None, external_field=None):
         self.settings = settings
         self.sobject = sobject
         self.inputfile = inputfile
         self.external_field = external_field
+        self.soql = soql
         self.result = None
         self.job = None
     
@@ -272,7 +276,7 @@ class BulkApi():
         self.job = BulkJob(self.settings, operation, self.sobject, self.external_field)
         self.job.create_job()
         if not self.inputfile:
-            batch_ids = [self.job.create_batch()]
+            batch_ids = [self.job.create_batch(self.soql)]
         else:
             batch_ids = self.create_batchs(self.job, self.inputfile)
 

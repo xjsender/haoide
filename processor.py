@@ -571,13 +571,13 @@ def handle_bulk_operation_thread(sobject, inputfile, operation, timeout=120):
     progress_message = operation + " " + sobject
     ThreadProgress(bulkapi, thread, progress_message, progress_message + " Succeed")
 
-def handle_backup_sobject_thread(sobject, timeout=120):
+def handle_backup_sobject_thread(sobject, soql=None, timeout=120):
     settings = context.get_toolingapi_settings()
-    bulkapi = BulkApi(settings, sobject)
+    bulkapi = BulkApi(settings, sobject, soql)
     thread = threading.Thread(target=bulkapi.query, args=())
     thread.start()
-    ThreadProgress(bulkapi, thread, "Export Records of " + sobject, 
-        "Export Records of " + sobject + " Succeed")
+    wait_message = "Export Records of " + sobject
+    ThreadProgress(bulkapi, thread, wait_message, wait_message + " Succeed")
 
 def handle_backup_all_sobjects_thread(timeout=120):
     def handle_thread(thread, timeout):
@@ -710,7 +710,7 @@ def handle_export_customfield(timeout=120):
     outputdir = workspace + "/customfield"
     api = SalesforceApi(toolingapi_settings)
     query = "SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName FROM CustomField"
-    thread = threading.Thread(target=api.query_all, args=(query, True,))
+    thread = threading.Thread(target=api.query, args=(query, True,))
     thread.start()
     ThreadProgress(api, thread, 'Describe CustomField', 
         'Outputdir: ' + outputdir + "/customfield.csv")

@@ -1,3 +1,3 @@
-Sublime IDE for salesforce
+After Sublime IDE for salesforce is installed, you should restart your sublime,
 This plugin supports Sublime Text 3 for windows and OSX (MUST Change Workspace in OSX), not tested for Linux.
 If you think this plugin is helpful, please star this plugin.

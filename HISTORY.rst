@@ -4,8 +4,16 @@ Release History
 
 ---------------
 
+Release 0.5.1 (2014-05-10)
+++++++++++++++++++
+- Fix Bug: ``Export CustomField``
+- Update OSX keymap
+- Add ``Export SOQL`` command to export sobject records by specified soql
+- Add command for ``Export SOQL``
+- Fix install message alert
 
-Release 0.5.0 (2014-05-04)
+
+Release 0.5.0 (2014-05-09)
 ++++++++++++++++++
 - Update ``README.MD``
 - Fix bug UnicodeError for ``Export Workflows`` and ``Export Validation Rule`` in OSX

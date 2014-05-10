@@ -272,6 +272,13 @@
                         "caption": "Export Single"
                     },
                     {
+                        "command": "bulk_export_single", 
+                        "caption": "Export SOQL",
+                        "args": {
+                            "export_soql": true
+                        }
+                    },
+                    {
                         "command": "bulk_export_all",
                         "caption": "Export All"
                     },

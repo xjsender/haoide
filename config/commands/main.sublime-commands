@@ -142,6 +142,13 @@
         "command": "bulk_export_single"
     },
     {
+        "caption": "SublimeApex: DataLoader - Export SOQL",
+        "command": "bulk_export_single",
+        "args": {
+            "export_soql": true
+        }
+    },
+    {
         "caption": "SublimeApex: DataLoader - insert",
         "command": "bulk_operation",
         "args": {
