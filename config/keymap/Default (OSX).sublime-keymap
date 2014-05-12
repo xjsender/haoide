@@ -25,7 +25,7 @@
     {"keys": ["alt+r","alt+t"],"command": "run_one_test"},
 
     // Execute chosen anonymous code snippet
-    {"keys": ["super+alt+e"], "command": "execute_anonymous"},
+    {"keys": ["ctrl+alt+e"], "command": "execute_anonymous"},
 
     // Run current Test Class in edit mode, it's Context Menu Item
     // Problem here, don't know why?

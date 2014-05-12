@@ -393,7 +393,7 @@ class SalesforceApi():
         # This result is used for invoker
         return all_result
 
-    def combine_soql(self, sobject):
+    def combine_soql(self, sobject, contains_compound=True):
         """ Get the full field list soql by sobject
 
         * sobject -- sobject name, for example, Account, Contact
@@ -403,7 +403,7 @@ class SalesforceApi():
         sobject_fields = ""
         for field in fields:
             # http://www.salesforce.com/us/developer/docs/api/Content/compound_fields_address.htm
-            if field.get("queryByDistance"): continue
+            if not contains_compound and field.get("queryByDistance"): continue
             sobject_fields += field.get("name") + ", "
 
         self.result = {

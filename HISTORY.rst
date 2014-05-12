@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 0.5.3 (2014-05-12)
+++++++++++++++++++
+- Add new snippet ``Sobject - sobject bracket``
+- Update description of ``Update Sobjects``, ``Delete Sobjects``
+- Add two commands for command ``Reload Cache`` and ``Clear Cache``
+- Fix bug for ``Export Workflow``
+
 
 Release 0.5.2 (2014-05-10)
 ++++++++++++++++++

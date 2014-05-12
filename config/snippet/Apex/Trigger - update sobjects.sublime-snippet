@@ -10,5 +10,5 @@ catch (DMLException e) {
 ]]></content>
     <tabTrigger>us</tabTrigger>
     <scope>source.java</scope>
-    <description>insert sobjects</description>
+    <description>update sobjects</description>
 </snippet>

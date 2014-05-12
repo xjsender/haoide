@@ -82,10 +82,12 @@
         "caption": "SublimeApex: Run Test",
         "command": "run_one_test"
     },
+
     {
         "caption": "SublimeApex: View Code Coverage",
         "command": "view_code_coverage"
     },
+    
     {
         "caption": "SublimeApex: Execute Anonymous",
         "command": "execute_anonymous"
@@ -94,6 +96,16 @@
     {
         "caption": "SublimeApex: Execute SOQL",
         "command": "execute_soql"
+    },
+
+    {
+        "caption": "SublimeApex: Reload Cache",
+        "command": "reload_cache"
+    },
+
+    {
+        "caption": "SublimeApex: Clear Cache",
+        "command": "clear_cache"
     },
 
     {

@@ -910,7 +910,10 @@ def write_metadata_to_csv(fp, columns, metadata, sobject):
                         values = []
                         for cell_dict in cell_value:
                             for cell_dict_key in cell_dict.keys():
-                                values.append(cell_dict[cell_dict_key])
+                                if not cell_dict[cell_dict_key]:
+                                    values.append("")
+                                else:
+                                    values.append(cell_dict[cell_dict_key])
                             value += " ".join(values) + "\n"
                     else:
                         value = " ".join(cell_value) + "\n"

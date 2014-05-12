@@ -62,7 +62,7 @@ class BulkJob():
 
         if self.operation == "query" and not records:
             api = SalesforceApi(self.settings)
-            result = api.combine_soql(self.sobject)
+            result = api.combine_soql(self.sobject, contains_compound=False)
             records = result["soql"]
 
         response = requests.post(url, records, verify=False, headers=headers)
