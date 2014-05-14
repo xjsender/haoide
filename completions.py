@@ -20,7 +20,8 @@ class ApexCompletions(sublime_plugin.EventListener):
     """
 
     def on_query_completions(self, view, prefix, locations):
-        if not view.match_selector(locations[0], "source.java"): return []
+        if not view.match_selector(locations[0], "source.java"):
+            return []
 
         location = locations[0]
         pt = locations[0] - len(prefix) - 1

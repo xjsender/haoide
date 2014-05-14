@@ -708,24 +708,27 @@ def parse_code_coverage(result):
     code_coverage_desc = message.SEPRATE.format("TriggerOrClass Code Coverage:")
 
     columns = ""
-    for column in ["ApexClassOrTrigger", "Percent", "Lines"]:
-        columns += "%-*s" % (40, column)
+    header_width = {
+        "Name": 50, "Percent": 10, "Lines": 10
+    }
+    for column in ["Name", "Percent", "Lines"]:
+        columns += "%-*s" % (header_width[column], column)
 
     code_coverage = ""
     for name in sorted(records):
         row = ""
-        row += "%-*s" % (40, name)
+        row += "%-*s" % (header_width["Name"], name)
         coverage = records[name]
         if not coverage["NumLinesCovered"] or not coverage["NumLinesUncovered"]:
             continue
         covered_lines = coverage["NumLinesCovered"]
         total_lines = covered_lines + coverage["NumLinesUncovered"]
         coverage = covered_lines / total_lines * 100 if total_lines != 0 else 0
-        row += "%-*s" % (40, "%.2f%%" % coverage)
-        row += "%-*s" % (40, "%s/%s" % (covered_lines, total_lines))
+        row += "%-*s" % (header_width["Percent"], "%.2f%%" % coverage)
+        row += "%-*s" % (header_width["Lines"], "%s/%s" % (covered_lines, total_lines))
         code_coverage += row + "\n"
 
-    return message.SEPRATE.format(code_coverage_desc + columns + "\n" + code_coverage)
+    return message.SEPRATE.format(code_coverage_desc + columns + "\n"*2 + code_coverage)
 
 def parse_test_result(test_result):
     """

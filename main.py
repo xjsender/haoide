@@ -443,19 +443,20 @@ class RunOneTestCommand(sublime_plugin.WindowCommand):
         super(RunOneTestCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        global classes_attr
-        global class_names
+        self.classes_attr = processor.populate_classes()
+        classes = self.classes_attr.keys()
+        classes = [c for c in classes if "is_test" in self.classes_attr[c] and self.classes_attr[c]["is_test"]]
+        if len(classes) == 0:
+            sublime.error_message("No Test Class");
+            return
 
-        classes_attr = processor.populate_classes()
-        classes = classes_attr.keys()
-        classes = [c for c in classes if "is_test" in classes_attr[c] and classes_attr[c]["is_test"]]
-        class_names = sorted(list(classes))
-        self.window.show_quick_panel(class_names, self.on_done)
+        self.class_names = sorted(list(classes))
+        self.window.show_quick_panel(self.class_names, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
 
-        class_name = class_names[index]
+        class_name = self.class_names[index]
         class_id = classes_attr[class_name]["id"]
         processor.handle_run_test(class_name, class_id)
 

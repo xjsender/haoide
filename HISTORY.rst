@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+
+Release 0.5.4 (2014-05-15)
+++++++++++++++++++
+- Narrow down the code coverage column of test run result
+- When run specified test class by main menu, if no test class, show the alert message
+- Try to fix issue # 23
+
+
 Release 0.5.3 (2014-05-12)
 ++++++++++++++++++
 - Add new snippet ``Sobject - sobject bracket``

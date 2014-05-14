@@ -327,10 +327,11 @@ class SalesforceApi():
         # Firstly, login
         self.login()
 
-        soql = urllib.parse.urlencode({'q' : soql})
+        soql = urllib.parse.quote(soql)
 
-        # Just API 28 support CustomField
-        url = self.base_url + ("/tooling" if is_toolingapi else "") + "/query?" + soql
+        # Just API 28 above support CustomField
+        url = self.base_url + ("/tooling" if is_toolingapi else "") + "/query?q=" + soql
+        print (url)
 
         # Here has a bug, this is used to prevent this exception
         if "query?q=q=" in url: url = url.replace("query?q=q=", "query?q=")
@@ -462,7 +463,6 @@ class SalesforceApi():
         query = "SELECT Id, ExpirationDate FROM TraceFlag " +\
                 "WHERE TracedEntityId = '%s' AND ExpirationDate >= %s" % (traced_entity_id, time_stamp)
         result = self.query(query, True)
-        pprint.pprint(result)
 
         if result["totalSize"] > 0:
             result["message"] = "TraceFlag already exist"
