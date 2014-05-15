@@ -360,8 +360,8 @@ def add_operation_history(operation, history_content):
     time_stamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
     seprate = "\n" + 100 * "-" + "\n"
     history = time_stamp + seprate + history_content + "\n" * 2
-    fp = open(outputdir + "/%s.txt" % operation, "a")
-    fp.write(history)
+    fp = open(outputdir + "/%s.txt" % operation, "ab")
+    fp.write(history.encode("utf-8"))
     fp.close()
 
 def check_new_component_enabled():

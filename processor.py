@@ -809,7 +809,7 @@ def handle_execute_query(soql, timeout=120):
         })
 
         # Keep the history in the local history rep
-        util.add_operation_history('execute_query', soql.decode("utf-8"))
+        util.add_operation_history('execute_query', soql)
 
     settings = context.get_toolingapi_settings()
     api = SalesforceApi(settings)

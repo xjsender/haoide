@@ -11,5 +11,11 @@
         "button": "button1", "count": 3, "modifiers": ["shift"],
         "press_command": "goto_component", 
         "press_args": {"is_background": false}
+    },
+
+    // Press Shift and Click Left Mouse for triple will open class file
+    {
+        "button": "button1", "count": 2, "modifiers": ["alt"],
+        "press_command": "view_selected_code_coverage"
     }
 ]

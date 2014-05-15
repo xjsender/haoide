@@ -240,6 +240,24 @@ for example,
 }
 ```
 
++ **Query With Wildcard Character***, you can input ```SELECT * FROM Account LIMIT 1``` and choose it, choose the intput SOQL, and then click ```Execute Rest Test``` in the context menu, choose the ```Query``` in the popup menu, wait for a moment, the queried json result will be shown in the new view.
+```
+{
+    'done': True,
+    'records': [{
+        'Id': '001O000000M1mPwIAJ',
+        'Name': '周星驰',
+        ....
+        'attributes': {
+            'type': 'Account',
+            'url': '/services/data/v30.0/sobjects/Account/001O000000M1mPwIAJ'
+        }
+    }],
+    'status_code': 200,
+    'totalSize': 1
+}
+```
+
 + **Tooling Query Sample**, you can input ```SELECT Id, Name FROM ApexClass``` and choose it, choose the intput SOQL, and then click ```Execute Rest Test``` in the context menu, choose the ```Tooling Query``` in the popup menu, wait for a moment, the queried json result will be shown in the new view.
 
 + **Post Sample**: you can input ```/sobjects/Account``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Post``` in the popup menu and input the json ```{"Name": "Test Rest Test"}``` in the input panel, wait for a moment, the inserted new account will be shown in the new view.

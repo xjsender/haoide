@@ -89,7 +89,6 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
 
     def run(self, edit, is_background=False):
         sel = self.view.sel()[0]
-        sel_text = self.view.substr(sel)
         sel_text = self.view.substr(self.view.word(sel.begin()))
         
         settings = context.get_toolingapi_settings()
@@ -121,7 +120,7 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         # Handle Save Current Component
         processor.handle_view_code_coverage(component_name, component_attribute, self.body)
 
-    def is_visible(self):
+    def is_enabled(self):
         # Must Be File
         if not self.view.file_name(): return False
 
@@ -138,6 +137,13 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         if "@istest" in self.body.lower(): return False
 
         return True
+
+class ViewSelectedCodeCoverageCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        self.view.run_command("goto_component", {"is_background": False})
+        view = sublime.active_window().active_view()
+        view.run_command("view_code_coverage")
+        view.run_command("close")
 
 class NewViewCommand(sublime_plugin.TextCommand):
     """
@@ -457,7 +463,7 @@ class RunOneTestCommand(sublime_plugin.WindowCommand):
         if index == -1: return
 
         class_name = self.class_names[index]
-        class_id = classes_attr[class_name]["id"]
+        class_id = self.classes_attr[class_name]["id"]
         processor.handle_run_test(class_name, class_id)
 
 class FetchOrgWideCoverageCommand(sublime_plugin.WindowCommand):
@@ -593,7 +599,7 @@ class ViewDebugLogDetail(sublime_plugin.TextCommand):
 
 class ExecuteSoqlCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        processor.handle_execute_query(self.selection)
+        processor.handle_execute_query(self.view.substr(self.view.sel()[0]))
 
     def is_enabled(self):
         # Selection must start SELECT, 

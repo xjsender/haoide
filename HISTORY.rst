@@ -5,6 +5,15 @@ Release History
 ---------------
 
 
+Release 0.5.5 (2014-05-15)
+++++++++++++++++++
+- Add ``*`` support for ``Rest Query``, if ``*`` query, just replace it with all fields of related sobject
+- Add doc for Wild-card Character query
+- Fix ``Run Test`` bug caused by previous release
+- Add ``view_selected_code_coverage`` command to view code coverage by selected class name
+- Add mousemap to quick view code coverage
+
+
 Release 0.5.4 (2014-05-15)
 ++++++++++++++++++
 - Narrow down the code coverage column of test run result

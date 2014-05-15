@@ -4,6 +4,7 @@ import json
 import time
 import datetime
 import os
+import re
 
 import urllib.parse
 from .. import requests
@@ -327,11 +328,21 @@ class SalesforceApi():
         # Firstly, login
         self.login()
 
-        soql = urllib.parse.quote(soql)
+        # Check whether * in field list
+        match = re.compile("select\s+\*\s+from\s+\w+", re.I).match(soql)
+        if match:
+            literals = match.group().split(" ")
+            sobject = literals[-1]
+            result = self.describe_sobject(sobject, is_toolingapi)
+            if result["status_code"] < 399:
+                fields = [f["name"] for f in result["fields"]]
+                soql = soql.replace("*", ",".join(fields))
+            else:
+                soql = soql.replace("*", "Id")
 
         # Just API 28 above support CustomField
+        soql = urllib.parse.quote(soql)
         url = self.base_url + ("/tooling" if is_toolingapi else "") + "/query?q=" + soql
-        print (url)
 
         # Here has a bug, this is used to prevent this exception
         if "query?q=q=" in url: url = url.replace("query?q=q=", "query?q=")
@@ -413,13 +424,13 @@ class SalesforceApi():
         }
         return self.result
 
-    def describe_sobject(self, sobject):
+    def describe_sobject(self, sobject, is_toolingapi=False):
         """ Sends a GET request. Return sobject describe result
 
         :sobject: sObjectType
         """
 
-        url = "/sobjects/%s/describe" % sobject
+        url = ("/tooling" if is_toolingapi else "") + "/sobjects/%s/describe" % sobject
         result = self.get(url)
 
         # Self.result is used to keep thread result
