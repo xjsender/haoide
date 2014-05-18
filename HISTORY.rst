@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 0.5.6 (2014-05-15)
+++++++++++++++++++
+- Fix bug for ``SELECT * FROM Sobject``, issue #30
+- Add time stamp for ``save conflict`` confirm message
+- Optimize for ``Fetch Debug Log``
+- TraceFlag Bug: Delete the old one and create a new one every time request to create trace flag, issue #29
+
 
 Release 0.5.5 (2014-05-15)
 ++++++++++++++++++

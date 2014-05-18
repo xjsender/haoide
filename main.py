@@ -565,22 +565,18 @@ class FetchDebugLogCommand(sublime_plugin.WindowCommand):
         super(FetchDebugLogCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        global users
-        global users_name
-        users = processor.populate_users()
-        users_name = sorted(users.keys(), reverse=False)
-        self.window.show_quick_panel(users_name, self.on_done)
+        self.users = processor.populate_users()
+        self.users_name = sorted(self.users.keys(), reverse=False)
+        self.window.show_quick_panel(self.users_name, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
 
-        # Change the chosen project as default
-        # Split with ") " and get the second project name
-        user_name = users_name[index]
-        user_id = users[user_name]
+        user_name = self.users_name[index]
+        user_id = self.users[user_name]
         processor.handle_fetch_logs(user_name, user_id)
 
-class ViewDebugLogDetail(sublime_plugin.TextCommand):
+class ViewDebugLogDetailCommand(sublime_plugin.TextCommand):
     def run(self, view):
         processor.handle_view_debug_log_detail(self.log_id)
 

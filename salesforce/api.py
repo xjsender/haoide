@@ -323,15 +323,15 @@ class SalesforceApi():
         Arguments:
 
         * soql -- the query string, e.g. SELECT Id FROM Account
-        * is_toolingapi -- Optional; indicate whether is tooling query
+        *
         """
         # Firstly, login
         self.login()
 
         # Check whether * in field list
-        match = re.compile("select\s+\*\s+from\s+\w+", re.I).match(soql)
+        match = re.compile("select\s+\*\s+from[\s\t]+\w+", re.I).match(soql)
         if match:
-            literals = match.group().split(" ")
+            literals = match.group().split()
             sobject = literals[-1]
             result = self.describe_sobject(sobject, is_toolingapi)
             if result["status_code"] < 399:
@@ -475,10 +475,10 @@ class SalesforceApi():
                 "WHERE TracedEntityId = '%s' AND ExpirationDate >= %s" % (traced_entity_id, time_stamp)
         result = self.query(query, True)
 
+        # If trace flag is exist, just delete it
         if result["totalSize"] > 0:
-            result["message"] = "TraceFlag already exist"
-            self.result = result
-            return self.result
+            self.delete("/tooling/sobjects/TraceFlag/" + result["records"][0]["Id"])
+            return self.create_trace_flag(traced_entity_id)
 
         # Create Trace Flag
         trace_flag = self.settings["trace_flag"]
@@ -1136,12 +1136,16 @@ class SalesforceApi():
         component_body = component_attribute["body"]
 
         if self.settings["check_save_conflict"]:
-            query = "SELECT Id, LastModifiedById " +\
+            query = "SELECT Id, LastModifiedById, LastModifiedDate " +\
                     "FROM %s WHERE Id = '%s'" % (component_type, component_id)
             result = self.query(query, True)
             user_id = globals()[self.username]["user_id"]
-            if not result["records"][0]["LastModifiedById"] == user_id:
-                confirm = sublime.ok_cancel_dialog('LastModifiedBy is not you, continue?')
+            class_attr = result["records"][0]
+            if not class_attr["LastModifiedById"] == user_id:
+                last_modified_id = class_attr["LastModifiedById"]
+                last_modified_date = class_attr["LastModifiedDate"]
+                message = "Modified at %s, continue?" % last_modified_date
+                confirm = sublime.ok_cancel_dialog(message)
                 if confirm == False: return
 
         # Get MetadataContainerId
