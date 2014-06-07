@@ -283,6 +283,10 @@
                         "caption": "Export All"
                     },
                     {
+                        "command": "close_jobs",
+                        "caption": "Close Jobs"
+                    },
+                    {
                         "command": "bulk_operation",
                         "caption": "Insert",
                         "args": {

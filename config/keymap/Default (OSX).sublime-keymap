@@ -25,7 +25,7 @@
     {"keys": ["alt+r","alt+t"],"command": "run_one_test"},
 
     // Execute chosen anonymous code snippet
-    {"keys": ["ctrl+alt+e"], "command": "execute_anonymous"},
+    {"keys": ["super+shift+e"], "command": "execute_anonymous"},
 
     // Run current Test Class in edit mode, it's Context Menu Item
     // Problem here, don't know why?
@@ -41,7 +41,7 @@
     {"keys": ["super+alt+q"], "command": "execute_soql"},
 
     // Delete the current Component
-    {"keys": ["super+alt+d"], "command": "delete_component"},
+    {"keys": ["ctrl+alt+d"], "command": "delete_component"},
 
     // View Code Coverage
     {"keys": ["super+alt+c"], "command": "view_code_coverage"},

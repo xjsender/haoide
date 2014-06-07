@@ -1,16 +1,9 @@
-"""SublimeSalesforceReference: Quick access to Salesforce Documentation from Sublime Text"""
-__version__ = "1.0.0"
-__author__ = "James Hill (oblongmana@gmail.com)"
-__copyright__ = "SublimeSalesforceReference: (C) 2014 James Hill. GNU GPL 3."
-__credits__ = ["All Salesforce Documentation is © Copyright 2000–2014 salesforce.com, inc."]
-
 import sublime, sublime_plugin
 import xml.etree.ElementTree as ElementTree
-import webbrowser
 import os
 import threading
 import urllib
-from . import requests, context
+from . import requests, context, util
 from .progress import ThreadProgress
 
 class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
@@ -95,13 +88,7 @@ class OpenDocumentationCommand(sublime_plugin.WindowCommand):
 
         link = self.title_link[self.titles[index]]
         show_url= 'http://www.salesforce.com/us/developer/docs/%s%s' % (link["attr"], link["url"])
-        settings = context.get_toolingapi_settings()
-        browser_path = settings["default_chrome_path"]
-        if os.path.exists(browser_path):
-            webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
-            webbrowser.get('chrome').open_new_tab(show_url)
-        else:
-            webbrowser.open_new_tab(show_url)
+        util.open_with_browser(show_url)
 
     def is_enabled(self):
         reference_settings = sublime.load_settings("salesforce_reference.sublime-settings")

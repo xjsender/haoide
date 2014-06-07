@@ -10,6 +10,7 @@ import time
 import base64
 import zipfile
 import shutil
+import webbrowser
 import xml.dom.minidom
  
 from .salesforce import message
@@ -99,6 +100,21 @@ def get_sobject_completion_list(sobject_describe, prefix="", display_child_relat
             completion_list.append((prefix + key + "\t" + child_sobject + "(p2c)", key))
 
     return completion_list
+
+def open_with_browser(show_url, use_default_chrome=True):
+    """ Utility for open file in browser
+
+    Arguments:
+
+    * use_default_browser -- optional; if true, use chrome configed in settings to open it
+    """
+    settings = context.get_toolingapi_settings()
+    browser_path = settings["default_chrome_path"]
+    if not use_default_chrome or not os.path.exists(browser_path):
+        webbrowser.open_new_tab(show_url)
+    else:
+        webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
+        webbrowser.get('chrome').open_new_tab(show_url)
 
 def hide_panel(toggle=False):
     """ uSed for hiding panel in sublime
@@ -979,24 +995,6 @@ def list2csv(file_path, records):
                     values.append(none_value(v).encode("utf-8"))
             fp.write(b",".join(values) + b"\n")
 
-def parse_field_dependencies(settings, sobject):
-    if sobject != "VCC_Product_Configuration__c": return
-    # Open workflow source file
-    workspace = settings["workspace"]
-    path = workspace + "/metadata/unpackaged/objects/%s.object" % sobject
-    try:
-        fp = open(path, "rb")
-    except IOError:
-        return
-
-    # Outputdir
-    outputdir = "%s/fieldDependencies" % workspace
-    if not os.path.exists(outputdir): os.makedirs(outputdir)
-
-    # Convert xml to dict
-    result = xmltodict.parse(fp.read())
-    fp.close()
-
 def parse_data_template(output_file_dir, result):
     """Parse the data template to csv by page layout
 
@@ -1112,24 +1110,25 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
 
     # Create new csv file for this workbook
     # fp = open(outputdir + "/" + sobject + ".csv", "wb", newline='')
-    if is_python3x():
-        fp = open(outputdir + "/" + sobject + ".csv", "w", newline='')
-    else:
-        fp = open(outputdir + "/" + sobject + ".csv", "wb")
+    workbook_dir = outputdir + "/" + sobject + ".csv"
     
     #------------------------------------------------------------
     # Headers, all headers are capitalized
     #------------------------------------------------------------
     headers = [column.capitalize() for column in fields_key]
-    dict_write = csv.DictWriter(fp, headers, quoting=csv.QUOTE_ALL)
-    dict_write.writer.writerow(headers)
+
+    # Write Header
+    fp = open(workbook_dir, "wb")
+    fp.write(u'\ufeff'.encode('utf8')) # Write BOM Header
+    fp.write(",".join(headers).encode("utf-8") + b"\n") # Write Header
 
     #------------------------------------------------------------
     # Fields Part (All rows are sorted by field label)
     #------------------------------------------------------------
     fields = sorted(fields, key=lambda k : k['label'])
     for field in fields:
-        row = []
+        row_value_literal = b""
+        row_values = []
         for key in fields_key:
             # Get field value by field API(key)
             row_value = field.get(key)
@@ -1153,13 +1152,20 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
             else:
                 row_value = "%s" % row_value
 
-            if  is_python3x():
-                row.append(row_value)
-            else:
-                row.append(row_value.encode('utf-8'))
+            # Unescape special code to normal
+            row_value = urllib.parse.unquote(unescape(row_value, 
+                {"&apos;": "'", "&quot;": '"'}))
 
-        # Write row to csv
-        dict_write.writer.writerow(row)
+            # Append row_value to list in order to write list to csv
+            if '"' in row_value:
+                row_value = '"%s"' % row_value.replace('"', '""')
+            else:
+                row_value = '"%s"' % row_value
+            row_values.append(row_value)
+
+        # Write row
+        row_value_literal += ",".join(row_values).encode("utf-8") + b"\n"
+        fp.write(row_value_literal)
 
     # Close fp
     fp.close()

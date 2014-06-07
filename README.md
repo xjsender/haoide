@@ -11,10 +11,10 @@ This plugin is hosted on [package control](https://sublime.wbond.net/packages/Sa
 # Project Configuration #
 If your operation system is **OSX**, you must set the workspace in ```SublimeApex``` > ```Setting``` > ```Setting - User```.
 
-There is a default test org in this plugin, you can see it by clicking ```SublimeApex``` > ```Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project
+There is a default test org in this plugin, you can see it by clicking ```SublimeApex``` > ```Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project.
 
 In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```SublimeApex``` > ```Settings``` > ```Setting - User```.
-re
+
 You can setup your projects follow below sample by clicking ```SublimeApex``` > ```Settings``` > ```Setting - User``` in the main menu, projects must be included in {}.
 
 When you initiate your settings, you can have more than one project in "projects", however, only one project default should be true.
@@ -77,7 +77,8 @@ if today is ```2013/07/30``` and user settings is
 your project folder name should be ```Exercise-Pro-20130730```, you can close this time suffix feature by setting ```keep_project_name_time_suffix``` to false
 
 ## Update Project
-You can press <kbd>Alt</kbd>+<kbd>F7</kbd> to update your active project
+In windows, you can press <kbd>Alt</kbd>+<kbd>F7</kbd> to update your active project.
+In OSX, you can press <kdb>Ctrl</kdb>+<kdb>R</kdb> to update your active project.
 
 +  Completions:
 + ```Input .```, show all methods of class
@@ -117,17 +118,17 @@ Click ```SublimeApex``` > ```Describe``` > ```Generate SOQL``` and then choose a
 By default, the operation of ```Execute Query```, ```Describe Sobject```, ```Gernate SOQL```, ```Execute Anonymous``` and ```Run Test``` will be kept into the ```.history``` path in current project, you can disable this feature by setting ```keep_operation_history``` to false
 
 ## Save component
-+ This command is only enabled in salesforce code file
++ This command is only enabled in salesforce code file of active project
 + After code is updated, click ```SublimeApex``` > ```Save to Server``` in the context menu or press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>
 + If the saving process failed, the console will be open and automatically hidden in **10** seconds, if you think **10** seconds is not enough to check the error message, you add it up to more by setting ```delay_seconds_for_hidden_console```
 
 ## Refresh component
-+ This command is only enabled in salesforce code file
-+ After code is updated in UI or other IDE, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>R</kbd> or click ```SublimeApex``` > ```Refresh From Server``` to refresh it server.
++ This command is only enabled in salesforce code file of active project
++ After code is updated in UI or other IDE, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>R</kbd> or click ```SublimeApex``` > ```Refresh From Server``` to refresh it from server.
 
 ## Delete component
 + This command is only enabled in salesforce code file
-+ If component is useless and you want to delete it from server, click ```SublimeApex``` > ```Delete From Server```
++ If you want to delete it from server, click ```SublimeApex``` > ```Delete From Server```
 
 ## New ApexClass #
 Click ```SublimeApex``` > ```New``` > ```New ApexClass```, choose the predefined template, and then input the class name in the input panel at the bottom, after that, your class will be created.
@@ -184,7 +185,7 @@ There is default ```docs``` settings, if you want to add some other document ref
     ...
 },
 ```
-+ **apexdoc**: the part in ```http://www.salesforce.com/us/developer/docs/apexdoc/Data/Toc.xml```
++ **apexdoc**: the part in ```http://www.salesforce.com/us/developer/docs/apexdoc/Data/Toc.xml```, you can get the ```apexdoc``` from Salesforce documents link
 + **Apex**: the document prefix in the quick search panel
 + **pattern**: the XPath pattern for parse the content from the response
 
@@ -219,7 +220,7 @@ You can click ```SublimeApex``` > ```Export``` > ```Export Workbook``` to export
 If you just want to export some attributes of sobject workbook, you can put the ```workbook_field_describe_columns``` setting into your own user settings
 
 ## Exceute Rest Test
-Up to now, support ```Get```, ```Post```, ```Put```, ```Patch```, ```Delete```, ```Tooling Query```, ```Query```, ```Query All```, ```Head```, ```Retrieve Body``` methods.
+Up to now, support ```Get```, ```Post```, ```Put```, ```Patch```, ```Delete```, ```Tooling Query```, ```Query```, ```Query All```, ```Head```, ```Retrieve Body```, ```Search``` and ```Quick Search``` methods.
 
 for example, 
 

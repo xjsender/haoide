@@ -1144,7 +1144,7 @@ class SalesforceApi():
             if not class_attr["LastModifiedById"] == user_id:
                 last_modified_id = class_attr["LastModifiedById"]
                 last_modified_date = class_attr["LastModifiedDate"]
-                message = "Modified at %s, continue?" % last_modified_date
+                message = "Modified by other at %s, continue?" % last_modified_date
                 confirm = sublime.ok_cancel_dialog(message)
                 if confirm == False: return
 

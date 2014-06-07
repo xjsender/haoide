@@ -681,28 +681,15 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
             show_params = urllib.urlencode(show_params)
 
         show_url = settings["login_url"] + '?%s' % show_params
-
-        browser_path = settings["default_chrome_path"]
-        if os.path.exists(browser_path):
-            webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
-            webbrowser.get('chrome').open_new_tab(show_url)
-        else:
-            webbrowser.open_new_tab(show_url)
+        util.open_with_browser(show_url)
 
 class AboutCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(AboutCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        settings = context.get_toolingapi_settings()
-        browser_path = settings["default_chrome_path"]
-
         plugin_url = "https://github.com/xjsender/SublimeApex#sublime-ide-for-salesforce"
-        if os.path.exists(browser_path):
-            webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
-            webbrowser.get('chrome').open_new_tab(plugin_url)
-        else:
-            webbrowser.open_new_tab(plugin_url)
+        util.open_with_browser(plugin_url)
 
 class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

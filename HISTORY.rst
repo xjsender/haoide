@@ -4,7 +4,16 @@ Release History
 
 ---------------
 
-Release 0.5.6 (2014-05-15)
+Release 0.5.7 (2014-06-05)
+++++++++++++++++++
+- Optimize for opening url with browser
+- Update OSX Keymap
+- Fix bug for ``generate workbook`` in OSX
+- Add ``Close Job`` command
+- Update README.MD
+
+
+Release 0.5.6 (2014-05-18)
 ++++++++++++++++++
 - Fix bug for ``SELECT * FROM Sobject``, issue #30
 - Add time stamp for ``save conflict`` confirm message

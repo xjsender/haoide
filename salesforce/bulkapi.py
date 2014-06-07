@@ -19,7 +19,7 @@ class BulkJob():
         self.batchs = []
         self.result = None
         
-    def login(self, session_id_expired):
+    def login(self, session_id_expired=False):
         if self.username not in globals() or session_id_expired:
             result = soap_login(self.settings)
 
@@ -43,7 +43,7 @@ class BulkJob():
 
     # Post: https://instance.salesforce.com/services/async/27.0/job
     def create_job(self):
-        if not self.login(False): return
+        if not self.login(): return
 
         url = self.base_url + "/job"
         body = soap_bodies.create_job.format(operation=self.operation, sobject=self.sobject)
@@ -92,6 +92,7 @@ class BulkJob():
 
         # Convert xml to dict
         result = xmltodict.parse(response.content)
+        pprint.pprint(result)
         if response.status_code == 400:
             result = self.parse_response(response, url)
             result["success"] = false
@@ -106,7 +107,7 @@ class BulkJob():
             result["action"] = "Check Batch Status"
             return result
 
-        return batch_status
+        return batch_status == "Completed"
 
     def parse_response(self, response, url):
         result = xmltodict.parse(response.content)
@@ -143,7 +144,11 @@ class BulkJob():
         response = requests.get(url, data=None, verify=False, headers=headers)
         return response.content
 
-    def close_job(self):
+    def close_job(self, job_id=None):
+        self.login()
+        if job_id: self.job_id = job_id
+        print (self.job_id)
+        
         url = self.base_url + "/job/%s" % self.job_id
         body = soap_bodies.close_job
         headers = self.headers
@@ -228,6 +233,7 @@ class BulkApi():
         maxBytesPerBatch = self.settings["maximum_batch_bytes"] 
         maxRowsPerBatch = self.settings["maximum_batch_size"] 
 
+        print (maxRowsPerBatch)
         # Reader Content
         currentBytes = 0
         currentLines = 0
@@ -283,18 +289,6 @@ class BulkApi():
         else:
             batch_ids = self.create_batchs(self.job, self.input)
 
-        """
-        Error need to process in future
-        --------------------------------------------------------------------------------
-                  @xmlns:   http://www.force.com/2009/06/asyncapi/dataload  
-           exceptionCode:   ExceededQuota                   
-        exceptionMessage:   ApiBatchItems Limit exceeded.   
-                     URL:   https://cs5.salesforce.com/services/async/29.0/job/750O0000000E0edIAC/batch 
-             status_code:   400                             
-               Operation:   insert                          
-                 Sobject:   Widget__c                       
-        --------------------------------------------------------------------------------
-        """
         for batch_id in batch_ids:
             if isinstance(batch_id, dict):
                 self.result = batch_id
@@ -310,8 +304,7 @@ class BulkApi():
                 if isinstance(result, dict):
                     self.result = result
                     return self.result
-                if result == "Completed": break
-                time.sleep(3)
+                if result: break
 
         if operation == "query":
             result_id = self.job.get_batch_result_id(batch_id)

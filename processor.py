@@ -15,6 +15,7 @@ from .context import COMPONENT_METADATA_SETTINGS
 from .util import getUniqueElementValueFromXmlString
 from .salesforce import bulkapi, soap_bodies, message
 from .salesforce.bulkapi import BulkApi
+from .salesforce.bulkapi import BulkJob
 from .salesforce.api import SalesforceApi
 from .progress import ThreadProgress, ThreadsProgress
 
@@ -554,6 +555,13 @@ def handle_deploy_metadata_thread(zipfile, timeout=120):
     thread.start()
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
     handle_thread(thread, timeout)
+
+def handle_close_jobs_thread(job_ids, timeout=120):
+    settings = context.get_toolingapi_settings()
+    bulkjob = BulkJob(settings, None, None)
+    for job_id in job_ids:
+        thread = threading.Thread(target=bulkjob.close_job, args=(job_id,))
+        thread.start()
 
 def handle_bulk_operation_thread(sobject, inputfile, operation, timeout=120):
     settings = context.get_toolingapi_settings()
