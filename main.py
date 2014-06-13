@@ -442,6 +442,9 @@ class RunAllTestCommand(sublime_plugin.WindowCommand):
         super(RunAllTestCommand, self).__init__(*args, **kwargs)
 
     def run(self):
+        confirm = sublime.ok_cancel_dialog("Are you sure you really want to continue?")
+        if confirm == False: return
+
         processor.handle_run_all_test()
 
 class RunOneTestCommand(sublime_plugin.WindowCommand):
@@ -794,7 +797,11 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         self.component_type = component_type
         template_settings = sublime.load_settings("template.sublime-settings")
         self.templates = template_settings.get("template")
-        self.template_names = sorted(list(self.templates[self.component_type].keys()))
+
+        self.template_names = []
+        templates = self.templates[self.component_type]
+        for name in templates:
+            self.template_names.append([name, templates[name]["description"]])
 
         # If component type is ApexTrigger, we need to choose sobject and template,
         # however, sublime Quick panel will be unavailable for the second choose panel,
@@ -805,7 +812,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
 
     def on_choose_template(self, index):
         if index == -1: return
-        self.template_name = self.template_names[index]
+        self.template_name = self.template_names[index][0]
         self.template_attr = self.templates[self.component_type][self.template_name]
         self.window.show_input_panel("Please Input Name: ", "", self.on_input, None, None)
 
@@ -880,7 +887,6 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
         super(SwitchProjectCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        global projects
         toolingapi_settings = context.get_toolingapi_settings()
         projects = toolingapi_settings["projects"]
         projects = ["(" + ('Active' if projects[p]["default"] else 
@@ -948,17 +954,18 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
         super(ClearCacheCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.usernames = util.get_sobject_caches()
-        if not self.usernames:
+        self.caches = util.get_sobject_caches()
+        if not self.caches:
             sublime.message_dialog("No sobject cache already")
             return
-        self.window.show_quick_panel(self.usernames, self.on_done)
+
+        self.window.show_quick_panel(self.caches, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
         confirm = sublime.ok_cancel_dialog("Are you sure you really want to clear this?")
         if confirm == False: return
-        util.clear_cache(self.usernames[index])
+        util.clear_cache(self.caches[index][1])
 
 class RefreshComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):

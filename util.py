@@ -26,13 +26,14 @@ def get_sobject_caches():
 
     * caches -- sobject local cache in default project
     """
-    settings = context.get_toolingapi_settings()
-    usernames = settings["usernames"]
+    config_settings = context.get_toolingapi_settings()
+    projects = config_settings["projects"]
     settings = sublime.load_settings("sobjects_completion.sublime-settings")
+
     caches = []
-    for username in usernames:
-        if settings.has(username):
-            caches.append(username)
+    for p in projects:
+        if settings.has(projects[p]["username"]):
+            caches.append([p, projects[p]["username"]])
 
     return caches
 

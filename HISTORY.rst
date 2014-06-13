@@ -4,6 +4,15 @@ Release History
 
 ---------------
 
+
+Release 0.5.8 (2014-06-13)
+++++++++++++++++++
+- Add a new class template ``Test Class``
+- Add description for class template quick choose panel
+- ``Clear Cache`` functionality change, display ``project name`` not ``username`` any more
+- Add confirm request for ``Run All Test``
+
+
 Release 0.5.7 (2014-06-05)
 ++++++++++++++++++
 - Optimize for opening url with browser

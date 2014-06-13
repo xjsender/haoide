@@ -3,49 +3,64 @@
         "ApexClass": {
             "Utility Class": {
                 "extension": ".cls",
+                "description": "Utilities for invoker",
                 "body": "public class class_name {\n    \n}"
             },
             "Batch Class": {
                 "extension": ".cls",
+                "description": "Batch Class Template",
                 "body": "global class class_name implements Database.Batchable<sObject> {\n    public String query;\n    \n    global class_name() {\n        this.query = query;\n    }\n    \n    global Database.QueryLocator start(Database.BatchableContext bc) {\n        return Database.getQueryLocator(query);\n    }\n    \n    global void execute(Database.BatchableContext BC, list<Sobject> scope) {}\n\n    global void finish(Database.BatchableContext BC) {}\n}"
             },
             "Controller": {
                 "extension": ".cls",
+                "description": "Custom Controller",
                 "body": "public with sharing class class_name {\n    public class_name() {\n\n    }\n}"
             },
             "StandardController Extension": {
                 "extension": ".cls",
+                "description": "Extension for StandardController",
                 "body": "public with sharing class class_name {\n    public class_name(ApexPages.StandardController con) {\n\n    }\n}"
             },
             "StandardSetController Extension": {
                 "extension": ".cls",
+                "description": "Extension for StandardSetController",
                 "body": "public with sharing class class_name {\n    public class_name(ApexPages.StandardSetController con) {\n\n    }\n}"
             },
             "Schedule Class": {
                 "extension": ".cls",
+                "description": "Schedule Class Template",
                 "body": "global class class_name implements Schedulable {\n    global void execute(SchedulableContext sc) {\n\n    }\n}"
             },
             "Exception Class": {
                 "extension": ".cls",
+                "description": "Exception Class",
                 "body": "public class class_name extends Exception {}"
+            },
+            "Test Class": {
+                "extension": ".cls",
+                "description": "Exception Class",
+                "body": "@isTest\nprivate class class_name {\n\t\n}"
             }
         },
 
         "ApexTrigger": {
             "Basic": {
                 "extension": ".trigger",
+                "description": "Trigger Template",
                 "body": "trigger trigger_name on sobject_name(before insert) {\n\n}"
             }
         },
         "ApexComponent": {
             "Basic": {
                 "extension": ".component",
+                "description": "component Template",
                 "body": "<apex:component>\n    \n</apex:component>"
             }
         },
         "ApexPage": {
             "Basic": {
                 "extension": ".page",
+                "description": "Visualforce Page Template",
                 "body": "<apex:page>\n    \n</apex:page>"
             }
         }
