@@ -887,6 +887,7 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
         super(SwitchProjectCommand, self).__init__(*args, **kwargs)
 
     def run(self):
+        global projects
         toolingapi_settings = context.get_toolingapi_settings()
         projects = toolingapi_settings["projects"]
         projects = ["(" + ('Active' if projects[p]["default"] else 
