@@ -1288,7 +1288,9 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
         elif "success" in result and not result["success"]:
             view = sublime.active_window().active_view()
             if file_base_name in view.file_name() and extension in [".trigger", ".cls"]:
-                view.run_command("goto_line", {"line": result["line"]})
+                line = result["line"]
+                if isinstance(line, list): line = line[0]
+                view.run_command("goto_line", {"line": line})
                 view.run_command("expand_selection", {"to":"line"})
 
                 # Add highlight for error line and remove the highlight after several seconds

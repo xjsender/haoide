@@ -578,6 +578,7 @@ def format_error_message(result):
     error_message = ""
     for key, value in result.items():
         error_message += "% 30s\t" % "{0}: ".format(key)
+        if isinstance(value, list): value = value[0]
         value = urllib.parse.unquote(unescape(none_value(value), 
             {"&apos;": "'", "&quot;": '"'}))
         error_message += "%-30s\t" % value + "\n"
