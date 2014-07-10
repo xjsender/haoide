@@ -1,0 +1,7 @@
+{
+    // If you want to use this feature, you should install emmet package firstly
+    "snippets": {
+        "apex:page": "apex:page[standardController=$1][extensions=$2]>apex:pageBlock[title=$3]>apex:pageBlockButtons[location=top]>apex:commandButton[action={!save}][value=Save]+apex:commandButton[action={!cancel}][value=Cancel]",
+        "apex:pageBlockTable": "apex:pageBlockTable[value={!$1}][var=$2]>apex:column[value={!$3}]*5"
+    }
+}

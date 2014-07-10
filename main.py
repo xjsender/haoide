@@ -16,6 +16,21 @@ from . import util
 from .salesforce import message
 from .salesforce.bulkapi import BulkApi
 
+class QuickVisualforceCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        self.quick_snippets = util.get_quick_emmet_snippets()
+        self.snippet_names = sorted(list(self.quick_snippets.keys()))
+        self.view.window().show_quick_panel(self.snippet_names, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        sublime.active_window().run_command("new_dynamic_view", {
+            "view_id": self.view.id(),
+            "point": self.view.sel()[0].begin(),
+            "input": self.quick_snippets[self.snippet_names[index]]
+        })
+
 class GenerateSoqlCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(GenerateSoqlCommand, self).__init__(*args, **kwargs)
@@ -171,8 +186,9 @@ class NewDynamicViewCommand(sublime_plugin.TextCommand):
     @input: user specified input
 
     Usage: 
-        sublime.active_window().run_command("new_view", {
-            "name": "ViewName",
+        sublime.active_window().run_command("new_dynamic_view", {
+            "view_id": "view_id",
+            "point": 0,
             "input": "Example"
         })
     """

@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 0.5.9 (2014-07-10)
+++++++++++++++++++
+- Remove useless message from message.py
+- Add some buld-in emmet supported snippets
+- Add command ``quick_visualforce`` for emmet supported snippets
+- Add TOC for README
+
 
 Release 0.5.8 (2014-06-13)
 ++++++++++++++++++

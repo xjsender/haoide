@@ -35,6 +35,10 @@
         "command": "reload_salesforce_document"
     },
     {
+        "caption": "SublimeApex: Quick Visualforce",
+        "command": "quick_visualforce"
+    },
+    {
         "caption": "SublimeApex: Save Component",
         "command": "save_component"
     },

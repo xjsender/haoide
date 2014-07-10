@@ -1196,7 +1196,7 @@ def handle_new_project(settings, timeout=120):
         component_settings.set(settings["username"], component_metadata)
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
         print (message.SEPRATE.format('All code are Downloaded.'))
-        sublime.status_message(message.DOWNLOAD_ALL_SUCCESSFULLY)
+        sublime.status_message("Refresh All Successfully")
 
         # After Refresh all succeed, start initiate sobject completions
         handle_initiate_sobjects_completions(120)

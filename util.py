@@ -19,6 +19,10 @@ from . import context
 from xml.sax.saxutils import unescape
 
 
+def get_quick_emmet_snippets():
+    emmets = sublime.load_settings("emmet.sublime-settings")
+    return emmets.get("snippets", {})
+
 def get_sobject_caches():
     """ Return the sobject local cache of default project
 
@@ -375,7 +379,7 @@ def add_operation_history(operation, history_content):
         os.makedirs(outputdir)
 
     time_stamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-    seprate = "\n" + 100 * "-" + "\n"
+    seprate = "\n" + 79 * "-" + "\n"
     history = time_stamp + seprate + history_content + "\n" * 2
     fp = open(outputdir + "/%s.txt" % operation, "ab")
     fp.write(history.encode("utf-8"))

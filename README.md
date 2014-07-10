@@ -1,14 +1,58 @@
+# Catalog:
+
+- [Sublime IDE for salesforce](#Sublime-IDE-for-salesforce)
+- [Change Logs](#Change-Logs)
+- [Installation](#Installation)
+- [Project Configuration](#Project-Configuration)
+- [Usage](#Usage)
+    - [New Project](#New-Project)
+    - [Update Project](#Update-Project)
+    - [Execute Anonymous](#Execute-Anonymous)
+    - [Execute Query](#Execute-Query)
+    - [Describe Sobject](#Describe-Sobject)
+    - [Generate SOQL](#Generate-SOQL)
+    - [Keep Operation History](#Keep-Operation-History)
+    - [Save component](#Save-component)
+    - [Refresh component](#Refresh-component)
+    - [Delete component](#Delete-component)
+    - [New ApexClass](#New-ApexClass)
+    - [New ApexPage](#New-ApexPage)
+    - [New ApexComponent](#New-ApexComponent)
+    - [New ApexTrigger](#New-ApexTrigger)
+    - [Create Debug Log](#Create-Debug-Log)
+    - [List Debug Log](#List-Debug-Log)
+    - [Run Test](#Run-Test)
+    - [View Code Coverage](#View-Code-Coverage)
+    - [Keep Apex Code Local History](#Keep-Apex-Code-Local-History)
+    - [Refresh Folder](#Refresh-Folder)
+    - [Salesforce Document Quick Reference](#Salesforce-Document-Quick-Reference)
+    - [Refresh Multiply Components](#Refresh-Multiply-Components)
+    - [Delete Multiply Components](#Delete-Multiply-Components)
+    - [Quick Goto Component](#Quick-Goto-Component)
+    - [Retrieve All Metadata](#Retrieve-All-Metadata)
+    - [Deploy Metadata](#Deploy-Metadata)
+    - [Export Workflow Rules](#Export-Workflow-Rules)
+    - [Export Validation Rules](#Export-Validation-Rules)
+    - [Export CustomFields](#Export-CustomFields)
+    - [Export Workbook of sobjects](#Export-Workbook-of-sobjects)
+    - [Exceute Rest Test](#Exceute-Rest-Test)
+    - [Export Data Template](#Export-Data-Template)
+    - [Bulk Api](#Bulk-Api)
+    - [Proxy](#Proxy)
+- [Build-in Dependency Lib](#Build-in Dependency Lib)
+
+
 # Sublime IDE for salesforce
 This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change Workspace in OSX**), not tested for Linux.
 **If you think this plugin is helpful, please star this plugin.**
 
-# Change Logs:
+# Change Logs
 Refer to [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
  
-# Installation #
+# Installation
 This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), you can install this plugin by searching ```Salesforce IDE``` in package control
 
-# Project Configuration #
+# Project Configuration
 If your operation system is **OSX**, you must set the workspace in ```SublimeApex``` > ```Setting``` > ```Setting - User```.
 
 There is a default test org in this plugin, you can see it by clicking ```SublimeApex``` > ```Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project.
@@ -51,6 +95,7 @@ After your project configuration is finished, you can click ```SublimeApex``` > 
 }
 ```
 
+# Usage
 ## New Project
 + You need to choose which pre-defined org to start new project
 + This command is used to download or update your project
@@ -130,16 +175,16 @@ By default, the operation of ```Execute Query```, ```Describe Sobject```, ```Ger
 + This command is only enabled in salesforce code file
 + If you want to delete it from server, click ```SublimeApex``` > ```Delete From Server```
 
-## New ApexClass #
+## New ApexClass
 Click ```SublimeApex``` > ```New``` > ```New ApexClass```, choose the predefined template, and then input the class name in the input panel at the bottom, after that, your class will be created.
 
-## New ApexPage #
+## New ApexPage
 Click ```SublimeApex``` > ```New``` > ```New ApexPage```, and then input the page name in the input panel at the bottom, after that, your page will be created.
 
-## New ApexComponent #
+## New ApexComponent
 Click ```SublimeApex``` > ```New``` > ```New ApexComponent```, and then input the component name in the input panel at the bottom, after that, your component will be created.
 
-## New ApexTrigger #
+## New ApexTrigger
 Click ```SublimeApex``` > ```New``` > ```New ApexTrigger```, choose the sobject on which you will create trigger, and then input the trigger name in the input panel at the bottom, after that, your trigger will be created.
 
 ## Create Debug Log
@@ -344,6 +389,6 @@ Click ```SublimeApex``` > ```Export``` > ```Export Data Template```, wait for a 
 ## Proxy
 Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanced/#proxies)
 
-# Build-in Dependency Lib #
+# Build-in Dependency Lib
 + [requests](https://github.com/kennethreitz/requests)
 + [xmltodict](https://github.com/martinblech/xmltodict)
