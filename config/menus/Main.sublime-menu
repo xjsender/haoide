@@ -346,7 +346,7 @@
                     {
                         "command": "open_file", 
                         "args": {
-                            "file": "${packages}/user/toolingapi.sublime-settings"
+                            "file": "${packages}/User/toolingapi.sublime-settings"
                         },
                         "caption": "Settings – User"
                     }
@@ -366,7 +366,7 @@
                     {
                         "command": "open_file", 
                         "args": {
-                            "file": "${packages}/user/Default ($platform).sublime-keymap"
+                            "file": "${packages}/User/Default ($platform).sublime-keymap"
                         },
                         "caption": "Key Bindings – User"
                     },

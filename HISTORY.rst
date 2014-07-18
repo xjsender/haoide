@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 0.6.0 (2014-07-19)
+++++++++++++++++++
+- Add search class and its methods for apex lib
+- Fix bug for picklist value completion
+- Change ``user`` to ``User`` for issue #31
+
+
 Release 0.5.9 (2014-07-10)
 ++++++++++++++++++
 - Remove useless message from message.py

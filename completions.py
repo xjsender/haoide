@@ -88,7 +88,7 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         elif ch == ".":
             # Get the variable type by variable name
-            pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+%s[,;\\s:=){]" % variable_name
+            pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+%s[,;\\s:=){]" % variable_name
             variable_type = util.get_variable_type(view, pt, pattern)
             variable_type = variable_type.lower()
 
@@ -176,19 +176,18 @@ class ApexCompletions(sublime_plugin.EventListener):
                 variable_name, field_name = view.substr(matched_region).split(".")
 
                 # Get Sobject Name
-                matched_regions = view.find_all("[a-zA-Z_1-9]+\\s+" + variable_name + "\\s*[:;=)\\s]")
-                sobject_name = ""
-                if len(matched_regions): 
-                    matched_block = view.substr(matched_regions[0])
-                    sobject_name = matched_block.split(" ")[0]
+                pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+%s[,;\\s:=){]" % variable_name
+                variable_type = util.get_variable_type(view, pt, pattern)
+                variable_type = variable_type.lower()
 
                 # Get sobject describe
-                if sobject_name.lower() in sobjects_describe:
-                    sobject_name = sobject_name.lower()
+                if variable_type.lower() in sobjects_describe:
+                    sobject_name = variable_type.lower()
                 elif variable_name.lower() in sobjects_describe:
                     sobject_name = variable_name.lower()
                 else:
-                    return []
+                    sobject_name = ""
+
                 sobject_describe = sobjects_describe.get(sobject_name)
 
                 # Get sobject picklist field describe

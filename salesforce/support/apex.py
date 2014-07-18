@@ -5,7 +5,7 @@ apex_namespaces = {
     "KbManagement" : ["PublishingService"],
     "applauncher" : ["AppLauncherApexController"],
     "Database" : ["BatchableContextImpl", "GetUpdatedResult", "Batchable", "QueryLocatorIterator", "DMLOptions", "MergeResult", "UpsertResult", "QueryLocatorChunkIterator", "SaveResult", "MergeRequest", "AssignmentRuleHeader", "EmailHeader", "DeleteResult", "QueryLocator", "LeadConvertResult", "GetDeletedResult", "UndeleteResult", "LeadConvert", "Error", "DeletedRecord", "BatchableContext", "EmptyRecycleBinResult"],
-    "System" : ["NoDataFoundException", "RestResponse", "JSON", "Schedulable", "XmlException", "ApplicationReadWriteMode", "SObjectException", "Integer", "Set", "SObject", "Cases", "ApexPages", "Comparable", "EncodingUtil", "BusinessHours", "NoSuchElementException", "SecurityException", "StaticResourceCalloutMock", "Schema", "AssertException", "CollectSimilarCasesData", "CalloutException", "FfxPortalData", "FlowException", "NoAccessException", "Matcher", "JSONGenerator", "TouchHandledException", "InvalidParameterValueException", "FinalException", "StringException", "HttpCalloutMock", "Long", "InvalidHeaderException", "VisualforceException", "Iterator", "Version", "Iterable", "LimitException", "LoggingLevel", "PageReference", "TimeZone", "SerializationException", "DmlException", "UserInfo", "Crypto", "XmlStreamWriter", "StatusCode", "Decimal", "InvalidReadOnlyUserDmlException", "LicenseException", "AsyncException", "CURRENCY", "Exception", "ProcedureException", "XmlStreamReader", "Network", "Test", "Cookie", "Pattern", "TypeException", "JSONToken", "Map", "Type", "Double", "Database", "RestRequest", "System", "Datetime", "Communities", "HttpRequest", "WebServiceCalloutFuture", "WebServiceMock", "HttpResponse", "UnsupportedOperationException", "Continuation", "AppExchange", "UnexpectedException", "MultiStaticResourceCalloutMock", "Site", "SearchException", "EmailException", "Boolean", "JSONException", "ListException", "QueryException", "Http", "NonePointerException", "Ideas", "RestContext", "HandledException", "String", "Url", "Time", "ResetPasswordResult", "SchedulableContext", "Blob", "Messaging", "RequiredFeatureMissingException", "Answers", "SetupScope", "List", "JSONParser", "Math", "Id", "MathException", "XmlTag", "Date", "SelectOption", "RoundingMode"],
+    "System" : ["NoDataFoundException", "RestResponse", "JSON", "Schedulable", "XmlException", "ApplicationReadWriteMode", "SObjectException", "Integer", "Set", "SObject", "Cases", "ApexPages", "Comparable", "EncodingUtil", "BusinessHours", "NoSuchElementException", "SecurityException", "StaticResourceCalloutMock", "Schema", "AssertException", "CollectSimilarCasesData", "CalloutException", "FfxPortalData", "FlowException", "NoAccessException", "Matcher", "JSONGenerator", "TouchHandledException", "InvalidParameterValueException", "FinalException", "StringException", "HttpCalloutMock", "Long", "InvalidHeaderException", "VisualforceException", "Iterator", "Version", "Iterable", "LimitException", "LoggingLevel", "PageReference", "TimeZone", "SerializationException", "DmlException", "UserInfo", "Crypto", "XmlStreamWriter", "StatusCode", "Decimal", "InvalidReadOnlyUserDmlException", "LicenseException", "AsyncException", "CURRENCY", "Exception", "ProcedureException", "XmlStreamReader", "Network", "Test", "Cookie", "Pattern", "TypeException", "JSONToken", "Map", "Type", "Double", "Database", "RestRequest", "System", "Datetime", "Communities", "HttpRequest", "WebServiceCalloutFuture", "WebServiceMock", "HttpResponse", "UnsupportedOperationException", "Continuation", "AppExchange", "UnexpectedException", "MultiStaticResourceCalloutMock", "Site", "SearchException", "Search", "EmailException", "Boolean", "JSONException", "ListException", "QueryException", "Http", "NonePointerException", "Ideas", "RestContext", "HandledException", "String", "Url", "Time", "ResetPasswordResult", "SchedulableContext", "Blob", "Messaging", "RequiredFeatureMissingException", "Answers", "SetupScope", "List", "JSONParser", "Math", "Id", "MathException", "XmlTag", "Date", "SelectOption", "RoundingMode"],
     "LiveAgent" : ["LiveChatRoutingRequest", "LiveChatRoutingResult", "LiveChatRoutingRoute", "LiveChatRoutingResultType", "LiveAgentRealTimeSystem", "LiveChatRouter"],
     "Apex" : ["Stack", "EmptyStackException"],
     "ApexPages" : ["KnowledgeArticleVersionStandardController", "Action", "StandardController", "StandardSetController", "ComponentIteration", "IdeaStandardSetController", "Component", "IdeaStandardController", "Message", "Severity"],
@@ -24,6 +24,17 @@ apex_namespaces = {
 }
 
 apex_completions = {
+    "search" : {
+        "customize" : True,
+        "constructors" : {},
+        "properties" : {},
+        "methods" : {
+            "query(String sosl)\tsObject[sObject[]]" : "query(${1:String sosl})$0",
+        },
+        "name": "Search",
+        "namespace": "System"
+    },
+
     "limits" : {
         "customize" : True,
         "constructors" : {},
