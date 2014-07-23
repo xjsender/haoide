@@ -40,7 +40,7 @@ def get_toolingapi_settings():
             usernames.append(project_attr["username"])
 
     if not default_project:
-        sublime.error_message("You should has one default project at least. please check you settings.")
+        sublime.error_message("You should have at least one default project - please, review your settings.")
         return
 
     # Default Project Part
