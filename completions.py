@@ -195,8 +195,8 @@ class ApexCompletions(sublime_plugin.EventListener):
                 picklist_values = sobject_describe["picklist_fields"][field_name]
 
                 completion_list = []
-                for v in sorted(picklist_values):
-                    completion_list.append((v + "\t" + field_name, " '%s'" % v))
+                for pv in picklist_values:
+                    completion_list.append(("%s(%s)\t%s" % (pv["value"], pv["label"], field_name), " '%s'" % pv["value"]))
 
         return completion_list
 

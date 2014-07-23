@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+Release 0.6.1 (2014-07-22)
+++++++++++++++++++
+- **Picklist Value** completion from ``value`` to ``value(label)``
+- **Save Conflict** functionality new format: **Modified by <LastName FirstName> at 2014-05-04 10:03:31, continue?**
+
+
 Release 0.6.0 (2014-07-19)
 ++++++++++++++++++
 - Add search class and its methods for apex lib

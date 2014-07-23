@@ -126,16 +126,16 @@ In windows, you can press <kbd>Alt</kbd>+<kbd>F7</kbd> to update your active pro
 In OSX, you can press <kdb>Ctrl</kdb>+<kdb>R</kdb> to update your active project.
 
 +  Completions:
-+ ```Input .```, show all methods of class
-* ```Input .```, show all fields, parent relationship name and child + lationship names
-* ```Input .``` after sobject relationship name, show all fields of this + lationship name
-* ```Input .```, show all public methods of custom class if corresponding + class view is open
-+ ```Input English Character```, show all sobject name and standard class name
-* ```input <```, list all tag, including Visualforce Components and HTML + ements
-+ ```input :```, list all suffix of all visualforce Components
-+ ```input space```, list all attributes of tags
-* ```input =```, list all values of this corresponding attributes in + sualforce page
-* If sobject field type is picklist, after you input ```opp.StageName =``` or + `Opportunity.StageName =```, all available picklist values will be shown
+* ```Input .```, show all methods of class
+* ```Input .```, show all fields, parent relationship name and child relationship names
+* ```Input .``` after sobject relationship name, show all fields of this relationship name
+* ```Input .```, show all public methods of custom class if corresponding custom class has been compiled or saved to server.
+* ```Input English Character```, show all sobject name and standard class name
+* ```input <```, list all tag, including Visualforce Components and HTML elements
+* ```input :```, list all suffix of all visualforce Components
+* ```input space```, list all attributes of tags
+* ```input =```, list all values of this corresponding attributes in visualforce page
+* If sobject field type is picklist, after you input ```opp.StageName =``` or ```Opportunity.StageName =```, all available picklist values will be shown
 * SOQL fields completion, input ```se``` to call build-in snippet, press <kbd>Enter</kbd>, ```SELECT Id, FROM ``` will be inserted, after input sobject name, press <kbd>Tab</kbd>, focus will be moved to field list part, input the field name, you will see the field completions
 
 ### Completions Screenshots
@@ -339,7 +339,7 @@ for example,
 }
 ```
 
-+ **Patch Sample**: Sometimes, you want to update some fields of record, you can input ```/sobjects/Account/001O000000MIiSXIA1``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Delete``` in the popup menu and input ```{"Name": "Test Path"}``` in the input panel, wait for a moment, the patch result will be shown in the new view:
++ **Patch Sample**: Sometimes, you want to update some fields of record, you can input ```/sobjects/Account/001O000000MIiSXIA1``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Patch``` in the popup menu and input ```{"Name": "Test Path"}``` in the input panel, wait for a moment, the patch result will be shown in the new view:
 ```
 {
     'status_code': 204

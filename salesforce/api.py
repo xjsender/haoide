@@ -1142,9 +1142,18 @@ class SalesforceApi():
             user_id = globals()[self.username]["user_id"]
             class_attr = result["records"][0]
             if not class_attr["LastModifiedById"] == user_id:
+                # Get modified user name by Id
+                # C2P relationship query is not available, it's a bug?
                 last_modified_id = class_attr["LastModifiedById"]
-                last_modified_date = class_attr["LastModifiedDate"]
-                message = "Modified by other at %s, continue?" % last_modified_date
+                last_modified_date = class_attr["LastModifiedDate"][:19]
+                try:
+                    user_details = self.query("SELECT Id, FirstName, LastName FROM User WHERE Id = '%s'" % last_modified_id)
+                    user_detail = user_details["records"][0]
+                    last_modified_name = "%s %s" % (user_detail["LastName"], user_detail["FirstName"])
+                except:
+                    last_modified_name = last_modified_id
+
+                message = "Modified by %s at %s, continue?" % (last_modified_name, last_modified_date.replace("T", " "))
                 confirm = sublime.ok_cancel_dialog(message)
                 if confirm == False: return
 

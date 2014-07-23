@@ -454,11 +454,13 @@ def handle_initiate_sobjects_completions(timeout=120):
 
                 # Picklist Dcit
                 if f["type"] == "picklist":
-                    picklist_values = []
-                    for picklist_value in f["picklistValues"]:
-                        value = picklist_value["value"]
-                        if value: picklist_values.append(value)
-                    picklist_field_dict[field_name] = picklist_values
+                    picklists = []
+                    for picklistValue in f["picklistValues"]:
+                        picklists.append({
+                            "label": picklistValue["label"],
+                            "value": picklistValue["value"]
+                        })
+                    picklist_field_dict[field_name] = picklists
 
                 # List all Reference Field Relationship Name as fields
                 # Some fields has two more references, we can't list the fields of it
