@@ -92,7 +92,6 @@ class BulkJob():
 
         # Convert xml to dict
         result = xmltodict.parse(response.content)
-        pprint.pprint(result)
         if response.status_code == 400:
             result = self.parse_response(response, url)
             result["success"] = false
@@ -147,7 +146,6 @@ class BulkJob():
     def close_job(self, job_id=None):
         self.login()
         if job_id: self.job_id = job_id
-        print (self.job_id)
         
         url = self.base_url + "/job/%s" % self.job_id
         body = soap_bodies.close_job
@@ -233,7 +231,6 @@ class BulkApi():
         maxBytesPerBatch = self.settings["maximum_batch_bytes"] 
         maxRowsPerBatch = self.settings["maximum_batch_size"] 
 
-        print (maxRowsPerBatch)
         # Reader Content
         currentBytes = 0
         currentLines = 0
