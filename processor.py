@@ -763,6 +763,7 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         # If succeed
         result = api.result
         if "list" in result: result = result["list"]
+        if "str"  in result: result = result["str"]
         
         # No error, just display log in a new view
         view = sublime.active_window().new_file()

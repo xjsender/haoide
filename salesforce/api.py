@@ -21,6 +21,7 @@ class SalesforceApi():
     def __init__(self, settings, **kwargs):
         self.settings = settings
         self.api_version = settings["api_version"]
+        self.proxies = settings["proxies"]
         self.username = settings["username"]
         self.result = None
 
@@ -112,6 +113,8 @@ class SalesforceApi():
                     response_result["list"] = res.json()
                 elif isinstance(res.json(), dict):
                     response_result = res.json()
+                else:
+                    response_result["str"] = res.text
             except:
                 response_result = {}
 
@@ -129,7 +132,7 @@ class SalesforceApi():
         self.login()
 
         url = self.parse_url(component_url)
-        response = requests.head(url, verify=False, 
+        response = requests.head(url, verify=False, proxies=self.proxies,
             headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
@@ -155,7 +158,7 @@ class SalesforceApi():
 
         url = self.parse_url(component_url)
         response = requests.get(url, data=None, verify=False, 
-            headers=self.headers, timeout=timeout)
+            proxies=self.proxies, headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -181,7 +184,7 @@ class SalesforceApi():
 
         url = self.parse_url(put_url)
         response = requests.put(url, data=json.dumps(data), verify=False, 
-            headers=self.headers, timeout=timeout)
+            proxies=self.proxies, headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -207,7 +210,7 @@ class SalesforceApi():
 
         url = self.parse_url(patch_url)
         response = requests.patch(url, data=json.dumps(data), verify=False, 
-            headers=self.headers, timeout=timeout)
+            proxies=self.proxies, headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -232,8 +235,8 @@ class SalesforceApi():
         self.login()
 
         url = self.parse_url(post_url)
-        response = requests.post(url, data=json.dumps(data), verify=False,
-            headers=self.headers, timeout=timeout)
+        response = requests.post(url, data=json.dumps(data), verify=False, 
+            proxies=self.proxies, headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -258,7 +261,7 @@ class SalesforceApi():
 
         url = self.parse_url(component_url)
         response = requests.delete(url, data=None, verify=False, 
-            headers=self.headers, timeout=timeout)
+            proxies=self.proxies, headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -289,7 +292,7 @@ class SalesforceApi():
         if "search?q=q=" in url: url.replace("search?q=q=", "search?q=")
 
         response = requests.get(url, data=None, verify=False, 
-            headers=self.headers, timeout=timeout)
+            proxies=self.proxies, headers=self.headers, timeout=timeout)
             
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -348,7 +351,7 @@ class SalesforceApi():
         if "query?q=q=" in url: url = url.replace("query?q=q=", "query?q=")
 
         response = requests.get(url, data=None, verify=False, 
-            headers=self.headers, timeout=timeout)
+            proxies=self.proxies, headers=self.headers, timeout=timeout)
             
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -383,7 +386,7 @@ class SalesforceApi():
         soql = urllib.parse.urlencode({'q' : soql})
         url = self.base_url + ("/tooling" if is_toolingapi else "") + "/queryAll?" + soql
         response = requests.get(url, data=None, verify=False, 
-            headers=self.headers, timeout=timeout)
+            proxies=self.proxies, headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -514,7 +517,7 @@ class SalesforceApi():
         headers = self.headers.copy()
         headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
         print (time.strftime("StartTime: %Y-%m-%d %H:%M:%S", time.localtime(time.time())))
-        response = requests.get(url, verify=False, headers=headers, timeout=timeout)
+        response = requests.get(url, verify=False, proxies=self.proxies, headers=headers, timeout=timeout)
         print (time.strftime("End  Time: %Y-%m-%d %H:%M:%S", time.localtime(time.time())))
 
         # Check whether session_id is expired
@@ -621,7 +624,7 @@ class SalesforceApi():
             sobject=sobject, recordtype_id=recordtype_id)
 
         response = requests.post(self.partner_url, soap_body, verify=False, 
-            headers=headers)
+            proxies=self.proxies, headers=headers)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -682,7 +685,7 @@ class SalesforceApi():
 
         try:
             response = requests.post(self.apex_url, soap_body, verify=False, 
-                headers=headers)
+                proxies=self.proxies, headers=headers)
         except UnicodeEncodeError as ue:
             result = {
                 "Error Message": "Anonymous code can't contain non-english character",
@@ -742,7 +745,7 @@ class SalesforceApi():
             async_process_id=async_process_id)
 
         response = requests.post(self.metadata_url, soap_body, verify=False, 
-            headers=headers)
+            proxies=self.proxies, headers=headers)
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -785,7 +788,7 @@ class SalesforceApi():
             async_process_id=async_process_id)
 
         response = requests.post(self.metadata_url, soap_body, 
-            verify=False, headers=headers)
+            verify=False, proxies=self.proxies, headers=headers)
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -825,7 +828,7 @@ class SalesforceApi():
             globals()[self.username]["session_id"], self.api_version)
 
         response = requests.post(self.metadata_url, soap_body, verify=False, 
-            headers=headers)
+            proxies=self.proxies, headers=headers)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -896,7 +899,7 @@ class SalesforceApi():
         soap_body = soap_bodies.check_deploy_status.format(
             globals()[self.username]["session_id"], async_process_id)
         response = requests.post(self.metadata_url, soap_body, verify=False, 
-            headers=headers)
+            proxies=self.proxies, headers=headers)
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -950,7 +953,7 @@ class SalesforceApi():
             deploy_options["runTests"],
             deploy_options["singlePackage"])
         response = requests.post(self.metadata_url, soap_body, verify=False, 
-            headers=headers)
+            proxies=self.proxies, headers=headers)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:

@@ -9,8 +9,7 @@ COMPONENT_METADATA_SETTINGS = "component_metadata.sublime-settings"
 TOOLING_API_SETTINGS = "toolingapi.sublime-settings"
 
 def get_toolingapi_settings():
-    """
-    Load all settings in toolingapi.sublime-settings
+    """ Load all settings in toolingapi.sublime-settings
 
     @return: dict that contains all settings
     """
@@ -137,6 +136,9 @@ def get_toolingapi_settings():
     
     # Document Reference Attrs
     settings["docs"] = s.get("docs", {})
+
+    # Proxy
+    settings["proxies"] = s.get("proxies", {})
 
     # Populate all global variables
     components = s.get("components")

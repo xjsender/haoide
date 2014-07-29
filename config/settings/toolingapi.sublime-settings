@@ -25,6 +25,10 @@
     // API version
     "api_version": 30,
 
+    // Proxy, Example: {"http": "http://10.10.1.10:3128", "https": "http://10.10.1.10:1080"}
+    // More detail: http://docs.python-requests.org/en/latest/user/advanced/#proxies
+    "proxies": {},
+
     // Browser Path, you should set a valid browser path, otherwise, it will have problem
     // Some policy prevents setting chrome as default browser, so this setting is here
     "default_chrome_path": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",

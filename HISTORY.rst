@@ -4,6 +4,11 @@ Release History
 
 ---------------
 
+Release 0.6.3 (2014-07-30)
+++++++++++++++++++
+- Optimize Rest Test when response result is str
+- Add ``proxies`` support, just beta
+
 
 Release 0.6.2 (2014-07-29)
 ++++++++++++++++++
