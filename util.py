@@ -285,7 +285,6 @@ def get_soql_match_region(view, pt):
     if pt >= (select_pos + match_begin) and pt <= (from_pos + match_begin):
         is_between_start_and_from = True
         sobject_name = match_str[from_pos+5:]
-        return (matched_region, is_between_start_and_from, sobject_name)
 
     return (matched_region, is_between_start_and_from, sobject_name)
 
@@ -581,8 +580,11 @@ def format_error_message(result):
 
     error_message = ""
     for key, value in result.items():
+        if isinstance(value, list): 
+            if value: value = value[0] 
+            else: continue
+        
         error_message += "% 30s\t" % "{0}: ".format(key)
-        if isinstance(value, list): value = value[0]
         value = urllib.parse.unquote(unescape(none_value(value), 
             {"&apos;": "'", "&quot;": '"'}))
         error_message += "%-30s\t" % value + "\n"

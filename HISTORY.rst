@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+
+Release 0.6.2 (2014-07-29)
+++++++++++++++++++
+- Fix issue for ``Delete`` command when list in returned json result is empty
+
+
 Release 0.6.1 (2014-07-22)
 ++++++++++++++++++
 - **Picklist Value** completion from ``value`` to ``value(label)``

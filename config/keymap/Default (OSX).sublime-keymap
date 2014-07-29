@@ -19,10 +19,10 @@
     {"keys": ["super+alt+s"], "command": "save_component"},
 
     // Retrieve all metadata, just like ant or force.com IDE
-    {"keys": ["alt+r","alt+m"],"command": "retrieve_metadata"},
+    {"keys": ["ctrl+r","ctrl+m"],"command": "retrieve_metadata"},
 
     // Choose a test class in the list and run test class
-    {"keys": ["alt+r","alt+t"],"command": "run_one_test"},
+    {"keys": ["ctrl+r","ctrl+t"],"command": "run_one_test"},
 
     // Execute chosen anonymous code snippet
     {"keys": ["super+shift+e"], "command": "execute_anonymous"},
