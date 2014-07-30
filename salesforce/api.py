@@ -1234,9 +1234,11 @@ class SalesforceApi():
 
         if state == "Failed":
             # This error need more process, because of confused single quote
-            print (result)
-            compile_errors = unescape(result["CompilerErrors"])
-            compile_errors = json.loads(compile_errors)
+            if self.api_version > 30:
+                compile_errors = result["DeployDetails"]["componentFailures"]
+            else:
+                compile_errors = unescape(result["CompilerErrors"])
+                compile_errors = json.loads(compile_errors)
             return_result = {}
             if len(compile_errors) > 0:
                 return_result = compile_errors[0]

@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+Release 0.6.4 (2014-07-30)
+++++++++++++++++++
+- fix TypeError: save_component() missing 1 required positional argument: 'is_check_only'
+- Compatible to api 31 because `compile fail response change <https://developer.salesforce.com/docs/atlas.en-us.api_tooling.meta/api_tooling/sforce_api_objects_deploydetails.htm>`_
+
+
 Release 0.6.3 (2014-07-30)
 ++++++++++++++++++
 - Optimize Rest Test when response result is str

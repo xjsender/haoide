@@ -583,6 +583,7 @@ def format_error_message(result):
         if isinstance(value, list): 
             if value: value = value[0] 
             else: continue
+        elif not value: continue
         
         error_message += "% 30s\t" % "{0}: ".format(key)
         value = urllib.parse.unquote(unescape(none_value(value), 
