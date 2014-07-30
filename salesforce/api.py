@@ -356,7 +356,7 @@ class SalesforceApi():
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
-            return self.query(soql)
+            return self.query(soql, is_toolingapi)
 
         result = self.parse_response(response)
         self.result = result
@@ -391,7 +391,7 @@ class SalesforceApi():
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
-            return self.query_all(soql)
+            return self.query_all(soql, is_toolingapi)
 
         result = self.parse_response(response)
         
