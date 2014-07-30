@@ -1186,7 +1186,7 @@ class SalesforceApi():
                 
                 # We can't reuse the container_id which caused error
                 # Post Request to get MetadataContainerId
-                return self.save_component(component_attribute, body)
+                return self.save_component(component_attribute, body, is_check_only)
 
         # Post ApexComponentMember
         data = {
@@ -1234,6 +1234,7 @@ class SalesforceApi():
 
         if state == "Failed":
             # This error need more process, because of confused single quote
+            print (result)
             compile_errors = unescape(result["CompilerErrors"])
             compile_errors = json.loads(compile_errors)
             return_result = {}

@@ -25,7 +25,16 @@
     // API version
     "api_version": 30,
 
-    // Proxy, Example: {"http": "http://10.10.1.10:3128", "https": "http://10.10.1.10:1080"}
+    // Proxy, If need user name and password:
+    //  {
+    //      "http": "http://user:pass@10.10.1.10:3128/",
+    //      "https": "http://user:pass@10.10.1.10:1080"
+    //  }
+    //  If not need,
+    //  {
+    //      "http": "http://10.10.1.10:3128/",
+    //      "https": "http://10.10.1.10:1080"
+    //  }
     // More detail: http://docs.python-requests.org/en/latest/user/advanced/#proxies
     "proxies": {},
 
