@@ -191,6 +191,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                 sobject_describe = sobjects_describe.get(sobject_name)
 
                 # Get sobject picklist field describe
+                if not sobject_describe: return []
                 if field_name not in sobject_describe["picklist_fields"]: return []
                 picklist_values = sobject_describe["picklist_fields"][field_name]
 

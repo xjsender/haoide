@@ -15,6 +15,9 @@
     // Open Document
     {"keys": ["ctrl+alt+o"], "command": "open_documentation"},
 
+    // Execute Rest Test
+    {"keys": ["ctrl+e"], "command": "execute_rest_test"},
+
     // Save current component to server 
     {"keys": ["ctrl+alt+s"], "command": "save_component"},
 

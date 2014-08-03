@@ -15,6 +15,9 @@
     // Download all code and save them to new project
     {"keys": ["alt+f6"], "command": "reload_cache"},
 
+    // Execute Rest Test
+    {"keys": ["ctrl+e"], "command": "execute_rest_test"},
+
     // Open Document
     {"keys": ["ctrl+alt+o"], "command": "open_documentation"},
 

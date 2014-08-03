@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 0.6.5 (2014-08-03)
+++++++++++++++++++
+- Fix picklist completion bug
+- Add keymap for ``Execute Rest Test`` command
+- Remove catalog from README
+
+
 Release 0.6.4 (2014-07-30)
 ++++++++++++++++++
 - fix TypeError: save_component() missing 1 required positional argument: 'is_check_only'

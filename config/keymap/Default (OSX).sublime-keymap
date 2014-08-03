@@ -34,7 +34,7 @@
     // Refresh current component in edit mode
     {"keys": ["super+alt+r"], "command": "refresh_component"},
 
-    // Execute chosen valid SOQL
+    // Execute Rest Test
     {"keys": ["super+e"], "command": "execute_rest_test"},
 
     // Execute chosen valid SOQL
