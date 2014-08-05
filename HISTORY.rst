@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+
+Release 0.6.6 (2014-08-05)
+++++++++++++++++++
+- Set ``delay_seconds_for_hidden_console`` default value from ``15`` to ``9999``
+- Update description for default settings
+- Add property and method completion for inner class
+
+
 Release 0.6.5 (2014-08-03)
 ++++++++++++++++++
 - Fix picklist completion bug

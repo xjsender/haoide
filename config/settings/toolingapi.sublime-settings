@@ -54,7 +54,7 @@
     // Indicate whether output session info in the console when you switch the project 
     "output_session_info": false,
 
-    // Indicate whether keep local change history
+    // Indicate whether keep local change history of code file, default interval is 1 minutes
     "keep_local_change_history": false,
 
     // Check whether the LastModifiedById is current user
@@ -67,9 +67,9 @@
 
     // Every time when you save component and error happened, the console will be open.
     // however, you want it to be hidden automatically after several seconds
-    "delay_seconds_for_hidden_console": 15,
+    "delay_seconds_for_hidden_console": 9999,
 
-    // Sometimes, you may want to develop package, so you need to just download the code 
+    // Sometimes, you may want to develop package, so you also need to download the code 
     // in the allowed packages, because package name is unique in the whole salesforce org, 
     // so I put it here but not in project property
     // for example, "allowed_packages": ["sinaweibo", "twitter", "facebook"],
@@ -165,6 +165,11 @@
         "Workflow": "Info"
     },
 
+    /**
+     * Below are default columns for exported csv file, however,
+     * you can remove the useless column that you think
+     */
+    
     // Sobject Workbook columns
     "workbook_field_describe_columns": [
         "label", "name", "type", "length", "unique", "externalId", "precision",
@@ -249,6 +254,7 @@
         "AccountTeamMember", "OpportunityTeamMember", "CaseTeamMember", "UserTeamMember"
     ],
 
+    // This setting is used to keep the default pattern of salesforce document TOC path
     "docs": {
         "Apex": {
             "keyword": "apexcode",
@@ -299,9 +305,9 @@
     // Components Directory, body attribute can't be modified
     "components": {
         "ApexClass": {
-            "folder": "src/classes", // Directory Name
-            "body": "Body", // Meatadata Name of Component
-            "extension": ".cls" // Output File Extendsion
+            "folder": "src/classes",  // Directory Name
+            "body": "Body",           // Meatadata Name of Component
+            "extension": ".cls"       // Output File Extendsion
         },
 
         "ApexTrigger": {

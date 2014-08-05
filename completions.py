@@ -155,15 +155,34 @@ class ApexCompletions(sublime_plugin.EventListener):
                     for key in sorted(properties.keys()): 
                         completion_list.append((key if "\t" in key else (key + "\tProperty"), properties[key]))
             else:
-                if variable_name.lower() in symbol_tables:
-                    symbol_table = symbol_tables[variable_name.lower()]
-                elif variable_type.lower() in symbol_tables:
-                    symbol_table = symbol_tables[variable_type.lower()]
-                else:
-                    symbol_table = None
+                # Check whether inner class property completion
+                print (variable_name)
+                matched_region = view.find_all("[a-zA-Z_1-9]+\\.[a-zA-Z_1-9]+\\s+%s[,;\\s:=){]" % variable_name)
+                if matched_region:
+                    matched_str = view.substr(matched_region[0])
+                    namespace, innerclass = matched_str[:matched_str.find(" ")].split(".")
+                    if namespace.lower() in symbol_tables:
+                        inners = symbol_tables[namespace.lower()]
+                        innerclasses = {}
+                        for e in inners["innerClasses"]:
+                            if e["name"] == innerclass:
+                                innerclasses = {
+                                    e["name"].lower() : e
+                                }
 
-                if symbol_table:
-                    completion_list = util.get_symbol_table_completions(symbol_table)
+                        if innerclass.lower() in innerclasses:
+                            completion_list = util.get_symbol_table_completions(innerclasses[innerclass.lower()])
+                else:
+                    # Get the property
+                    if variable_name.lower() in symbol_tables:
+                        symbol_table = symbol_tables[variable_name.lower()]
+                    elif variable_type.lower() in symbol_tables:
+                        symbol_table = symbol_tables[variable_type.lower()]
+                    else:
+                        symbol_table = None
+
+                    if symbol_table:
+                        completion_list = util.get_symbol_table_completions(symbol_table)
 
         elif ch == "=":
             if not settings["disable_picklist_value_completion"]:
