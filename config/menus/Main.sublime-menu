@@ -86,6 +86,15 @@
                 "caption": "Debug",
                 "children": [
                     {
+                        "id": "openlogpanel",
+                        "caption": "Open Panel Log",
+                        "command": "show_panel",
+                        "args": {
+                            "panel": "output.panel",
+                            "toggle": true
+                        }
+                    },
+                    {
                         "id": "createdebuglog",
                         "caption": "Track Debug Log",
                         "command": "track_debug_log"

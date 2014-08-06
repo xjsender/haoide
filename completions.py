@@ -156,7 +156,6 @@ class ApexCompletions(sublime_plugin.EventListener):
                         completion_list.append((key if "\t" in key else (key + "\tProperty"), properties[key]))
             else:
                 # Check whether inner class property completion
-                print (variable_name)
                 matched_region = view.find_all("[a-zA-Z_1-9]+\\.[a-zA-Z_1-9]+\\s+%s[,;\\s:=){]" % variable_name)
                 if matched_region:
                     matched_str = view.substr(matched_region[0])
@@ -181,8 +180,20 @@ class ApexCompletions(sublime_plugin.EventListener):
                     else:
                         symbol_table = None
 
+                    # Call Inner Class from different class
                     if symbol_table:
                         completion_list = util.get_symbol_table_completions(symbol_table)
+                    # Call Inner Class in the same class
+                    elif view.file_name():
+                        namespace, extension = util.get_file_attr(view.file_name())
+                        if namespace and namespace.lower() in symbol_tables:
+                            inners = symbol_tables[namespace.lower()]
+                            innerclasses = {}
+                            for e in inners["innerClasses"]:
+                                innerclasses[e["name"].lower()] = e
+
+                            if variable_type.lower() in innerclasses:
+                                completion_list = util.get_symbol_table_completions(innerclasses[variable_type.lower()])
 
         elif ch == "=":
             if not settings["disable_picklist_value_completion"]:

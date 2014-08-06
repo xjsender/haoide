@@ -12,6 +12,12 @@
         }
     },
 
+    {"keys": ["alt+`"], "command": "show_panel", 
+        "args": {
+            "panel": "output.panel"
+        }
+    },
+
     // Open Document
     {"keys": ["ctrl+alt+o"], "command": "open_documentation"},
 

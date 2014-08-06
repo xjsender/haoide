@@ -11,6 +11,12 @@
             "switch_project": false
         }
     },
+    
+    {"keys": ["alt+`"], "command": "show_panel", 
+        "args": {
+            "panel": "output.panel"
+        }
+    },
 
     // Download all code and save them to new project
     {"keys": ["alt+f6"], "command": "reload_cache"},

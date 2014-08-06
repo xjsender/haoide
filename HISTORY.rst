@@ -5,6 +5,14 @@ Release History
 ---------------
 
 
+Release 0.6.7 (2014-08-06)
+++++++++++++++++++
+- Console Message --> OutputPanel Message
+- Add a new command ``Open Log Panel`` for display log panel
+- Click ``super+\``` to open output panel
+- Inner class completion
+
+
 Release 0.6.6 (2014-08-05)
 ++++++++++++++++++
 - Set ``delay_seconds_for_hidden_console`` default value from ``15`` to ``9999``

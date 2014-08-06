@@ -15,6 +15,14 @@
     },
 
     {
+        "caption": "SublimeApex: Open Log Panel",
+        "command": "show_panel", 
+        "args": {
+            "panel": "output.panel"
+        }
+    },
+
+    {
         "caption": "SublimeApex: New ApexTrigger",
         "command": "create_apex_trigger"
     },

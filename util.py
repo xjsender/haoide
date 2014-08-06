@@ -141,6 +141,31 @@ def show_panel(toggle=False):
     sublime.active_window().run_command("show_panel", 
         {"panel": "console", "toggle": toggle})
 
+def hide_output_panel(toggle=False):
+    """ Used for showing panel in sublime
+
+    Arguments:
+
+    * toggle  -- optional; if true, just toggle, else, just show panel
+    """
+    sublime.active_window().run_command("hide_panel", 
+        {"panel": "output.panel"})
+
+def show_output_panel(message, toggle=False):
+    """ Used for showing panel in sublime
+
+    Arguments:
+
+    * toggle  -- optional; if true, just toggle, else, just show panel
+    """
+    panel = sublime.active_window().create_output_panel('panel')
+    sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
+
+    panel.set_read_only(False)
+    panel.set_syntax_file('Packages/Java/Java.tmLanguage')
+    panel.run_command('append', {'characters': message})
+    panel.set_read_only(True)
+
 def advance_to_first_non_white_space_on_line(view, pt):
     while True:
         c = view.substr(pt)
