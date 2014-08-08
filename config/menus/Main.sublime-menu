@@ -6,7 +6,7 @@
         [
             {
                 "id": "SwitchProject",
-                "caption": "Refresh Project",
+                "caption": "Switch Project",
                 "command": "switch_project"
             },
             
