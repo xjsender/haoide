@@ -5,6 +5,11 @@ Release History
 ---------------
 
 
+Release 0.6.8 (2014-08-08)
+++++++++++++++++++
+- Add remind message to show output panel
+
+
 Release 0.6.7 (2014-08-06)
 ++++++++++++++++++
 - Console Message --> OutputPanel Message

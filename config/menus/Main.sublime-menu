@@ -6,7 +6,7 @@
         [
             {
                 "id": "SwitchProject",
-                "caption": "Switch Project",
+                "caption": "Refresh Project",
                 "command": "switch_project"
             },
             
@@ -87,11 +87,10 @@
                 "children": [
                     {
                         "id": "openlogpanel",
-                        "caption": "Open Panel Log",
+                        "caption": "Open Log Panel",
                         "command": "show_panel",
                         "args": {
-                            "panel": "output.panel",
-                            "toggle": true
+                            "panel": "output.panel"
                         }
                     },
                     {
