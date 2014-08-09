@@ -14,16 +14,11 @@ def get_toolingapi_settings():
     @return: dict that contains all settings
     """
 
-    # Load sublime-settings
-    s = sublime.load_settings(TOOLING_API_SETTINGS)
+    # Used for keeping all settings
     settings = {}
 
-    if not s.has("projects"):
-        sublime.active_window().run_command("show_panel", 
-            {"panel": "console", "toggle": False})
-        sublime.error_message("You should set your user credentials.")
-        return
-
+    # Load sublime-settings
+    s = sublime.load_settings(TOOLING_API_SETTINGS)
     projects = s.get("projects")
 
     default_project = None
@@ -75,6 +70,9 @@ def get_toolingapi_settings():
     # Trace Flag
     settings["trace_flag"] = s.get("trace_flag")
     settings["last_n_logs"] = s.get("last_n_logs", 10)
+
+    # User Language
+    settings["user_language"] = s.get("user_language")
 
     # Every time when you save component and error happened, the console will be open.
     # When you edit the code according to the error message, this flag used to indicate

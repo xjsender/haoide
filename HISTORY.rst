@@ -5,6 +5,20 @@ Release History
 ---------------
 
 
+Release 0.6.9 (2014-08-09)
+++++++++++++++++++
+- When export workbooks, check whether input are valid, if any one is not valid, allow user to input again
+- ``Folder Refresh`` reminder message is changed
+- Add ``Update Project`` command to just update the apex code but not include sobject metadata
+- Add ``Update User Language`` command to update language for running user, which can be used in ``Generate Workbook``, ``Field Completion`` and all related
+- Add keymap and commands for ``Update Project`` and ``Update User Language``
+- Add a new setting ``user_language`` for ``Update User Language`` command
+- Update the main menu, add ``Update`` main menu
+- Add settings for package info, including ``name``, ``version``, ``homepage`` and so on
+- Rename ``Help`` in main menu to ``About``, after click this item, not open browser and just display the plugin version info
+- Add confirm request for ``update cache``
+
+
 Release 0.6.8 (2014-08-08)
 ++++++++++++++++++
 - Add remind message to show output panel
@@ -14,7 +28,7 @@ Release 0.6.7 (2014-08-06)
 ++++++++++++++++++
 - Console Message --> OutputPanel Message
 - Add a new command ``Open Log Panel`` for display log panel
-- Click ``super+\``` to open output panel
+- Click ``super+``` to open output panel
 - Inner class completion
 
 

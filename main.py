@@ -211,7 +211,7 @@ class RefreshClassFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshClassFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
         if not confirm: return
 
         processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
@@ -235,7 +235,7 @@ class RefreshComponentFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshComponentFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
         if not confirm: return
 
         processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
@@ -259,7 +259,7 @@ class RefreshPageFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshPageFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
         if not confirm: return
 
         processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
@@ -283,7 +283,7 @@ class RefreshTriggerFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshTriggerFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
         if not confirm: return
 
         processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
@@ -307,7 +307,7 @@ class RefreshStaticResourceFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshStaticResourceFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
         if not confirm: return
         
         processor.handle_get_static_resource_body(self.folder_name, self.component_outputdir)
@@ -416,7 +416,7 @@ class ExportWorkbookCommand(sublime_plugin.WindowCommand):
         super(ExportWorkbookCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.window.show_input_panel("Sobjects(* means all, or sobjects seprated with semi-colon)", 
+        self.window.show_input_panel("Input Sobjects(* or sobjects separated with semi-colon), Case is Sensitive", 
             "*", self.on_input, None, None)
 
     def on_input(self, input):
@@ -427,7 +427,21 @@ class ExportWorkbookCommand(sublime_plugin.WindowCommand):
         if input == "*":
             processor.handle_generate_all_workbooks(5)
         else:
+            # Collect the sobjects
             sobjects = input.split(";")
+
+            # Check whether the input sobjects are valid
+            # If any one is not valid, allow user to input again
+            sobjects_describe = processor.populate_sobjects_describe()
+            for sobject in sobjects:
+                if sobject not in sobjects_describe:
+                    message = '"%s" is not valid sobject, do you want to try again?' % sobject
+                    if not sublime.ok_cancel_dialog(message): return
+                    self.window.show_input_panel("Sobjects(* means all, or sobjects seprated with semi-colon)", 
+                        input, self.on_input, None, None)
+                    return
+
+            # After ensured input is valid, just start to generate workbooks
             processor.handle_generate_specified_workbooks(sobjects)
 
 class ViewComponentInSfdcCommand(sublime_plugin.WindowCommand):
@@ -702,13 +716,17 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
         show_url = settings["login_url"] + '?%s' % show_params
         util.open_with_browser(show_url)
 
-class AboutCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(AboutCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        plugin_url = "https://github.com/xjsender/SublimeApex#sublime-ide-for-salesforce"
-        util.open_with_browser(plugin_url)
+#shows mavensmate info modal
+class AboutCommand(sublime_plugin.ApplicationCommand):
+    def run(command):
+        package_info = sublime.load_settings("package.sublime-settings")
+        version_info = "%s v%s\n\n%s\n\nVisit %s for more information" % (
+            package_info.get("name"),
+            package_info.get("version"),
+            package_info.get("description"),
+            package_info.get("homepage")
+        )
+        sublime.message_dialog(version_info)
 
 class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -922,29 +940,55 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
         # After project is switch, login will be executed
         processor.handle_login_thread(default_project)
 
+class UpdateUserLanguageCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(UpdateUserLanguageCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        settings = context.get_toolingapi_settings()
+        self.languages_settings = settings["user_language"]
+        self.languages = sorted(self.languages_settings.keys())
+        self.window.show_quick_panel(self.languages, self.on_choose)
+
+    def on_choose(self, index):
+        if index == -1: return
+
+        chosen_language = self.languages[index]
+        processor.handle_update_user_language(self.languages_settings[chosen_language])
+
+class UpdateProjectCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(UpdateProjectCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        confirm = sublime.ok_cancel_dialog("Are you sure you really want to update this project?")
+        if confirm == False: return
+        settings = context.get_toolingapi_settings()
+        context.add_project_to_workspace(settings["workspace"])
+        processor.handle_new_project(settings, is_update=True)
+
+    def is_enabled(self):
+        return util.check_new_component_enabled()
+
 class CreateNewProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreateNewProjectCommand, self).__init__(*args, **kwargs)
 
-    def run(self, switch_project=True):
-        if switch_project:
-            global projects
-            toolingapi_settings = context.get_toolingapi_settings()
-            projects = toolingapi_settings["projects"]
-            projects = ["(" + ('Active' if projects[p]["default"] else 
-                'Inactive') + ") " + p for p in projects]
-            projects = sorted(projects, reverse=False)
-            self.window.show_quick_panel(projects, self.on_done)
-        else:
-            self.on_done(100)
+    def run(self):
+        global projects
+        toolingapi_settings = context.get_toolingapi_settings()
+        projects = toolingapi_settings["projects"]
+        projects = ["(" + ('Active' if projects[p]["default"] else 
+            'Inactive') + ") " + p for p in projects]
+        projects = sorted(projects, reverse=False)
+        self.window.show_quick_panel(projects, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
-        if index != 100:
-            # Change the chosen project as default
-            # Split with ") " and get the second project name
-            default_project = projects[index].split(") ")[1]
-            context.switch_project(default_project)
+        # Change the chosen project as default
+        # Split with ") " and get the second project name
+        default_project = projects[index].split(") ")[1]
+        context.switch_project(default_project)
 
         # Create Project Directory
         context.make_dir()
@@ -964,6 +1008,8 @@ class ReloadCacheCommand(sublime_plugin.WindowCommand):
         super(ReloadCacheCommand, self).__init__(*args, **kwargs)
 
     def run(self):
+        confirm = sublime.ok_cancel_dialog("Are you sure you really want to update cache?")
+        if confirm == False: return
         processor.handle_initiate_sobjects_completions()
 
 class ClearCacheCommand(sublime_plugin.WindowCommand):

@@ -46,7 +46,39 @@
                 ]
             },
 
-            { "caption": "-" },
+            {
+                "caption": "Update",
+                "children": [
+                    {
+                        "id": "UpdateProject",
+                        "caption": "Update Project",
+                        "command": "update_project"
+                    },
+                    {
+                        "id": "UpdateUserLanguage",
+                        "caption": "Update User Language",
+                        "command": "update_user_language"
+                    }
+                ]
+            },
+
+            {"caption": "-"},
+
+            {
+                "caption": "Cache",
+                "children": [
+                    {
+                        "id": "reloadcache",
+                        "caption": "Reload Cache",
+                        "command": "reload_cache"
+                    },
+                    {
+                        "id": "clearcache",
+                        "caption": "Clear Cache",
+                        "command": "clear_cache"
+                    }
+                ]
+            },
 
             {
                 "caption": "Document",
@@ -61,23 +93,6 @@
                         "id": "opendocumentation",
                         "caption": "Open Documentation",
                         "command": "open_documentation"
-                    }
-                ]
-            },
-
-            {
-                "caption": "Cache",
-                "children": [
-                    {
-                        "id": "reloadcache",
-                        "caption": "Reload Active",
-                        "command": "reload_cache"
-                    },
-
-                    {
-                        "id": "clearcache",
-                        "caption": "Clear Inactive",
-                        "command": "clear_cache"
                     }
                 ]
             },
@@ -392,7 +407,7 @@
 
             {
                 "id": "about",
-                "caption": "Help",
+                "caption": "About",
                 "command": "about"
             }
         ]

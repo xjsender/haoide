@@ -1,0 +1,9 @@
+{
+    "name": "SublimeApex",
+    "version": "0.6.9",
+    "description": "SublimeApex is a plugin for Sublime Text 3 and used for Fast Development on Force.com",
+    "author": "Hao Liu",
+    "email": "mouse.mliu@gmail.com",
+    "homepage": "https://github.com/xjsender/SublimeApex",
+    "last_modified_date": "2013-08-09"
+}

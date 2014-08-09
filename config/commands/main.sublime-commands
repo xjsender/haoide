@@ -8,10 +8,12 @@
 
     {
         "caption": "SublimeApex: Update Project",
-        "command": "create_new_project", 
-        "args": {
-            "switch_project": false
-        }
+        "command": "update_project"
+    },
+
+    {
+        "caption": "SublimeApex: Update User Language",
+        "command": "update_user_language"
     },
 
     {

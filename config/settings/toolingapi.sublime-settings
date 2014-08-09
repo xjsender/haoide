@@ -153,6 +153,27 @@
     // The return number of "fetch logs" command
     "last_n_logs": 10,
 
+    // User Language
+    "user_language": {
+        "Chinese (Simplified)": "zh_CN",
+        "Chinese (Traditional)": "zh_TW",
+        "Danish": "da",
+        "Dutch": "nl_NL",
+        "English": "en_US",
+        "Finnish": "fi",
+        "French": "fr",
+        "German": "de",
+        "Italian": "it",
+        "Japanese": "ja",
+        "Korean": "ko",
+        "Portuguese (Brazil)": "pt_BR",
+        "Russian": "ru",
+        "Spanish": "es",
+        "Spanish (Mexico)": "es_MX",
+        "Swedish": "sv",
+        "Thai": "th"
+    },
+
     // TraceFlag Debug Log Level
     "trace_flag": {
         "ApexCode": "Debug",

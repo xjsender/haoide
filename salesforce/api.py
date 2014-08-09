@@ -408,6 +408,16 @@ class SalesforceApi():
         # This result is used for invoker
         return all_result
 
+    def update_user(self, data):
+        """ Use the data to update the detail of running user
+
+        * sobject -- sobject name, for example, Account, Contact
+        """
+        self.login()
+        patch_url = "/sobjects/User/%s" % globals()[self.username]["user_id"]
+        result = self.patch(patch_url, data)
+        self.result = result
+
     def combine_soql(self, sobject, contains_compound=True):
         """ Get the full field list soql by sobject
 

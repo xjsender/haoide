@@ -228,6 +228,13 @@ def populate_all_test_classes():
 
     return test_class_ids
 
+def handle_update_user_language(language, timeout=120):
+    toolingapi_settings = context.get_toolingapi_settings()
+    api = SalesforceApi(toolingapi_settings)
+    thread = threading.Thread(target=api.update_user, args=({"LanguageLocaleKey": language}, ))
+    thread.start()
+    ThreadProgress(api, thread, "Updating User Language", "User language is updated to " + language)
+
 def handle_login_thread(default_project, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1180,7 +1187,7 @@ def handle_generate_all_workbooks(timeout=120):
     ThreadProgress(api, thread, "Global Describe Common", "Global Describe Common Succeed")
     handle_thread(thread, timeout)
 
-def handle_new_project(settings, timeout=120):
+def handle_new_project(settings, is_update=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -1202,7 +1209,7 @@ def handle_new_project(settings, timeout=120):
         sublime.status_message("Refresh All Successfully")
 
         # After Refresh all succeed, start initiate sobject completions
-        handle_initiate_sobjects_completions(120)
+        if not is_update: handle_initiate_sobjects_completions(120)
 
         # If get_static_resource_body is true, 
         # start to get all binary body of static resource
@@ -1214,7 +1221,8 @@ def handle_new_project(settings, timeout=120):
     component_types = settings["component_types"]
     thread = threading.Thread(target=api.refresh_components, args=(component_types, ))
     thread.start()
-    ThreadProgress(api, thread, "Initiate Project, Please Wait...", "New Project Succeed")
+    wating_message = ("Creating New " if not is_update else "Updating ") + " Project"
+    ThreadProgress(api, thread, wating_message, wating_message + " Succeed")
     handle_thread(thread, timeout)
 
 def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeout=120):

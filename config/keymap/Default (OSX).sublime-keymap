@@ -5,12 +5,11 @@
     // Download all code and save them to new project
     {"keys": ["super+alt+n"], "command": "create_new_project"},
 
-    // Download all code and save them to new project
-    {"keys": ["alt+r"], "command": "create_new_project", 
-        "args": {
-            "switch_project": false
-        }
-    },
+    // Update the default project
+    {"keys": ["alt+r"], "command": "update_project"},
+
+    // Update the user language of running user
+    {"keys": ["alt+u"], "command": "update_user_language"},
 
     {"keys": ["super+`"], "command": "show_panel", 
         "args": {

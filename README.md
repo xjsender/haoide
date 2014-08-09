@@ -78,10 +78,9 @@ if today is ```2013/07/30``` and user settings is
 your project folder name should be ```Exercise-Pro-20130730```, you can close this time suffix feature by setting ```keep_project_name_time_suffix``` to false
 
 ## Update Project
-In windows, you can press <kbd>Alt</kbd>+<kbd>F7</kbd> to update your active project.
-In OSX, you can press <kdb>Ctrl</kdb>+<kdb>R</kdb> to update your active project.
+You can click ```SublimeApex > Update > Update Project``` in the main menu or press <kbd>Alt</kbd>+<kbd>R</kbd> to update your active project.
 
-+  Completions:
+## Completions:
 * ```Input .```, show all methods of class
 * ```Input .```, show all fields, parent relationship name and child relationship names
 * ```Input .``` after sobject relationship name, show all fields of this relationship name
