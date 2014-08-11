@@ -1290,9 +1290,12 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
                 sublime.save_settings("symbol_table.sublime-settings")
 
             # Output succeed message in the console
-            print (message.SEPRATE.format(
+            util.show_output_panel(message.SEPRATE.format(
                 "{0} is saved successfully at {1}".format(file_base_name, 
                     time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))))
+
+            # If succeed, just hide it in two seconds later
+            sublime.set_timeout_async(util.hide_output_panel, 2 * 1000)
 
         # If not succeed, just go to the error line
         # Because error line in page is always at the line 1, so just work in class or trigger

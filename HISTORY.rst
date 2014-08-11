@@ -4,6 +4,11 @@ Release History
 
 ---------------
 
+Release 0.7.0 (2014-08-11)
+++++++++++++++++++
+- Even if component saving is succeed, show the output panel
+- If component saving is succeed, hide the open output panel after two seconds
+
 
 Release 0.6.9 (2014-08-09)
 ++++++++++++++++++
