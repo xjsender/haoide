@@ -1169,6 +1169,11 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
     for field in fields:
         row_value_literal = b""
         row_values = []
+
+        # Check field type
+        field_type = field["type"] if not field["calculatedFormula"] \
+            else "Formula(%s)" % field["type"]
+
         for key in fields_key:
             # Get field value by field API(key)
             row_value = field.get(key)
@@ -1190,7 +1195,7 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
             elif not row_value:
                 row_value = ""
             else:
-                row_value = "%s" % row_value
+                row_value = field_type if key == "type" else "%s" % row_value
 
             # Unescape special code to normal
             row_value = urllib.parse.unquote(unescape(row_value, 
@@ -1220,7 +1225,7 @@ record_keys = ["label", "name", "type", "length"]
 record_key_width = {
     "label": 40, 
     "name": 40, 
-    "type": 15, 
+    "type": 30, 
     "length": 10
 }
 recordtype_key_width = {
@@ -1278,7 +1283,7 @@ def parse_sobject_field_result(result):
     for record in fields:
         row = ""
         for key in record_keys:
-            row_value = record.get(key)
+            row_value = "Formula(%s)" % record.get(key) if key == "type" and record["calculatedFormula"] else record.get(key)
             if not row_value:
                 row_value = ""
 
