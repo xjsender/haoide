@@ -120,7 +120,7 @@ By default, the operation of ```Execute Query```, ```Describe Sobject```, ```Ger
 ## Save component
 + This command is only enabled in salesforce code file of active project
 + After code is updated, click ```SublimeApex``` > ```Save to Server``` in the context menu or press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>
-+ If the saving process failed, the console will be open and automatically hidden in **10** seconds, if you think **10** seconds is not enough to check the error message, you add it up to more by setting ```delay_seconds_for_hidden_console```
++ If the saving process failed, the console will be open and automatically hidden in **10** seconds, if you think **10** seconds is not enough to check the error message, you add it up to more by setting ```delay_seconds_for_hidden_output_panel_when_failed```
 
 ## Refresh component
 + This command is only enabled in salesforce code file of active project

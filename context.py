@@ -81,7 +81,13 @@ def get_toolingapi_settings():
 
     # Every time when you save component and error happened, the console will be open.
     # however, you want it to be hidden automatically after several seconds
-    settings["delay_seconds_for_hidden_console"] = s.get("delay_seconds_for_hidden_console", 6)
+    settings["delay_seconds_for_hidden_output_panel_when_failed"] =\
+        s.get("delay_seconds_for_hidden_output_panel_when_failed", 6)
+
+    # Every time when you save component and succeed, the output panel will be open.
+    # however, you want it to be hidden automatically after several seconds
+    settings["delay_seconds_for_hidden_output_panel_when_succeed"] =\
+        s.get("delay_seconds_for_hidden_output_panel_when_succeed", 1)
 
     # Indicate whether download StaticResource body, it is very time-consuming.
     # If you open this functionality and your StaticResources are very large

@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+
+Release 0.7.1 (2014-08-12)
+++++++++++++++++++
+- Add ``delay_seconds_for_hidden_output_panel_when_succeed`` for control delay seconds to hide output panel when saving succeed
+- Rename setting ``delay_seconds_for_hidden_console`` to ``delay_seconds_for_hidden_output_panel_when_failed``
+
+
 Release 0.7.0 (2014-08-11)
 ++++++++++++++++++
 - Even if component saving is succeed, show the output panel

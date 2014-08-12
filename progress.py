@@ -51,7 +51,7 @@ class ThreadProgress():
                     util.show_output_panel(message.SEPRATE.format(util.format_error_message(result)))
 
                 settings = context.get_toolingapi_settings()
-                delay_seconds = settings["delay_seconds_for_hidden_console"]
+                delay_seconds = settings["delay_seconds_for_hidden_output_panel_when_failed"]
                 sublime.set_timeout_async(util.hide_output_panel, delay_seconds * 1000)
             else:
                 sublime.status_message(self.success_message)

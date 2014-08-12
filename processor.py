@@ -1295,7 +1295,8 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
                     time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))))
 
             # If succeed, just hide it in two seconds later
-            sublime.set_timeout_async(util.hide_output_panel, 1.5 * 1000)
+            delay_seconds = settings["delay_seconds_for_hidden_output_panel_when_succeed"]
+            sublime.set_timeout_async(util.hide_output_panel, delay_seconds * 1000)
 
         # If not succeed, just go to the error line
         # Because error line in page is always at the line 1, so just work in class or trigger
@@ -1310,9 +1311,9 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
                 # Add highlight for error line and remove the highlight after several seconds
                 component_id = component_attribute["id"]
                 view.run_command("set_check_point", {"mark":component_id+"error"})
+                delay_seconds = settings["delay_seconds_for_hidden_output_panel_when_failed"]
                 sublime.set_timeout_async(view.run_command("remove_check_point", 
-                    {"mark":component_id+"error"}), 
-                    settings["delay_seconds_for_hidden_console"] * 1000)
+                    {"mark":component_id+"error"}), delay_seconds * 1000)
 
     # If saving is in process, just skip
     settings = context.get_toolingapi_settings()

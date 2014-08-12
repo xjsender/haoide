@@ -67,7 +67,11 @@
 
     // Every time when you save component and error happened, the console will be open.
     // however, you want it to be hidden automatically after several seconds
-    "delay_seconds_for_hidden_console": 9999,
+    "delay_seconds_for_hidden_output_panel_when_failed": 9999,
+
+    // Every time when you save component and succeed, the output panel will be open.
+    // however, you want it to be hidden automatically after several seconds
+    "delay_seconds_for_hidden_output_panel_when_succeed": 1,
 
     // Sometimes, you may want to develop package, so you also need to download the code 
     // in the allowed packages, because package name is unique in the whole salesforce org, 
