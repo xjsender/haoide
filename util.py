@@ -165,8 +165,7 @@ def show_output_panel(message, toggle=False):
     panel.set_syntax_file('Packages/Java/Java.tmLanguage')
     reminder_message = """You can open the output panel by below ways:
     1. Click SublimeApex > Debug > Open Log Panel in the main menu
-    2. Press Command + Alt + ` in OSX
-    3. Press Alt + ` in Windows
+    2. Press Alt + ` in Windows
     """
     panel.run_command('append', {'characters': reminder_message})
     panel.run_command('append', {'characters': message})
