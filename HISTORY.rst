@@ -5,6 +5,14 @@ Release History
 ---------------
 
 
+Release 0.7.2 (2014-08-15)
+++++++++++++++++++
+- Rename ``Toggle Log Panel`` menu item to ``Open Output Panel``
+- Update README.MD 
+- Add ``Preview Page`` command to preview visualforce page in server, just enabled when opening page
+- Update About formate
+
+
 Release 0.7.1 (2014-08-12)
 ++++++++++++++++++
 - Add ``delay_seconds_for_hidden_output_panel_when_succeed`` for control delay seconds to hide output panel when saving succeed

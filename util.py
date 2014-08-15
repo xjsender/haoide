@@ -141,6 +141,27 @@ def show_panel(toggle=False):
     sublime.active_window().run_command("show_panel", 
         {"panel": "console", "toggle": toggle})
 
+def toggle_output_panel(panel_name="panel", toggle=False):
+    """ Used for showing panel in sublime
+
+    Arguments:
+
+    * toggle  -- optional; if true, just toggle, else, just show panel
+    """
+
+    panel = sublime.active_window().get_output_panel(panel_name)
+    message = panel.substr(sublime.Region(0, panel.size()))
+
+    if bool(panel.window()):
+        sublime.active_window().run_command("hide_panel", {"panel": "output."+panel_name})
+    else:
+        sublime.active_window().run_command("show_panel", {"panel": "output."+panel_name})
+
+    panel.set_read_only(False)
+    panel.set_syntax_file("Packages/Java/Java.tmLanguage")
+    panel.run_command('append', {'characters': message})
+    panel.set_read_only(True)
+
 def hide_output_panel(toggle=False):
     """ Used for showing panel in sublime
 
@@ -148,6 +169,7 @@ def hide_output_panel(toggle=False):
 
     * toggle  -- optional; if true, just toggle, else, just show panel
     """
+
     sublime.active_window().run_command("hide_panel", 
         {"panel": "output.panel"})
 

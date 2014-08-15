@@ -467,6 +467,16 @@ class ViewComponentInSfdcCommand(sublime_plugin.WindowCommand):
         startURL = "/" + class_id
         self.window.run_command("login_to_sfdc", {"startURL": startURL})
 
+class PreviewPageCommand(sublime_plugin.TextCommand):
+    def run(self, view):
+        startURL = "/apex/" + self.filename
+        self.view.window().run_command("login_to_sfdc", {"startURL": startURL})
+
+    def is_visible(self):
+        if not self.view.file_name(): return False
+        self.filename, self.extension = util.get_file_attr(self.view.file_name())
+        return self.extension == ".page"
+
 class RunAllTestCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(RunAllTestCommand, self).__init__(*args, **kwargs)
@@ -720,11 +730,12 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
 class AboutCommand(sublime_plugin.ApplicationCommand):
     def run(command):
         package_info = sublime.load_settings("package.sublime-settings")
-        version_info = "%s v%s\n\n%s\n\nVisit %s for more information" % (
-            package_info.get("name"),
-            package_info.get("version"),
+
+        version_info = "\n%s\n\n%s\n\nCopyright © 2013-2014 By %s\n\tDev Chanel, Build v%s" % (
             package_info.get("description"),
-            package_info.get("homepage")
+            package_info.get("homepage"),
+            package_info.get("author"),
+            package_info.get("version")
         )
         sublime.message_dialog(version_info)
 

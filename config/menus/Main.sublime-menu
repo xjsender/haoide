@@ -101,8 +101,8 @@
                 "caption": "Debug",
                 "children": [
                     {
-                        "id": "openlogpanel",
-                        "caption": "Open Log Panel",
+                        "id": "openoutputpanel",
+                        "caption": "Open Output Panel",
                         "command": "show_panel",
                         "args": {
                             "panel": "output.panel"

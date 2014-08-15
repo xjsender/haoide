@@ -1232,15 +1232,12 @@ class SalesforceApi():
             }
 
         while state == "Queued":
-            # print ("Async Request is queued, please wait for 5 seconds...")
-            time.sleep(5)
+            time.sleep(2)
 
             result = self.get(sync_request_url + "/" + request_id)
             state = result["State"]
             if state == "Completed":
-                return_result = {
-                    "success": True,
-                }
+                return_result = {"success": True}
 
         if state == "Failed":
             # This error need more process, because of confused single quote
@@ -1249,6 +1246,7 @@ class SalesforceApi():
             else:
                 compile_errors = unescape(result["CompilerErrors"])
                 compile_errors = json.loads(compile_errors)
+            
             return_result = {}
             if len(compile_errors) > 0:
                 return_result = compile_errors[0]

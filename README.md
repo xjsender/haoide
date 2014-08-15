@@ -1,5 +1,5 @@
 # Sublime IDE for salesforce
-This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change Workspace in OSX**), not tested for Linux.
+This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change the default Workspace for OSX**, otherwise, the downloaded code will not appeared in the sidebar), not tested for Linux.
 **If you think this plugin is helpful, please star this plugin.**
 
 # Change Logs
@@ -25,7 +25,7 @@ Every time you want to switch the project, you can click ```SublimeApex``` > ```
 
 If you want to check the current active project, you can check the most left of side bar or press <kbd>ALT</kbd>+<kbd>S</kbd>
 
-After your project configuration is finished, you can click ```SublimeApex``` > ```new project``` in the main menu to download your code.
+After your project configuration is finished, you can click ```SublimeApex``` > ```New``` > ```new project``` in the main menu to download your code.
 ```javascript
 {
     // In OSX, the worspace path is different with windows,
@@ -77,6 +77,8 @@ if today is ```2013/07/30``` and user settings is
 ```
 your project folder name should be ```Exercise-Pro-20130730```, you can close this time suffix feature by setting ```keep_project_name_time_suffix``` to false
 
+**If you are developing a package, you need to add your package namespace to settings ``allowed_packages``, more detail to check the ``allowed_packages`` in the default settings*
+
 ## Update Project
 You can click ```SublimeApex > Update > Update Project``` in the main menu or press <kbd>Alt</kbd>+<kbd>R</kbd> to update your active project.
 
@@ -90,7 +92,7 @@ You can click ```SublimeApex > Update > Update Project``` in the main menu or pr
 * ```input :```, list all suffix of all visualforce Components
 * ```input space```, list all attributes of tags
 * ```input =```, list all values of this corresponding attributes in visualforce page
-* If sobject field type is picklist, after you input ```opp.StageName =``` or ```Opportunity.StageName =```, all available picklist values will be shown
+* If sobject field type is picklist, after you input ```opp.StageName =``` if opp is already defined as opportunity or ```Opportunity.StageName =```, all available picklist values will be shown
 * SOQL fields completion, input ```se``` to call build-in snippet, press <kbd>Enter</kbd>, ```SELECT Id, FROM ``` will be inserted, after input sobject name, press <kbd>Tab</kbd>, focus will be moved to field list part, input the field name, you will see the field completions
 
 ### Completions Screenshots

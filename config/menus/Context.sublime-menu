@@ -24,9 +24,10 @@
             {"caption": "Execute Anonymous","command": "execute_anonymous"},
             {"caption": "Execute SOQL","command": "execute_soql"},
             {"caption": "Run Test Class","command": "run_test"},
-            {"caption": "View Code Coverage","command": "view_code_coverage"},
+            {"caption": "Preview Page in Server","command": "preview_page"},
 
             {"caption": "-"},
+            {"caption": "View Code Coverage","command": "view_code_coverage"},
             {"caption": "View Debug Log Detail","command": "view_debug_log_detail"},
             {"caption": "View Id in Salesforce Web","command": "view_id_in_sfdc_web"},
             {"caption": "Show in Salesforce Web","command": "show_in_sfdc_web"}
