@@ -95,10 +95,12 @@ You can click ```SublimeApex > Update > Update Project``` in the main menu or pr
 * If sobject field type is picklist, after you input ```opp.StageName =``` if opp is already defined as opportunity or ```Opportunity.StageName =```, all available picklist values will be shown
 * SOQL fields completion, input ```se``` to call build-in snippet, press <kbd>Enter</kbd>, ```SELECT Id, FROM ``` will be inserted, after input sobject name, press <kbd>Tab</kbd>, focus will be moved to field list part, input the field name, you will see the field completions
 
-### Completions Screenshots
+### Screenshots
 <img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Trigger.gif" /><br/>
 
 <img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif" /><br/>
+
+<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Execute%20Rest%20Test.gif" /><br/>
 
 ## Execute Anonymous
 Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```SublimeApex``` > ```Execute Anonymous```, the executed result will be shown in a new view.
