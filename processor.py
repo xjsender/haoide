@@ -33,14 +33,14 @@ def populate_users():
     """
 
     # Get username
-    toolingapi_settings = context.get_toolingapi_settings()
-    username = toolingapi_settings["username"]
+    settings = context.get_settings()
+    username = settings["username"]
 
     # If sobjects is exist in globals()[], just return it
     if (username + "users") in globals(): 
         return globals()[username + "users"]
     # If sobjects is not exist in globals(), post request to pouplate it
-    api = SalesforceApi(toolingapi_settings)
+    api = SalesforceApi(settings)
     query = """SELECT Id, FirstName, LastName FROM User WHERE LastName != null 
                AND IsActive = true"""
     thread = threading.Thread(target=api.query_all, args=(query, ))
@@ -66,8 +66,8 @@ def populate_components():
     """
 
     # Get username
-    toolingapi_settings = context.get_toolingapi_settings()
-    username = toolingapi_settings["username"]
+    settings = context.get_settings()
+    username = settings["username"]
 
     # If sobjects is exist in globals()[], just return it
     component_metadata = sublime.load_settings("component_metadata.sublime-settings")
@@ -93,8 +93,8 @@ def populate_classes():
     }
     """
     # Get username
-    toolingapi_settings = context.get_toolingapi_settings()
-    username = toolingapi_settings["username"]
+    settings = context.get_settings()
+    username = settings["username"]
 
     # If sobjects is exist in globals()[], just return it
     component_metadata = sublime.load_settings("component_metadata.sublime-settings")
@@ -105,7 +105,7 @@ def populate_classes():
         return globals()[username + "classes"]
 
     # If sobjects is not exist in globals(), post request to pouplate it
-    api = SalesforceApi(toolingapi_settings)
+    api = SalesforceApi(settings)
     query = "SELECT Id, Name, Body FROM ApexClass WHERE NamespacePrefix = null"
     thread = threading.Thread(target=api.query_all, args=(query, ))
     thread.start()
@@ -141,15 +141,15 @@ def populate_sobject_recordtypes():
     """
 
     # Get username
-    toolingapi_settings = context.get_toolingapi_settings()
-    username = toolingapi_settings["username"]
+    settings = context.get_settings()
+    username = settings["username"]
 
     # If sobjects is exist in globals()[], just return it
     if (username + "sobject_recordtypes") in globals(): 
         return globals()[username + "sobject_recordtypes"]
 
     # If sobjects is not exist in globals(), post request to pouplate it
-    api = SalesforceApi(toolingapi_settings)
+    api = SalesforceApi(settings)
     query = "SELECT Id, Name, SobjectType FROM RecordType"
     thread = threading.Thread(target=api.query_all, args=(query, ))
     thread.start()
@@ -181,8 +181,8 @@ def populate_sobjects_describe():
     """
 
     # Get username
-    toolingapi_settings = context.get_toolingapi_settings()
-    username = toolingapi_settings["username"]
+    settings = context.get_settings()
+    username = settings["username"]
 
     # If sobjects is exist in sobjects_completion.sublime-settings, just return it
     sobjects_completions = sublime.load_settings("sobjects_completion.sublime-settings")
@@ -198,7 +198,7 @@ def populate_sobjects_describe():
         return globals()[username + "sobjects"]
 
     # If sobjects is not exist in globals(), post request to pouplate it
-    api = SalesforceApi(toolingapi_settings)
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
 
@@ -212,7 +212,7 @@ def populate_sobjects_describe():
 
 def populate_all_test_classes():
     # Get username
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     username = settings["username"]
 
     component_metadata = sublime.load_settings("component_metadata.sublime-settings")
@@ -229,8 +229,8 @@ def populate_all_test_classes():
     return test_class_ids
 
 def handle_update_user_language(language, timeout=120):
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.update_user, args=({"LanguageLocaleKey": language}, ))
     thread.start()
     ThreadProgress(api, thread, "Updating User Language", "User language is updated to " + language)
@@ -243,13 +243,13 @@ def handle_login_thread(default_project, timeout=120):
 
         result = api.result
         if result["status_code"] > 399: return
-        if toolingapi_settings["output_session_info"]:
+        if settings["output_session_info"]:
             pprint.pprint(result)
 
         print (message.SEPRATE.format("Login Succeed"))
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.login, args=(False, ))
     thread.start()
     handle_thread(thread, timeout)
@@ -306,8 +306,8 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
             (coverage, covered_lines_count, total_lines_count) + 
             "uncovered lines are marked in the new open view"))
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     query = "SELECT Coverage FROM ApexCodeCoverageAggregate " +\
         "WHERE ApexClassOrTriggerId = '{0}'".format(component_attribute["id"])
     thread = threading.Thread(target=api.query, args=(query, True, ))
@@ -369,32 +369,79 @@ def handle_refresh_folder(folder_name, component_outputdir, timeout=120):
 
         # Save Refreshed Component Attributes to component_metadata.sublime-settings
         s = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
-        username = toolingapi_settings["username"]
+        username = settings["username"]
         components_dict = s.get(username)
         components_dict[component_type] = components
         s.set(username, components_dict)
 
         sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
 
     # Get component attributes by component_type
-    component_type = toolingapi_settings[folder_name]
-    component_attribute = toolingapi_settings[component_type]
+    component_type = settings[folder_name]
+    component_attribute = settings[component_type]
     component_body = component_attribute["body"]
     component_extension = component_attribute["extension"]
     component_soql = component_attribute["soql"]
     thread = threading.Thread(target=api.query_all, args=(component_soql, ))
     thread.start()
-    ThreadProgress(api, thread, "Refreshing " + component_type, 
-        "Refreshing " + component_type + " Succeed")
+    wating_message = "Refreshing " + component_type
+    ThreadProgress(api, thread, wating_message, wating_message + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_initiate_sobjects_completions(timeout=120):
+def handle_reload_symbol_tables(timeout=120):
+    """
+    Reload Symbol Tables to Local Cache
+    """
+
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            return
+
+        result = api.result
+        if result["status_code"] > 399: return
+
+        # Get the username of default project
+        username = settings["username"]
+
+        # Save symbolTable to component_metadata.sublime-settings
+        symbol_table_cache = sublime.load_settings("symbol_table.sublime-settings")
+        symboltable_dict = symbol_table_cache.get(username, {})
+        for record in result["records"]:
+            # Sometimes symbolTable is null, just skip
+            if not record["SymbolTable"]: continue
+
+            # Outer completions 
+            outer = util.parse_symbol_table(record["SymbolTable"])
+            symboltable_dict[record["Name"].lower()] = {
+                "outer" : outer,
+                "name": record["Name"]
+            }
+
+            # Inner completions
+            inners = {}
+            for inn in record["SymbolTable"]["innerClasses"]:
+                inner = util.parse_symbol_table(inn)
+                inners[inn["name"].lower()] = inner
+            symboltable_dict[record["Name"].lower()]["inners"] = inners
+
+        symbol_table_cache.set(settings["username"], symboltable_dict)
+        sublime.save_settings("symbol_table.sublime-settings")
+
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
+    thread = threading.Thread(target=api.query_symbol_table, args=(50, ))
+    thread.start()
+    wating_message = "Reloading Symbol Tables"
+    ThreadProgress(api, thread, wating_message, wating_message + " Succeed")
+    handle_thread(thread, timeout)
+
+def handle_reload_sobjects_completions(timeout=120):
     """
     Save sobject describe to local which is used in completions
-
     """
 
     def handle_threads(apis, threads, timeout):
@@ -540,7 +587,7 @@ def handle_initiate_sobjects_completions(timeout=120):
         ThreadsProgress(threads, "Download Cache of Sobjects", "Download Cache of Sobjects Succeed")
         handle_threads(apis, threads, 10)
 
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     api = SalesforceApi(settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
@@ -558,22 +605,22 @@ def handle_deploy_metadata_thread(zipfile, timeout=120):
         if status_code > 399: return
         print (message.SEPRATE.format("Deploy Metadata Succeed"))
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.deploy_metadata, args=(zipfile, ))
     thread.start()
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
     handle_thread(thread, timeout)
 
 def handle_close_jobs_thread(job_ids, timeout=120):
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     bulkjob = BulkJob(settings, None, None)
     for job_id in job_ids:
         thread = threading.Thread(target=bulkjob.close_job, args=(job_id,))
         thread.start()
 
 def handle_bulk_operation_thread(sobject, inputfile, operation, timeout=120):
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     bulkapi = BulkApi(settings, sobject, inputfile)
     if operation == "insert":
         target = bulkapi.insert
@@ -589,7 +636,7 @@ def handle_bulk_operation_thread(sobject, inputfile, operation, timeout=120):
     ThreadProgress(bulkapi, thread, progress_message, progress_message + " Succeed")
 
 def handle_backup_sobject_thread(sobject, soql=None, timeout=120):
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     bulkapi = BulkApi(settings, sobject, soql)
     thread = threading.Thread(target=bulkapi.query, args=())
     thread.start()
@@ -613,7 +660,7 @@ def handle_backup_all_sobjects_thread(timeout=120):
         wait_message = "Export All Sobjects Records"
         ThreadsProgress(threads, wait_message, wait_message + " Succeed")
 
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     api = SalesforceApi(settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
@@ -631,8 +678,8 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
 
         # Mkdir for output dir of zip file
         result = api.result
-        context.add_project_to_workspace(toolingapi_settings["workspace"])
-        outputdir = toolingapi_settings["workspace"] + "/metadata"
+        context.add_project_to_workspace(settings["workspace"])
+        outputdir = settings["workspace"] + "/metadata"
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
 
@@ -653,8 +700,8 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
         })
         sublime.status_message("Exported Path: " + outputdir)
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
 
     if retrieve_all:
         soap_body = soap_bodies.retrieve_all_task_body
@@ -674,12 +721,12 @@ def handle_export_workflows(timeout=120):
         
         # If succeed
         sobjects = api.result.keys()
-        util.parse_workflow_metadata(toolingapi_settings, sobjects)
+        util.parse_workflow_metadata(settings, sobjects)
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    outputdir = toolingapi_settings["workspace"] + "/workflow/"
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    outputdir = settings["workspace"] + "/workflow/"
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
     ThreadProgress(api, thread, "Export All Workflows", "Outputdir: " + outputdir)
@@ -693,12 +740,12 @@ def handle_export_validation_rules(timeout=120):
 
         # If succeed
         sobjects = api.result.keys()
-        util.parse_validation_rule(toolingapi_settings, sobjects)
+        util.parse_validation_rule(settings, sobjects)
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    outputdir = toolingapi_settings["workspace"] + "/validation/validation rules.csv"
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    outputdir = settings["workspace"] + "/validation/validation rules.csv"
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
     ThreadProgress(api, thread, "Export All Validation Rules", "Outputdir: " + outputdir)
@@ -722,10 +769,10 @@ def handle_export_customfield(timeout=120):
         # Output log
         print (message.SEPRATE.format(outputdir))
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    workspace = context.get_toolingapi_settings().get("workspace")
+    settings = context.get_settings()
+    workspace = context.get_settings().get("workspace")
     outputdir = workspace + "/customfield"
-    api = SalesforceApi(toolingapi_settings)
+    api = SalesforceApi(settings)
     query = "SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName FROM CustomField"
     thread = threading.Thread(target=api.query, args=(query, True,))
     thread.start()
@@ -750,10 +797,10 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
         util.parse_data_template(output_file_dir, result)
         print (message.SEPRATE.format("Data Template outputdir: " + output_file_dir))
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    outputdir = toolingapi_settings["workspace"] + "/template"
+    settings = context.get_settings()
+    outputdir = settings["workspace"] + "/template"
     output_file_dir = outputdir + "/" + sobject + "-" + recordtype_name + ".csv"
-    api = SalesforceApi(toolingapi_settings)
+    api = SalesforceApi(settings)
     url = "/sobjects/%s/describe/layouts/%s" % (sobject, recordtype_id)
     thread = threading.Thread(target=api.get, args=(url, ))
     thread.start()
@@ -780,8 +827,8 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
             "input": pprint.pformat(result)
         })
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     http_methods_target = {
         "Get": api.get,
         "Delete": api.delete,
@@ -829,7 +876,7 @@ def handle_execute_query(soql, timeout=120):
         # Keep the history in the local history rep
         util.add_operation_history('execute_query', soql)
 
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     api = SalesforceApi(settings)
     thread = threading.Thread(target=api.query, args=(soql,))
     thread.start()
@@ -856,7 +903,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
         # Keep the history apex script to local
         util.add_operation_history('execute_anonymous', apex_string)
 
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     api = SalesforceApi(settings)
     thread = threading.Thread(target=api.execute_anonymous, args=(apex_string, ))
     thread.start()
@@ -878,7 +925,7 @@ def handle_fetch_logs(user_full_name, user_id, timeout=120):
             "input": debug_logs_table
         })
 
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     api = SalesforceApi(settings)
     query = "SELECT Id,LogUserId,LogLength,Request,Operation,Application," +\
             "Status,DurationMilliseconds,StartTime,Location FROM ApexLog " +\
@@ -900,8 +947,8 @@ def handle_create_debug_log(user_name, user_id, timeout=120):
         if result["status_code"] > 399: return
         print (message.SEPRATE.format(user_name + " " + result["message"]) )
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.create_trace_flag, args=(user_id, ))
     thread.start()
     ThreadProgress(api, thread, "Create Debug Log for " + user_name, 
@@ -921,8 +968,8 @@ def handle_view_debug_log_detail(log_id, timeout=120):
             "input": api.result["body"]
         })
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     url = "/sobjects/ApexLog/" + log_id + "/Body"
     thread = threading.Thread(target=api.retrieve_body, args=(url, ))
     thread.start()
@@ -963,7 +1010,7 @@ def handle_run_all_test(timeout=120):
         # After run test succeed, get ApexCodeCoverageAggreate
         query = "SELECT ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage " +\
                 "FROM ApexCodeCoverageAggregate"
-        api = SalesforceApi(toolingapi_settings)
+        api = SalesforceApi(settings)
         thread = threading.Thread(target=api.query, args=(query, True, ))
         thread.start()
         wait_message = "Get Code Coverage of All Class"
@@ -986,12 +1033,12 @@ def handle_run_all_test(timeout=120):
     class_ids = populate_all_test_classes()
     if not class_ids: return
 
-    toolingapi_settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
 
     api_threads = []
     threads = []
     for class_id in class_ids:
-        api = SalesforceApi(toolingapi_settings)
+        api = SalesforceApi(settings)
         thread = threading.Thread(target=api.run_test, args=(class_id, ))
         threads.append(thread)
         api_threads.append((api, thread))
@@ -1047,7 +1094,7 @@ def handle_run_test(class_name, class_id, timeout=120):
             "point": view.size()
         })
 
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     api = SalesforceApi(settings)
     thread = threading.Thread(target=api.run_test, args=(class_id, ))
     thread.start()
@@ -1067,7 +1114,7 @@ def handle_run_sync_test_classes(class_names, timeout=120):
         pprint.pprint(result)
         pprint.pprint(util.parse_code_coverage(result))
 
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     api = SalesforceApi(settings)
     thread = threading.Thread(target=api.run_tests_synchronous, args=(class_names, ))
     thread.start()
@@ -1087,7 +1134,7 @@ def handle_run_async_test_classes(class_ids, timeout=120):
         result = api.result
         pprint.pprint(result)
 
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     api = SalesforceApi(settings)
     thread = threading.Thread(target=api.run_tests_asynchronous, args=(class_ids, ))
     thread.start()
@@ -1117,7 +1164,7 @@ def handle_generate_sobject_soql(sobject, timeout=120):
         # Keep sobject describe history
         util.add_operation_history('soql/' + sobject, result["soql"])
 
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     api = SalesforceApi(settings)
     thread = threading.Thread(target=api.combine_soql, args=(sobject, ))
     thread.start()
@@ -1148,8 +1195,8 @@ def handle_describe_sobject(sobject, timeout=120):
         # Keep sobject describe history
         util.add_operation_history('describe/' + sobject, describe_result)
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     sobject_url = "/sobjects/" + sobject + "/describe"
     thread = threading.Thread(target=api.get, args=(sobject_url, ))
     thread.start()
@@ -1157,8 +1204,8 @@ def handle_describe_sobject(sobject, timeout=120):
     handle_new_view_thread(thread, timeout)
 
 def handle_generate_specified_workbooks(sobjects, timeout=120):
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     threads = []
     for sobject in sobjects:
         thread = threading.Thread(target=api.generate_workbook, args=(sobject, ))
@@ -1180,8 +1227,8 @@ def handle_generate_all_workbooks(timeout=120):
             thread = threading.Thread(target=api.generate_workbook, args=(sobject, ))
             thread.start()
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
     ThreadProgress(api, thread, "Global Describe Common", "Global Describe Common Succeed")
@@ -1208,8 +1255,10 @@ def handle_new_project(settings, is_update=False, timeout=120):
         print (message.SEPRATE.format('All code are Downloaded.'))
         sublime.status_message("Refresh All Successfully")
 
-        # After Refresh all succeed, start initiate sobject completions
-        if not is_update: handle_initiate_sobjects_completions(120)
+        # Reload sObject Cache and SymbolTables
+        if not is_update: 
+            handle_reload_sobjects_completions(120)
+            handle_reload_symbol_tables(120)
 
         # If get_static_resource_body is true, 
         # start to get all binary body of static resource
@@ -1257,7 +1306,7 @@ def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeo
         shutil.rmtree(static_resource_dir + "/unpackaged", ignore_errors=True)
         os.remove(static_resource_dir + "/package.zip")
 
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     api = SalesforceApi(settings)
     thread = threading.Thread(target=api.retrieve, 
         args=(soap_bodies.retrieve_static_resources_body, ))
@@ -1280,13 +1329,27 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
         file_base_name =  component_name + extension
         if "success" in result and result["success"]:
             if "symbol_table" in result:
-                # Save symbolTable to component_metadata.sublime-settings
-                s = sublime.load_settings("symbol_table.sublime-settings")
-                components_dict = {}
-                components_dict = s.get(username) if s.has(username) else {}
-                components_dict[component_name.lower()] = result["symbol_table"]
+                symbol_table = result["symbol_table"]
 
-                s.set(username, components_dict)
+                # Get symbolTable from component_metadata.sublime-settings
+                symbol_table_cache = sublime.load_settings("symbol_table.sublime-settings")
+                symboltable_dict = symbol_table_cache.get(username, {})
+
+                # Outer completions 
+                outer = util.parse_symbol_table(symbol_table)
+                symboltable_dict[symbol_table["name"].lower()] = {
+                    "outer" : outer,
+                    "name": symbol_table["name"]
+                }
+
+                # Inner completions
+                inners = {}
+                for inn in symbol_table["innerClasses"]:
+                    inner = util.parse_symbol_table(inn)
+                    inners[inn["name"].lower()] = inner
+                symboltable_dict[symbol_table["name"].lower()]["inners"] = inners
+
+                symbol_table_cache.set(settings["username"], symboltable_dict)
                 sublime.save_settings("symbol_table.sublime-settings")
 
             # Output succeed message in the console
@@ -1316,7 +1379,7 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
                     {"mark":component_id+"error"}), delay_seconds * 1000)
 
     # If saving is in process, just skip
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     username = settings["username"]
     if username + component_name in globals():
         is_thread_alive = globals()[username + component_name]
@@ -1356,12 +1419,12 @@ def handle_create_component(data, component_name, component_type, file_name, tim
 
         # Get the created component id
         component_id = result.get("id")
-        body = toolingapi_settings[component_type]["body"]
-        extension = toolingapi_settings[component_type]["extension"]
+        body = settings[component_type]["body"]
+        extension = settings[component_type]["extension"]
         
         # Save it to component.sublime-settings
         s = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
-        username = toolingapi_settings["username"]
+        username = settings["username"]
         components_dict = s.get(username)
         components_dict[component_type][component_name] = {
             "id": component_id,
@@ -1380,8 +1443,8 @@ def handle_create_component(data, component_name, component_type, file_name, tim
             "{0} is created successfully at {1}".format(file_base_name, 
                 time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))))
                 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     post_url = "/sobjects/" + component_type
     thread = threading.Thread(target=api.post, args=(post_url, data, ))
     thread.start()
@@ -1403,8 +1466,8 @@ def handle_refresh_static_resource(component_attribute, file_name, timeout=120):
         fp = open(file_name, "wb")
         fp.write(bytes(result["body"], "utf-8"))
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     url = component_attribute["url"] + "/body"
     thread = threading.Thread(target=api.retrieve_body, args=(url, ))
     thread.start()
@@ -1431,8 +1494,8 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
 
         fp.write(body)
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     component_body = component_attribute["body"]
     component_url = component_attribute["url"]
     thread = threading.Thread(target=api.get, args=(component_url, ))
@@ -1456,8 +1519,8 @@ def handle_delete_component(component_url, file_name, timeout=120):
             "{0} is deleted successfully at {1}".format(file_name, 
                 time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))))
 
-    toolingapi_settings = context.get_toolingapi_settings()
-    api = SalesforceApi(toolingapi_settings)
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
     thread = threading.Thread(target=api.delete, args=(component_url, ))
     thread.start()
     file_base_name = os.path.basename(file_name)

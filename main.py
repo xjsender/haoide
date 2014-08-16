@@ -16,20 +16,43 @@ from . import util
 from .salesforce import message
 from .salesforce.bulkapi import BulkApi
 
-class QuickVisualforceCommand(sublime_plugin.TextCommand):
-    def run(self, edit):
-        self.quick_snippets = util.get_quick_emmet_snippets()
-        self.snippet_names = sorted(list(self.quick_snippets.keys()))
-        self.view.window().show_quick_panel(self.snippet_names, self.on_done)
+
+class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ReloadSobjectCacheCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        confirm = sublime.ok_cancel_dialog("Are you sure you really want to update sObject cache?")
+        if confirm == False: return
+        processor.handle_initiate_sobjects_completions()
+
+class ReloadSymbolTableCacheCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ReloadSymbolTableCacheCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        confirm = sublime.ok_cancel_dialog("Are you sure you really want to update symbol table cache?")
+        if confirm == False: return
+        processor.handle_reload_symbol_tables()
+
+class ClearCacheCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ClearCacheCommand, self).__init__(*args, **kwargs)
+
+    def run(self, cache_name):
+        self.cache_name = cache_name+".sublime-settings"
+        self.caches = util.get_sobject_caches(self.cache_name)
+        if not self.caches:
+            sublime.message_dialog("No cache already")
+            return
+
+        self.window.show_quick_panel(self.caches, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
-
-        sublime.active_window().run_command("new_dynamic_view", {
-            "view_id": self.view.id(),
-            "point": self.view.sel()[0].begin(),
-            "input": self.quick_snippets[self.snippet_names[index]]
-        })
+        confirm = sublime.ok_cancel_dialog("Are you sure you really want to clear this?")
+        if confirm == False: return
+        util.clear_cache(self.caches[index][1], self.cache_name)
 
 class GenerateSoqlCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -106,7 +129,7 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
         sel = self.view.sel()[0]
         sel_text = self.view.substr(self.view.word(sel.begin()))
         
-        settings = context.get_toolingapi_settings()
+        settings = context.get_settings()
         for component_type in settings["component_types"]:
             folder = settings[component_type]["folder"]
             extension = settings[component_type]["extension"]
@@ -222,7 +245,7 @@ class RefreshClassFolderCommand(sublime_plugin.WindowCommand):
         self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
 
         # Check whether the project is exist in settings
-        self.settings = context.get_toolingapi_settings()
+        self.settings = context.get_settings()
         if self.folder_name not in self.settings: return False
         component_type = self.settings[self.folder_name]
         if component_type != "ApexClass": return False
@@ -246,7 +269,7 @@ class RefreshComponentFolderCommand(sublime_plugin.WindowCommand):
         self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
 
         # Check whether the project is exist in settings
-        self.settings = context.get_toolingapi_settings()
+        self.settings = context.get_settings()
         if self.folder_name not in self.settings: return False
         component_type = self.settings[self.folder_name]
         if component_type != "ApexComponent": return False
@@ -270,7 +293,7 @@ class RefreshPageFolderCommand(sublime_plugin.WindowCommand):
         self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
 
         # Check whether the project is exist in settings
-        self.settings = context.get_toolingapi_settings()
+        self.settings = context.get_settings()
         if self.folder_name not in self.settings: return False
         component_type = self.settings[self.folder_name]
         if component_type != "ApexPage": return False
@@ -294,7 +317,7 @@ class RefreshTriggerFolderCommand(sublime_plugin.WindowCommand):
         self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
 
         # Check whether the project is exist in settings
-        self.settings = context.get_toolingapi_settings()
+        self.settings = context.get_settings()
         if self.folder_name not in self.settings: return False
         component_type = self.settings[self.folder_name]
         if component_type != "ApexTrigger": return False
@@ -318,7 +341,7 @@ class RefreshStaticResourceFolderCommand(sublime_plugin.WindowCommand):
         self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
 
         # Check whether the project is exist in settings
-        self.settings = context.get_toolingapi_settings()
+        self.settings = context.get_settings()
         if self.folder_name not in self.settings: return False
         component_type = self.settings[self.folder_name]
         if component_type != "StaticResource": return False
@@ -353,8 +376,8 @@ class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
         super(ExportValidationRulesCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        toolingapi_settings = context.get_toolingapi_settings()
-        workflow_path = toolingapi_settings["workspace"] + "/metadata/unpackaged/objects"
+        settings = context.get_settings()
+        workflow_path = settings["workspace"] + "/metadata/unpackaged/objects"
         if not os.path.exists(workflow_path):
             sublime.error_message(message.METADATA_CHECK)
             return
@@ -366,8 +389,8 @@ class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
         super(ExportWorkflowsCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        toolingapi_settings = context.get_toolingapi_settings()
-        workspace = toolingapi_settings["workspace"]
+        settings = context.get_settings()
+        workspace = settings["workspace"]
         workflow_path = workspace + "/metadata/unpackaged/workflows"
         if not os.path.exists(workflow_path):
             sublime.error_message(message.METADATA_CHECK)
@@ -380,8 +403,8 @@ class ExportFieldDependencyCommand(sublime_plugin.WindowCommand):
         super(ExportFieldDependencyCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        toolingapi_settings = context.get_toolingapi_settings()
-        workspace = toolingapi_settings["workspace"]
+        settings = context.get_settings()
+        workspace = settings["workspace"]
         workflow_path = workspace + "/metadata/unpackaged/objects"
         if not os.path.exists(workflow_path):
             sublime.error_message(message.METADATA_CHECK)
@@ -709,7 +732,7 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
 
     def run(self, startURL=""):
         # Get toolingapi settings
-        settings = context.get_toolingapi_settings()
+        settings = context.get_settings()
 
         # Combine Login URL
         show_params = {
@@ -877,12 +900,12 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         elif extension == ".cls":
             body = body.replace("class_name", name)
 
-        self.settings = context.get_toolingapi_settings()
+        self.settings = context.get_settings()
         component_type = self.settings[extension]
         component_outputdir = self.settings[component_type]["outputdir"]
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
-            self.settings = context.get_toolingapi_settings()
+            self.settings = context.get_settings()
             context.add_project_to_workspace(self.settings["workspace"])
 
         file_name = "%s/%s" % (component_outputdir, name + extension)
@@ -933,8 +956,8 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         global projects
-        toolingapi_settings = context.get_toolingapi_settings()
-        projects = toolingapi_settings["projects"]
+        settings = context.get_settings()
+        projects = settings["projects"]
         projects = ["(" + ('Active' if projects[p]["default"] else 
             'Inactive') + ") " + p for p in projects]
         projects = sorted(projects, reverse=False)
@@ -956,7 +979,7 @@ class UpdateUserLanguageCommand(sublime_plugin.WindowCommand):
         super(UpdateUserLanguageCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        settings = context.get_toolingapi_settings()
+        settings = context.get_settings()
         self.languages_settings = settings["user_language"]
         self.languages = sorted(self.languages_settings.keys())
         self.window.show_quick_panel(self.languages, self.on_choose)
@@ -974,7 +997,7 @@ class UpdateProjectCommand(sublime_plugin.WindowCommand):
     def run(self):
         confirm = sublime.ok_cancel_dialog("Are you sure you really want to update this project?")
         if confirm == False: return
-        settings = context.get_toolingapi_settings()
+        settings = context.get_settings()
         context.add_project_to_workspace(settings["workspace"])
         processor.handle_new_project(settings, is_update=True)
 
@@ -987,8 +1010,8 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         global projects
-        toolingapi_settings = context.get_toolingapi_settings()
-        projects = toolingapi_settings["projects"]
+        settings = context.get_settings()
+        projects = settings["projects"]
         projects = ["(" + ('Active' if projects[p]["default"] else 
             'Inactive') + ") " + p for p in projects]
         projects = sorted(projects, reverse=False)
@@ -1004,8 +1027,8 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
         # Create Project Directory
         context.make_dir()
 
-        # Get toolingapi_settings
-        settings = context.get_toolingapi_settings()
+        # Get settings
+        settings = context.get_settings()
         context.add_project_to_workspace(settings["workspace"])
 
         # Open Console
@@ -1013,33 +1036,6 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
 
         # Handle Refresh All
         processor.handle_new_project(settings)
-
-class ReloadCacheCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(ReloadCacheCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        confirm = sublime.ok_cancel_dialog("Are you sure you really want to update cache?")
-        if confirm == False: return
-        processor.handle_initiate_sobjects_completions()
-
-class ClearCacheCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(ClearCacheCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        self.caches = util.get_sobject_caches()
-        if not self.caches:
-            sublime.message_dialog("No sobject cache already")
-            return
-
-        self.window.show_quick_panel(self.caches, self.on_done)
-
-    def on_done(self, index):
-        if index == -1: return
-        confirm = sublime.ok_cancel_dialog("Are you sure you really want to clear this?")
-        if confirm == False: return
-        util.clear_cache(self.caches[index][1])
 
 class RefreshComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
@@ -1097,7 +1093,7 @@ def check_enabled(file_name):
     if not file_name: return False
 
     # Get toolingapi settings
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
 
     # Check Component Type
     name, extension = util.get_file_attr(file_name)

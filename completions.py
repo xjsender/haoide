@@ -29,7 +29,7 @@ class ApexCompletions(sublime_plugin.EventListener):
         variable_name = view.substr(view.word(pt-1))
 
         # Get plugin settings
-        settings = context.get_toolingapi_settings()
+        settings = context.get_settings()
 
         # Get sobjects metadata and symbol tables
         metadata, symbol_tables = util.get_sobject_metadata_and_symbol_tables(settings["username"])
@@ -68,6 +68,7 @@ class ApexCompletions(sublime_plugin.EventListener):
 
                     # Add all custom class to keyword completions
                     for key in symbol_tables:
+                        if not symbol_tables[key]: continue
                         class_name = symbol_tables[key]["name"]
                         completion_list.append((class_name + "\tCustom Class", class_name))
 
@@ -161,39 +162,35 @@ class ApexCompletions(sublime_plugin.EventListener):
                     matched_str = view.substr(matched_region[0])
                     namespace, innerclass = matched_str[:matched_str.find(" ")].split(".")
                     if namespace.lower() in symbol_tables:
-                        inners = symbol_tables[namespace.lower()]
-                        innerclasses = {}
-                        for e in inners["innerClasses"]:
-                            if e["name"] == innerclass:
-                                innerclasses = {
-                                    e["name"].lower() : e
-                                }
+                        inners = symbol_tables[namespace.lower()]["inners"]
+                        if innerclass.lower() in inners:
+                            for key in inners[innerclass.lower()]:
+                                completion_list.append((key, inners[innerclass.lower()][key]))
 
-                        if innerclass.lower() in innerclasses:
-                            completion_list = util.get_symbol_table_completions(innerclasses[innerclass.lower()])
+                # Not inner class completion
                 else:
-                    # Get the property
                     if variable_name.lower() in symbol_tables:
-                        symbol_table = symbol_tables[variable_name.lower()]
+                        outer = symbol_tables[variable_name.lower()]["outer"]
                     elif variable_type.lower() in symbol_tables:
-                        symbol_table = symbol_tables[variable_type.lower()]
+                        outer = symbol_tables[variable_type.lower()]["outer"]
                     else:
-                        symbol_table = None
+                        outer = None
 
-                    # Call Inner Class from different class
-                    if symbol_table:
-                        completion_list = util.get_symbol_table_completions(symbol_table)
+                    # Call Custom Class from different class
+                    if outer:
+                        for key in sorted(outer):
+                            completion_list.append((key, outer[key]))
+
                     # Call Inner Class in the same class
                     elif view.file_name():
                         namespace, extension = util.get_file_attr(view.file_name())
                         if namespace and namespace.lower() in symbol_tables:
-                            inners = symbol_tables[namespace.lower()]
-                            innerclasses = {}
-                            for e in inners["innerClasses"]:
-                                innerclasses[e["name"].lower()] = e
+                            inners = symbol_tables[namespace.lower()]["inners"]
 
-                            if variable_type.lower() in innerclasses:
-                                completion_list = util.get_symbol_table_completions(innerclasses[variable_type.lower()])
+                            if variable_type.lower() in inners:
+                                inner = inners[variable_type.lower()]
+                                for key in sorted(inner):
+                                    completion_list.append((key, inner[key]))
 
         elif ch == "=":
             if not settings["disable_picklist_value_completion"]:

@@ -16,7 +16,7 @@ class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
         confirm = sublime.ok_cancel_dialog(message)
         if not confirm: return
 
-        settings = context.get_toolingapi_settings()
+        settings = context.get_settings()
         self.rd = ReloadDocument(settings["docs"])
         thread = threading.Thread(target=self.rd.reload_document)
         thread.start()

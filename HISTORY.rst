@@ -5,6 +5,16 @@ Release History
 ---------------
 
 
+Release 0.7.3 (2014-08-16)
+++++++++++++++++++
+- Add MIT-LICENSE
+- Remove ``quick visualforce`` functionality
+- Rename method name ``get_toolingapi_settings`` in context.py to ``get_settings`` and update corresponding invoker
+- Add two new commands: ``Reload SymbolTable Cache`` and ``Clear SymolTable Cache``
+- When creating new project, not only download ``Apex Code`` and ``sObject Cache`` but also ``SymbolTable Cache``
+- when class number is more than 400, original symbol table cache structure is stupid and highly reduce the user experience of symbol table completion, in order to speedup symbol table completion, when saving the symbol table cache, store them as the completion format in the cache.
+
+
 Release 0.7.2 (2014-08-15)
 ++++++++++++++++++
 - Rename ``Toggle Log Panel`` menu item to ``Open Output Panel``

@@ -68,14 +68,30 @@
                 "caption": "Cache",
                 "children": [
                     {
-                        "id": "reloadcache",
-                        "caption": "Reload Cache",
-                        "command": "reload_cache"
+                        "id": "reloadsymboltablecache",
+                        "caption": "Reload SymbolTable Cache",
+                        "command": "reload_symbol_table_cache"
                     },
                     {
-                        "id": "clearcache",
-                        "caption": "Clear Cache",
-                        "command": "clear_cache"
+                        "id": "reloadsobjectcache",
+                        "caption": "Reload Sobject Cache",
+                        "command": "reload_sobject_cache"
+                    },
+                    {
+                        "id": "clearsymboltablecache",
+                        "caption": "Clear SymbolTable Cache",
+                        "command": "clear_cache",
+                        "args": {
+                            "cache_name": "symbol_table"
+                        }
+                    },
+                    {
+                        "id": "clearsobjectcache",
+                        "caption": "Clear Sobject Cache",
+                        "command": "clear_cache",
+                        "args": {
+                            "cache_name": "sobjects_completion"
+                        }
                     }
                 ]
             },

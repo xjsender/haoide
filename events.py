@@ -34,24 +34,24 @@ class SFDCEventListener(sublime_plugin.EventListener):
         Every time when you modified the context, just hide the console, 
         you can close it in sublime settings
         """
-        toolingapi_settings = context.get_toolingapi_settings() 
+        settings = context.get_settings() 
 
         # If it is not SFDC Component, just return
         if not view.file_name(): return
         name, extension = util.get_file_attr(view.file_name())
-        if extension not in toolingapi_settings["component_extensions"]: return
+        if extension not in settings["component_extensions"]: return
 
-        if toolingapi_settings["hidden_console_on_modify"]: util.hide_panel()
+        if settings["hidden_console_on_modify"]: util.hide_panel()
 
     def on_pre_save_async(self, view):
         """
         Every time when you save your ApexPage, ApexTrigger, ApexClass, ApexComponent, 
         this class will make a copy with the time_stamp in the history path of current project
         """
-        toolingapi_settings = context.get_toolingapi_settings()
+        settings = context.get_settings()
 
         # Check whether need to keep history
-        if not toolingapi_settings["keep_local_change_history"]: return
+        if not settings["keep_local_change_history"]: return
 
         # Get current file name and Read file content
         file_name = view.file_name()
@@ -63,11 +63,11 @@ class SFDCEventListener(sublime_plugin.EventListener):
 
         # If this file is not ApexTrigger, ApexComponent, 
         # ApexPage or ApexClass, just return
-        if extension not in toolingapi_settings["component_extensions"]: return
+        if extension not in settings["component_extensions"]: return
 
         # Get Workspace, if not exist, make it
-        folder = toolingapi_settings[toolingapi_settings[extension]]["folder"]
-        workspace = toolingapi_settings["workspace"] + "/history/" + folder
+        folder = settings[settings[extension]]["folder"]
+        workspace = settings["workspace"] + "/history/" + folder
         if not os.path.exists(workspace):
             os.makedirs(workspace)
 

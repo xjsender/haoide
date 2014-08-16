@@ -8,7 +8,7 @@ from .salesforce import message
 COMPONENT_METADATA_SETTINGS = "component_metadata.sublime-settings"
 TOOLING_API_SETTINGS = "toolingapi.sublime-settings"
 
-def get_toolingapi_settings():
+def get_settings():
     """ Load all settings in toolingapi.sublime-settings
 
     @return: dict that contains all settings
@@ -179,14 +179,14 @@ def make_dir():
 
     # Create Components Directory
     # I.E. d:/Tooling API/pro-exercise-20130416/ApexClass
-    component_outputdirs = get_toolingapi_settings()["component_outputdirs"]
+    component_outputdirs = get_settings()["component_outputdirs"]
     for component_outputdir in component_outputdirs:
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
 
 def display_active_project(view):
-    toolingapi_settings = get_toolingapi_settings()
-    display_message = "Default Project => " + toolingapi_settings["default_project_name"]
+    settings = get_settings()
+    display_message = "Default Project => " + settings["default_project_name"]
     view.set_status('default_project', display_message)
 
 def switch_project(chosen_project):

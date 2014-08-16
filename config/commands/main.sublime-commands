@@ -45,10 +45,6 @@
         "command": "reload_salesforce_document"
     },
     {
-        "caption": "SublimeApex: Quick Visualforce",
-        "command": "quick_visualforce"
-    },
-    {
         "caption": "SublimeApex: Save Component",
         "command": "save_component"
     },
@@ -113,13 +109,29 @@
     },
 
     {
-        "caption": "SublimeApex: Reload Cache",
-        "command": "reload_cache"
+        "caption": "SublimeApex: Reload Sobject Cache",
+        "command": "reload_sobject_cache"
     },
 
     {
-        "caption": "SublimeApex: Clear Cache",
-        "command": "clear_cache"
+        "caption": "SublimeApex: Reload SymbolTable Cache",
+        "command": "reload_symbol_table_cache"
+    },
+
+    {
+        "caption": "SublimeApex: Clear Sobject Cache",
+        "command": "clear_sobject_cache",
+        "args": {
+            "cache_name": "sobjects_completion"
+        }
+    },
+
+    {
+        "caption": "SublimeApex: Clear SymbolTable Cache",
+        "command": "clear_symbol_table_cache",
+        "args": {
+            "cache_name": "symbol_table"
+        }
     },
 
     {

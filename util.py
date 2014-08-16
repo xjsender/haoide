@@ -19,20 +19,16 @@ from . import context
 from xml.sax.saxutils import unescape
 
 
-def get_quick_emmet_snippets():
-    emmets = sublime.load_settings("emmet.sublime-settings")
-    return emmets.get("snippets", {})
-
-def get_sobject_caches():
-    """ Return the sobject local cache of default project
+def get_sobject_caches(setting_name):
+    """ Return the specified local cache of default project
 
     Return:
 
     * caches -- sobject local cache in default project
     """
-    config_settings = context.get_toolingapi_settings()
+    config_settings = context.get_settings()
     projects = config_settings["projects"]
-    settings = sublime.load_settings("sobjects_completion.sublime-settings")
+    settings = sublime.load_settings(setting_name)
 
     caches = []
     for p in projects:
@@ -41,16 +37,16 @@ def get_sobject_caches():
 
     return caches
 
-def clear_cache(username):
-    """ Clear the sobject local cache of specified project
+def clear_cache(username, setting_name):
+    """ Clear the specified local cache of default project
 
     Arguments:
 
     * username -- the login username of default project
     """
-    settings = sublime.load_settings("sobjects_completion.sublime-settings")
+    settings = sublime.load_settings(setting_name)
     settings = settings.erase(username)
-    sublime.save_settings("sobjects_completion.sublime-settings")
+    sublime.save_settings(setting_name)
     sublime.status_message(username + " cache is cleared")
 
 def get_sobject_metadata_and_symbol_tables(username):
@@ -113,7 +109,7 @@ def open_with_browser(show_url, use_default_chrome=True):
 
     * use_default_browser -- optional; if true, use chrome configed in settings to open it
     """
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     browser_path = settings["default_chrome_path"]
     if not use_default_chrome or not os.path.exists(browser_path):
         webbrowser.open_new_tab(show_url)
@@ -187,8 +183,7 @@ def show_output_panel(message, toggle=False):
     panel.set_syntax_file('Packages/Java/Java.tmLanguage')
     reminder_message = """You can open the output panel by below ways:
     1. Click SublimeApex > Debug > Open Log Panel in the main menu
-    2. Press Command + ` in OSX
-    3. Press Alt + ` in Windows
+    2. Press Alt + ` in Windows
     """
     panel.run_command('append', {'characters': reminder_message})
     panel.run_command('append', {'characters': message})
@@ -410,6 +405,81 @@ def get_symbol_table_completions(symbol_table):
                 completions.append(("Inner Class " + c["name"] + "\t", c["name"] + "$1"))
     return sorted(completions)
 
+def parse_symbol_table(symbol_table):
+    """Parse the symbol_table to completion (Copied From MavensMate)
+
+    Arguments:
+
+    * symbol_table -- ApexClass Symbol Table
+    """
+    completions = {}
+    if 'constructors' in symbol_table:
+        for c in symbol_table['constructors']:
+            params = []
+            visibility = c["visibility"].capitalize() if "visibility" in c else "Public"
+
+            if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
+                for p in c['parameters']:
+                    params.append(p["type"].capitalize() + " " + p["name"])
+                paramStrings = []
+                for i, p in enumerate(params):
+                    paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
+                paramString = ", ".join(paramStrings)
+                completions[visibility+" "+c["name"]+"("+", ".join(params)+")"] =\
+                    c["name"]+"("+paramString+")"
+            else:
+                completions[visibility+" "+c["name"]+"()"] = c["name"]+"()${1:}"
+
+    if 'properties' in symbol_table:
+        for c in symbol_table['properties']:
+            visibility = c["visibility"].capitalize() if "visibility" in c else "Public"
+            property_type = c["type"].capitalize() if "type" in c and c["type"] else ""
+            completions[visibility+" "+c["name"]+"\t"+property_type] = c["name"]
+
+    if 'methods' in symbol_table:
+        for c in symbol_table['methods']:
+            params = []
+            visibility = c["visibility"].capitalize() if "visibility" in c else "Public"
+            if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
+                for p in c['parameters']:
+                    params.append(p["type"]+" "+p["name"])
+            if len(params) == 1:
+                completions[visibility+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
+                    c["name"]+"(${1:"+", ".join(params)+"})"
+            elif len(params) > 1:
+                paramStrings = []
+                for i, p in enumerate(params):
+                    paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
+                paramString = ", ".join(paramStrings)
+                completions[visibility+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
+                    c["name"]+"("+paramString+")"
+            else:
+                completions[visibility+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
+                    c["name"]+"()${1:}"
+
+    if 'innerClasses' in symbol_table:
+        for c in symbol_table["innerClasses"]:
+            if 'constructors' in c and len(c['constructors']) > 0:
+                for con in c['constructors']:
+                    visibility = con["visibility"].capitalize() if "visibility" in con else "Public"
+                    params = []
+                    if 'parameters' in con and type(con['parameters']) is list and len(con['parameters']) > 0:
+                        for p in con['parameters']:
+                            params.append(p["type"].capitalize()+" "+p["name"])
+                        paramStrings = []
+                        for i, p in enumerate(params):
+                            paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
+                        paramString = ", ".join(paramStrings)
+                        completions[visibility+" "+con["name"]+"("+", ".join(params)+")"] =\
+                            c["name"]+"("+paramString+")"
+                    else:
+                        completions[visibility+" "+con["name"]+"()"] =\
+                            c["name"]+"()${1:}"
+            else:
+                completions["Inner Class "+c["name"]+"\t"] = c["name"]+"$1"
+
+    return completions
+
 def add_operation_history(operation, history_content):
     """Keep the history in the local history
 
@@ -418,7 +488,7 @@ def add_operation_history(operation, history_content):
     * operation -- the operation source
     * history_content -- the content needed to keep
     """
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     if not settings["keep_operation_history"]: return
 
     splits = operation.split("/")
@@ -444,7 +514,7 @@ def check_new_component_enabled():
 
     * * -- whether project in current date is exist
     """
-    settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
     return os.path.exists(settings["workspace"])
     
 def check_workspace_available(settings=None):
@@ -454,7 +524,7 @@ def check_workspace_available(settings=None):
 
     * settings -- settings of this plugin
     """
-    if not settings: settings = context.get_toolingapi_settings()
+    if not settings: settings = context.get_settings()
     if not os.path.exists(settings["workspace"]):
         sublime.active_window().run_command('create_new_project', {
             "switch_project": False
@@ -556,7 +626,7 @@ def extract_zip(base64String, outputdir):
     # Close zipFile opener
     f.close()
 
-def format_debug_logs(toolingapi_settings, records):
+def format_debug_logs(settings, records):
     if len(records) == 0: return "No available logs."
 
     # Used to list debug logs as below format
@@ -848,27 +918,27 @@ def parse_test_result(test_result):
 
     return return_result
 
-def parse_validation_rule(toolingapi_settings, sobjects):
+def parse_validation_rule(settings, sobjects):
     """ Parse the validation rule in Sobject.object to csv
 
-    * toolingapi_settings -- toolingapi.sublime-settings reference
+    * settings -- toolingapi.sublime-settings reference
     * sobject -- sobject name
     * validation_rule_path -- downloaded objects path by Force.com IDE or ANT
     """
 
     # Open target file
-    outputdir = toolingapi_settings["workspace"] + "/validation"
+    outputdir = settings["workspace"] + "/validation"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
     # Initiate CSV Writer and Write headers
-    columns = toolingapi_settings["validation_rule_columns"]
+    columns = settings["validation_rule_columns"]
     with open(outputdir + "/Validation Rules.csv", "wb") as fp:
         fp.write(u'\ufeff'.encode('utf8')) # Write BOM Header
         fp.write(",".join(columns).encode("utf-8") + b"\n") # Write Header
 
     # Open workflow source file
-    validation_rule_path = toolingapi_settings["workspace"] + "/metadata/unpackaged/objects"
+    validation_rule_path = settings["workspace"] + "/metadata/unpackaged/objects"
     for sobject in sobjects:
         try:
             with open(validation_rule_path + "/" + sobject + ".object", "rb") as f:
@@ -888,15 +958,15 @@ def parse_validation_rule(toolingapi_settings, sobjects):
             # If one sobject doesn't have vr, We don't need do anything
             pass
 
-def parse_workflow_metadata(toolingapi_settings, sobjects):
+def parse_workflow_metadata(settings, sobjects):
     """Parse Sobject.workflow to csv, including rule, field update and alerts
 
-    * toolingapi_settings -- toolingapi.sublime-settings reference
+    * settings -- toolingapi.sublime-settings reference
     * sobject -- sobject name
     * workflow_metadata_path -- downloaded workflow path by Force.com IDE or ANT
     """
     # Create workflow dir
-    outputdir = toolingapi_settings["workspace"] + "/workflow"
+    outputdir = settings["workspace"] + "/workflow"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -926,7 +996,7 @@ def parse_workflow_metadata(toolingapi_settings, sobjects):
     for config in workflow_config:
         setting_name = workflow_config[config]["setting_name"]
         file_name = workflow_config[config]["file_name"]
-        columns = toolingapi_settings[setting_name]
+        columns = settings[setting_name]
         rule_outputdir = outputdir + "/%s.csv" % file_name
 
         # If file is exist, just remove it
@@ -939,7 +1009,7 @@ def parse_workflow_metadata(toolingapi_settings, sobjects):
             fp.write(",".join(columns).encode("utf-8") + b"\n") # Write Header
 
         # Append Body
-        rule_path = toolingapi_settings["workspace"] + "/metadata/unpackaged/workflows"
+        rule_path = settings["workspace"] + "/metadata/unpackaged/workflows"
         for sobject in sobjects:
             try:
                 with open(rule_path + "/" + sobject + ".workflow", "rb") as f:
@@ -1479,17 +1549,17 @@ def get_component_attribute(file_name):
     }
     """
     # Get toolingapi settings
-    toolingapi_settings = context.get_toolingapi_settings()
+    settings = context.get_settings()
 
     # Get component type
     name, extension = get_file_attr(file_name)
 
     # If extension is None, just return
-    if not extension or extension not in toolingapi_settings["component_extensions"]:
+    if not extension or extension not in settings["component_extensions"]:
         return
 
-    component_type = toolingapi_settings[extension]
-    username = toolingapi_settings["username"]
+    component_type = settings[extension]
+    username = settings["username"]
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
 
     try:
