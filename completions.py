@@ -156,41 +156,44 @@ class ApexCompletions(sublime_plugin.EventListener):
                     for key in sorted(properties.keys()): 
                         completion_list.append((key if "\t" in key else (key + "\tProperty"), properties[key]))
             else:
-                # Check whether inner class property completion
-                matched_region = view.find_all("[a-zA-Z_1-9]+\\.[a-zA-Z_1-9]+\\s+%s[,;\\s:=){]" % variable_name)
-                if matched_region:
-                    matched_str = view.substr(matched_region[0])
-                    namespace, innerclass = matched_str[:matched_str.find(" ")].split(".")
-                    if namespace.lower() in symbol_tables:
-                        inners = symbol_tables[namespace.lower()]["inners"]
-                        if innerclass.lower() in inners:
-                            for key in inners[innerclass.lower()]:
-                                completion_list.append((key, inners[innerclass.lower()][key]))
-
-                # Not inner class completion
-                else:
-                    if variable_name.lower() in symbol_tables:
-                        outer = symbol_tables[variable_name.lower()]["outer"]
-                    elif variable_type.lower() in symbol_tables:
-                        outer = symbol_tables[variable_type.lower()]["outer"]
-                    else:
-                        outer = None
-
-                    # Call Custom Class from different class
-                    if outer:
-                        for key in sorted(outer):
-                            completion_list.append((key, outer[key]))
-
-                    # Call Inner Class in the same class
-                    elif view.file_name():
-                        namespace, extension = util.get_file_attr(view.file_name())
-                        if namespace and namespace.lower() in symbol_tables:
+                try:
+                    # Check whether inner class property completion
+                    matched_region = view.find_all("[a-zA-Z_1-9]+\\.[a-zA-Z_1-9]+\\s+%s[,;\\s:=){]" % variable_name)
+                    if matched_region:
+                        matched_str = view.substr(matched_region[0])
+                        namespace, innerclass = matched_str[:matched_str.find(" ")].split(".")
+                        if namespace.lower() in symbol_tables:
                             inners = symbol_tables[namespace.lower()]["inners"]
+                            if innerclass.lower() in inners:
+                                for key in inners[innerclass.lower()]:
+                                    completion_list.append((key, inners[innerclass.lower()][key]))
 
-                            if variable_type.lower() in inners:
-                                inner = inners[variable_type.lower()]
-                                for key in sorted(inner):
-                                    completion_list.append((key, inner[key]))
+                    # Not inner class completion
+                    else:
+                        if variable_name.lower() in symbol_tables:
+                            outer = symbol_tables[variable_name.lower()]["outer"]
+                        elif variable_type.lower() in symbol_tables:
+                            outer = symbol_tables[variable_type.lower()]["outer"]
+                        else:
+                            outer = None
+
+                        # Call Custom Class from different class
+                        if outer:
+                            for key in sorted(outer):
+                                completion_list.append((key, outer[key]))
+
+                        # Call Inner Class in the same class
+                        elif view.file_name():
+                            namespace, extension = util.get_file_attr(view.file_name())
+                            if namespace and namespace.lower() in symbol_tables:
+                                inners = symbol_tables[namespace.lower()]["inners"]
+
+                                if variable_type.lower() in inners:
+                                    inner = inners[variable_type.lower()]
+                                    for key in sorted(inner):
+                                        completion_list.append((key, inner[key]))
+                except KeyError as ke:
+                    pass
 
         elif ch == "=":
             if not settings["disable_picklist_value_completion"]:

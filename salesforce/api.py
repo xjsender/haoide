@@ -157,6 +157,8 @@ class SalesforceApi():
         self.login()
 
         url = self.parse_url(component_url)
+        headers = self.headers.copy()
+        headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
         response = requests.get(url, data=None, verify=False, 
             proxies=self.proxies, headers=self.headers, timeout=timeout)
 

@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 0.7.4 (2014-08-17)
+++++++++++++++++++
+- Inner Class Completion format
+- Add compress header for ``get`` method in api.py
+- Fix ``Reload Sobject Cache`` bug caused by release 0.7.3
+- Fix Symbol Table completions bug caused by Legacy Symbol Table Cache
+
 
 Release 0.7.3 (2014-08-16)
 ++++++++++++++++++
@@ -20,7 +27,7 @@ Release 0.7.2 (2014-08-15)
 - Rename ``Toggle Log Panel`` menu item to ``Open Output Panel``
 - Update README.MD 
 - Add ``Preview Page`` command to preview visualforce page in server, just enabled when opening page
-- Update About formate
+- Update About format
 
 
 Release 0.7.1 (2014-08-12)

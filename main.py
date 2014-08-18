@@ -24,7 +24,7 @@ class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
     def run(self):
         confirm = sublime.ok_cancel_dialog("Are you sure you really want to update sObject cache?")
         if confirm == False: return
-        processor.handle_initiate_sobjects_completions()
+        processor.handle_reload_sobjects_completions()
 
 class ReloadSymbolTableCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
