@@ -1328,6 +1328,23 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
         extension = component_attribute["extension"]
         file_base_name =  component_name + extension
         if "success" in result and result["success"]:
+            # 1. Write succeed body to local change history
+            if settings["keep_local_change_history"]:
+                # Get current file name and Read file content
+                view = sublime.active_window().active_view()
+
+                # Get Workspace, if not exist, make it
+                workspace = settings["workspace"]+"/.history/"+component_attribute["type"]
+                if not os.path.exists(workspace):
+                    os.makedirs(workspace)
+
+                # Backup current file
+                time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
+                outputdir = workspace+"/"+component_name+"-"+time_stamp+extension
+                with open(outputdir, "wb") as fp:
+                    fp.write(body.encode("utf-8"))
+
+            # 2. Write symbol table to local cache
             if "symbol_table" in result:
                 symbol_table = result["symbol_table"]
 

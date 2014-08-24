@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+Release 0.7.5 (2014-08-24)
+++++++++++++++++++
+- Add snippet ``Class Body - Get Child Roles By Role``
+- ``Local Change History`` functionality is removed from events.py, just if ``save to server`` is succeed, the local change history will be kept
+
+
 Release 0.7.4 (2014-08-17)
 ++++++++++++++++++
 - Inner Class Completion format

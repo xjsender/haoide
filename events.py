@@ -42,38 +42,3 @@ class SFDCEventListener(sublime_plugin.EventListener):
         if extension not in settings["component_extensions"]: return
 
         if settings["hidden_console_on_modify"]: util.hide_panel()
-
-    def on_pre_save_async(self, view):
-        """
-        Every time when you save your ApexPage, ApexTrigger, ApexClass, ApexComponent, 
-        this class will make a copy with the time_stamp in the history path of current project
-        """
-        settings = context.get_settings()
-
-        # Check whether need to keep history
-        if not settings["keep_local_change_history"]: return
-
-        # Get current file name and Read file content
-        file_name = view.file_name()
-        if not os.path.isfile(file_name): return
-        body = open(file_name, "rb").read()
-
-        # Get component_name amd component_type
-        name, extension = util.get_file_attr(file_name)
-
-        # If this file is not ApexTrigger, ApexComponent, 
-        # ApexPage or ApexClass, just return
-        if extension not in settings["component_extensions"]: return
-
-        # Get Workspace, if not exist, make it
-        folder = settings[settings[extension]]["folder"]
-        workspace = settings["workspace"] + "/history/" + folder
-        if not os.path.exists(workspace):
-            os.makedirs(workspace)
-
-        # Backup current file
-        time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
-        fp = open(workspace + "/" + name + "-" + time_stamp + extension, "wb")
-
-        fp.write(body)
-        fp.close()

@@ -476,7 +476,7 @@ def parse_symbol_table(symbol_table):
                         completions[visibility+" "+con["name"]+"()"] =\
                             c["name"]+"()${1:}"
             else:
-                completions[c["name"]+"\t"+"Inner Class"] = c["name"]+"$1"
+                completions["Inner Class"+c["name"]+"\t"+"Inner Class"] = c["name"]+"$1"
 
     return completions
 
