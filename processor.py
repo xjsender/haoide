@@ -818,6 +818,20 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         result = api.result
         if "list" in result: result = result["list"]
         if "str"  in result: result = result["str"]
+
+        # If response result is just like '"{\\"name\\":\\"test\\"}"'
+        # we will remove the \\ and convert it to json automatically
+        try:
+            if "\\" in result:
+                result = result.replace("\\", "")
+                result = result[1:-1]
+                result = json.loads(result)
+        except:
+            pass
+
+        # Remove the useless status_code attribute
+        if isinstance(result, dict) and "status_code" in result:
+            del result["status_code"]
         
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
@@ -826,6 +840,9 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
             "name": "Execute Rest %s Result" % operation,
             "input": pprint.pformat(result)
         })
+
+        # If you have installed the htmljs plugin, below statement will work
+        view.run_command("htmlprettify")
 
     settings = context.get_settings()
     api = SalesforceApi(settings)

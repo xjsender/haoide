@@ -422,6 +422,12 @@
             { "caption": "-" },
 
             {
+                "id": "reportissue",
+                "caption": "Report Issue",
+                "command": "report_issue"
+            },
+
+            {
                 "id": "about",
                 "caption": "About",
                 "command": "about"

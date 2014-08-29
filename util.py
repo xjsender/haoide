@@ -501,9 +501,8 @@ def add_operation_history(operation, history_content):
         os.makedirs(outputdir)
 
     time_stamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-    seprate = "\n" + 79 * "-" + "\n"
-    history = time_stamp + seprate + history_content + "\n" * 2
-    fp = open(outputdir + "/%s.txt" % operation, "ab")
+    history = "%s\n```java\n%s\n\n```" % (time_stamp, history_content)
+    fp = open(outputdir + "/%s.md" % operation, "ab")
     fp.write(history.encode("utf-8"))
     fp.close()
 

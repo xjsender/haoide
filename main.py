@@ -121,7 +121,7 @@ class ExecuteRestTestCommand(sublime_plugin.TextCommand):
 
 class GotoComponentCommand(sublime_plugin.TextCommand):
     """
-    Move the cursor to the class name, press shift key and left mouse, 
+    Move the cursor to the class name, press shift key and double click left mouse, 
     the class file will be open, you can custom the bind key in mousemap path
     """
 
@@ -749,7 +749,6 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
         show_url = settings["login_url"] + '?%s' % show_params
         util.open_with_browser(show_url)
 
-#shows mavensmate info modal
 class AboutCommand(sublime_plugin.ApplicationCommand):
     def run(command):
         package_info = sublime.load_settings("package.sublime-settings")
@@ -761,6 +760,11 @@ class AboutCommand(sublime_plugin.ApplicationCommand):
             package_info.get("version")
         )
         sublime.message_dialog(version_info)
+
+class ReportIssueCommand(sublime_plugin.ApplicationCommand):
+    def run(command):
+        show_url = "https://github.com/xjsender/SublimeApex/issues"
+        util.open_with_browser(show_url)
 
 class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

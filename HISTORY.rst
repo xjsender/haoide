@@ -4,10 +4,19 @@ Release History
 
 ---------------
 
+
+Release 0.7.6 (2014-08-29)
+++++++++++++++++++
++ Deep process for result of ``Execute Rest`` if result is json string
++ Change Operation History Format
++ Add ``report_issue`` command
+
+
 Release 0.7.5 (2014-08-24)
 ++++++++++++++++++
 - Add snippet ``Class Body - Get Child Roles By Role``
 - ``Local Change History`` functionality is removed from events.py, just if ``save to server`` is succeed, the local change history will be kept
+- Inner class completion format ``Inner Class <Class Name>``
 
 
 Release 0.7.4 (2014-08-17)
