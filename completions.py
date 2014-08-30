@@ -67,14 +67,9 @@ class ApexCompletions(sublime_plugin.EventListener):
                             class_attr["name"]))
 
                     # Add all custom class to keyword completions
-                    component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
-                    if component_settings.has(settings["username"]):
-                        component_attrs = component_settings.get(settings["username"])
-                        if "ApexClass" in component_attrs:
-                            classes_attr = component_attrs["ApexClass"]
-                            for name in classes_attr:
-                                class_name = classes_attr[name]["name"]
-                                completion_list.append((class_name + "\tCustom Class", class_name))
+                    apex_class_completion = util.get_component_completion(settings["username"], "ApexClass")
+                    if apex_class_completion: 
+                        completion_list.extend(apex_class_completion)
 
                     return completion_list
 
@@ -92,6 +87,10 @@ class ApexCompletions(sublime_plugin.EventListener):
                     completion_list = util.get_sobject_completion_list(sobject_describe)
 
         elif ch == ".":
+            # Input Page., list all custom ApexPages
+            if variable_name.lower() == 'page': 
+                return util.get_component_completion(settings["username"], "ApexPage")
+
             # Get the variable type by variable name
             pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+%s[,;\\s:=){]" % variable_name
             variable_type = util.get_variable_type(view, pt, pattern)
@@ -267,6 +266,11 @@ class PageCompletions(sublime_plugin.EventListener):
         elif ch == ":":
             # Just Visualforce Component contains :
             matched_tag_prefix = view.substr(view.word(pt))
+
+            # If tag prefix 'c', list all custom components
+            if matched_tag_prefix == "c":
+                username = context.get_settings().get("username")
+                return util.get_component_completion(username, "ApexComponent")
 
             # Combine components
             tag_names = {}

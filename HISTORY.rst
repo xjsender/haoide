@@ -9,6 +9,8 @@ Release 0.7.7 (2014-08-30)
 ++++++++++++++++++
 + In order to avoid component is not available to CRUD to server because of Sensitive Case, save the component name with lower case into local cache
 + Read custom class from ``Component Attribute Cache`` but not read them from ``Symbol Table Cache``
++ After input ``Page.``, list all custom visualforce page if have
++ After input ``<c:``, list all custom components if have
 
 
 Release 0.7.6 (2014-08-29)

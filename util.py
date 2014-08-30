@@ -102,6 +102,25 @@ def get_sobject_completion_list(sobject_describe, prefix="", display_child_relat
 
     return completion_list
 
+def get_component_completion(username, component_type):
+    """ Return the formatted completion list of component
+
+    Return:
+    * completion_list -- all apex component completion list
+    """
+
+    completion_list = []
+    component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
+    if component_settings.has(username):
+        component_attrs = component_settings.get(username)
+        if component_type in component_attrs:
+            components = component_attrs[component_type]
+            for name in components:
+                component_name = components[name]["name"]
+                completion_list.append((component_name+"\t"+component_type, component_name))
+    
+    return completion_list
+
 def open_with_browser(show_url, use_default_chrome=True):
     """ Utility for open file in browser
 
@@ -109,6 +128,7 @@ def open_with_browser(show_url, use_default_chrome=True):
 
     * use_default_browser -- optional; if true, use chrome configed in settings to open it
     """
+
     settings = context.get_settings()
     browser_path = settings["default_chrome_path"]
     if not use_default_chrome or not os.path.exists(browser_path):
