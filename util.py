@@ -1394,7 +1394,9 @@ def parse_sobject_field_result(result):
     for record in fields:
         row = ""
         for key in record_keys:
-            row_value = "Formula(%s)" % record.get(key) if key == "type" and record["calculatedFormula"] else record.get(key)
+            row_value = "Formula(%s)" % record.get(key) if key == "type" \
+                and record["calculatedFormula"] else record.get(key)
+                
             if not row_value:
                 row_value = ""
 

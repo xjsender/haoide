@@ -487,21 +487,38 @@ def handle_reload_sobjects_completions(timeout=120):
                 scale = f["scale"]
                 field_type = f["type"]
 
-                field_desc_dict = {
-                    "double": "Double(%s, %s)" % (precision, scale),
-                    "currency": "Currency(%s, %s)" % (precision, scale),
-                    "date": "Date",
-                    "datetime": "Datetime",
-                    "boolean": "Boolean",
-                    "reference": "Reference"
-                }
+                if f["calculatedFormula"]:
+                    capitalize_field = field_type.capitalize()
+                    field_desc_dict = {
+                        "double": "Formula(%s, %s, %s)" % (capitalize_field, precision, scale),
+                        "currency": "Formula(%s, %s, %s)" % (capitalize_field, precision, scale),
+                        "date": "Formula(Date)",
+                        "datetime": "Formula(Datetime)",
+                        "boolean": "Formula(Boolean)",
+                        "int": "Formula(Integer)",
+                        "reference": "Reference",
+                        "other": "Formula(%s, %s)" % (capitalize_field, f["length"])
+                    }
+                else:
+                    field_desc_dict = {
+                        "double": "Double(%s, %s)" % (precision, scale),
+                        "currency": "Currency(%s, %s)" % (precision, scale),
+                        "date": "Date",
+                        "datetime": "Datetime",
+                        "boolean": "Boolean",
+                        "reference": "Reference",
+                        "int": "Integer",
+                        "other": "%s(%s)" % (field_type.capitalize(), f["length"])
+                    }
 
+                # If display_field_name_and_label setting is true, 
+                # display both field name and field label
                 field_name_desc = "%s(%s)" % (field_name, f["label"]) \
                     if display_field_name_and_label else field_name
-                if field_type in field_desc_dict:
-                    field_type_desc = field_desc_dict[field_type]
-                else:
-                    field_type_desc = "%s(%s)" % (field_type.capitalize(), f["length"])
+
+                # Display field type with specified format
+                field_type_desc = field_desc_dict[field_type] if field_type \
+                    in field_desc_dict else field_desc_dict["other"]
 
                 fd = "%s\t%s" % (field_name_desc, field_type_desc)
                 fields_dict[fd] = field_name
@@ -565,7 +582,7 @@ def handle_reload_sobjects_completions(timeout=120):
         sublime.save_settings("sobjects_completion.sublime-settings")
 
         # Output message
-        print (message.SEPRATE.format('Sobjects completions local history are initiated.'))
+        print (message.SEPRATE.format('sObject Describe Result are Kept to Local Cache'))
 
     def handle_thread(api, thread, timeout=120):
         if thread.is_alive():

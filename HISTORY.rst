@@ -11,6 +11,7 @@ Release 0.7.7 (2014-08-30)
 + Read custom class from ``Component Attribute Cache`` but not read them from ``Symbol Table Cache``
 + After input ``Page.``, list all custom visualforce page if have
 + After input ``<c:``, list all custom components if have
++ If field is formula, field completion format is ``CalculateField__c\tFormula(Decimal, 18, 0)``
 
 
 Release 0.7.6 (2014-08-29)
