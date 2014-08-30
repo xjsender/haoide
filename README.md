@@ -4,6 +4,14 @@ This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change the
 
 # Change Logs
 See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
+
+### Screenshots
+<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif" /><br/>
+<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Trigger.gif" /><br/>
+
+<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif" /><br/>
+
+<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Execute%20Rest%20Test.gif" /><br/>
  
 # Installation
 This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), you can install this plugin by searching ```Salesforce IDE``` in package control
@@ -83,24 +91,17 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 You can click ```SublimeApex > Update > Update Project``` in the main menu or press <kbd>Alt</kbd>+<kbd>R</kbd> to update your active project.
 
 ## Completions:
-* ```Input .```, show all methods of class
-* ```Input .```, show all fields, parent relationship name and child relationship names
-* ```Input .``` after sobject relationship name, show all fields of this relationship name
-* ```Input .```, show all public methods of custom class if corresponding custom class has been compiled or saved to server.
-* ```Input English Character```, show all sobject name and standard class name
-* ```input <```, list all tag, including Visualforce Components and HTML elements
-* ```input :```, list all suffix of all visualforce Components
-* ```input space```, list all attributes of tags
-* ```input =```, list all values of this corresponding attributes in visualforce page
-* If sobject field type is picklist, after you input ```opp.StageName =``` if opp is already defined as opportunity or ```Opportunity.StageName =```, all available picklist values will be shown
-* SOQL fields completion, input ```se``` to call build-in snippet, press <kbd>Enter</kbd>, ```SELECT Id, FROM ``` will be inserted, after input sobject name, press <kbd>Tab</kbd>, focus will be moved to field list part, input the field name, you will see the field completions
-
-### Screenshots
-<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Trigger.gif" /><br/>
-
-<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif" /><br/>
-
-<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Execute%20Rest%20Test.gif" /><br/>
+*Standard Class Completion
+*sObject Fields Completion and sObject Relationship Completion
+*Relationship Fields Completion
+*Custom Class Completion
+*Input any Character, Show All Standard sObject, Custom sObject, Standard Class and Custom Class
+*Picklist Value Completion
+*SOQL Fields Completion
+*Standard Visualforce Component and Custom Visualforce Component Completion
+*HTML Elements Completion
+*HTML and Visualforce Component Attribute Completion
+*HTML and Visualforce Component Attribute Value Completion
 
 ## Execute Anonymous
 Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```SublimeApex``` > ```Execute Anonymous```, the executed result will be shown in a new view.
