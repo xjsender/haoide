@@ -1089,13 +1089,14 @@ class SalesforceApi():
             for record in records:
                 # Get Component Name of this record
                 component_name = record['Name']
+                lower_component_name = component_name.lower()
                 component_url = record['attributes']['url']
                 component_id = record["Id"]
                 print (str(component_type) + " ==> " + str(record['Name']))
 
                 # Write mapping of component_name with component_url
                 # into metadata.sublime-settings
-                component_attributes[component_name] = {
+                component_attributes[lower_component_name] = {
                     "url": component_url,
                     "id": component_id
                 }
@@ -1104,20 +1105,21 @@ class SalesforceApi():
                 body = record[component_body]
 
                 # Save Component Body, Component Type to attribute
-                component_attributes[component_name]["body"] = component_body
-                component_attributes[component_name]["extension"] = component_extension
-                component_attributes[component_name]["type"] = component_type
+                component_attributes[lower_component_name]["name"] = component_name
+                component_attributes[lower_component_name]["body"] = component_body
+                component_attributes[lower_component_name]["extension"] = component_extension
+                component_attributes[lower_component_name]["type"] = component_type
 
                 # If Component Type is StaticResource,
                 if component_type == "StaticResource":
-                    component_attributes[component_name]["ContentType"] = record['ContentType']
+                    component_attributes[lower_component_name]["ContentType"] = record['ContentType']
 
                 # Judge Component is Test Class or not
                 if component_type == "ApexClass":
                     if "@istest" in body.lower() or "testmethod" in body.lower():
-                        component_attributes[component_name]["is_test"] = True
+                        component_attributes[lower_component_name]["is_test"] = True
                     else:
-                        component_attributes[component_name]["is_test"] = False
+                        component_attributes[lower_component_name]["is_test"] = False
 
                 # Write body to local file
                 fp = open(component_outputdir + "/" + component_name +\

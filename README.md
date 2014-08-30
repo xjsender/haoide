@@ -3,7 +3,7 @@ This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change the
 **If you think this plugin is helpful, please star this plugin.**
 
 # Change Logs
-Refer to [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
+See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
  
 # Installation
 This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), you can install this plugin by searching ```Salesforce IDE``` in package control

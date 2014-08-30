@@ -67,10 +67,14 @@ class ApexCompletions(sublime_plugin.EventListener):
                             class_attr["name"]))
 
                     # Add all custom class to keyword completions
-                    for key in symbol_tables:
-                        if not symbol_tables[key]: continue
-                        class_name = symbol_tables[key]["name"]
-                        completion_list.append((class_name + "\tCustom Class", class_name))
+                    component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
+                    if component_settings.has(settings["username"]):
+                        component_attrs = component_settings.get(settings["username"])
+                        if "ApexClass" in component_attrs:
+                            classes_attr = component_attrs["ApexClass"]
+                            for name in classes_attr:
+                                class_name = classes_attr[name]["name"]
+                                completion_list.append((class_name + "\tCustom Class", class_name))
 
                     return completion_list
 
