@@ -96,6 +96,7 @@ You can click ```SublimeApex > Update > Update Project``` in the main menu or pr
 *Relationship Fields Completion
 *Custom Class Completion
 *Input any Character, Show All Standard sObject, Custom sObject, Standard Class and Custom Class
+*After input ``Page.``, list all custom visualforce page
 *Picklist Value Completion
 *SOQL Fields Completion
 *Standard Visualforce Component and Custom Visualforce Component Completion

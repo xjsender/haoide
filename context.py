@@ -103,6 +103,9 @@ def get_settings():
     # Indicate whether keep history to local
     settings["keep_operation_history"] = s.get("keep_operation_history", True)
 
+    # Indicate whether keep history to local
+    settings["keep_config_history"] = s.get("keep_config_history", True)
+
     # Completions Part
     settings["disable_fields_completion"] = s.get("disable_fields_completion", False)
     settings["disable_keyword_completion"] = s.get("disable_keyword_completion", False)
@@ -163,7 +166,7 @@ def get_settings():
         settings[component_attribute["extension"]] = component_type
         settings[component_attribute["folder"]] = component_type
 
-    settings["component_types"] = components.keys()
+    settings["component_types"] = list(components.keys())
     settings["component_folders"] = [components[ct]["folder"] for ct in components]
     settings["component_extensions"] = [components[ct]["extension"] for ct in components]
     settings["component_outputdirs"] = [workspace + "/" + components[ct]["folder"] for ct in components]

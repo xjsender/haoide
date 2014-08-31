@@ -1300,6 +1300,10 @@ def handle_new_project(settings, is_update=False, timeout=120):
             folder_name = settings["StaticResource"]["folder"]
             handle_get_static_resource_body(folder_name)
 
+        # Write the settings to local cache
+        util.add_config_history('settings', str(settings).replace("'", '"'))
+        util.add_config_history('session', str(api.session).replace("'", '"'))
+
     api = SalesforceApi(settings)
     component_types = settings["component_types"]
     thread = threading.Thread(target=api.refresh_components, args=(component_types, ))

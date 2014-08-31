@@ -5,6 +5,15 @@ Release History
 ---------------
 
 
+Release 0.7.8 (2014-08-31)
+++++++++++++++++++
++ Fix Operation History Format Problem
++ Inner class completion format ``Inner Class <Class Name>``
++ After Project is created, automatically keep the settings to ``.config`` path
++ Add ``keep_config_history`` to control whether keep config info when ``New Project``
++ Update README.MD
+
+
 Release 0.7.7 (2014-08-30)
 ++++++++++++++++++
 + In order to avoid component is not available to CRUD to server because of Sensitive Case, save the component name with lower case into local cache

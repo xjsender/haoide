@@ -106,6 +106,9 @@
     // Indicate whether keep execute_anonymous, query and run test history to local
     "keep_operation_history": true,
 
+    // Indicate whether keep plugin settings and session
+    "keep_config_history": true,
+
     // Bulk API batch size and batch bytes
     // Maximum 10000 rows per batch
     // Maximum 1000000 bytes per batch

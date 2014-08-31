@@ -496,7 +496,7 @@ def parse_symbol_table(symbol_table):
                         completions[visibility+" "+con["name"]+"()"] =\
                             c["name"]+"()${1:}"
             else:
-                completions["Inner Class"+c["name"]+"\t"+"Inner Class"] = c["name"]+"$1"
+                completions["Inner Class "+c["name"]+"\t"+"Inner Class"] = c["name"]+"$1"
 
     return completions
 
@@ -521,9 +521,28 @@ def add_operation_history(operation, history_content):
         os.makedirs(outputdir)
 
     time_stamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-    history = "%s\n```java\n%s\n\n```" % (time_stamp, history_content)
+    history = "%s\n```java\n%s\n```\n\n" % (time_stamp, history_content)
     fp = open(outputdir + "/%s.md" % operation, "ab")
     fp.write(history.encode("utf-8"))
+    fp.close()
+
+def add_config_history(operation, content, ext="json"):
+    """Keep the history in the local history
+
+    Arguments:
+
+    * operation -- the operation source
+    * history_content -- the content needed to keep
+    """
+    settings = context.get_settings()
+    if not settings["keep_config_history"]: return
+
+    outputdir = settings["workspace"]+"/.config"
+    if not os.path.exists(outputdir): 
+        os.makedirs(outputdir)
+
+    fp = open(outputdir + "/%s.%s" % (operation, ext), "wb")
+    fp.write(content.encode("utf-8"))
     fp.close()
 
 def check_new_component_enabled():

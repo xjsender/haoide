@@ -23,6 +23,7 @@ class SalesforceApi():
         self.api_version = settings["api_version"]
         self.proxies = settings["proxies"]
         self.username = settings["username"]
+        self.session = None
         self.result = None
 
     def login(self, session_id_expired=False):
@@ -57,6 +58,7 @@ class SalesforceApi():
         else:
             result = globals()[self.username]
 
+        self.session = result
         self.headers = globals()[self.username]["headers"]
         self.instance_url = result["instance_url"]
         self.base_url = self.instance_url + "/services/data/v%s.0" % self.api_version
