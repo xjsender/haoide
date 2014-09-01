@@ -51,7 +51,8 @@
     // It depends on your choice.
     "keep_project_name_time_suffix": true,
 
-    // Indicate whether output session info in the console when you switch the project 
+    // Indicate whether output session info in the console when you switch the project
+    // Deprecated, replace by `.config/session.json`
     "output_session_info": false,
 
     // Indicate whether keep local change history of code file, default interval is 1 minutes

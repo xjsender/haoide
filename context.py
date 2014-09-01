@@ -58,9 +58,6 @@ def get_settings():
     settings["login_url"] = login_url
     settings["soap_login_url"] = login_url + "/services/Soap/u/v{0}.0".format(s.get("api_version", "29"))
 
-    # This flag indicate whether output session id
-    settings["output_session_info"] = s.get("output_session_info", False)
-
     # Indicate whether keep local change history
     settings["keep_local_change_history"] = s.get("keep_local_change_history", True)
 

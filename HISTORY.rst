@@ -4,6 +4,11 @@ Release History
 
 ---------------
 
+Patch for Release 0.7.9 (2014-09-01)
+++++++++++++++++++
++ ``output_session_info`` setting is deprecated and replaced by ``.config/session.json``
++ Do not keep ``projects`` settings in the ``.config/settings.json``, because it's private confidential
+
 
 Release 0.7.9 (2014-09-01)
 ++++++++++++++++++

@@ -244,8 +244,6 @@ def handle_login_thread(default_project, timeout=120):
 
         result = api.result
         if result["status_code"] > 399: return
-        if settings["output_session_info"]:
-            pprint.pprint(result)
 
         print (message.SEPRATE.format("Login Succeed"))
 
@@ -1304,8 +1302,10 @@ def handle_new_project(settings, is_update=False, timeout=120):
             handle_get_static_resource_body(folder_name)
 
         # Write the settings to local cache
-        util.add_config_history('settings', str(settings).replace("'", '"'))
-        util.add_config_history('session', str(api.session).replace("'", '"'))
+        if settings["keep_config_history"]:
+            del settings["projects"] # Not keep the confidential info
+            util.add_config_history('settings', str(settings).replace("'", '"'))
+            util.add_config_history('session', str(api.session).replace("'", '"'))
 
     api = SalesforceApi(settings)
     component_types = settings["component_types"]
