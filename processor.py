@@ -76,10 +76,11 @@ def populate_components():
     return_component_attributes = {}
     for component_type in component_metadata.get(username).keys():
         component_attributes = component_metadata.get(username)[component_type]
-        for component_name in component_attributes.keys():
-            component_id = component_attributes[component_name]["id"]
-            component_type = component_attributes[component_name]["type"]
-            return_component_attributes[component_type + "-->" + component_name] = component_id
+        for key in component_attributes.keys():
+            component_id = component_attributes[key]["id"]
+            component_type = component_attributes[key]["type"]
+            component_name = component_attributes[key]["name"]
+            return_component_attributes[component_type+"."+component_name] = component_id
 
     return return_component_attributes
 
@@ -339,8 +340,10 @@ def handle_refresh_folder(folder_name, component_outputdir, timeout=120):
 
             # Write mapping of component_name with component_url
             # into component_metadata.sublime-settings
-            components[component_name] = {
+            key = component_name.lower()
+            components[key] = {
                 "url": component_url,
+                "name": component_name,
                 "id": component_id,
                 "type": component_type,
                 "body": component_body,
@@ -351,9 +354,9 @@ def handle_refresh_folder(folder_name, component_outputdir, timeout=120):
             body = record[component_body]
             if component_type == "ApexClass":
                 if "@isTest" in body or "testMethod" in body or "testmethod" in body:
-                    components[component_name]["is_test"] = True
+                    components[key]["is_test"] = True
                 else:
-                    components[component_name]["is_test"] = False
+                    components[key]["is_test"] = False
 
             # Write body to local file
             fp = open(component_outputdir + "/" + component_name +\
@@ -1104,7 +1107,7 @@ def handle_run_test(class_name, class_id, timeout=120):
         })
         
         # Keep the history in the local history rep
-        util.add_operation_history('test/' + class_name, test_result)
+        util.add_operation_history('Test/' + class_name, test_result)
 
         # After run test succeed, get ApexCodeCoverageAggreate
         query = "SELECT ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage " +\
@@ -1481,8 +1484,9 @@ def handle_create_component(data, component_name, component_type, file_name, tim
         s = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
         username = settings["username"]
         components_dict = s.get(username)
-        components_dict[component_type][component_name] = {
+        components_dict[component_type][component_name.lower()] = {
             "id": component_id,
+            "name": component_name,
             "url": post_url + "/" + component_id,
             "body": body,
             "extension": extension,

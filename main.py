@@ -511,25 +511,51 @@ class RunAllTestCommand(sublime_plugin.WindowCommand):
         processor.handle_run_all_test()
 
 class RunOneTestCommand(sublime_plugin.WindowCommand):
+    """ List the test classes from local cache, after any one is chosen,
+        get the attribute of the chosen class and run test, 
+
+        Cache structure is shown as below:
+        {
+            "ApexClass":
+            {
+                "accountcontroller":
+                {
+                    "body": "Body",
+                    "extension": ".cls",
+                    "id": "01p90000003hdEGAAY",
+                    "is_test": false,
+                    "name": "AccountController",
+                    "type": "ApexClass",
+                    "url": "/services/data/v30.0/sobjects/ApexClass/01p90000003hdEGAAY"
+                },
+                ...
+            },
+            ...
+        }
+    """
     def __init__(self, *args, **kwargs):
         super(RunOneTestCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         self.classes_attr = processor.populate_classes()
-        classes = self.classes_attr.keys()
-        classes = [c for c in classes if "is_test" in self.classes_attr[c] and self.classes_attr[c]["is_test"]]
-        if len(classes) == 0:
+        self.classmap = {}
+        for key in self.classes_attr:
+            if not self.classes_attr[key]["is_test"]: continue
+            self.classmap[self.classes_attr[key]["name"]] = key
+
+        if not self.classmap:
             sublime.error_message("No Test Class");
             return
 
-        self.class_names = sorted(list(classes))
+        self.class_names = sorted(list(self.classmap.keys()))
         self.window.show_quick_panel(self.class_names, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
 
         class_name = self.class_names[index]
-        class_id = self.classes_attr[class_name]["id"]
+        key = self.classmap[class_name]
+        class_id = self.classes_attr[key]["id"]
         processor.handle_run_test(class_name, class_id)
 
 class FetchOrgWideCoverageCommand(sublime_plugin.WindowCommand):

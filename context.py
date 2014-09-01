@@ -156,7 +156,7 @@ def get_settings():
         component_soql = "SELECT Id, Name, " + component_attribute["body"] +\
             (", ContentType" if component_type == "StaticResource" else "") +\
             " FROM " + component_type +\
-            " WHERE NamespacePrefix = null " +\
+            " WHERE NamespacePrefix = null" +\
             (" OR NamespacePrefix in " + allowed_packages_soql if allowed_packages else "") +\
             " ORDER BY Name"
 

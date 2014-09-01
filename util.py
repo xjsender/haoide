@@ -1602,6 +1602,9 @@ def get_component_attribute(file_name):
     username = settings["username"]
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
 
+    print (name)
+    print (component_settings.get(username)[component_type])
+    print (component_settings.get(username)[component_type][name.lower()])
     try:
         component_attribute = component_settings.get(username)[component_type][name.lower()]
     except:

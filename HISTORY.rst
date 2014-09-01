@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 0.7.9 (2014-09-01)
+++++++++++++++++++
++ Fix the display problem of ``Run Test`` and ``LoginTo ApexCode`` cause by History Item 1 of release 0.7.7
++ Rename the path name of ``Test Operation History`` from ``test`` to ``Test``
++ Fix bug for ``Create Component`` and ``Refresh Component Folder`` caused by History Item 1 of release 0.7.7
+
+
 Release 0.7.8 (2014-08-31)
 ++++++++++++++++++
 + Fix Operation History Format Problem
