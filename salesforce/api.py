@@ -377,7 +377,6 @@ class SalesforceApi():
                 return previous_result
             elif "done" in previous_result and previous_result["done"] == False:
                 result = self.query_more(previous_result['nextRecordsUrl'], is_toolingapi=is_toolingapi)
-                result['totalSize'] += previous_result['totalSize']
                 # Include the new list of records with the previous list
                 previous_result['records'].extend(result['records'])
                 result['records'] = previous_result['records']

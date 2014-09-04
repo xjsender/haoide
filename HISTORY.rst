@@ -4,6 +4,16 @@ Release History
 
 ---------------
 
+
+Release 0.8.0 (2014-09-04)
+++++++++++++++++++
+- Change ``se`` Snippet from ``SELECT Id, $2 FROM $1$0`` to ``SELECT Id$2 FROM $1$0``
+- Stop to open console when ``Refresh Selected Component``
+- Originally, press ``shift+button1*3`` to open class in background and press ``shift+button1*2`` to open class in foreground, now it is changed to ``shift+button1*3`` for background and ``shift+button1*2`` for foreground
+- Change screenshots to demo link
+- Fix ``query_all`` bug in api.py
+
+
 Patch for Release 0.7.9 (2014-09-01)
 ++++++++++++++++++
 + ``output_session_info`` setting is deprecated and replaced by ``.config/session.json``

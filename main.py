@@ -1093,7 +1093,6 @@ class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
         confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
         if not confirm: return
 
-        sublime.active_window().run_command("show_panel", {"panel": "console", "toggle": False})
         for file_name in files:
             component_attribute = util.get_component_attribute(file_name)[0]
 

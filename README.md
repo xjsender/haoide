@@ -5,13 +5,11 @@ This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change the
 # Change Logs
 See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 
-### Screenshots
-<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif" /><br/>
-<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Trigger.gif" /><br/>
-
-<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif" /><br/>
-
-<img src="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Execute%20Rest%20Test.gif" /><br/>
+### Demo
++ [Completions](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
++ [Trigger](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Trigger.gif)
++ [Visualforce Page](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif)
++ [Execute Rest Test](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Execute%20Rest%20Test.gif)
  
 # Installation
 This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), you can install this plugin by searching ```Salesforce IDE``` in package control
