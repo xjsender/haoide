@@ -6,6 +6,7 @@ This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change the
 See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 
 # Demo
++ [Install Plugin](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/InstallPackage.gif) 
 + [Completions](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
 + [Trigger](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Trigger.gif)
 + [Visualforce Page](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif)
@@ -13,7 +14,7 @@ See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 + [Retrieve Package.xml](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
  
 # Installation
-This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), you can install this plugin by searching ```Salesforce IDE``` in package control
+This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), after you installed the [package control](https://sublime.wbond.net/installation#st3), you can install this plugin by searching ```Salesforce IDE``` in package control
 
 # Project Configuration
 If your operation system is **OSX**, you must set the workspace in ```SublimeApex``` > ```Setting``` > ```Setting - User```.
