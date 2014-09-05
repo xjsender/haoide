@@ -332,7 +332,6 @@ class RefreshStaticResourceFolderCommand(sublime_plugin.WindowCommand):
     def run(self, dirs):
         confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
         if not confirm: return
-        
         processor.handle_get_static_resource_body(self.folder_name, self.component_outputdir)
 
     def is_visible(self, dirs):
@@ -355,6 +354,27 @@ class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
 
     def run(self, retrieve_all=True):
         processor.handle_retrieve_all_thread(retrieve_all=retrieve_all)
+
+class RetrievePackageCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RetrievePackageCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        path = sublime.get_clipboard()
+        if not os.path.isfile(path): path = ""
+        self.window.show_input_panel("Input Package.xml Path: ", 
+            path, self.on_input, None, None)
+
+    def on_input(self, file_path):
+        if not file_path.lower().endswith('xml'): 
+            sublime.error_message("Input file must be valid Package.xml file")
+            return
+
+        if not os.path.exists(file_path):
+            sublime.error_message(file_path + " is not valid file")
+            return
+
+        processor.handle_retrieve_package(file_path)
 
 class DeployMetadataCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -666,7 +686,7 @@ class FetchDebugLogCommand(sublime_plugin.WindowCommand):
 
         user_name = self.users_name[index]
         user_id = self.users[user_name]
-        processor.handle_fetch_logs(user_name, user_id)
+        processor.handle_fetch_debug_logs(user_name, user_id)
 
 class ViewDebugLogDetailCommand(sublime_plugin.TextCommand):
     def run(self, view):

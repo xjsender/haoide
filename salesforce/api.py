@@ -843,7 +843,7 @@ class SalesforceApi():
         result["zipFile"] = getUniqueElementValueFromXmlString(content, "zipFile")
         return result
 
-    def retrieve(self, soap_body):
+    def retrieve(self, panel, soap_body, package_path=None):
         """ 1. Issue a retrieve request to start the asynchronous retrieval and asyncProcessId is returned
             2. Thread sleep for a while and then issue a checkStatus request to check whether the async 
                process job is completed.
@@ -866,8 +866,27 @@ class SalesforceApi():
         }
 
         # Populate the soap_body with actual session id
-        soap_body = soap_body.format(
-            globals()[self.username]["session_id"], self.api_version)
+        if package_path:
+            try:
+                types = util.parse_retrieve_body(package_path)
+            except Exception as e:
+                self.result = {
+                    "success": False,
+                    "Message": "Package.xml File Parse Problem",
+                    "RootCause": str(e)
+                }
+                return
+
+            soap_body = soap_body.format(
+                globals()[self.username]["session_id"], 
+                self.api_version, types)
+        else:
+            soap_body = soap_body.format(
+                globals()[self.username]["session_id"], 
+                self.api_version)
+
+        # [sf:retrieve]
+        util.append_message(panel, "[sf:retrieve] Start request for a retrieve...")
 
         response = requests.post(self.metadata_url, soap_body, verify=False, 
             proxies=self.proxies, headers=headers)
@@ -881,49 +900,61 @@ class SalesforceApi():
         content = response.content
         result = {"status_code": response.status_code}
         if response.status_code > 399:
-            result["errorCode"] = getUniqueElementValueFromXmlString(content, "errorCode")
-            result["message"] = getUniqueElementValueFromXmlString(content, "message")
+            if response.status_code == 500:
+                result["errorCode"] = getUniqueElementValueFromXmlString(content, "faultcode")
+                result["message"] = getUniqueElementValueFromXmlString(content, "faultstring")
+            else:
+                result["errorCode"] = getUniqueElementValueFromXmlString(content, "errorCode")
+                result["message"] = getUniqueElementValueFromXmlString(content, "message")
             self.result = result
             return
 
+        # [sf:retrieve]
+        util.append_message(panel, "[sf:retrieve] Request for a retrieve submitted successfully.")
+
         # Get async process id
         async_process_id = getUniqueElementValueFromXmlString(content, "id")
-        print ("asyncProcessId: " + async_process_id)
+
+        # [sf:retrieve]
+        util.append_message(panel, "[sf:retrieve] Request ID for the current retrieve task: "+async_process_id)
 
         # 2. issue a check status loop request to assure the async
         # process is done
         result = self.check_status(async_process_id)
         result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-        view = sublime.active_window().new_file()
-        header = "Progress Monitor: Retrieve Metadata Status(Keep This View Open, Auto Refreshed Every 6 seconds)"
-        view.run_command("new_dynamic_view", {
-            "view_name": "Progress Monitor: Retrieve Metadata",
-            "input": util.format_waiting_message(result, header)
-        })
+        util.append_message(panel, "[sf:retrieve] Request for a retrieve submitted successfully.")
+
+        # [sf:retrieve]
+        util.append_message(panel, "[sf:retrieve] Waiting for server to finish processing the request...")
+
         while result["done"] == "false":
-            time.sleep(5)
+            # [sf:retrieve]
+            util.append_message(panel, "[sf:retrieve] Request Status: InProgress")
+
+            time.sleep(2)
             result = self.check_status(async_process_id)
             result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-            view.run_command("new_dynamic_view", {
-                "view_id": view.id(),
-                "view_name": "Progress Monitor: Retrieve Metadata",
-                "input": util.format_waiting_message(result, header),
-                "erase_all": True
-            })
+
+            sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
+
+        # [sf:retrieve]
+        util.append_message(panel, "[sf:retrieve] Request Status: Completed")
+
         # If check status request failed, this will not be done
         if result["done"] == "Failed":
+            util.append_message(panel, "[sf:retrieve] Request Failed") # [sf:retrieve]
             self.result = result
             return
 
+        # [sf:retrieve]
+        util.append_message(panel, "[sf:retrieve] Retrieving the zipFile...")
+
         # 3 Obtain zipFile(base64)
-        sublime.set_timeout(lambda:sublime.status_message("Downloading zipFile"), 10)
-        view.run_command("new_dynamic_view", {
-            "view_id": view.id(),
-            "view_name": "Progress Monitor: Retrieve Metadata",
-            "input": message.SEPRATE.format("Downloading the zipFile, it will be very time-consuming"),
-            "point": view.size()
-        })
         result = self.check_retrieve_status(async_process_id)
+
+        # [sf:retrieve] Zipfile downloading is finished
+        util.append_message(panel, "[sf:retrieve] Zipfile retrieving is finished")
+
         self.result = result
 
     def check_deploy_status(self, async_process_id): 

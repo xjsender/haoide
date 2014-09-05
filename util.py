@@ -209,6 +209,21 @@ def show_output_panel(message, toggle=False):
     panel.run_command('append', {'characters': message})
     panel.set_read_only(True)
 
+def append_message(panel, message):
+    """ Used for showing panel in sublime
+
+    Arguments:
+
+    * panel     -- already created panel
+    * message   -- message to append into the panel
+    """
+    
+    sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
+    panel.set_read_only(False)
+    panel.set_syntax_file("Packages/Java/Java.tmLanguage")
+    panel.run_command('append', {'characters': message+"\n"})
+    panel.set_read_only(True)
+
 def advance_to_first_non_white_space_on_line(view, pt):
     while True:
         c = view.substr(pt)
@@ -1515,8 +1530,38 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
     elementsByName = xmlStringAsDom.getElementsByTagName(elementName)
     elementValue = None
     if len(elementsByName) > 0:
-        elementValue = elementsByName[0].toxml().replace('<' + elementName + '>','').replace('</' + elementName + '>','')
+        elementValue = elementsByName[0].toxml().replace('<' +\
+            elementName + '>','').replace('</' + elementName + '>','')
     return elementValue
+
+def parse_retrieve_body(package_path):
+    """Return project name and component folder attribute
+
+    Arguments:
+
+    * package_path -- package file path
+
+    """
+    fp = open(package_path, "rb")
+    result = xmltodict.parse(fp.read())
+    print (result)
+
+    elements = []
+    types = result["Package"]["types"]
+    for t in types:
+        members = []
+        if "members" in t and isinstance(t["members"], list):
+            for member in t["members"]:
+                members.append("<met:members>%s</met:members>" % member)
+        else:
+            members.append("<met:members>%s</met:members>" % t["members"])
+
+        elements.append("<types>%s%s</types>" % (
+            "".join(members), 
+            "<name>%s</name>" % t["name"]
+        ))
+
+    return "".join(elements) + "<met:version>%s</met:version>" % result["Package"]["version"]
 
 def get_path_attr(path_dir):
     """Return project name and component folder attribute

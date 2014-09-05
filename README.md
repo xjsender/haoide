@@ -5,7 +5,7 @@ This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change the
 # Change Logs
 See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 
-### Demo
+# Demo
 + [Completions](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
 + [Trigger](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Trigger.gif)
 + [Visualforce Page](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif)

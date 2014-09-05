@@ -90,6 +90,27 @@ check_retrieve_status_body = """
   </soapenv:Envelope>
   """
 
+retrieve_body = """
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+        xmlns:met="http://soap.sforce.com/2006/04/metadata">
+        <soapenv:Header>
+            <met:SessionHeader>
+                <met:sessionId>{0}</met:sessionId>
+            </met:SessionHeader>
+        </soapenv:Header>
+        <soapenv:Body>
+            <met:retrieve>
+                <met:retrieveRequest>
+                    <met:apiVersion>{1}.0</met:apiVersion>
+                    <met:unpackaged>
+                        {2}
+                    </met:unpackaged>
+                </met:retrieveRequest>
+            </met:retrieve>
+        </soapenv:Body>
+    </soapenv:Envelope>
+"""
+
 retrieve_sobjects_workflow_task_body = """
   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
   xmlns:met="http://soap.sforce.com/2006/04/metadata">

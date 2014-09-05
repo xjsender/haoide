@@ -77,6 +77,10 @@
         "caption": "SublimeApex: Retrieve Metadata",
         "command": "retrieve_metadata"
     },
+    {
+        "caption": "SublimeApex: Retrieve Package.xml",
+        "command": "retrieve_package"
+    },
 
     {
         "caption": "SublimeApex: Track Debug Log",

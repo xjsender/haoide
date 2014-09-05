@@ -8,6 +8,7 @@ import time
 import pprint
 import urllib.parse
 import shutil
+import datetime
 
 from xml.sax.saxutils import unescape
 from . import requests, context, util
@@ -699,34 +700,31 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
         context.add_project_to_workspace(settings["workspace"])
         outputdir = settings["workspace"] + "/metadata"
         if not os.path.exists(outputdir):
+            util.append_message(panel, "[mkdir] Created dir: "+outputdir)
             os.makedirs(outputdir)
 
         # Extract zip
         util.extract_zip(result["zipFile"], outputdir)
+        # os.remove(zipdir) # Remove this zip file
 
-        # Remove this zip file
-        # os.remove(zipdir)
+        # Build Successful
+        util.append_message(panel, "\nBUILD SUCCESSFUL")
 
-        # Output package path
-        success_message = message.SEPRATE.format("Metadata are exported to: " + outputdir)
-        view = util.get_view_by_name("Progress Monitor: Retrieve Metadata")
-        view.run_command("new_dynamic_view", {
-            "view_id": view.id(),
-            "view_name": "Progress Monitor: Retrieve Metadata",
-            "input": success_message,
-            "point": view.size()
-        })
-        sublime.status_message("Exported Path: " + outputdir)
+        # Total time
+        total_seconds = (datetime.datetime.now() - start_time).seconds
+        util.append_message(panel, "Total time: %s seconds" % total_seconds)
 
     settings = context.get_settings()
     api = SalesforceApi(settings)
+    start_time = datetime.datetime.now() # Retrieve Start Time
+    panel = sublime.active_window().create_output_panel('panel')  # Create panel
 
     if retrieve_all:
         soap_body = soap_bodies.retrieve_all_task_body
     else:
         soap_body = soap_bodies.retrieve_sobjects_workflow_task_body
 
-    thread = threading.Thread(target=api.retrieve, args=(soap_body, ))
+    thread = threading.Thread(target=api.retrieve, args=(panel, soap_body, ))
     thread.start()
     ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
     handle_thread(thread, timeout)
@@ -945,7 +943,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
     ThreadProgress(api, thread, "Execute Anonymous", "Execute Anonymous Succeed")
     handle_new_view_thread(thread, timeout)
 
-def handle_fetch_logs(user_full_name, user_id, timeout=120):
+def handle_fetch_debug_logs(user_full_name, user_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -964,9 +962,9 @@ def handle_fetch_logs(user_full_name, user_id, timeout=120):
     api = SalesforceApi(settings)
     query = "SELECT Id,LogUserId,LogLength,Request,Operation,Application," +\
             "Status,DurationMilliseconds,StartTime,Location FROM ApexLog " +\
-            "WHERE LogUserId='%s' ORDER BY StartTime LIMIT %s" % (user_id, settings["last_n_logs"])
+            "WHERE LogUserId='%s' ORDER BY StartTime DESC LIMIT %s" % (user_id, settings["last_n_logs"])
     print (query)
-    thread = threading.Thread(target=api.query_all, args=(query, ))
+    thread = threading.Thread(target=api.query, args=(query, ))
     thread.start()
     ThreadProgress(api, thread, "List Debug Logs for " + user_full_name, 
         "List Debug Logs for " + user_full_name + " Succeed")
@@ -1299,7 +1297,8 @@ def handle_new_project(settings, is_update=False, timeout=120):
         # start to get all binary body of static resource
         if settings["get_static_resource_body"]:
             folder_name = settings["StaticResource"]["folder"]
-            handle_get_static_resource_body(folder_name)
+            static_resource_outputdir = settings["workspace"]+"/"+folder_name
+            handle_get_static_resource_body(folder_name, static_resource_outputdir)
 
         # Write the settings to local cache
         if settings["keep_config_history"]:
@@ -1328,7 +1327,9 @@ def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeo
         result = api.result
         if not static_resource_dir:
             static_resource_dir = settings["workspace"] + folder_name
-        if not os.path.exists(static_resource_dir): os.makedirs(static_resource_dir)
+        if not os.path.exists(static_resource_dir): 
+            util.append_message(panel, "[mkdir] Created dir: "+static_resource_dir)
+            os.makedirs(static_resource_dir)
 
         # Extract zip
         util.extract_zip(result["zipFile"], static_resource_dir)
@@ -1347,13 +1348,64 @@ def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeo
         shutil.rmtree(static_resource_dir + "/unpackaged", ignore_errors=True)
         os.remove(static_resource_dir + "/package.zip")
 
+        # Build Successful
+        util.append_message(panel, "\nBUILD SUCCESSFUL")
+
+        # Total time
+        total_seconds = (datetime.datetime.now() - start_time).seconds
+        util.append_message(panel, "Total time: %s seconds" % total_seconds)
+
     settings = context.get_settings()
     api = SalesforceApi(settings)
+    start_time = datetime.datetime.now() # Retrieve Start Time
+    panel = sublime.active_window().create_output_panel('panel')  # Create panel
     thread = threading.Thread(target=api.retrieve, 
-        args=(soap_bodies.retrieve_static_resources_body, ))
+        args=(panel, soap_bodies.retrieve_static_resources_body, ))
     thread.start()
     handle_thread(thread, static_resource_dir, timeout)
     ThreadProgress(api, thread, "Retrieve StaticResource", "Retrieve StaticResource Succeed")
+
+def handle_retrieve_package(package_path, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+        
+        if not api.result: return
+        if api.result["status_code"] > 399: return
+
+        # Mkdir for output dir of zip file
+        result = api.result
+
+        # Get the package path
+        base_path, file_name = os.path.split(package_path)
+
+        # Extract zip
+        util.extract_zip(result["zipFile"], base_path)
+
+        # Output package path
+        util.append_message(panel, "[sf:retrieve] Output package dir: "+base_path)
+
+        # Build Successful
+        util.append_message(panel, "\nBUILD SUCCESSFUL")
+
+        # Total time
+        total_seconds = (datetime.datetime.now() - start_time).seconds
+        util.append_message(panel, "Total time: %s seconds" % total_seconds)
+
+    # Prepare to start request
+    start_time = datetime.datetime.now() # Retrieve Start Time
+    panel = sublime.active_window().create_output_panel('panel')  # Create panel
+
+    # Start to request
+    settings = context.get_settings()
+    api = SalesforceApi(settings)
+
+    thread = threading.Thread(target=api.retrieve, 
+        args=(panel, soap_bodies.retrieve_body, package_path,))
+    thread.start()
+    handle_thread(thread, timeout)
+    ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
 
 def handle_save_component(component_name, component_attribute, body, is_check_only=False, timeout=120):
     def handle_thread(thread, timeout):

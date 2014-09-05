@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 0.8.1 (2014-09-05)
+++++++++++++++++++
++ Change the UI of ``retrieve``
++ Add a command ``retrieve_package`` for retrieve metadata by specified package.xml
++ Fix a bug for ``get_static_resource_body`` when creating a new project
++ Fix a bug for displaying the latest debug logs ``ORDER BY StartTime DESC`` when ``fetch logs``
+
 
 Release 0.8.0 (2014-09-04)
 ++++++++++++++++++

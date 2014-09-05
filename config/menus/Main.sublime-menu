@@ -292,6 +292,11 @@
                             "retrieve_all": false
                         }
                     },
+                    {
+                        "id": "retrievepackage",
+                        "caption": "Retrieve Package.xml",
+                        "command": "retrieve_package"
+                    },
 
                     {
                         "id": "deploymetadata",
