@@ -376,20 +376,21 @@ class RetrievePackageCommand(sublime_plugin.WindowCommand):
 
         processor.handle_retrieve_package(file_path)
 
-class DeployMetadataCommand(sublime_plugin.WindowCommand):
+class DeployCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(DeployMetadataCommand, self).__init__(*args, **kwargs)
+        super(DeployCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        sublime.message_dialog("Ongoing")
-        return
-        self.window.show_input_panel("Input Zip File Path:", "", self.on_input, None, None)
+        path = sublime.get_clipboard()
+        if not os.path.isfile(path): path = ""
+        self.window.show_input_panel("Input Zip File Path:", 
+            path, self.on_input, None, None)
 
     def on_input(self, input):
         if not input.endswith('.zip'):
             sublime.error_message("Invalid Zip File")
             return
-        processor.handle_deploy_metadata_thread(input)
+        processor.handle_deploy_thread(input)
 
 class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

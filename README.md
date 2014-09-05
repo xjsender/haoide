@@ -12,9 +12,10 @@ See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 + [Visualforce Page](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif)
 + [Execute Rest Test](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Execute%20Rest%20Test.gif)
 + [Retrieve Package.xml](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
++ [Deploy Package.zip](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
  
 # Installation
-This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), after you installed the [package control](https://sublime.wbond.net/installation#st3), you can install this plugin by searching ```Salesforce IDE``` in package control
+This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), after you [installed the package control](https://sublime.wbond.net/installation#st3), you can install this plugin by searching ```Salesforce IDE``` in package control
 
 # Project Configuration
 If your operation system is **OSX**, you must set the workspace in ```SublimeApex``` > ```Setting``` > ```Setting - User```.
@@ -207,10 +208,19 @@ Choose the components you want to delete, and then Click ```SublimeApex``` > ```
 Put the focus in the Class Name, and then, press <kbd>shift</kbd>,  and click ```button1``` for twice, the class file will be open in background if this class file is exist, however, if you want to open this class in the foreground, you should press <kbd>shift</kbd> and click ```button1``` for triple.
 
 ## Retrieve All Metadata
-Click ```SublimeApex``` > ```Retrieve Metadata``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
+Click ```SublimeApex``` > ```Migration``` > ```Retrieve Metadata``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
 
-## Deploy Metadata
-Executing...
+## Retrieve Package.xml
+Click ```SublimeApex``` > ```Migration``` > ```Retrieve Package.xml``` in the main menu, input your package file path, after that, you will see the effect.
+
+see [Retrieve Package.xml Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
+
+## Deploy Package Zip
+Click ```SublimeApex``` > ```Migration``` > ```Retrieve Metadata``` in the main menu, input your zip file path, after that, you will see the effect.
+
+So far, just support zip file deploy, in the near future, it will support retrieving and deploy together.
+
+see [Deploy Package Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
 
 ## Export Workflow Rules
 After you downloaded all metadata by clicking ```SublimeApex``` > ```Migration``` > ```Retrieve Metadata```, you can click ```SublimeApex``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.

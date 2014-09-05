@@ -299,9 +299,9 @@
                     },
 
                     {
-                        "id": "deploymetadata",
-                        "caption": "Deploy Metadata(Ongoing...)",
-                        "command": "deploy_metadata"
+                        "id": "deploy",
+                        "caption": "Deploy Package.zip",
+                        "command": "deploy"
                     }
                 ]
             },

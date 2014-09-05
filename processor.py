@@ -613,7 +613,7 @@ def handle_reload_sobjects_completions(timeout=120):
     ThreadProgress(api, thread, "Global Describe", "Global Describe Succeed")
     handle_thread(api, thread, timeout)
 
-def handle_deploy_metadata_thread(zipfile, timeout=120):
+def handle_deploy_thread(zipfile, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -622,11 +622,17 @@ def handle_deploy_metadata_thread(zipfile, timeout=120):
         result = api.result
         status_code = result["status_code"]
         if status_code > 399: return
-        print (message.SEPRATE.format("Deploy Metadata Succeed"))
+
+        # Mkdir for output dir of zip file
+        result = api.result
+        
+    # Prepare to start request
+    start_time = datetime.datetime.now() # Retrieve Start Time
+    panel = sublime.active_window().create_output_panel('panel')  # Create panel
 
     settings = context.get_settings()
     api = SalesforceApi(settings)
-    thread = threading.Thread(target=api.deploy_metadata, args=(zipfile, ))
+    thread = threading.Thread(target=api.deploy, args=(panel, zipfile, ))
     thread.start()
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
     handle_thread(thread, timeout)

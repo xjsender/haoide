@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+Release 0.8.2 (2014-09-05)
+++++++++++++++++++
++ when ``retrieve package.xml``, if file in package.xml is not found in target org, display the message
++ Add ``deploy package.zip`` command to deploy zip file
+
+
 Release 0.8.1 (2014-09-05)
 ++++++++++++++++++
 + Change the UI of ``retrieve``

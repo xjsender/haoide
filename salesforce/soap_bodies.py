@@ -463,6 +463,7 @@ check_deploy_status = """
        <soapenv:Body>
           <met:checkDeployStatus>
              <met:asyncProcessId>{1}</met:asyncProcessId>
+             <met:includeDetails>true</met:includeDetails>
           </met:checkDeployStatus>
        </soapenv:Body>
     </soapenv:Envelope>"""

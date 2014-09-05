@@ -1534,7 +1534,7 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
             elementName + '>','').replace('</' + elementName + '>','')
     return elementValue
 
-def parse_retrieve_body(package_path):
+def parse_package(package_path):
     """Return project name and component folder attribute
 
     Arguments:
@@ -1544,7 +1544,6 @@ def parse_retrieve_body(package_path):
     """
     fp = open(package_path, "rb")
     result = xmltodict.parse(fp.read())
-    print (result)
 
     elements = []
     types = result["Package"]["types"]

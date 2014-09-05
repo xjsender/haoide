@@ -800,6 +800,7 @@ class SalesforceApi():
             return result
 
         content = response.content
+        print (b"check status: " + content)
         result = xmltodict.parse(content)
         try:
             result = result["soapenv:Envelope"]["soapenv:Body"]["checkStatusResponse"]["result"]
@@ -840,7 +841,9 @@ class SalesforceApi():
             result["message"] = getUniqueElementValueFromXmlString(content, "message")
             return result
 
-        result["zipFile"] = getUniqueElementValueFromXmlString(content, "zipFile")
+        result = xmltodict.parse(response.content)
+        result = result["soapenv:Envelope"]["soapenv:Body"]["checkRetrieveStatusResponse"]["result"]
+        result["status_code"] = response.status_code
         return result
 
     def retrieve(self, panel, soap_body, package_path=None):
@@ -868,7 +871,7 @@ class SalesforceApi():
         # Populate the soap_body with actual session id
         if package_path:
             try:
-                types = util.parse_retrieve_body(package_path)
+                types = util.parse_package(package_path)
             except Exception as e:
                 self.result = {
                     "success": False,
@@ -921,7 +924,6 @@ class SalesforceApi():
         # 2. issue a check status loop request to assure the async
         # process is done
         result = self.check_status(async_process_id)
-        result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         util.append_message(panel, "[sf:retrieve] Request for a retrieve submitted successfully.")
 
         # [sf:retrieve]
@@ -933,7 +935,6 @@ class SalesforceApi():
 
             time.sleep(2)
             result = self.check_status(async_process_id)
-            result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
 
             sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
 
@@ -946,14 +947,16 @@ class SalesforceApi():
             self.result = result
             return
 
-        # [sf:retrieve]
-        util.append_message(panel, "[sf:retrieve] Retrieving the zipFile...")
-
         # 3 Obtain zipFile(base64)
         result = self.check_retrieve_status(async_process_id)
 
-        # [sf:retrieve] Zipfile downloading is finished
-        util.append_message(panel, "[sf:retrieve] Zipfile retrieving is finished")
+        # Output the message
+        if "messages" in result:
+            for message in result["messages"]:
+                util.append_message(panel, "[sf:retrieve] %s - %s" % (message["fileName"], message["problem"]))
+
+        # [sf:retrieve]
+        util.append_message(panel, "[sf:retrieve] Finished request %s successfully." % async_process_id)
 
         self.result = result
 
@@ -994,7 +997,7 @@ class SalesforceApi():
         result["status_code"] = response.status_code
         return result
         
-    def deploy_metadata(self, zipfile):
+    def deploy(self, panel, zipfile):
         """ Deploy zip file
 
         Arguments:
@@ -1004,11 +1007,17 @@ class SalesforceApi():
         # Firstly Login
         self.login()
 
-        # 1. Issue a retrieve request to start the asynchronous retrieval
+        # 1. Issue a deploy request to start the asynchronous retrieval
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
         }
+
+        # Log the StartTime
+        start_time = datetime.datetime.now()
+
+        # [sf:deploy]
+        util.append_message(panel, "[sf:deploy] Start request for a deploy...")
 
         # Populate the soap_body with actual session id
         deploy_options = self.settings["deploy_options"]
@@ -1025,13 +1034,14 @@ class SalesforceApi():
             deploy_options["runAllTests"],
             deploy_options["runTests"],
             deploy_options["singlePackage"])
+
         response = requests.post(self.metadata_url, soap_body, verify=False, 
             proxies=self.proxies, headers=headers)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
-            return self.deploy_metadata()
+            return self.deploy(panel, zipfile)
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -1046,42 +1056,85 @@ class SalesforceApi():
             self.result = result
             return
 
+        # [sf:deploy]
+        util.append_message(panel, "[sf:deploy] Request for a deploy submitted successfully.")
+
         # Get async process id
         async_process_id = getUniqueElementValueFromXmlString(content, "id")
-        print ("asyncProcessId: " + async_process_id)
+
+        # [sf:deploy]
+        util.append_message(panel, "[sf:deploy] Request ID for the current deploy task: "+async_process_id)
+
+        # [sf:deploy]
+        util.append_message(panel, "[sf:deploy] Waiting for server to finish processing the request...")
 
         # 2. issue a check status loop request to assure the async
         # process is done
-        result = self.check_status(async_process_id)
-        result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-        view = sublime.active_window().new_file()
-        header = "Deploy Metadata Status(Keep This View Open, Auto Refreshed Every 6 seconds)"
-        view.run_command("new_dynamic_view", {
-            "view_id": view.id(),
-            "view_name": "Progress Monitor: Deploy Metadata",
-            "input": util.format_waiting_message(result, header)
-        })
-        while result["done"] == "false":
-            time.sleep(5)
-            result = self.check_status(async_process_id)
-            result["CurrenTime"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-            view.run_command("new_dynamic_view", {
-                "view_id": view.id(),
-                "view_name": "Progress Monitor: Deploy Metadata",
-                "input": util.format_waiting_message(result, header),
-                "erase_all": True
-            })
+        result = self.check_deploy_status(async_process_id)
+        while result["status"] == "InProgress":
+            print (result)
+            if "stateDetail" in result:
+                # [sf:deploy]
+                util.append_message(panel, "[sf:deploy] Request Status: %s (%s/%s)  -- %s" % (
+                    result["status"], 
+                    result["numberComponentsDeployed"],
+                    result["numberComponentsTotal"],
+                    result["stateDetail"]
+                ))
+            else:
+                util.append_message(panel, "[sf:deploy] Request Status: %s" % (
+                    result["status"]
+                ))
+
+            # Thread Wait
+            time.sleep(1)
+            
+            result = self.check_deploy_status(async_process_id)
+
+        # If check status request failed, this will not be done
+        if result["status"] == "Failed":
+            # Append failure message
+            util.append_message(panel, "[sf:deploy] Request Failed\n\nBUILD FAILED")
+            util.append_message(panel, "\n"+"*"*10+" DEPLOYMENT FAILED "+"*"*10)
+            util.append_message(panel, "\nRequest ID: %s" % async_process_id)
+
+            # Output Failure Details
+            util.append_message(panel, "\nAll Component Failures:")
+            failures_messages = []
+            component_failures = result["details"]["componentFailures"]
+            if isinstance(component_failures, dict):
+                component_failure = component_failures
+                failures_messages.append("1. %s -- %s: %s (line %s)" % (
+                    component_failure["fileName"],
+                    component_failure["problemType"],
+                    component_failure["problem"],
+                    component_failure["lineNumber"]
+                ))
+            elif isinstance(component_failures, list):
+                for index in range(len(component_failures)):
+                    component_failure = component_failures[index]
+                    failures_messages.append("%s. %s -- %s: %s (line %s)" % (
+                        index+1, 
+                        component_failure["fileName"],
+                        component_failure["problemType"],
+                        component_failure["problem"],
+                        component_failure["lineNumber"] \
+                            if "lineNumber" in component_failure else "0"
+                    ))
+
+            util.append_message(panel, "\n".join(failures_messages))
+            util.append_message(panel, "\n"+"*"*10+" DEPLOYMENT FAILED "+"*"*10)
+        else:
+            # Append succeed message
+            util.append_message(panel, "[sf:deploy] Request Succeed")
+            util.append_message(panel, "[sf:deploy] *********** DEPLOYMENT SUCCEEDED ***********")
+            util.append_message(panel, "[sf:deploy] Finished request %s successfully." % async_process_id)
+
+        # Total time
+        total_seconds = (datetime.datetime.now() - start_time).seconds
+        util.append_message(panel, "\nTotal time: %s seconds" % total_seconds)
 
         self.result = result
-
-        # Display Deploy Result
-        result = self.check_deploy_status(async_process_id)
-        view.run_command("new_dynamic_view", {
-            "view_id": view.id(),
-            "view_name": "Deploy Metadata Status",
-            "input": util.format_waiting_message(result, "Deploy Result") + "\n",
-            "point": view.size()
-        })
 
     def refresh_components(self, component_types):
         """ Download the specified components
