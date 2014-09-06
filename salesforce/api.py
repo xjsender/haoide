@@ -800,7 +800,6 @@ class SalesforceApi():
             return result
 
         content = response.content
-        print (b"check status: " + content)
         result = xmltodict.parse(content)
         try:
             result = result["soapenv:Envelope"]["soapenv:Body"]["checkStatusResponse"]["result"]
@@ -837,8 +836,12 @@ class SalesforceApi():
         content = response.content
         result = {"status_code": response.status_code}
         if response.status_code > 399:
-            result["errorCode"] = getUniqueElementValueFromXmlString(content, "errorCode")
-            result["message"] = getUniqueElementValueFromXmlString(content, "message")
+            if response.status_code == 500:
+                result["errorCode"] = getUniqueElementValueFromXmlString(content, "faultcode")
+                result["message"] = getUniqueElementValueFromXmlString(content, "faultstring")
+            else:
+                result["errorCode"] = getUniqueElementValueFromXmlString(content, "errorCode")
+                result["message"] = getUniqueElementValueFromXmlString(content, "message")
             return result
 
         result = xmltodict.parse(response.content)
@@ -897,7 +900,7 @@ class SalesforceApi():
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
-            return self.retrieve()
+            return self.retrieve(panel, soap_body)
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -921,28 +924,30 @@ class SalesforceApi():
         # [sf:retrieve]
         util.append_message(panel, "[sf:retrieve] Request ID for the current retrieve task: "+async_process_id)
 
-        # 2. issue a check status loop request to assure the async
-        # process is done
-        result = self.check_status(async_process_id)
+        # Issue request for retrieving status and waiting for response
         util.append_message(panel, "[sf:retrieve] Request for a retrieve submitted successfully.")
-
-        # [sf:retrieve]
         util.append_message(panel, "[sf:retrieve] Waiting for server to finish processing the request...")
 
+        # 2. issue a check status loop request to assure the async request is done
+        result = self.check_status(async_process_id)
+
+        # Catch exception of status retrieving
+        if result["status_code"] > 399:
+            self.result = result
+            return self.result
+        
+        # Output retrieve status
+        util.append_message(panel, "[sf:retrieve] Request Status: %s" % result["state"])
+        
+        # Check status until retrieve request is finished
         while result["done"] == "false":
-            # [sf:retrieve]
-            util.append_message(panel, "[sf:retrieve] Request Status: InProgress")
-
-            time.sleep(2)
+            time.sleep(1)
             result = self.check_status(async_process_id)
-
             sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
-
-        # [sf:retrieve]
-        util.append_message(panel, "[sf:retrieve] Request Status: Completed")
+            util.append_message(panel, "[sf:retrieve] Request Status: %s" % result["state"])
 
         # If check status request failed, this will not be done
-        if result["done"] == "Failed":
+        if result["state"] == "Failed":
             util.append_message(panel, "[sf:retrieve] Request Failed") # [sf:retrieve]
             self.result = result
             return
@@ -950,10 +955,20 @@ class SalesforceApi():
         # 3 Obtain zipFile(base64)
         result = self.check_retrieve_status(async_process_id)
 
-        # Output the message
+        # Output the message if have
         if "messages" in result:
-            for message in result["messages"]:
-                util.append_message(panel, "[sf:retrieve] %s - %s" % (message["fileName"], message["problem"]))
+            if isinstance(result["messages"], dict):
+                message = result["messages"]
+                util.append_message(panel, "[sf:retrieve] %s - %s" % (
+                    message["fileName"], 
+                    message["problem"]
+                ))
+            elif isinstance(result["messages"], list):
+                for message in result["messages"]:
+                    util.append_message(panel, "[sf:retrieve] %s - %s" % (
+                        message["fileName"], 
+                        message["problem"]
+                    ))
 
         # [sf:retrieve]
         util.append_message(panel, "[sf:retrieve] Finished request %s successfully." % async_process_id)
@@ -1324,7 +1339,7 @@ class SalesforceApi():
         }
         url = "/tooling/sobjects/" + component_type + "Member"
         member_result = self.post(url, data)
-        # print ("Post ApexComponentMember: ", result)
+        # print ("Post ApexComponentMember: ", member_result)
 
         # Post ContainerAsyncRequest
         data = {
