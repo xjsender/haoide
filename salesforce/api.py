@@ -897,7 +897,7 @@ class SalesforceApi():
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
-            return self.retrieve_all()
+            return self.retrieve()
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -1072,7 +1072,6 @@ class SalesforceApi():
         # process is done
         result = self.check_deploy_status(async_process_id)
         while result["status"] == "InProgress":
-            print (result)
             if "stateDetail" in result:
                 # [sf:deploy]
                 util.append_message(panel, "[sf:deploy] Request Status: %s (%s/%s)  -- %s" % (
