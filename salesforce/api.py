@@ -1108,7 +1108,8 @@ class SalesforceApi():
                     component_failure["fileName"],
                     component_failure["problemType"],
                     component_failure["problem"],
-                    component_failure["lineNumber"]
+                    component_failure["lineNumber"] \
+                        if "lineNumber" in component_failure else "0"
                 ))
             elif isinstance(component_failures, list):
                 for index in range(len(component_failures)):
