@@ -155,12 +155,12 @@
                 "children": [
                     {
                         "id": "describesobject",
-                        "caption": "Describe Sobject",
+                        "caption": "sObject",
                         "command": "describe_sobject"
                     },
                     {
                         "id": "generatesoql",
-                        "caption": "Generate SOQL",
+                        "caption": "sObject SOQL",
                         "command": "generate_soql"
                     }
                 ]
@@ -276,12 +276,15 @@
                     }
                 ]
             },
+
+            { "caption": "-" },
+
             {
-                "caption": "Migration",
+                "caption": "Metadata Migration",
                 "children": [
                     {
-                        "id": "retrieveallmetadata",
-                        "caption": "Retrieve Metadata",
+                        "id": "retrieveall",
+                        "caption": "Retrieve All",
                         "command": "retrieve_metadata"
                     },
                     {
@@ -299,12 +302,13 @@
                     },
 
                     {
-                        "id": "deploy",
+                        "id": "deployzip",
                         "caption": "Deploy Package.zip",
-                        "command": "deploy"
+                        "command": "deploy_zip"
                     }
                 ]
             },
+
             { "caption": "-" },
 
             {

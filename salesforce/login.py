@@ -28,7 +28,7 @@ def soap_login(settings, timeout=120):
                                                         'sf:exceptionMessage')
         result["errorCode"] = except_code
         result["message"] = except_msg
-        result["status_code"] = response.status_code
+        result["success"] = response.status_code < 399
         return result
 
     session_id = getUniqueElementValueFromXmlString(response.content, 'sessionId')
@@ -41,6 +41,6 @@ def soap_login(settings, timeout=120):
         "server_url": server_url,
         "instance_url": sf_instance,
         "user_id": user_id,
-        "status_code": response.status_code
+        "success": response.status_code < 399
     }
     return result

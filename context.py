@@ -130,32 +130,36 @@ def get_settings():
     settings["workflow_task_columns"] = s.get("workflow_task_columns")
     settings["workflow_outbound_message_columns"] = s.get("workflow_outbound_message_columns")
     settings["validation_rule_columns"] = s.get("validation_rule_columns")
-
-    # Combine the allowed packages SOQL expression
-    allowed_packages = s.get("allowed_packages", [])
-    allowed_packages_soql = '('
-    for pa in allowed_packages:
-        allowed_packages_soql += "'%s'" % pa + ","
-    allowed_packages_soql = allowed_packages_soql[:-1] + ")"
     
     # Document Reference Attrs
     settings["docs"] = s.get("docs", {})
 
-    # Proxy
-    settings["proxies"] = s.get("proxies", {})
-
+    # Parse the allowed packages SOQL expression
+    allowed_packages = s.get("allowed_packages", [])
+    if allowed_packages:
+        allowed_packages_filter = "OR NamespacePrefix IN ('"+"','".join(allowed_packages)+"')"
+    else:
+        allowed_packages_filter = ""
+    
     # Populate all global variables
     components = s.get("components")
     for component_type in components:
         component_attribute = components[component_type]
 
+        # If type is StaticResource, add the ContentType field
+        if component_type == "StaticResource":
+            content_type_filter = ", ContentType"
+        else:
+            content_type_filter = ""
+
         # Combine soql
-        component_soql = "SELECT Id, Name, " + component_attribute["body"] +\
-            (", ContentType" if component_type == "StaticResource" else "") +\
-            " FROM " + component_type +\
-            " WHERE NamespacePrefix = null" +\
-            (" OR NamespacePrefix in " + allowed_packages_soql if allowed_packages else "") +\
-            " ORDER BY Name"
+        component_soql = ("SELECT Id, Name, %s%s FROM %s " +\
+            "WHERE NamespacePrefix = null %s ORDER BY Name") % (
+                component_attribute["body"],
+                content_type_filter,
+                component_type,
+                allowed_packages_filter
+            )
 
         component_attribute["soql"] = component_soql
         component_attribute["outputdir"] = workspace + "/" + component_attribute["folder"]

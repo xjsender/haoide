@@ -15,6 +15,12 @@
 
     // Press Shift and Click Left Mouse for triple will open class file
     {
+        "button": "button1", "count": 1, "modifiers": ["alt"],
+        "press_command": "view_debug_log_detail"
+    },
+
+    // Press Shift and Click Left Mouse for triple will open class file
+    {
         "button": "button1", "count": 2, "modifiers": ["alt"],
         "press_command": "view_selected_code_coverage"
     }

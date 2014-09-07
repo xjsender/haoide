@@ -25,19 +25,6 @@
     // API version
     "api_version": 30,
 
-    // Proxy, If need user name and password:
-    //  {
-    //      "http": "http://user:pass@10.10.1.10:3128/",
-    //      "https": "http://user:pass@10.10.1.10:1080"
-    //  }
-    //  If not need,
-    //  {
-    //      "http": "http://10.10.1.10:3128/",
-    //      "https": "http://10.10.1.10:1080"
-    //  }
-    // More detail: http://docs.python-requests.org/en/latest/user/advanced/#proxies
-    "proxies": {},
-
     // Browser Path, you should set a valid browser path, otherwise, it will have problem
     // Some policy prevents setting chrome as default browser, so this setting is here
     "default_chrome_path": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
@@ -148,13 +135,12 @@
     "deploy_options": {
         "allowMissingFiles": false,
         "autoUpdatePackage": false,
-        "checkOnly": false,
-        "ignoreWarnings": false,
+        "checkOnly": true,
+        "ignoreWarnings": true,
         "performRetrieve": false,
         "purgeOnDelete": false,
         "rollbackOnError": true,
         "runAllTests": false,
-        "runTests": "",
         "singlePackage": true
     },
 
@@ -280,7 +266,10 @@
         "AccountShare", "ContactShare", "OpportunityShare", "LeadShare", "CampaignShare", "UserShare",
 
         // Team Member
-        "AccountTeamMember", "OpportunityTeamMember", "CaseTeamMember", "UserTeamMember"
+        "AccountTeamMember", "OpportunityTeamMember", "CaseTeamMember", "UserTeamMember",
+
+        // Apex Code
+        "ApexClass", "ApexComponent", "ApexTrigger", "ApexPage", "StaticResource"
     ],
 
     // This setting is used to keep the default pattern of salesforce document TOC path

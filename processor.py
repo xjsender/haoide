@@ -244,7 +244,7 @@ def handle_login_thread(default_project, timeout=120):
             return
 
         result = api.result
-        if result["status_code"] > 399: return
+        if not result["success"]: return
 
         print (message.SEPRATE.format("Login Succeed"))
 
@@ -262,12 +262,7 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
             return
 
         result = api.result
-        if result["status_code"] > 399:
-            error_message = "% 20s\t" % "Component Name: "
-            error_message += "%-30s\t" % component_name + "\n"
-            error_message += util.format_error_message(result)
-            print (message.SEPRATE.format(error_message))
-            return
+        if not result["success"]: return
 
         # Show panel
         util.show_panel()
@@ -404,7 +399,7 @@ def handle_reload_symbol_tables(timeout=120):
             return
 
         result = api.result
-        if result["status_code"] > 399: return
+        if not result["success"]: return
 
         # Get the username of default project
         username = settings["username"]
@@ -584,7 +579,7 @@ def handle_reload_sobjects_completions(timeout=120):
         sublime.save_settings("sobjects_completion.sublime-settings")
 
         # Output message
-        print (message.SEPRATE.format('sObject Describe Result are Kept to Local Cache'))
+        print (message.SEPRATE.format('sObjects Cache are saved to Local'))
 
     def handle_thread(api, thread, timeout=120):
         if thread.is_alive():
@@ -613,26 +608,10 @@ def handle_reload_sobjects_completions(timeout=120):
     ThreadProgress(api, thread, "Global Describe", "Global Describe Succeed")
     handle_thread(api, thread, timeout)
 
-def handle_deploy_thread(zipfile, timeout=120):
-    def handle_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
-            return
-        
-        result = api.result
-        status_code = result["status_code"]
-        if status_code > 399: return
-
-        # Mkdir for output dir of zip file
-        result = api.result
-        
-    # Prepare to start request
-    start_time = datetime.datetime.now() # Retrieve Start Time
-    panel = sublime.active_window().create_output_panel('panel')  # Create panel
-
+def handle_deploy_thread(base64_zip, timeout=120):
     settings = context.get_settings()
     api = SalesforceApi(settings)
-    thread = threading.Thread(target=api.deploy, args=(panel, zipfile, ))
+    thread = threading.Thread(target=api.deploy, args=(base64_zip, ))
     thread.start()
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
     handle_thread(thread, timeout)
@@ -697,40 +676,30 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
-        
-        if not api.result: return
-        if api.result["status_code"] > 399: return
+
+        if not api.result or not api.result["success"]: return
 
         # Mkdir for output dir of zip file
         result = api.result
         context.add_project_to_workspace(settings["workspace"])
         outputdir = settings["workspace"] + "/metadata"
         if not os.path.exists(outputdir):
-            util.append_message(panel, "[mkdir] Created dir: "+outputdir)
             os.makedirs(outputdir)
 
         # Extract zip
         util.extract_zip(result["zipFile"], outputdir)
-        # os.remove(zipdir) # Remove this zip file
+        os.remove(zipdir) # Remove this zip file
 
-        # Build Successful
-        util.append_message(panel, "\nBUILD SUCCESSFUL")
-
-        # Total time
-        total_seconds = (datetime.datetime.now() - start_time).seconds
-        util.append_message(panel, "Total time: %s seconds" % total_seconds)
 
     settings = context.get_settings()
     api = SalesforceApi(settings)
-    start_time = datetime.datetime.now() # Retrieve Start Time
-    panel = sublime.active_window().create_output_panel('panel')  # Create panel
 
     if retrieve_all:
         soap_body = soap_bodies.retrieve_all_task_body
     else:
         soap_body = soap_bodies.retrieve_sobjects_workflow_task_body
 
-    thread = threading.Thread(target=api.retrieve, args=(panel, soap_body, ))
+    thread = threading.Thread(target=api.retrieve, args=(soap_body, ))
     thread.start()
     ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
     handle_thread(thread, timeout)
@@ -766,7 +735,7 @@ def handle_export_validation_rules(timeout=120):
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
     settings = context.get_settings()
-    outputdir = settings["workspace"] + "/validation/validation rules.csv"
+    outputdir = settings["workspace"] + "/Validation/Validation Rules.csv"
     api = SalesforceApi(settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
@@ -781,19 +750,19 @@ def handle_export_customfield(timeout=120):
         
         # If succeed
         result = api.result
-        if result["status_code"] > 399 : return
+        if not result["success"]: return
 
         # Write list to csv
         if not os.path.exists(outputdir): os.makedirs(outputdir)
         records = sorted(result["records"], key=lambda k : k['TableEnumOrId'])
-        util.list2csv(outputdir + "/customfield.csv", records)
+        util.list2csv(outputdir + "/CustomField.csv", records)
 
         # Output log
         print (message.SEPRATE.format(outputdir))
 
     settings = context.get_settings()
     workspace = context.get_settings().get("workspace")
-    outputdir = workspace + "/customfield"
+    outputdir = workspace + "/CustomField"
     api = SalesforceApi(settings)
     query = "SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName FROM CustomField"
     thread = threading.Thread(target=api.query, args=(query, True,))
@@ -810,7 +779,7 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
         
         # If succeed
         result = api.result
-        if result["status_code"] > 399 : return
+        if not result["success"]: return
 
         # If outputdir is not exist, just make it
         if not os.path.exists(outputdir): os.makedirs(outputdir)
@@ -851,9 +820,9 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         except:
             pass
 
-        # Remove the useless status_code attribute
-        if isinstance(result, dict) and "status_code" in result:
-            del result["status_code"]
+        # Remove the useless success attribute
+        if isinstance(result, dict) and "success" in result:
+            del result["success"]
         
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
@@ -903,7 +872,7 @@ def handle_execute_query(soql, timeout=120):
         
         # If succeed
         result = api.result
-        if result["status_code"] > 399: return
+        if not result["success"]: return
         
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
@@ -930,7 +899,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
         
         # If succeed
         result = api.result
-        if result["status_code"] > 399: return
+        if not result["success"]: return
 
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
@@ -969,7 +938,6 @@ def handle_fetch_debug_logs(user_full_name, user_id, timeout=120):
     query = "SELECT Id,LogUserId,LogLength,Request,Operation,Application," +\
             "Status,DurationMilliseconds,StartTime,Location FROM ApexLog " +\
             "WHERE LogUserId='%s' ORDER BY StartTime DESC LIMIT %s" % (user_id, settings["last_n_logs"])
-    print (query)
     thread = threading.Thread(target=api.query, args=(query, ))
     thread.start()
     ThreadProgress(api, thread, "List Debug Logs for " + user_full_name, 
@@ -983,7 +951,7 @@ def handle_create_debug_log(user_name, user_id, timeout=120):
             return
 
         result = api.result
-        if result["status_code"] > 399: return
+        if not result["success"]: return
         print (message.SEPRATE.format(user_name + " " + result["message"]) )
 
     settings = context.get_settings()
@@ -1000,7 +968,8 @@ def handle_view_debug_log_detail(log_id, timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         
-        if api.result["status_code"] > 399: return
+        if not api.result["success"]: return
+
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "Debug Log Detail",
@@ -1024,7 +993,7 @@ def handle_run_all_test(timeout=120):
                 return
             else:
                 result = api.result
-                if "status_code" in result and result["status_code"] > 399: continue
+                if "success" in result and not result["success"]: continue
 
                 # No error, just display log in a new view
                 test_result = util.parse_test_result(result)
@@ -1096,7 +1065,7 @@ def handle_run_test(class_name, class_id, timeout=120):
         result = api.result
 
         # If error
-        if "status_code" in result and result["status_code"] > 399: return
+        if "success" in result and not result["success"]: return
 
         # No error, just display log in a new view
         test_result = util.parse_test_result(result)
@@ -1191,7 +1160,7 @@ def handle_generate_sobject_soql(sobject, timeout=120):
         result = api.result
         
         # Error Message are prcoessed in ThreadProgress
-        if result["status_code"] > 399: return
+        if not result["success"]: return
 
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
@@ -1201,7 +1170,7 @@ def handle_generate_sobject_soql(sobject, timeout=120):
         })
 
         # Keep sobject describe history
-        util.add_operation_history('soql/' + sobject, result["soql"])
+        util.add_operation_history('SOQL/' + sobject, result["soql"])
 
     settings = context.get_settings()
     api = SalesforceApi(settings)
@@ -1221,7 +1190,7 @@ def handle_describe_sobject(sobject, timeout=120):
         result = api.result
         
         # Error Message are prcoessed in ThreadProgress
-        if result["status_code"] > 399: return
+        if not result["success"]: return
 
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
@@ -1283,7 +1252,7 @@ def handle_new_project(settings, is_update=False, timeout=120):
         # for example, user password is expired
         result = api.result
         if not result: return
-        if "status_code" in result and result["status_code"] > 399: return
+        if "success" in result and not result["success"]: return
 
         # Load COMPONENT_METADATA_SETTINGS Settings and put all result into it
         # Every org has one local repository
@@ -1327,14 +1296,13 @@ def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeo
             return
         
         if not api.result: return
-        if api.result["status_code"] > 399: return
+        if not api.result["success"]: return
 
         # Mkdir for output dir of zip file
         result = api.result
         if not static_resource_dir:
             static_resource_dir = settings["workspace"] + folder_name
         if not os.path.exists(static_resource_dir): 
-            util.append_message(panel, "[mkdir] Created dir: "+static_resource_dir)
             os.makedirs(static_resource_dir)
 
         # Extract zip
@@ -1354,19 +1322,9 @@ def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeo
         shutil.rmtree(static_resource_dir + "/unpackaged", ignore_errors=True)
         os.remove(static_resource_dir + "/package.zip")
 
-        # Build Successful
-        util.append_message(panel, "\nBUILD SUCCESSFUL")
-
-        # Total time
-        total_seconds = (datetime.datetime.now() - start_time).seconds
-        util.append_message(panel, "Total time: %s seconds" % total_seconds)
-
     settings = context.get_settings()
     api = SalesforceApi(settings)
-    start_time = datetime.datetime.now() # Retrieve Start Time
-    panel = sublime.active_window().create_output_panel('panel')  # Create panel
-    thread = threading.Thread(target=api.retrieve, 
-        args=(panel, soap_bodies.retrieve_static_resources_body, ))
+    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_static_resources_body, ))
     thread.start()
     handle_thread(thread, static_resource_dir, timeout)
     ThreadProgress(api, thread, "Retrieve StaticResource", "Retrieve StaticResource Succeed")
@@ -1378,7 +1336,7 @@ def handle_retrieve_package(package_path, timeout=120):
             return
         
         if not api.result: return
-        if api.result["status_code"] > 399: return
+        if not api.result["success"]: return
 
         # Mkdir for output dir of zip file
         result = api.result
@@ -1389,26 +1347,10 @@ def handle_retrieve_package(package_path, timeout=120):
         # Extract zip
         util.extract_zip(result["zipFile"], base_path)
 
-        # Output package path
-        util.append_message(panel, "[sf:retrieve] Output package dir: "+base_path)
-
-        # Build Successful
-        util.append_message(panel, "\nBUILD SUCCESSFUL")
-
-        # Total time
-        total_seconds = (datetime.datetime.now() - start_time).seconds
-        util.append_message(panel, "Total time: %s seconds" % total_seconds)
-
-    # Prepare to start request
-    start_time = datetime.datetime.now() # Retrieve Start Time
-    panel = sublime.active_window().create_output_panel('panel')  # Create panel
-
     # Start to request
     settings = context.get_settings()
     api = SalesforceApi(settings)
-
-    thread = threading.Thread(target=api.retrieve, 
-        args=(panel, soap_bodies.retrieve_body, package_path,))
+    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_body, package_path,))
     thread.start()
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
@@ -1526,7 +1468,7 @@ def handle_create_component(data, component_name, component_type, file_name, tim
         result = api.result
 
         # If created failed, just remove it
-        if result["status_code"] > 399:
+        if not result["success"]:
             os.remove(file_name)
             return
 
@@ -1578,7 +1520,7 @@ def handle_refresh_static_resource(component_attribute, file_name, timeout=120):
         result = api.result
 
         # If error, just skip, error is processed in ThreadProgress
-        if result["status_code"] > 399: return
+        if not result["success"]: return
 
         fp = open(file_name, "wb")
         fp.write(bytes(result["body"], "utf-8"))
@@ -1598,10 +1540,9 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
             return
         
         result = api.result
-        status_code = result["status_code"]
         
         # If error, just skip, error is processed in ThreadProgress
-        if status_code > 399: return
+        if not result["result"]: return
 
         fp = open(file_name, "wb")
         try:
@@ -1628,7 +1569,7 @@ def handle_delete_component(component_url, file_name, timeout=120):
 
         # If succeed
         result = api.result
-        if result["status_code"] > 399: return
+        if not result["success"]: return
         os.remove(file_name)
         sublime.active_window().run_command("close")
 

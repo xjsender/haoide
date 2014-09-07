@@ -13,6 +13,7 @@ See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 + [Execute Rest Test](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Execute%20Rest%20Test.gif)
 + [Retrieve Package.xml](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
 + [Deploy Package.zip](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
++ [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
  
 # Installation
 This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), after you [installed the package control](https://sublime.wbond.net/installation#st3), you can install this plugin by searching ```Salesforce IDE``` in package control
@@ -92,18 +93,18 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 You can click ```SublimeApex > Update > Update Project``` in the main menu or press <kbd>Alt</kbd>+<kbd>R</kbd> to update your active project.
 
 ## Completions:
-*Standard Class Completion
-*sObject Fields Completion and sObject Relationship Completion
-*Relationship Fields Completion
-*Custom Class Completion
-*Input any Character, Show All Standard sObject, Custom sObject, Standard Class and Custom Class
-*After input ``Page.``, list all custom visualforce page
-*Picklist Value Completion
-*SOQL Fields Completion
-*Standard Visualforce Component and Custom Visualforce Component Completion
-*HTML Elements Completion
-*HTML and Visualforce Component Attribute Completion
-*HTML and Visualforce Component Attribute Value Completion
++ Standard Class Completion
++ sObject Fields Completion and sObject Relationship Completion
++ Relationship Fields Completion
++ Custom Class Completion
++ Input any Character, Show All Standard sObject, Custom sObject, Standard Class and Custom Class
++ After input ``Page.``, list all custom visualforce page
++ Picklist Value Completion
++ SOQL Fields Completion
++ Standard Visualforce Component and Custom Visualforce Component Completion
++ HTML Elements Completion
++ HTML and Visualforce Component Attribute Completion
++ HTML and Visualforce Component Attribute Value Completion
 
 ## Execute Anonymous
 Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```SublimeApex``` > ```Execute Anonymous```, the executed result will be shown in a new view.
@@ -161,6 +162,9 @@ You can choose the ```Log Id``` and click ```SublimeApex``` > ```View Debug Log 
 
 Or, you can choose any Log Id and click ```SublimeApex``` > ```View Id In Salesforce Web```, wait for a moment, browser will be open and redirect to the log detail page.
 
+## View Debug Log Detail
+Put the focus in the ```Log Id```, press ```alt``` and click left button, the code coverage of specified class will be retrieved and displayed in the new view.
+
 ## Run Test
 There are two methods to run test, one is by Main Menu, other is in the context menu
 By Main Menu: click ```SublimeApex``` > ```Debug``` > ```Run Test```, choose the test class and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
@@ -169,6 +173,8 @@ By Context Menu: in the context of opened class, click ```SublimeApex``` > ```Ru
 ## View Code Coverage
 This feature just works when api version is >= 29.0
 In the context menu of open class or trigger, click ```SublimeApex``` > ```View Code Coverage``` in the context menu, ait for the end of the progress on the status bar, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
+
+Put the focus in the ApexClass Name, press ```alt``` and click left button for twice, the code coverage of specified class will be retrieved and displayed in the new view.
 
 ## Keep Apex Code Local History
 When you save code, this plugin will keep the change every minute.
@@ -218,9 +224,14 @@ see [Retrieve Package.xml Demo](https://raw.githubusercontent.com/xjsender/Subli
 ## Deploy Package Zip
 Click ```SublimeApex``` > ```Migration``` > ```Retrieve Metadata``` in the main menu, input your zip file path, after that, you will see the effect.
 
-So far, just support zip file deploy, in the near future, it will support retrieving and deploy together.
-
 see [Deploy Package Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
+
+## Deploy Package Folder
+Choose a valid package folder, click right button, check if the ```Deploy to Server``` command is enabled, if yes, it means the package folder is valid, and then click the ```Deploy To Server`` command, you will see the effect.
+
+**This feature is in beta now, Default Deploy checkOnly is true, need more detail? please check the deploy_options settings in default settings**
+
+see [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
 
 ## Export Workflow Rules
 After you downloaded all metadata by clicking ```SublimeApex``` > ```Migration``` > ```Retrieve Metadata```, you can click ```SublimeApex``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.

@@ -13,6 +13,12 @@
             //     "caption": "Run Async Test", "command": "run_async_test_classes",
             //     "args": {"files": []}
             // },
+            // 
+            {
+                "caption": "Deploy To Server", "command": "deploy_to_server",
+                "args": {"dirs": []}
+            },
+
             {
                 "caption": "Refresh Selected Components", "command": "refresh_selected_components",
                 "args": {"files": []}

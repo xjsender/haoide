@@ -84,8 +84,13 @@
     },
 
     {
+        "caption": "SublimeApex: Retrieve Package File",
+        "command": "retrieve_package_file"
+    },
+
+    {
         "caption": "SublimeApex: Retrieve Package.zip",
-        "command": "deploy"
+        "command": "deploy_zip"
     },
 
     {

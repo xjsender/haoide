@@ -1,3 +1,4 @@
+# Body for creating job and closing job
 create_job = """<?xml version="1.0" encoding="UTF-8"?>
                 <jobInfo xmlns="http://www.force.com/2009/06/asyncapi/dataload">
                     <operation>{operation}</operation>
@@ -11,6 +12,7 @@ close_job = """<?xml version="1.0" encoding="UTF-8"?>
                     <state>Closed</state>
                 </jobInfo>"""
 
+# Body for login
 login_body = """<?xml version="1.0" encoding="utf-8" ?>
     <env:Envelope
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -24,6 +26,7 @@ login_body = """<?xml version="1.0" encoding="utf-8" ?>
         </env:Body>
     </env:Envelope>"""
 
+# Body for executing anonymous apex
 execute_anonymous_body = """
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
     xmlns:apex="http://soap.sforce.com/2006/08/apex">
@@ -42,6 +45,7 @@ execute_anonymous_body = """
        </soapenv:Body>
     </soapenv:Envelope>"""
 
+# Body for describing layout
 describe_layout_body = """
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
         xmlns:urn="urn:partner.soap.sforce.com">
@@ -58,6 +62,7 @@ describe_layout_body = """
         </soapenv:Body>
     </soapenv:Envelope>"""
 
+# Body for checking status of retrieve or deploy
 check_status_body = """
   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
   xmlns:met="http://soap.sforce.com/2006/04/metadata">
@@ -74,6 +79,7 @@ check_status_body = """
   </soapenv:Envelope>
   """
 
+# Body for retrieving status
 check_retrieve_status_body = """
   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
   xmlns:met="http://soap.sforce.com/2006/04/metadata">
@@ -90,6 +96,7 @@ check_retrieve_status_body = """
   </soapenv:Envelope>
   """
 
+# Body for retrieve metadata by specified package.xml
 retrieve_body = """
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
         xmlns:met="http://soap.sforce.com/2006/04/metadata">
@@ -111,6 +118,51 @@ retrieve_body = """
     </soapenv:Envelope>
 """
 
+# Body for checking deploy status
+check_deploy_status = """
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:met="http://soap.sforce.com/2006/04/metadata">
+       <soapenv:Header>
+          <met:SessionHeader>
+             <met:sessionId>{0}</met:sessionId>
+          </met:SessionHeader>
+       </soapenv:Header>
+       <soapenv:Body>
+          <met:checkDeployStatus>
+             <met:asyncProcessId>{1}</met:asyncProcessId>
+             <met:includeDetails>true</met:includeDetails>
+          </met:checkDeployStatus>
+       </soapenv:Body>
+    </soapenv:Envelope>"""
+
+# Body for deploying base64 zipfile
+deploy_package = """
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:met="http://soap.sforce.com/2006/04/metadata">
+        <soapenv:Header>
+            <met:SessionHeader>
+               <met:sessionId>{0}</met:sessionId>
+            </met:SessionHeader>
+        </soapenv:Header>
+       <soapenv:Body>
+          <met:deploy>
+             <met:ZipFile>{1}</met:ZipFile>
+             <met:DeployOptions>
+                <met:allowMissingFiles>{2}</met:allowMissingFiles>
+                <met:autoUpdatePackage>{3}</met:autoUpdatePackage>
+                <met:checkOnly>{4}</met:checkOnly>
+                <met:ignoreWarnings>{5}</met:ignoreWarnings>
+                <met:performRetrieve>{6}</met:performRetrieve>
+                <met:purgeOnDelete>{7}</met:purgeOnDelete>
+                <met:rollbackOnError>{8}</met:rollbackOnError>
+                <met:runAllTests>{9}</met:runAllTests>
+                <met:singlePackage>{10}</met:singlePackage>
+             </met:DeployOptions>
+          </met:deploy>
+       </soapenv:Body>
+    </soapenv:Envelope>"""
+
+# Body for retrieving Metadata of sObjects and Workflow
 retrieve_sobjects_workflow_task_body = """
   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
   xmlns:met="http://soap.sforce.com/2006/04/metadata">
@@ -146,16 +198,10 @@ retrieve_sobjects_workflow_task_body = """
                       <met:members>OpportunityLineItem</met:members>
                       <met:members>PartnerRole</met:members>
                       <met:members>Product2</met:members>
-                      <met:members>Question</met:members>
-                      <met:members>Reply</met:members>
                       <met:members>Site</met:members>
-                      <met:members>SnapshotAuditEvent</met:members>
-                      <met:members>SnapshotBin</met:members>
-                      <met:members>SnapshotConfig</met:members>
                       <met:members>Solution</met:members>
                       <met:members>Task</met:members>
                       <met:members>User</met:members>
-                      <met:members>UserLicense</met:members>
                       <name>CustomObject</name>
                   </met:types>
                   <met:types>
@@ -169,6 +215,7 @@ retrieve_sobjects_workflow_task_body = """
      </soapenv:Body>
   </soapenv:Envelope>"""
 
+# Body for retrieving static resource
 retrieve_static_resources_body = """
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
     xmlns:met="http://soap.sforce.com/2006/04/metadata">
@@ -193,6 +240,7 @@ retrieve_static_resources_body = """
         </soapenv:Body>
     </soapenv:Envelope>"""
 
+# Body for retrieving all metadata
 retrieve_all_task_body = """
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
     xmlns:met="http://soap.sforce.com/2006/04/metadata">
@@ -450,47 +498,4 @@ retrieve_all_task_body = """
                 </met:retrieveRequest>
             </met:retrieve>
         </soapenv:Body>
-    </soapenv:Envelope>"""
-
-check_deploy_status = """
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-    xmlns:met="http://soap.sforce.com/2006/04/metadata">
-       <soapenv:Header>
-          <met:SessionHeader>
-             <met:sessionId>{0}</met:sessionId>
-          </met:SessionHeader>
-       </soapenv:Header>
-       <soapenv:Body>
-          <met:checkDeployStatus>
-             <met:asyncProcessId>{1}</met:asyncProcessId>
-             <met:includeDetails>true</met:includeDetails>
-          </met:checkDeployStatus>
-       </soapenv:Body>
-    </soapenv:Envelope>"""
-
-deploy_package = """
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-    xmlns:met="http://soap.sforce.com/2006/04/metadata">
-        <soapenv:Header>
-            <met:SessionHeader>
-               <met:sessionId>{0}</met:sessionId>
-            </met:SessionHeader>
-        </soapenv:Header>
-       <soapenv:Body>
-          <met:deploy>
-             <met:ZipFile>{1}</met:ZipFile>
-             <met:DeployOptions>
-                <met:allowMissingFiles>{2}</met:allowMissingFiles>
-                <met:autoUpdatePackage>{3}</met:autoUpdatePackage>
-                <met:checkOnly>{4}</met:checkOnly>
-                <met:ignoreWarnings>{5}</met:ignoreWarnings>
-                <met:performRetrieve>{6}</met:performRetrieve>
-                <met:purgeOnDelete>{7}</met:purgeOnDelete>
-                <met:rollbackOnError>{8}</met:rollbackOnError>
-                <met:runAllTests>{9}</met:runAllTests>
-                <met:runTests>{10}</met:runTests>
-                <met:singlePackage>{11}</met:singlePackage>
-             </met:DeployOptions>
-          </met:deploy>
-       </soapenv:Body>
     </soapenv:Envelope>"""

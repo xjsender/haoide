@@ -4,6 +4,30 @@ Release History
 
 ---------------
 
+Release 0.8.3 (2014-09-07)
+++++++++++++++++++
++ Rearrange the attribute position in ``soap_bodies.py``
++ Update README.MD
++ When start ``deploy`` command, if clipboard content is not valid zip file path, set path with empty, otherwise, paste it to input panel
++ Rename ``Retrieve Metadata`` item in main menu to ``Retrieve All``
++ Rename ``Migration`` item in main menu to ``Metadata Migration``
++ Add confirmation request for ``Retrieve All`` and ``Retrieve sObjects and Workflow``
++ Rename ``Describe Sobject`` item in main menu to ``sObject``
++ Rename ``Generate SOQL`` item in main menu to ``sObject SOQL``
++ Rename ``SOQL History`` path from ``soql`` to ``SOQL``
++ Rename ``Workbook Export`` path from ``workbooks`` to ``Workbooks``
++ Rename ``CustomField`` path from ``customfield/customfield.csv`` to ``CustomField/CustomField.csv``
++ Rename ``Validation Rule`` path from ``validation/validation rules.csv`` to ``Validation/Validation Rules.csv``
++ Add ``Apex Code`` related sObject to ``allowed_sobjects`` settings
++ Remove ``proxies`` settings
++ Fix bug: Parse content from package.xml when there is only one types in package.xml
++ Add a new ``Retrieve Package.xml`` command in the context menu, just available when open file is ``package.xml``
++ Add a new ``Deploy to Server`` command in the sidebar menu, just available when the chosen folder is valid package path
++ Put the focus in the log id, press ``Alt`` and click left button, the debug log detail will be retrieved and displayed in the new view
++ Error message when export workflow or validation rule if not retrieve yet
++ Remove ``SnapshotAuditEvent``, ``SnapshotBin``, ``Question``, ``SnapshotConfig``, ``Reply`` and ``UserLicense`` from default ``retrieve_sobjects_workflow_task_body`` in ``soap_bodies.py``
+
+
 Release 0.8.2 (2014-09-05)
 ++++++++++++++++++
 + when ``retrieve package.xml``, if file in package.xml is not found in target org, display the message
@@ -13,7 +37,7 @@ Release 0.8.2 (2014-09-05)
 Release 0.8.1 (2014-09-05)
 ++++++++++++++++++
 + Change the UI of ``retrieve``
-+ Add a command ``retrieve_package`` for retrieve metadata by specified package.xml
++ Add a command ``retrieve_package`` in the main menu to retrieve metadata by specified package.xml
 + Fix a bug for ``get_static_resource_body`` when creating a new project
 + Fix a bug for displaying the latest debug logs ``ORDER BY StartTime DESC`` when ``fetch logs``
 + Add a new demo link ``Retrieve Package.xml`` in README.MD

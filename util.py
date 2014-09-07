@@ -410,15 +410,18 @@ def get_symbol_table_completions(symbol_table):
                 for p in c['parameters']:
                     params.append(p["type"] + " " + p["name"])
             if len(params) == 1:
-                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], c["name"]+"(${1:"+", ".join(params)+"})"))
+                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], 
+                    c["name"]+"(${1:"+", ".join(params)+"})"))
             elif len(params) > 1:
                 paramStrings = []
                 for i, p in enumerate(params):
                     paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
                 paramString = ", ".join(paramStrings)
-                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], c["name"]+"("+paramString+")"))
+                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], 
+                    c["name"]+"("+paramString+")"))
             else:
-                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], c["name"]+"()${1:}"))
+                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], 
+                    c["name"]+"()${1:}"))
 
     if 'innerClasses' in symbol_table:
         for c in symbol_table["innerClasses"]:
@@ -433,7 +436,8 @@ def get_symbol_table_completions(symbol_table):
                         for i, p in enumerate(params):
                             paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
                         paramString = ", ".join(paramStrings)
-                        completions.append((visibility + " " + con["name"]+"("+", ".join(params)+")", c["name"]+"("+paramString+")"))
+                        completions.append((visibility + " " + con["name"]+"("+", ".join(params)+")", 
+                            c["name"]+"("+paramString+")"))
                     else:
                         completions.append((visibility + " " + con["name"]+"()", c["name"]+"()${1:}"))
             else:
@@ -643,6 +647,20 @@ def base64_zip(zipfile):
 
     return base64String.decode('UTF-8')
 
+def compress_package(package_dir):
+    zipfile_path = package_dir+"/archive.zip"
+    zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
+    for dirpath, dirnames, filenames in os.walk(package_dir):
+        basename = dirpath[len(package_dir)+1:]
+        for filename in filenames:
+            zf.write(os.path.join(dirpath,filename), basename+"/"+filename) 
+    zf.close()
+
+    base64_package = base64_zip(zipfile_path)
+    os.remove(zipfile_path)
+
+    return base64_package
+    
 def extract_zip(base64String, outputdir):
     """
     1. Decode base64String to zip
@@ -1289,7 +1307,7 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
     fields_key = workbook_field_describe_columns
 
     # If workbook path is not exist, just make it
-    outputdir = workspace + "/workbooks"
+    outputdir = workspace + "/Workbooks"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -1535,7 +1553,7 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
     return elementValue
 
 def parse_package(package_path):
-    """Return project name and component folder attribute
+    """Parse package types to specified format
 
     Arguments:
 
@@ -1547,6 +1565,10 @@ def parse_package(package_path):
 
     elements = []
     types = result["Package"]["types"]
+
+    # If there is only one types in package
+    if isinstance(types, dict): types = [types]
+
     for t in types:
         members = []
         if "members" in t and isinstance(t["members"], list):

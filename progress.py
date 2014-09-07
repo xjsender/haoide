@@ -43,10 +43,7 @@ class ThreadProgress():
             # After thread is end, display feedback to end user
             # according to response
             result = self.api.result
-            if isinstance(result, dict) and\
-                (("status_code" in result and result["status_code"] > 399) or\
-                 ("success" in result and not result["success"])):
-                
+            if isinstance(result, dict) and "success" in result and not result["success"]:
                 if self.open_console: 
                     util.show_output_panel(message.SEPRATE.format(util.format_error_message(result)))
 

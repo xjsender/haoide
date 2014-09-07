@@ -353,6 +353,8 @@ class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
         super(RetrieveMetadataCommand, self).__init__(*args, **kwargs)
 
     def run(self, retrieve_all=True):
+        confirm = sublime.ok_cancel_dialog("Are your sure you really want to continue?")
+        if confirm == False: return
         processor.handle_retrieve_all_thread(retrieve_all=retrieve_all)
 
 class RetrievePackageCommand(sublime_plugin.WindowCommand):
@@ -376,21 +378,68 @@ class RetrievePackageCommand(sublime_plugin.WindowCommand):
 
         processor.handle_retrieve_package(file_path)
 
-class DeployCommand(sublime_plugin.WindowCommand):
+class RetrievePackageFileCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        print (self.file_name)
+        processor.handle_retrieve_package(self.file_name)
+
+    def is_visible(self):
+        self.file_name = self.view.file_name()
+        if not self.file_name: return False
+        if not self.file_name.endswith("package.xml"): return False
+
+        return True
+
+class DeployZipCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(DeployCommand, self).__init__(*args, **kwargs)
+        super(DeployZipCommand, self).__init__(*args, **kwargs)
 
     def run(self):
         path = sublime.get_clipboard()
-        if not os.path.isfile(path): path = ""
+        if not path or not os.path.isfile(path): path = ""
+        if not path.endswith("zip"): path = ""
         self.window.show_input_panel("Input Zip File Path:", 
             path, self.on_input, None, None)
 
-    def on_input(self, input):
-        if not input.endswith('.zip'):
+    def on_input(self, zipfile_path):
+        if not zipfile_path.endswith('.zip'):
             sublime.error_message("Invalid Zip File")
             return
-        processor.handle_deploy_thread(input)
+
+        processor.handle_deploy_thread(util.base64_zip(zipfile_path))
+
+class DeployToServerCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DeployToServerCommand, self).__init__(*args, **kwargs)
+
+    def run(self, dirs):
+        self.dirs = dirs
+
+        settings = context.get_settings()
+        self.projects = settings["projects"]
+        self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
+            'Inactive') + ") " + p for p in self.projects]
+        self.projects = sorted(self.projects, reverse=False)
+        self.window.show_quick_panel(self.projects, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+        # Change the chosen project as default
+        # Split with ") " and get the second project name
+        default_project = self.projects[index].split(") ")[1]
+        context.switch_project(default_project)
+
+        package_dir = self.dirs[0]
+        processor.handle_deploy_thread(util.compress_package(package_dir));
+
+    def is_enabled(self, dirs):
+        if not dirs: return False
+        if len(dirs) > 1: return False
+        if not os.path.exists(dirs[0]+"/package.xml"):
+            sublime.status_message("Not valid package path")
+            return False
+
+        return True
 
 class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -695,10 +744,8 @@ class ViewDebugLogDetailCommand(sublime_plugin.TextCommand):
 
     def is_enabled(self):
         # Choose the valid Id, you will see this command
-        if util.is_python3x():
-            self.log_id = self.view.substr(self.view.sel()[0])
-        else:
-            self.log_id = self.view.substr(self.view.sel()[0]).encode("utf-8")
+        sel = self.view.sel()[0]
+        self.log_id = self.view.substr(self.view.word(sel.begin()))
 
         if len(self.log_id) != 15 and len(self.log_id) != 18: return False
         if not re.compile(r'^[a-zA-Z0-9]*$').match(self.log_id): return False

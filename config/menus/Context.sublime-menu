@@ -4,6 +4,8 @@
         "caption": "SublimeApex",
         "children":
         [
+            {"caption": "Retrieve Package.xml", "command": "retrieve_package_file"},
+
             // {"caption": "Retrieve StaticResource Body", "command": "retrieve_static_resource_body"},
             {"caption": "Refresh from Server", "command": "refresh_component"},
             // Save component

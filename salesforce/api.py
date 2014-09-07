@@ -21,7 +21,6 @@ class SalesforceApi():
     def __init__(self, settings, **kwargs):
         self.settings = settings
         self.api_version = settings["api_version"]
-        self.proxies = settings["proxies"]
         self.username = settings["username"]
         self.session = None
         self.result = None
@@ -44,7 +43,7 @@ class SalesforceApi():
             result = soap_login(self.settings)
 
             # If login succeed, display error and return False
-            if result["status_code"] > 399:
+            if not result["success"]:
                 result["default_project"] = self.settings["default_project"]["project_name"]
                 self.result = result
                 return False
@@ -108,6 +107,7 @@ class SalesforceApi():
                 response_result = {"errorMessage": res.text}
 
             response_result["url"] = res.url
+            response_result["success"] = False
         else:
             try:
                 response_result = {}
@@ -119,8 +119,8 @@ class SalesforceApi():
                     response_result["str"] = res.text
             except:
                 response_result = {}
+            response_result["success"] = True
 
-        response_result["status_code"] = res.status_code
         return response_result
         
     def head(self, component_url, timeout=120):
@@ -134,7 +134,7 @@ class SalesforceApi():
         self.login()
 
         url = self.parse_url(component_url)
-        response = requests.head(url, verify=False, proxies=self.proxies,
+        response = requests.head(url, verify=False, 
             headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
@@ -162,7 +162,7 @@ class SalesforceApi():
         headers = self.headers.copy()
         headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
         response = requests.get(url, data=None, verify=False, 
-            proxies=self.proxies, headers=self.headers, timeout=timeout)
+            headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -188,7 +188,7 @@ class SalesforceApi():
 
         url = self.parse_url(put_url)
         response = requests.put(url, data=json.dumps(data), verify=False, 
-            proxies=self.proxies, headers=self.headers, timeout=timeout)
+            headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -214,7 +214,7 @@ class SalesforceApi():
 
         url = self.parse_url(patch_url)
         response = requests.patch(url, data=json.dumps(data), verify=False, 
-            proxies=self.proxies, headers=self.headers, timeout=timeout)
+            headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -240,7 +240,7 @@ class SalesforceApi():
 
         url = self.parse_url(post_url)
         response = requests.post(url, data=json.dumps(data), verify=False, 
-            proxies=self.proxies, headers=self.headers, timeout=timeout)
+            headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -265,7 +265,7 @@ class SalesforceApi():
 
         url = self.parse_url(component_url)
         response = requests.delete(url, data=None, verify=False, 
-            proxies=self.proxies, headers=self.headers, timeout=timeout)
+            headers=self.headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -296,7 +296,7 @@ class SalesforceApi():
         if "search?q=q=" in url: url.replace("search?q=q=", "search?q=")
 
         response = requests.get(url, data=None, verify=False, 
-            proxies=self.proxies, headers=self.headers, timeout=timeout)
+            headers=self.headers, timeout=timeout)
             
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -341,7 +341,7 @@ class SalesforceApi():
             literals = match.group().split()
             sobject = literals[-1]
             result = self.describe_sobject(sobject, is_toolingapi)
-            if result["status_code"] < 399:
+            if result["success"]:
                 fields = [f["name"] for f in result["fields"]]
                 soql = soql.replace("*", ",".join(fields))
             else:
@@ -355,7 +355,7 @@ class SalesforceApi():
         if "query?q=q=" in url: url = url.replace("query?q=q=", "query?q=")
 
         response = requests.get(url, data=None, verify=False, 
-            proxies=self.proxies, headers=self.headers, timeout=timeout)
+            headers=self.headers, timeout=timeout)
             
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -386,20 +386,10 @@ class SalesforceApi():
 
         if not self.login(): return
 
-        soql = urllib.parse.urlencode({'q' : soql})
-        url = self.base_url + ("/tooling/query?" if is_toolingapi else "/queryAll?") + soql
-        response = requests.get(url, data=None, verify=False, 
-            proxies=self.proxies, headers=self.headers, timeout=timeout)
-
-        # Check whether session_id is expired
-        if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
-            return self.query_all(soql, is_toolingapi)
-
-        result = self.parse_response(response)
+        result = self.query(soql, is_toolingapi)
         
         # Database.com not support ApexComponent
-        if result["status_code"] > 399: 
+        if not result["success"]:
             self.result = result
             return result
 
@@ -422,13 +412,12 @@ class SalesforceApi():
         totalSize = result["totalSize"]
         
         offset = 0
-        result = {"totalSize": 0, "records": []}
+        result = {"totalSize": 0, "records": [], "success": result["success"]}
         while totalSize >= offset:
             soql = """SELECT NamespacePrefix, SymbolTable, Name 
                       FROM ApexClass ORDER BY Name 
                       LIMIT %s OFFSET %s""" % (split, offset)
             previous_result = self.query(soql, is_toolingapi=True)
-            result["status_code"] = previous_result["status_code"]
             result['totalSize'] += previous_result['totalSize']
             previous_result['records'].extend(result['records'])
             result['records'] = previous_result['records']
@@ -464,7 +453,7 @@ class SalesforceApi():
             sobject_fields += field.get("name") + ", "
 
         self.result = {
-            "status_code": result["status_code"],
+            "success": result["success"],
             "soql": 'SELECT ' + sobject_fields[ : -2] + ' FROM ' + sobject
         }
         return self.result
@@ -558,9 +547,7 @@ class SalesforceApi():
         url = self.parse_url(retrieve_url)
         headers = self.headers.copy()
         headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
-        print (time.strftime("StartTime: %Y-%m-%d %H:%M:%S", time.localtime(time.time())))
-        response = requests.get(url, verify=False, proxies=self.proxies, headers=headers, timeout=timeout)
-        print (time.strftime("End  Time: %Y-%m-%d %H:%M:%S", time.localtime(time.time())))
+        response = requests.get(url, verify=False, headers=headers, timeout=timeout)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -568,7 +555,7 @@ class SalesforceApi():
             return self.retrieve_body(retrieve_url)
 
         result = {
-            "status_code": response.status_code,
+            "success": response.status_code < 399,
             "body": response.text
         }
         self.result = result
@@ -614,7 +601,7 @@ class SalesforceApi():
         data = {"ApexClassId": class_id}
         result = self.post("/sobjects/ApexTestQueueItem", data)
         
-        if result["status_code"] > 399:
+        if not result["success"]:
             self.result = result
             return
         
@@ -624,7 +611,7 @@ class SalesforceApi():
         queue_item_soql = "SELECT Id, Status FROM ApexTestQueueItem WHERE Id='%s'" % queue_item_id
         result = self.query(queue_item_soql)
 
-        if result["status_code"] > 399:
+        if not result["success"]:
             self.result = result
             return
         
@@ -666,7 +653,7 @@ class SalesforceApi():
             sobject=sobject, recordtype_id=recordtype_id)
 
         response = requests.post(self.partner_url, soap_body, verify=False, 
-            proxies=self.proxies, headers=headers)
+            headers=headers)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -683,7 +670,7 @@ class SalesforceApi():
             result["errorCode"] = "Unknown"
             result["message"] = 'body["describeLayoutResponse"]["result"] KeyError'
 
-        result["status_code"] = response.status_code
+        result["success"] = response.status_code < 399
 
         # Self.result is used to keep thread result
         self.result = result
@@ -727,12 +714,12 @@ class SalesforceApi():
 
         try:
             response = requests.post(self.apex_url, soap_body, verify=False, 
-                proxies=self.proxies, headers=headers)
+                headers=headers)
         except UnicodeEncodeError as ue:
             result = {
                 "Error Message": "Anonymous code can't contain non-english character",
                 "Error Code": "Customize",
-                "status_code": 500
+                "success": False
             }
             self.result = result
             return self.result
@@ -744,7 +731,7 @@ class SalesforceApi():
 
         # If status_code is > 399, which means it has error
         content = response.content
-        result = {"status_code": response.status_code}
+        result = {"success": response.status_code < 399}
         if response.status_code > 399:
             if response.status_code == 500:
                 result["errorCode"] = getUniqueElementValueFromXmlString(content, "faultcode")
@@ -787,7 +774,7 @@ class SalesforceApi():
             async_process_id=async_process_id)
 
         response = requests.post(self.metadata_url, soap_body, verify=False, 
-            proxies=self.proxies, headers=headers)
+            headers=headers)
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -796,7 +783,7 @@ class SalesforceApi():
             result["errorCode"] = getUniqueElementValueFromXmlString(content, "errorCode")
             result["message"] = getUniqueElementValueFromXmlString(content, "message")
             result["done"] = "Failed"
-            result["status_code"] = response.status_code
+            result["success"] = False
             return result
 
         content = response.content
@@ -809,7 +796,7 @@ class SalesforceApi():
                 "message": 'body["checkStatusResponse"]["result"] KeyError'
             }
 
-        result["status_code"] = response.status_code
+        result["success"] = response.status_code < 399
         return result
 
     def check_retrieve_status(self, async_process_id):
@@ -830,11 +817,11 @@ class SalesforceApi():
             async_process_id=async_process_id)
 
         response = requests.post(self.metadata_url, soap_body, 
-            verify=False, proxies=self.proxies, headers=headers)
+            verify=False, headers=headers)
 
         # If status_code is > 399, which means it has error
         content = response.content
-        result = {"status_code": response.status_code}
+        result = {"success": response.status_code < 399}
         if response.status_code > 399:
             if response.status_code == 500:
                 result["errorCode"] = getUniqueElementValueFromXmlString(content, "faultcode")
@@ -846,10 +833,10 @@ class SalesforceApi():
 
         result = xmltodict.parse(response.content)
         result = result["soapenv:Envelope"]["soapenv:Body"]["checkRetrieveStatusResponse"]["result"]
-        result["status_code"] = response.status_code
+        result["success"] = response.status_code < 399
         return result
 
-    def retrieve(self, panel, soap_body, package_path=None):
+    def retrieve(self, soap_body, package_path=None):
         """ 1. Issue a retrieve request to start the asynchronous retrieval and asyncProcessId is returned
             2. Thread sleep for a while and then issue a checkStatus request to check whether the async 
                process job is completed.
@@ -862,8 +849,17 @@ class SalesforceApi():
 
         * soap_body -- soap_body for retrieving
         """
+
+        # Log the StartTime
+        start_time = datetime.datetime.now()
+
+        # Open panel
+        panel = sublime.active_window().create_output_panel('panel')  # Create panel
+
         # Firstly Login
+        util.append_message(panel, "[sf:retrieve] Start login...")
         self.login()
+        util.append_message(panel, "[sf:retrieve] Login succeed...")
 
         # 1. Issue a retrieve request to start the asynchronous retrieval
         headers = {
@@ -894,8 +890,8 @@ class SalesforceApi():
         # [sf:retrieve]
         util.append_message(panel, "[sf:retrieve] Start request for a retrieve...")
 
-        response = requests.post(self.metadata_url, soap_body, verify=False, 
-            proxies=self.proxies, headers=headers)
+        # Post retrieve request
+        response = requests.post(self.metadata_url, soap_body, verify=False, headers=headers)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -904,7 +900,7 @@ class SalesforceApi():
 
         # If status_code is > 399, which means it has error
         content = response.content
-        result = {"status_code": response.status_code}
+        result = {"success": response.status_code < 399}
         if response.status_code > 399:
             if response.status_code == 500:
                 result["errorCode"] = getUniqueElementValueFromXmlString(content, "faultcode")
@@ -932,7 +928,7 @@ class SalesforceApi():
         result = self.check_status(async_process_id)
 
         # Catch exception of status retrieving
-        if result["status_code"] > 399:
+        if not result["success"]:
             self.result = result
             return self.result
         
@@ -973,6 +969,20 @@ class SalesforceApi():
         # [sf:retrieve]
         util.append_message(panel, "[sf:retrieve] Finished request %s successfully." % async_process_id)
 
+        # Output directory
+        if package_path:
+            base_path, file_name = os.path.split(package_path)
+        else:
+            base_path = self.settings["workspace"]+"/metadata"
+        util.append_message(panel, "[sf:retrieve] Output directory: "+base_path)
+
+        # Build Successful
+        util.append_message(panel, "\nBUILD SUCCESSFUL")
+        
+        # Total time
+        total_seconds = (datetime.datetime.now() - start_time).seconds
+        util.append_message(panel, "Total time: %s seconds" % total_seconds)
+        
         self.result = result
 
     def check_deploy_status(self, async_process_id): 
@@ -990,11 +1000,11 @@ class SalesforceApi():
         soap_body = soap_bodies.check_deploy_status.format(
             globals()[self.username]["session_id"], async_process_id)
         response = requests.post(self.metadata_url, soap_body, verify=False, 
-            proxies=self.proxies, headers=headers)
+            headers=headers)
 
         # If status_code is > 399, which means it has error
         content = response.content
-        result = {"status_code": response.status_code}
+        result = {"success": response.status_code < 399}
         if response.status_code > 399:
             result["errorCode"] = getUniqueElementValueFromXmlString(content, "errorCode")
             result["message"] = getUniqueElementValueFromXmlString(content, "message")
@@ -1009,27 +1019,32 @@ class SalesforceApi():
                 "message": 'body["checkDeployStatusResponse"]["result"] KeyError'
             }
 
-        result["status_code"] = response.status_code
+        result["success"] = response.status_code < 399
         return result
         
-    def deploy(self, panel, zipfile):
+    def deploy(self, base64_zip):
         """ Deploy zip file
 
         Arguments:
 
         * zipFile -- base64 encoded zipfile 
         """
+        # Log the StartTime
+        start_time = datetime.datetime.now()
+
+        # Open panel
+        panel = sublime.active_window().create_output_panel('panel')  # Create panel
+
         # Firstly Login
+        util.append_message(panel, "[sf:deploy] Start login...")
         self.login()
+        util.append_message(panel, "[sf:deploy] Login succeed...")
 
         # 1. Issue a deploy request to start the asynchronous retrieval
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
         }
-
-        # Log the StartTime
-        start_time = datetime.datetime.now()
 
         # [sf:deploy]
         util.append_message(panel, "[sf:deploy] Start request for a deploy...")
@@ -1038,7 +1053,7 @@ class SalesforceApi():
         deploy_options = self.settings["deploy_options"]
         soap_body = soap_bodies.deploy_package.format(
             globals()[self.username]["session_id"], 
-            util.base64_zip(zipfile),
+            base64_zip,
             deploy_options["allowMissingFiles"],
             deploy_options["autoUpdatePackage"],
             deploy_options["checkOnly"],
@@ -1047,11 +1062,11 @@ class SalesforceApi():
             deploy_options["purgeOnDelete"],
             deploy_options["rollbackOnError"],
             deploy_options["runAllTests"],
-            deploy_options["runTests"],
-            deploy_options["singlePackage"])
+            deploy_options["singlePackage"]
+        )
 
         response = requests.post(self.metadata_url, soap_body, verify=False, 
-            proxies=self.proxies, headers=headers)
+            headers=headers)
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -1060,7 +1075,7 @@ class SalesforceApi():
 
         # If status_code is > 399, which means it has error
         content = response.content
-        result = {"status_code": response.status_code}
+        result = {"success": response.status_code < 399}
         if response.status_code > 399:
             if response.status_code == 500:
                 result["errorCode"] = getUniqueElementValueFromXmlString(content, "faultcode")
@@ -1175,11 +1190,7 @@ class SalesforceApi():
             # before attempting any other API operations
             # Database.com not support StaticResource, ApexComponent and ApexPage
             if not result: return
-            if result["status_code"] == 400: continue
-
-            if result["status_code"] > 399:
-                self.result = result
-                return
+            if not result["success"]: continue
 
             size = len(result["records"])
             print (message.SEPRATE.format(str(component_type) + " Size: " + str(size)))
@@ -1222,14 +1233,14 @@ class SalesforceApi():
                         component_attributes[lower_component_name]["is_test"] = False
 
                 # Write body to local file
-                fp = open(component_outputdir + "/" + component_name +\
-                    component_extension, "wb")
+                fp = open(component_outputdir+"/"+component_name+component_extension, "wb")
 
                 try:
                     body = bytes(body, "UTF-8")
                 except:
                     body = body.encode("UTF-8")
                 fp.write(body)
+                fp.close()
 
                 # Set status_message
                 sublime.set_timeout(lambda:sublime.status_message(component_name +\
@@ -1249,9 +1260,7 @@ class SalesforceApi():
         """
         result = self.describe_sobject(sobject)
 
-        if result["status_code"] > 399:
-            sublime.set_timeout(lambda:sublime.status_message(result["message"]), 10)
-        else:
+        if result["success"]:
             workspace = self.settings.get("workspace")
             outputdir = util.generate_workbook(result, workspace, 
                 self.settings.get("workbook_field_describe_columns")) + \
@@ -1312,16 +1321,15 @@ class SalesforceApi():
         # print ("MetadataContainer Response: ", result)
 
         # If status_code < 399, it means post succeed
-        if result["status_code"] < 399:
+        if result["success"]:
             container_id = result.get("id")
         else:
-            # If status_code < 399, it means post failed, 
             # If DUPLICATE Container Id, just delete it and restart this function
             if result["errorCode"] == "DUPLICATE_VALUE":
                 error_message = result["message"]
                 container_id = error_message[error_message.rindex("1dc"): len(error_message)]
                 delete_result = self.delete(container_url + "/" + container_id)
-                if delete_result["status_code"] < 399:
+                if delete_result["success"]:
                     sublime.set_timeout(lambda:sublime.status_message("container_id is deleted."), 10)
                 else:
                     self.result = delete_result
