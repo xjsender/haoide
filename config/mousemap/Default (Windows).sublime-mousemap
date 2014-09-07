@@ -1,25 +1,25 @@
 [
-    // Press Shift and Click Left Mouse for twice will open class file in the background
+    // Press shift and Click Left Mouse for twice will open class file in the background
     {
         "button": "button1", "count": 3, "modifiers": ["shift"],
         "press_command": "goto_component", 
         "press_args": {"is_background": true}
     },
 
-    // Press Shift and Click Left Mouse for triple will open class file
+    // Press shift and Click Left Mouse for twice will open class file in the foreground
     {
         "button": "button1", "count": 2, "modifiers": ["shift"],
         "press_command": "goto_component", 
         "press_args": {"is_background": false}
     },
 
-    // Press Shift and Click Left Mouse for triple will open class file
+    // Press shift and Click Left Mouse will retrieve debug log detail by id
     {
         "button": "button1", "count": 1, "modifiers": ["alt"],
         "press_command": "view_debug_log_detail"
     },
 
-    // Press Shift and Click Left Mouse for triple will open class file
+    // Press alt and Click Left Mouse for twice will quick view the code coverage
     {
         "button": "button1", "count": 2, "modifiers": ["alt"],
         "press_command": "view_selected_code_coverage"

@@ -1251,29 +1251,21 @@ def handle_new_project(settings, is_update=False, timeout=120):
         # If succeed, something may happen,
         # for example, user password is expired
         result = api.result
-        if not result: return
-        if "success" in result and not result["success"]: return
+        if not result["success"]: return
 
-        # Load COMPONENT_METADATA_SETTINGS Settings and put all result into it
-        # Every org has one local repository
-        component_metadata = result
-        component_settings = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
-        component_settings.set(settings["username"], component_metadata)
-        sublime.save_settings(COMPONENT_METADATA_SETTINGS)
-        print (message.SEPRATE.format('All code are Downloaded.'))
-        sublime.status_message("Refresh All Successfully")
+        # Extract the apex code to workspace
+        util.extract_package(result["zipFile"])
+
+        # Apex Code Cache
+        util.reload_apex_code_cache(result["fileProperties"], settings)
+
+        # Hide panel
+        sublime.set_timeout_async(util.hide_output_panel, 500)
 
         # Reload sObject Cache and SymbolTables
         if not is_update: 
             handle_reload_sobjects_completions(120)
             handle_reload_symbol_tables(120)
-
-        # If get_static_resource_body is true, 
-        # start to get all binary body of static resource
-        if settings["get_static_resource_body"]:
-            folder_name = settings["StaticResource"]["folder"]
-            static_resource_outputdir = settings["workspace"]+"/"+folder_name
-            handle_get_static_resource_body(folder_name, static_resource_outputdir)
 
         # Write the settings to local cache
         if settings["keep_config_history"]:
@@ -1282,8 +1274,8 @@ def handle_new_project(settings, is_update=False, timeout=120):
             util.add_config_history('session', str(api.session).replace("'", '"'))
 
     api = SalesforceApi(settings)
-    component_types = settings["component_types"]
-    thread = threading.Thread(target=api.refresh_components, args=(component_types, ))
+    thread = threading.Thread(target=api.retrieve, 
+        args=(soap_bodies.retrieve_apex_code_body, ))
     thread.start()
     wating_message = ("Creating New " if not is_update else "Updating ") + " Project"
     ThreadProgress(api, thread, wating_message, wating_message + " Succeed")
@@ -1306,10 +1298,10 @@ def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeo
             os.makedirs(static_resource_dir)
 
         # Extract zip
-        util.extract_zip(result["zipFile"], static_resource_dir)
+        zipdir = util.extract_zip(result["zipFile"], static_resource_dir)
 
         # Move the file to staticresources path
-        root_src_dir = static_resource_dir + "/unpackaged/staticresources"
+        root_src_dir = static_resource_dir + "/unpackaged"
         root_dst_dir = static_resource_dir
         for x in os.walk(root_src_dir):
             if not x[-1]: continue
@@ -1317,14 +1309,14 @@ def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeo
                 if not _file.endswith("resource"): continue
                 if os.path.exists(root_dst_dir + '/' + _file):
                     os.remove(root_dst_dir + '/' + _file)
-                os.rename(x[0] + '/' + _file, root_dst_dir + '/' + _file) 
+                os.rename(x[0] + '/' + _file, root_dst_dir + '/' + _file)
 
         shutil.rmtree(static_resource_dir + "/unpackaged", ignore_errors=True)
-        os.remove(static_resource_dir + "/package.zip")
+        os.remove(zipdir)
 
     settings = context.get_settings()
     api = SalesforceApi(settings)
-    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_static_resources_body, ))
+    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_static_resource_body, ))
     thread.start()
     handle_thread(thread, static_resource_dir, timeout)
     ThreadProgress(api, thread, "Retrieve StaticResource", "Retrieve StaticResource Succeed")

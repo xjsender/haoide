@@ -660,6 +660,30 @@ def compress_package(package_dir):
     os.remove(zipfile_path)
 
     return base64_package
+
+def extract_package(zip_file):
+    """ Decode the zip_file and extract the zip file to workspace,
+        and rename the "unpackaged" to "src"
+    """
+
+    settings = context.get_settings()
+    workspace = settings["workspace"]
+    if not os.path.exists(workspace):
+        os.makedirs(workspace)
+
+    zipdir = workspace + "/" + "package.zip"
+    with open(zipdir, "wb") as fout:
+        fout.write(base64.b64decode(zip_file))
+        fout.close()
+
+    myzip = zipfile.ZipFile(zipdir, 'r')
+    myzip.extractall(workspace)
+    myzip.close()
+
+    # Remove original src tree
+    shutil.rmtree(workspace+"/src", ignore_errors=True)
+    os.rename(workspace+"/unpackaged", workspace+"/src")
+    os.remove(zipdir)
     
 def extract_zip(base64String, outputdir):
     """
@@ -696,6 +720,61 @@ def extract_zip(base64String, outputdir):
 
     # Close zipFile opener
     f.close()
+
+    return zipdir
+
+def reload_apex_code_cache(file_properties, settings=None):
+    # Get settings
+    if not settings: settings = context.get_settings()
+
+    component_extension = {
+        "ApexClass": "Body",
+        "ApexTrigger": "Body",
+        "StaticResource": "Body",
+        "ApexPage": "Markup",
+        "ApexComponent": "Markup"
+    }
+
+    component_attributes = {}
+    for filep in file_properties:
+        # No need to process package.xml
+        if filep["type"] == "Package": continue
+
+        # Get component type
+        component_type = filep["type"]
+
+        # Check component type is already exist in component_attributes
+        component_attribute = {}
+        if component_type in component_attributes:
+            component_attribute = component_attributes[component_type]
+        else:
+            component_attributes[component_type] = component_attribute
+
+        component_name = filep['fullName']
+        component_id = filep["id"]
+        lower_name = component_name.lower()
+        component_url = "/services/data/v%s.0/sobjects/%s/%s" % (
+            settings["api_version"], component_type, component_id
+        )
+
+        component_attribute[lower_name] = {
+            "name": component_name,
+            "body": component_extension[component_type],
+            "extension": "."+(filep["fileName"].split(".")[1]),
+            "type": component_type,
+            "url": component_url,
+            "id": component_id
+        }
+
+        # Check whether component is Test Class or not
+        if component_type == "ApexClass":
+            component_attribute[lower_name]["is_test"] =\
+                "test" in component_name.lower()
+
+    from .context import COMPONENT_METADATA_SETTINGS
+    component_settings = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
+    component_settings.set(settings["username"], component_attributes)
+    sublime.save_settings(COMPONENT_METADATA_SETTINGS)
 
 def format_debug_logs(settings, records):
     if len(records) == 0: return "No available logs."

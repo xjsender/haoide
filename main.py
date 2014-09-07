@@ -1122,15 +1122,9 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
         default_project = projects[index].split(") ")[1]
         context.switch_project(default_project)
 
-        # Create Project Directory
-        context.make_dir()
-
         # Get settings
         settings = context.get_settings()
         context.add_project_to_workspace(settings["workspace"])
-
-        # Open Console
-        self.window.run_command("show_panel", {"panel": "console", "toggle": False})
 
         # Handle Refresh All
         processor.handle_new_project(settings)

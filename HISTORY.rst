@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+Release 0.8.4 (2014-09-08)
+++++++++++++++++++
++ If just checkOnly, output VALIDATE, otherwise, output DEPLOY
++ Update comments for ``mousemap``
++ Big Milestone, originally, we use ``tooling api`` to download apex code, now it is changed to retrieving by ``metadata api``
++ Happy to remove the ugly method ``refresh_components`` in api.py, this method is very very ugly
+
+
 Release 0.8.3 (2014-09-07)
 ++++++++++++++++++
 + Rearrange the attribute position in ``soap_bodies.py``

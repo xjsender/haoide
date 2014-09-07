@@ -973,7 +973,7 @@ class SalesforceApi():
         if package_path:
             base_path, file_name = os.path.split(package_path)
         else:
-            base_path = self.settings["workspace"]+"/metadata"
+            base_path = self.settings["workspace"]
         util.append_message(panel, "[sf:retrieve] Output directory: "+base_path)
 
         # Build Successful
@@ -982,7 +982,7 @@ class SalesforceApi():
         # Total time
         total_seconds = (datetime.datetime.now() - start_time).seconds
         util.append_message(panel, "Total time: %s seconds" % total_seconds)
-        
+
         self.result = result
 
     def check_deploy_status(self, async_process_id): 
@@ -1120,11 +1120,14 @@ class SalesforceApi():
             
             result = self.check_deploy_status(async_process_id)
 
+        # If just checkOnly, output VALIDATE, otherwise, output DEPLOY
+        deploy_or_validate = "VALIDATE" if deploy_options["checkOnly"] else "DEPLOY"
+
         # If check status request failed, this will not be done
         if result["status"] == "Failed":
             # Append failure message
             util.append_message(panel, "[sf:deploy] Request Failed\n\nBUILD FAILED")
-            util.append_message(panel, "\n"+"*"*10+" DEPLOYMENT FAILED "+"*"*10)
+            util.append_message(panel, "\n"+"*"*10+" %s FAILED " % deploy_or_validate+"*"*10)
             util.append_message(panel, "\nRequest ID: %s" % async_process_id)
 
             # Output Failure Details
@@ -1153,11 +1156,11 @@ class SalesforceApi():
                     ))
 
             util.append_message(panel, "\n".join(failures_messages))
-            util.append_message(panel, "\n"+"*"*10+" DEPLOYMENT FAILED "+"*"*10)
+            util.append_message(panel, "\n"+"*"*10+" %s FAILED " % deploy_or_validate+"*"*10)
         else:
             # Append succeed message
             util.append_message(panel, "[sf:deploy] Request Succeed")
-            util.append_message(panel, "[sf:deploy] *********** DEPLOYMENT SUCCEEDED ***********")
+            util.append_message(panel, "[sf:deploy] *********** %s SUCCEEDED ***********" % deploy_or_validate)
             util.append_message(panel, "[sf:deploy] Finished request %s successfully." % async_process_id)
 
         # Total time
@@ -1165,91 +1168,6 @@ class SalesforceApi():
         util.append_message(panel, "\nTotal time: %s seconds" % total_seconds)
 
         self.result = result
-
-    def refresh_components(self, component_types):
-        """ Download the specified components
-
-        Arguments:
-
-        * component_types -- Just support ApexPage, ApexComponent, ApexTrigger and ApexClass
-        """
-        # Firstly Login
-        self.login(True)
-
-        # Put totalSize at first item
-        component_metadata = {}
-        for component_type in component_types:
-            component_type_attrs = self.settings[component_type]
-            component_outputdir = component_type_attrs["outputdir"]
-            component_body = component_type_attrs["body"]
-            component_extension = component_type_attrs["extension"]
-            component_soql = component_type_attrs["soql"]
-
-            result = self.query_all(component_soql)
-            # The users password has expired, you must call SetPassword 
-            # before attempting any other API operations
-            # Database.com not support StaticResource, ApexComponent and ApexPage
-            if not result: return
-            if not result["success"]: continue
-
-            size = len(result["records"])
-            print (message.SEPRATE.format(str(component_type) + " Size: " + str(size)))
-            records = result["records"]
-
-            component_attributes = {}
-            for record in records:
-                # Get Component Name of this record
-                component_name = record['Name']
-                lower_component_name = component_name.lower()
-                component_url = record['attributes']['url']
-                component_id = record["Id"]
-                print (str(component_type) + " ==> " + str(record['Name']))
-
-                # Write mapping of component_name with component_url
-                # into metadata.sublime-settings
-                component_attributes[lower_component_name] = {
-                    "url": component_url,
-                    "id": component_id
-                }
-
-                # Get the body
-                body = record[component_body]
-
-                # Save Component Body, Component Type to attribute
-                component_attributes[lower_component_name]["name"] = component_name
-                component_attributes[lower_component_name]["body"] = component_body
-                component_attributes[lower_component_name]["extension"] = component_extension
-                component_attributes[lower_component_name]["type"] = component_type
-
-                # If Component Type is StaticResource,
-                if component_type == "StaticResource":
-                    component_attributes[lower_component_name]["ContentType"] = record['ContentType']
-
-                # Judge Component is Test Class or not
-                if component_type == "ApexClass":
-                    if "@istest" in body.lower() or "testmethod" in body.lower():
-                        component_attributes[lower_component_name]["is_test"] = True
-                    else:
-                        component_attributes[lower_component_name]["is_test"] = False
-
-                # Write body to local file
-                fp = open(component_outputdir+"/"+component_name+component_extension, "wb")
-
-                try:
-                    body = bytes(body, "UTF-8")
-                except:
-                    body = body.encode("UTF-8")
-                fp.write(body)
-                fp.close()
-
-                # Set status_message
-                sublime.set_timeout(lambda:sublime.status_message(component_name +\
-                    " ["  + component_type + "] Downloaded"), 10)
-
-            component_metadata[component_type] = component_attributes
-
-        # Self.result is used to keep thread result
-        self.result = component_metadata
 
     def generate_workbook(self, sobject):
         """ Generate CSV for Sobject Workbook
