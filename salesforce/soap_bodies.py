@@ -253,6 +253,7 @@ retrieve_apex_code_body = """
             <met:retrieve>
                 <met:retrieveRequest>
                     <met:apiVersion>{1}.0</met:apiVersion>
+                    {allowed_packages}
                     <met:unpackaged>
                         <met:types>
                             <met:members>*</met:members>
@@ -284,7 +285,7 @@ retrieve_apex_code_body = """
 # Body for retrieving all metadata
 retrieve_all_task_body = """
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-    xmlns:met="http://soap.sforce.com/2006/04/metadata">
+      xmlns:met="http://soap.sforce.com/2006/04/metadata">
         <soapenv:Header>
             <met:SessionHeader>
                <met:sessionId>{0}</met:sessionId>

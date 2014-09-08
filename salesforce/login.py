@@ -17,8 +17,17 @@ def soap_login(settings, timeout=120):
         'SOAPAction': 'login'
     }
 
-    response = requests.post(settings["soap_login_url"], login_soap_request_body, 
-        verify=False, headers=login_soap_request_headers, timeout=timeout)
+    try:
+        response = requests.post(settings["soap_login_url"], login_soap_request_body, 
+            verify=False, headers=login_soap_request_headers, timeout=timeout)
+    except Exception as e:
+        result = {
+            "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+            "URL": settings["soap_login_url"],
+            "Operation": "LOGIN",
+            "success": False
+        }
+        return result
 
     result = {}
     if response.status_code != 200:

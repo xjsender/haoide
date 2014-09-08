@@ -59,7 +59,7 @@ class GenerateSoqlCommand(sublime_plugin.WindowCommand):
         super(GenerateSoqlCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        sobjects_describe = processor.populate_sobjects_describe()
+        sobjects_describe = util.populate_sobjects_describe()
         self.sobjects = sorted(sobjects_describe.keys())
         self.window.show_quick_panel(self.sobjects, self.on_done)
 
@@ -73,6 +73,7 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         self.sobject_recordtypes_attr = processor.populate_sobject_recordtypes()
+        if not self.sobject_recordtypes_attr: return # Network Issue Cause
         self.sobject_recordtypes = sorted(list(self.sobject_recordtypes_attr.keys()))
         self.window.show_quick_panel(self.sobject_recordtypes, self.on_done)
 
@@ -380,7 +381,6 @@ class RetrievePackageCommand(sublime_plugin.WindowCommand):
 
 class RetrievePackageFileCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        print (self.file_name)
         processor.handle_retrieve_package(self.file_name)
 
     def is_visible(self):
@@ -496,7 +496,7 @@ class DescribeSobjectCommand(sublime_plugin.WindowCommand):
         super(DescribeSobjectCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        sobjects_describe = processor.populate_sobjects_describe()
+        sobjects_describe = util.populate_sobjects_describe()
         self.sobjects = sorted(sobjects_describe.keys())
         self.window.show_quick_panel(self.sobjects, self.on_done)
 
@@ -525,7 +525,8 @@ class ExportWorkbookCommand(sublime_plugin.WindowCommand):
 
             # Check whether the input sobjects are valid
             # If any one is not valid, allow user to input again
-            sobjects_describe = processor.populate_sobjects_describe()
+            sobjects_describe = util.populate_sobjects_describe()
+            if not sobjects_describe: return
             for sobject in sobjects:
                 if sobject not in sobjects_describe:
                     message = '"%s" is not valid sobject, do you want to try again?' % sobject
@@ -545,7 +546,7 @@ class ViewComponentInSfdcCommand(sublime_plugin.WindowCommand):
         global all_components
         global all_components_name
 
-        all_components = processor.populate_components()
+        all_components = util.populate_components()
 
         if len(all_components) == 0:
             sublime.message_dialog("Please click 'New Project' Firstly.")
@@ -607,7 +608,7 @@ class RunOneTestCommand(sublime_plugin.WindowCommand):
         super(RunOneTestCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.classes_attr = processor.populate_classes()
+        self.classes_attr = util.populate_classes()
         self.classmap = {}
         for key in self.classes_attr:
             if not self.classes_attr[key]["is_test"]: continue
@@ -710,6 +711,7 @@ class TrackDebugLogCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         self.users = processor.populate_users()
+        if not self.users: return # Network Issue Cause
         self.users_name = sorted(self.users.keys(), reverse=False)
         self.window.show_quick_panel(self.users_name, self.on_done)
 
@@ -728,6 +730,7 @@ class FetchDebugLogCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         self.users = processor.populate_users()
+        if not self.users: return # Network Issue Cause
         self.users_name = sorted(self.users.keys(), reverse=False)
         self.window.show_quick_panel(self.users_name, self.on_done)
 
@@ -903,7 +906,7 @@ class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
         super(CreateApexTriggerCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        sobjects_describe = processor.populate_sobjects_describe()
+        sobjects_describe = util.populate_sobjects_describe()
 
         # Just for tracking issue # 28
         for name in sobjects_describe:

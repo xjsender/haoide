@@ -135,7 +135,12 @@ def get_settings():
     settings["docs"] = s.get("docs", {})
 
     # Parse the allowed packages SOQL expression
-    allowed_packages = s.get("allowed_packages", [])
+    if "allowed_packages" in settings["default_project"]:
+        allowed_packages = settings["default_project"]["allowed_packages"]
+    else:
+        allowed_packages = []
+
+    settings["allowed_packages"] = allowed_packages
     if allowed_packages:
         allowed_packages_filter = "OR NamespacePrefix IN ('"+"','".join(allowed_packages)+"')"
     else:

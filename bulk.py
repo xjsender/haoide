@@ -1,6 +1,7 @@
 import sublime
 import sublime_plugin
 import os
+from . import util
 from . import processor
 
 
@@ -25,7 +26,7 @@ class BulkExportSingleCommand(sublime_plugin.WindowCommand):
 
     def run(self, export_soql=False):
         self.export_soql = export_soql
-        sobjects_describe = processor.populate_sobjects_describe()
+        sobjects_describe = util.populate_sobjects_describe()
         self.sobjects = sorted(sobjects_describe.keys())
         self.window.show_quick_panel(self.sobjects, self.on_done)
 
@@ -50,7 +51,7 @@ class BulkExportByFieldCommand(sublime_plugin.WindowCommand):
 
     def run(self, operation=None):
         self.operation = operation
-        sobjects_describe = processor.populate_sobjects_describe()
+        sobjects_describe = util.populate_sobjects_describe()
         self.sobjects = sorted(sobjects_describe.keys())
         self.window.show_quick_panel(self.sobjects, self.on_done)
 
@@ -84,7 +85,7 @@ class BulkOperationCommand(sublime_plugin.WindowCommand):
 
     def run(self, operation=None):
         self.operation = operation
-        sobjects_describe = processor.populate_sobjects_describe()
+        sobjects_describe = util.populate_sobjects_describe()
         self.sobjects = sorted(sobjects_describe.keys())
         self.window.show_quick_panel(self.sobjects, self.on_done)
 

@@ -1,6 +1,7 @@
 import sublime, sublime_plugin
 import xml.etree.ElementTree as ElementTree
 import os
+import datetime
 import threading
 import urllib
 from . import requests, context, util
@@ -13,8 +14,7 @@ class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
     def run(self):
         message = "Generally, you should reload it every salesforce release, " +\
                   "do you really want to continue?"
-        confirm = sublime.ok_cancel_dialog(message)
-        if not confirm: return
+        if not sublime.ok_cancel_dialog(message): return
 
         settings = context.get_settings()
         self.rd = ReloadDocument(settings["docs"])
@@ -29,6 +29,9 @@ class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
             sublime.set_timeout(lambda:self.handle_thread(thread), timeout)
             return
 
+        # Exception Process
+        if not self.rd.result: return
+
         result = self.rd.result
         salesforce_reference = sublime.load_settings("salesforce_reference.sublime-settings")
         salesforce_reference.set("salesforce_reference", result)
@@ -40,16 +43,26 @@ class ReloadDocument():
         self.result = None
 
     def reload_document(self):
+        # Log the StartTime
+        start_time = datetime.datetime.now()
+
+        # Open panel
+        panel = sublime.active_window().create_output_panel('panel')  # Create panel
+
+        # Start retriving docs
+        util.append_message(panel, "Start to retrieve document reference")
+
         title_link = {}
         for prefix in self.docs:
             doc_attr = self.docs[prefix]
-            sublime.status_message("Processing %s..." % prefix)
-            print ("Processing %s" % prefix)
+            util.append_message(panel, "Reloading %s" % prefix)
             xml_url = 'http://www.salesforce.com/us/developer/docs/%s/Data/Toc.xml' % doc_attr["keyword"]
             try: 
                 res = requests.get(xml_url, headers={"Accept": "application/xml"})
-            except: 
+            except Exception as e: 
+                util.append_message(panel, "Reloading %s Failed" % prefix)
                 continue
+
             tree = ElementTree.fromstring(res.content)
             leaf_parents = tree.findall(doc_attr["pattern"])
             for parent in leaf_parents:
@@ -70,6 +83,16 @@ class ReloadDocument():
                         "url": child.attrib["Link"],
                         "attr": doc_attr["keyword"]
                     }
+
+        # Build Successful
+        util.append_message(panel, "\nRELOADING SUCCESSFUL")
+        
+        # Total time
+        total_seconds = (datetime.datetime.now() - start_time).seconds
+        util.append_message(panel, "Total time: %s seconds" % total_seconds)
+
+        # Hide panel
+        sublime.set_timeout_async(util.hide_output_panel, 500)
 
         self.result = title_link
 

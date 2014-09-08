@@ -19,6 +19,93 @@ from . import context
 from xml.sax.saxutils import unescape
 
 
+def populate_components():
+    """
+    Get all components which NamespacePrefix is null in whole org
+    """
+
+    # Get username
+    settings = context.get_settings()
+    username = settings["username"]
+
+    # If sobjects is exist in globals()[], just return it
+    component_metadata = sublime.load_settings("component_metadata.sublime-settings")
+    if not component_metadata.has(username):
+        sublime.error_message("No Cache, Please New Project Firstly.")
+        return
+
+    return_component_attributes = {}
+    for component_type in component_metadata.get(username).keys():
+        component_attributes = component_metadata.get(username)[component_type]
+        for key in component_attributes.keys():
+            component_id = component_attributes[key]["id"]
+            component_type = component_attributes[key]["type"]
+            component_name = component_attributes[key]["name"]
+            return_component_attributes[component_type+"."+component_name] = component_id
+
+    return return_component_attributes
+
+def populate_classes():
+    """
+    Get dict (Class Name => Class Id) which NamespacePrefix is null in whole org
+
+    @return: {
+        classname: classid
+        ...
+    }
+    """
+    # Get username
+    settings = context.get_settings()
+    username = settings["username"]
+
+    # If sobjects is exist in globals()[], just return it
+    component_metadata = sublime.load_settings("component_metadata.sublime-settings")
+    if not component_metadata.has(username):
+        sublime.error_message("No Cache, Please New Project Firstly.")
+        return
+
+    return component_metadata.get(username).get("ApexClass")
+
+def populate_sobjects_describe():
+    """
+    Get the sobjects list in org.
+    """
+
+    # Get username
+    settings = context.get_settings()
+    username = settings["username"]
+
+    # If sobjects is exist in sobjects_completion.sublime-settings, just return it
+    sobjects_completions = sublime.load_settings("sobjects_completion.sublime-settings")
+    if not sobjects_completions.has(username):
+        sublime.error_message("No Cache, Please New Project Firstly.")
+        return
+
+    sobjects_describe = {}
+    sd = sobjects_completions.get(username)["sobjects"]
+    for key in sd:
+        sobject_describe = sd[key]
+        sobjects_describe[sobject_describe["name"]] = sobject_describe
+    return sobjects_describe
+
+def populate_all_test_classes():
+    # Get username
+    settings = context.get_settings()
+    username = settings["username"]
+
+    component_metadata = sublime.load_settings("component_metadata.sublime-settings")
+    if not component_metadata.has(username):
+        sublime.error_message("No Cache, Please New Project Firstly.")
+        return
+
+    classes = component_metadata.get(username)["ApexClass"]
+    test_class_ids = []
+    for class_name, class_attr in classes.items():
+        if not class_attr["is_test"]: continue
+        test_class_ids.append(class_attr["id"])
+
+    return test_class_ids
+    
 def get_sobject_caches(setting_name):
     """ Return the specified local cache of default project
 
@@ -209,7 +296,7 @@ def show_output_panel(message, toggle=False):
     panel.run_command('append', {'characters': message})
     panel.set_read_only(True)
 
-def append_message(panel, message):
+def append_message(panel, message, time_prefix=True):
     """ Used for showing panel in sublime
 
     Arguments:
@@ -221,7 +308,9 @@ def append_message(panel, message):
     sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
     panel.set_read_only(False)
     panel.set_syntax_file("Packages/Java/Java.tmLanguage")
-    panel.run_command('append', {'characters': message+"\n"})
+    time_stamp = "[%s]" % time.strftime("%Y.%m.%d %H:%M:%S", 
+        time.localtime(time.time())) if time_prefix else ""
+    panel.run_command('append', {'characters': time_stamp + message+"\n"})
     panel.set_read_only(True)
 
 def advance_to_first_non_white_space_on_line(view, pt):
@@ -738,7 +827,7 @@ def reload_apex_code_cache(file_properties, settings=None):
     component_attributes = {}
     for filep in file_properties:
         # No need to process package.xml
-        if filep["type"] == "Package": continue
+        if not filep["type"] in component_extension.keys(): continue
 
         # Get component type
         component_type = filep["type"]

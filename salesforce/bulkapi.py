@@ -24,12 +24,13 @@ class BulkJob():
             result = soap_login(self.settings)
 
             # If login succeed, display error and return False
-            if result["status_code"] > 399:
-                result["default_project"] = self.settings["default_project"]["project_name"]
+            if not result["success"]:
+                result["Default Project"] = self.settings["default_project"]["project_name"]
                 self.result = result
-                return False
+                return self.result
 
             result["headers"] = {
+                "success": True,
                 "X-SFDC-Session": result["session_id"],
             }
             globals()[self.username] = result
@@ -43,7 +44,10 @@ class BulkJob():
 
     # Post: https://instance.salesforce.com/services/async/27.0/job
     def create_job(self):
-        if not self.login(): return
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         url = self.base_url + "/job"
         body = soap_bodies.create_job.format(operation=self.operation, sobject=self.sobject)
@@ -70,6 +74,7 @@ class BulkJob():
             result = self.parse_response(response, url)
             result["operation"] = self.operation
             result["action"] = "Create Batch"
+            result["success"] = False
             return result
 
         self.batchs.append(xmltodict.parse(response.text))
@@ -96,6 +101,7 @@ class BulkJob():
             result = self.parse_response(response, url)
             result["success"] = false
             result["action"] = "Check Batch Status"
+            result["success"] = False
             return result
 
         result = result["batchInfo"]
@@ -104,6 +110,7 @@ class BulkJob():
             result["success"] = False
             result["operation"] = self.operation
             result["action"] = "Check Batch Status"
+            result["success"] = False
             return result
 
         return batch_status == "Completed"
@@ -112,9 +119,9 @@ class BulkJob():
         result = xmltodict.parse(response.content)
         result = result["error"]
         result["URL"] = url
-        result["status_code"] = response.status_code
         result["operation"] = self.operation
         result["sobject"] = self.sobject
+        result["success"] = False
         return result
 
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result
@@ -144,7 +151,12 @@ class BulkJob():
         return response.content
 
     def close_job(self, job_id=None):
-        self.login()
+        # Login firstly
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
+
         if job_id: self.job_id = job_id
         
         url = self.base_url + "/job/%s" % self.job_id

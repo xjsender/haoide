@@ -4,6 +4,21 @@ Release History
 
 ---------------
 
+
+Release 0.8.5 (2014-09-08)
+++++++++++++++++++
++ Move some methods from processor.py to util.py
++ Optimize sObject Cache download
++ Add time stamp prefix for panel message
++ Fix bulkapi bug caused by release 0.8.3
++ Move ``allowed_packages`` to project of projects settings    
++ Add metadata retrieve support for ``allowed_packages``
++ Catch all ``requests`` exception
++ Use panel to display the progress information of ``document reloading``
++ From release 0.8.3 to this version, there have lots of big change, issue is welcomed
++ Add "Accept-Encoding": 'identity, deflate, compress, gzip' header for ``check_status``, ``check_deploy_status`` and ``check_retrieve_status`` in api.py
+
+
 Release 0.8.4 (2014-09-08)
 ++++++++++++++++++
 + If just checkOnly, output VALIDATE, otherwise, output DEPLOY

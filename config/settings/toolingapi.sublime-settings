@@ -12,13 +12,26 @@
     "workspace": "C:/ForcedotcomWorkspace",
     "projects": {
         "pro-test": {
+            // default is true means current project is active project
+            // There should be only one active project in projects settings
             "default": true,
+
+            // Login URL, 
+            // sandbox: https://test.salesforce.com
+            // production: https://login.salesforce.com
             "login_url": "https://login.salesforce.com",
+
+            // Login username and password
             "password": "sublime111111",
             "username": "apex.sublime@dev.com",
+
             // If you don't need security token, 
             // just leave it as below or just delete below
-            "security_token": ""
+            "security_token": "",
+
+            // Valid value should be package namespace
+            // for example, "allowed_packages": ["sinaweibo", "twitter", "facebook"],
+            "allowed_packages": [],
         }
     },
 
@@ -60,12 +73,6 @@
     // Every time when you save component and succeed, the output panel will be open.
     // however, you want it to be hidden automatically after several seconds
     "delay_seconds_for_hidden_output_panel_when_succeed": 1,
-
-    // Sometimes, you may want to develop package, so you also need to download the code 
-    // in the allowed packages, because package name is unique in the whole salesforce org, 
-    // so I put it here but not in project property
-    // for example, "allowed_packages": ["sinaweibo", "twitter", "facebook"],
-    "allowed_packages": [],
 
     // Indicate whether download StaticResource body
     // This job is processed by Metadata API

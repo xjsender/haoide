@@ -35,11 +35,6 @@ class ThreadProgress():
                 sublime.status_message('')
                 return
 
-            # If result is None, it means timeout
-            if not self.api.result:
-                sublime.error_message("Request timeout, please check your network access")
-                return
-
             # After thread is end, display feedback to end user
             # according to response
             result = self.api.result

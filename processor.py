@@ -40,6 +40,7 @@ def populate_users():
     # If sobjects is exist in globals()[], just return it
     if (username + "users") in globals(): 
         return globals()[username + "users"]
+        
     # If sobjects is not exist in globals(), post request to pouplate it
     api = SalesforceApi(settings)
     query = """SELECT Id, FirstName, LastName FROM User WHERE LastName != null 
@@ -50,6 +51,11 @@ def populate_users():
     while thread.is_alive() or not api.result:
         time.sleep(1)
 
+    # Exception Process
+    if not api.result["success"]:
+        util.show_output_panel(message.SEPRATE.format(util.format_error_message(api.result)))
+        return
+
     records = api.result["records"]
     users = {}
     for user in records:
@@ -59,76 +65,8 @@ def populate_users():
             users[user["LastName"] + " " + user["FirstName"]] = user["Id"]
 
     globals()[username + "users"] = users
-    return users  
+    return users
 
-def populate_components():
-    """
-    Get all components which NamespacePrefix is null in whole org
-    """
-
-    # Get username
-    settings = context.get_settings()
-    username = settings["username"]
-
-    # If sobjects is exist in globals()[], just return it
-    component_metadata = sublime.load_settings("component_metadata.sublime-settings")
-    if not component_metadata.has(username): return []
-
-    return_component_attributes = {}
-    for component_type in component_metadata.get(username).keys():
-        component_attributes = component_metadata.get(username)[component_type]
-        for key in component_attributes.keys():
-            component_id = component_attributes[key]["id"]
-            component_type = component_attributes[key]["type"]
-            component_name = component_attributes[key]["name"]
-            return_component_attributes[component_type+"."+component_name] = component_id
-
-    return return_component_attributes
-
-def populate_classes():
-    """
-    Get dict (Class Name => Class Id) which NamespacePrefix is null in whole org
-
-    @return: {
-        classname: classid
-        ...
-    }
-    """
-    # Get username
-    settings = context.get_settings()
-    username = settings["username"]
-
-    # If sobjects is exist in globals()[], just return it
-    component_metadata = sublime.load_settings("component_metadata.sublime-settings")
-    if component_metadata.has(username):
-        return component_metadata.get(username).get("ApexClass")
-
-    if username + "classes" in globals():
-        return globals()[username + "classes"]
-
-    # If sobjects is not exist in globals(), post request to pouplate it
-    api = SalesforceApi(settings)
-    query = "SELECT Id, Name, Body FROM ApexClass WHERE NamespacePrefix = null"
-    thread = threading.Thread(target=api.query_all, args=(query, ))
-    thread.start()
-
-    while thread.is_alive() or not api.result:
-        time.sleep(1)
-
-    classes = {}
-    for record in api.result["records"]:
-        name = record["Name"]
-        body = record["Body"]
-        component_attr = {"id": record["Id"]}
-        if "@isTest" in body or "testMethod" in body or "testmethod" in body:
-            component_attr["is_test"] = True
-        else:
-            component_attr["is_test"] = False
-
-        classes[name] = component_attr
-
-    globals()[username + "classes"] = classes
-    return classes
 
 def populate_sobject_recordtypes():
     """
@@ -159,6 +97,11 @@ def populate_sobject_recordtypes():
     while thread.is_alive() or not api.result:
         time.sleep(1)
 
+    # Exception Process
+    if not api.result["success"]:
+        util.show_output_panel(message.SEPRATE.format(util.format_error_message(api.result)))
+        return
+
     records = api.result["records"]
     sobject_recordtypes = {}
     for recordtype in records:
@@ -177,59 +120,6 @@ def populate_sobject_recordtypes():
     globals()[username + "sobject_recordtypes"] = sobject_recordtypes
     return sobject_recordtypes
 
-def populate_sobjects_describe():
-    """
-    Get the sobjects list in org.
-    """
-
-    # Get username
-    settings = context.get_settings()
-    username = settings["username"]
-
-    # If sobjects is exist in sobjects_completion.sublime-settings, just return it
-    sobjects_completions = sublime.load_settings("sobjects_completion.sublime-settings")
-    if sobjects_completions.has(username):
-        sobjects_describe = {}
-        sd = sobjects_completions.get(username)["sobjects"]
-        for key in sd:
-            sobject_describe = sd[key]
-            sobjects_describe[sobject_describe["name"]] = sobject_describe
-        return sobjects_describe
-
-    if (username + "sobjects") in globals():
-        return globals()[username + "sobjects"]
-
-    # If sobjects is not exist in globals(), post request to pouplate it
-    api = SalesforceApi(settings)
-    thread = threading.Thread(target=api.describe_global, args=())
-    thread.start()
-
-    while thread.is_alive() or not api.result:
-        time.sleep(1)
-
-    sobjects_describe = api.result
-
-    globals()[username + "sobjects"] = sobjects_describe
-    return sobjects_describe
-
-def populate_all_test_classes():
-    # Get username
-    settings = context.get_settings()
-    username = settings["username"]
-
-    component_metadata = sublime.load_settings("component_metadata.sublime-settings")
-    if not component_metadata.has(username):
-        sublime.error_message("No Cache, Please New Project Firstly.")
-        return
-
-    classes = component_metadata.get(username)["ApexClass"]
-    test_class_ids = []
-    for class_name, class_attr in classes.items():
-        if not class_attr["is_test"]: continue
-        test_class_ids.append(class_attr["id"])
-
-    return test_class_ids
-
 def handle_update_user_language(language, timeout=120):
     settings = context.get_settings()
     api = SalesforceApi(settings)
@@ -244,9 +134,8 @@ def handle_login_thread(default_project, timeout=120):
             return
 
         result = api.result
-        if not result["success"]: return
-
-        print (message.SEPRATE.format("Login Succeed"))
+        if result and result["success"]:
+            print (message.SEPRATE.format("Login Succeed"))
 
     settings = context.get_settings()
     api = SalesforceApi(settings)
@@ -586,7 +475,10 @@ def handle_reload_sobjects_completions(timeout=120):
             sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)
             return
 
-        sobjects_describe = api.result
+        # Exception Process
+        if not api.result or not api.result["success"]: return
+
+        sobjects_describe = api.result["sobjects"]
         threads = []
         apis = []
         for sobject in sobjects_describe:
@@ -614,7 +506,6 @@ def handle_deploy_thread(base64_zip, timeout=120):
     thread = threading.Thread(target=api.deploy, args=(base64_zip, ))
     thread.start()
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
-    handle_thread(thread, timeout)
 
 def handle_close_jobs_thread(job_ids, timeout=120):
     settings = context.get_settings()
@@ -653,7 +544,10 @@ def handle_backup_all_sobjects_thread(timeout=120):
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
 
-        sobjects_describe = api.result
+        result = api.result
+        if not result or not result["success"]: return
+        
+        sobjects_describe = api.result["sobjects"]
         threads = []
         for sobject in sobjects_describe:
             bulkapi = BulkApi(settings, sobject)
@@ -677,10 +571,10 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
 
-        if not api.result or not api.result["success"]: return
+        result = api.result
+        if not result or not result["success"]: return
 
         # Mkdir for output dir of zip file
-        result = api.result
         context.add_project_to_workspace(settings["workspace"])
         outputdir = settings["workspace"] + "/metadata"
         if not os.path.exists(outputdir):
@@ -711,8 +605,8 @@ def handle_export_workflows(timeout=120):
             return
         
         # If succeed
-        sobjects = api.result.keys()
-        util.parse_workflow_metadata(settings, sobjects)
+        sobjects_describe = api.result["sobjects"]
+        util.parse_workflow_metadata(settings, sobjects_describe.keys())
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
     settings = context.get_settings()
@@ -730,8 +624,8 @@ def handle_export_validation_rules(timeout=120):
             return
 
         # If succeed
-        sobjects = api.result.keys()
-        util.parse_validation_rule(settings, sobjects)
+        sobjects_describe = api.result["sobjects"]
+        util.parse_validation_rule(settings, sobjects_describe.keys())
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
     settings = context.get_settings()
@@ -750,7 +644,7 @@ def handle_export_customfield(timeout=120):
         
         # If succeed
         result = api.result
-        if not result["success"]: return
+        if not result or not result["success"]: return
 
         # Write list to csv
         if not os.path.exists(outputdir): os.makedirs(outputdir)
@@ -779,7 +673,7 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
         
         # If succeed
         result = api.result
-        if not result["success"]: return
+        if not result or not result["success"]: return
 
         # If outputdir is not exist, just make it
         if not os.path.exists(outputdir): os.makedirs(outputdir)
@@ -805,8 +699,9 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         
-        # If succeed
         result = api.result
+        
+        # If succeed
         if "list" in result: result = result["list"]
         if "str"  in result: result = result["str"]
 
@@ -1015,6 +910,10 @@ def handle_run_all_test(timeout=120):
 
                 api_threads.remove((api, thread))
 
+
+        # If Network issue, view will be None
+        if not util.get_view_by_name("Run All Test Result"): return
+
         # After run test succeed, get ApexCodeCoverageAggreate
         query = "SELECT ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage " +\
                 "FROM ApexCodeCoverageAggregate"
@@ -1038,7 +937,7 @@ def handle_run_all_test(timeout=120):
             "point": view.size()
         })
 
-    class_ids = populate_all_test_classes()
+    class_ids = util.populate_all_test_classes()
     if not class_ids: return
 
     settings = context.get_settings()
@@ -1053,7 +952,6 @@ def handle_run_all_test(timeout=120):
         thread.start()
     ThreadsProgress(threads, "Run All Test", "Run All Test Succeed")
     handle_threads(api_threads, timeout)
-
 
 def handle_run_test(class_name, class_id, timeout=120):
     def handle_thread(thread, timeout):
@@ -1229,8 +1127,11 @@ def handle_generate_all_workbooks(timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         
+        # Exception Process
+        if not api.result["success"]: return
+
         # If succeed
-        sobjects_describe = api.result
+        sobjects_describe = api.result["sobjects"]
         for sobject in sobjects_describe:
             thread = threading.Thread(target=api.generate_workbook, args=(sobject, ))
             thread.start()
@@ -1269,13 +1170,18 @@ def handle_new_project(settings, is_update=False, timeout=120):
 
         # Write the settings to local cache
         if settings["keep_config_history"]:
-            del settings["projects"] # Not keep the confidential info
+             # Not keep the confidential info to .settings
+            del settings["projects"]
+            del settings["password"]
+
             util.add_config_history('settings', str(settings).replace("'", '"'))
             util.add_config_history('session', str(api.session).replace("'", '"'))
 
     api = SalesforceApi(settings)
-    thread = threading.Thread(target=api.retrieve, 
-        args=(soap_bodies.retrieve_apex_code_body, ))
+    retrieve_body = soap_bodies.retrieve_apex_code_body.replace("{allowed_packages}",
+        "".join(["<met:packageNames>%s</met:packageNames>" % a for a in settings["allowed_packages"]])
+    )
+    thread = threading.Thread(target=api.retrieve, args=(retrieve_body, ))
     thread.start()
     wating_message = ("Creating New " if not is_update else "Updating ") + " Project"
     ThreadProgress(api, thread, wating_message, wating_message + " Succeed")
@@ -1534,7 +1440,7 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
         result = api.result
         
         # If error, just skip, error is processed in ThreadProgress
-        if not result["result"]: return
+        if not result["success"]: return
 
         fp = open(file_name, "wb")
         try:

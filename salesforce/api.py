@@ -44,9 +44,9 @@ class SalesforceApi():
 
             # If login succeed, display error and return False
             if not result["success"]:
-                result["default_project"] = self.settings["default_project"]["project_name"]
+                result["Default Project"] = self.settings["default_project"]["project_name"]
                 self.result = result
-                return False
+                return self.result
 
             result["headers"] = {
                 "Authorization": "OAuth " + result["session_id"],
@@ -64,6 +64,7 @@ class SalesforceApi():
         self.partner_url = self.instance_url + "/services/Soap/u/%s.0" % self.api_version
         self.metadata_url = self.instance_url + "/services/Soap/m/%s.0" % self.api_version
         self.apex_url = self.instance_url + "/services/Soap/s/%s.0" % self.api_version
+
         self.result = result
         return result
 
@@ -131,11 +132,23 @@ class SalesforceApi():
         * component_url -- REST URI
         """
         # Firstly, login
-        self.login()
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         url = self.parse_url(component_url)
-        response = requests.head(url, verify=False, 
-            headers=self.headers, timeout=timeout)
+        try:
+            response = requests.head(url, verify=False, 
+                headers=self.headers, timeout=timeout)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": url,
+                "Operation": "HEAD",
+                "success": False
+            }
+            return self.result
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -156,13 +169,26 @@ class SalesforceApi():
         * component_url -- REST URI
         """
         # Firstly, login
-        self.login()
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         url = self.parse_url(component_url)
         headers = self.headers.copy()
         headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
-        response = requests.get(url, data=None, verify=False, 
-            headers=self.headers, timeout=timeout)
+
+        try:
+            response = requests.get(url, data=None, verify=False, 
+                headers=self.headers, timeout=timeout)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": url,
+                "Operation": "GET",
+                "success": False
+            }
+            return self.result
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -184,11 +210,24 @@ class SalesforceApi():
         * data -- form data needed to send to server
         """
         # Firstly, login
-        self.login()
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         url = self.parse_url(put_url)
-        response = requests.put(url, data=json.dumps(data), verify=False, 
-            headers=self.headers, timeout=timeout)
+        
+        try:
+            response = requests.put(url, data=json.dumps(data), verify=False, 
+                headers=self.headers, timeout=timeout)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": url,
+                "Operation": "PUT",
+                "success": False
+            }
+            return self.result
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -210,11 +249,24 @@ class SalesforceApi():
         * data -- form data needed to send to server
         """
         # Firstly, login
-        self.login()
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         url = self.parse_url(patch_url)
-        response = requests.patch(url, data=json.dumps(data), verify=False, 
-            headers=self.headers, timeout=timeout)
+        
+        try:
+            response = requests.patch(url, data=json.dumps(data), verify=False, 
+                headers=self.headers, timeout=timeout)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": url,
+                "Operation": "PATCH",
+                "success": False
+            }
+            return self.result
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -236,11 +288,24 @@ class SalesforceApi():
         * data -- form data needed to send to server
         """
         # Firstly, login
-        self.login()
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         url = self.parse_url(post_url)
-        response = requests.post(url, data=json.dumps(data), verify=False, 
-            headers=self.headers, timeout=timeout)
+        
+        try:
+            response = requests.post(url, data=json.dumps(data), verify=False, 
+                headers=self.headers, timeout=timeout)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": url,
+                "Operation": "POST",
+                "success": False
+            }
+            return self.result
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -261,11 +326,24 @@ class SalesforceApi():
         * component_url -- REST URI
         """
         # Firstly, login
-        self.login()
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         url = self.parse_url(component_url)
-        response = requests.delete(url, data=None, verify=False, 
-            headers=self.headers, timeout=timeout)
+        
+        try:
+            response = requests.delete(url, data=None, verify=False, 
+                headers=self.headers, timeout=timeout)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": url,
+                "Operation": "POST",
+                "success": False
+            }
+            return self.result
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -289,15 +367,28 @@ class SalesforceApi():
         """
 
         # Firstly, login
-        self.login()
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         sosl = urllib.parse.urlencode({'q' : sosl})
         url = self.base_url + "/search?" + sosl
         if "search?q=q=" in url: url.replace("search?q=q=", "search?q=")
 
-        response = requests.get(url, data=None, verify=False, 
-            headers=self.headers, timeout=timeout)
-            
+        try:
+            response = requests.get(url, data=None, verify=False, 
+                headers=self.headers, timeout=timeout)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": url,
+                "SOSL": sosl,
+                "Operation": "SEARCH",
+                "success": False
+            }
+            return self.result
+
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
@@ -333,7 +424,10 @@ class SalesforceApi():
         *
         """
         # Firstly, login
-        self.login()
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         # Check whether * in field list
         match = re.compile("select\s+\*\s+from[\s\t]+\w+", re.I).match(soql)
@@ -354,9 +448,19 @@ class SalesforceApi():
         # Here has a bug, this is used to prevent this exception
         if "query?q=q=" in url: url = url.replace("query?q=q=", "query?q=")
 
-        response = requests.get(url, data=None, verify=False, 
-            headers=self.headers, timeout=timeout)
-            
+        try:
+            response = requests.get(url, data=None, verify=False, 
+                headers=self.headers, timeout=timeout)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": url,
+                "SOQL": soql,
+                "Operation": "QUERY",
+                "success": False
+            }
+            return self.result
+
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
@@ -409,6 +513,12 @@ class SalesforceApi():
 
         # GET the totalSize
         result = self.query("SELECT COUNT() FROM ApexClass", is_toolingapi=True)
+
+        # Exception Process
+        if not result["success"]:
+            self.result = result
+            return self.result
+
         totalSize = result["totalSize"]
         
         offset = 0
@@ -418,6 +528,7 @@ class SalesforceApi():
                       FROM ApexClass ORDER BY Name 
                       LIMIT %s OFFSET %s""" % (split, offset)
             previous_result = self.query(soql, is_toolingapi=True)
+            if not previous_result["success"]: continue
             result['totalSize'] += previous_result['totalSize']
             previous_result['records'].extend(result['records'])
             result['records'] = previous_result['records']
@@ -438,6 +549,7 @@ class SalesforceApi():
         patch_url = "/sobjects/User/%s" % globals()[self.username]["user_id"]
         result = self.patch(patch_url, data)
         self.result = result
+        return self.result
 
     def combine_soql(self, sobject, contains_compound=True):
         """ Get the full field list soql by sobject
@@ -445,6 +557,12 @@ class SalesforceApi():
         * sobject -- sobject name, for example, Account, Contact
         """
         result = self.describe_sobject(sobject)
+
+        # Exception Process
+        if not result["success"]:
+            self.result = result
+            return self.result
+
         fields = sorted(result["fields"], key=lambda k : k['custom'])
         sobject_fields = ""
         for field in fields:
@@ -461,16 +579,12 @@ class SalesforceApi():
     def describe_sobject(self, sobject, is_toolingapi=False):
         """ Sends a GET request. Return sobject describe result
 
-        :sobject: sObjectType
+        * sobject -- sObjectType
         """
 
         url = ("/tooling" if is_toolingapi else "") + "/sobjects/%s/describe" % sobject
         result = self.get(url)
-
-        # Self.result is used to keep thread result
         self.result = result
-
-        # This result is used for invoker
         return result
 
     def describe_global(self):
@@ -481,12 +595,21 @@ class SalesforceApi():
         * * -- sobjects describe dict
         """
 
-        result = {}
-        sobjects_describe = self.get("/sobjects").get("sobjects")
-        for sobject_describe in sobjects_describe:
+        result = self.get("/sobjects")
+
+        # Exception Process
+        if not result["success"]:
+            self.result = result
+            return self.result
+
+        describe_result = {
+            "sobjects": {},
+            "success": True
+        }
+        for sobject_describe in result.get("sobjects"):
             if "name" in sobject_describe:
-                result[sobject_describe["name"]] = sobject_describe
-        self.result = result
+                describe_result["sobjects"][sobject_describe["name"]] = sobject_describe
+        self.result = describe_result
         return self.result
 
     def create_trace_flag(self, traced_entity_id=None):
@@ -509,6 +632,11 @@ class SalesforceApi():
                 "WHERE TracedEntityId = '%s' AND ExpirationDate >= %s" % (traced_entity_id, time_stamp)
         result = self.query(query, True)
 
+        # Exception Process
+        if not result["success"]:
+            self.result = result
+            return self.result
+
         # If trace flag is exist, just delete it
         if result["totalSize"] > 0:
             self.delete("/tooling/sobjects/TraceFlag/" + result["records"][0]["Id"])
@@ -525,6 +653,11 @@ class SalesforceApi():
         trace_flag["ExpirationDate"] = nextday_str
         post_url = "/tooling/sobjects/TraceFlag"
         result = self.post(post_url, trace_flag)
+
+        # Exception Process
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         result["message"] = "TraceFlag creation succeed"
         self.result = result
@@ -547,7 +680,17 @@ class SalesforceApi():
         url = self.parse_url(retrieve_url)
         headers = self.headers.copy()
         headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
-        response = requests.get(url, verify=False, headers=headers, timeout=timeout)
+
+        try:
+            response = requests.get(url, verify=False, headers=headers, timeout=timeout)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": url,
+                "Operation": "RETRIEVE BODY",
+                "success": False
+            }
+            return self.result
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -592,15 +735,28 @@ class SalesforceApi():
         * traced_entity_id -- Component Id or User Id
         """
         # Firstly Login
-        self.login()
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         traced_entity_id = globals()[self.username]["user_id"]
         self.create_trace_flag(traced_entity_id)
+
+        # Exception Process
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         time.sleep(2)
         data = {"ApexClassId": class_id}
         result = self.post("/sobjects/ApexTestQueueItem", data)
         
+        # Exception Process
+        if not result["success"]:
+            self.result = result
+            return self.result
+
         if not result["success"]:
             self.result = result
             return
@@ -611,9 +767,10 @@ class SalesforceApi():
         queue_item_soql = "SELECT Id, Status FROM ApexTestQueueItem WHERE Id='%s'" % queue_item_id
         result = self.query(queue_item_soql)
 
+        # Exception Process
         if not result["success"]:
             self.result = result
-            return
+            return self.result
         
         # If totalSize is Zero, it means we need to wait until test is finished
         while result["totalSize"] == 0 or result["records"][0]["Status"] in ["Queued", "Processing"]:
@@ -626,6 +783,12 @@ class SalesforceApi():
 
          # After Test is finished, get result
         result = self.query(test_result_soql)
+
+        # Exception Process
+        if not result["success"]:
+            self.result = result
+            return self.result
+
         result = result["records"]
         
         # Combine these two result
@@ -652,8 +815,17 @@ class SalesforceApi():
             session_id=globals()[self.username]["session_id"], 
             sobject=sobject, recordtype_id=recordtype_id)
 
-        response = requests.post(self.partner_url, soap_body, verify=False, 
-            headers=headers)
+        try:
+            response = requests.post(self.partner_url, soap_body, 
+                verify=False, headers=headers)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": self.partner_url,
+                "Operation": "DESCRIBE LAYOUT",
+                "success": False
+            }
+            return self.result
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -691,6 +863,7 @@ class SalesforceApi():
         # https://gist.github.com/richardvanhook/1245068
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
+            "Accept-Encoding": 'identity, deflate, compress, gzip',
             "SOAPAction": '""'
         }
 
@@ -718,10 +891,19 @@ class SalesforceApi():
         except UnicodeEncodeError as ue:
             result = {
                 "Error Message": "Anonymous code can't contain non-english character",
-                "Error Code": "Customize",
+                "URL": url,
+                "Operation": "PUT",
                 "success": False
             }
             self.result = result
+            return self.result
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": url,
+                "Operation": "PUT",
+                "success": False
+            }
             return self.result
 
         # Check whether session_id is expired
@@ -767,6 +949,7 @@ class SalesforceApi():
         # Check the status of retrieve job
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
+            "Accept-Encoding": 'identity, deflate, compress, gzip',
             "SOAPAction": '""'
         }
         soap_body = soap_bodies.check_status_body.format(
@@ -858,7 +1041,11 @@ class SalesforceApi():
 
         # Firstly Login
         util.append_message(panel, "[sf:retrieve] Start login...")
-        self.login()
+        result = self.login()
+        if not result["success"]:
+            util.append_message(panel, "[sf:retrieve] Login failed...")
+            self.result = result
+            return self.result
         util.append_message(panel, "[sf:retrieve] Login succeed...")
 
         # 1. Issue a retrieve request to start the asynchronous retrieval
@@ -877,7 +1064,7 @@ class SalesforceApi():
                     "Message": "Package.xml File Parse Problem",
                     "RootCause": str(e)
                 }
-                return
+                return self.result
 
             soap_body = soap_body.format(
                 globals()[self.username]["session_id"], 
@@ -891,7 +1078,16 @@ class SalesforceApi():
         util.append_message(panel, "[sf:retrieve] Start request for a retrieve...")
 
         # Post retrieve request
-        response = requests.post(self.metadata_url, soap_body, verify=False, headers=headers)
+        try:
+            response = requests.post(self.metadata_url, soap_body, verify=False, headers=headers)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": self.metadata_url,
+                "Operation": "RETRIEVE",
+                "success": False
+            }
+            return self.result
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -949,7 +1145,9 @@ class SalesforceApi():
             return
 
         # 3 Obtain zipFile(base64)
+        util.append_message(panel, "[sf:retrieve] Start to download package zipFile")
         result = self.check_retrieve_status(async_process_id)
+        util.append_message(panel, "[sf:retrieve] Finished zipFile downloading")
 
         # Output the message if have
         if "messages" in result:
@@ -977,11 +1175,11 @@ class SalesforceApi():
         util.append_message(panel, "[sf:retrieve] Output directory: "+base_path)
 
         # Build Successful
-        util.append_message(panel, "\nBUILD SUCCESSFUL")
+        util.append_message(panel, "\n\nBUILD SUCCESSFUL", False)
         
         # Total time
         total_seconds = (datetime.datetime.now() - start_time).seconds
-        util.append_message(panel, "Total time: %s seconds" % total_seconds)
+        util.append_message(panel, "Total time: %s seconds" % total_seconds, False)
 
         self.result = result
 
@@ -1037,7 +1235,11 @@ class SalesforceApi():
 
         # Firstly Login
         util.append_message(panel, "[sf:deploy] Start login...")
-        self.login()
+        result = self.login()
+        if not result["success"]:
+            util.append_message(panel, "[sf:deploy] Login failed...")
+            self.result = result
+            return self.result
         util.append_message(panel, "[sf:deploy] Login succeed...")
 
         # 1. Issue a deploy request to start the asynchronous retrieval
@@ -1065,8 +1267,17 @@ class SalesforceApi():
             deploy_options["singlePackage"]
         )
 
-        response = requests.post(self.metadata_url, soap_body, verify=False, 
-            headers=headers)
+        try:
+            response = requests.post(self.metadata_url, soap_body, verify=False, 
+                headers=headers)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": self.metadata_url,
+                "Operation": "DEPLOY",
+                "success": False
+            }
+            return self.result
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
@@ -1127,11 +1338,11 @@ class SalesforceApi():
         if result["status"] == "Failed":
             # Append failure message
             util.append_message(panel, "[sf:deploy] Request Failed\n\nBUILD FAILED")
-            util.append_message(panel, "\n"+"*"*10+" %s FAILED " % deploy_or_validate+"*"*10)
-            util.append_message(panel, "\nRequest ID: %s" % async_process_id)
+            util.append_message(panel, "*"*10+" %s FAILED " % deploy_or_validate+"*"*10, False)
+            util.append_message(panel, "Request ID: %s" % async_process_id, False)
 
             # Output Failure Details
-            util.append_message(panel, "\nAll Component Failures:")
+            util.append_message(panel, "\n\nAll Component Failures:", False)
             failures_messages = []
             component_failures = result["details"]["componentFailures"]
             if isinstance(component_failures, dict):
@@ -1155,8 +1366,8 @@ class SalesforceApi():
                             if "lineNumber" in component_failure else "0"
                     ))
 
-            util.append_message(panel, "\n".join(failures_messages))
-            util.append_message(panel, "\n"+"*"*10+" %s FAILED " % deploy_or_validate+"*"*10)
+            util.append_message(panel, "\n"+"\n".join(failures_messages), False)
+            util.append_message(panel, "\n"+"*"*10+" %s FAILED " % deploy_or_validate+"*"*10, False)
         else:
             # Append succeed message
             util.append_message(panel, "[sf:deploy] Request Succeed")
@@ -1165,7 +1376,7 @@ class SalesforceApi():
 
         # Total time
         total_seconds = (datetime.datetime.now() - start_time).seconds
-        util.append_message(panel, "\nTotal time: %s seconds" % total_seconds)
+        util.append_message(panel, "\n\nTotal time: %s seconds" % total_seconds, False)
 
         self.result = result
 
@@ -1178,12 +1389,15 @@ class SalesforceApi():
         """
         result = self.describe_sobject(sobject)
 
-        if result["success"]:
-            workspace = self.settings.get("workspace")
-            outputdir = util.generate_workbook(result, workspace, 
-                self.settings.get("workbook_field_describe_columns")) + \
-                "/" + sobject + ".csv"
-            print (sobject + " workbook outputdir: " + outputdir)
+        # Exception Process
+        if not result["success"]:
+            self.result = result
+            return result
+
+        workspace = self.settings.get("workspace")
+        outputdir = util.generate_workbook(result, workspace, 
+            self.settings.get("workbook_field_describe_columns"))+"/"+sobject+".csv"
+        print (sobject + " workbook outputdir: " + outputdir)
 
     def save_component(self, component_attribute, body, is_check_only):
         """ This method contains 5 steps:
@@ -1212,6 +1426,12 @@ class SalesforceApi():
             query = "SELECT Id, LastModifiedById, LastModifiedDate " +\
                     "FROM %s WHERE Id = '%s'" % (component_type, component_id)
             result = self.query(query, True)
+
+            # Exception Process
+            if not result["success"]:
+                self.result = result
+                return result
+
             user_id = globals()[self.username]["user_id"]
             class_attr = result["records"][0]
             if not class_attr["LastModifiedById"] == user_id:
@@ -1236,7 +1456,11 @@ class SalesforceApi():
         }
         container_url = "/tooling/sobjects/MetadataContainer"
         result = self.post(container_url, data)
-        # print ("MetadataContainer Response: ", result)
+
+        # Exception Process for Network issue
+        if not result["success"]:
+            self.result = result
+            return result
 
         # If status_code < 399, it means post succeed
         if result["success"]:
@@ -1265,7 +1489,6 @@ class SalesforceApi():
         }
         url = "/tooling/sobjects/" + component_type + "Member"
         member_result = self.post(url, data)
-        # print ("Post ApexComponentMember: ", member_result)
 
         # Post ContainerAsyncRequest
         data = {
@@ -1276,10 +1499,8 @@ class SalesforceApi():
         sync_request_url = '/tooling/sobjects/ContainerAsyncRequest'
         result = self.post(sync_request_url, data)
         request_id = result.get("id")
-        # print ("Post ContainerAsyncRequest: ", result)
 
         # Get ContainerAsyncRequest Result
-        
         result = self.get(sync_request_url + "/" + request_id)
         state = result["State"]
         # print ("Get ContainerAsyncRequest: ", result)
