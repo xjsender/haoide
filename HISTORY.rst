@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 0.8.6 (2014-09-09)
+++++++++++++++++++
++ Add ``c:`` prefix for custom component completion
++ Add space between timestamp and message in the panel
++ Next release: Deploy chosen code file
+
+
 Release 0.8.5 (2014-09-08)
 ++++++++++++++++++
 + Move some methods from processor.py to util.py

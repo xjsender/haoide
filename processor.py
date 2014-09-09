@@ -1152,7 +1152,7 @@ def handle_new_project(settings, is_update=False, timeout=120):
         # If succeed, something may happen,
         # for example, user password is expired
         result = api.result
-        if not result["success"]: return
+        if not result or not result["success"]: return
 
         # Extract the apex code to workspace
         util.extract_package(result["zipFile"])

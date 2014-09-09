@@ -252,6 +252,7 @@ class PageCompletions(sublime_plugin.EventListener):
 
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
+        settings = context.get_settings()
 
         completion_list = []
         if ch == "<":
@@ -259,9 +260,16 @@ class PageCompletions(sublime_plugin.EventListener):
             for tag in sorted(vf.tag_defs):
                 completion_list.append((tag + "\tvf", tag))
 
+            # Custom Component
+            username = settings.get("username")
+            component_completion_list = util.get_component_completion(username, "ApexComponent")
+            completion_list.extend(component_completion_list)
+
             # Html Elements
             for tag in sorted(html.HTML_ELEMENTS_ATTRIBUTES):
                 completion_list.append((tag + "\thtml", tag))
+
+            completion_list.sort(key=lambda tup:tup[1])
                 
         elif ch == ":":
             # Just Visualforce Component contains :
@@ -269,7 +277,7 @@ class PageCompletions(sublime_plugin.EventListener):
 
             # If tag prefix 'c', list all custom components
             if matched_tag_prefix == "c":
-                username = context.get_settings().get("username")
+                username = settings.get("username")
                 return util.get_component_completion(username, "ApexComponent")
 
             # Combine components
@@ -312,6 +320,15 @@ class PageCompletions(sublime_plugin.EventListener):
                                 completion_list.append((key + '\t' + value['type'], key+'="{!$1}"$0'))
                             else:
                                 completion_list.append((key + '\t' + value['type'], key+'="$1"$0'))
+
+            ##########################################
+            # Custom Component Attribute Completions
+            ##########################################
+            matched_region = view.find("<c:\\w+", full_line_begin)
+            if matched_region and full_line_region.contains(matched_region):
+                matched_tag = view.substr(matched_region)[1:]
+                component_name = matched_tag.split(":")[1].strip()
+
 
             ##########################################
             # HTML Element Attribute Completions

@@ -204,9 +204,12 @@ def get_component_completion(username, component_type):
             components = component_attrs[component_type]
             for name in components:
                 component_name = components[name]["name"]
-                completion_list.append((component_name+"\t"+component_type, component_name))
+                completion_list.append(("c:"+component_name+"\t"+component_type, "c:"+component_name))
     
     return completion_list
+
+def get_component_attribute_completion(settings, component_name):
+    workspace = settings["workspace"]+""
 
 def open_with_browser(show_url, use_default_chrome=True):
     """ Utility for open file in browser
@@ -309,8 +312,8 @@ def append_message(panel, message, time_prefix=True):
     panel.set_read_only(False)
     panel.set_syntax_file("Packages/Java/Java.tmLanguage")
     time_stamp = "[%s]" % time.strftime("%Y.%m.%d %H:%M:%S", 
-        time.localtime(time.time())) if time_prefix else ""
-    panel.run_command('append', {'characters': time_stamp + message+"\n"})
+        time.localtime(time.time()))+" " if time_prefix else ""
+    panel.run_command('append', {'characters': time_stamp+message+"\n"})
     panel.set_read_only(True)
 
 def advance_to_first_non_white_space_on_line(view, pt):

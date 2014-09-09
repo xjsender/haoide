@@ -413,8 +413,10 @@ class DeployToServerCommand(sublime_plugin.WindowCommand):
         super(DeployToServerCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        self.dirs = dirs
+        # Get the package path to deploy
+        self.package_dir = dirs[0]
 
+        # Choose the target ORG to deploy
         settings = context.get_settings()
         self.projects = settings["projects"]
         self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
@@ -429,8 +431,7 @@ class DeployToServerCommand(sublime_plugin.WindowCommand):
         default_project = self.projects[index].split(") ")[1]
         context.switch_project(default_project)
 
-        package_dir = self.dirs[0]
-        processor.handle_deploy_thread(util.compress_package(package_dir));
+        processor.handle_deploy_thread(util.compress_package(self.package_dir));
 
     def is_enabled(self, dirs):
         if not dirs: return False
