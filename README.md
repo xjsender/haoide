@@ -163,7 +163,7 @@ You can choose the ```Log Id``` and click ```SublimeApex``` > ```View Debug Log 
 Or, you can choose any Log Id and click ```SublimeApex``` > ```View Id In Salesforce Web```, wait for a moment, browser will be open and redirect to the log detail page.
 
 ## View Debug Log Detail
-Put the focus in the ```Log Id```, press ```alt``` and click left button, the code coverage of specified class will be retrieved and displayed in the new view.
+Put the focus in the ```Log Id```, press ```alt``` and click left button, the debug log detail will be retrieved and displayed in the new view.
 
 ## Run Test
 There are two methods to run test, one is by Main Menu, other is in the context menu

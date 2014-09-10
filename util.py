@@ -204,7 +204,10 @@ def get_component_completion(username, component_type):
             components = component_attrs[component_type]
             for name in components:
                 component_name = components[name]["name"]
-                completion_list.append(("c:"+component_name+"\t"+component_type, "c:"+component_name))
+                if component_type == "ApexComponent":
+                    completion_list.append(("c:"+component_name+"\t"+component_type, "c:"+component_name))
+                else:
+                    completion_list.append((component_name+"\t"+component_type, component_name))
     
     return completion_list
 

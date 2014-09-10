@@ -1111,21 +1111,6 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
         super(CreateNewProjectCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        global projects
-        settings = context.get_settings()
-        projects = settings["projects"]
-        projects = ["(" + ('Active' if projects[p]["default"] else 
-            'Inactive') + ") " + p for p in projects]
-        projects = sorted(projects, reverse=False)
-        self.window.show_quick_panel(projects, self.on_done)
-
-    def on_done(self, index):
-        if index == -1: return
-        # Change the chosen project as default
-        # Split with ") " and get the second project name
-        default_project = projects[index].split(") ")[1]
-        context.switch_project(default_project)
-
         # Get settings
         settings = context.get_settings()
         context.add_project_to_workspace(settings["workspace"])
