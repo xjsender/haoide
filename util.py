@@ -771,15 +771,24 @@ def extract_package(zip_file):
         fout.write(base64.b64decode(zip_file))
         fout.close()
 
-    myzip = zipfile.ZipFile(zipdir, 'r')
-    myzip.extractall(workspace)
-    myzip.close()
+    zfile = zipfile.ZipFile(zipdir, 'r')
+    for filename in zfile.namelist():
+        extract(zfile, filename, workspace)
+    zfile.close()
 
     # Remove original src tree
-    shutil.rmtree(workspace+"/src", ignore_errors=True)
-    os.rename(workspace+"/unpackaged", workspace+"/src")
     os.remove(zipdir)
-    
+          
+def extract(zfile, filename, extract_to):   
+    if not filename.endswith('/'):
+        f = os.path.join(extract_to, filename.replace("unpackaged", "src"))
+        dir = os.path.dirname(f)
+        if not os.path.exists(dir):   
+            os.makedirs(dir)
+        fp = open(f, 'wb')
+        fp.write(zfile.read(filename))   
+        fp.close()
+
 def extract_zip(base64String, outputdir):
     """
     1. Decode base64String to zip
@@ -815,6 +824,9 @@ def extract_zip(base64String, outputdir):
 
     # Close zipFile opener
     f.close()
+
+    # Remove package.zip
+    os.remove(zipdir)
 
     return zipdir
 
