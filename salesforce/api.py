@@ -1202,6 +1202,7 @@ class SalesforceApi():
 
         # If status_code is > 399, which means it has error
         content = response.content
+        print (content)
         result = {"success": response.status_code < 399}
         if response.status_code > 399:
             result["errorCode"] = getUniqueElementValueFromXmlString(content, "errorCode")
@@ -1210,14 +1211,23 @@ class SalesforceApi():
 
         result = xmltodict.parse(content)
         try:
+            header = None
+            if "soapenv:Header" in result["soapenv:Envelope"]:
+                header = result["soapenv:Envelope"]["soapenv:Header"]["DebuggingInfo"]
+
             result = result["soapenv:Envelope"]["soapenv:Body"]["checkDeployStatusResponse"]["result"]
+            result = {
+                "success": True,
+                "header": header,
+                "body": result
+            }
         except (KeyError):
             result = {
                 "errorCode": "Convert Xml to Dict Exception",
-                "message": 'body["checkDeployStatusResponse"]["result"] KeyError'
+                "message": 'body["checkDeployStatusResponse"]["result"] KeyError',
+                "success": False
             }
 
-        result["success"] = response.status_code < 399
         return result
         
     def deploy(self, base64_zip):
@@ -1233,14 +1243,20 @@ class SalesforceApi():
         # Open panel
         panel = sublime.active_window().create_output_panel('panel')  # Create panel
 
+        # Populate the soap_body with actual session id
+        deploy_options = self.settings["deploy_options"]
+        
+        # If just checkOnly, output VALIDATE, otherwise, output DEPLOY
+        deploy_or_validate = "validate" if deploy_options["checkOnly"] else "deploy"
+
         # Firstly Login
-        util.append_message(panel, "[sf:deploy] Start login...")
+        util.append_message(panel, "[sf:%s] Start login..." % deploy_or_validate)
         result = self.login()
         if not result["success"]:
-            util.append_message(panel, "[sf:deploy] Login failed...")
+            util.append_message(panel, "[sf:%s] Login failed..." % deploy_or_validate)
             self.result = result
             return self.result
-        util.append_message(panel, "[sf:deploy] Login succeed...")
+        util.append_message(panel, "[sf:%s] Login succeed..." % deploy_or_validate)
 
         # 1. Issue a deploy request to start the asynchronous retrieval
         headers = {
@@ -1248,11 +1264,9 @@ class SalesforceApi():
             "SOAPAction": '""'
         }
 
-        # [sf:deploy]
-        util.append_message(panel, "[sf:deploy] Start request for a deploy...")
+        # [sf:%s]
+        util.append_message(panel, "[sf:%s] Start request for a deploy..." % deploy_or_validate)
 
-        # Populate the soap_body with actual session id
-        deploy_options = self.settings["deploy_options"]
         soap_body = soap_bodies.deploy_package.format(
             globals()[self.username]["session_id"], 
             base64_zip,
@@ -1268,8 +1282,7 @@ class SalesforceApi():
         )
 
         try:
-            response = requests.post(self.metadata_url, soap_body, verify=False, 
-                headers=headers)
+            response = requests.post(self.metadata_url, soap_body, verify=False, headers=headers)
         except Exception as e:
             self.result = {
                 "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
@@ -1297,86 +1310,159 @@ class SalesforceApi():
             self.result = result
             return
 
-        # [sf:deploy]
-        util.append_message(panel, "[sf:deploy] Request for a deploy submitted successfully.")
+        # [sf:%s]
+        util.append_message(panel, "[sf:%s] Request for a deploy submitted successfully." % deploy_or_validate)
 
         # Get async process id
         async_process_id = getUniqueElementValueFromXmlString(content, "id")
 
-        # [sf:deploy]
-        util.append_message(panel, "[sf:deploy] Request ID for the current deploy task: "+async_process_id)
+        # [sf:%s]
+        util.append_message(panel, "[sf:%s] Request ID for the current deploy task: %s" % (deploy_or_validate, async_process_id))
 
-        # [sf:deploy]
-        util.append_message(panel, "[sf:deploy] Waiting for server to finish processing the request...")
+        # [sf:%s]
+        util.append_message(panel, "[sf:%s] Waiting for server to finish processing the request..." % deploy_or_validate)
 
         # 2. issue a check status loop request to assure the async
         # process is done
         result = self.check_deploy_status(async_process_id)
-        while result["status"] == "InProgress":
-            if "stateDetail" in result:
-                # [sf:deploy]
-                util.append_message(panel, "[sf:deploy] Request Status: %s (%s/%s)  -- %s" % (
-                    result["status"], 
-                    result["numberComponentsDeployed"],
-                    result["numberComponentsTotal"],
-                    result["stateDetail"]
+
+        body = result["body"]
+
+        index = 1
+        failure_dict = {}
+        while body["status"] in ["Pending", "InProgress"]:
+            if "stateDetail" in body:
+                util.append_message(panel, "[sf:%s] Request Status: %s (%s/%s)  -- %s" % (
+                    deploy_or_validate,
+                    body["status"], 
+                    body["numberComponentsDeployed"],
+                    body["numberComponentsTotal"],
+                    body["stateDetail"]
                 ))
             else:
-                util.append_message(panel, "[sf:deploy] Request Status: %s" % (
-                    result["status"]
+                util.append_message(panel, "[sf:%s] Request Status: %s" % (
+                    deploy_or_validate, body["status"]
                 ))
+
+            # Process Test Run Result
+            if "runTestResult" in body["details"] and \
+                "failures" in body["details"]["runTestResult"]:
+
+                failures = body["details"]["runTestResult"]["failures"]
+                if isinstance(failures, dict):
+                    if failures["id"] not in failure_dict:
+                        failure_dict[failures["id"]] = failures
+
+                        # [sf:deploy] -------------------------------------------------------
+                        util.append_message(panel, "-" * 84)
+
+                        # Failure message body
+                        util.append_message(panel, "Test Failures: ")
+                        util.append_message(panel, "%s.\t%s" % (index, failures["message"]))
+                        for msg in failures["stackTrace"].split("\n"):
+                            util.append_message(panel, "\t%s" % msg)
+
+                        # [sf:deploy] -------------------------------------------------------
+                        util.append_message(panel, "-" * 84)
+
+                        index += index
+                        
+                elif isinstance(failures, list):
+                    for f in failures:
+                        if f["id"] not in failure_dict:
+                            failure_dict[f["id"]] = f
+
+                            # [sf:deploy] -------------------------------------------------------
+                            util.append_message(panel, "-" * 84)
+
+                            util.append_message(panel, "Test Failures: ")
+                            util.append_message(panel, "%s.\t%s" % (index, f["message"]))
+                            for msg in f["stackTrace"].split("\n"):
+                                util.append_message(panel, "\t%s" % msg)
+
+                            # [sf:deploy] -------------------------------------------------------
+                            util.append_message(panel, "-" * 84)
+
+                            index += index
 
             # Thread Wait
             time.sleep(1)
             
             result = self.check_deploy_status(async_process_id)
+            body = result["body"]
 
-        # If just checkOnly, output VALIDATE, otherwise, output DEPLOY
-        deploy_or_validate = "VALIDATE" if deploy_options["checkOnly"] else "DEPLOY"
+        # Check if job is canceled
+        if body["status"] == "Canceled":
+            util.append_message(panel, "BUILD FAILED", False)
+            util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
+            util.append_message(panel, "Request ID: %s" % async_process_id, False)
+            util.append_message(panel, "\nRequest Canceled", False)
+            util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
+
+        # Check if job is canceling
+        if body["status"] == "Canceling":
+            util.append_message(panel, "BUILD FAILED", False)
+            util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
+            util.append_message(panel, "Request ID: %s" % async_process_id, False)
+            util.append_message(panel, "\nRequest is in canceling", False)
+            util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
 
         # If check status request failed, this will not be done
-        if result["status"] == "Failed":
+        elif body["status"] == "Failed":
             # Append failure message
-            util.append_message(panel, "[sf:deploy] Request Failed\n\nBUILD FAILED")
-            util.append_message(panel, "*"*10+" %s FAILED " % deploy_or_validate+"*"*10, False)
+            util.append_message(panel, "[sf:%s] Request Failed\n\nBUILD FAILED" % deploy_or_validate)
+            util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
             util.append_message(panel, "Request ID: %s" % async_process_id, False)
 
             # Output Failure Details
-            util.append_message(panel, "\n\nAll Component Failures:", False)
             failures_messages = []
-            component_failures = result["details"]["componentFailures"]
-            if isinstance(component_failures, dict):
-                component_failure = component_failures
-                failures_messages.append("1. %s -- %s: %s (line %s)" % (
-                    component_failure["fileName"],
-                    component_failure["problemType"],
-                    component_failure["problem"],
-                    component_failure["lineNumber"] \
-                        if "lineNumber" in component_failure else "0"
-                ))
-            elif isinstance(component_failures, list):
-                for index in range(len(component_failures)):
-                    component_failure = component_failures[index]
-                    failures_messages.append("%s. %s -- %s: %s (line %s)" % (
-                        index+1, 
+            if "componentFailures" in body["details"]:
+                component_failures = body["details"]["componentFailures"]
+                if isinstance(component_failures, dict):
+                    component_failure = component_failures
+                    failures_messages.append("1. %s -- %s: %s (line %s)" % (
                         component_failure["fileName"],
                         component_failure["problemType"],
                         component_failure["problem"],
                         component_failure["lineNumber"] \
                             if "lineNumber" in component_failure else "0"
                     ))
+                elif isinstance(component_failures, list):
+                    for index in range(len(component_failures)):
+                        component_failure = component_failures[index]
+                        failures_messages.append("%s. %s -- %s: %s (line %s)" % (
+                            index+1, 
+                            component_failure["fileName"],
+                            component_failure["problemType"],
+                            component_failure["problem"],
+                            component_failure["lineNumber"] \
+                                if "lineNumber" in component_failure else "0"
+                        ))
 
-            util.append_message(panel, "\n"+"\n".join(failures_messages), False)
-            util.append_message(panel, "\n"+"*"*10+" %s FAILED " % deploy_or_validate+"*"*10, False)
+            # Output failure message
+            if failures_messages:
+                util.append_message(panel, "\n\nAll Component Failures:", False)
+                util.append_message(panel, "\n"+"\n".join(failures_messages), False)
+                util.append_message(panel, "[sf:%s] *********** %s Failed ***********" % (
+                    deploy_or_validate, deploy_or_validate.upper()))
         else:
             # Append succeed message
-            util.append_message(panel, "[sf:deploy] Request Succeed")
-            util.append_message(panel, "[sf:deploy] *********** %s SUCCEEDED ***********" % deploy_or_validate)
-            util.append_message(panel, "[sf:deploy] Finished request %s successfully." % async_process_id)
+            util.append_message(panel, "[sf:%s] Request Succeed" % deploy_or_validate)
+            util.append_message(panel, "[sf:%s] *********** %s SUCCEEDED ***********" % (
+                deploy_or_validate, deploy_or_validate.upper()))
+            util.append_message(panel, "[sf:%s] Finished request %s successfully." % (deploy_or_validate, async_process_id))
 
         # Total time
         total_seconds = (datetime.datetime.now() - start_time).seconds
         util.append_message(panel, "\n\nTotal time: %s seconds" % total_seconds, False)
+
+        # Display debug log message in the new view
+        if "header" in result and result["header"]:
+            view = sublime.active_window().new_file()
+            view.run_command("new_view", {
+                "name": "Debugging Information",
+                "input": header
+            })
 
         self.result = result
 

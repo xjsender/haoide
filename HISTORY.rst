@@ -4,20 +4,22 @@ Release History
 
 ---------------
 
+Release 0.8.8 (2014-09-11)
+++++++++++++++++++
++ Fix some bug for ``deploy``
+
 
 Release 0.8.7 (2014-09-10)
 ++++++++++++++++++
 + Update README
 + When ``New Project``, no need to select project
 + Fix bug ``c:`` completion
-+ Next release: Deploy chosen code file
 
 
 Release 0.8.6 (2014-09-09)
 ++++++++++++++++++
 + Add ``c:`` prefix for custom component completion
 + Add space between timestamp and message in the panel
-+ Next release: Deploy chosen code file
 
 
 Release 0.8.5 (2014-09-08)
