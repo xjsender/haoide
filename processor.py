@@ -1155,6 +1155,10 @@ def handle_new_project(settings, is_update=False, timeout=120):
         # Extract the apex code to workspace
         util.extract_package(result["zipFile"])
 
+        # In windows, folder is not shown in the sidebar, 
+        # we need to refresh the sublime workspace to show it
+        context.add_project_to_workspace(settings["workspace"])
+
         # Apex Code Cache
         util.reload_apex_code_cache(result["fileProperties"], settings)
 
