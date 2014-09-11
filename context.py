@@ -215,9 +215,10 @@ def switch_project(chosen_project):
     sublime.save_settings(TOOLING_API_SETTINGS)
     print (message.SEPRATE.format(chosen_project + " is the default project now."))
 
-    # Set all active views status with "default project"
-    for view in sublime.active_window().views():
-        display_active_project(view)
+    # Set status of all views in all window with "default project"
+    for window in sublime.windows():
+        for view in window.views():
+            display_active_project(view)
 
 def add_project_to_workspace(workspace):
     """

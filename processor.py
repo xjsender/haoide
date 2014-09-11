@@ -582,8 +582,6 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
 
         # Extract zip
         util.extract_zip(result["zipFile"], outputdir)
-        os.remove(zipdir) # Remove this zip file
-
 
     settings = context.get_settings()
     api = SalesforceApi(settings)

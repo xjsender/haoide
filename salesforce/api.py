@@ -1133,7 +1133,9 @@ class SalesforceApi():
         
         # Check status until retrieve request is finished
         while result["done"] == "false":
-            time.sleep(1)
+            sleep_seconds = 2 if result["state"] == "Queued" else 1
+            time.sleep(sleep_seconds)
+
             result = self.check_status(async_process_id)
             sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
             util.append_message(panel, "[sf:retrieve] Request Status: %s" % result["state"])
@@ -1332,13 +1334,22 @@ class SalesforceApi():
         failure_dict = {}
         while body["status"] in ["Pending", "InProgress"]:
             if "stateDetail" in body:
-                util.append_message(panel, "[sf:%s] Request Status: %s (%s/%s)  -- %s" % (
-                    deploy_or_validate,
-                    body["status"], 
-                    body["numberComponentsDeployed"],
-                    body["numberComponentsTotal"],
-                    body["stateDetail"]
-                ))
+                if body["numberComponentsDeployed"] < body["numberComponentsTotal"]:
+                    util.append_message(panel, "[sf:%s] Request Status: %s (%s/%s)  -- %s" % (
+                        deploy_or_validate,
+                        body["status"], 
+                        body["numberComponentsDeployed"],
+                        body["numberComponentsTotal"],
+                        body["stateDetail"]
+                    ))
+                else:
+                    util.append_message(panel, "[sf:%s] TestRun Status: %s (%s/%s)  -- %s" % (
+                        deploy_or_validate,
+                        body["status"], 
+                        body["numberTestsCompleted"],
+                        body["numberTestsTotal"],
+                        body["stateDetail"]
+                    ))
             else:
                 util.append_message(panel, "[sf:%s] Request Status: %s" % (
                     deploy_or_validate, body["status"]
@@ -1386,7 +1397,8 @@ class SalesforceApi():
                             index += index
 
             # Thread Wait
-            time.sleep(1)
+            sleep_seconds = 2 if body["status"] == "Pending" else 1
+            time.sleep(sleep_seconds)
             
             result = self.check_deploy_status(async_process_id)
             body = result["body"]

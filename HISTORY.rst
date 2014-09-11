@@ -4,6 +4,16 @@ Release History
 
 ---------------
 
+
+Release 0.8.9 (2014-09-11)
+++++++++++++++++++
++ If ``retrieve`` is in ``Queued``, thread sleep 2 seconds, else, thread sleep 1 seconds
++ If ``deploy`` is in ``Pending``, thread sleep 2 seconds, else, thread sleep 1 seconds
++ After project is switched, set status for all view of all window.
++ Fix the bug of ``remove temp zip``
++ When deploying, if component parse is finished, display the TestRun Progress
+
+
 Release 0.8.8 (2014-09-11)
 ++++++++++++++++++
 + Fix some bug for ``deploy``
