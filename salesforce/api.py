@@ -1543,11 +1543,6 @@ class SalesforceApi():
         container_url = "/tooling/sobjects/MetadataContainer"
         result = self.post(container_url, data)
 
-        # Exception Process for Network issue
-        if not result["success"]:
-            self.result = result
-            return result
-
         # If status_code < 399, it means post succeed
         if result["success"]:
             container_id = result.get("id")
