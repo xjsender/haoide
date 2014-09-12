@@ -122,10 +122,10 @@ After any snippet which start with SELECT is chosen, you can press <kbd>Ctrl</kb
 Click ```SublimeApex``` > ```Describe``` > ```Describe Sobect``` and then choose a sobject in the selection panel, the describe result will appear in the new view
 
 ## Generate SOQL
-Click ```SublimeApex``` > ```Describe``` > ```Generate SOQL``` and then choose a sobject in the selection panel, the sobject SOQL will appear in the new view
+Click ```SublimeApex``` > ```Describe``` > ```Generate SOQL``` and then choose a sObject in the selection panel, the sObject SOQL will appear in the new view
 
 ## Keep Operation History
-By default, the operation of ```Execute Query```, ```Describe Sobject```, ```Gernate SOQL```, ```Execute Anonymous``` and ```Run Test``` will be kept into the ```.history``` path in current project, you can disable this feature by setting ```keep_operation_history``` to false
+By default, the operation of ```Execute Query```, ```Describe sObject```, ```Gernate SOQL```, ```Execute Anonymous``` and ```Run Test``` will be kept into the ```.history``` path in current project, you can disable this feature by setting ```keep_operation_history``` to false
 
 ## Save component
 + This command is only enabled in salesforce code file of active project
@@ -179,8 +179,9 @@ In the context menu of open class or trigger, click ```SublimeApex``` > ```View 
 Put the focus in the ApexClass Name, press ```alt``` and click left button for twice, the code coverage of specified class will be retrieved and displayed in the new view.
 
 ## Keep Apex Code Local History
-When you save code, this plugin will keep the change every minute.
-You can close this feature by setting ```keep_local_history_change``` to false
+When you save code, this plugin will keep the change after you saved it to server successfully.
+
+You can close this feature by change ```keep_local_history_change``` settings to false and put it into your own ``user settings``
 
 ## Refresh Folder
 Click the folder in the side bar, refresh that you want to refresh, if you choose the classes folder, the ```Refresh ApexClass``` command will be visible, ```ApexTrigger```, ```ApexComponent```, ```ApexPage``` and ```StaticResource``` is same.
@@ -238,15 +239,20 @@ see [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeAp
 ## Export Workflow Rules
 After you downloaded all metadata by clicking ```SublimeApex``` > ```Migration``` > ```Retrieve Metadata```, you can click ```SublimeApex``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.
 
+If you just want to export some attributes of workflows, you can remove some columns in the ```workflow_rule_columns```, ``workflow_field_update_columns``, ``workflow_email_alert_columns``, ``workflow_outbound_message_columns`` and ``workflow_task_columns`` settings and put it into your own user settings.
+
 ## Export Validation Rules
 After you downloaded all metadata by clicking ```SublimeApex``` > ```Migration``` > ```Retrieve Metadata```, you can click ```SublimeApex``` > ```Export``` > ```Export Validation Rule``` to backup all validation rules in your org to csv.
+
+If you just want to export some attributes of validation rules, you can remove some columns in the ```validation_rule_columns``` setting and put it into your own user settings
 
 ## Export CustomFields
 You can click ```SublimeApex``` > ```Export``` > ```Export CustomFields``` to export all custom fields in your org to csv.
 
 ## Export Workbook of sobjects
 You can click ```SublimeApex``` > ```Export``` > ```Export Workbook``` to export all sobject workbooks in your org to csv.
-If you just want to export some attributes of sobject workbook, you can put the ```workbook_field_describe_columns``` setting into your own user settings
+
+If you just want to export some attributes of sobject workbook, you can remove some columns in the ```workbook_field_describe_columns``` setting and put it into your own user settings
 
 ## Exceute Rest Test
 Up to now, support ```Get```, ```Post```, ```Put```, ```Patch```, ```Delete```, ```Tooling Query```, ```Query```, ```Query All```, ```Head```, ```Retrieve Body```, ```Search``` and ```Quick Search``` methods.
@@ -365,7 +371,7 @@ Click ```SublimeApex``` > ```Export``` > ```Export Data Template```, wait for a 
 ```
 
 ## Bulk Api
-+ Up to now, support export, insert, update and delete.
++ Up to now, support close jobs, export, insert, update and delete.
 + You can set the batch size and batch bytes for every batch by put ```maximum_batch_size``` and ```maximum_batch_bytes``` in your user settings, you should be aware, maximum records of single batch is **10K** and maximum bytes of single batch is **1000K**
 + This tool will get your CSV file encoding type by detecting the first **1000** bytes of the CSV file, as a best practice, you should prepare CSV file which encoding type is ```ANSI``` or ```UTF-8```.
 + If you want to insert a CSV file, you'd better open the CSV file in sublime and copy the file path, after you choose the sobject that you want to insert records, this tool will automatically get the file path from the clipboard

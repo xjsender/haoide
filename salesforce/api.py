@@ -891,7 +891,7 @@ class SalesforceApi():
         except UnicodeEncodeError as ue:
             result = {
                 "Error Message": "Anonymous code can't contain non-english character",
-                "URL": url,
+                "URL": self.apex_url,
                 "Operation": "PUT",
                 "success": False
             }

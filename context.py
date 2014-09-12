@@ -86,6 +86,10 @@ def get_settings():
     settings["delay_seconds_for_hidden_output_panel_when_succeed"] =\
         s.get("delay_seconds_for_hidden_output_panel_when_succeed", 1)
 
+    # Indicate whether need to reload symbol tables when creating new project
+    settings["reload_symbol_tables_when_create_project"] =\
+        s.get("reload_symbol_tables_when_create_project", True)
+
     # Indicate whether download StaticResource body, it is very time-consuming.
     # If you open this functionality and your StaticResources are very large
     # It may stop your work

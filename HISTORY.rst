@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+Release 0.9.0 (2014-09-12)
+++++++++++++++++++
++ Fix bug for windows sidebar folder refresh
++ Not keep ``default_project`` settings in the settings of ``.config``
++ Add ``reload_symbol_tables_when_create_project`` setting
++ Set default value of ``reload_symbol_tables_when_create_project`` setting to ``false``
++ Fix bug for ``execute anonymous``
+
 
 Release 0.8.9 (2014-09-11)
 ++++++++++++++++++

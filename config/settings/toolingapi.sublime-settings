@@ -74,6 +74,9 @@
     // however, you want it to be hidden automatically after several seconds
     "delay_seconds_for_hidden_output_panel_when_succeed": 1,
 
+    // Indicate whether need to reload symbol tables when creating new project
+    "reload_symbol_tables_when_create_project": false,
+
     // Indicate whether download StaticResource body
     // This job is processed by Metadata API
     "get_static_resource_body": false,

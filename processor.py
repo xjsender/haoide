@@ -863,6 +863,13 @@ def handle_view_debug_log_detail(log_id, timeout=120):
         
         if not api.result["success"]: return
 
+        try:
+            body = api.result["body"]
+            body = body.encode("utf-8")
+        except Exception as e:
+            print (str(e))
+            body = api.result["body"]
+
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "Debug Log Detail",
@@ -1168,13 +1175,16 @@ def handle_new_project(settings, is_update=False, timeout=120):
         # Reload sObject Cache and SymbolTables
         if not is_update: 
             handle_reload_sobjects_completions(120)
-            handle_reload_symbol_tables(120)
+            
+            if settings["reload_symbol_tables_when_create_project"]:
+                handle_reload_symbol_tables(120)
 
         # Write the settings to local cache
         if settings["keep_config_history"]:
              # Not keep the confidential info to .settings
             del settings["projects"]
             del settings["password"]
+            del settings["default_project"]
 
             util.add_config_history('settings', str(settings).replace("'", '"'))
             util.add_config_history('session', str(api.session).replace("'", '"'))
