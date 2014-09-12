@@ -4,6 +4,11 @@ Release History
 
 ---------------
 
+Release 0.9.1 (2014-09-12)
+++++++++++++++++++
++ Fix bug when code has conflict and user cancel the save operation
+
+
 Release 0.9.0 (2014-09-12)
 ++++++++++++++++++
 + Fix bug for windows sidebar folder refresh

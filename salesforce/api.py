@@ -1545,8 +1545,12 @@ class SalesforceApi():
                     last_modified_name = last_modified_id
 
                 message = "Modified by %s at %s, continue?" % (last_modified_name, last_modified_date.replace("T", " "))
-                confirm = sublime.ok_cancel_dialog(message)
-                if confirm == False: return
+                if not sublime.ok_cancel_dialog(message):
+                    self.result = {
+                        "success": False,
+                        "Message": "Save operation is cancelled by you due to the conflict"
+                    }
+                    return self.result
 
         # Get MetadataContainerId
         data = {  
