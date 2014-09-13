@@ -4,8 +4,11 @@
         "caption": "SublimeApex",
         "children":
         [
+            {"caption": "Convert XML to JSON", "command": "convert_xml_to_dict"},
             {"caption": "Retrieve Package.xml", "command": "retrieve_package_file"},
 
+            {"caption": "-"},
+            
             // {"caption": "Retrieve StaticResource Body", "command": "retrieve_static_resource_body"},
             {"caption": "Refresh from Server", "command": "refresh_component"},
             // Save component

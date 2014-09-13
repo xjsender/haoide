@@ -8,13 +8,40 @@ import sys
 import shutil
 import zipfile
 import json
+import pprint
 
 from . import requests
 from . import processor
 from . import context
 from . import util
+
+from .salesforce import xmltodict
 from .salesforce import message
 
+class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        new_view = sublime.active_window().new_file()
+        new_view.run_command("new_view", {
+            "name": "XML2JSON",
+            "input": pprint.pformat(dict(self.result))
+        })
+
+        # If you have installed the htmljs plugin, below statement will work
+        new_view.run_command("htmlprettify")
+
+    def is_visible(self):
+        # Visible if has selection
+        selection = self.view.substr(self.view.sel()[0])
+        if not selection: return False
+
+        # Check whether selection is valid xml
+        try:
+            self.result = xmltodict.parse(selection)
+        except Exception as ex:
+            sublime.status_message(str(ex))
+            return False
+
+        return True
 
 class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -774,14 +801,9 @@ class ExecuteAnonymousCommand(sublime_plugin.TextCommand):
         processor.handle_execute_anonymous(self.selection)
 
     def is_enabled(self):
-        # You must select some snippets, otherwise
-        # you can't see this command
+        # Enabled if has selection
         self.selection = self.view.substr(self.view.sel()[0])
-        if not util.is_python3x():
-            self.selection = self.view.substr(self.view.sel()[0]).encode('utf-8')
-        
-        if not self.selection:
-            return False
+        if not self.selection: return False
 
         return True
 

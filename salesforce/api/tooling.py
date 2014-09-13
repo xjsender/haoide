@@ -76,7 +76,7 @@ class ToolingApi():
         elif "/services" in component_url:
             url = self.instance_url + component_url
         elif component_url.startswith("/apexrest"):
-            url = "/services" + component_url
+            url = self.instance_url + "/services" + component_url
         else:
             url = self.base_url + component_url
 

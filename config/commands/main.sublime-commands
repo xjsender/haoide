@@ -79,6 +79,11 @@
     },
 
     {
+        "caption": "SublimeApex: Convert XML to JSON",
+        "command": "convert_xml_to_dict"
+    },
+
+    {
         "caption": "SublimeApex: Retrieve Package.xml",
         "command": "retrieve_package"
     },

@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 0.9.3 (2014-09-13)
+++++++++++++++++++
++ Add a command to convert selection to JSON if selection is valid XML format
++ Add context menu item, commands for this command
++ Fix a bug for parsing ``apexrest`` url when executing rest test
+
+
 Release 0.9.2 (2014-09-13)
 ++++++++++++++++++
 + Fix bug when ``sosl_string`` contains ``-, ?, *``
