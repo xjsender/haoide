@@ -3,9 +3,9 @@ import sublime_plugin
 
 from . import context
 from . import util
-from .salesforce.support import apex
-from .salesforce.support import vf
-from .salesforce.support import html
+from .salesforce.lib import apex
+from .salesforce.lib import vf
+from .salesforce.lib import html
 
 
 class ApexCompletions(sublime_plugin.EventListener):

@@ -14,7 +14,6 @@ from . import processor
 from . import context
 from . import util
 from .salesforce import message
-from .salesforce.bulkapi import BulkApi
 
 
 class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):

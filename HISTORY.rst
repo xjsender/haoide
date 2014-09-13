@@ -4,6 +4,17 @@ Release History
 
 ---------------
 
+
+Release 0.9.2 (2014-09-13)
+++++++++++++++++++
++ Fix bug when ``sosl_string`` contains ``-, ?, *``
++ Update ``query`` method in ``api.py``
++ Separate ``api.py`` to ``metadata.py`` and ``tooling.py`` and move them to new ``api`` folder
++ Rename ``bulkapi.py`` to ``bulk.py`` and move it to ``api`` folder
++ After ``New Project`` is finished, invoke the sublime command ``refresh_folder_list`` to reflect files change in the sidebar
++ After the code file is deleted, the related ``-meta.xml`` file is also deleted
+
+
 Release 0.9.1 (2014-09-12)
 ++++++++++++++++++
 + Fix bug when code has conflict and user cancel the save operation

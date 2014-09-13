@@ -66,7 +66,7 @@ After your project configuration is finished, you can click ```SublimeApex``` > 
 
 # Usage
 ## New Project
-+ This command is used to update your project
++ This command is used to create new project
 + Once you click this command, a new project will be downloaded and appeared in the sidebar
 + Just after new project is finished, sobject completions will work
 + Project Folder Name Convention: the project name set in user settings append with date literal of today, for example,
@@ -116,13 +116,13 @@ There has a ```log_levels``` setting in the default setting, If you want to chan
 **If your chosen code snippet contains non-english word, there will have problem.**
 
 ## Execute Query
-After any snippet which start with SELECT is chosen, you can press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Q</kbd> or click ```SublimeApex``` > ```Execute Query```, the queried json result will be formated and shown in a new view.
+After any snippet which start with SELECT is chosen, you can press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Q</kbd> in windows or click ```SublimeApex``` > ```Execute Query```, the queried json result will be formated and shown in a new view.
 
 ## Describe Sobject
-Click ```SublimeApex``` > ```Describe``` > ```Describe Sobect``` and then choose a sobject in the selection panel, the describe result will appear in the new view
+Click ```SublimeApex``` > ```Describe``` > ```sObect``` and then choose a sObject in the selection panel, the describe result will appear in the new view
 
 ## Generate SOQL
-Click ```SublimeApex``` > ```Describe``` > ```Generate SOQL``` and then choose a sObject in the selection panel, the sObject SOQL will appear in the new view
+Click ```SublimeApex``` > ```Describe``` > ```sObject SOQL``` and then choose a sObject in the selection panel, the sObject SOQL will appear in the new view
 
 ## Keep Operation History
 By default, the operation of ```Execute Query```, ```Describe sObject```, ```Gernate SOQL```, ```Execute Anonymous``` and ```Run Test``` will be kept into the ```.history``` path in current project, you can disable this feature by setting ```keep_operation_history``` to false
@@ -271,7 +271,6 @@ for example,
             'url': '/services/data/v30.0/sobjects/Account/001O000000M1mPwIAJ'
         }
     }],
-    'status_code': 200,
     'totalSize': 1
 }
 ```
@@ -289,7 +288,6 @@ for example,
             'url': '/services/data/v30.0/sobjects/Account/001O000000M1mPwIAJ'
         }
     }],
-    'status_code': 200,
     'totalSize': 1
 }
 ```
@@ -300,9 +298,7 @@ for example,
 ```
 {
     'errors': [],
-    'id': '001O000000MIiSXIA1',
-    'status_code': 201,
-    'success': True
+    'id': '001O000000MIiSXIA1'
 }
 ```
 
@@ -318,21 +314,20 @@ for example,
     'BillingCountry': 'United States',
     'BillingCountryCode': 'US',
     ...
-    'status_code': 200
 }
 ```
 
 + **Delete Sample**: input ```/sobjects/Account/001O000000MIiSXIA1``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Delete``` in the popup menu, wait for a moment, the delete result will be shown in the new view:
 ```
 {
-    'status_code': 204
+
 }
 ```
 
 + **Patch Sample**: Sometimes, you want to update some fields of record, you can input ```/sobjects/Account/001O000000MIiSXIA1``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Patch``` in the popup menu and input ```{"Name": "Test Path"}``` in the input panel, wait for a moment, the patch result will be shown in the new view:
 ```
 {
-    'status_code': 204
+
 }
 ```
 
