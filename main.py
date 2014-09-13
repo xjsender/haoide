@@ -20,10 +20,11 @@ from .salesforce import message
 
 class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
     def run(self, edit):
+        jsonStr = json.dumps(self.result, indent=4)
         new_view = sublime.active_window().new_file()
         new_view.run_command("new_view", {
             "name": "XML2JSON",
-            "input": pprint.pformat(dict(self.result))
+            "input": jsonStr
         })
 
         # If you have installed the htmljs plugin, below statement will work
@@ -32,7 +33,10 @@ class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
     def is_visible(self):
         # Visible if has selection
         selection = self.view.substr(self.view.sel()[0])
-        if not selection: return False
+
+        # If not selection, just select all
+        if not selection:
+            selection = self.view.substr(sublime.Region(0, self.view.size()))
 
         # Check whether selection is valid xml
         try:
