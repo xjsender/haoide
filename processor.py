@@ -573,7 +573,7 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
         if not result or not result["success"]: return
 
         # Mkdir for output dir of zip file
-        context.add_project_to_workspace(settings["workspace"])
+        util.add_project_to_workspace(settings["workspace"])
         outputdir = settings["workspace"] + "/metadata"
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)

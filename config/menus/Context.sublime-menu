@@ -5,6 +5,7 @@
         "children":
         [
             {"caption": "Convert XML to JSON", "command": "convert_xml_to_dict"},
+
             {"caption": "Retrieve Package.xml", "command": "retrieve_package_file"},
 
             {"caption": "-"},

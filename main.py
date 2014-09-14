@@ -18,6 +18,7 @@ from . import util
 from .salesforce import xmltodict
 from .salesforce import message
 
+
 class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         jsonStr = json.dumps(self.result, indent=4)
@@ -42,7 +43,6 @@ class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
         try:
             self.result = xmltodict.parse(selection)
         except Exception as ex:
-            sublime.status_message(str(ex))
             return False
 
         return True
@@ -194,7 +194,7 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         if not self.view.file_name(): return False
 
         # Must be valid component
-        is_enabled = check_enabled(self.view.file_name())
+        is_enabled = util.check_enabled(self.view.file_name())
         if not is_enabled: return False
 
         # Must be class or trigger
@@ -416,7 +416,7 @@ class RetrievePackageFileCommand(sublime_plugin.TextCommand):
     def is_visible(self):
         self.file_name = self.view.file_name()
         if not self.file_name: return False
-        if not self.file_name.endswith("package.xml"): return False
+        if not self.file_name.endswith(".xml"): return False
 
         return True
 
@@ -438,9 +438,9 @@ class DeployZipCommand(sublime_plugin.WindowCommand):
 
         processor.handle_deploy_thread(util.base64_zip(zipfile_path))
 
-class DeployToServerCommand(sublime_plugin.WindowCommand):
+class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(DeployToServerCommand, self).__init__(*args, **kwargs)
+        super(DeployPackageToServerCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
         # Get the package path to deploy
@@ -459,7 +459,7 @@ class DeployToServerCommand(sublime_plugin.WindowCommand):
         # Change the chosen project as default
         # Split with ") " and get the second project name
         default_project = self.projects[index].split(") ")[1]
-        context.switch_project(default_project)
+        util.switch_project(default_project)
 
         processor.handle_deploy_thread(util.compress_package(self.package_dir));
 
@@ -470,6 +470,16 @@ class DeployToServerCommand(sublime_plugin.WindowCommand):
             sublime.status_message("Not valid package path")
             return False
 
+        return True
+
+class DeployFilesToServer(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DeployFilesToServer, self).__init__(*args, **kwargs)
+
+    def run(self, files):
+        util.build_package(files)
+
+    def is_enabled(self, files):
         return True
 
 class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
@@ -847,7 +857,7 @@ class ShowInSfdcWebCommand(sublime_plugin.TextCommand):
         self.view.window().run_command("login_to_sfdc", {"startURL": startURL})
 
     def is_enabled(self):
-        return check_enabled(self.view.file_name())
+        return util.check_enabled(self.view.file_name())
 
 class LoginToSfdcCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -896,7 +906,7 @@ class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
     def run(self, files):
         delete_components(files)
 
-    def is_enabled(self, files):
+    def is_visible(self, files):
         """
         1. You must have selected one file or more
         2. All selected file should be visible
@@ -904,7 +914,7 @@ class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
 
         if len(files) == 0: return False
         for _file in files:
-            if not check_enabled(_file):
+            if not util.check_enabled(_file):
                 return False
 
         return True
@@ -915,7 +925,7 @@ class DeleteComponentCommand(sublime_plugin.TextCommand):
         delete_components(files)
 
     def is_enabled(self):
-        return check_enabled(self.view.file_name())
+        return util.check_enabled(self.view.file_name())
 
 def delete_components(files):
     # Confirm Delete Action
@@ -1033,7 +1043,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
             self.settings = context.get_settings()
-            context.add_project_to_workspace(self.settings["workspace"])
+            util.add_project_to_workspace(self.settings["workspace"])
 
         file_name = "%s/%s" % (component_outputdir, name + extension)
         if os.path.isfile(file_name):
@@ -1075,7 +1085,7 @@ class SaveComponentCommand(sublime_plugin.TextCommand):
         processor.handle_save_component(component_name, component_attribute, body, is_check_only)
 
     def is_enabled(self):
-        return check_enabled(self.view.file_name())
+        return util.check_enabled(self.view.file_name())
 
 class SwitchProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1096,7 +1106,7 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
         # Change the chosen project as default
         # Split with ") " and get the second project name
         default_project = projects[index].split(") ")[1]
-        context.switch_project(default_project)
+        util.switch_project(default_project)
 
         # After project is switch, login will be executed
         processor.handle_login_thread(default_project)
@@ -1125,7 +1135,7 @@ class UpdateProjectCommand(sublime_plugin.WindowCommand):
         confirm = sublime.ok_cancel_dialog("Are you sure you really want to update this project?")
         if confirm == False: return
         settings = context.get_settings()
-        context.add_project_to_workspace(settings["workspace"])
+        util.add_project_to_workspace(settings["workspace"])
         processor.handle_new_project(settings, is_update=True)
 
     def is_enabled(self):
@@ -1138,7 +1148,7 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
     def run(self):
         # Get settings
         settings = context.get_settings()
-        context.add_project_to_workspace(settings["workspace"])
+        util.add_project_to_workspace(settings["workspace"])
 
         # Handle Refresh All
         processor.handle_new_project(settings)
@@ -1159,7 +1169,7 @@ class RefreshComponentCommand(sublime_plugin.TextCommand):
             processor.handle_refresh_component(component_attribute, file_name)
 
     def is_enabled(self):
-        return check_enabled(self.view.file_name())
+        return util.check_enabled(self.view.file_name())
 
 class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1178,48 +1188,9 @@ class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
             else:
                 processor.handle_refresh_component(component_attribute, file_name)
 
-    def is_enabled(self, files):
+    def is_visible(self, files):
         if len(files) == 0: return False
         for file in files: 
-            if not check_enabled(file): return False
+            if not util.check_enabled(file): return False
 
         return True
-
-def check_enabled(file_name):
-    """
-    Check whether file is ApexTrigger, ApexComponent, ApexPage or ApexClass
-
-    Parameters:
-        file_name: current file name
-
-    Return: 
-        Bool
-    """
-    if not file_name: return False
-
-    # Get toolingapi settings
-    settings = context.get_settings()
-
-    # Check Component Type
-    name, extension = util.get_file_attr(file_name)
-    if extension not in settings["component_extensions"]: 
-        sublime.status_message("This component is not salesforce component")
-        return False
-
-    # StaticResource is exclude
-    # if component_type == "StaticResource": return False
-
-    # Check whether project of current file is active project
-    default_project_name = settings["default_project_name"]
-    if not default_project_name in file_name: 
-        sublime.status_message('This project is not active project');
-        return False
-
-    # Check whether active component is in active project
-    username = settings["username"]
-    component_attribute, component_name = util.get_component_attribute(file_name)
-    if not component_attribute: 
-        sublime.status_message("This component is not active component")
-        return False
-    
-    return True

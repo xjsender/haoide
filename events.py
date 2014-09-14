@@ -13,21 +13,21 @@ class SFDCEventListener(sublime_plugin.EventListener):
         2. Set Status with current default project
         """
         view.set_syntax_file("Packages/Java/Java.tmLanguage")
-        context.display_active_project(view)
+        util.display_active_project(view)
 
     def on_load_async(self, view):
         """
         1. Set Status with current default project
         """
 
-        context.display_active_project(view)
+        util.display_active_project(view)
 
     def on_activated(self, view):
         """
         Set Status with current default project
         """
 
-        context.display_active_project(view)
+        util.display_active_project(view)
 
     def on_modified_async(self, view):
         """

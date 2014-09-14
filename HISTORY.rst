@@ -5,6 +5,15 @@ Release History
 ---------------
 
 
+Release 0.9.4 (2014-09-14)
+++++++++++++++++++
++ Move ``check_enabled`` from ``main.py`` to ``util.py``
++ If ``deploy status`` is in ``canceling``, continue to check deploy status until it's canceled.
++ Remove useless ``mkdir`` method from context.py
++ Move some methods from ``context.py`` to ``util.py``
++ Fix bug for ``deploy`` and change the syntax highlight from ``Java`` to ``JavaScript``
+
+
 Release 0.9.3 (2014-09-13)
 ++++++++++++++++++
 + Add a command to convert selection to JSON if selection is valid XML format

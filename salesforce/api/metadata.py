@@ -471,7 +471,6 @@ class MetadataApi():
 
         # If status_code is > 399, which means it has error
         content = response.content
-        print (content)
         result = {"success": response.status_code < 399}
         if response.status_code > 399:
             result["errorCode"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
@@ -599,7 +598,7 @@ class MetadataApi():
 
         index = 1
         failure_dict = {}
-        while body["status"] in ["Pending", "InProgress"]:
+        while body["status"] in ["Pending", "InProgress", "Canceling"]:
             if "stateDetail" in body:
                 if body["numberComponentsDeployed"] < body["numberComponentsTotal"]:
                     util.append_message(panel, "[sf:%s] Request Status: %s (%s/%s)  -- %s" % (
@@ -655,13 +654,14 @@ class MetadataApi():
 
                             util.append_message(panel, "Test Failures: ")
                             util.append_message(panel, "%s.\t%s" % (index, f["message"]))
-                            for msg in f["stackTrace"].split("\n"):
-                                util.append_message(panel, "\t%s" % msg)
 
-                            # [sf:deploy] -------------------------------------------------------
-                            util.append_message(panel, "-" * 84)
+                            # If compile error, there will no stack trace
+                            if isinstance(f["stackTrace"], str):
+                                for msg in f["stackTrace"].split("\n"):
+                                    util.append_message(panel, "\t%s" % msg)
+                                util.append_message(panel, "-" * 84)
 
-                            index += index
+                            index += 1
 
             # Thread Wait
             sleep_seconds = 2 if body["status"] == "Pending" else 1
@@ -672,18 +672,10 @@ class MetadataApi():
 
         # Check if job is canceled
         if body["status"] == "Canceled":
-            util.append_message(panel, "BUILD FAILED", False)
+            util.append_message(panel, "\nBUILD FAILED", False)
             util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
             util.append_message(panel, "Request ID: %s" % async_process_id, False)
             util.append_message(panel, "\nRequest Canceled", False)
-            util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
-
-        # Check if job is canceling
-        if body["status"] == "Canceling":
-            util.append_message(panel, "BUILD FAILED", False)
-            util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
-            util.append_message(panel, "Request ID: %s" % async_process_id, False)
-            util.append_message(panel, "\nRequest is in canceling", False)
             util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
 
         # If check status request failed, this will not be done
@@ -702,7 +694,7 @@ class MetadataApi():
                     failures_messages.append("1. %s -- %s: %s (line %s)" % (
                         component_failure["fileName"],
                         component_failure["problemType"],
-                        component_failure["problem"],
+                        component_failure["problem"].replace("\n", " "),
                         component_failure["lineNumber"] \
                             if "lineNumber" in component_failure else "0"
                     ))
@@ -721,8 +713,8 @@ class MetadataApi():
             # Output failure message
             if failures_messages:
                 util.append_message(panel, "\n\nAll Component Failures:", False)
-                util.append_message(panel, "\n"+"\n".join(failures_messages), False)
-                util.append_message(panel, "[sf:%s] *********** %s Failed ***********" % (
+                util.append_message(panel, "\n"+"\n\n".join(failures_messages), False)
+                util.append_message(panel, "\n[sf:%s] *********** %s Failed ***********" % (
                     deploy_or_validate, deploy_or_validate.upper()))
         else:
             # Append succeed message

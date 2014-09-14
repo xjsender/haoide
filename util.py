@@ -293,7 +293,7 @@ def show_output_panel(message, toggle=False):
     sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
 
     panel.set_read_only(False)
-    panel.set_syntax_file('Packages/Java/Java.tmLanguage')
+    panel.set_syntax_file("Packages/Java/Java.tmLanguage")
     reminder_message = """You can open the output panel by below ways:
     1. Click SublimeApex > Debug > Open Log Panel in the main menu
     2. Press Alt + ` in Windows
@@ -313,7 +313,7 @@ def append_message(panel, message, time_prefix=True):
     
     sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
     panel.set_read_only(False)
-    panel.set_syntax_file("Packages/Java/Java.tmLanguage")
+    panel.set_syntax_file("Packages/JavaScript/JavaScript.tmLanguage")
     time_stamp = "[%s]" % time.strftime("%Y.%m.%d %H:%M:%S", 
         time.localtime(time.time()))+" " if time_prefix else ""
     panel.run_command('append', {'characters': time_stamp+message+"\n"})
@@ -735,6 +735,9 @@ def get_view_by_id(view_id):
 
     return view
 
+def build_package(files):
+    print (files)
+
 def base64_zip(zipfile):
     with open(zipfile, "rb") as f:
         bytes = f.read()
@@ -829,6 +832,38 @@ def extract_zip(base64String, outputdir):
     os.remove(zipdir)
 
     return zipdir
+
+def parse_package(package_path):
+    """Parse package types to specified format
+
+    Arguments:
+
+    * package_path -- package file path
+
+    """
+    fp = open(package_path, "rb")
+    result = xmltodict.parse(fp.read())
+
+    elements = []
+    types = result["Package"]["types"]
+
+    # If there is only one types in package
+    if isinstance(types, dict): types = [types]
+
+    for t in types:
+        members = []
+        if "members" in t and isinstance(t["members"], list):
+            for member in t["members"]:
+                members.append("<met:members>%s</met:members>" % member)
+        else:
+            members.append("<met:members>%s</met:members>" % t["members"])
+
+        elements.append("<types>%s%s</types>" % (
+            "".join(members), 
+            "<name>%s</name>" % t["name"]
+        ))
+
+    return "".join(elements) + "<met:version>%s</met:version>" % result["Package"]["version"]
 
 def reload_apex_code_cache(file_properties, settings=None):
     # Get settings
@@ -1738,38 +1773,6 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
             elementName + '>','').replace('</' + elementName + '>','')
     return elementValue
 
-def parse_package(package_path):
-    """Parse package types to specified format
-
-    Arguments:
-
-    * package_path -- package file path
-
-    """
-    fp = open(package_path, "rb")
-    result = xmltodict.parse(fp.read())
-
-    elements = []
-    types = result["Package"]["types"]
-
-    # If there is only one types in package
-    if isinstance(types, dict): types = [types]
-
-    for t in types:
-        members = []
-        if "members" in t and isinstance(t["members"], list):
-            for member in t["members"]:
-                members.append("<met:members>%s</met:members>" % member)
-        else:
-            members.append("<met:members>%s</met:members>" % t["members"])
-
-        elements.append("<types>%s%s</types>" % (
-            "".join(members), 
-            "<name>%s</name>" % t["name"]
-        ))
-
-    return "".join(elements) + "<met:version>%s</met:version>" % result["Package"]["version"]
-
 def get_path_attr(path_dir):
     """Return project name and component folder attribute
 
@@ -1827,7 +1830,7 @@ def get_component_attribute(file_name):
     Arguments:
 
     * file_name -- Local component full file name, for example:
-        D:\ForcedotcomWorkspace\pro-exercise-20130625\ApexClass\AccountChartController.cls
+        D:/ForcedotcomWorkspace/pro-exercise-20130625/ApexClass/AccountChartController.cls
 
     Returns: 
 
@@ -1861,3 +1864,86 @@ def get_component_attribute(file_name):
 
     # Return tuple
     return (component_attribute, name)
+
+def check_enabled(file_name):
+    """
+    Check whether file is ApexTrigger, ApexComponent, ApexPage or ApexClass
+
+    Arguments:
+
+    * file_name -- file name in context
+
+    Returns:
+
+    * Bool -- check whether current file is apex code file and has local cache
+    """
+    if not file_name: return False
+
+    # Get toolingapi settings
+    settings = context.get_settings()
+
+    # Check Component Type
+    name, extension = get_file_attr(file_name)
+    if extension not in settings["component_extensions"]: 
+        sublime.status_message("This component is not salesforce component")
+        return False
+
+    # Check whether project of current file is active project
+    default_project_name = settings["default_project_name"]
+    if not default_project_name in file_name: 
+        sublime.status_message('This project is not active project');
+        return False
+
+    # Check whether active component is in active project
+    username = settings["username"]
+    component_attribute, component_name = get_component_attribute(file_name)
+    if not component_attribute: 
+        sublime.status_message("This component is not active component")
+        return False
+    
+    return True
+
+def display_active_project(view):
+    settings = context.get_settings()
+    display_message = "Default Project => " + settings["default_project_name"]
+    view.set_status('default_project', display_message)
+
+def switch_project(chosen_project):
+    s = sublime.load_settings(context.TOOLING_API_SETTINGS)
+    projects = s.get("projects")
+
+    # Set the chosen project as default and others as not default
+    for project in projects:
+        project_attr = projects[project]
+        if chosen_project == project:
+            project_attr["default"] = True
+        else:
+            project_attr["default"] = False
+
+    # Save the updated settings
+    s.set("projects", projects)
+    sublime.save_settings(context.TOOLING_API_SETTINGS)
+
+    # Set status of all views in all window with "default project"
+    for window in sublime.windows():
+        for view in window.views():
+            display_active_project(view)
+
+def add_project_to_workspace(workspace):
+    """
+    Add new project folder to workspace
+    """
+
+    # Just ST3 supports, ST2 is not
+    project_data = sublime.active_window().project_data()
+    if not project_data: project_data = {}
+    folders = []
+    if "folders" in project_data:
+        folders = project_data["folders"]
+
+    folders.append({
+        "path": workspace
+    })
+
+    project_data["folders"] = folders
+    sublime.active_window().set_project_data(project_data)

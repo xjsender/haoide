@@ -15,7 +15,7 @@
             // },
             // 
             {
-                "caption": "Deploy To Server", "command": "deploy_to_server",
+                "caption": "Deploy Package To Server", "command": "deploy_package_to_server",
                 "args": {"dirs": []}
             },
 

@@ -3,8 +3,6 @@ import sublime_plugin
 import os
 import time
 
-from .salesforce import message
-
 COMPONENT_METADATA_SETTINGS = "component_metadata.sublime-settings"
 TOOLING_API_SETTINGS = "toolingapi.sublime-settings"
 
@@ -182,63 +180,3 @@ def get_settings():
     settings["component_outputdirs"] = [workspace + "/" + components[ct]["folder"] for ct in components]
 
     return settings
-
-def make_dir():
-    """
-    Load settings from toolingapi.sublime-settings and then create project directory
-
-    @Return: No return
-    """
-
-    # Create Components Directory
-    # I.E. d:/Tooling API/pro-exercise-20130416/ApexClass
-    component_outputdirs = get_settings()["component_outputdirs"]
-    for component_outputdir in component_outputdirs:
-        if not os.path.exists(component_outputdir):
-            os.makedirs(component_outputdir)
-
-def display_active_project(view):
-    settings = get_settings()
-    display_message = "Default Project => " + settings["default_project_name"]
-    view.set_status('default_project', display_message)
-
-def switch_project(chosen_project):
-    s = sublime.load_settings(TOOLING_API_SETTINGS)
-    projects = s.get("projects")
-
-    # Set the chosen project as default and others as not default
-    for project in projects:
-        project_attr = projects[project]
-        if chosen_project == project:
-            project_attr["default"] = True
-        else:
-            project_attr["default"] = False
-
-    # Save the updated settings
-    s.set("projects", projects)
-    sublime.save_settings(TOOLING_API_SETTINGS)
-    print (message.SEPRATE.format(chosen_project + " is the default project now."))
-
-    # Set status of all views in all window with "default project"
-    for window in sublime.windows():
-        for view in window.views():
-            display_active_project(view)
-
-def add_project_to_workspace(workspace):
-    """
-    Add new project folder to workspace
-    """
-
-    # Just ST3 supports, ST2 is not
-    project_data = sublime.active_window().project_data()
-    if not project_data: project_data = {}
-    folders = []
-    if "folders" in project_data:
-        folders = project_data["folders"]
-
-    folders.append({
-        "path": workspace
-    })
-
-    project_data["folders"] = folders
-    sublime.active_window().set_project_data(project_data)

@@ -64,7 +64,7 @@ After your project configuration is finished, you can click ```SublimeApex``` > 
 }
 ```
 
-# Usage
+
 ## New Project
 + This command is used to create new project
 + Once you click this command, a new project will be downloaded and appeared in the sidebar
