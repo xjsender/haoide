@@ -500,7 +500,7 @@ def handle_reload_sobjects_completions(timeout=120):
 
 def handle_deploy_thread(base64_zip, timeout=120):
     settings = context.get_settings()
-    api = ToolingApi(settings)
+    api = MetadataApi(settings)
     thread = threading.Thread(target=api.deploy, args=(base64_zip, ))
     thread.start()
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
