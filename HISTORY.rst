@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 0.9.5 (2014-09-15)
+++++++++++++++++++
++ Add confirm request for ``new project``
++ Add screenshot for ``Convert XML to JSON``
++ Fix KeyError Exception bug: cancel save operation if conflict.
+
+
 Release 0.9.4 (2014-09-14)
 ++++++++++++++++++
 + Move ``check_enabled`` from ``main.py`` to ``util.py``

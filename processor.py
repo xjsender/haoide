@@ -1332,7 +1332,13 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
         elif "success" in result and not result["success"]:
             view = sublime.active_window().active_view()
             if file_base_name in view.file_name() and extension in [".trigger", ".cls"]:
-                line = result["line"] if "line" in result else result["lineNumber"]
+                if "line" in result:
+                    line = result["line"]
+                elif "lineNumber" in result:
+                    line = result["lineNumber"]
+                else:
+                    return
+                    
                 if isinstance(line, list): line = line[0]
                 view.run_command("goto_line", {"line": line})
                 view.run_command("expand_selection", {"to":"line"})

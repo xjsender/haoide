@@ -1148,10 +1148,11 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
     def run(self):
         # Get settings
         settings = context.get_settings()
-        util.add_project_to_workspace(settings["workspace"])
-
-        # Handle Refresh All
-        processor.handle_new_project(settings)
+        dpn = settings["default_project"]["project_name"]
+        message = "Are you sure you really want to create new project for %s?" % dpn
+        if sublime.ok_cancel_dialog(message):
+            util.add_project_to_workspace(settings["workspace"])
+            processor.handle_new_project(settings)
 
 class RefreshComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
