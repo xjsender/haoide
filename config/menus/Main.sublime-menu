@@ -187,6 +187,12 @@
                     },
 
                     {
+                        "id": "exportcustomlables",
+                        "caption": "Export Custom Labels",
+                        "command": "export_custom_lables"
+                    },
+
+                    {
                         "id": "exportworkbook",
                         "caption": "Export Workbook",
                         "command": "export_workbook"

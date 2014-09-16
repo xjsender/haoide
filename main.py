@@ -493,7 +493,24 @@ class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
             sublime.error_message(message.METADATA_CHECK)
             return
 
-        processor.handle_export_validation_rules()
+        processor.handle_export_validation_rules(settings)
+
+class ExportCustomLablesCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ExportCustomLablesCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        settings = context.get_settings()
+        workspace = settings["workspace"]
+        lable_path = workspace + "/metadata/unpackaged/labels/CustomLabels.labels"
+        if not os.path.isfile(lable_path):
+            sublime.error_message(message.METADATA_CHECK)
+            return
+
+        outputdir = settings["workspace"] + "/Labels"
+        if not os.path.exists(outputdir): os.makedirs(outputdir)
+        lables = xmltodict.parse(open(lable_path, "rb").read())
+        util.list2csv(outputdir+"/Labels.csv", lables["CustomLabels"]["labels"])
 
 class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -507,7 +524,7 @@ class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
             sublime.error_message(message.METADATA_CHECK)
             return
 
-        processor.handle_export_workflows()
+        processor.handle_export_workflows(settings)
 
 class ExportFieldDependencyCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

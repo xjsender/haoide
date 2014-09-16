@@ -1407,16 +1407,19 @@ def list2csv(file_path, records):
     * records -- [{"1": 1}, {"2": 2}]
     """
     # If records size is 0, just return
-    if len(records) == 0: return "No Custom Fields"
+    if len(records) == 0: return "No Elements"
 
-    header = [k.encode('utf-8') for k in records[0] if k not in NOT_INCLUDED_COLUMNS]
+    headers = [k.encode('utf-8') for k in records[0] if k not in NOT_INCLUDED_COLUMNS]
     with open(file_path, "wb") as fp:
-        fp.write(b",".join(header) + b"\n")
+        fp.write(b",".join(headers) + b"\n")
         for record in records:
             values = []
-            for k, v in record.items():
-                if k.encode('utf-8') in header:
-                    values.append(none_value(v).encode("utf-8"))
+            for k in headers:
+                strk = str(k, encoding="utf-8")
+                if strk not in record:
+                    values.append(b"")
+                else:
+                    values.append(('"%s"' % none_value(record[strk])).encode("utf-8"))
             fp.write(b",".join(values) + b"\n")
 
 def parse_data_template(output_file_dir, result):

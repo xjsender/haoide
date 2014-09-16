@@ -176,6 +176,10 @@
         "command": "export_validation_rules"
     },
     {
+        "caption": "SublimeApex: Export Custom Labels",
+        "command": "export_custom_labels"
+    },
+    {
         "caption": "SublimeApex: Export Data Template",
         "command": "export_data_template"
     },

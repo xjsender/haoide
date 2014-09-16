@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 0.9.6 (2014-09-16)
+++++++++++++++++++
++ Fix bug for issue #38, remove ``ownerRules``, ``criteriaBasedRules`` and ``installedPackages`` from default package.xml
++ Add a command to export CustomLables to csv
++ Update ``SOQL - SELECT FROM`` snippet
+
+
 Release 0.9.5 (2014-09-15)
 ++++++++++++++++++
 + Add confirm request for ``new project``

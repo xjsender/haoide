@@ -594,7 +594,7 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
     ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
     handle_thread(thread, timeout)
 
-def handle_export_workflows(timeout=120):
+def handle_export_workflows(settings, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -605,7 +605,6 @@ def handle_export_workflows(timeout=120):
         util.parse_workflow_metadata(settings, sobjects_describe.keys())
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
-    settings = context.get_settings()
     outputdir = settings["workspace"] + "/workflow/"
     api = ToolingApi(settings)
     thread = threading.Thread(target=api.describe_global, args=())
@@ -613,7 +612,7 @@ def handle_export_workflows(timeout=120):
     ThreadProgress(api, thread, "Export All Workflows", "Outputdir: " + outputdir)
     handle_thread(thread, 10)
 
-def handle_export_validation_rules(timeout=120):
+def handle_export_validation_rules(settings, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -624,7 +623,6 @@ def handle_export_validation_rules(timeout=120):
         util.parse_validation_rule(settings, sobjects_describe.keys())
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
-    settings = context.get_settings()
     outputdir = settings["workspace"] + "/Validation/Validation Rules.csv"
     api = ToolingApi(settings)
     thread = threading.Thread(target=api.describe_global, args=())
