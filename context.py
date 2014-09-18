@@ -143,40 +143,14 @@ def get_settings():
         allowed_packages = []
 
     settings["allowed_packages"] = allowed_packages
-    if allowed_packages:
-        allowed_packages_filter = "OR NamespacePrefix IN ('"+"','".join(allowed_packages)+"')"
-    else:
-        allowed_packages_filter = ""
     
     # Populate all global variables
     components = s.get("components")
-    for component_type in components:
-        component_attribute = components[component_type]
-
-        # If type is StaticResource, add the ContentType field
-        if component_type == "StaticResource":
-            content_type_filter = ", ContentType"
-        else:
-            content_type_filter = ""
-
-        # Combine soql
-        component_soql = ("SELECT Id, Name, %s%s FROM %s " +\
-            "WHERE NamespacePrefix = null %s ORDER BY Name") % (
-                component_attribute["body"],
-                content_type_filter,
-                component_type,
-                allowed_packages_filter
-            )
-
-        component_attribute["soql"] = component_soql
-        component_attribute["outputdir"] = workspace + "/" + component_attribute["folder"]
-        settings[component_type] = component_attribute
-        settings[component_attribute["extension"]] = component_type
-        settings[component_attribute["folder"]] = component_type
-
-    settings["component_types"] = list(components.keys())
-    settings["component_folders"] = [components[ct]["folder"] for ct in components]
-    settings["component_extensions"] = [components[ct]["extension"] for ct in components]
-    settings["component_outputdirs"] = [workspace + "/" + components[ct]["folder"] for ct in components]
+    settings["meta_types"] = [c["type"] for c in components if c["subscribe"]]
+    settings["meta_folders"] = [c["folder"] for c in components if c["subscribe"]]
+    for component in components:
+        if not component["subscribe"]: continue
+        settings[component["type"]] = component
+        settings[component["folder"]] = component
 
     return settings

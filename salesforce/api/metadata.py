@@ -286,7 +286,7 @@ class MetadataApi():
         result["success"] = response.status_code < 399
         return result
 
-    def retrieve(self, soap_body, package_path=None):
+    def retrieve(self, soap_body, types=None):
         """ 1. Issue a retrieve request to start the asynchronous retrieval and asyncProcessId is returned
             2. Thread sleep for a while and then issue a checkStatus request to check whether the async 
                process job is completed.
@@ -322,17 +322,7 @@ class MetadataApi():
         }
 
         # Populate the soap_body with actual session id
-        if package_path:
-            try:
-                types = util.parse_package(package_path)
-            except Exception as e:
-                self.result = {
-                    "success": False,
-                    "Message": "Package.xml File Parse Problem",
-                    "RootCause": str(e)
-                }
-                return self.result
-
+        if types:
             soap_body = soap_body.format(
                 globals()[self.username]["session_id"], 
                 self.api_version, types)
@@ -435,13 +425,6 @@ class MetadataApi():
 
         # [sf:retrieve]
         util.append_message(panel, "[sf:retrieve] Finished request %s successfully." % async_process_id)
-
-        # Output directory
-        if package_path:
-            base_path, file_name = os.path.split(package_path)
-        else:
-            base_path = self.settings["workspace"]
-        util.append_message(panel, "[sf:retrieve] Output directory: "+base_path)
 
         # Build Successful
         util.append_message(panel, "\n\nBUILD SUCCESSFUL", False)
@@ -715,13 +698,13 @@ class MetadataApi():
                 util.append_message(panel, "\n\nAll Component Failures:", False)
                 util.append_message(panel, "\n"+"\n\n".join(failures_messages), False)
                 util.append_message(panel, "\n[sf:%s] *********** %s Failed ***********" % (
-                    deploy_or_validate, deploy_or_validate.upper()))
+                    deploy_or_validate, deploy_or_validate.upper()), False)
         else:
             # Append succeed message
-            util.append_message(panel, "[sf:%s] Request Succeed" % deploy_or_validate)
+            util.append_message(panel, "\n[sf:%s] Request Succeed" % deploy_or_validate, False)
             util.append_message(panel, "[sf:%s] *********** %s SUCCEEDED ***********" % (
-                deploy_or_validate, deploy_or_validate.upper()))
-            util.append_message(panel, "[sf:%s] Finished request %s successfully." % (deploy_or_validate, async_process_id))
+                deploy_or_validate, deploy_or_validate.upper()), False)
+            util.append_message(panel, "[sf:%s] Finished request %s successfully." % (deploy_or_validate, async_process_id), False)
 
         # Total time
         total_seconds = (datetime.datetime.now() - start_time).seconds

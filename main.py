@@ -161,10 +161,10 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
         sel_text = self.view.substr(self.view.word(sel.begin()))
         
         settings = context.get_settings()
-        for component_type in settings["component_types"]:
-            folder = settings[component_type]["folder"]
-            extension = settings[component_type]["extension"]
-            target_file = settings["workspace"] + "/%s/%s%s" % (folder, sel_text, extension)
+        for ct in settings["meta_types"]:
+            folder = settings[ct]["folder"]
+            extension = settings[ct]["extension"]
+            target_file = settings["workspace"] + "/src/%s/%s%s" % (folder, sel_text, extension)
             if os.path.isfile(target_file):
                 self.view.window().open_file(target_file)
 
@@ -260,122 +260,26 @@ class NewDynamicViewCommand(sublime_plugin.TextCommand):
         if erase_all: view.erase(edit, sublime.Region(0, view.size()))
         view.insert(edit, point, input)
 
-class RefreshClassFolderCommand(sublime_plugin.WindowCommand):
+class RefreshFolderCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(RefreshClassFolderCommand, self).__init__(*args, **kwargs)
+        super(RefreshFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
         confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
         if not confirm: return
 
-        processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
+        processor.handle_refresh_folder(self.folder_name, self.path)
 
     def is_visible(self, dirs):
         if not dirs: return False
-        self.component_outputdir = dirs[0]
-        self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
+        self.path = dirs[0]
+        self.project_name, self.folder_name = util.get_path_attr(self.path)
 
         # Check whether the project is exist in settings
-        self.settings = context.get_settings()
-        if self.folder_name not in self.settings: return False
-        component_type = self.settings[self.folder_name]
-        if component_type != "ApexClass": return False
-        if self.project_name != self.settings["default_project_name"]: return False
-
-        return True
-
-class RefreshComponentFolderCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(RefreshComponentFolderCommand, self).__init__(*args, **kwargs)
-
-    def run(self, dirs):
-        confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
-        if not confirm: return
-
-        processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
-
-    def is_visible(self, dirs):
-        if not dirs: return False
-        self.component_outputdir = dirs[0]
-        self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
-
-        # Check whether the project is exist in settings
-        self.settings = context.get_settings()
-        if self.folder_name not in self.settings: return False
-        component_type = self.settings[self.folder_name]
-        if component_type != "ApexComponent": return False
-        if self.project_name != self.settings["default_project_name"]: return False
-
-        return True
-
-class RefreshPageFolderCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(RefreshPageFolderCommand, self).__init__(*args, **kwargs)
-
-    def run(self, dirs):
-        confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
-        if not confirm: return
-
-        processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
-
-    def is_visible(self, dirs):
-        if not dirs: return False
-        self.component_outputdir = dirs[0]
-        self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
-
-        # Check whether the project is exist in settings
-        self.settings = context.get_settings()
-        if self.folder_name not in self.settings: return False
-        component_type = self.settings[self.folder_name]
-        if component_type != "ApexPage": return False
-        if self.project_name != self.settings["default_project_name"]: return False
-
-        return True
-
-class RefreshTriggerFolderCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(RefreshTriggerFolderCommand, self).__init__(*args, **kwargs)
-
-    def run(self, dirs):
-        confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
-        if not confirm: return
-
-        processor.handle_refresh_folder(self.folder_name, self.component_outputdir)
-
-    def is_visible(self, dirs):
-        if not dirs: return False
-        self.component_outputdir = dirs[0]
-        self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
-
-        # Check whether the project is exist in settings
-        self.settings = context.get_settings()
-        if self.folder_name not in self.settings: return False
-        component_type = self.settings[self.folder_name]
-        if component_type != "ApexTrigger": return False
-        if self.project_name != self.settings["default_project_name"]: return False
-
-        return True
-
-class RefreshStaticResourceFolderCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(RefreshStaticResourceFolderCommand, self).__init__(*args, **kwargs)
-
-    def run(self, dirs):
-        confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
-        if not confirm: return
-        processor.handle_get_static_resource_body(self.folder_name, self.component_outputdir)
-
-    def is_visible(self, dirs):
-        if not dirs: return False
-        self.component_outputdir = dirs[0]
-        self.project_name, self.folder_name = util.get_path_attr(self.component_outputdir)
-
-        # Check whether the project is exist in settings
-        self.settings = context.get_settings()
-        if self.folder_name not in self.settings: return False
-        component_type = self.settings[self.folder_name]
-        if component_type != "StaticResource": return False
-        if self.project_name != self.settings["default_project_name"]: return False
+        settings = context.get_settings()
+        if self.folder_name not in settings: return False
+        meta_type = settings[self.folder_name]["type"]
+        if self.project_name not in settings["default_project_name"]: return False
 
         return True
 
@@ -467,7 +371,7 @@ class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
         if not dirs: return False
         if len(dirs) > 1: return False
         if not os.path.exists(dirs[0]+"/package.xml"):
-            sublime.status_message("Not valid package path")
+            sublime.status_message("Not valid package path for deploy")
             return False
 
         return True

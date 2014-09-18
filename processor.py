@@ -198,82 +198,37 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         "View Code Coverage of " + component_name + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_refresh_folder(folder_name, component_outputdir, timeout=120):
+def handle_refresh_folder(folder_name, path, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
+        
+        if not api.result: return
+        if not api.result["success"]: return
 
+        # Mkdir for output dir of zip file
         result = api.result
 
-        # Output component size
-        size = len(result["records"])
-        print (message.SEPRATE.format(str(component_type) + " Size: " + str(size)))
+        # Get the upper folder of path
+        extract_to, folder = os.path.split(path)
 
-        # Write Components to local
-        components = {}
-        for record in result["records"]:
-            # Get Component Name of this record
-            component_name = record['Name']
-            component_url = record['attributes']['url']
-            component_id = record["Id"]
-            print (str(component_type) + " ==> " + str(record['Name']))
+        # Extract zip
+        util.extract_encoded_zipfile(result["zipFile"], extract_to)
 
-            # Write mapping of component_name with component_url
-            # into component_metadata.sublime-settings
-            key = component_name.lower()
-            components[key] = {
-                "url": component_url,
-                "name": component_name,
-                "id": component_id,
-                "type": component_type,
-                "body": component_body,
-                "extension": component_extension
-            }
-            
-            # Judge Component is Test Class or not
-            body = record[component_body]
-            if component_type == "ApexClass":
-                if "@isTest" in body or "testMethod" in body or "testmethod" in body:
-                    components[key]["is_test"] = True
-                else:
-                    components[key]["is_test"] = False
+        # Hide panel
+        sublime.set_timeout_async(util.hide_output_panel, 500)
 
-            # Write body to local file
-            fp = open(component_outputdir + "/" + component_name +\
-                component_extension, "wb")
-            try:
-                body = bytes(body, "UTF-8")
-            except:
-                body = body.encode("UTF-8")
-            fp.write(body)
-
-            # Set status_message
-            sublime.status_message(component_name + " ["  + component_type + "] Downloaded")
-
-        # Save Refreshed Component Attributes to component_metadata.sublime-settings
-        s = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
-        username = settings["username"]
-        components_dict = s.get(username)
-        components_dict[component_type] = components
-        s.set(username, components_dict)
-
-        sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
-
+    # Start to request
     settings = context.get_settings()
-    api = ToolingApi(settings)
-
-    # Get component attributes by component_type
-    component_type = settings[folder_name]
-    component_attribute = settings[component_type]
-    component_body = component_attribute["body"]
-    component_extension = component_attribute["extension"]
-    component_soql = component_attribute["soql"]
-    thread = threading.Thread(target=api.query_all, args=(component_soql, ))
+    api = MetadataApi(settings)
+    meta_type = settings[folder_name]["type"]
+    types = util.build_package_types([meta_type])
+    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_body, types, ))
     thread.start()
-    wating_message = "Refreshing " + component_type
-    ThreadProgress(api, thread, wating_message, wating_message + " Succeed")
     handle_thread(thread, timeout)
+    message = "Refresh %s Folder" % folder_name
+    ThreadProgress(api, thread, message, message+" Succeed")
 
 def handle_reload_symbol_tables(timeout=120):
     """
@@ -575,11 +530,9 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
         # Mkdir for output dir of zip file
         util.add_project_to_workspace(settings["workspace"])
         outputdir = settings["workspace"] + "/metadata"
-        if not os.path.exists(outputdir):
-            os.makedirs(outputdir)
 
         # Extract zip
-        util.extract_zip(result["zipFile"], outputdir)
+        util.extract_encoded_zipfile(result["zipFile"], outputdir)
 
     settings = context.get_settings()
     api = MetadataApi(settings)
@@ -1156,7 +1109,8 @@ def handle_new_project(settings, is_update=False, timeout=120):
         if not result or not result["success"]: return
 
         # Extract the apex code to workspace
-        util.extract_package(result["zipFile"])
+        extract_to = os.path.join(settings["workspace"], "src")
+        util.extract_encoded_zipfile(result["zipFile"], extract_to)
 
         # In windows, folder is not shown in the sidebar, 
         # we need to refresh the sublime workspace to show it
@@ -1185,20 +1139,19 @@ def handle_new_project(settings, is_update=False, timeout=120):
             util.add_config_history('settings', str(settings).replace("'", '"'))
             util.add_config_history('session', str(api.session).replace("'", '"'))
 
+    settings = context.get_settings()
     api = MetadataApi(settings)
-    retrieve_body = soap_bodies.retrieve_apex_code_body.replace("{allowed_packages}",
-        "".join(["<met:packageNames>%s</met:packageNames>" % a for a in settings["allowed_packages"]])
-    )
-    thread = threading.Thread(target=api.retrieve, args=(retrieve_body, ))
+    types = util.build_package_types(settings["meta_types"])
+    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_body, types, ))
     thread.start()
     wating_message = ("Creating New " if not is_update else "Updating ") + " Project"
     ThreadProgress(api, thread, wating_message, wating_message + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeout=120):
-    def handle_thread(thread, static_resource_dir, timeout):
+def handle_get_static_resource_body(folder_name, timeout=120):
+    def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, static_resource_dir, timeout), timeout)
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         
         if not api.result: return
@@ -1206,33 +1159,19 @@ def handle_get_static_resource_body(folder_name, static_resource_dir=None, timeo
 
         # Mkdir for output dir of zip file
         result = api.result
-        if not static_resource_dir:
-            static_resource_dir = settings["workspace"] + folder_name
-        if not os.path.exists(static_resource_dir): 
-            os.makedirs(static_resource_dir)
 
-        # Extract zip
-        zipdir = util.extract_zip(result["zipFile"], static_resource_dir)
+        # Makedir if not exist
+        if not os.path.exists(settings["workspace"]): 
+            os.makedirs(settings["workspace"])
 
-        # Move the file to staticresources path
-        root_src_dir = static_resource_dir + "/unpackaged"
-        root_dst_dir = static_resource_dir
-        for x in os.walk(root_src_dir):
-            if not x[-1]: continue
-            for _file in x[-1]:
-                if not _file.endswith("resource"): continue
-                if os.path.exists(root_dst_dir + '/' + _file):
-                    os.remove(root_dst_dir + '/' + _file)
-                os.rename(x[0] + '/' + _file, root_dst_dir + '/' + _file)
-
-        shutil.rmtree(static_resource_dir + "/unpackaged", ignore_errors=True)
-        os.remove(zipdir)
+        # Extract zip to target path
+        util.extract_encoded_zipfile(result["zipFile"], settings["workspace"] + "/src")
 
     settings = context.get_settings()
     api = MetadataApi(settings)
     thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_static_resource_body, ))
     thread.start()
-    handle_thread(thread, static_resource_dir, timeout)
+    handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Retrieve StaticResource", "Retrieve StaticResource Succeed")
 
 def handle_retrieve_package(package_path, timeout=120):
@@ -1251,12 +1190,13 @@ def handle_retrieve_package(package_path, timeout=120):
         base_path, file_name = os.path.split(package_path)
 
         # Extract zip
-        util.extract_zip(result["zipFile"], base_path)
+        util.extract_encoded_zipfile(result["zipFile"], base_path)
 
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
-    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_body, package_path,))
+    types = util.parse_package(open(package_path, "rb").read())
+    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_body, types, ))
     thread.start()
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
@@ -1317,8 +1257,9 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
                 sublime.save_settings("symbol_table.sublime-settings")
 
             # Output succeed message in the console
+            save_or_compile = "compiled" if is_check_only else "saved"
             util.show_output_panel(message.SEPRATE.format(
-                "{0} is saved successfully at {1}".format(file_base_name, 
+                "%s is %s at %s" % (file_base_name, save_or_compile,
                     time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))))
 
             # If succeed, just hide it in two seconds later

@@ -5,6 +5,19 @@ Release History
 ---------------
 
 
+Release 0.9.7 (2014-09-17)
+++++++++++++++++++
++ Milestone for Metadata Api Migration from ``Tooling Api`` for non-code meta
++ remove some time stamp for deploy
++ Functionality check for ``convert xml to json``
++ Optimize the zip utility for ``extract`` zip file or ``compress`` folder
++ Remove ``hidden_console_on_modify`` settings
++ Fix bug: the output console message for ``compile``
++ Use ``metadata api`` to new project
++ Use ``metadata api`` to refresh folder
++ Change the default settings content for ``components``, you can subscribe what you want to retrieve, default subscribe just include ``ApexPage``, ``ApexComponent``, ``ApexClass`` and ``ApexTrigger``
+
+
 Release 0.9.6 (2014-09-16)
 ++++++++++++++++++
 + Fix bug for issue #38, remove ``ownerRules``, ``criteriaBasedRules`` and ``installedPackages`` from default package.xml

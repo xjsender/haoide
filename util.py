@@ -735,8 +735,17 @@ def get_view_by_id(view_id):
 
     return view
 
-def build_package(files):
-    print (files)
+def build_package_types(meta_types):
+    types = []
+    for t in meta_types:
+        types.append("""
+            <met:types>
+                <met:members>*</met:members>
+                <name>%s</name>
+            </met:types>
+        """ % t)
+
+    return " ".join(types)
 
 def base64_zip(zipfile):
     with open(zipfile, "rb") as f:
@@ -751,7 +760,7 @@ def compress_package(package_dir):
     for dirpath, dirnames, filenames in os.walk(package_dir):
         basename = dirpath[len(package_dir)+1:]
         for filename in filenames:
-            zf.write(os.path.join(dirpath,filename), basename+"/"+filename) 
+            zf.write(os.path.join(dirpath, filename), basename+"/"+filename) 
     zf.close()
 
     base64_package = base64_zip(zipfile_path)
@@ -759,90 +768,67 @@ def compress_package(package_dir):
 
     return base64_package
 
-def extract_package(zip_file):
-    """ Decode the zip_file and extract the zip file to workspace,
-        and rename the "unpackaged" to "src"
+def extract_encoded_zipfile(encoded_zip_file, extract_to):
+    """ Decode the base64 encoded file and 
+        extract the zip file to workspace and 
+        rename the "unpackaged" to "src"
     """
 
-    settings = context.get_settings()
-    workspace = settings["workspace"]
-    if not os.path.exists(workspace):
-        os.makedirs(workspace)
+    if not os.path.exists(extract_to):
+        os.makedirs(extract_to)
 
-    zipdir = workspace + "/" + "package.zip"
-    with open(zipdir, "wb") as fout:
-        fout.write(base64.b64decode(zip_file))
+    zipfile_path = os.path.join(extract_to, "package.zip")
+    with open(zipfile_path, "wb") as fout:
+        fout.write(base64.b64decode(encoded_zip_file))
         fout.close()
 
-    zfile = zipfile.ZipFile(zipdir, 'r')
-    for filename in zfile.namelist():
-        extract(zfile, filename, workspace)
-    zfile.close()
+    extract_file(zipfile_path, extract_to)
 
     # Remove original src tree
-    os.remove(zipdir)
-          
-def extract(zfile, filename, extract_to):   
-    if not filename.endswith('/'):
-        f = os.path.join(extract_to, filename.replace("unpackaged", "src"))
-        dir = os.path.dirname(f)
-        if not os.path.exists(dir):   
-            os.makedirs(dir)
-        fp = open(f, 'wb')
-        fp.write(zfile.read(filename))   
-        fp.close()
+    os.remove(zipfile_path)
 
-def extract_zip(base64String, outputdir):
+def extract_file(zipfile_path, extract_to):
+    zfile = zipfile.ZipFile(zipfile_path, 'r')
+    for filename in zfile.namelist():
+        if filename.endswith('/'): continue
+        f = extract_to + filename.replace("unpackaged", "")
+        if not os.path.exists(os.path.dirname(f)):
+            os.makedirs(os.path.dirname(f))
+
+        with open(f, "wb") as fp:
+            fp.write(zfile.read(filename))
+
+    zfile.close()
+
+def extract_zip(base64String, extract_to):
     """
     1. Decode base64String to zip
     2. Extract zip to files
     """
 
     # Decode base64String to zip
-    if not os.path.exists(outputdir): os.makedirs(outputdir)
-    zipdir = outputdir + "/package.zip"
-    with open(zipdir, "wb") as fout:
+    if not os.path.exists(extract_to): os.makedirs(extract_to)
+    zipfile_path = extract_to + "/package.zip"
+    with open(zipfile_path, "wb") as fout:
         fout.write(base64.b64decode(base64String))
-        fout.close()
 
-    # Unzip sobjects.zip to file
-    f = zipfile.ZipFile(zipdir, 'r')
-    for fileinfo in f.infolist():
-        path = outputdir
-        directories = fileinfo.filename.split('/')
-        for directory in directories:
-            # replace / to &, because there has problem in open method
-            try:
-                quoted_dir = urllib.parse.unquote(directory).replace("/", "&")
-            except:
-                quoted_dir = urllib.unquote(directory).replace("/", "&")
-            path = os.path.join(path, quoted_dir)
-            if directory == directories[-1]: break # the file
-            if not os.path.exists(path):
-                os.makedirs(path)
-
-        outputfile = open(path, "wb")
-        shutil.copyfileobj(f.open(fileinfo.filename), outputfile)
-        outputfile.close()
-
-    # Close zipFile opener
-    f.close()
+    # Extract file to target path
+    extract_file(zipfile_path, extract_to)
 
     # Remove package.zip
-    os.remove(zipdir)
+    os.remove(zipfile_path)
 
-    return zipdir
+    return zipfile_path
 
-def parse_package(package_path):
+def parse_package(package_content):
     """Parse package types to specified format
 
     Arguments:
 
-    * package_path -- package file path
+    * package_path -- package content to parse
 
     """
-    fp = open(package_path, "rb")
-    result = xmltodict.parse(fp.read())
+    result = xmltodict.parse(package_content)
 
     elements = []
     types = result["Package"]["types"]
@@ -1789,20 +1775,15 @@ def get_path_attr(path_dir):
     * folder -- folder describe defined in settings, for example, ApexClass foder is 'src/classes'
     """
     # Get the Folder Name and Project Name
-    path, folder = os.path.split(path_dir)
+    path, meta_folder = os.path.split(path_dir)
     path, src = os.path.split(path)
-    
-    if "src" not in src:
-        project_name = src
-    else:
-        path, project_name = os.path.split(path)
-        folder = src + "/" + folder
+    path, project_name = os.path.split(path)
 
     # Assume the project name has time suffix, 
     year = get_current_year()
     if year in project_name: project_name = project_name[:-9]
 
-    return project_name, folder
+    return project_name, meta_folder
 
 def get_current_year():
     """Get the current year
@@ -1833,7 +1814,7 @@ def get_component_attribute(file_name):
     Arguments:
 
     * file_name -- Local component full file name, for example:
-        D:/ForcedotcomWorkspace/pro-exercise-20130625/ApexClass/AccountChartController.cls
+        /pro-exercise-20130625/src/ApexClass/AccountChartController.cls
 
     Returns: 
 
@@ -1849,21 +1830,21 @@ def get_component_attribute(file_name):
     # Get toolingapi settings
     settings = context.get_settings()
 
-    # Get component type
-    name, extension = get_file_attr(file_name)
+    # Check whether current file is subscribed component
+    folder, name = os.path.split(file_name)
+    component_name = name.split(".")[0]
+    src_folder, folder_name = os.path.split(folder)
+    if folder_name not in settings["meta_folders"]:
+        return None, None
 
-    # If extension is None, just return
-    if not extension or extension not in settings["component_extensions"]:
-        return
-
-    component_type = settings[extension]
+    meta_type = settings[folder_name]["type"]
     username = settings["username"]
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
 
     try:
-        component_attribute = component_settings.get(username)[component_type][name.lower()]
+        component_attribute = component_settings.get(username)[meta_type][component_name.lower()]
     except:
-        return (None, None)
+        component_attribute, name = None, None
 
     # Return tuple
     return (component_attribute, name)
@@ -1885,10 +1866,11 @@ def check_enabled(file_name):
     # Get toolingapi settings
     settings = context.get_settings()
 
-    # Check Component Type
-    name, extension = get_file_attr(file_name)
-    if extension not in settings["component_extensions"]: 
-        sublime.status_message("This component is not salesforce component")
+    # Check whether current file is subscribed component
+    folder, name = os.path.split(file_name)
+    src_folder, folder_name = os.path.split(folder)
+    if folder_name not in settings["meta_folders"]: 
+        sublime.status_message("Not subscribed component in SublimeApex")
         return False
 
     # Check whether project of current file is active project

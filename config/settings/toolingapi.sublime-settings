@@ -1,202 +1,196 @@
- // While you can edit this file, it's best to put your changes in
+// While you can edit this file, it's best to put your changes in
 // "User/Preferences.sublime-settings", which overrides the settings in here.
 // Settings may also be placed in file type specific options files, for
 // example, in Packages/Python/Python.sublime-settings for python files.
 {
-    // In order to prevent plugin update override your toolingapi settings, 
+    // In order to prevent plugin update override your toolingapi settings,
     // you should save the workspace, login_url, username and password to user settings.
     // If you want to do this, you should click [Sublime > Setting - User], and copy these settings into it
     // User Settings is prior to Default Settings, it's very important.
     // You should have more than one project in "projects", however, only one project can be default
     // Every time you switch the project, the update projects settings will be saved to user settings.
-    "workspace": "C:/ForcedotcomWorkspace",
-    "projects": {
-        "pro-test": {
+    "workspace" : "C:/ForcedotcomWorkspace",
+    "projects" : {
+        "pro-test" : {
             // default is true means current project is active project
             // There should be only one active project in projects settings
-            "default": true,
+            "default" : true,
 
-            // Login URL, 
+            // Login URL,
             // sandbox: https://test.salesforce.com
             // production: https://login.salesforce.com
-            "login_url": "https://login.salesforce.com",
+            "login_url" : "https://login.salesforce.com",
 
             // Login username and password
-            "password": "sublime111111",
-            "username": "apex.sublime@dev.com",
+            "password" : "sublime111111",
+            "username" : "apex.sublime@dev.com",
 
-            // If you don't need security token, 
+            // If you don't need security token,
             // just leave it as below or just delete below
-            "security_token": "",
+            "security_token" : "",
 
             // Valid value should be package namespace
             // for example, "allowed_packages": ["sinaweibo", "twitter", "facebook"],
-            "allowed_packages": [],
+            "allowed_packages" : [],
         }
     },
 
     // API version
-    "api_version": 30,
+    "api_version" : 30,
 
     // Browser Path, you should set a valid browser path, otherwise, it will have problem
     // Some policy prevents setting chrome as default browser, so this setting is here
-    "default_chrome_path": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+    "default_chrome_path" : "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
 
     // Indicate whether add time suffix for project name
-    // When this setting value is true, you create a new project at yestoday and 
+    // When this setting value is true, you create a new project at yestoday and
     // you refresh it's code today, a new project folder will be created to keep the refreshed code
     // Two methods to fix this bug:
-    //     1. Set this setting value to false, 
+    //     1. Set this setting value to false,
     //     2. Create new project every day.
     // It depends on your choice.
-    "keep_project_name_time_suffix": true,
+    "keep_project_name_time_suffix" : true,
 
     // Indicate whether output session info in the console when you switch the project
     // Deprecated, replace by `.config/session.json`
-    "output_session_info": false,
+    "output_session_info" : false,
 
     // Indicate whether keep local change history of code file, default interval is 1 minutes
-    "keep_local_change_history": false,
+    "keep_local_change_history" : false,
 
     // Check whether the LastModifiedById is current user
-    "check_save_conflict": true,
+    "check_save_conflict" : true,
 
     // Every time when you save component and error happened, the console will be open.
     // When you edit the code according to the error message, this flag is used to indicate
     // whether the console will be hidden automatically
-    "hidden_console_on_modify": false,
+    "hidden_console_on_modify" : false,
 
     // Every time when you save component and error happened, the console will be open.
     // however, you want it to be hidden automatically after several seconds
-    "delay_seconds_for_hidden_output_panel_when_failed": 9999,
+    "delay_seconds_for_hidden_output_panel_when_failed" : 9999,
 
     // Every time when you save component and succeed, the output panel will be open.
     // however, you want it to be hidden automatically after several seconds
-    "delay_seconds_for_hidden_output_panel_when_succeed": 1,
+    "delay_seconds_for_hidden_output_panel_when_succeed" : 1,
 
     // Indicate whether need to reload symbol tables when creating new project
-    "reload_symbol_tables_when_create_project": false,
+    "reload_symbol_tables_when_create_project" : false,
 
     // Indicate whether download StaticResource body
     // This job is processed by Metadata API
-    "get_static_resource_body": false,
+    "get_static_resource_body" : false,
 
     // Indicate whether disable sobject fields completion
-    "disable_fields_completion": false,
+    "disable_fields_completion" : false,
 
     // Indicate whether disable Relationship field completion
-    "disable_relationship_completion": false,
+    "disable_relationship_completion" : false,
 
     // Indicate whether disable picklist value completion
-    "disable_picklist_value_completion": false,
+    "disable_picklist_value_completion" : false,
 
     // Indicate whether disable keyword completion
-    "disable_keyword_completion": false,
+    "disable_keyword_completion" : false,
 
     // Indicate whether disable field list completion
-    "disable_soql_field_completion": false,
+    "disable_soql_field_completion" : false,
 
     // Indicate whether display both field name and field label for sobject field completion,
     // If set false, it means just display field name
     // If you change this setting, you need to reload active cache to ensure it work
-    "display_field_name_and_label": false,
+    "display_field_name_and_label" : false,
 
     // Indicate whether keep execute_anonymous, query and run test history to local
-    "keep_operation_history": true,
+    "keep_operation_history" : true,
 
     // Indicate whether keep plugin settings and session
-    "keep_config_history": true,
+    "keep_config_history" : true,
 
     // Bulk API batch size and batch bytes
     // Maximum 10000 rows per batch
     // Maximum 1000000 bytes per batch
-    "maximum_batch_size": 10000,
-    "maximum_batch_bytes": 1000000,
+    "maximum_batch_size" : 10000,
+    "maximum_batch_bytes" : 1000000,
 
     // Log Levels for anonymous code
-    "anonymous_log_levels": [
-        {
-            "log_category": "Apex_Code",
-            "log_level": "Debug"
-        },
-        {
-            "log_category": "Apex_Profiling",
-            "log_level": "Info"
-        },
-        {
-            "log_category": "Callout",
-            "log_level": "Info"
-        },
-        {
-            "log_category": "DB",
-            "log_level": "Info"
-        },
-        {
-            "log_category": "Validation",
-            "log_level": "Info"
-        },
-        {
-            "log_category": "Workflow",
-            "log_level": "Info"
+    "anonymous_log_levels" : [{
+            "log_category" : "Apex_Code",
+            "log_level" : "Debug"
+        }, {
+            "log_category" : "Apex_Profiling",
+            "log_level" : "Info"
+        }, {
+            "log_category" : "Callout",
+            "log_level" : "Info"
+        }, {
+            "log_category" : "DB",
+            "log_level" : "Info"
+        }, {
+            "log_category" : "Validation",
+            "log_level" : "Info"
+        }, {
+            "log_category" : "Workflow",
+            "log_level" : "Info"
         }
     ],
 
     // Deploy Options
-    "deploy_options": {
-        "allowMissingFiles": false,
-        "autoUpdatePackage": false,
-        "checkOnly": true,
-        "ignoreWarnings": true,
-        "performRetrieve": false,
-        "purgeOnDelete": false,
-        "rollbackOnError": true,
-        "runAllTests": false,
-        "singlePackage": true
+    "deploy_options" : {
+        "allowMissingFiles" : false,
+        "autoUpdatePackage" : false,
+        "checkOnly" : true,
+        "ignoreWarnings" : true,
+        "performRetrieve" : false,
+        "purgeOnDelete" : false,
+        "rollbackOnError" : true,
+        "runAllTests" : false,
+        "singlePackage" : true
     },
 
     // The return number of "fetch logs" command
-    "last_n_logs": 10,
+    "last_n_logs" : 10,
 
     // User Language
-    "user_language": {
-        "Chinese (Simplified)": "zh_CN",
-        "Chinese (Traditional)": "zh_TW",
-        "Danish": "da",
-        "Dutch": "nl_NL",
-        "English": "en_US",
-        "Finnish": "fi",
-        "French": "fr",
-        "German": "de",
-        "Italian": "it",
-        "Japanese": "ja",
-        "Korean": "ko",
-        "Portuguese (Brazil)": "pt_BR",
-        "Russian": "ru",
-        "Spanish": "es",
-        "Spanish (Mexico)": "es_MX",
-        "Swedish": "sv",
-        "Thai": "th"
+    "user_language" : {
+        "Chinese (Simplified)" : "zh_CN",
+        "Chinese (Traditional)" : "zh_TW",
+        "Danish" : "da",
+        "Dutch" : "nl_NL",
+        "English" : "en_US",
+        "Finnish" : "fi",
+        "French" : "fr",
+        "German" : "de",
+        "Italian" : "it",
+        "Japanese" : "ja",
+        "Korean" : "ko",
+        "Portuguese (Brazil)" : "pt_BR",
+        "Russian" : "ru",
+        "Spanish" : "es",
+        "Spanish (Mexico)" : "es_MX",
+        "Swedish" : "sv",
+        "Thai" : "th"
     },
 
     // TraceFlag Debug Log Level
-    "trace_flag": {
-        "ApexCode": "Debug",
-        "ApexProfiling": "Finest",
-        "Callout": "Info",
-        "Database": "Finest",
-        "System": "Debug",
-        "Validation": "Info",
-        "Visualforce": "Info",
-        "Workflow": "Info"
+    "trace_flag" : {
+        "ApexCode" : "Debug",
+        "ApexProfiling" : "Finest",
+        "Callout" : "Info",
+        "Database" : "Finest",
+        "System" : "Debug",
+        "Validation" : "Info",
+        "Visualforce" : "Info",
+        "Workflow" : "Info"
     },
 
     /**
      * Below are default columns for exported csv file, however,
      * you can remove the useless column that you think
      */
-    
+
     // Sobject Workbook columns
-    "workbook_field_describe_columns": [
+    "workbook_field_describe_columns" : [
         "label", "name", "type", "length", "unique", "externalId", "precision",
         "picklistValues", "calculatedFormula", "defaultValue", "controllerName",
         "relationshipName", "referenceTo", "inlineHelpText", "nillable",
@@ -204,33 +198,33 @@
     ],
 
     // Workflow Rule columns
-    "workflow_rule_columns": [
+    "workflow_rule_columns" : [
         "sobject", "fullName", "triggerType", "active", "formula",
         "booleanFilter", "criteriaItems", "actions", "description"
     ],
 
     // Workflow Field Update columns
-    "workflow_field_update_columns": [
+    "workflow_field_update_columns" : [
         "sobject", "name", "fullName", "field", "operation",
         "formula", "literalValue", "protected",
         "notifyAssignee", "description"
     ],
 
     // Workflow Email Alert columns
-    "workflow_email_alert_columns": [
+    "workflow_email_alert_columns" : [
         "sobject", "fullName", "recipients", "template",
         "senderType", "protected", "description"
     ],
 
     // Workflow Email Alert columns
-    "workflow_outbound_message_columns": [
+    "workflow_outbound_message_columns" : [
         "sobject", "name", "fullName", "fields",
         "endpointUrl", "includeSessionId", "apiVersion",
         "integrationUser", "protected", "useDeadLetterQueue"
     ],
 
     // Workflow Email Alert columns
-    "workflow_task_columns": [
+    "workflow_task_columns" : [
         "sobject", "fullName", "assignedTo", "assignedToType",
         "description", "dueDateOffset", "notifyAssignee",
         "offsetFromField", "priority", "protected",
@@ -238,23 +232,23 @@
     ],
 
     // Workflow Field Update columns
-    "validation_rule_columns": [
+    "validation_rule_columns" : [
         "sobject", "fullName", "errorConditionFormula", "errorMessage",
         "errorDisplayField", "active", "description"
     ],
 
     // Allowed Standard Sobjects for kind of use, including describe, trigger, code completion
-    "allowed_sobjects": [
+    "allowed_sobjects" : [
         // Sales Sobject
-        "Account", "Partner", "PartnerRole", "Contact", "Assert", 
-        "Opportunity", "OpportunityLineItem", "OpportunityStage", "OpportunityCompetitor",  
+        "Account", "Partner", "PartnerRole", "Contact", "Assert",
+        "Opportunity", "OpportunityLineItem", "OpportunityStage", "OpportunityCompetitor",
         "Product2", "Pricebook2", "PricebookEntry", "Quote", "QuoteLineItem", "Order",
         "Lead", "LeadStatus", "Campaign", "CampaignMember", "CampaignMemberStatus",
         "Case", "CaseStatus", "CaseComment", "Contract", "Solution",
         "OpportunityContactRole", "ContractContactRole", "AccountContactRole",
-        
+
         // Task and Event Sobjects
-        "Event", "EventRelation", "Task", "TaskStatus", "TaskPriority", 
+        "Event", "EventRelation", "Task", "TaskStatus", "TaskPriority",
 
         // Content
         "Attachment", "Content", "ContentVersion", "Note", "Document", "Folder",
@@ -269,7 +263,7 @@
         "Forecast", "ForecastingQuota", "ForecastShare",
 
         // Feed
-        "FeedItem", "FeedLike", "FeedComment", "AccountFeed", "OpportunityFeed", 
+        "FeedItem", "FeedLike", "FeedComment", "AccountFeed", "OpportunityFeed",
         "CaseFeed", "ContactFeed", "LeadFeed", "CampaignFeed",
 
         // Share
@@ -283,83 +277,219 @@
     ],
 
     // This setting is used to keep the default pattern of salesforce document TOC path
-    "docs": {
-        "Apex": {
-            "keyword": "apexcode",
-            "pattern": "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
+    "docs" : {
+        "Apex" : {
+            "keyword" : "apexcode",
+            "pattern" : "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
         },
-        "Visualforce": {
-            "keyword": "pages",
-            "pattern": "*.//TocEntry[@DescendantCount='0'].."
+        "Visualforce" : {
+            "keyword" : "pages",
+            "pattern" : "*.//TocEntry[@DescendantCount='0'].."
         },
-        "Chatter Api": {
-            "keyword": "chatterapi",
-            "pattern": ".//TocEntry[@DescendantCount='0']"
+        "Chatter Api" : {
+            "keyword" : "chatterapi",
+            "pattern" : ".//TocEntry[@DescendantCount='0']"
         },
-        "Streaming Api": {
-            "keyword": "api_streaming",
-            "pattern": ".//TocEntry[@DescendantCount='0']"
+        "Streaming Api" : {
+            "keyword" : "api_streaming",
+            "pattern" : ".//TocEntry[@DescendantCount='0']"
         },
-        "Bulk Api": {
-            "keyword": "api_asynch",
-            "pattern": "*[@Link].//TocEntry[@DescendantCount='0'].."
+        "Bulk Api" : {
+            "keyword" : "api_asynch",
+            "pattern" : "*[@Link].//TocEntry[@DescendantCount='0'].."
         },
-        "Rest Api": {
-            "keyword": "api_rest",
-            "pattern": ".//TocEntry[@DescendantCount='0']"
+        "Rest Api" : {
+            "keyword" : "api_rest",
+            "pattern" : ".//TocEntry[@DescendantCount='0']"
         },
-        "Tooling Api": {
-            "keyword": "api_tooling",
-            "pattern": ".//TocEntry[@DescendantCount='0']"
+        "Tooling Api" : {
+            "keyword" : "api_tooling",
+            "pattern" : ".//TocEntry[@DescendantCount='0']"
         },
-        "Console Toolkit": {
-            "keyword": "api_console",
-            "pattern": ".//TocEntry[@DescendantCount='0']"
+        "Console Toolkit" : {
+            "keyword" : "api_console",
+            "pattern" : ".//TocEntry[@DescendantCount='0']"
         },
-        "Standard Objects": {
-            "keyword": "object_reference",
-            "pattern": "*.//TocEntry[@DescendantCount='0'].."
+        "Standard Objects" : {
+            "keyword" : "object_reference",
+            "pattern" : "*.//TocEntry[@DescendantCount='0'].."
         },
-        "SOQL & SOSL": {
-            "keyword": "soql_sosl",
-            "pattern": "*.//TocEntry[@DescendantCount='0'].."
+        "SOQL & SOSL" : {
+            "keyword" : "soql_sosl",
+            "pattern" : "*.//TocEntry[@DescendantCount='0'].."
         },
-        "Metadata Api": {
-            "keyword": "api_meta",
-            "pattern": "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
+        "Metadata Api" : {
+            "keyword" : "api_meta",
+            "pattern" : "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
         }
     },
 
-    // Components Directory, body attribute can't be modified
-    "components": {
-        "ApexClass": {
-            "folder": "src/classes",  // Directory Name
-            "body": "Body",           // Meatadata Name of Component
-            "extension": ".cls"       // Output File Extendsion
-        },
-
-        "ApexTrigger": {
-            "folder": "src/triggers",
-            "body": "Body",
-            "extension": ".trigger"
-        },
-
-        "ApexComponent": {
-            "folder": "src/components",
-            "body": "Markup",
+    "components" : [{
+            "children" : null,              // [Can't change] Reserved settings for future
+            "subscribe" : false,            // [Can change] true means it will be downloaded
+            "folder" : "analyticSnapshots", // [Can't change] Metadata Folder Property
+            "type" : "AnalyticSnapshot",    // [Can't change] Metadata type used in package.xml
+            "extension": ".snapshot"        // [Can't change] Reserved settings for future
+        }, {
+            "children" : null,
+            "subscribe" : true,
+            "folder" : "classes",
+            "type" : "ApexClass",
+            "extension": ".cls"
+        }, {
+            "children" : null,
+            "subscribe" : true,
+            "folder" : "components",
+            "type" : "ApexComponent",
             "extension": ".component"
-        },
-
-        "ApexPage": {
-            "folder": "src/pages",
-            "body": "Markup",
+        }, {
+            "children" : null,
+            "subscribe" : true,
+            "folder" : "pages",
+            "type" : "ApexPage",
             "extension": ".page"
-        },
-
-        "StaticResource": {
-            "folder": "src/staticresources",
-            "body": "Body",
+        }, {
+            "children" : null,
+            "subscribe" : true,
+            "folder" : "triggers",
+            "type" : "ApexTrigger",
+            "extension": ".trigger"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "staticresources",
+            "type" : "StaticResource",
             "extension": ".resource"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "applications",
+            "type" : "CustomApplication",
+            "extension": ".app"
+        }, {
+            "children" : ["CustomLabel"],
+            "subscribe" : false,
+            "folder" : "labels",
+            "type" : "CustomLabels",
+            "extension": ".labels"
+        }, {
+            "children" : [
+                "CustomField", "BusinessProcess", "RecordType", "WebLink",
+                "ValidationRule", "NamedFilter", "SharingReason", "ListView", "FieldSet"
+            ],
+            "subscribe" : false,
+            "folder" : "objects",
+            "type" : "CustomObject",
+            "extension": ".object"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "objectTranslations",
+            "type" : "CustomObjectTranslation",
+            "extension": ".translation"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "weblinks",
+            "type" : "CustomPageWebLink",
+            "extension": ".weblink"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "tabs",
+            "type" : "CustomTab",
+            "extension": ".tab"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "dashboards",
+            "type" : "Dashboard",
+            "extension": ".dashboard"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "datacategorygroups",
+            "type" : "DataCategoryGroup",
+            "extension": ".datacategorygroup"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "documents",
+            "type" : "Document"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "email",
+            "type" : "EmailTemplate",
+            "extension": ".email"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "homePageComponents",
+            "type" : "HomePageComponent",
+            "extension": ".homePageComponent"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "homePageLayouts",
+            "type" : "HomePageLayout",
+            "extension": ".homePageLayout"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "layouts",
+            "type" : "Layout",
+            "extension": ".layout"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "letterhead",
+            "type" : "Letterhead",
+            "extension": ".letter"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "permissionsets",
+            "type" : "PermissionSet",
+            "extension": ".permissonset"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "profiles",
+            "type" : "Profile",
+            "extension": ".profile"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "remoteSiteSettings",
+            "type" : "RemoteSiteSetting",
+            "extension": ".remoteSite"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "reports",
+            "type" : "Report",
+            "extension": ".report"
+        }, {
+            "children" : null,
+            "subscribe" : true,
+            "folder" : "reportTypes",
+            "type" : "ReportType",
+            "extension": ".reportType"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "scontrols",
+            "type" : "Scontrol",
+            "extension": ".scontrol"
+        }, {
+            "children" : ["WorkflowAlert", "WorkflowTask", "WorkflowOutboundMessage",
+                "WorkflowFieldUpdate", "WorkflowRule"
+            ],
+            "subscribe" : false,
+            "folder" : "workflows",
+            "type" : "Workflow",
+            "extension": ".workflow"
         }
-    }
+    ]
 }
