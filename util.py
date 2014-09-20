@@ -735,15 +735,154 @@ def get_view_by_id(view_id):
 
     return view
 
+def build_package_dict(files):
+    """ Build Package Dict as follow structure by files
+        {
+            'ApexClass': [{
+                'dir': <file path>,
+                'folder': 'classes',
+                'name': 'AccountController',
+                'extension': '.cls'
+            }],
+            'ApexComponent': [{
+                'dir': <file path>,
+                'folder': 'components',
+                'name': 'SiteFooter',
+                'extension': '.component'
+            }]
+        }
+    """
+    settings = context.get_settings()
+    package_dict = {}
+    for f in files:
+        # Ignore folder
+        if not os.path.isfile(f): continue
+
+        # Ignore "-meta.xml"
+        if f.endswith("-meta.xml"): continue
+
+        # Get meta_type and code name
+        base, name = os.path.split(f)
+        name, extension = name.split(".")
+        base, folder = os.path.split(base)
+        meta_type = settings[folder]["type"]
+        file_dict = {
+            "name": name,
+            "dir": f,
+            "folder": folder,
+            "extension": "."+extension
+        }
+
+        # Build dict
+        if meta_type in package_dict:
+            package_dict[meta_type].append(file_dict)
+        else:
+            package_dict[meta_type] = [file_dict]
+
+    return package_dict
+
+def build_package(files):
+    # Initiate zipfile
+    settings = context.get_settings()
+    if not os.path.exists(settings["workspace"]):
+        os.makedirs(settings["workspace"])
+
+    zipfile_path = settings["workspace"] + "/test.zip"
+    zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
+
+    # Get package dict
+    package_dict = build_package_dict(files)
+
+    # Add files to zip
+    for meta_type in package_dict:
+        for f in package_dict[meta_type]:
+            zf.write(f["dir"], "%s/%s%s" % (f["folder"], f["name"], f["extension"]))
+
+            # If -meta.xml is exist, add it to folder
+            met_xml = f["dir"] + "-meta.xml"
+            if os.path.isfile(met_xml):
+                zf.write(met_xml, "%s/%s%s" % (f["folder"], f["name"], f["extension"]+"-meta.xml"))
+
+    # Build types for package.xml
+    types = []
+    for p in package_dict:
+        members = []
+        for f in package_dict[p]:
+            members.append("<members>%s</members>" % f["name"])
+
+        types.append("""
+        <types>
+            %s
+            <name>%s</name>
+        </types>
+        """ % (" ".join(members), p))
+
+    # Build package.xml
+    package_xml = """<?xml version="1.0" encoding="UTF-8"?>
+        <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+            %s
+            <version>%s.0</version>
+        </Package>
+    """ % (" ".join(types), settings["api_version"])
+
+    # Write package.xml to zip
+    package_xml_path = settings["workspace"]+"/package.xml"
+    open(package_xml_path, "wb").write(package_xml.encode("utf-8"))
+    zf.write(package_xml_path, "package.xml")
+    os.remove(package_xml_path)
+
+    # Close zip input stream
+    zf.close()
+
+    base64_package = base64_zip(zipfile_path)
+    os.remove(zipfile_path)
+
+    return base64_package
+
 def build_package_types(meta_types):
+    """ Build <types> by specified metadata types
+    """
+
     types = []
     for t in meta_types:
-        types.append("""
-            <met:types>
-                <met:members>*</met:members>
-                <name>%s</name>
-            </met:types>
-        """ % t)
+        if t == "CustomObject":
+            types.append("""
+                <met:types>
+                    <met:members>*</met:members>
+                    <met:members>Account</met:members>
+                    <met:members>AccountContactRole</met:members>
+                    <met:members>Activity</met:members>
+                    <met:members>Asset</met:members>
+                    <met:members>Campaign</met:members>
+                    <met:members>CampaignMember</met:members>
+                    <met:members>Case</met:members>
+                    <met:members>CaseContactRole</met:members>
+                    <met:members>Contact</met:members>
+                    <met:members>ContentVersion</met:members>
+                    <met:members>Contract</met:members>
+                    <met:members>ContractContactRole</met:members>
+                    <met:members>Event</met:members>
+                    <met:members>Idea</met:members>
+                    <met:members>Lead</met:members>
+                    <met:members>Opportunity</met:members>
+                    <met:members>OpportunityContactRole</met:members>
+                    <met:members>OpportunityLineItem</met:members>
+                    <met:members>PartnerRole</met:members>
+                    <met:members>Product2</met:members>
+                    <met:members>Site</met:members>
+                    <met:members>Solution</met:members>
+                    <met:members>Task</met:members>
+                    <met:members>User</met:members>
+                    <name>%s</name>
+                </met:types>
+            """ % t)
+        else:
+            types.append("""
+                <met:types>
+                    <met:members>*</met:members>
+                    <name>%s</name>
+                </met:types>
+            """ % t)
 
     return " ".join(types)
 
@@ -759,6 +898,7 @@ def compress_package(package_dir):
     zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
     for dirpath, dirnames, filenames in os.walk(package_dir):
         basename = dirpath[len(package_dir)+1:]
+        print (basename)
         for filename in filenames:
             zf.write(os.path.join(dirpath, filename), basename+"/"+filename) 
     zf.close()
@@ -1806,6 +1946,22 @@ def get_file_attr(file_name):
     except:
         pass
 
+def get_meta_folder(file_name):
+    """ Get the meta_folder by file_name
+
+    * file_name -- Local component full file name, for example:
+        if file name is "/pro-exercise-20130625/src/classes/AccountChartController.cls",
+        the meta_folder is "classes"
+
+    Returns: 
+
+    * meta_folder -- the metadata folder
+    """
+
+    folder, name = os.path.split(file_name)
+    src_folder, meta_folder = os.path.split(folder)
+    return meta_folder
+
 def get_component_attribute(file_name):
     """
     get the component name by file_name, and then get the component_url and component_id
@@ -1814,7 +1970,7 @@ def get_component_attribute(file_name):
     Arguments:
 
     * file_name -- Local component full file name, for example:
-        /pro-exercise-20130625/src/ApexClass/AccountChartController.cls
+        /pro-exercise-20130625/src/classes/AccountChartController.cls
 
     Returns: 
 
@@ -1833,11 +1989,11 @@ def get_component_attribute(file_name):
     # Check whether current file is subscribed component
     folder, name = os.path.split(file_name)
     component_name = name.split(".")[0]
-    src_folder, folder_name = os.path.split(folder)
-    if folder_name not in settings["meta_folders"]:
+    src_folder, meta_folder = os.path.split(folder)
+    if meta_folder not in settings["meta_folders"]:
         return None, None
 
-    meta_type = settings[folder_name]["type"]
+    meta_type = settings[meta_folder]["type"]
     username = settings["username"]
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
 

@@ -268,18 +268,22 @@ class RefreshFolderCommand(sublime_plugin.WindowCommand):
         confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
         if not confirm: return
 
-        processor.handle_refresh_folder(self.folder_name, self.path)
+        processor.handle_refresh_folder(self.folders_dict)
 
     def is_visible(self, dirs):
         if not dirs: return False
-        self.path = dirs[0]
-        self.project_name, self.folder_name = util.get_path_attr(self.path)
 
-        # Check whether the project is exist in settings
+        # Get settings
         settings = context.get_settings()
-        if self.folder_name not in settings: return False
-        meta_type = settings[self.folder_name]["type"]
-        if self.project_name not in settings["default_project_name"]: return False
+
+        project_names = []
+        self.folders_dict = {}
+        for d in dirs:
+            project_name, folder_name = util.get_path_attr(d)
+            if folder_name not in settings: return False
+            if project_name not in settings["default_project_name"]: return False
+            project_names.append(project_name)
+            self.folders_dict[folder_name] = d
 
         return True
 
@@ -381,9 +385,41 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
         super(DeployFilesToServer, self).__init__(*args, **kwargs)
 
     def run(self, files):
-        util.build_package(files)
+        # Get the package path to deploy
+        self.files = files
+
+        # Choose the target ORG to deploy
+        settings = context.get_settings()
+        self.projects = settings["projects"]
+        self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
+            'Inactive') + ") " + p for p in self.projects]
+        self.projects = sorted(self.projects, reverse=False)
+        self.window.show_quick_panel(self.projects, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+        # Change the chosen project as default
+        # Split with ") " and get the second project name
+        default_project = self.projects[index].split(") ")[1]
+        util.switch_project(default_project)
+
+        base64_encoded_zip = util.build_package(self.files)
+        processor.handle_deploy_thread(base64_encoded_zip)
 
     def is_enabled(self, files):
+        """
+        1. You must have selected one file or more
+        2. All selected file should be in predefined meta folders
+        """
+
+        if len(files) == 0: return False
+        self.settings = context.get_settings()
+        for _file in files:
+            if not os.path.isfile(_file): continue # Ignore folder
+            _folder = util.get_meta_folder(_file)
+            if _folder not in self.settings["meta_folders"]:
+                return False
+
         return True
 
 class ExportValidationRulesCommand(sublime_plugin.WindowCommand):

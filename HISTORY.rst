@@ -5,7 +5,18 @@ Release History
 ---------------
 
 
-Release 0.9.7 (2014-09-17)
+Release 0.9.8 (2014-09-20)
+++++++++++++++++++
++ Support multiply folder refresh
++ Add standard sObjects to CustomObject Package Members when create new project if CustomObject is subscribed
++ Update default subscribed components
++ Add a new command ``Deploy Files to Server``
++ Fix bug: Display debugLog info after deploy is finished
++ Upsert demo in README.MD
++ Display the new release message after new released upgrade is finished
+
+
+Release 0.9.7 (2014-09-19)
 ++++++++++++++++++
 + Milestone for Metadata Api Migration from ``Tooling Api`` for non-code meta
 + remove some time stamp for deploy

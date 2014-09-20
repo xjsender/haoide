@@ -198,7 +198,7 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         "View Code Coverage of " + component_name + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_refresh_folder(folder_name, path, timeout=120):
+def handle_refresh_folder(folders_dict, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -211,7 +211,7 @@ def handle_refresh_folder(folder_name, path, timeout=120):
         result = api.result
 
         # Get the upper folder of path
-        extract_to, folder = os.path.split(path)
+        extract_to = settings["workspace"] + "/src"
 
         # Extract zip
         util.extract_encoded_zipfile(result["zipFile"], extract_to)
@@ -222,12 +222,14 @@ def handle_refresh_folder(folder_name, path, timeout=120):
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
-    meta_type = settings[folder_name]["type"]
-    types = util.build_package_types([meta_type])
+    meta_types = []
+    for folder in folders_dict:
+        meta_types.append(settings[folder]["type"])
+    types = util.build_package_types(meta_types)
     thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_body, types, ))
     thread.start()
     handle_thread(thread, timeout)
-    message = "Refresh %s Folder" % folder_name
+    message = "Refresh Folder"
     ThreadProgress(api, thread, message, message+" Succeed")
 
 def handle_reload_symbol_tables(timeout=120):
@@ -453,10 +455,10 @@ def handle_reload_sobjects_completions(timeout=120):
     ThreadProgress(api, thread, "Global Describe", "Global Describe Succeed")
     handle_thread(api, thread, timeout)
 
-def handle_deploy_thread(base64_zip, timeout=120):
+def handle_deploy_thread(base64_encoded_zip, timeout=120):
     settings = context.get_settings()
     api = MetadataApi(settings)
-    thread = threading.Thread(target=api.deploy, args=(base64_zip, ))
+    thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip, ))
     thread.start()
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
 
@@ -1141,7 +1143,7 @@ def handle_new_project(settings, is_update=False, timeout=120):
 
     settings = context.get_settings()
     api = MetadataApi(settings)
-    types = util.build_package_types(settings["meta_types"])
+    types = util.build_package_types(settings["subscribed_meta_types"])
     thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_body, types, ))
     thread.start()
     wating_message = ("Creating New " if not is_update else "Updating ") + " Project"

@@ -349,7 +349,7 @@ class MetadataApi():
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
-            return self.retrieve(panel, soap_body)
+            return self.retrieve(panel, types)
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -711,11 +711,11 @@ class MetadataApi():
         util.append_message(panel, "\n\nTotal time: %s seconds" % total_seconds, False)
 
         # Display debug log message in the new view
-        if "header" in result and result["header"]:
+        if "header" in result and result["header"] and "debugLog" in result["header"]:
             view = sublime.active_window().new_file()
             view.run_command("new_view", {
                 "name": "Debugging Information",
-                "input": header
+                "input": result["header"]["debugLog"]
             })
 
         self.result = result

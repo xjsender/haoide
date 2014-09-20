@@ -472,7 +472,7 @@
             "extension": ".report"
         }, {
             "children" : null,
-            "subscribe" : true,
+            "subscribe" : false,
             "folder" : "reportTypes",
             "type" : "ReportType",
             "extension": ".reportType"
