@@ -5,6 +5,12 @@ Release History
 ---------------
 
 
+Release 0.9.9 (2014-09-20)
+++++++++++++++++++
++ Try to fix bug for ``new release messages display`` or who can tell me how to display ``release message``
++ Fix bug for ``quick go to component``
+
+
 Release 0.9.8 (2014-09-20)
 ++++++++++++++++++
 + Support multiply folder refresh

@@ -161,7 +161,7 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
         sel_text = self.view.substr(self.view.word(sel.begin()))
         
         settings = context.get_settings()
-        for ct in settings["meta_types"]:
+        for ct in settings["subscribed_meta_types"]:
             folder = settings[ct]["folder"]
             extension = settings[ct]["extension"]
             target_file = settings["workspace"] + "/src/%s/%s%s" % (folder, sel_text, extension)
