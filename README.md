@@ -7,6 +7,7 @@ See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 
 # Demo
 + [Install Plugin](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/InstallPackage.gif) 
++ [Create New Project](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/NewProject.gif)
 + [Completions](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
 + [Trigger](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Trigger.gif)
 + [Visualforce Page](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif)
@@ -20,6 +21,7 @@ See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 + [Deploy Files to Server](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployFilesToServer.gif)
 + [Refresh Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RefreshFolders.gif)
 + [Convert XML to JSON](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ConvertXML2JSON.gif)
++ [More Demos](https://github.com/xjsender/SublimeApexScreenshot)
 
 **Please don't change the password and email in the build-in test org**
 
