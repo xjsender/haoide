@@ -70,10 +70,6 @@
     },
 
     {
-        "caption": "SublimeApex: Refresh Folder",
-        "command": "refresh_folder"
-    },
-    {
         "caption": "SublimeApex: Retrieve Metadata",
         "command": "retrieve_metadata"
     },

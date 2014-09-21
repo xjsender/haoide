@@ -1,6 +1,6 @@
 Build 0.9.8
 -----------
-Release Date: 27 September 2014
+Release Date: 20 September 2014
 
     * Support multiply folder refresh
     * Add standard sObjects to CustomObject Package Members when create new project if CustomObject is subscribed

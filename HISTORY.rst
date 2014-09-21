@@ -5,6 +5,16 @@ Release History
 ---------------
 
 
+Release 1.0.0 (2014-09-21)
+++++++++++++++++++
++ Add a new command ``Deploy To Server`` in the context menu
++ Fix bug for ``retrieve`` when session is expired
++ Fix bug for ``New ApexClass``, ``New ApexTrigger``, ``New ApexComponent`` and ``New ApexPage``
++ Fix bug ``TypeError: is_visible() missing 1 required positional argument: 'dirs'`` when open ``Command Palette``
++ Fix bug: If there is no any trigger or class, we want to create the first one, there has exception
++ Fix bug: ``Package.xml`` was overridden by ``refresh folder``
+
+
 Release 0.9.9 (2014-09-20)
 ++++++++++++++++++
 + Try to fix bug for ``new release messages display`` or who can tell me how to display ``release message``

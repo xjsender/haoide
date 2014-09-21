@@ -380,6 +380,19 @@ class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
 
         return True
 
+class DeployFileToServer(sublime_plugin.TextCommand):
+    def run(self, edit):
+        files = [self.view.file_name()]
+        sublime.active_window().run_command("deploy_files_to_server", {"files": files})
+
+    def is_enabled(self):
+        self.settings = context.get_settings()
+        _folder = util.get_meta_folder(self.view.file_name())
+        if _folder not in self.settings["meta_folders"]:
+            return False
+
+        return True
+
 class DeployFilesToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployFilesToServer, self).__init__(*args, **kwargs)
@@ -589,7 +602,7 @@ class RunOneTestCommand(sublime_plugin.WindowCommand):
             {
                 "accountcontroller":
                 {
-                    "body": "Body",
+                    "body": Body",
                     "extension": ".cls",
                     "id": "01p90000003hdEGAAY",
                     "is_test": false,
@@ -914,6 +927,7 @@ class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
         if index == -1: return
         self.window.run_command("create_component", {
             "component_type": "ApexTrigger",
+            "markup_or_body": "Body",
             "sobject_name": self.sobjects[index]
         })
 
@@ -925,7 +939,10 @@ class CreateApexPageCommand(sublime_plugin.WindowCommand):
         super(CreateApexPageCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.window.run_command("create_component", {"component_type": "ApexPage"})
+        self.window.run_command("create_component", {
+            "component_type": "ApexPage",
+            "markup_or_body": "Markup"
+        })
 
     def is_enabled(self):
         return util.check_new_component_enabled()
@@ -935,7 +952,10 @@ class CreateApexComponentCommand(sublime_plugin.WindowCommand):
         super(CreateApexComponentCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.window.run_command("create_component", {"component_type": "ApexComponent"})    
+        self.window.run_command("create_component", {
+            "component_type": "ApexComponent",
+            "markup_or_body": "Markup"
+        })
 
     def is_enabled(self):
         return util.check_new_component_enabled()
@@ -945,7 +965,10 @@ class CreateApexClassCommand(sublime_plugin.WindowCommand):
         super(CreateApexClassCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.window.run_command("create_component", {"component_type": "ApexClass"})
+        self.window.run_command("create_component", {
+            "component_type": "ApexClass",
+            "markup_or_body": "Body"
+        })
 
     def is_enabled(self):
         return util.check_new_component_enabled()
@@ -954,9 +977,10 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreateComponentCommand, self).__init__(*args, **kwargs)
 
-    def run(self, component_type=None, sobject_name=None):
-        self.sobject_name = sobject_name
+    def run(self, component_type=None, markup_or_body=None, sobject_name=None):
         self.component_type = component_type
+        self.markup_or_body = markup_or_body
+        self.sobject_name = sobject_name
         template_settings = sublime.load_settings("template.sublime-settings")
         self.templates = template_settings.get("template")
 
@@ -995,8 +1019,8 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
             body = body.replace("class_name", name)
 
         self.settings = context.get_settings()
-        component_type = self.settings[extension]
-        component_outputdir = self.settings[component_type]["outputdir"]
+        workspace = self.settings["workspace"]
+        component_outputdir = workspace+"/src/"+self.settings[self.component_type]["folder"]
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
             self.settings = context.get_settings()
@@ -1014,16 +1038,16 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         # Compose data
         data = {
             "name": name,
-            self.settings[component_type]["body"]: body,
+            self.markup_or_body: body,
         }
-        if component_type == "ApexClass":
+        if self.component_type == "ApexClass":
             data["IsValid"] = True
-        elif component_type == "ApexTrigger":
+        elif self.component_type == "ApexTrigger":
             data["TableEnumOrId"] = self.sobject_name
-        elif component_type in ["ApexPage", "ApexComponent"]:
+        elif self.component_type in ["ApexPage", "ApexComponent"]:
             data["MasterLabel"] = name
 
-        processor.handle_create_component(data, name, component_type, file_name)
+        processor.handle_create_component(data, name, self.component_type, self.markup_or_body, file_name)
 
 class SaveComponentCommand(sublime_plugin.TextCommand):
     def run(self, edit, is_check_only=False):

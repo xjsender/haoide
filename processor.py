@@ -214,7 +214,7 @@ def handle_refresh_folder(folders_dict, timeout=120):
         extract_to = settings["workspace"] + "/src"
 
         # Extract zip
-        util.extract_encoded_zipfile(result["zipFile"], extract_to)
+        util.extract_encoded_zipfile(result["zipFile"], extract_to, True)
 
         # Hide panel
         sublime.set_timeout_async(util.hide_output_panel, 500)
@@ -1119,6 +1119,7 @@ def handle_new_project(settings, is_update=False, timeout=120):
         sublime.active_window().run_command("refresh_folder_list")
 
         # Apex Code Cache
+        print (result["fileProperties"])
         util.reload_apex_code_cache(result["fileProperties"], settings)
 
         # Hide panel
@@ -1313,7 +1314,7 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
     ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_create_component(data, component_name, component_type, file_name, timeout=120):
+def handle_create_component(data, component_name, component_type, markup_or_body, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -1332,18 +1333,23 @@ def handle_create_component(data, component_name, component_type, file_name, tim
 
         # Get the created component id
         component_id = result.get("id")
-        body = settings[component_type]["body"]
         extension = settings[component_type]["extension"]
         
         # Save it to component.sublime-settings
         s = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
         username = settings["username"]
         components_dict = s.get(username)
+
+        # Prevent exception for creating component if no component in org
+        if component_type not in components_dict: 
+            components_dict = {component_type : {}}
+
+        # Build components dict
         components_dict[component_type][component_name.lower()] = {
             "id": component_id,
             "name": component_name,
             "url": post_url + "/" + component_id,
-            "body": body,
+            "body": markup_or_body,
             "extension": extension,
             "type": component_type,
             "is_test": False

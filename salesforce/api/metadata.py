@@ -3,6 +3,7 @@ import time
 import pprint
 import os
 import csv
+import json
 import datetime
 from xml.sax.saxutils import unescape, quoteattr
 
@@ -246,6 +247,7 @@ class MetadataApi():
                 "message": 'body["checkStatusResponse"]["result"] KeyError'
             }
 
+        # print (json.dumps(result, indent=4))
         result["success"] = response.status_code < 399
         return result
 
@@ -349,7 +351,7 @@ class MetadataApi():
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
-            return self.retrieve(panel, types)
+            return self.retrieve(soap_body, types)
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -461,6 +463,7 @@ class MetadataApi():
             return result
 
         result = xmltodict.parse(content)
+        # print (json.dumps(result, indent=4))
         try:
             header = None
             if "soapenv:Header" in result["soapenv:Envelope"]:

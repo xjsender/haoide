@@ -835,7 +835,7 @@ def build_package(files):
     zf.close()
 
     base64_package = base64_zip(zipfile_path)
-    os.remove(zipfile_path)
+    # os.remove(zipfile_path)
 
     return base64_package
 
@@ -908,7 +908,7 @@ def compress_package(package_dir):
 
     return base64_package
 
-def extract_encoded_zipfile(encoded_zip_file, extract_to):
+def extract_encoded_zipfile(encoded_zip_file, extract_to, ignore_package_xml=False):
     """ Decode the base64 encoded file and 
         extract the zip file to workspace and 
         rename the "unpackaged" to "src"
@@ -922,15 +922,17 @@ def extract_encoded_zipfile(encoded_zip_file, extract_to):
         fout.write(base64.b64decode(encoded_zip_file))
         fout.close()
 
-    extract_file(zipfile_path, extract_to)
+    extract_file(zipfile_path, extract_to, ignore_package_xml)
 
     # Remove original src tree
     os.remove(zipfile_path)
 
-def extract_file(zipfile_path, extract_to):
+def extract_file(zipfile_path, extract_to, ignore_package_xml=False):
     zfile = zipfile.ZipFile(zipfile_path, 'r')
     for filename in zfile.namelist():
+        print (filename)
         if filename.endswith('/'): continue
+        if ignore_package_xml and filename == "unpackaged/package.xml": continue
         f = extract_to + filename.replace("unpackaged", "")
         if not os.path.exists(os.path.dirname(f)):
             os.makedirs(os.path.dirname(f))
