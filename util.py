@@ -835,7 +835,7 @@ def build_package(files):
     zf.close()
 
     base64_package = base64_zip(zipfile_path)
-    # os.remove(zipfile_path)
+    os.remove(zipfile_path)
 
     return base64_package
 
