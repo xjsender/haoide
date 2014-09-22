@@ -12,6 +12,7 @@ Release 1.0.1 (2014-09-22)
 + Remove the ``\n`` from success message in ``document.py``
 + Add description for ``save multiple components`` feature in the README.MD
 + Change output directory of ``retrieve package.xml`` from current directory to ``[ProjectName]-201409221812``
++ Add ``messages`` notes
 
 
 Release 1.0.0 (2014-09-21)

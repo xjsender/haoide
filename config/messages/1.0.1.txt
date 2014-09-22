@@ -1,0 +1,14 @@
+Build 1.0.1
+-----------
+Release Date: 22 September 2014
+
+    * Add ``LogLength`` column to result of ``fetch debug logs``
+    * Update default value of ``display_field_name_and_label`` setting from ``false`` to ``true``
+    * Remove the ``\n`` from success message in ``document.py``
+    * Add description for ``save multiple components`` feature in the README.MD
+    * Change output directory of ``retrieve package.xml`` from current directory to ``[ProjectName]-201409221812``
+    * Add ``messages`` notes
+
+Notes:
+
+    * You must restart your sublime after upgrade is finished
