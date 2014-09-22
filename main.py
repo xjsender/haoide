@@ -602,7 +602,7 @@ class RunOneTestCommand(sublime_plugin.WindowCommand):
             {
                 "accountcontroller":
                 {
-                    "body": Body",
+                    "body": "Body",
                     "extension": ".cls",
                     "id": "01p90000003hdEGAAY",
                     "is_test": false,

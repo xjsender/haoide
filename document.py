@@ -85,7 +85,7 @@ class ReloadDocument():
                     }
 
         # Build Successful
-        util.append_message(panel, "\nRELOADING SUCCESSFUL")
+        util.append_message(panel, "RELOADING SUCCESSFUL")
         
         # Total time
         total_seconds = (datetime.datetime.now() - start_time).seconds

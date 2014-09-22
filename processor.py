@@ -1192,8 +1192,12 @@ def handle_retrieve_package(package_path, timeout=120):
         # Get the package path
         base_path, file_name = os.path.split(package_path)
 
+        # Define extract_to
+        time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
+        extract_to = base_path+"/"+settings["default_project_name"]+"-"+time_stamp
+
         # Extract zip
-        util.extract_encoded_zipfile(result["zipFile"], base_path)
+        util.extract_encoded_zipfile(result["zipFile"], extract_to)
 
     # Start to request
     settings = context.get_settings()

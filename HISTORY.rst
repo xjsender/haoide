@@ -5,6 +5,15 @@ Release History
 ---------------
 
 
+Release 1.0.1 (2014-09-22)
+++++++++++++++++++
++ Add ``LogLength`` column to result of ``fetch debug logs``
++ Update default value of ``display_field_name_and_label`` setting from ``false`` to ``true``
++ Remove the ``\n`` from success message in ``document.py``
++ Add description for ``save multiple components`` feature in the README.MD
++ Change output directory of ``retrieve package.xml`` from current directory to ``[ProjectName]-201409221812``
+
+
 Release 1.0.0 (2014-09-21)
 ++++++++++++++++++
 + Add a new command ``Deploy To Server`` in the context menu

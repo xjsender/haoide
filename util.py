@@ -1051,7 +1051,7 @@ def format_debug_logs(settings, records):
 
     # Used to list debug logs as below format
     debug_log_headers = [
-        "Id", "StartTime", "Operation", "Status"
+        "Id", "StartTime", "Operation", "Status", "LogLength"
     ]
     debug_log_headers_properties = {
         "Id": {

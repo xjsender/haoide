@@ -19,6 +19,7 @@ See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 + [Deploy Package.zip](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
 + [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
 + [Deploy Files to Server](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployFilesToServer.gif)
++ [Save Multiple Files to Server](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/SaveMultipleFilesToServer.gif)
 + [Refresh Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RefreshFolders.gif)
 + [Convert XML to JSON](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ConvertXML2JSON.gif)
 + [More Demos](https://github.com/xjsender/SublimeApexScreenshot)
@@ -138,6 +139,13 @@ By default, the operation of ```Execute Query```, ```Describe sObject```, ```Ger
 + This command is only enabled in salesforce code file of active project
 + After code is updated, click ```SublimeApex``` > ```Save to Server``` in the context menu or press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>
 + If the saving process failed, the console will be open and automatically hidden in **10** seconds, if you think **10** seconds is not enough to check the error message, you add it up to more by setting ```delay_seconds_for_hidden_output_panel_when_failed```
+
+## Save multiple components
+Select the files in the sidebar, click ``SublimeApex`` > ``Deploy Files to Server`` in the sidebar menu.
+
+## Save file to other org
+- Select the files in the sidebar, click ``SublimeApex`` > ``Deploy Files to Server`` in the sidebar menu
+- Open the file to save, click ``SublimeApex`` > ``Deploy to Server`` in the context menu
 
 ## Refresh component
 + This command is only enabled in salesforce code file of active project
