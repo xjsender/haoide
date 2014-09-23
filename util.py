@@ -898,7 +898,6 @@ def compress_package(package_dir):
     zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
     for dirpath, dirnames, filenames in os.walk(package_dir):
         basename = dirpath[len(package_dir)+1:]
-        print (basename)
         for filename in filenames:
             zf.write(os.path.join(dirpath, filename), basename+"/"+filename) 
     zf.close()
@@ -930,7 +929,6 @@ def extract_encoded_zipfile(encoded_zip_file, extract_to, ignore_package_xml=Fal
 def extract_file(zipfile_path, extract_to, ignore_package_xml=False):
     zfile = zipfile.ZipFile(zipfile_path, 'r')
     for filename in zfile.namelist():
-        print (filename)
         if filename.endswith('/'): continue
         if ignore_package_xml and filename == "unpackaged/package.xml": continue
         f = extract_to + filename.replace("unpackaged", "")
@@ -1005,7 +1003,8 @@ def reload_apex_code_cache(file_properties, settings=None):
         "ApexComponent": "Markup"
     }
 
-    component_attributes = {}
+    component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
+    component_attributes = component_settings.get(settings["username"])
     for filep in file_properties:
         # No need to process package.xml
         if not filep["type"] in component_extension.keys(): continue
@@ -1041,10 +1040,8 @@ def reload_apex_code_cache(file_properties, settings=None):
             component_attribute[lower_name]["is_test"] =\
                 "test" in component_name.lower()
 
-    from .context import COMPONENT_METADATA_SETTINGS
-    component_settings = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
     component_settings.set(settings["username"], component_attributes)
-    sublime.save_settings(COMPONENT_METADATA_SETTINGS)
+    sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
 def format_debug_logs(settings, records):
     if len(records) == 0: return "No available logs."
@@ -2002,10 +1999,10 @@ def get_component_attribute(file_name):
     try:
         component_attribute = component_settings.get(username)[meta_type][component_name.lower()]
     except:
-        component_attribute, name = None, None
+        component_attribute, component_name = None, None
 
     # Return tuple
-    return (component_attribute, name)
+    return (component_attribute, component_name)
 
 def check_enabled(file_name):
     """
@@ -2047,11 +2044,17 @@ def check_enabled(file_name):
     return True
 
 def display_active_project(view):
+    """ Display the default project name in the sidebar
+    """
+
     settings = context.get_settings()
     display_message = "Default Project => " + settings["default_project_name"]
     view.set_status('default_project', display_message)
 
 def switch_project(chosen_project):
+    """ Set the default project to the chosen one
+    """
+
     s = sublime.load_settings(context.TOOLING_API_SETTINGS)
     projects = s.get("projects")
 
@@ -2072,21 +2075,33 @@ def switch_project(chosen_project):
         for view in window.views():
             display_active_project(view)
 
-def add_project_to_workspace(workspace):
-    """
-    Add new project folder to workspace
+def add_project_to_workspace(settings):
+    """Add new project folder to workspace
+       Just Sublime Text 3 can support this method
     """
 
     # Just ST3 supports, ST2 is not
+    workspace = settings["workspace"]
+    file_exclude_patterns = settings["file_exclude_patterns"]
+    folder_exclude_patterns = settings["folder_exclude_patterns"]
     project_data = sublime.active_window().project_data()
     if not project_data: project_data = {}
     folders = []
     if "folders" in project_data:
         folders = project_data["folders"]
 
-    folders.append({
-        "path": workspace
-    })
+    # If the workspace is already exist in project data,
+    # just update the patters, if not, add the workspace to it
+    for folder in folders:
+        if folder["path"] == workspace:
+            folder["file_exclude_patterns"] = file_exclude_patterns;
+            folder["folder_exclude_patterns"] = folder_exclude_patterns
+        else:
+            folders.append({
+                "path": workspace,
+                "file_exclude_patterns": file_exclude_patterns,
+                "folder_exclude_patterns": folder_exclude_patterns
+            })
 
     project_data["folders"] = folders
     sublime.active_window().set_project_data(project_data)

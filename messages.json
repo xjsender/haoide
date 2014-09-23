@@ -3,5 +3,6 @@
     "0.9.9": "config/messages/0.9.9.txt",
     "1.0.0": "config/messages/1.0.0.txt",
     "1.0.1": "config/messages/1.0.1.txt",
+    "1.0.2": "config/messages/1.0.2.txt",
     "install": "config/messages/install.txt"
 }

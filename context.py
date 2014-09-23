@@ -45,6 +45,8 @@ def get_settings():
     workspace = s.get("workspace") + "/" + default_project_name +\
         ("-" + time.strftime('%Y%m%d') if s.get("keep_project_name_time_suffix") else "")
     settings["workspace"] = workspace
+    settings["file_exclude_patterns"] = s.get("file_exclude_patterns", [])
+    settings["folder_exclude_patterns"] = s.get("folder_exclude_patterns", [])
     settings["username"] = default_project.get("username")
     settings["password"] = default_project["password"]
     if "security_token" in default_project:

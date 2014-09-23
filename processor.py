@@ -204,19 +204,21 @@ def handle_refresh_folder(folders_dict, timeout=120):
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         
-        if not api.result: return
-        if not api.result["success"]: return
+        # Not succeed
+        if not api.result or not api.result["success"]: return
 
-        # Mkdir for output dir of zip file
+        # Get refresh result
         result = api.result
 
-        # Get the upper folder of path
+        # Populate extract_to directory
         extract_to = settings["workspace"] + "/src"
 
-        # Extract zip
+        # Extract zip, True means not override package.xml
         util.extract_encoded_zipfile(result["zipFile"], extract_to, True)
 
-        # Hide panel
+        util.reload_apex_code_cache(result["fileProperties"], settings)
+
+        # Hide panel 0.5 seconds later
         sublime.set_timeout_async(util.hide_output_panel, 500)
 
     # Start to request
@@ -530,7 +532,7 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
         if not result or not result["success"]: return
 
         # Mkdir for output dir of zip file
-        util.add_project_to_workspace(settings["workspace"])
+        util.add_project_to_workspace(settings)
         outputdir = settings["workspace"] + "/metadata"
 
         # Extract zip
@@ -1119,7 +1121,6 @@ def handle_new_project(settings, is_update=False, timeout=120):
         sublime.active_window().run_command("refresh_folder_list")
 
         # Apex Code Cache
-        print (result["fileProperties"])
         util.reload_apex_code_cache(result["fileProperties"], settings)
 
         # Hide panel
@@ -1234,7 +1235,7 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
 
                 # Backup current file
                 time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
-                outputdir = workspace+"/"+component_name+"-"+time_stamp+extension
+                outputdir = workspace+"/"+component_name+"-"+time_stamp+"-history"+extension
                 with open(outputdir, "wb") as fp:
                     fp.write(body.encode("utf-8"))
 

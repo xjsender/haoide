@@ -55,6 +55,11 @@
                         "command": "update_project"
                     },
                     {
+                        "id": "UpdateProjectPatterns",
+                        "caption": "Update Project Patterns",
+                        "command": "update_project_patterns"
+                    },
+                    {
                         "id": "UpdateUserLanguage",
                         "caption": "Update User Language",
                         "command": "update_user_language"

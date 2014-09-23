@@ -288,7 +288,7 @@ class MetadataApi():
         result["success"] = response.status_code < 399
         return result
 
-    def retrieve(self, soap_body, types=None):
+    def retrieve(self, soap_body, types=None, timeout=120):
         """ 1. Issue a retrieve request to start the asynchronous retrieval and asyncProcessId is returned
             2. Thread sleep for a while and then issue a checkStatus request to check whether the async 
                process job is completed.
@@ -338,7 +338,8 @@ class MetadataApi():
 
         # Post retrieve request
         try:
-            response = requests.post(self.metadata_url, soap_body, verify=False, headers=headers)
+            response = requests.post(self.metadata_url, soap_body, verify=False, 
+                headers=headers, timeout=120)
         except Exception as e:
             self.result = {
                 "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),

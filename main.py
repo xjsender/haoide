@@ -1024,7 +1024,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
             self.settings = context.get_settings()
-            util.add_project_to_workspace(self.settings["workspace"])
+            util.add_project_to_workspace(self.settings)
 
         file_name = "%s/%s" % (component_outputdir, name + extension)
         if os.path.isfile(file_name):
@@ -1108,6 +1108,17 @@ class UpdateUserLanguageCommand(sublime_plugin.WindowCommand):
         chosen_language = self.languages[index]
         processor.handle_update_user_language(self.languages_settings[chosen_language])
 
+class UpdateProjectPatternsCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(UpdateProjectPatternsCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        settings = context.get_settings()
+        util.add_project_to_workspace(settings)
+
+    def is_enabled(self):
+        return util.check_new_component_enabled()
+
 class UpdateProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(UpdateProjectCommand, self).__init__(*args, **kwargs)
@@ -1116,7 +1127,7 @@ class UpdateProjectCommand(sublime_plugin.WindowCommand):
         confirm = sublime.ok_cancel_dialog("Are you sure you really want to update this project?")
         if confirm == False: return
         settings = context.get_settings()
-        util.add_project_to_workspace(settings["workspace"])
+        util.add_project_to_workspace(settings)
         processor.handle_new_project(settings, is_update=True)
 
     def is_enabled(self):
@@ -1132,7 +1143,7 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
         dpn = settings["default_project"]["project_name"]
         message = "Are you sure you really want to create new project for %s?" % dpn
         if sublime.ok_cancel_dialog(message):
-            util.add_project_to_workspace(settings["workspace"])
+            util.add_project_to_workspace(settings)
             processor.handle_new_project(settings)
 
 class RefreshComponentCommand(sublime_plugin.TextCommand):
