@@ -213,6 +213,10 @@ def handle_refresh_folder(folders_dict, timeout=120):
         # Populate extract_to directory
         extract_to = settings["workspace"] + "/src"
 
+        # Remove folders to refresh
+        for foder in folders_dict:
+            shutil.rmtree(os.path.join(extract_to, folder))
+
         # Extract zip, True means not override package.xml
         util.extract_encoded_zipfile(result["zipFile"], extract_to, True)
 
@@ -631,13 +635,14 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
 
         # Write parsed result to csv
         util.parse_data_template(output_file_dir, result)
-        print (message.SEPRATE.format("Data Template outputdir: " + output_file_dir))
+        util.show_output_panel(message.SEPRATE.format("Data Template outputdir: " + output_file_dir))
 
     settings = context.get_settings()
     outputdir = settings["workspace"] + "/template"
     output_file_dir = outputdir + "/" + sobject + "-" + recordtype_name + ".csv"
     api = ToolingApi(settings)
     url = "/sobjects/%s/describe/layouts/%s" % (sobject, recordtype_id)
+    print (url)
     thread = threading.Thread(target=api.get, args=(url, ))
     thread.start()
     wait_message = "Export Data Template of %s=>%s" % (sobject, recordtype_name)
@@ -1114,6 +1119,7 @@ def handle_new_project(settings, is_update=False, timeout=120):
 
         # Extract the apex code to workspace
         extract_to = os.path.join(settings["workspace"], "src")
+        if os.path.exists(extract_to): shutil.rmtree(extract_to)
         util.extract_encoded_zipfile(result["zipFile"], extract_to)
 
         # In windows, folder is not shown in the sidebar, 

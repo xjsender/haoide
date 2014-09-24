@@ -2093,6 +2093,10 @@ def add_project_to_workspace(settings):
     # If the workspace is already exist in project data,
     # just update the patters, if not, add the workspace to it
     for folder in folders:
+        # Parse windows path to AS-UNIX
+        if "\\" in folder : folder = folder.replace("\\", "/")
+        if "\\" in workspace : workspace = workspace.replace("\\", "/")
+
         if folder["path"] == workspace:
             folder["file_exclude_patterns"] = file_exclude_patterns;
             folder["folder_exclude_patterns"] = folder_exclude_patterns
@@ -2102,6 +2106,12 @@ def add_project_to_workspace(settings):
                 "file_exclude_patterns": file_exclude_patterns,
                 "folder_exclude_patterns": folder_exclude_patterns
             })
+    else:
+        folders.append({
+            "path": workspace,
+            "file_exclude_patterns": file_exclude_patterns,
+            "folder_exclude_patterns": folder_exclude_patterns
+        })
 
     project_data["folders"] = folders
     sublime.active_window().set_project_data(project_data)

@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 1.0.3 (2014-09-24)
+++++++++++++++++++
++ After ``Update Project`` is finished, remove the original ``src`` tree and then extract the zipFile to ``src``
++ After ``Refresh Folder`` is finished, remove the original folders and then extract the zipFile to specified folders
++ Fix urgent bug: if no project in sidebar and sidebar is hidden, after ``new project`` or ``update project``, the sidebar is not open automatically.
+
+
 Release 1.0.2 (2014-09-23)
 ++++++++++++++++++
 + Update the default value of ``checkOnly`` in ``deploy_options`` settings from ``true`` to ``false``
