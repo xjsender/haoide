@@ -211,11 +211,14 @@ def handle_refresh_folder(folders_dict, timeout=120):
         result = api.result
 
         # Populate extract_to directory
-        extract_to = settings["workspace"] + "/src"
+        extract_to = settings["workspace"]
 
         # Remove folders to refresh
         for foder in folders_dict:
-            shutil.rmtree(os.path.join(extract_to, folder))
+            try:
+                shutil.rmtree(os.path.join(extract_to, "src", folder))
+            except FileNotFoundError as e:
+                continue
 
         # Extract zip, True means not override package.xml
         util.extract_encoded_zipfile(result["zipFile"], extract_to, True)
@@ -232,7 +235,8 @@ def handle_refresh_folder(folders_dict, timeout=120):
     for folder in folders_dict:
         meta_types.append(settings[folder]["type"])
     types = util.build_package_types(meta_types)
-    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_body, types, ))
+    body = soap_bodies.retrieve_body.replace("{{allowed_packages}}", "").replace("{{meta_types}}", types)
+    thread = threading.Thread(target=api.retrieve, args=(body, ))
     thread.start()
     handle_thread(thread, timeout)
     message = "Refresh Folder"
@@ -1118,8 +1122,17 @@ def handle_new_project(settings, is_update=False, timeout=120):
         if not result or not result["success"]: return
 
         # Extract the apex code to workspace
-        extract_to = os.path.join(settings["workspace"], "src")
-        if os.path.exists(extract_to): shutil.rmtree(extract_to)
+        extract_to = settings["workspace"]
+
+        # Just remove the packages folder and src folder
+        if os.path.exists(extract_to):
+            # Remove packages directory
+            if os.path.exists(os.path.join(extract_to, "packages")):
+                shutil.rmtree(os.path.join(extract_to, "packages"))
+
+            # Remove unpackaged directory
+            shutil.rmtree(os.path.join(extract_to, "src"))
+
         util.extract_encoded_zipfile(result["zipFile"], extract_to)
 
         # In windows, folder is not shown in the sidebar, 
@@ -1152,65 +1165,37 @@ def handle_new_project(settings, is_update=False, timeout=120):
     settings = context.get_settings()
     api = MetadataApi(settings)
     types = util.build_package_types(settings["subscribed_meta_types"])
-    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_body, types, ))
+    body = soap_bodies.retrieve_body.replace("{{meta_types}}", types)
+    body = body.replace("{{allowed_packages}}", 
+        "".join(["<met:packageNames>%s</met:packageNames>" % a for a in settings["allowed_packages"]]))
+    thread = threading.Thread(target=api.retrieve, args=(body, ))
     thread.start()
     wating_message = ("Creating New " if not is_update else "Updating ") + " Project"
     ThreadProgress(api, thread, wating_message, wating_message + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_get_static_resource_body(folder_name, timeout=120):
+def handle_retrieve_package(package_xml_content, extract_to, 
+                            ignore_package_xml=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         
-        if not api.result: return
-        if not api.result["success"]: return
+        # If not succeed, just stop
+        if not api.result or not api.result["success"]: return
 
         # Mkdir for output dir of zip file
         result = api.result
-
-        # Makedir if not exist
-        if not os.path.exists(settings["workspace"]): 
-            os.makedirs(settings["workspace"])
-
-        # Extract zip to target path
-        util.extract_encoded_zipfile(result["zipFile"], settings["workspace"] + "/src")
-
-    settings = context.get_settings()
-    api = MetadataApi(settings)
-    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_static_resource_body, ))
-    thread.start()
-    handle_thread(thread, timeout)
-    ThreadProgress(api, thread, "Retrieve StaticResource", "Retrieve StaticResource Succeed")
-
-def handle_retrieve_package(package_path, timeout=120):
-    def handle_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
-            return
-        
-        if not api.result: return
-        if not api.result["success"]: return
-
-        # Mkdir for output dir of zip file
-        result = api.result
-
-        # Get the package path
-        base_path, file_name = os.path.split(package_path)
-
-        # Define extract_to
-        time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
-        extract_to = base_path+"/"+settings["default_project_name"]+"-"+time_stamp
 
         # Extract zip
-        util.extract_encoded_zipfile(result["zipFile"], extract_to)
+        util.extract_encoded_zipfile(result["zipFile"], extract_to, ignore_package_xml)
 
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
-    types = util.parse_package(open(package_path, "rb").read())
-    thread = threading.Thread(target=api.retrieve, args=(soap_bodies.retrieve_body, types, ))
+    types = util.parse_package(package_xml_content)
+    body = soap_bodies.retrieve_body.replace("{{meta_types}}", types)
+    thread = threading.Thread(target=api.retrieve, args=(body, ))
     thread.start()
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")

@@ -5,6 +5,24 @@ Release History
 ---------------
 
 
+Release 1.0.4 (2014-09-25)
+++++++++++++++++++
++ Remove the useless soap related codes, for example, ``retrieve_apex_code_body``, ``retrieve_static_resource_body`` and so on
++ Fix minor bug: Don't allow to refresh or delete ``*-meta.xml`` file
++ Fix bug: ``allowed_packages`` is not working
++ Fix bug: mass refresh multiply folders
++ Fix minor bug: deploy failed message in the output panel
++ Add a new sidebar command ``Retrieve Files From Server``
++ Add a new context command ``Retrieve File From Server``
++ If ``allowed_packages`` is not empty, all packages are extracted to ``packages`` path,
+    Project
+        > .config
+        > src
+        > packages
+            > package 1
+            > package 2
+
+
 Release 1.0.3 (2014-09-24)
 ++++++++++++++++++
 + After ``Update Project`` is finished, remove the original ``src`` tree and then extract the zipFile to ``src``

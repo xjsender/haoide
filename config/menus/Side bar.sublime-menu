@@ -5,24 +5,32 @@
         "caption": "SublimeApex",
         "children":
         [
-            // {
-            //     "caption": "Run Sync Test", "command": "run_sync_test_classes",
-            //     "args": {"files": []}
-            // },
-            // {
-            //     "caption": "Run Async Test", "command": "run_async_test_classes",
-            //     "args": {"files": []}
-            // },
-            // 
+
             {
-                "caption": "Deploy Package To Server", "command": "deploy_package_to_server",
+                "caption": "Refresh Folder", "command": "refresh_folder",
                 "args": {"dirs": []}
+            },
+
+            {"caption": "-"},
+
+            {
+                "caption": "Retrieve Files From Server", "command": "retrieve_files_from_server",
+                "args": {"files": []}
             },
 
             {
                 "caption": "Deploy Files To Server", "command": "deploy_files_to_server",
                 "args": {"files": []}
             },
+
+            {"caption": "-"},
+
+            {
+                "caption": "Deploy Package To Server", "command": "deploy_package_to_server",
+                "args": {"dirs": []}
+            },
+
+            {"caption": "-"},
 
             {
                 "caption": "Refresh Selected Components", "command": "refresh_selected_components",
@@ -32,12 +40,7 @@
             {
                 "caption": "Delete Selected Components", "command": "delete_selected_components",
                 "args": {"files": []}
-            },
-
-            {
-                "caption": "Refresh Folder", "command": "refresh_folder",
-                "args": {"dirs": []}
-            },
+            }
         ]
     }
 ]

@@ -781,7 +781,32 @@ def build_package_dict(files):
 
     return package_dict
 
-def build_package(files):
+def build_package_xml(settings, package_dict, deploy=True):
+    # Build types for package.xml
+    types = []
+    for p in package_dict:
+        members = []
+        for f in package_dict[p]:
+            members.append("<members>%s</members>" % f["name"])
+
+        types.append("""
+        <types>
+            %s
+            <name>%s</name>
+        </types>
+        """ % (" ".join(members), p))
+
+    # Build package.xml
+    package_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
+        <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+            %s
+            <version>%s.0</version>
+        </Package>
+    """ % (" ".join(types), settings["api_version"])
+
+    return package_xml_content
+
+def build_deploy_package(files):
     # Initiate zipfile
     settings = context.get_settings()
     if not os.path.exists(settings["workspace"]):
@@ -803,38 +828,20 @@ def build_package(files):
             if os.path.isfile(met_xml):
                 zf.write(met_xml, "%s/%s%s" % (f["folder"], f["name"], f["extension"]+"-meta.xml"))
 
-    # Build types for package.xml
-    types = []
-    for p in package_dict:
-        members = []
-        for f in package_dict[p]:
-            members.append("<members>%s</members>" % f["name"])
-
-        types.append("""
-        <types>
-            %s
-            <name>%s</name>
-        </types>
-        """ % (" ".join(members), p))
-
-    # Build package.xml
-    package_xml = """<?xml version="1.0" encoding="UTF-8"?>
-        <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-            %s
-            <version>%s.0</version>
-        </Package>
-    """ % (" ".join(types), settings["api_version"])
-
     # Write package.xml to zip
+    package_xml_content = build_package_xml(settings, package_dict)
     package_xml_path = settings["workspace"]+"/package.xml"
-    open(package_xml_path, "wb").write(package_xml.encode("utf-8"))
+    open(package_xml_path, "wb").write(package_xml_content.encode("utf-8"))
     zf.write(package_xml_path, "package.xml")
     os.remove(package_xml_path)
 
     # Close zip input stream
     zf.close()
 
-    base64_package = base64_zip(zipfile_path)
+    # base64 encode zip package
+    base64_package = base64_encode(zipfile_path)
+
+    # Remove temporary `test.zip`
     os.remove(zipfile_path)
 
     return base64_package
@@ -886,7 +893,7 @@ def build_package_types(meta_types):
 
     return " ".join(types)
 
-def base64_zip(zipfile):
+def base64_encode(zipfile):
     with open(zipfile, "rb") as f:
         bytes = f.read()
         base64String = base64.b64encode(bytes)
@@ -902,7 +909,7 @@ def compress_package(package_dir):
             zf.write(os.path.join(dirpath, filename), basename+"/"+filename) 
     zf.close()
 
-    base64_package = base64_zip(zipfile_path)
+    base64_package = base64_encode(zipfile_path)
     os.remove(zipfile_path)
 
     return base64_package
@@ -931,7 +938,11 @@ def extract_file(zipfile_path, extract_to, ignore_package_xml=False):
     for filename in zfile.namelist():
         if filename.endswith('/'): continue
         if ignore_package_xml and filename == "unpackaged/package.xml": continue
-        f = extract_to + filename.replace("unpackaged", "")
+        if filename.startswith("unpackaged"):
+            f = os.path.join(extract_to, filename.replace("unpackaged", "src"))
+        else:
+            f = os.path.join(extract_to, "packages", filename)
+
         if not os.path.exists(os.path.dirname(f)):
             os.makedirs(os.path.dirname(f))
 
@@ -995,7 +1006,7 @@ def reload_apex_code_cache(file_properties, settings=None):
     # Get settings
     if not settings: settings = context.get_settings()
 
-    component_extension = {
+    component_body_or_markup = {
         "ApexClass": "Body",
         "ApexTrigger": "Body",
         "StaticResource": "Body",
@@ -1007,7 +1018,7 @@ def reload_apex_code_cache(file_properties, settings=None):
     component_attributes = component_settings.get(settings["username"])
     for filep in file_properties:
         # No need to process package.xml
-        if not filep["type"] in component_extension.keys(): continue
+        if not filep["type"] in component_body_or_markup.keys(): continue
 
         # Get component type
         component_type = filep["type"]
@@ -1028,7 +1039,7 @@ def reload_apex_code_cache(file_properties, settings=None):
 
         component_attribute[lower_name] = {
             "name": component_name,
-            "body": component_extension[component_type],
+            "body": component_body_or_markup[component_type],
             "extension": "."+(filep["fileName"].split(".")[1]),
             "type": component_type,
             "url": component_url,

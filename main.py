@@ -8,6 +8,7 @@ import sys
 import shutil
 import zipfile
 import json
+import time
 import pprint
 
 from . import requests
@@ -268,6 +269,7 @@ class RefreshFolderCommand(sublime_plugin.WindowCommand):
         confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
         if not confirm: return
 
+        print (self.folders_dict)
         processor.handle_refresh_folder(self.folders_dict)
 
     def is_visible(self, dirs):
@@ -306,25 +308,72 @@ class RetrievePackageCommand(sublime_plugin.WindowCommand):
         self.window.show_input_panel("Input Package.xml Path: ", 
             path, self.on_input, None, None)
 
-    def on_input(self, file_path):
-        if not file_path.lower().endswith('xml'): 
+    def on_input(self, _file):
+        if not _file.lower().endswith('xml'): 
             sublime.error_message("Input file must be valid Package.xml file")
             return
 
-        if not os.path.exists(file_path):
-            sublime.error_message(file_path + " is not valid file")
+        if not os.path.exists(_file):
+            sublime.error_message(_file + " is not valid file")
             return
 
-        processor.handle_retrieve_package(file_path)
+        path, name = os.path.split(_file)
+        package_xml_content = open(_file, "rb").read()
+        time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
+        settings = context.get_settings()
+        project_name = settings["default_project_name"]
+        extract_to = os.path.join(path, project_name+"-"+time_stamp)
+        processor.handle_retrieve_package(package_xml_content, path)
 
 class RetrievePackageFileCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        processor.handle_retrieve_package(self.file_name)
+        path, name = os.path.split(self._file)
+        package_xml_content = open(self._file, "rb").read()
+        time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
+        settings = context.get_settings()
+        project_name = settings["default_project_name"]
+        extract_to = os.path.join(path, project_name+"-"+time_stamp)
+        processor.handle_retrieve_package(package_xml_content, extract_to)
 
     def is_visible(self):
-        self.file_name = self.view.file_name()
-        if not self.file_name: return False
-        if not self.file_name.endswith(".xml"): return False
+        self._file = self.view.file_name()
+        if not self._file: return False
+        if not self._file.endswith(".xml"): return False
+
+        return True
+
+class RetrieveFileFromServer(sublime_plugin.TextCommand):
+    def run(self, edit):
+        files = [self.view.file_name()]
+        sublime.active_window().run_command("retrieve_files_from_server", {"files": files})
+
+    def is_enabled(self):
+        self.settings = context.get_settings()
+        _folder = util.get_meta_folder(self.view.file_name())
+        if _folder not in self.settings["meta_folders"]:
+            return False
+
+        return True
+
+class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RetrieveFilesFromServer, self).__init__(*args, **kwargs)
+
+    def run(self, files):
+        package_dict = util.build_package_dict(files)
+        package_xml_content = util.build_package_xml(self.settings, package_dict)
+        processor.handle_retrieve_package(package_xml_content, 
+                                          self.settings["workspace"], 
+                                          ignore_package_xml=True)
+
+    def is_enabled(self, files):
+        if len(files) == 0: return False
+        self.settings = context.get_settings()
+        for _file in files:
+            if not os.path.isfile(_file): continue # Ignore folder
+            _folder = util.get_meta_folder(_file)
+            if _folder not in self.settings["meta_folders"]:
+                return False
 
         return True
 
@@ -344,7 +393,7 @@ class DeployZipCommand(sublime_plugin.WindowCommand):
             sublime.error_message("Invalid Zip File")
             return
 
-        processor.handle_deploy_thread(util.base64_zip(zipfile_path))
+        processor.handle_deploy_thread(util.base64_encode(zipfile_path))
 
 class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -416,7 +465,7 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
         default_project = self.projects[index].split(") ")[1]
         util.switch_project(default_project)
 
-        base64_encoded_zip = util.build_package(self.files)
+        base64_encoded_zip = util.build_deploy_package(self.files)
         processor.handle_deploy_thread(base64_encoded_zip)
 
     def is_enabled(self, files):
@@ -441,7 +490,7 @@ class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         settings = context.get_settings()
-        workflow_path = settings["workspace"] + "/metadata/unpackaged/objects"
+        workflow_path = settings["workspace"] + "/metadata/src/objects"
         if not os.path.exists(workflow_path):
             sublime.error_message(message.METADATA_CHECK)
             return
@@ -455,7 +504,7 @@ class ExportCustomLablesCommand(sublime_plugin.WindowCommand):
     def run(self):
         settings = context.get_settings()
         workspace = settings["workspace"]
-        lable_path = workspace + "/metadata/unpackaged/labels/CustomLabels.labels"
+        lable_path = workspace + "/metadata/src/labels/CustomLabels.labels"
         if not os.path.isfile(lable_path):
             sublime.error_message(message.METADATA_CHECK)
             return
@@ -472,7 +521,7 @@ class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
     def run(self):
         settings = context.get_settings()
         workspace = settings["workspace"]
-        workflow_path = workspace + "/metadata/unpackaged/workflows"
+        workflow_path = workspace + "/metadata/src/workflows"
         if not os.path.exists(workflow_path):
             sublime.error_message(message.METADATA_CHECK)
             return
@@ -486,7 +535,7 @@ class ExportFieldDependencyCommand(sublime_plugin.WindowCommand):
     def run(self):
         settings = context.get_settings()
         workspace = settings["workspace"]
-        workflow_path = workspace + "/metadata/unpackaged/objects"
+        workflow_path = workspace + "/metadata/src/objects"
         if not os.path.exists(workflow_path):
             sublime.error_message(message.METADATA_CHECK)
             return
@@ -874,7 +923,7 @@ class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
         super(DeleteSelectedComponentsCommand, self).__init__(*args, **kwargs)
 
     def run(self, files):
-        delete_components(files)
+        delete_components(self._files)
 
     def is_visible(self, files):
         """
@@ -883,9 +932,10 @@ class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
         """
 
         if len(files) == 0: return False
-        for _file in files:
-            if not util.check_enabled(_file):
-                return False
+        self._files = [f for f in files if not f.endswith("-meta.xml")]
+        if len(self._files) == 0: return False
+        for _file in self._files:
+            if not util.check_enabled(_file): return False
 
         return True
 
@@ -895,6 +945,7 @@ class DeleteComponentCommand(sublime_plugin.TextCommand):
         delete_components(files)
 
     def is_enabled(self):
+        if self.view.file_name().endswith("-meta.xml"): return False
         return util.check_enabled(self.view.file_name())
 
 def delete_components(files):
@@ -1172,7 +1223,8 @@ class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
         confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
         if not confirm: return
 
-        for file_name in files:
+        for file_name in self._files:
+            if file_name.endswith("-meta.xml"): continue # Ignore -meta.xml file
             component_attribute = util.get_component_attribute(file_name)[0]
 
             # Handle Refresh Current Component
@@ -1183,7 +1235,9 @@ class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
 
     def is_visible(self, files):
         if len(files) == 0: return False
-        for file in files: 
-            if not util.check_enabled(file): return False
+        self._files = [f for f in files if not f.endswith("-meta.xml")]
+        if len(self._files) == 0: return False
+        for _file in self._files:
+            if not util.check_enabled(_file): return False
 
         return True

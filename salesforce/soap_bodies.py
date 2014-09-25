@@ -109,8 +109,9 @@ retrieve_body = """
             <met:retrieve>
                 <met:retrieveRequest>
                     <met:apiVersion>{1}.0</met:apiVersion>
+                      {{allowed_packages}}
                     <met:unpackaged>
-                        {2}
+                      {{meta_types}}
                     </met:unpackaged>
                 </met:retrieveRequest>
             </met:retrieve>
@@ -214,73 +215,6 @@ retrieve_sobjects_workflow_task_body = """
         </met:retrieve>
      </soapenv:Body>
   </soapenv:Envelope>"""
-
-# Body for retrieving static resource
-retrieve_static_resource_body = """
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-    xmlns:met="http://soap.sforce.com/2006/04/metadata">
-        <soapenv:Header>
-            <met:SessionHeader>
-               <met:sessionId>{0}</met:sessionId>
-            </met:SessionHeader>
-        </soapenv:Header>
-        <soapenv:Body>
-            <met:retrieve>
-                <met:retrieveRequest>
-                    <met:apiVersion>{1}.0</met:apiVersion>
-                    <met:unpackaged>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>StaticResource</name>
-                        </met:types>
-                        <met:version>{1}.0</met:version>
-                    </met:unpackaged>
-                </met:retrieveRequest>
-            </met:retrieve>
-        </soapenv:Body>
-    </soapenv:Envelope>"""
-
-# Body for retrieving static resource
-retrieve_apex_code_body = """
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-    xmlns:met="http://soap.sforce.com/2006/04/metadata">
-        <soapenv:Header>
-            <met:SessionHeader>
-               <met:sessionId>{0}</met:sessionId>
-            </met:SessionHeader>
-        </soapenv:Header>
-        <soapenv:Body>
-            <met:retrieve>
-                <met:retrieveRequest>
-                    <met:apiVersion>{1}.0</met:apiVersion>
-                    {allowed_packages}
-                    <met:unpackaged>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>StaticResource</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>ApexClass</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>ApexPage</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>ApexTrigger</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>ApexComponent</name>
-                        </met:types>
-                        <met:version>{1}.0</met:version>
-                    </met:unpackaged>
-                </met:retrieveRequest>
-            </met:retrieve>
-        </soapenv:Body>
-    </soapenv:Envelope>"""
 
 # Body for retrieving all metadata
 retrieve_all_task_body = """

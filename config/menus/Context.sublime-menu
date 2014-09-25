@@ -10,13 +10,14 @@
 
             {"caption": "-"},
 
-            // {"caption": "Retrieve from Server", "command": "retrieve_file_from_server"},
+            {"caption": "Retrieve from Server", "command": "retrieve_file_from_server"},
+            
             {"caption": "Deploy to Server", "command": "deploy_file_to_server"},
 
             {"caption": "-"},
             
-            // {"caption": "Retrieve StaticResource Body", "command": "retrieve_static_resource_body"},
             {"caption": "Refresh from Server", "command": "refresh_component"},
+            
             // Save component
             {"caption": "Save to Server", "command": "save_component"},
 

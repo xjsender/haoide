@@ -288,7 +288,7 @@ class MetadataApi():
         result["success"] = response.status_code < 399
         return result
 
-    def retrieve(self, soap_body, types=None, timeout=120):
+    def retrieve(self, soap_body, timeout=120):
         """ 1. Issue a retrieve request to start the asynchronous retrieval and asyncProcessId is returned
             2. Thread sleep for a while and then issue a checkStatus request to check whether the async 
                process job is completed.
@@ -324,14 +324,9 @@ class MetadataApi():
         }
 
         # Populate the soap_body with actual session id
-        if types:
-            soap_body = soap_body.format(
-                globals()[self.username]["session_id"], 
-                self.api_version, types)
-        else:
-            soap_body = soap_body.format(
-                globals()[self.username]["session_id"], 
-                self.api_version)
+        soap_body = soap_body.format(
+            globals()[self.username]["session_id"], 
+            self.api_version)
 
         # [sf:retrieve]
         util.append_message(panel, "[sf:retrieve] Start request for a retrieve...")
@@ -352,7 +347,7 @@ class MetadataApi():
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
-            return self.retrieve(soap_body, types)
+            return self.retrieve(soap_body)
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -701,7 +696,7 @@ class MetadataApi():
             if failures_messages:
                 util.append_message(panel, "\n\nAll Component Failures:", False)
                 util.append_message(panel, "\n"+"\n\n".join(failures_messages), False)
-                util.append_message(panel, "\n[sf:%s] *********** %s Failed ***********" % (
+                util.append_message(panel, "\n*********** %s FAILED ***********" % (
                     deploy_or_validate, deploy_or_validate.upper()), False)
         else:
             # Append succeed message
