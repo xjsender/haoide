@@ -1016,6 +1016,7 @@ def reload_apex_code_cache(file_properties, settings=None):
 
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
     component_attributes = component_settings.get(settings["username"])
+    if not component_attributes: component_attributes = {}
     for filep in file_properties:
         # No need to process package.xml
         if not filep["type"] in component_body_or_markup.keys(): continue

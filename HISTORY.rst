@@ -7,6 +7,7 @@ Release History
 
 Release 1.0.4 (2014-09-25)
 ++++++++++++++++++
++ Fix urgent issue #40
 + Remove the useless soap related codes, for example, ``retrieve_apex_code_body``, ``retrieve_static_resource_body`` and so on
 + Fix minor bug: Don't allow to refresh or delete ``*-meta.xml`` file
 + Fix bug: ``allowed_packages`` is not working
