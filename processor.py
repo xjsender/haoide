@@ -1128,10 +1128,20 @@ def handle_new_project(settings, is_update=False, timeout=120):
         if os.path.exists(extract_to):
             # Remove packages directory
             if os.path.exists(os.path.join(extract_to, "packages")):
-                shutil.rmtree(os.path.join(extract_to, "packages"))
+                try:
+                    shutil.rmtree(os.path.join(extract_to, "packages"))
+                except FileNotFoundError as e:
+                    pass
 
             # Remove unpackaged directory
-            shutil.rmtree(os.path.join(extract_to, "src"))
+            try:
+                shutil.rmtree(os.path.join(extract_to, "src"))
+            except FileNotFoundError as e:
+                pass
+
+        # Makedir for subscribed meta types
+        for meta_folder in settings["subscribed_meta_folders"]:
+            os.makedirs(os.path.join(settings["workspace"], "src", meta_folder))
 
         util.extract_encoded_zipfile(result["zipFile"], extract_to)
 
@@ -1140,7 +1150,8 @@ def handle_new_project(settings, is_update=False, timeout=120):
         sublime.active_window().run_command("refresh_folder_list")
 
         # Apex Code Cache
-        util.reload_apex_code_cache(result["fileProperties"], settings)
+        if isinstance(result["fileProperties"], list):
+            util.reload_apex_code_cache(result["fileProperties"], settings)
 
         # Hide panel
         sublime.set_timeout_async(util.hide_output_panel, 500)

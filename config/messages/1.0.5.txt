@@ -1,0 +1,11 @@
+Build 1.0.5
+-----------
+Release Date: 24 September 2014
+    
+    * Fix bug: Exception when ``new project`` in a new org
+    * Fix bug: If there is no any trigger, after ``new project``, the folder of ``trigger`` is not created.
+    * Fix bug: ``subscribed_meta_folders`` and ``meta_folders`` in settings are not correct
+
+Notes:
+
+    * You need to restart your sublime after upgrade is finished

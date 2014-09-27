@@ -945,6 +945,7 @@ class DeleteComponentCommand(sublime_plugin.TextCommand):
         delete_components(files)
 
     def is_enabled(self):
+        if not self.view.file_name(): return False
         if self.view.file_name().endswith("-meta.xml"): return False
         return util.check_enabled(self.view.file_name())
 

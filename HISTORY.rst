@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 1.0.5 (2014-09-27)
+++++++++++++++++++
++ Fix bug: Exception when ``new project`` in a new org
++ Fix bug: If there is no any trigger, after ``new project``, the folder of ``trigger`` is not created.
++ Fix bug: ``subscribed_meta_folders`` and ``meta_folders`` in settings are not correct
+
+
 Release 1.0.4 (2014-09-25)
 ++++++++++++++++++
 + Fix urgent issue #40
