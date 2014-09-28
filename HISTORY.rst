@@ -5,6 +5,14 @@ Release History
 ---------------
 
 
+Release 1.0.6 (2014-09-28)
+++++++++++++++++++
++ Fix Minor Bug: After ``retrieve_package_file`` is succeed, hide the output panel
++ Fix Minor Bug: If current project is not ``active project``, disable the ``Retrieve Files From Server`` functionality
++ Fix Minor Bug: If current project is not ``active project``, disable the ``Retrieve File From Server`` functionality
++ Fix Minor Bug: If current project is not ``active project``, disable the ``Run Test Class`` functionality
+
+
 Release 1.0.5 (2014-09-27)
 ++++++++++++++++++
 + Fix bug: Exception when ``new project`` in a new org

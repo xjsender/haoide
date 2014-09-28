@@ -350,8 +350,8 @@ class RetrieveFileFromServer(sublime_plugin.TextCommand):
     def is_enabled(self):
         self.settings = context.get_settings()
         _folder = util.get_meta_folder(self.view.file_name())
-        if _folder not in self.settings["meta_folders"]:
-            return False
+        if _folder not in self.settings["meta_folders"]:return False
+        if not util.check_enabled(self.view.file_name()): return False
 
         return True
 
@@ -372,8 +372,8 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
         for _file in files:
             if not os.path.isfile(_file): continue # Ignore folder
             _folder = util.get_meta_folder(_file)
-            if _folder not in self.settings["meta_folders"]:
-                return False
+            if _folder not in self.settings["meta_folders"]: return False
+            if not util.check_enabled(_file): return False
 
         return True
 
@@ -752,8 +752,8 @@ class RunTestCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         # Get current file name and Read file content
         file_name = self.view.file_name()
-        if not file_name or not file_name.endswith(".cls"): 
-            return False
+        if not file_name or not file_name.endswith(".cls"): return False
+        if not util.check_enabled(file_name): return False
 
         # Test class must be class firstly
         body = open(file_name, "rb").read()

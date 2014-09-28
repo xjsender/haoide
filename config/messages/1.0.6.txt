@@ -1,0 +1,10 @@
+Build 1.0.6
+-----------
+Release Date: 28 September 2014
+    
+    * Fix Minor Bug: After ``retrieve_package_file`` is succeed, hide the output panel
+    * Fix Minor Bug: If current project is not ``active project``, disable the ``Retrieve Files From Server`` functionality
+    * Fix Minor Bug: If current project is not ``active project``, disable the ``Retrieve File From Server`` functionality
+    * Fix Minor Bug: If current project is not ``active project``, disable the ``Run Test Class`` functionality
+
+-----------

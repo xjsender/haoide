@@ -1201,6 +1201,9 @@ def handle_retrieve_package(package_xml_content, extract_to,
         # Extract zip
         util.extract_encoded_zipfile(result["zipFile"], extract_to, ignore_package_xml)
 
+        # Hide panel 0.5 seconds later
+        sublime.set_timeout_async(util.hide_output_panel, 500)
+
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
