@@ -269,7 +269,6 @@ class RefreshFolderCommand(sublime_plugin.WindowCommand):
         confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
         if not confirm: return
 
-        print (self.folders_dict)
         processor.handle_refresh_folder(self.folders_dict)
 
     def is_visible(self, dirs):

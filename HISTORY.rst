@@ -8,7 +8,8 @@ Release 1.0.7 (2014-09-30)
 ++++++++++++++++++
 + Fix Minor Bug for windows: After ``.config`` is generated, invoke the sublime command: ``refresh_folder_list``
 + Enhancement for checking whether current project is active project
-+ Fix issue #42
++ Fix Critical Bug: If session is expired, we want to refresh the folder or update project, the console will always stop at  the step of ``[sf:retrieve] Start request for a retrieve...``
++ Fix issue #42, stop to remove folder when refresh folder or update project but just override, Notice: if you delete some file in the server, after ``update project`` and ``refresh folder``, these files will not deleted in the sublime, so, I suggest you should delete code in the sublime but not in the server
 
 
 Release 1.0.6 (2014-09-28)

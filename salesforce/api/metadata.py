@@ -324,7 +324,7 @@ class MetadataApi():
         }
 
         # Populate the soap_body with actual session id
-        soap_body = soap_body.format(
+        parsed_soap_body = soap_body.format(
             globals()[self.username]["session_id"], 
             self.api_version)
 
@@ -333,7 +333,7 @@ class MetadataApi():
 
         # Post retrieve request
         try:
-            response = requests.post(self.metadata_url, soap_body, verify=False, 
+            response = requests.post(self.metadata_url, parsed_soap_body, verify=False, 
                 headers=headers, timeout=120)
         except Exception as e:
             self.result = {

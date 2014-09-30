@@ -213,13 +213,6 @@ def handle_refresh_folder(folders_dict, timeout=120):
         # Populate extract_to directory
         extract_to = settings["workspace"]
 
-        # Remove folders to refresh
-        for foder in folders_dict:
-            try:
-                shutil.rmtree(os.path.join(extract_to, "src", folder))
-            except Exception as e:
-                continue
-
         # Extract zip, True means not override package.xml
         util.extract_encoded_zipfile(result["zipFile"], extract_to, True)
 
@@ -1132,12 +1125,6 @@ def handle_new_project(settings, is_update=False, timeout=120):
                     shutil.rmtree(os.path.join(extract_to, "packages"))
                 except Exception as e:
                     pass
-
-            # Remove unpackaged directory
-            try:
-                shutil.rmtree(os.path.join(extract_to, "src"))
-            except Exception as e:
-                pass
 
         # Makedir for subscribed meta types
         for meta_folder in settings["subscribed_meta_folders"]:
