@@ -217,7 +217,7 @@ def handle_refresh_folder(folders_dict, timeout=120):
         for foder in folders_dict:
             try:
                 shutil.rmtree(os.path.join(extract_to, "src", folder))
-            except FileNotFoundError as e:
+            except Exception as e:
                 continue
 
         # Extract zip, True means not override package.xml
@@ -1130,24 +1130,22 @@ def handle_new_project(settings, is_update=False, timeout=120):
             if os.path.exists(os.path.join(extract_to, "packages")):
                 try:
                     shutil.rmtree(os.path.join(extract_to, "packages"))
-                except FileNotFoundError as e:
+                except Exception as e:
                     pass
 
             # Remove unpackaged directory
             try:
                 shutil.rmtree(os.path.join(extract_to, "src"))
-            except FileNotFoundError as e:
+            except Exception as e:
                 pass
 
         # Makedir for subscribed meta types
         for meta_folder in settings["subscribed_meta_folders"]:
-            os.makedirs(os.path.join(settings["workspace"], "src", meta_folder))
+            outputdir = os.path.join(extract_to, "src", meta_folder);
+            if not os.path.exists(outputdir): os.makedirs(outputdir)
 
+        # Extract the zipFile to extract_to
         util.extract_encoded_zipfile(result["zipFile"], extract_to)
-
-        # In windows, folder is not shown in the sidebar, 
-        # we need to refresh the sublime workspace to show it
-        sublime.active_window().run_command("refresh_folder_list")
 
         # Apex Code Cache
         if isinstance(result["fileProperties"], list):
@@ -1172,6 +1170,10 @@ def handle_new_project(settings, is_update=False, timeout=120):
 
             util.add_config_history('settings', str(settings).replace("'", '"'))
             util.add_config_history('session', str(api.session).replace("'", '"'))
+
+        # In windows, folder is not shown in the sidebar, 
+        # we need to refresh the sublime workspace to show it
+        sublime.active_window().run_command("refresh_folder_list")
 
     settings = context.get_settings()
     api = MetadataApi(settings)

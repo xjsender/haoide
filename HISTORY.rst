@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+Release 1.0.7 (2014-09-30)
+++++++++++++++++++
++ Fix Minor Bug for windows: After ``.config`` is generated, invoke the sublime command: ``refresh_folder_list``
++ Enhancement for checking whether current project is active project
++ Fix issue #42
+
 
 Release 1.0.6 (2014-09-28)
 ++++++++++++++++++
