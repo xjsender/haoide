@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+
+Release 1.0.8 (2014-10-02)
+++++++++++++++++++
++ Fix issue at ``https://success.salesforce.com/answers?id=90630000000gxvwAAA``
+
+
 Release 1.0.7 (2014-09-30)
 ++++++++++++++++++
 + Fix Minor Bug for windows: After ``.config`` is generated, invoke the sublime command: ``refresh_folder_list``

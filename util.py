@@ -1367,7 +1367,7 @@ def parse_validation_rule(settings, sobjects):
         fp.write(",".join(columns).encode("utf-8") + b"\n") # Write Header
 
     # Open workflow source file
-    validation_rule_path = settings["workspace"] + "/metadata/unpackaged/objects"
+    validation_rule_path = settings["workspace"] + "/metadata/src/objects"
     for sobject in sobjects:
         try:
             with open(validation_rule_path + "/" + sobject + ".object", "rb") as f:
@@ -1438,7 +1438,7 @@ def parse_workflow_metadata(settings, sobjects):
             fp.write(",".join(columns).encode("utf-8") + b"\n") # Write Header
 
         # Append Body
-        rule_path = settings["workspace"] + "/metadata/unpackaged/workflows"
+        rule_path = settings["workspace"] + "/metadata/src/workflows"
         for sobject in sobjects:
             try:
                 with open(rule_path + "/" + sobject + ".workflow", "rb") as f:
