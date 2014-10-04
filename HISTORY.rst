@@ -4,6 +4,10 @@ Release History
 
 ---------------
 
+Release 1.0.9 (2014-10-04)
+++++++++++++++++++
++ Fix Bug: After open a new view, open context menu, it will throw NoneType exception
+
 
 Release 1.0.8 (2014-10-02)
 ++++++++++++++++++

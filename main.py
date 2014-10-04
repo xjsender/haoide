@@ -347,6 +347,7 @@ class RetrieveFileFromServer(sublime_plugin.TextCommand):
         sublime.active_window().run_command("retrieve_files_from_server", {"files": files})
 
     def is_enabled(self):
+        if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
         _folder = util.get_meta_folder(self.view.file_name())
         if _folder not in self.settings["meta_folders"]:return False
@@ -434,6 +435,7 @@ class DeployFileToServer(sublime_plugin.TextCommand):
         sublime.active_window().run_command("deploy_files_to_server", {"files": files})
 
     def is_enabled(self):
+        if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
         _folder = util.get_meta_folder(self.view.file_name())
         if _folder not in self.settings["meta_folders"]:
