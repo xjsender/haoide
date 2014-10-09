@@ -579,7 +579,7 @@ class ExportWorkbookCommand(sublime_plugin.WindowCommand):
 
         util.check_workspace_available()
         if input == "*":
-            processor.handle_generate_all_workbooks(5)
+            processor.handle_export_all_workbooks(5)
         else:
             # Collect the sobjects
             sobjects = input.split(";")
@@ -597,7 +597,7 @@ class ExportWorkbookCommand(sublime_plugin.WindowCommand):
                     return
 
             # After ensured input is valid, just start to generate workbooks
-            processor.handle_generate_specified_workbooks(sobjects)
+            processor.handle_export_specified_workbooks(sobjects)
 
 class ViewComponentInSfdcCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

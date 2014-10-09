@@ -561,6 +561,7 @@ def handle_export_workflows(settings, timeout=120):
         # If succeed
         sobjects_describe = api.result["sobjects"]
         util.parse_workflow_metadata(settings, sobjects_describe.keys())
+        sublime.active_window().run_command("refresh_folder_list")
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
     outputdir = settings["workspace"] + "/workflow/"
@@ -579,6 +580,7 @@ def handle_export_validation_rules(settings, timeout=120):
         # If succeed
         sobjects_describe = api.result["sobjects"]
         util.parse_validation_rule(settings, sobjects_describe.keys())
+        sublime.active_window().run_command("refresh_folder_list")
         print (message.SEPRATE.format("Outputdir: " + outputdir))
 
     outputdir = settings["workspace"] + "/Validation/Validation Rules.csv"
@@ -602,6 +604,7 @@ def handle_export_customfield(timeout=120):
         if not os.path.exists(outputdir): os.makedirs(outputdir)
         records = sorted(result["records"], key=lambda k : k['TableEnumOrId'])
         util.list2csv(outputdir + "/CustomField.csv", records)
+        sublime.active_window().run_command("refresh_folder_list")
 
         # Output log
         print (message.SEPRATE.format(outputdir))
@@ -632,6 +635,7 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
 
         # Write parsed result to csv
         util.parse_data_template(output_file_dir, result)
+        sublime.active_window().run_command("refresh_folder_list")
         util.show_output_panel(message.SEPRATE.format("Data Template outputdir: " + output_file_dir))
 
     settings = context.get_settings()
@@ -1069,7 +1073,7 @@ def handle_describe_sobject(sobject, timeout=120):
     ThreadProgress(api, thread, 'Describe ' + sobject, 'Describe ' + sobject + ' Succeed')
     handle_new_view_thread(thread, timeout)
 
-def handle_generate_specified_workbooks(sobjects, timeout=120):
+def handle_export_specified_workbooks(sobjects, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
     threads = []
@@ -1081,7 +1085,7 @@ def handle_generate_specified_workbooks(sobjects, timeout=120):
     ThreadsProgress(threads, "Generating Sobjects Workbook", 
         "Sobjects Workbook are Generated")
 
-def handle_generate_all_workbooks(timeout=120):
+def handle_export_all_workbooks(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)

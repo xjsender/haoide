@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+
+Release 1.1.0 (2014-10-09)
+++++++++++++++++++
++ Fix Bug for Windows: After ``export`` is finished, refresh the project folders to ensure the new folder is shown in the sidebar
++ Fix Bug: display deploy failed message if deploy is failed.
++ Fix Bug: symbol table is null when iterate symbol table
++ Update README.MD
+
 Release 1.0.9 (2014-10-04)
 ++++++++++++++++++
 + Fix Bug: After open a new view, open context menu, it will throw NoneType exception

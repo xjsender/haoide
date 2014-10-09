@@ -11,5 +11,6 @@
     "1.0.7": "config/messages/1.0.7.txt",
     "1.0.8": "config/messages/1.0.8.txt",
     "1.0.9": "config/messages/1.0.9.txt",
+    "1.1.0": "config/messages/1.1.0.txt",
     "install": "config/messages/install.txt"
 }

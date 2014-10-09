@@ -547,6 +547,7 @@ def parse_symbol_table(symbol_table):
     * symbol_table -- ApexClass Symbol Table
     """
     completions = {}
+    if not symbol_table: return completions;
     if 'constructors' in symbol_table:
         for c in symbol_table['constructors']:
             params = []

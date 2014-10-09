@@ -697,7 +697,7 @@ class MetadataApi():
                 util.append_message(panel, "\n\nAll Component Failures:", False)
                 util.append_message(panel, "\n"+"\n\n".join(failures_messages), False)
                 util.append_message(panel, "\n*********** %s FAILED ***********" % (
-                    deploy_or_validate, deploy_or_validate.upper()), False)
+                    deploy_or_validate.upper()), False)
         else:
             # Append succeed message
             util.append_message(panel, "\n[sf:%s] Request Succeed" % deploy_or_validate, False)

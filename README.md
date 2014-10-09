@@ -58,8 +58,12 @@ After your project configuration is finished, you can click ```SublimeApex``` > 
             "login_url": "https://test.salesforce.com",
             "password": "a",
             "username": "a@a.com",
+
             // If you have security token, just put it here
-            "security_token": "12sad3223adfas"
+            "security_token": "12sad3223adfas",
+
+            // Allowed Package Names, for example, twitter, weibo etc.
+            "allowed_packages": []
         },
         "Project2 Name": {
             "default": false,
@@ -199,7 +203,7 @@ When you save code, this plugin will keep the change after you saved it to serve
 You can close this feature by change ```keep_local_history_change``` settings to false and put it into your own ``user settings``
 
 ## Refresh Folder
-Click the folder in the side bar, refresh that you want to refresh, if you choose the classes folder, the ```Refresh ApexClass``` command will be visible, ```ApexTrigger```, ```ApexComponent```, ```ApexPage``` and ```StaticResource``` is same.
+Choose the folders in the side bar and refresh them by click ```SublimeApex > Refresh Folder`` in the sidebar menu
 
 ## Salesforce Document Quick Reference
 I get the idea idea from [Salesforce Referencee](https://github.com/Oblongmana/sublime-salesforce-reference) and added some feature based on it.
@@ -232,15 +236,15 @@ Choose the components you want to delete, and then Click ```SublimeApex``` > ```
 Put the focus in the Class Name, and then, press <kbd>shift</kbd>,  and click ```button1``` for twice, the class file will be open in background if this class file is exist, however, if you want to open this class in the foreground, you should press <kbd>shift</kbd> and click ```button1``` for triple.
 
 ## Retrieve All Metadata
-Click ```SublimeApex``` > ```Migration``` > ```Retrieve Metadata``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
+Click ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve All``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
 
 ## Retrieve Package.xml
-Click ```SublimeApex``` > ```Migration``` > ```Retrieve Package.xml``` in the main menu, input your package file path, after that, you will see the effect.
+Click ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve Package.xml``` in the main menu, input your package file path, after that, you will see the effect.
 
 see [Retrieve Package.xml Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
 
 ## Deploy Package Zip
-Click ```SublimeApex``` > ```Migration``` > ```Retrieve Metadata``` in the main menu, input your zip file path, after that, you will see the effect.
+Click ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve Metadata``` in the main menu, input your zip file path, after that, you will see the effect.
 
 see [Deploy Package Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
 
@@ -252,12 +256,12 @@ Choose a valid package folder, click right button, check if the ```Deploy to Ser
 see [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
 
 ## Export Workflow Rules
-After you downloaded all metadata by clicking ```SublimeApex``` > ```Migration``` > ```Retrieve Metadata```, you can click ```SublimeApex``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.
+After you downloaded all metadata by clicking ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve Sobject And Workflow```, you can click ```SublimeApex``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.
 
 If you just want to export some attributes of workflows, you can remove some columns in the ```workflow_rule_columns```, ``workflow_field_update_columns``, ``workflow_email_alert_columns``, ``workflow_outbound_message_columns`` and ``workflow_task_columns`` settings and put it into your own user settings.
 
 ## Export Validation Rules
-After you downloaded all metadata by clicking ```SublimeApex``` > ```Migration``` > ```Retrieve Metadata```, you can click ```SublimeApex``` > ```Export``` > ```Export Validation Rule``` to backup all validation rules in your org to csv.
+After you downloaded all metadata by clicking ```SublimeApex``` > ```Migration``` > ```Retrieve Sobject And Workflow```, you can click ```SublimeApex``` > ```Export``` > ```Export Validation Rule``` to backup all validation rules in your org to csv.
 
 If you just want to export some attributes of validation rules, you can remove some columns in the ```validation_rule_columns``` setting and put it into your own user settings
 
