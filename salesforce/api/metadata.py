@@ -372,7 +372,6 @@ class MetadataApi():
         util.append_message(panel, "[sf:retrieve] Request ID for the current retrieve task: "+async_process_id)
 
         # Issue request for retrieving status and waiting for response
-        util.append_message(panel, "[sf:retrieve] Request for a retrieve submitted successfully.")
         util.append_message(panel, "[sf:retrieve] Waiting for server to finish processing the request...")
 
         # 2. issue a check status loop request to assure the async request is done

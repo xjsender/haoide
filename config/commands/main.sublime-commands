@@ -90,8 +90,13 @@
     },
 
     {
-        "caption": "SublimeApex: Retrieve Package.zip",
+        "caption": "SublimeApex: Deploy Package.zip",
         "command": "deploy_zip"
+    },
+
+    {
+        "caption": "SublimeApex: Deploy Open Files",
+        "command": "deploy_open_files_to_server"
     },
 
     {

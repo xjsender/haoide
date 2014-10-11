@@ -248,6 +248,9 @@ Click ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve Metadata``` in 
 
 see [Deploy Package Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
 
+## Deploy Package Zip
+Click ```SublimeApex``` > ```Metadata Migration``` > ```Deploy Open Files``` in the main menu to deploy multiply files to target server, this command is just enabled when any one of open files is salesforce code files.
+
 ## Deploy Package Folder
 Choose a valid package folder, click right button, check if the ```Deploy to Server``` command is enabled, if yes, it means the package folder is valid, and then click the ```Deploy To Server`` command, you will see the effect.
 

@@ -539,6 +539,9 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
         # Extract zip
         util.extract_encoded_zipfile(result["zipFile"], outputdir)
 
+        # Refresh Project Folders
+        sublime.active_window().run_command("refresh_folder_list")
+
     settings = context.get_settings()
     api = MetadataApi(settings)
 

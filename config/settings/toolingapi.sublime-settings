@@ -52,7 +52,7 @@
     ],
 
     // API version
-    "api_version" : 30,
+    "api_version" : 31,
 
     // Browser Path, you should set a valid browser path, otherwise, it will have problem
     // Some policy prevents setting chrome as default browser, so this setting is here
@@ -95,6 +95,7 @@
 
     // Indicate whether download StaticResource body
     // This job is processed by Metadata API
+    // Deprecated, replaced by ``metadata api``
     "get_static_resource_body" : false,
 
     // Indicate whether disable sobject fields completion
@@ -372,7 +373,7 @@
             "extension": ".trigger"
         }, {
             "children" : null,
-            "subscribe" : false,
+            "subscribe" : true,
             "folder" : "staticresources",
             "type" : "StaticResource",
             "extension": ".resource"

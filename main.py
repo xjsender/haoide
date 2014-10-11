@@ -395,6 +395,44 @@ class DeployZipCommand(sublime_plugin.WindowCommand):
 
         processor.handle_deploy_thread(util.base64_encode(zipfile_path))
 
+class DeployOpenFilesToServer(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DeployOpenFilesToServer, self).__init__(*args, **kwargs)
+
+    def run(self):
+        file_names = []
+        sublime.message_dialog(",".join(self.files))
+        return;
+        # Get the package path to deploy
+        sublime.active_window().run_command("deploy_files_to_server", 
+            {"files": self.files})
+
+    def is_enabled(self):
+        """
+        1. You must have selected one file or more
+        2. All selected file should be in predefined meta folders
+        """
+
+        # If no views, just disable this command
+        views = sublime.active_window().views();
+        if not views or len(views) == 0: return False
+
+        self.settings = context.get_settings()
+        self.files = [];
+        for _view in views:
+            _file = _view.file_name()
+            if not _file or not os.path.isfile(_file): continue # Ignore folder
+            _folder = util.get_meta_folder(_file) # Ignore non-sfdc files
+            if _folder not in self.settings["meta_folders"]:
+                continue
+
+            self.files.append(_file)
+
+        # If there is no sfdc code file, just disable this command
+        if not self.files: return False
+
+        return True
+
 class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployPackageToServerCommand, self).__init__(*args, **kwargs)
@@ -1119,6 +1157,11 @@ class SaveComponentCommand(sublime_plugin.TextCommand):
         processor.handle_save_component(component_name, component_attribute, body, is_check_only)
 
     def is_enabled(self):
+        if not self.view or not self.view.file_name(): return False
+        _folder = util.get_meta_folder(self.view.file_name())
+        if _folder not in ["classes", "components", "pages", "triggers"]:
+            return False
+            
         return util.check_enabled(self.view.file_name())
 
 class SwitchProjectCommand(sublime_plugin.WindowCommand):

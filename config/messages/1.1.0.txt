@@ -1,6 +1,6 @@
 Build 1.1.0
 -----------
-Release Date: 06 October 2014
+Release Date: 09 October 2014
     
     * Fix Bug for Windows: After ``export`` is finished, refresh the project folders to ensure the new folder is shown in the sidebar
     * Fix Bug: display failed message after deploy is failed.
