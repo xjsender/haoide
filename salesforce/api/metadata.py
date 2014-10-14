@@ -544,7 +544,7 @@ class MetadataApi():
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             self.login(True)
-            return self.deploy(panel, zipfile)
+            return self.deploy(base64_zip)
 
         # If status_code is > 399, which means it has error
         content = response.content

@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 1.3.0 (2014-10-14)
+++++++++++++++++++
++ Fix Minor bug for standard class completion: duplicate class in different namespace, for example, Communities, TimeZone, UnsupportedOperationException, Test, QueryException, Action
++ Fix Critical bug: non code file can't be retrieve from server, now, objects, reports and others can be retrieve from server
++ Fix Critical bug: Deploy exception after session cache is expired
+
+
 Release 1.2.0 (2014-10-11)
 ++++++++++++++++++
 + ``get_static_resource_body`` settings is deprecated

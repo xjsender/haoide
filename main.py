@@ -351,7 +351,8 @@ class RetrieveFileFromServer(sublime_plugin.TextCommand):
         self.settings = context.get_settings()
         _folder = util.get_meta_folder(self.view.file_name())
         if _folder not in self.settings["meta_folders"]:return False
-        if not util.check_enabled(self.view.file_name()): return False
+        if not util.check_enabled(self.view.file_name(), check_cache=False): 
+            return False
 
         return True
 
@@ -373,7 +374,8 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
             if not os.path.isfile(_file): continue # Ignore folder
             _folder = util.get_meta_folder(_file)
             if _folder not in self.settings["meta_folders"]: return False
-            if not util.check_enabled(_file): return False
+            if not util.check_enabled(_file, check_cache=False): 
+                return False
 
         return True
 

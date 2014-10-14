@@ -62,9 +62,14 @@ class ApexCompletions(sublime_plugin.EventListener):
 
                     # Add all standard class to keyword completions
                     for key in sorted(apex.apex_completions):
-                        class_attr = apex.apex_completions[key]
-                        completion_list.append(("%s\t%s" % (class_attr["name"], class_attr["namespace"]), 
-                            class_attr["name"]))
+                        class_attrs = apex.apex_completions[key]
+                        if isinstance(class_attrs, dict):
+                            completion_list.append(("%s\t%s" % (class_attrs["name"], 
+                                class_attrs["namespace"]), class_attrs["name"]))
+                        elif isinstance(class_attrs, list):
+                            for class_attr in class_attrs:
+                                completion_list.append(("%s\t%s" % (class_attr["name"], 
+                                    class_attr["namespace"]), class_attr["name"]))
 
                     # Add all custom class to keyword completions
                     apex_class_completion = util.get_component_completion(settings["username"], "ApexClass")
@@ -148,16 +153,37 @@ class ApexCompletions(sublime_plugin.EventListener):
 
             # If variable is standard class
             if class_name:
-                # Get the methods by class_name
-                methods = apex.apex_completions[class_name]["methods"]
-                for key in sorted(methods.keys()):
-                    completion_list.append((key, methods[key]))
+                class_attrs = apex.apex_completions[class_name]
+                if isinstance(class_attrs, dict):
+                    class_attr = class_attrs
 
-                # Get the properties by class_name
-                properties = apex.apex_completions[class_name]["properties"]
-                if isinstance(properties, dict):
-                    for key in sorted(properties.keys()): 
-                        completion_list.append((key if "\t" in key else (key + "\tProperty"), properties[key]))
+                    # Get the methods by class_name
+                    methods = class_attr["methods"]
+                    for key in sorted(methods.keys()):
+                        completion_list.append((key, methods[key]))
+
+                    # Get the properties by class_name
+                    properties = class_attr["properties"]
+                    if isinstance(properties, dict):
+                        for key in sorted(properties.keys()):
+                            completion_list.append((key if "\t" in key else (key + "\tProperty"), properties[key]))
+
+                elif isinstance(class_attrs, list):
+                    for class_attr in class_attrs:
+                        # Get the methods by class_name
+                        methods = class_attr["methods"]
+                        for key in sorted(methods.keys()):
+                            left = "%s.%s.%s" % (class_attr["namespace"], class_attr["name"], key)
+                            right = methods[key]
+                            completion_list.append((left, right))
+
+                        # Get the properties by class_name
+                        properties = class_attr["properties"]
+                        if isinstance(properties, dict):
+                            for key in sorted(properties.keys()): 
+                                left = "%s.%s.%s\tProperty" % (class_attr["namespace"], class_attr["name"], key)
+                                right = properties[key]
+                                completion_list.append((left, right))
             else:
                 try:
                     # Check whether inner class property completion

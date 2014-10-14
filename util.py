@@ -466,79 +466,6 @@ def get_soql_match_region(view, pt):
 
     return (matched_region, is_between_start_and_from, sobject_name)
 
-def get_symbol_table_completions(symbol_table):
-    """Parse the symbol_table to completion (Copied From MavensMate)
-
-    Arguments:
-
-    * symbol_table -- ApexClass Symbol Table
-    """
-    completions = []
-    if 'constructors' in symbol_table:
-        for c in symbol_table['constructors']:
-            params = []
-            visibility = c["visibility"].capitalize() if "visibility" in c else "Public"
-
-            if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
-                for p in c['parameters']:
-                    params.append(p["type"].capitalize() + " " + p["name"])
-                paramStrings = []
-                for i, p in enumerate(params):
-                    paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
-                paramString = ", ".join(paramStrings)
-                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+")", 
-                    c["name"]+"("+paramString+")"))
-            else:
-                completions.append((visibility + " " + c["name"]+"()", c["name"]+"()${1:}"))
-
-    if 'properties' in symbol_table:
-        for c in symbol_table['properties']:
-            visibility = c["visibility"].capitalize() if "visibility" in c else "Public"
-            property_type = c["type"].capitalize() if "type" in c and c["type"] else ""
-            completions.append((visibility + " " + c["name"] + "\t" + property_type, c["name"]))
-
-    if 'methods' in symbol_table:
-        for c in symbol_table['methods']:
-            params = []
-            visibility = c["visibility"].capitalize() if "visibility" in c else "Public"
-            if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
-                for p in c['parameters']:
-                    params.append(p["type"] + " " + p["name"])
-            if len(params) == 1:
-                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], 
-                    c["name"]+"(${1:"+", ".join(params)+"})"))
-            elif len(params) > 1:
-                paramStrings = []
-                for i, p in enumerate(params):
-                    paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
-                paramString = ", ".join(paramStrings)
-                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], 
-                    c["name"]+"("+paramString+")"))
-            else:
-                completions.append((visibility + " " + c["name"]+"("+", ".join(params)+") \t"+c['returnType'], 
-                    c["name"]+"()${1:}"))
-
-    if 'innerClasses' in symbol_table:
-        for c in symbol_table["innerClasses"]:
-            if 'constructors' in c and len(c['constructors']) > 0:
-                for con in c['constructors']:
-                    visibility = con["visibility"].capitalize() if "visibility" in con else "Public"
-                    params = []
-                    if 'parameters' in con and type(con['parameters']) is list and len(con['parameters']) > 0:
-                        for p in con['parameters']:
-                            params.append(p["type"].capitalize() + " " + p["name"])
-                        paramStrings = []
-                        for i, p in enumerate(params):
-                            paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
-                        paramString = ", ".join(paramStrings)
-                        completions.append((visibility + " " + con["name"]+"("+", ".join(params)+")", 
-                            c["name"]+"("+paramString+")"))
-                    else:
-                        completions.append((visibility + " " + con["name"]+"()", c["name"]+"()${1:}"))
-            else:
-                completions.append(("Inner Class " + c["name"] + "\t", c["name"] + "$1"))
-    return sorted(completions)
-
 def parse_symbol_table(symbol_table):
     """Parse the symbol_table to completion (Copied From MavensMate)
 
@@ -1238,17 +1165,16 @@ def parse_all(apex):
     Usage:
         from . import util
         import json
-        apex_json = util.parse_all(publicDeclarations["publicDeclarations"])
-        json.dump(apex_json, open("c:/apex.json",'w'))
+        apex_json = util.parse_all(apex)
 
-        from .salesforce.support import apex
+
+        from .salesforce.lib import apex
         return_apex = {}
         for lib in apex.apex_completions:
             if "customize" in apex.apex_completions[lib]:
-                return_apex[lib] = apex.apex_completions[lib]
+                apex_json[lib] = apex.apex_completions[lib]
 
-        json.dump(return_apex, open("c:/customize.json",'w'))
-
+        json.dump(apex_json, open("/Users/mouse/apex.json",'w'))
     """
 
     apex_completions = {}
@@ -1262,15 +1188,24 @@ def parse_all(apex):
 
             # all_dict = dict(list(methods_dict.items()) + list(properties_dict.items()))
 
-            # Parse constructor, methods and properties
-            apex_completions[class_name.lower()] = {}
-            apex_completions[class_name.lower()]["constructors"] = constructors_dict
-            apex_completions[class_name.lower()]["methods"] = methods_dict
-            apex_completions[class_name.lower()]["properties"] = properties_dict
-            apex_completions[class_name.lower()]["namespace"] = namespace
-
-            # Class Name Full Name Attribute
-            apex_completions[class_name.lower()]["name"] = class_name
+            # Below class are duplicate in different namespace
+            # Communities, TimeZone, UnsupportedOperationException, Test, QueryException, Action            
+            if class_name.lower() in apex_completions:
+                apex_completions[class_name.lower()] = [apex_completions[class_name.lower()]]
+                apex_completions[class_name.lower()].append({
+                    "constructors" : constructors_dict,
+                    "methods" : methods_dict,
+                    "properties" : properties_dict,
+                    "namespace" : namespace,
+                    "name": class_name
+                })
+            else:
+                apex_completions[class_name.lower()] = {}
+                apex_completions[class_name.lower()]["constructors"] = constructors_dict
+                apex_completions[class_name.lower()]["methods"] = methods_dict
+                apex_completions[class_name.lower()]["properties"] = properties_dict
+                apex_completions[class_name.lower()]["namespace"] = namespace
+                apex_completions[class_name.lower()]["name"] = class_name
             
     return apex_completions
 
@@ -2017,7 +1952,7 @@ def get_component_attribute(file_name):
     # Return tuple
     return (component_attribute, component_name)
 
-def check_enabled(file_name):
+def check_enabled(file_name, check_cache=True):
     """
     Check whether file is ApexTrigger, ApexComponent, ApexPage or ApexClass
 
@@ -2048,11 +1983,12 @@ def check_enabled(file_name):
         return False
 
     # Check whether active component is in active project
-    username = settings["username"]
-    component_attribute, component_name = get_component_attribute(file_name)
-    if not component_attribute: 
-        sublime.status_message("This component is not active component")
-        return False
+    if check_cache:
+        username = settings["username"]
+        component_attribute, component_name = get_component_attribute(file_name)
+        if not component_attribute: 
+            sublime.status_message("This component is not active component")
+            return False
     
     return True
 
