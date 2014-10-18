@@ -402,9 +402,6 @@ class DeployOpenFilesToServer(sublime_plugin.WindowCommand):
         super(DeployOpenFilesToServer, self).__init__(*args, **kwargs)
 
     def run(self):
-        file_names = []
-        sublime.message_dialog(",".join(self.files))
-        return;
         # Get the package path to deploy
         sublime.active_window().run_command("deploy_files_to_server", 
             {"files": self.files})
@@ -1070,30 +1067,44 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreateComponentCommand, self).__init__(*args, **kwargs)
 
-    def run(self, component_type=None, markup_or_body=None, sobject_name=None):
+    def run(self, template_name=None,
+                  component_name=None, 
+                  component_type=None, 
+                  markup_or_body=None, 
+                  sobject_name=None):
+        self.template_name = template_name
+        self.component_name = component_name
         self.component_type = component_type
         self.markup_or_body = markup_or_body
         self.sobject_name = sobject_name
+
         template_settings = sublime.load_settings("template.sublime-settings")
         self.templates = template_settings.get("template")
-
-        self.template_names = []
         templates = self.templates[self.component_type]
-        for name in templates:
-            self.template_names.append([name, templates[name]["description"]])
+        self.template_names = [[n, templates[n]["description"]] for n in templates]
 
-        # If component type is ApexTrigger, we need to choose sobject and template,
-        # however, sublime Quick panel will be unavailable for the second choose panel,
-        if self.component_type == "ApexTrigger" or len(self.template_names) == 1:
-            self.on_choose_template(0)
+        # After input # in visualforce page, we can get 
+        # the component name and template name, no need to choose again
+        if self.component_name and self.template_name: 
+            self.template_attr = templates[self.template_name]
+            self.create_component()
         else:
-            self.window.show_quick_panel(self.template_names, self.on_choose_template)
+            # If component type is ApexTrigger, we need to choose sobject and template,
+            # however, sublime Quick panel will be unavailable for the second choose panel,
+            if self.component_type == "ApexTrigger" or len(self.template_names) == 1:
+                self.on_choose_template(0)
+            else:
+                self.window.show_quick_panel(self.template_names, self.on_choose_template)
 
     def on_choose_template(self, index):
         if index == -1: return
         self.template_name = self.template_names[index][0]
         self.template_attr = self.templates[self.component_type][self.template_name]
-        self.window.show_input_panel("Please Input Name: ", "", self.on_input, None, None)
+
+        if self.component_name:
+            self.create_component()
+        else:
+            self.window.show_input_panel("Please Input Name: ", "", self.on_input, None, None)
 
     def on_input(self, input):
         # Create component to local according to user input
@@ -1102,14 +1113,17 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
             if not sublime.ok_cancel_dialog(message): return
             self.window.show_input_panel("Please Input Name: ", "", self.on_input, None, None)
             return
-        name = input
         
+        self.component_name = input
+        self.create_component()
+
+    def create_component(self):
         extension = self.template_attr["extension"]
         body = self.template_attr["body"]
         if extension == ".trigger":
-            body = body.replace("trigger_name", name).replace("sobject_name", self.sobject_name)
+            body = body.replace("trigger_name", self.component_name).replace("sobject_name", self.sobject_name)
         elif extension == ".cls":
-            body = body.replace("class_name", name)
+            body = body.replace("class_name", self.component_name)
 
         self.settings = context.get_settings()
         workspace = self.settings["workspace"]
@@ -1119,28 +1133,32 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
             self.settings = context.get_settings()
             util.add_project_to_workspace(self.settings)
 
-        file_name = "%s/%s" % (component_outputdir, name + extension)
+        file_name = "%s/%s" % (component_outputdir, self.component_name + extension)
         if os.path.isfile(file_name):
-            self.window.open_file(file_name)
-            sublime.error_message(name + " is already exist")
+            message = '"%s" is already exist, do you want to try again?' % self.component_name
+            if not sublime.ok_cancel_dialog(message): return
+            self.window.show_input_panel("Please Input Name: ", "", self.on_input, None, None)
             return
 
         with open(file_name, "w") as fp:
             fp.write(body)
 
-        # Compose data
+        # Build Post body
         data = {
-            "name": name,
-            self.markup_or_body: body,
+            "name": self.component_name, self.markup_or_body: body
         }
+
         if self.component_type == "ApexClass":
             data["IsValid"] = True
         elif self.component_type == "ApexTrigger":
             data["TableEnumOrId"] = self.sobject_name
         elif self.component_type in ["ApexPage", "ApexComponent"]:
-            data["MasterLabel"] = name
+            data["MasterLabel"] = self.component_name
 
-        processor.handle_create_component(data, name, self.component_type, self.markup_or_body, file_name)
+        processor.handle_create_component(data, self.component_name, 
+                                                self.component_type, 
+                                                self.markup_or_body, 
+                                                file_name)
 
 class SaveComponentCommand(sublime_plugin.TextCommand):
     def run(self, edit, is_check_only=False):

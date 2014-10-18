@@ -4,7 +4,7 @@
         "characters": ".=",
         "selector": "source.java"
     }, {
-        "characters": "<: =",
+        "characters": "<: =#",
         "selector": "text.html - source"
     }]
 }

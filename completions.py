@@ -97,7 +97,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                 return util.get_component_completion(settings["username"], "ApexPage")
 
             # Get the variable type by variable name
-            pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+%s[,;\\s:=){]" % variable_name
+            pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[^\\n][<,.\\s>a-zA-Z_1-9]*)\\s+%s[,;\\s:=){]" % variable_name
             variable_type = util.get_variable_type(view, pt, pattern)
             variable_type = variable_type.lower()
 

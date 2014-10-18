@@ -16,7 +16,7 @@ def get_settings():
     settings = {}
 
     # Load sublime-settings
-    s = sublime.load_settings(TOOLING_API_SETTINGS)
+    s = sublime.load_settings("toolingapi.sublime-settings")
     projects = s.get("projects")
 
     default_project = None

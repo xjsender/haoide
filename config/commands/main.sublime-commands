@@ -90,6 +90,11 @@
     },
 
     {
+        "caption": "SublimeApex: Preview Page In Server",
+        "command": "preview_page"
+    },
+
+    {
         "caption": "SublimeApex: Deploy Package.zip",
         "command": "deploy_zip"
     },

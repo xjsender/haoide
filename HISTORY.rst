@@ -5,6 +5,15 @@ Release History
 ---------------
 
 
+Release 1.4.0 (2014-10-18)
+++++++++++++++++++
++ Fix bug for completion: No completions for ``strMap`` if there has ``// Populate Map\nMap<String, String> strMap = new Map<String, String>();``
++ Fix Bug: ``deploy open files to server``
++ Add a new command for ``preview_page`` in the command palette
++ Input ``#`` after controller or extension name in the visualforce page, plugin will automatically create it for you
++ Remove ``static resource`` from default subscribed components
+
+
 Release 1.3.0 (2014-10-14)
 ++++++++++++++++++
 + Fix Minor bug for standard class completion: duplicate class in different namespace, for example, Communities, TimeZone, UnsupportedOperationException, Test, QueryException, Action
