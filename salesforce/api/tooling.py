@@ -903,7 +903,7 @@ class ToolingApi():
                 
                 # We can't reuse the container_id which caused error
                 # Post Request to get MetadataContainerId
-                return self.save_component(component_attribute, body, is_check_only)
+                return self.save_component(panel, component_attribute, body, is_check_only)
 
         # Post ApexComponentMember
         data = {
