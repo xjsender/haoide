@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 1.5.0 (2014-10-21)
+++++++++++++++++++
++ Fix Bug for package import error in ``bulk api``
++ Add more detailed action summary for ``save component``, issue #45, issue #46
++ Add description for ``quick controller`` in README.MD
+
+
 Release 1.4.0 (2014-10-18)
 ++++++++++++++++++
 + Fix bug for completion: No completions for ``strMap`` if there has ``// Populate Map\nMap<String, String> strMap = new Map<String, String>();``

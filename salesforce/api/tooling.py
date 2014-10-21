@@ -809,7 +809,7 @@ class ToolingApi():
             self.settings.get("workbook_field_describe_columns"))+"/"+sobject+".csv"
         print (sobject + " workbook outputdir: " + outputdir)
 
-    def save_component(self, component_attribute, body, is_check_only):
+    def save_component(self, panel, component_attribute, body, is_check_only):
         """ This method contains 5 steps:
             1. Post classid to get MetadataContainerId
             2. Post Component Member
@@ -827,12 +827,22 @@ class ToolingApi():
         * is_check_only -- indicate compile or save
         """
 
+        # Firstly Login
+        util.append_message(panel, "Start login...")
+        result = self.login()
+        if not result["success"]:
+            util.append_message(panel, "Login failed")
+            self.result = result
+            return self.result
+        util.append_message(panel, "Login succeed")
+
         # Component Attribute
         component_type = component_attribute["type"]
         component_id = component_attribute["id"]
         component_body = component_attribute["body"]
 
         if self.settings["check_save_conflict"]:
+            util.append_message(panel, "Start to check saving conflict")
             query = "SELECT Id, LastModifiedById, LastModifiedDate " +\
                     "FROM %s WHERE Id = '%s'" % (component_type, component_id)
             result = self.query(query, True)
@@ -842,13 +852,13 @@ class ToolingApi():
                 self.result = result
                 return result
 
-            user_id = globals()[self.username]["user_id"]
+            # Get modified user name by Id
+            # C2P relationship query is not available, it's a bug?
             class_attr = result["records"][0]
-            if not class_attr["LastModifiedById"] == user_id:
-                # Get modified user name by Id
-                # C2P relationship query is not available, it's a bug?
-                last_modified_id = class_attr["LastModifiedById"]
-                last_modified_date = class_attr["LastModifiedDate"][:19]
+            last_modified_id = class_attr["LastModifiedById"]
+            last_modified_date = class_attr["LastModifiedDate"][:19]
+            
+            if not class_attr["LastModifiedById"] == globals()[self.username]["user_id"]:
                 try:
                     user_details = self.query("SELECT Id, FirstName, LastName FROM User WHERE Id = '%s'" % last_modified_id)
                     user_detail = user_details["records"][0]
@@ -863,8 +873,12 @@ class ToolingApi():
                         "Message": "Save operation is cancelled by you due to the conflict"
                     }
                     return self.result
+            else:
+                util.append_message(panel, "No conflict, last modified by you at %s" % 
+                    last_modified_date.replace("T", " "))
 
         # Get MetadataContainerId
+        util.append_message(panel, "Start to fetch MetadataContainerId")
         data = {  
             "name": "Save" + component_type[4 : len(component_type)] + component_id
         }
@@ -877,6 +891,7 @@ class ToolingApi():
         else:
             # If DUPLICATE Container Id, just delete it and restart this function
             if result["errorCode"] == "DUPLICATE_VALUE":
+                util.append_message(panel, "Start to delete the duplicate MetadataContainerId")
                 error_message = result["message"]
                 container_id = error_message[error_message.rindex("1dc"): len(error_message)]
                 delete_result = self.delete(container_url + "/" + container_id)
@@ -900,6 +915,7 @@ class ToolingApi():
         member_result = self.post(url, data)
 
         # Post ContainerAsyncRequest
+        util.append_message(panel, "Start to post ContainerAsyncRequest")
         data = {
             "MetadataContainerId": container_id,
             "IsCheckOnly": is_check_only,
@@ -910,6 +926,7 @@ class ToolingApi():
         request_id = result.get("id")
 
         # Get ContainerAsyncRequest Result
+        util.append_message(panel, "Start to get ContainerAsyncRequest result")
         result = self.get(sync_request_url + "/" + request_id)
         state = result["State"]
         # print ("Get ContainerAsyncRequest: ", result)
@@ -921,6 +938,7 @@ class ToolingApi():
             }
 
         while state == "Queued":
+            util.append_message(panel, "ContainerAsyncRequest is in Queued, Waiting...")
             time.sleep(2)
 
             result = self.get(sync_request_url + "/" + request_id)
@@ -945,6 +963,7 @@ class ToolingApi():
             return_result["success"] =  False
         
         if return_result["success"] and component_type == "ApexClass":
+            util.append_message(panel, "Start to fetch symbol table")
             query = "SELECT Id, SymbolTable " +\
                     "FROM ApexClassMember WHERE Id ='%s'" % member_result["id"]
             member = self.query(query, True)

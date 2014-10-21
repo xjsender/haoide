@@ -165,6 +165,8 @@ Click ```SublimeApex``` > ```New``` > ```New ApexClass```, choose the predefined
 ## New ApexPage
 Click ```SublimeApex``` > ```New``` > ```New ApexPage```, and then input the page name in the input panel at the bottom, after that, your page will be created.
 
+After you input # after extension or controller name in visualforce page, plugin will create it for you automatically, see [demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/QuickController.gif)
+
 ## New ApexComponent
 Click ```SublimeApex``` > ```New``` > ```New ApexComponent```, and then input the component name in the input panel at the bottom, after that, your component will be created.
 

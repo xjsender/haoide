@@ -45,33 +45,6 @@ class BulkExportSingleCommand(sublime_plugin.WindowCommand):
 
         processor.handle_backup_sobject_thread(self.chosen_sobject, soql)
 
-class BulkExportByFieldCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(BulkExportByFieldCommand, self).__init__(*args, **kwargs)
-
-    def run(self, operation=None):
-        self.operation = operation
-        sobjects_describe = util.populate_sobjects_describe()
-        self.sobjects = sorted(sobjects_describe.keys())
-        self.window.show_quick_panel(self.sobjects, self.on_done)
-
-    def on_done(self, index):
-        if index == -1: return
-        self.sobject = self.sobjects[index]
-        path = sublime.get_clipboard()
-        if not os.path.isfile(path): path = ""
-        self.window.show_input_panel("Input CSV Path: ", 
-            path, self.on_input, None, None)
-
-    def on_input(self, file_path):
-        if not file_path.endswith('csv'): 
-            sublime.error_message("Input file must be CSV")
-            return
-
-        if not os.path.exists(file_path):
-            sublime.error_message(file_path + " is not valid file")
-            return
-
 class BulkExportAllCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(BulkExportAllCommand, self).__init__(*args, **kwargs)

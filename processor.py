@@ -1221,11 +1221,12 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
 
         # Process request result
         result = api.result
-        extension = component_attribute["extension"]
-        file_base_name =  component_name + extension
         if "success" in result and result["success"]:
             # 1. Write succeed body to local change history
             if settings["keep_local_change_history"]:
+                # Append message to output panel
+                util.append_message(panel, "Start to keep local change history")
+
                 # Get current file name and Read file content
                 view = sublime.active_window().active_view()
 
@@ -1242,6 +1243,10 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
 
             # 2. Write symbol table to local cache
             if "symbol_table" in result:
+                # Append message to output panel
+                util.append_message(panel, "Start to write symbol table to local cache")
+
+                # Start to write
                 symbol_table = result["symbol_table"]
 
                 # Get symbolTable from component_metadata.sublime-settings
@@ -1266,10 +1271,12 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
                 sublime.save_settings("symbol_table.sublime-settings")
 
             # Output succeed message in the console
-            save_or_compile = "compiled" if is_check_only else "saved"
-            util.show_output_panel(message.SEPRATE.format(
-                "%s is %s at %s" % (file_base_name, save_or_compile,
-                    time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))))
+            save_or_compile = "Compiled" if is_check_only else "Saved"
+            util.append_message(panel, "%s %s successfully" % (save_or_compile, file_base_name))
+
+            # Add total seconds message
+            total_seconds = (datetime.datetime.now() - start_time).seconds
+            util.append_message(panel, "\nTotal time: %s seconds" % total_seconds, False)
 
             # If succeed, just hide it in two seconds later
             delay_seconds = settings["delay_seconds_for_hidden_output_panel_when_succeed"]
@@ -1298,6 +1305,18 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
                 sublime.set_timeout_async(view.run_command("remove_check_point", 
                     {"mark":component_id+"error"}), delay_seconds * 1000)
 
+
+    # Component Full Name
+    extension = component_attribute["extension"]
+    file_base_name =  component_name + extension
+
+    # Log start_time
+    start_time = datetime.datetime.now()
+
+    # Open panel
+    panel = sublime.active_window().create_output_panel('panel')  # Create panel
+    util.append_message(panel, "Start to save %s" % file_base_name)
+
     # If saving is in process, just skip
     settings = context.get_settings()
     username = settings["username"]
@@ -1309,7 +1328,7 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
 
     api = ToolingApi(settings)
     thread = threading.Thread(target=api.save_component,
-        args=(component_attribute, body, is_check_only, ))
+        args=(panel, component_attribute, body, is_check_only, ))
     thread.start()
 
     # If saving thread is started, set the flag to True

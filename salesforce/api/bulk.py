@@ -66,7 +66,7 @@ class BulkApi():
         self.write_csv_to_file(result, "delete")
     
     def read_csv(self, input):
-        from ..requests.packages import chardet
+        from ...requests.packages import chardet
         with open(input, "rb") as csvfile:
             if csvfile.read(3) == b'\xef\xbb\xbf':
                 encoding = 'utf-8'

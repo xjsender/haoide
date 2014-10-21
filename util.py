@@ -20,8 +20,7 @@ from xml.sax.saxutils import unescape
 
 
 def populate_components():
-    """
-    Get all components which NamespacePrefix is null in whole org
+    """ Get all components from local cache
     """
 
     # Get username
