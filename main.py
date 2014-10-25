@@ -138,9 +138,10 @@ class ExecuteRestTestCommand(sublime_plugin.TextCommand):
     def on_input(self, data):
         try:
             data = json.loads(data) if data else None
-        except:
-            message = 'Invalid data, do you want to try again?'
-            if not sublime.ok_cancel_dialog(message): return
+        except ValueError as ve:
+            panel = sublime.active_window().create_output_panel('panel')  # Create panel
+            util.append_message(panel, 'JSON Input Parse Error: ' + str(ve), False)
+            if not sublime.ok_cancel_dialog("Do you want to try again?"): return
             self.view.window().show_input_panel("Input JSON Body: ", 
                 "", self.on_input, None, None)
             return
@@ -174,7 +175,7 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
 class SetCheckPointCommand(sublime_plugin.TextCommand):
     def run(self, edit, mark):
         sel = [s for s in self.view.sel()]
-        self.view.add_regions(mark, sel, "red", "dot",
+        self.view.add_regions(mark, sel, "invalid", "dot",
             sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
 
 class RemoveCheckPointCommand(sublime_plugin.TextCommand):

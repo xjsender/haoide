@@ -1,6 +1,7 @@
 import sublime
 import sublime_plugin
 import os
+import xml
 import urllib
 import json
 import threading
@@ -1197,13 +1198,14 @@ def handle_retrieve_package(package_xml_content, extract_to,
         # Extract zip
         util.extract_encoded_zipfile(result["zipFile"], extract_to, ignore_package_xml)
 
-        # Hide panel 0.5 seconds later
-        sublime.set_timeout_async(util.hide_output_panel, 500)
-
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
-    types = util.parse_package(package_xml_content)
+    try:
+        types = util.parse_package(package_xml_content)
+    except xml.parsers.expat.ExpatError as err:
+        sublime.error_message("XML Parse Error: "+str(err))
+        return
     body = soap_bodies.retrieve_body.replace("{{meta_types}}", types)
     thread = threading.Thread(target=api.retrieve, args=(body, ))
     thread.start()
@@ -1300,11 +1302,7 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
 
                 # Add highlight for error line and remove the highlight after several seconds
                 component_id = component_attribute["id"]
-                view.run_command("set_check_point", {"mark":component_id+"error"})
-                delay_seconds = settings["delay_seconds_for_hidden_output_panel_when_failed"]
-                sublime.set_timeout_async(view.run_command("remove_check_point", 
-                    {"mark":component_id+"error"}), delay_seconds * 1000)
-
+                view.run_command("set_check_point", {"mark":component_id+"build_error"})
 
     # Component Full Name
     extension = component_attribute["extension"]
@@ -1315,7 +1313,8 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
 
     # Open panel
     panel = sublime.active_window().create_output_panel('panel')  # Create panel
-    util.append_message(panel, "Start to save %s" % file_base_name)
+    compile_or_save = "compiled" if is_check_only else "saved"
+    util.append_message(panel, "Start to %s %s" % (compile_or_save, file_base_name))
 
     # If saving is in process, just skip
     settings = context.get_settings()

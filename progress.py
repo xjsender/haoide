@@ -39,12 +39,8 @@ class ThreadProgress():
             # according to response
             result = self.api.result
             if isinstance(result, dict) and "success" in result and not result["success"]:
-                if self.open_console: 
-                    util.show_output_panel(message.SEPRATE.format(util.format_error_message(result)))
-
-                settings = context.get_settings()
-                delay_seconds = settings["delay_seconds_for_hidden_output_panel_when_failed"]
-                sublime.set_timeout_async(util.hide_output_panel, delay_seconds * 1000)
+                if not self.open_console: return
+                util.show_output_panel(message.SEPRATE.format(util.format_error_message(result)))
             else:
                 sublime.status_message(self.success_message)
             return

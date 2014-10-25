@@ -586,6 +586,21 @@ def add_config_history(operation, content, ext="json"):
     fp.write(content.encode("utf-8"))
     fp.close()
 
+def export_report_api(rootdir):
+    reports = []
+    for parent,dirnames,filenames in os.walk(rootdir):
+        for filename in filenames:
+            if not filename.endswith(".report"): continue
+            report_dir = parent + "/" + filename
+            report_folder = os.path.split(parent)[1]
+            report_name = filename.split(".")[0]
+            report_api = util.getUniqueElementValueFromXmlString(open(report_dir, "rb").read(), "name")
+
+            report_dict[report_api] = report_name
+            reports.append({"name": report_name, "api": report_api, "folder": report_folder})
+
+    util.list2csv(rootdir + "/test.csv", reports)
+
 def check_new_component_enabled():
     """If project in current date is not created, new component is not enabled
 
@@ -1972,7 +1987,7 @@ def check_enabled(file_name, check_cache=True):
     folder, name = os.path.split(file_name)
     src_folder, folder_name = os.path.split(folder)
     if folder_name not in settings["meta_folders"]: 
-        sublime.status_message("Not subscribed component in SublimeApex")
+        sublime.status_message("Not valid SFDC component")
         return False
 
     # Check whether project of current file is active project

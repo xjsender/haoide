@@ -76,11 +76,6 @@ def get_settings():
     # whether the console will be hidden automatically
     settings["hidden_console_on_modify"] = s.get("hidden_console_on_modify", True)
 
-    # Every time when you save component and error happened, the console will be open.
-    # however, you want it to be hidden automatically after several seconds
-    settings["delay_seconds_for_hidden_output_panel_when_failed"] =\
-        s.get("delay_seconds_for_hidden_output_panel_when_failed", 6)
-
     # Every time when you save component and succeed, the output panel will be open.
     # however, you want it to be hidden automatically after several seconds
     settings["delay_seconds_for_hidden_output_panel_when_succeed"] =\
