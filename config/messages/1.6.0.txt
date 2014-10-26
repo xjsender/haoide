@@ -1,6 +1,6 @@
-Build 1.5.0
+Build 1.6.0
 -----------
-Release Date: 25 October 2014
+Release Date: 26 October 2014
         
     * Fix Bug: issue #44 caused by release 1.5.0
     * Fix Bug: display ExpatError when retrieve package
@@ -9,6 +9,9 @@ Release Date: 25 October 2014
     * show status message 'Not valid SFDC component' if current file is not valid SFDC component
     * Deprecate the delay_seconds_for_hidden_output_panel_when_failed settings
     * Stop to remove the error line highlight after ``save to server``, just remove it in the next save action
+    * Remove the error line highlight from view after save succeed
+    * Support error line highlight for visualforce page just if error line > 2
+    * Add ``OpenCTI Api`` document to document reference
 
 Notes:
 

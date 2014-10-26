@@ -14,6 +14,9 @@ Release 1.6.0 (2014-10-25)
 + show status message 'Not valid SFDC component' if current file is not valid SFDC component
 + Deprecate the delay_seconds_for_hidden_output_panel_when_failed settings
 + Stop to remove the error line highlight after ``save to server``, just remove it in the next save action
++ After save succeed, remove the highlight from view
++ Support error line highlight for visualforce page just if error line > 2
++ Add ``OpenCTI Api`` document to document reference
 
 
 Release 1.5.0 (2014-10-21)

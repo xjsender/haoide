@@ -1280,6 +1280,11 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
             total_seconds = (datetime.datetime.now() - start_time).seconds
             util.append_message(panel, "\nTotal time: %s seconds" % total_seconds, False)
 
+            # Remove highlight
+            view = sublime.active_window().active_view()
+            component_id = component_attribute["id"]
+            view.run_command("remove_check_point", {"mark":component_id+"build_error"})
+
             # If succeed, just hide it in two seconds later
             delay_seconds = settings["delay_seconds_for_hidden_output_panel_when_succeed"]
             sublime.set_timeout_async(util.hide_output_panel, delay_seconds * 1000)
@@ -1288,7 +1293,7 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
         # Because error line in page is always at the line 1, so just work in class or trigger
         elif "success" in result and not result["success"]:
             view = sublime.active_window().active_view()
-            if file_base_name in view.file_name() and extension in [".trigger", ".cls"]:
+            if file_base_name in view.file_name() and extension in [".trigger", ".cls", ".page"]:
                 if "line" in result:
                     line = result["line"]
                 elif "lineNumber" in result:
@@ -1297,6 +1302,7 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
                     return
                     
                 if isinstance(line, list): line = line[0]
+                if extension == ".page" and line < 2: return
                 view.run_command("goto_line", {"line": line})
                 view.run_command("expand_selection", {"to":"line"})
 

@@ -320,6 +320,10 @@
             "keyword" : "api_rest",
             "pattern" : ".//TocEntry[@DescendantCount='0']"
         },
+        "OpenCTI Api": {
+            "keyword" : "api_cti",
+            "pattern" : ".//TocEntry[@DescendantCount='0']"
+        },
         "Tooling Api" : {
             "keyword" : "api_tooling",
             "pattern" : ".//TocEntry[@DescendantCount='0']"
