@@ -462,6 +462,7 @@ def get_soql_match_region(view, pt):
     if pt >= (select_pos + match_begin) and pt <= (from_pos + match_begin):
         is_between_start_and_from = True
         sobject_name = match_str[from_pos+5:]
+        sobject_name = sobject_name.strip()
 
     return (matched_region, is_between_start_and_from, sobject_name)
 

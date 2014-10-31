@@ -438,9 +438,6 @@ class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
         super(DeployPackageToServerCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        # Get the package path to deploy
-        self.package_dir = dirs[0]
-
         # Choose the target ORG to deploy
         settings = context.get_settings()
         self.projects = settings["projects"]
@@ -461,8 +458,12 @@ class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
     def is_enabled(self, dirs):
         if not dirs: return False
         if len(dirs) > 1: return False
-        if not os.path.exists(dirs[0]+"/package.xml"):
-            sublime.status_message("Not valid package path for deploy")
+
+        if os.path.exists(dirs[0]+"/package.xml"):
+            self.package_dir = dirs[0]
+        elif os.path.exists(dirs[0]+"/src/package.xml"):
+            self.package_dir = dirs[0] + "/src"
+        else:
             return False
 
         return True

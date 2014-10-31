@@ -1,0 +1,12 @@
+Build 1.7.0
+-----------
+Release Date: 31 October 2014
+        
+    * Fix Bug: If just compile component but not save, no need to keep history
+    * Fix Bug: SOQL Field Completion problem if there is more than one character between from and sObject
+    * Fix Bug: Replace all `LIST` to `List`
+    * Remove ``Settings – Completions`` and ``Settings – Apex Template`` from main menu
+
+Notes:
+
+    * You must restart your sublime after ``SublimeApex`` is upgraded

@@ -1225,7 +1225,7 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
         result = api.result
         if "success" in result and result["success"]:
             # 1. Write succeed body to local change history
-            if settings["keep_local_change_history"]:
+            if settings["keep_local_change_history"] and not is_check_only:
                 # Append message to output panel
                 util.append_message(panel, "Start to keep local change history")
 

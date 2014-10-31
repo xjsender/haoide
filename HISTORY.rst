@@ -5,6 +5,14 @@ Release History
 ---------------
 
 
+Release 1.7.0 (2014-10-31)
+++++++++++++++++++
++ Fix Bug: If just compile component but not save, no need to keep history
++ Fix Bug: SOQL Field Completion problem if there is more than one character between from and sObject
++ Fix Bug: Replace all `LIST` to `List`
++ Remove ``Settings – Completions`` and ``Settings – Apex Template`` from main menu
+
+
 Release 1.6.0 (2014-10-25)
 ++++++++++++++++++
 + Fix Bug: issue #44 caused by release 1.5.0
