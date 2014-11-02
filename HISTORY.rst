@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 1.8.0 (2014-11-03)
+++++++++++++++++++
++ In order to prevent UI freeze, use thread to extract encoded zipFile to path
++ Solution for issue #49, add a new settings ``maximum_concurrent_connections`` to control concurrent connections
++ In order to prevent UI freeze, set default value of ``maximum_concurrent_connections`` to ``30``
+
+
 Release 1.7.0 (2014-10-31)
 ++++++++++++++++++
 + Fix Bug: If just compile component but not save, no need to keep history

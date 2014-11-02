@@ -51,6 +51,10 @@
         ".history"
     ],
 
+    // Solution for issue #49
+    // Setting for controlling maximum concurrent connections with salesforce
+    "maximum_concurrent_connections": 30,
+
     // API version
     "api_version" : 31,
 

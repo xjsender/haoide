@@ -1,0 +1,11 @@
+Build 1.8.0
+-----------
+Release Date: 3 November 2014
+        
+    * In order to prevent UI freeze, use thread to extract encoded zipFile to path
+    * Solution for issue #49, add a new settings ``maximum_concurrent_connections`` to control concurrent connections
+    * In order to prevent UI freeze, set default value of ``maximum_concurrent_connections`` to ``30``
+
+Notes:
+
+    * You must restart your sublime after ``SublimeApex`` is upgraded

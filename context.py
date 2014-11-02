@@ -71,6 +71,9 @@ def get_settings():
     # User Language
     settings["user_language"] = s.get("user_language")
 
+    # Setting for controlling maximum concurrent connections with salesforce
+    settings["maximum_concurrent_connections"] = s.get("maximum_concurrent_connections", 999)
+
     # Every time when you save component and error happened, the console will be open.
     # When you edit the code according to the error message, this flag used to indicate
     # whether the console will be hidden automatically

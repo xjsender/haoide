@@ -10,6 +10,7 @@ import pprint
 import urllib.parse
 import shutil
 import datetime
+import math
 
 from xml.sax.saxutils import unescape
 from . import requests, context, util
@@ -215,7 +216,9 @@ def handle_refresh_folder(folders_dict, timeout=120):
         extract_to = settings["workspace"]
 
         # Extract zip, True means not override package.xml
-        util.extract_encoded_zipfile(result["zipFile"], extract_to, True)
+        thread = threading.Thread(target=util.extract_encoded_zipfile, 
+            args=(result["zipFile"], extract_to, True, ))
+        thread.start()
 
         util.reload_apex_code_cache(result["fileProperties"], settings)
 
@@ -298,7 +301,7 @@ def handle_reload_sobjects_completions(timeout=120):
         # If succeed, get the all sobject describe result
         results = []
         for api in apis:
-            results.append(api.result)
+            results.extend(api.result)
 
         # Save all sobject describe result to sublime settings
         s = sublime.load_settings("sobjects_completion.sublime-settings")
@@ -440,14 +443,21 @@ def handle_reload_sobjects_completions(timeout=120):
         sobjects_describe = api.result["sobjects"]
         threads = []
         apis = []
+        sobjects = []
         for sobject in sobjects_describe:
             sobject_describe = sobjects_describe[sobject]
             if sobject in settings["allowed_sobjects"] or sobject_describe["custom"]:
-                api = ToolingApi(settings)
-                thread = threading.Thread(target=api.describe_sobject, args=(sobject, ))
-                thread.start()
-                threads.append(thread)
-                apis.append(api)
+                sobjects.append(sobject)
+        
+        maximum_concurrent_connections = settings["maximum_concurrent_connections"]
+        chunked_sobjects = list(util.chunks(sobjects, math.ceil(len(sobjects) / maximum_concurrent_connections)))
+
+        for sl in chunked_sobjects:
+            api = ToolingApi(settings)
+            thread = threading.Thread(target=api.describe_sobjects, args=(sl, ))
+            thread.start()
+            threads.append(thread)
+            apis.append(api)
 
         ThreadsProgress(threads, "Download Cache of Sobjects", "Download Cache of Sobjects Succeed")
         handle_threads(apis, threads, 10)
@@ -537,8 +547,10 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
         util.add_project_to_workspace(settings)
         outputdir = settings["workspace"] + "/metadata"
 
-        # Extract zip
-        util.extract_encoded_zipfile(result["zipFile"], outputdir)
+        # Extract the zipFile to extract_to
+        thread = threading.Thread(target=util.extract_encoded_zipfile, 
+            args=(result["zipFile"], outputdir, ))
+        thread.start()
 
         # Refresh Project Folders
         sublime.active_window().run_command("refresh_folder_list")
@@ -1140,7 +1152,9 @@ def handle_new_project(settings, is_update=False, timeout=120):
             if not os.path.exists(outputdir): os.makedirs(outputdir)
 
         # Extract the zipFile to extract_to
-        util.extract_encoded_zipfile(result["zipFile"], extract_to)
+        thread = threading.Thread(target=util.extract_encoded_zipfile, 
+            args=(result["zipFile"], extract_to, ))
+        thread.start()
 
         # Apex Code Cache
         if isinstance(result["fileProperties"], list):
@@ -1191,12 +1205,12 @@ def handle_retrieve_package(package_xml_content, extract_to,
         
         # If not succeed, just stop
         if not api.result or not api.result["success"]: return
-
-        # Mkdir for output dir of zip file
         result = api.result
 
-        # Extract zip
-        util.extract_encoded_zipfile(result["zipFile"], extract_to, ignore_package_xml)
+        # Extract the zipFile to extract_to
+        thread = threading.Thread(target=util.extract_encoded_zipfile, 
+            args=(result["zipFile"], extract_to, ignore_package_xml, ))
+        thread.start()
 
     # Start to request
     settings = context.get_settings()

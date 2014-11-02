@@ -213,6 +213,19 @@ def get_component_completion(username, component_type):
 def get_component_attribute_completion(settings, component_name):
     workspace = settings["workspace"]+""
 
+def chunks(l, n):
+    """ Yield successive n-sized chunks from l.
+
+    Arguments:
+
+    * l - to be chunked list
+    * n - split size
+    """
+    for i in range(0, len(l), n):
+        yield l[i:i+n]
+
+    return list(l)
+
 def open_with_browser(show_url, use_default_chrome=True):
     """ Utility for open file in browser
 

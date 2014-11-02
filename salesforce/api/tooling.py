@@ -583,6 +583,20 @@ class ToolingApi():
         self.result = result
         return result
 
+    def describe_sobjects(self, sobjects):
+        """ Sends get requests, return sObjects describe result
+
+        * sobjects -- sObject collection
+        """
+
+        print ('making connection with : ' + ",".join(sobjects))
+        result = []
+        for sobject in sobjects:
+            result.append(self.describe_sobject(sobject))
+
+        self.result = result
+        return result
+
     def describe_global(self):
         """ Sends a GET request. Return global describe
 
