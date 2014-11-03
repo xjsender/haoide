@@ -146,7 +146,6 @@ def get_settings():
     settings["subscribed_meta_types"] = [c["type"] for c in components if c["subscribe"]]
     settings["subscribed_meta_folders"] = [c["folder"] for c in components if c["subscribe"]]
     for component in components:
-        if not component["subscribe"]: continue
         settings[component["type"]] = component
         settings[component["folder"]] = component
 
