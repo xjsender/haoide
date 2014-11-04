@@ -469,12 +469,57 @@ def handle_reload_sobjects_completions(timeout=120):
     ThreadProgress(api, thread, "Global Describe", "Global Describe Succeed")
     handle_thread(api, thread, timeout)
 
+def handle_destructive_files(files, timeout=120):
+    def handle_thread(thread, timeout=120):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+
+        # After succeed, remove files and related *-meta.xml from local
+        if "body" in api.result and api.result["body"]["status"] == "Succeeded":
+            win = sublime.active_window()
+            for _file in files:
+                try:
+                    # Remove file from local disk and close the related view
+                    view = util.get_view_by_file_name(_file)
+                    if view: 
+                        win.focus_view(view)
+                        win.run_command("close")
+
+                    os.remove(_file)
+
+                    # Remove related *-meta.xml file from local disk and close the related view
+                    if os.path.isfile(_file+"-meta.xml"):
+                        view = util.get_view_by_file_name(_file+"-meta.xml")
+                        if view: 
+                            win.focus_view(view)
+                            win.run_command("close")
+
+                        os.remove(_file+"-meta.xml")
+                except:
+                    continue
+
+    settings = context.get_settings()
+    api = MetadataApi(settings)
+    base64_encoded_zip = util.build_destructive_package(files)
+    thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip, ))
+    thread.start()
+    ThreadProgress(api, thread, "Destructing Files", "Destructing Files Succeed")
+    handle_thread(thread, timeout)
+
 def handle_deploy_thread(base64_encoded_zip, timeout=120):
     settings = context.get_settings()
     api = MetadataApi(settings)
     thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip, ))
     thread.start()
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
+
+def handle_cancel_deployment_thread(async_process_id, timeout=120):
+    settings = context.get_settings()
+    api = MetadataApi(settings)
+    thread = threading.Thread(target=api.cancel_deployment, args=(async_process_id, ))
+    thread.start()
+    ThreadProgress(api, thread, "Canceling Deployment", "Canceling Deployment Succeed")
 
 def handle_close_jobs_thread(job_ids, timeout=120):
     settings = context.get_settings()
@@ -1475,11 +1520,23 @@ def handle_delete_component(component_url, file_name, timeout=120):
         # If succeed
         result = api.result
         if not result["success"]: return
+
+        # Get active window
+        window = sublime.active_window()
+
+        # Remove file from disk and close related view
+        view = util.get_view_by_file_name(file_name)
+        if view:
+            window.focus_view(view)
+            window.run_command("close")
         os.remove(file_name)
-        sublime.active_window().run_command("close")
 
         # Remove the related cls-meta.xml
         if os.path.exists(file_name+"-meta.xml"):
+            view = util.get_view_by_file_name(file_name+"-meta.xml")
+            if view:
+                window.focus_view(view)
+                window.run_command("close")
             os.remove(file_name+"-meta.xml")
 
     settings = context.get_settings()

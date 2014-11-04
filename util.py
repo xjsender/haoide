@@ -762,6 +762,48 @@ def build_package_xml(settings, package_dict, deploy=True):
 
     return package_xml_content
 
+def build_destructive_package(files):
+    # Initiate zipfile
+    settings = context.get_settings()
+    workspace = settings["workspace"]
+    if not os.path.exists(workspace):
+        os.makedirs(workspace)
+
+    # Constucture package dict 
+    package_dict = build_package_dict(files)
+
+    # Build destructiveChanges.xml
+    destructive_xml_content = build_package_xml(settings, package_dict)
+    destructive_xml_path = workspace+"/destructiveChanges.xml"
+    open(destructive_xml_path, "wb").write(destructive_xml_content.encode("utf-8"))
+
+    # Build package.xml
+    package_xml_content = build_package_xml(settings, {})
+    package_xml_path = workspace+"/package.xml"
+    open(package_xml_path, "wb").write(package_xml_content.encode("utf-8"))
+
+    # Create temp zipFile
+    zipfile_path = workspace + "/test.zip"
+    zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
+
+    # Compress destructive_xml and package_xml into temp zipFile
+    # After that, close the input stream
+    zf.write(package_xml_path, "package.xml")
+    zf.write(destructive_xml_path, "destructiveChanges.xml")
+    zf.close()
+
+    # Remove temp files
+    os.remove(package_xml_path)
+    os.remove(destructive_xml_path)
+
+    # base64 encode zip package
+    base64_package = base64_encode(zipfile_path)
+
+    # Remove temporary `test.zip`
+    os.remove(zipfile_path)
+
+    return base64_package
+
 def build_deploy_package(files):
     # Initiate zipfile
     settings = context.get_settings()

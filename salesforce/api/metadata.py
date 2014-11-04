@@ -184,11 +184,11 @@ class MetadataApi():
         result = {"success": response.status_code < 399}
         if response.status_code > 399:
             if response.status_code == 500:
-                result["errorCode"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
-                result["message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
             else:
-                result["errorCode"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-                result["message"] = util.getUniqueElementValueFromXmlString(content, "message")
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
 
             self.result = result
             return result
@@ -276,11 +276,11 @@ class MetadataApi():
         result = {"success": response.status_code < 399}
         if response.status_code > 399:
             if response.status_code == 500:
-                result["errorCode"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
-                result["message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
             else:
-                result["errorCode"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-                result["message"] = util.getUniqueElementValueFromXmlString(content, "message")
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
             return result
 
         result = xmltodict.parse(response.content)
@@ -354,11 +354,11 @@ class MetadataApi():
         result = {"success": response.status_code < 399}
         if response.status_code > 399:
             if response.status_code == 500:
-                result["errorCode"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
-                result["message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
             else:
-                result["errorCode"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-                result["message"] = util.getUniqueElementValueFromXmlString(content, "message")
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
             self.result = result
             return
 
@@ -432,6 +432,56 @@ class MetadataApi():
 
         self.result = result
 
+    def cancel_deployment(self, async_process_id): 
+        """ After async process is done, post a checkDeployResult to 
+            get the deploy result
+
+        Arguments:
+
+        * async_process_id -- retrieve request asyncProcessId
+        """
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
+
+        headers = {
+            "Content-Type": "text/xml;charset=UTF-8",
+            "SOAPAction": '""'
+        }
+        soap_body = soap_bodies.cancel_deployment.format(
+            globals()[self.username]["session_id"], async_process_id)
+        response = requests.post(self.metadata_url, soap_body, verify=False, 
+            headers=headers)
+
+        # If status_code is > 399, which means it has error
+        content = response.content
+        result = {"success": response.status_code < 399}
+        if response.status_code > 399:
+            if response.status_code == 500:
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
+            else:
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
+            self.result = result
+            return result
+
+        result = xmltodict.parse(content)
+        # print (json.dumps(result, indent=4))
+        try:
+            result = result["soapenv:Envelope"]["soapenv:Body"]["cancelDeployResponse"]["result"]
+            result["success"] = True
+        except KeyError as ke:
+            result = {
+                "Message": "Convert Xml to Dict Exception",
+                "Detail": 'body["checkDeployStatusResponse"]["result"] KeyError' + str(ke),
+                "success": False
+            }
+
+        self.result = result
+        return result
+
     def check_deploy_status(self, async_process_id): 
         """ After async process is done, post a checkDeployResult to 
             get the deploy result
@@ -453,10 +503,15 @@ class MetadataApi():
         content = response.content
         result = {"success": response.status_code < 399}
         if response.status_code > 399:
-            result["errorCode"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-            result["message"] = util.getUniqueElementValueFromXmlString(content, "message")
+            if response.status_code == 500:
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
+            else:
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
+            self.result = result
             return result
-
+            
         result = xmltodict.parse(content)
         # print (json.dumps(result, indent=4))
         try:
@@ -551,11 +606,11 @@ class MetadataApi():
         result = {"success": response.status_code < 399}
         if response.status_code > 399:
             if response.status_code == 500:
-                result["errorCode"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
-                result["message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
             else:
-                result["errorCode"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-                result["message"] = util.getUniqueElementValueFromXmlString(content, "message")
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
             self.result = result
             return
 

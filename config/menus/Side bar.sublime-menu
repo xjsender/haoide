@@ -17,11 +17,17 @@
                 "caption": "Retrieve Files From Server", "command": "retrieve_files_from_server",
                 "args": {"files": []}
             },
-
+            
             {
                 "caption": "Deploy Files To Server", "command": "deploy_files_to_server",
                 "args": {"files": []}
             },
+
+            {
+                "caption": "Destruct Files From Server", "command": "destruct_files_from_server",
+                "args": {"files": []}
+            },
+
 
             {"caption": "-"},
 

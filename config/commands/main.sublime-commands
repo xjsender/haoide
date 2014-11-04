@@ -100,6 +100,11 @@
     },
 
     {
+        "caption": "SublimeApex: Destruct From Server",
+        "command": "destruct_file_from_server"
+    },
+
+    {
         "caption": "SublimeApex: Deploy Open Files",
         "command": "deploy_open_files_to_server"
     },

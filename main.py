@@ -380,6 +380,49 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
 
         return True
 
+class CancelDeployment(sublime_plugin.TextCommand):
+    def run(self, edit):
+        sel = self.view.sel()[0]
+        sel_text = self.view.substr(self.view.word(sel.begin()))
+        if sel_text.startswith("0Af"):
+            processor.handle_cancel_deployment_thread(sel_text)
+
+class DestructFileFromServer(sublime_plugin.TextCommand):
+    def run(self, edit):
+        files = [self.view.file_name()]
+        sublime.active_window().run_command("destruct_files_from_server", {"files": files})
+
+    def is_enabled(self):
+        if not self.view or not self.view.file_name(): return False
+        self.settings = context.get_settings()
+        _folder = util.get_meta_folder(self.view.file_name())
+        if _folder not in self.settings["meta_folders"]:return False
+        if not util.check_enabled(self.view.file_name(), check_cache=False): 
+            return False
+
+        return True
+
+class DestructFilesFromServer(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DestructFilesFromServer, self).__init__(*args, **kwargs)
+
+    def run(self, files):
+        confirm = sublime.ok_cancel_dialog("Are you sure you really want to continue?")
+        if not confirm: return
+        processor.handle_destructive_files(files)
+
+    def is_enabled(self, files):
+        if len(files) == 0: return False
+        self.settings = context.get_settings()
+        for _file in files:
+            if not os.path.isfile(_file): continue # Ignore folder
+            _folder = util.get_meta_folder(_file)
+            if _folder not in self.settings["meta_folders"]: return False
+            if not util.check_enabled(_file, check_cache=False): 
+                return False
+
+        return True
+
 class DeployZipCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployZipCommand, self).__init__(*args, **kwargs)

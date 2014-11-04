@@ -5,6 +5,17 @@ Release History
 ---------------
 
 
+Release 1.9.0 (2014-11-04)
+++++++++++++++++++
++ Fix issue #50
++ Fix minor issue for ``delete_component``
++ Fix potential issue for retrieve and deploy
++ Add ``Destruct Files From Server`` command in the sidebar menu for deleting files from sandbox or production
++ Add ``Destruct From Server`` command in the context menu for deleting file from sandbox or production
++ Add new command ``cancel_deployment`` for quickly canceling deployment of specified
++ Add mousemap for canceling deployment: Put the focus in the task Id, and then press alt and click Left Mouse for triple will cancel deployment of specified task Id
+
+
 Release 1.8.0 (2014-11-03)
 ++++++++++++++++++
 + In order to prevent UI freeze, use thread to extract encoded zipFile to path

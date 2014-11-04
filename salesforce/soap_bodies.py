@@ -119,6 +119,21 @@ retrieve_body = """
     </soapenv:Envelope>
 """
 
+cancel_deployment = """
+  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:met="http://soap.sforce.com/2006/04/metadata">
+      <soapenv:Header>
+        <met:SessionHeader>
+          <met:sessionId>{0}</met:sessionId>
+        </met:SessionHeader>
+      </soapenv:Header>
+      <soapenv:Body>
+        <met:cancelDeploy>
+          <met:String>{1}</met:String>
+        </met:cancelDeploy>
+      </soapenv:Body>
+  </soapenv:Envelope>"""
+
 # Body for checking deploy status
 check_deploy_status = """
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
