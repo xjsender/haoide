@@ -15,6 +15,7 @@ Release 2.0.0 (2014-11-08)
 + Add a new command for ``Track Self Debug Log``
 + Add new feature for updating ZIP Static Resource, see demo ``https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/UpdateStaticResource.gif``
 + Add commands for ``Convert 15 Id to 18 Id`` and ``track self debug log`` in the command palette
++ Add ``StaticResource`` to default subscribed components
 + Update README.MD
 
 

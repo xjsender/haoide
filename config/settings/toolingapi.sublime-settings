@@ -380,7 +380,7 @@
             "extension": ".trigger"
         }, {
             "children" : null,
-            "subscribe" : false,
+            "subscribe" : true,
             "folder" : "staticresources",
             "type" : "StaticResource",
             "extension": ".resource"
