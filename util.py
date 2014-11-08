@@ -213,6 +213,35 @@ def get_component_completion(username, component_type):
 def get_component_attribute_completion(settings, component_name):
     workspace = settings["workspace"]+""
 
+def convert_15_to_18(the15Id):
+    """ Convert Salesforce 15 Id to 18 Id
+
+    Arguments:
+
+    * the15Id - to be converted 15 Id
+
+    Return:
+
+    * 18 Id - converted 18 Id
+    """
+    
+    if not the15Id or len(the15Id) != 15: return the15Id
+
+    cmap = {
+        "00000": "A", "00001": "B", "00010": "C", "00011": "D", "00100": "E",
+        "00101": "F", "00110": "G", "00111": "H", "01000": "I", "01001": "J",
+        "01010": "K", "01011": "L", "01100": "M", "01101": "N", "01110": "O", 
+        "01111": "P", "10000": "Q", "10001": "R", "10010": "S", "10011": "T", 
+        "10100": "U", "10101": "V", "10110": "W", "10111": "X", "11000": "Y", 
+        "11001": "Z", "11010": "0", "11011": "1", "11100": "2", "11101": "3", 
+        "11110": "4", "11111": "5"
+    }
+
+    chars = [cmap["".join(["1" if c.isupper() else "0" for c in char[::-1]])] \
+        for char in list(chunks(the15Id, 5))]
+
+    return the15Id + "".join(chars)
+
 def chunks(l, n):
     """ Yield successive n-sized chunks from l.
 
@@ -303,14 +332,8 @@ def show_output_panel(message, toggle=False):
     """
     panel = sublime.active_window().create_output_panel('panel')
     sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
-
     panel.set_read_only(False)
     panel.set_syntax_file("Packages/Java/Java.tmLanguage")
-    reminder_message = """You can open the output panel by below ways:
-    1. Click SublimeApex > Debug > Open Log Panel in the main menu
-    2. Press Alt + ` in Windows
-    """
-    panel.run_command('append', {'characters': reminder_message})
     panel.run_command('append', {'characters': message})
     panel.set_read_only(True)
 
@@ -844,6 +867,59 @@ def build_deploy_package(files):
 
     return base64_package
 
+def compress_folder(source_folder, target_folder, resource_name, meta_xml_content):
+    """ Prepare base64 encoded zip for uploading static resource
+
+    Arguments:
+
+    * target_folder - static resource folder in project
+    * source_folder - to be uploaded folder as static resource
+    * meta_xml_content - the content of corresponding resource-meta.xml
+    """
+
+    # Create StaticResource File
+    static_resource_file = os.path.join(target_folder, resource_name+".resource")
+    zf = zipfile.ZipFile(static_resource_file, "w", zipfile.ZIP_DEFLATED)
+    for dirpath, dirnames, filenames in os.walk(source_folder):
+        basename = dirpath[len(source_folder)+1:]
+        for filename in filenames:
+            zf.write(os.path.join(dirpath, filename), basename+"/"+filename)
+    zf.close()
+
+    # Create Meta-XML file
+    meta_xml_file = os.path.join(target_folder, resource_name+".resource-meta.xml")
+    with open(meta_xml_file, "wb") as fp:
+        fp.write(meta_xml_content.encode("utf-8"))
+
+    # Build package
+    base64_package = build_deploy_package([static_resource_file])
+
+    return base64_package
+
+def compress_folder(resource_folder):
+    """ Prepare base64 encoded zip for uploading static resource
+
+    Arguments:
+
+    * resource_folder - static resource folder in project
+    """
+
+    static_resource_path, resource_name = os.path.split(resource_folder)
+
+    # Create StaticResource File
+    static_resource_file = os.path.join(static_resource_path, resource_name+".resource")
+    zf = zipfile.ZipFile(static_resource_file, "w", zipfile.ZIP_DEFLATED)
+    for dirpath, dirnames, filenames in os.walk(resource_folder):
+        basename = dirpath[len(resource_folder)+1:]
+        for filename in filenames:
+            zf.write(os.path.join(dirpath, filename), basename+"/"+filename)
+    zf.close()
+
+    # Build package
+    base64_package = build_deploy_package([static_resource_file])
+
+    return base64_package
+
 def build_package_types(meta_types):
     """ Build <types> by specified metadata types
     """
@@ -930,6 +1006,31 @@ def extract_encoded_zipfile(encoded_zip_file, extract_to, ignore_package_xml=Fal
 
     # Remove original src tree
     os.remove(zipfile_path)
+
+def extract_static_resource(zipfile_path, extract_to):
+    """ Extract Static Resource to staticresources folder
+    """
+
+    try:
+        zfile = zipfile.ZipFile(zipfile_path, 'r')
+    except zipfile.BadZipFile as ex:
+        sublime.error_message(str(ex))
+        return
+
+    if not os.path.exists(extract_to): 
+        os.makedirs(extract_to)
+
+    for filename in zfile.namelist():
+        if filename.endswith('/'): continue
+        f = os.path.join(extract_to, "", filename)
+
+        if not os.path.exists(os.path.dirname(f)):
+            os.makedirs(os.path.dirname(f))
+
+        with open(f, "wb") as fp:
+            fp.write(zfile.read(filename))
+
+    zfile.close()
 
 def extract_file(zipfile_path, extract_to, ignore_package_xml=False):
     zfile = zipfile.ZipFile(zipfile_path, 'r')

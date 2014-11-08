@@ -245,6 +245,11 @@ Click ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve Package.xml``` 
 
 see [Retrieve Package.xml Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
 
+## Update Static Resource
+Choose the resource that you need to update in the side bar, firstly, you need to click ``SublimeApex`` > ``Extract StaticResource`` to extract it to sub folder of ``staticresources``, after you made some change in the extracted folder, choose the extracted folder name and click ``SublimeApex`` > ``Upload StaticResource`` to save it to server.
+
+see [UpdateStaticResource](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/UpdateStaticResource.gif)
+
 ## Deploy Package Zip
 Click ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve Metadata``` in the main menu, input your zip file path, after that, you will see the effect.
 

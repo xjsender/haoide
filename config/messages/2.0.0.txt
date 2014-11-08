@@ -1,0 +1,17 @@
+Build 2.0.0
+-----------
+Release Date: 8 November 2014
+        
+    * Fix minor bug for ``Duplicate Save Execution of Same Component``
+    * Remove useless message from ``message.py``
+    * Add a space between parameters for completion of standard apex class 
+    * Rename ``Describe`` menu item in the main menu to ``Utilities``
+    * Add a new command for ``Convert 15 Id to 18 Id``
+    * Add a new command for ``Track Self Debug Log``
+    * Add new feature for updating ZIP Static Resource, see demo ``https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/UpdateStaticResource.gif``
+    * Add commands for ``Convert 15 Id to 18 Id`` and ``track self debug log`` in the command palette
+    * Update README.MD
+
+Notes:
+    * Updating Static Resource is a very useful feature, you should check it out
+    * You must restart your sublime after ``SublimeApex`` is upgraded

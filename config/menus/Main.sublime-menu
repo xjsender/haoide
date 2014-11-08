@@ -129,10 +129,20 @@
                             "panel": "output.panel"
                         }
                     },
+
                     {
                         "id": "createdebuglog",
                         "caption": "Track Debug Log",
                         "command": "track_debug_log"
+                    },
+
+                    {
+                        "id": "createselfdebuglog",
+                        "caption": "Track Self Debug Log",
+                        "command": "track_debug_log",
+                        "args": {
+                            "track_self": true
+                        }
                     },
 
                     {
@@ -156,17 +166,22 @@
             },
 
             {
-                "caption": "Describe",
+                "caption": "Utilities",
                 "children": [
                     {
                         "id": "describesobject",
-                        "caption": "sObject",
+                        "caption": "Describe sObject",
                         "command": "describe_sobject"
                     },
                     {
                         "id": "generatesoql",
-                        "caption": "sObject SOQL",
+                        "caption": "Generate sObject SOQL",
                         "command": "generate_soql"
+                    },
+                    {
+                        "id": "convert15idto18id",
+                        "caption": "Convert 15 Id to 18 Id",
+                        "command": "convert15_id218_id"
                     }
                 ]
             },

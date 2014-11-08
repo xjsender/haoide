@@ -36,8 +36,7 @@
     },
 
     // Files not shown in the sidebar and Command Palette
-    // Just start to work after new project is invoked
-    // You can update patterns by click ``SublimeApex > Update > Update Project Patterns``
+    // Just work after new project is invoked or click ``SublimeApex > Update > Update Project Patterns``
     "file_exclude_patterns": [
         "*.*-meta.xml",
         "*.md",
@@ -45,8 +44,7 @@
     ],
 
     // Folders not shown in the sidebar and Command Palette
-    // Just start to work after new project is invoked
-    // You can update patterns by click ``SublimeApex > Update > Update Project Patterns``
+    // Just work after new project is invoked or click ``SublimeApex > Update > Update Project Patterns``
     "folder_exclude_patterns": [
         ".history"
     ],

@@ -589,7 +589,6 @@ class ToolingApi():
         * sobjects -- sObject collection
         """
 
-        print ('making connection with : ' + ",".join(sobjects))
         result = []
         for sobject in sobjects:
             result.append(self.describe_sobject(sobject))
@@ -633,7 +632,9 @@ class ToolingApi():
         # If traced_entity_id is none, just set it as current user
         while not traced_entity_id and (self.username not in globals()):
             self.login(True)
-            traced_entity_id = globals()[self.username]["user_id"]
+
+        # Populate traced_entity_id from cache
+        traced_entity_id = globals()[self.username]["user_id"]
 
         # Check whether traced user already has trace flag
         # If not, just create it for him/her
@@ -971,9 +972,14 @@ class ToolingApi():
             return_result = {}
             if len(compile_errors) > 0:
                 return_result = compile_errors[0]
+                return_result["problem"] = "Error (line %s, column %s): %s" % (
+                    return_result["lineNumber"],
+                    return_result["columnNumber"],
+                    return_result["problem"]
+                )
             else:
                 return_result["Error Message"] = result["ErrorMsg"]
-            
+
             return_result["success"] =  False
         
         if return_result["success"] and component_type == "ApexClass":

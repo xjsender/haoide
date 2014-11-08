@@ -115,6 +115,14 @@
     },
 
     {
+        "caption": "SublimeApex: Track Self Debug Log",
+        "command": "track_debug_log", 
+        "args": {
+            "track_self": true
+        }
+    },
+
+    {
         "caption": "SublimeApex: Fetch Debug Log",
         "command": "fetch_debug_log"
     },
@@ -174,6 +182,12 @@
         "caption": "SublimeApex: Describe Sobject",
         "command": "describe_sobject"
     },
+
+    {
+        "caption": "SublimeApex: Convert 15 Digit Id to 18 Digit",
+        "command": "convert15_id218_id"
+    },
+
     {
         "caption": "SublimeApex: Export CustomField",
         "command": "export_custom_field"

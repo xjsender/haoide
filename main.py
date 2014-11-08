@@ -85,6 +85,18 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
         if confirm == False: return
         util.clear_cache(self.caches[index][1], self.cache_name)
 
+class Convert15Id218IdCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(Convert15Id218IdCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.window.show_input_panel("Input 15 Id: ", 
+            "", self.on_input, None, None)
+
+    def on_input(self, input):
+        c18Id = util.convert_15_to_18(input)
+        util.show_output_panel(message.SEPRATE.format("Converted 18 Digit Id: " + c18Id))
+
 class GenerateSoqlCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(GenerateSoqlCommand, self).__init__(*args, **kwargs)
@@ -121,7 +133,7 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
         util.check_workspace_available()
         processor.handle_export_data_template_thread(sobject, recordtype_name, recordtype_id)
 
-class ExecuteRestTestCommand(sublime_plugin.TextCommand):
+class ExecuteRestTest(sublime_plugin.TextCommand):
     def run(self, edit):
         self.items = ["Get", "Post", "Put", "Patch", "Delete", "Tooling Query",
                       "Query", "Query All", "Search", "Quick Search", "Head", "Retrieve Body"]
@@ -267,7 +279,7 @@ class RefreshFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        confirm = sublime.ok_cancel_dialog("Are you sure you want to refresh this folder")
+        confirm = sublime.ok_cancel_dialog("Are you sure you really want to refresh this folder")
         if not confirm: return
 
         processor.handle_refresh_folder(self.folders_dict)
@@ -852,17 +864,18 @@ class TrackDebugLogCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(TrackDebugLogCommand, self).__init__(*args, **kwargs)
 
-    def run(self):
-        self.users = processor.populate_users()
-        if not self.users: return # Network Issue Cause
-        self.users_name = sorted(self.users.keys(), reverse=False)
-        self.window.show_quick_panel(self.users_name, self.on_done)
+    def run(self, track_self=False):
+        if track_self:
+            processor.handle_create_debug_log('Me', None)
+        else:
+            self.users = processor.populate_users()
+            if not self.users: return # Network Issue Cause
+            self.users_name = sorted(self.users.keys(), reverse=False)
+            self.window.show_quick_panel(self.users_name, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
 
-        # Change the chosen project as default
-        # Split with ") " and get the second project name
         user_name = self.users_name[index]
         user_id = self.users[user_name]
         processor.handle_create_debug_log(user_name, user_id)
@@ -1034,7 +1047,7 @@ class DeleteComponentCommand(sublime_plugin.TextCommand):
 
 def delete_components(files):
     # Confirm Delete Action
-    confirm = sublime.ok_cancel_dialog(message.DELETE_CONFIRM_MESSAGE)
+    confirm = sublime.ok_cancel_dialog("Are you sure you really want to delete this?")
     if confirm == False: return
     
     # Handle Delete
@@ -1307,9 +1320,49 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
             util.add_project_to_workspace(settings)
             processor.handle_new_project(settings)
 
+class ExtractStaticResource(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ExtractStaticResource, self).__init__(*args, **kwargs)
+
+    def run(self, files):
+        extract_to, name = os.path.split(self._file)
+        name, extension = name.split(".")
+
+        extract_to = os.path.join(extract_to, name)
+        util.extract_static_resource(self._file, extract_to)
+
+    def is_enabled(self, files):
+        if not files or len(files) > 1: 
+            return False
+
+        self._file = files[0]
+
+        if not self._file.endswith("resource"): 
+            return False
+
+        return True
+
+class UpdateStaticResource(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(UpdateStaticResource, self).__init__(*args, **kwargs)
+
+    def run(self, dirs):
+        base64_package = util.compress_folder(self.resource_dir)
+        processor.handle_deploy_thread(base64_package)
+
+    def is_enabled(self, dirs):
+        if len(dirs) > 1: return False
+        self.resource_dir = dirs[0]
+
+        static_resource_folder, resource_name = os.path.split(self.resource_dir)
+        if not static_resource_folder.endswith("staticresources"):
+            return False
+
+        return True
+
 class RefreshComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        confirm = sublime.ok_cancel_dialog("Are you sure you want to continue?")
         if not confirm: return
     
         # Get file_name and component_attribute
@@ -1330,7 +1383,7 @@ class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
         super(RefreshSelectedComponentsCommand, self).__init__(*args, **kwargs)
 
     def run(self, files):
-        confirm = sublime.ok_cancel_dialog(message.REFRESH_CONFIRM_MESSAGE)
+        confirm = sublime.ok_cancel_dialog("Are you sure you really want to continue?")
         if not confirm: return
 
         for file_name in self._files:

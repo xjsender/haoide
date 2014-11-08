@@ -1257,6 +1257,8 @@ def handle_retrieve_package(package_xml_content, extract_to,
             args=(result["zipFile"], extract_to, ignore_package_xml, ))
         thread.start()
 
+        pprint.pprint(result["fileProperties"])
+
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
@@ -1376,11 +1378,6 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
     # Log start_time
     start_time = datetime.datetime.now()
 
-    # Open panel
-    panel = sublime.active_window().create_output_panel('panel')  # Create panel
-    compile_or_save = "compiled" if is_check_only else "saved"
-    util.append_message(panel, "Start to %s %s" % (compile_or_save, file_base_name))
-
     # If saving is in process, just skip
     settings = context.get_settings()
     username = settings["username"]
@@ -1389,6 +1386,11 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
         if is_thread_alive:
             print ('%s is in process' % component_name);
             return
+
+    # Open panel
+    panel = sublime.active_window().create_output_panel('panel')  # Create panel
+    compile_or_save = "compile" if is_check_only else "save"
+    util.append_message(panel, "Start to %s %s" % (compile_or_save, file_base_name))
 
     api = ToolingApi(settings)
     thread = threading.Thread(target=api.save_component,

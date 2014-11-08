@@ -5,6 +5,19 @@ Release History
 ---------------
 
 
+Release 2.0.0 (2014-11-08)
+++++++++++++++++++
++ Fix minor bug for ``Duplicate Save Execution of Same Component``
++ Remove useless message from ``message.py``
++ Add a space between parameters for completion of standard apex class 
++ Rename ``Describe`` menu item in the main menu to ``Utilities``
++ Add a new command for ``Convert 15 Id to 18 Id``
++ Add a new command for ``Track Self Debug Log``
++ Add new feature for updating ZIP Static Resource, see demo ``https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/UpdateStaticResource.gif``
++ Add commands for ``Convert 15 Id to 18 Id`` and ``track self debug log`` in the command palette
++ Update README.MD
+
+
 Release 1.9.0 (2014-11-04)
 ++++++++++++++++++
 + Fix issue #50

@@ -41,33 +41,33 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "submit(List ids,String commments,String nextApprover)\tList<Id>": "submit(${1:List ids},${2:String commments},${3:String nextApprover})$0",
-            "assertNotEquals(ANY expected,ANY actual,ANY msg)\tvoid": "assertNotEquals(${1:ANY expected},${2:ANY actual},${3:ANY msg})$0",
-            "scheduleBatch(APEX_OBJECT batchable,String jobName,Integer minutesFromNow,Integer scopeSize)\tString": "scheduleBatch(${1:APEX_OBJECT batchable},${2:String jobName},${3:Integer minutesFromNow},${4:Integer scopeSize})$0",
-            "assert(Boolean condition,ANY msg)\tvoid": "assert(${1:Boolean condition},${2:ANY msg})$0",
+            "submit(List ids,String commments,String nextApprover)\tList<Id>": "submit(${1:List ids}, ${2:String commments}, ${3:String nextApprover})$0",
+            "assertNotEquals(ANY expected,ANY actual,ANY msg)\tvoid": "assertNotEquals(${1:ANY expected}, ${2:ANY actual}, ${3:ANY msg})$0",
+            "scheduleBatch(APEX_OBJECT batchable,String jobName,Integer minutesFromNow,Integer scopeSize)\tString": "scheduleBatch(${1:APEX_OBJECT batchable}, ${2:String jobName}, ${3:Integer minutesFromNow}, ${4:Integer scopeSize})$0",
+            "assert(Boolean condition,ANY msg)\tvoid": "assert(${1:Boolean condition}, ${2:ANY msg})$0",
             "currentPageReference()\tSystem.PageReference": "currentPageReference()$0",
-            "runAs(SObject user,ANY block)\tvoid": "runAs(${1:SObject user},${2:ANY block})$0",
-            "assertNotEquals(ANY expected,ANY actual)\tvoid": "assertNotEquals(${1:ANY expected},${2:ANY actual})$0",
+            "runAs(SObject user,ANY block)\tvoid": "runAs(${1:SObject user}, ${2:ANY block})$0",
+            "assertNotEquals(ANY expected,ANY actual)\tvoid": "assertNotEquals(${1:ANY expected}, ${2:ANY actual})$0",
             "isBatch()\tBoolean": "isBatch()$0",
-            "assertEquals(ANY expected,ANY actual)\tvoid": "assertEquals(${1:ANY expected},${2:ANY actual})$0",
+            "assertEquals(ANY expected,ANY actual)\tvoid": "assertEquals(${1:ANY expected}, ${2:ANY actual})$0",
             "hashCode(ANY obj)\tInteger": "hashCode(${1:ANY obj})$0",
             "assert(Boolean condition)\tvoid": "assert(${1:Boolean condition})$0",
             "debug(ANY o)\tvoid": "debug(${1:ANY o})$0",
             "runAs(Package.Version version)\tvoid": "runAs(${1:Package.Version version})$0",
-            "assertEquals(ANY expected,ANY actual,ANY msg)\tvoid": "assertEquals(${1:ANY expected},${2:ANY actual},${3:ANY msg})$0",
-            "schedule(String jobName,String cronExp,APEX_OBJECT schedulable)\tString": "schedule(${1:String jobName},${2:String cronExp},${3:APEX_OBJECT schedulable})$0",
+            "assertEquals(ANY expected,ANY actual,ANY msg)\tvoid": "assertEquals(${1:ANY expected}, ${2:ANY actual}, ${3:ANY msg})$0",
+            "schedule(String jobName,String cronExp,APEX_OBJECT schedulable)\tString": "schedule(${1:String jobName}, ${2:String cronExp}, ${3:APEX_OBJECT schedulable})$0",
             "now()\tDatetime": "now()$0",
             "today()\tDate": "today()$0",
-            "scheduleBatch(APEX_OBJECT batchable,String jobName,Integer minutesFromNow)\tString": "scheduleBatch(${1:APEX_OBJECT batchable},${2:String jobName},${3:Integer minutesFromNow})$0",
-            "equals(ANY left,ANY right)\tBoolean": "equals(${1:ANY left},${2:ANY right})$0",
-            "process(List workitemIds,String action,String commments,String nextApprover)\tList<Id>": "process(${1:List workitemIds},${2:String action},${3:String commments},${4:String nextApprover})$0",
+            "scheduleBatch(APEX_OBJECT batchable,String jobName,Integer minutesFromNow)\tString": "scheduleBatch(${1:APEX_OBJECT batchable}, ${2:String jobName}, ${3:Integer minutesFromNow})$0",
+            "equals(ANY left,ANY right)\tBoolean": "equals(${1:ANY left}, ${2:ANY right})$0",
+            "process(List workitemIds,String action,String commments,String nextApprover)\tList<Id>": "process(${1:List workitemIds}, ${2:String action}, ${3:String commments}, ${4:String nextApprover})$0",
             "isScheduled()\tBoolean": "isScheduled()$0",
-            "debug(APEX_OBJECT logLevel,ANY o)\tvoid": "debug(${1:APEX_OBJECT logLevel},${2:ANY o})$0",
-            "resetPassword(Id userId,Boolean sendUserEmail)\tSystem.ResetPasswordResult": "resetPassword(${1:Id userId},${2:Boolean sendUserEmail})$0",
+            "debug(APEX_OBJECT logLevel,ANY o)\tvoid": "debug(${1:APEX_OBJECT logLevel}, ${2:ANY o})$0",
+            "resetPassword(Id userId,Boolean sendUserEmail)\tSystem.ResetPasswordResult": "resetPassword(${1:Id userId}, ${2:Boolean sendUserEmail})$0",
             "requestVersion()\tsystem.Version": "requestVersion()$0",
             "getApplicationReadWriteMode()\tsystem.ApplicationReadWriteMode": "getApplicationReadWriteMode()$0",
             "purgeOldAsyncJobs(Date date)\tInteger": "purgeOldAsyncJobs(${1:Date date})$0",
-            "setPassword(Id userId,String password)\tvoid": "setPassword(${1:Id userId},${2:String password})$0",
+            "setPassword(Id userId,String password)\tvoid": "setPassword(${1:Id userId}, ${2:String password})$0",
             "abortJob(String jobId)\tvoid": "abortJob(${1:String jobId})$0",
             "isFuture()\tBoolean": "isFuture()$0",
             "currentTimeMillis()\tLong": "currentTimeMillis()$0"
@@ -180,7 +180,7 @@ apex_completions = {
             "getChatKey()\tString": "getChatKey()$0"
         },
         "constructors": {
-            "LiveChatRoutingRoute(String chatKey,String userId)\t": "LiveChatRoutingRoute(${1:String chatKey},${2:String userId})$0"
+            "LiveChatRoutingRoute(String chatKey,String userId)\t": "LiveChatRoutingRoute(${1:String chatKey}, ${2:String userId})$0"
         }
     },
     "fieldchangevaluetype": {
@@ -299,23 +299,23 @@ apex_completions = {
         "methods": {
             "unescapeHtml4()\tString": "unescapeHtml4()$0",
             "unescapeEcmaScript()\tString": "unescapeEcmaScript()$0",
-            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg},${2:Boolean escape})$0",
-            "offsetByCodePoints(Integer index,Integer codePointOffset)\tInteger": "offsetByCodePoints(${1:Integer index},${2:Integer codePointOffset})$0",
+            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg}, ${2:Boolean escape})$0",
+            "offsetByCodePoints(Integer index,Integer codePointOffset)\tInteger": "offsetByCodePoints(${1:Integer index}, ${2:Integer codePointOffset})$0",
             "deleteWhitespace()\tString": "deleteWhitespace()$0",
             "isAlphanumeric()\tBoolean": "isAlphanumeric()$0",
             "hashCode()\tInteger": "hashCode()$0",
-            "leftPad(Integer len,String padStr)\tString": "leftPad(${1:Integer len},${2:String padStr})$0",
+            "leftPad(Integer len,String padStr)\tString": "leftPad(${1:Integer len}, ${2:String padStr})$0",
             "containsWhitespace()\tBoolean": "containsWhitespace()$0",
-            "join(APEX_OBJECT iterableObj,String separator)\tString": "join(${1:APEX_OBJECT iterableObj},${2:String separator})$0",
+            "join(APEX_OBJECT iterableObj,String separator)\tString": "join(${1:APEX_OBJECT iterableObj}, ${2:String separator})$0",
             "toUpperCase(String locale)\tString": "toUpperCase(${1:String locale})$0",
             "valueOf(Decimal d)\tString": "valueOf(${1:Decimal d})$0",
-            "mid(Integer pos,Integer len)\tString": "mid(${1:Integer pos},${2:Integer len})$0",
-            "replace(String target,String replacement)\tString": "replace(${1:String target},${2:String replacement})$0",
+            "mid(Integer pos,Integer len)\tString": "mid(${1:Integer pos}, ${2:Integer len})$0",
+            "replace(String target,String replacement)\tString": "replace(${1:String target}, ${2:String replacement})$0",
             "remove(String toRemove)\tString": "remove(${1:String toRemove})$0",
             "getLevenshteinDistance(String other)\tInteger": "getLevenshteinDistance(${1:String other})$0",
             "isAllLowerCase()\tBoolean": "isAllLowerCase()$0",
             "removeEndIgnoreCase(String toRemove)\tString": "removeEndIgnoreCase(${1:String toRemove})$0",
-            "abbreviate(Integer maxWidth,Integer offset)\tString": "abbreviate(${1:Integer maxWidth},${2:Integer offset})$0",
+            "abbreviate(Integer maxWidth,Integer offset)\tString": "abbreviate(${1:Integer maxWidth}, ${2:Integer offset})$0",
             "getCommonPrefix(List strings)\tString": "getCommonPrefix(${1:List strings})$0",
             "startsWithIgnoreCase(String prefix)\tBoolean": "startsWithIgnoreCase(${1:String prefix})$0",
             "escapeUnicode()\tString": "escapeUnicode()$0",
@@ -323,14 +323,14 @@ apex_completions = {
             "right(Integer len)\tString": "right(${1:Integer len})$0",
             "countMatches(String searchStr)\tInteger": "countMatches(${1:String searchStr})$0",
             "codePointBefore(Integer index)\tInteger": "codePointBefore(${1:Integer index})$0",
-            "split(String regex,Integer limit)\tList<String>": "split(${1:String regex},${2:Integer limit})$0",
+            "split(String regex,Integer limit)\tList<String>": "split(${1:String regex}, ${2:Integer limit})$0",
             "compareTo(String str)\tInteger": "compareTo(${1:String str})$0",
             "removeEnd(String toRemove)\tString": "removeEnd(${1:String toRemove})$0",
             "isNotBlank(String str)\tBoolean": "isNotBlank(${1:String str})$0",
-            "indexOfChar(Integer ch,Integer fromIndex)\tInteger": "indexOfChar(${1:Integer ch},${2:Integer fromIndex})$0",
+            "indexOfChar(Integer ch,Integer fromIndex)\tInteger": "indexOfChar(${1:Integer ch}, ${2:Integer fromIndex})$0",
             "addError(APEX_OBJECT msg)\tvoid": "addError(${1:APEX_OBJECT msg})$0",
             "addError(String msg)\tvoid": "addError(${1:String msg})$0",
-            "substringBetween(String open,String close)\tString": "substringBetween(${1:String open},${2:String close})$0",
+            "substringBetween(String open,String close)\tString": "substringBetween(${1:String open}, ${2:String close})$0",
             "indexOfAny(String searchChars)\tInteger": "indexOfAny(${1:String searchChars})$0",
             "substringAfter(String separator)\tString": "substringAfter(${1:String separator})$0",
             "substringBefore(String separator)\tString": "substringBefore(${1:String separator})$0",
@@ -343,7 +343,7 @@ apex_completions = {
             "substringBeforeLast(String separator)\tString": "substringBeforeLast(${1:String separator})$0",
             "fromCharArray(List<Integer> charArr)\tString": "fromCharArray(${1:List<Integer> charArr})$0",
             "unescapeXml()\tString": "unescapeXml()$0",
-            "indexOfIgnoreCase(String searchStr,Integer startPos)\tInteger": "indexOfIgnoreCase(${1:String searchStr},${2:Integer startPos})$0",
+            "indexOfIgnoreCase(String searchStr,Integer startPos)\tInteger": "indexOfIgnoreCase(${1:String searchStr}, ${2:Integer startPos})$0",
             "unescapeJava()\tString": "unescapeJava()$0",
             "getChars()\tList<Integer>": "getChars()$0",
             "isBlank(String str)\tBoolean": "isBlank(${1:String str})$0",
@@ -352,10 +352,10 @@ apex_completions = {
             "length()\tInteger": "length()$0",
             "toLowerCase(String locale)\tString": "toLowerCase(${1:String locale})$0",
             "toLowerCase()\tString": "toLowerCase()$0",
-            "lastIndexOfIgnoreCase(String searchStr,Integer startPos)\tInteger": "lastIndexOfIgnoreCase(${1:String searchStr},${2:Integer startPos})$0",
+            "lastIndexOfIgnoreCase(String searchStr,Integer startPos)\tInteger": "lastIndexOfIgnoreCase(${1:String searchStr}, ${2:Integer startPos})$0",
             "valueOf(Object o)\tString": "valueOf(${1:Object o})$0",
             "removeStartIgnoreCase(String toRemove)\tString": "removeStartIgnoreCase(${1:String toRemove})$0",
-            "lastIndexOf(String searchStr,Integer startPos)\tInteger": "lastIndexOf(${1:String searchStr},${2:Integer startPos})$0",
+            "lastIndexOf(String searchStr,Integer startPos)\tInteger": "lastIndexOf(${1:String searchStr}, ${2:Integer startPos})$0",
             "splitByCharacterTypeCamelCase()\tList<String>": "splitByCharacterTypeCamelCase()$0",
             "startsWith(String str)\tBoolean": "startsWith(${1:String str})$0",
             "splitByCharacterType()\tList<String>": "splitByCharacterType()$0",
@@ -365,7 +365,7 @@ apex_completions = {
             "isAlpha()\tBoolean": "isAlpha()$0",
             "isNotEmpty(String str)\tBoolean": "isNotEmpty(${1:String str})$0",
             "endsWithIgnoreCase(String suffix)\tBoolean": "endsWithIgnoreCase(${1:String suffix})$0",
-            "overlay(String overlay,Integer start,Integer end)\tString": "overlay(${1:String overlay},${2:Integer start},${3:Integer end})$0",
+            "overlay(String overlay,Integer start,Integer end)\tString": "overlay(${1:String overlay}, ${2:Integer start}, ${3:Integer end})$0",
             "substring(Integer start)\tString": "substring(${1:Integer start})$0",
             "removeStart(String toRemove)\tString": "removeStart(${1:String toRemove})$0",
             "substringAfterLast(String separator)\tString": "substringAfterLast(${1:String separator})$0",
@@ -373,12 +373,12 @@ apex_completions = {
             "substringBetween(String tag)\tString": "substringBetween(${1:String tag})$0",
             "isAsciiPrintable()\tBoolean": "isAsciiPrintable()$0",
             "normalizeSpace()\tString": "normalizeSpace()$0",
-            "format(String format,List<String> arguments)\tString": "format(${1:String format},${2:List<String> arguments})$0",
+            "format(String format,List<String> arguments)\tString": "format(${1:String format}, ${2:List<String> arguments})$0",
             "isWhitespace()\tBoolean": "isWhitespace()$0",
             "isEmpty(String str)\tBoolean": "isEmpty(${1:String str})$0",
             "unescapeCsv()\tString": "unescapeCsv()$0",
             "lastIndexOf(String str)\tInteger": "lastIndexOf(${1:String str})$0",
-            "lastIndexOfChar(Integer ch,Integer fromIndex)\tInteger": "lastIndexOfChar(${1:Integer ch},${2:Integer fromIndex})$0",
+            "lastIndexOfChar(Integer ch,Integer fromIndex)\tInteger": "lastIndexOfChar(${1:Integer ch}, ${2:Integer fromIndex})$0",
             "escapeHtml3()\tString": "escapeHtml3()$0",
             "valueOf(Datetime dt)\tString": "valueOf(${1:Datetime dt})$0",
             "lastIndexOfIgnoreCase(String searchStr)\tInteger": "lastIndexOfIgnoreCase(${1:String searchStr})$0",
@@ -394,36 +394,36 @@ apex_completions = {
             "indexOfAnyBut(String searchChars)\tInteger": "indexOfAnyBut(${1:String searchChars})$0",
             "containsNone(String invalidChars)\tBoolean": "containsNone(${1:String invalidChars})$0",
             "escapeEcmaScript()\tString": "escapeEcmaScript()$0",
-            "substring(Integer start,Integer end)\tString": "substring(${1:Integer start},${2:Integer end})$0",
+            "substring(Integer start,Integer end)\tString": "substring(${1:Integer start}, ${2:Integer end})$0",
             "reverse()\tString": "reverse()$0",
             "indexOfChar(Integer ch)\tInteger": "indexOfChar(${1:Integer ch})$0",
             "escapeXml()\tString": "escapeXml()$0",
             "repeat(Integer numTimes)\tString": "repeat(${1:Integer numTimes})$0",
             "isAlphanumericSpace()\tBoolean": "isAlphanumericSpace()$0",
-            "replaceAll(String regex,String replacement)\tString": "replaceAll(${1:String regex},${2:String replacement})$0",
+            "replaceAll(String regex,String replacement)\tString": "replaceAll(${1:String regex}, ${2:String replacement})$0",
             "endsWith(String str)\tBoolean": "endsWith(${1:String str})$0",
             "rightPad(Integer len)\tString": "rightPad(${1:Integer len})$0",
             "capitalize()\tString": "capitalize()$0",
             "center(Integer size)\tString": "center(${1:Integer size})$0",
-            "indexOf(String str,Integer startPos)\tInteger": "indexOf(${1:String str},${2:Integer startPos})$0",
+            "indexOf(String str,Integer startPos)\tInteger": "indexOf(${1:String str}, ${2:Integer startPos})$0",
             "abbreviate(Integer maxWidth)\tString": "abbreviate(${1:Integer maxWidth})$0",
-            "rightPad(Integer len,String padStr)\tString": "rightPad(${1:Integer len},${2:String padStr})$0",
-            "center(Integer size,String padStr)\tString": "center(${1:Integer size},${2:String padStr})$0",
+            "rightPad(Integer len,String padStr)\tString": "rightPad(${1:Integer len}, ${2:String padStr})$0",
+            "center(Integer size,String padStr)\tString": "center(${1:Integer size}, ${2:String padStr})$0",
             "isAlphaSpace()\tBoolean": "isAlphaSpace()$0",
             "lastIndexOfChar(Integer ch)\tInteger": "lastIndexOfChar(${1:Integer ch})$0",
             "unescapeUnicode()\tString": "unescapeUnicode()$0",
-            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg},${2:Boolean escape})$0",
+            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg}, ${2:Boolean escape})$0",
             "escapeJava()\tString": "escapeJava()$0",
             "equalsIgnoreCase(String other)\tBoolean": "equalsIgnoreCase(${1:String other})$0",
             "charAt(Integer index)\tInteger": "charAt(${1:Integer index})$0",
             "containsAny(String validChars)\tBoolean": "containsAny(${1:String validChars})$0",
-            "replaceFirst(String regex,String replacement)\tString": "replaceFirst(${1:String regex},${2:String replacement})$0",
+            "replaceFirst(String regex,String replacement)\tString": "replaceFirst(${1:String regex}, ${2:String replacement})$0",
             "left(Integer len)\tString": "left(${1:Integer len})$0",
             "valueOf(Date d)\tString": "valueOf(${1:Date d})$0",
             "valueOf(Integer i)\tString": "valueOf(${1:Integer i})$0",
-            "repeat(String separator,Integer numTimes)\tString": "repeat(${1:String separator},${2:Integer numTimes})$0",
-            "getLevenshteinDistance(String other,Integer threshold)\tInteger": "getLevenshteinDistance(${1:String other},${2:Integer threshold})$0",
-            "codePointCount(Integer beginIndex,Integer endIndex)\tInteger": "codePointCount(${1:Integer beginIndex},${2:Integer endIndex})$0",
+            "repeat(String separator,Integer numTimes)\tString": "repeat(${1:String separator}, ${2:Integer numTimes})$0",
+            "getLevenshteinDistance(String other,Integer threshold)\tInteger": "getLevenshteinDistance(${1:String other}, ${2:Integer threshold})$0",
+            "codePointCount(Integer beginIndex,Integer endIndex)\tInteger": "codePointCount(${1:Integer beginIndex}, ${2:Integer endIndex})$0",
             "valueOfGmt(Datetime dt)\tString": "valueOfGmt(${1:Datetime dt})$0",
             "split(String regex)\tList<String>": "split(${1:String regex})$0",
             "trim()\tString": "trim()$0",
@@ -450,7 +450,7 @@ apex_completions = {
             "getTypeName()\tString": "getTypeName()$0"
         },
         "constructors": {
-            "InvalidSnapshotDateException(String param1,Exception param2)\t": "InvalidSnapshotDateException(${1:String param1},${2:Exception param2})$0",
+            "InvalidSnapshotDateException(String param1,Exception param2)\t": "InvalidSnapshotDateException(${1:String param1}, ${2:Exception param2})$0",
             "InvalidSnapshotDateException(String param1)\t": "InvalidSnapshotDateException(${1:String param1})$0",
             "InvalidSnapshotDateException()\t": "InvalidSnapshotDateException()$0",
             "InvalidSnapshotDateException(Exception param1)\t": "InvalidSnapshotDateException(${1:Exception param1})$0"
@@ -483,7 +483,7 @@ apex_completions = {
         "properties": {},
         "methods": {
             "getNetworkId()\tString": "getNetworkId()$0",
-            "forwardToAuthPage(String startUrl,String displayType)\tSystem.PageReference": "forwardToAuthPage(${1:String startUrl},${2:String displayType})$0",
+            "forwardToAuthPage(String startUrl,String displayType)\tSystem.PageReference": "forwardToAuthPage(${1:String startUrl}, ${2:String displayType})$0",
             "communitiesLanding()\tSystem.PageReference": "communitiesLanding()$0",
             "forwardToAuthPage(String startUrl)\tSystem.PageReference": "forwardToAuthPage(${1:String startUrl})$0"
         },
@@ -506,7 +506,7 @@ apex_completions = {
         },
         "constructors": {
             "ReportFilter()\t": "ReportFilter()$0",
-            "ReportFilter(String column,String operator,String value)\t": "ReportFilter(${1:String column},${2:String operator},${3:String value})$0"
+            "ReportFilter(String column,String operator,String value)\t": "ReportFilter(${1:String column}, ${2:String operator}, ${3:String value})$0"
         }
     },
     "zonesearchresulttype": {
@@ -699,7 +699,7 @@ apex_completions = {
             "setReportType(reports.ReportType reportType)\tvoid": "setReportType(${1:reports.ReportType reportType})$0"
         },
         "constructors": {
-            "ReportMetadata(String name,String developerName,Id id,List<reports.GroupingInfo> groupingsAcross,List<reports.GroupingInfo> groupingsDown,List<String> aggregates,List<String> detailColumns,String reportBooleanFilter,List<reports.ReportFilter> reportFilters,List<String> historicalSnapshotDates,reports.ReportFormat reportFormat,reports.ReportType reportType,String currencyCode)\t": "ReportMetadata(${1:String name},${2:String developerName},${3:Id id},${4:List<reports.GroupingInfo> groupingsAcross},${5:List<reports.GroupingInfo> groupingsDown},${6:List<String> aggregates},${7:List<String> detailColumns},${8:String reportBooleanFilter},${9:List<reports.ReportFilter> reportFilters},${10:List<String> historicalSnapshotDates},${11:reports.ReportFormat reportFormat},${12:reports.ReportType reportType},${13:String currencyCode})$0",
+            "ReportMetadata(String name,String developerName,Id id,List<reports.GroupingInfo> groupingsAcross,List<reports.GroupingInfo> groupingsDown,List<String> aggregates,List<String> detailColumns,String reportBooleanFilter,List<reports.ReportFilter> reportFilters,List<String> historicalSnapshotDates,reports.ReportFormat reportFormat,reports.ReportType reportType,String currencyCode)\t": "ReportMetadata(${1:String name}, ${2:String developerName}, ${3:Id id}, ${4:List<reports.GroupingInfo> groupingsAcross}, ${5:List<reports.GroupingInfo> groupingsDown}, ${6:List<String> aggregates}, ${7:List<String> detailColumns}, ${8:String reportBooleanFilter}, ${9:List<reports.ReportFilter> reportFilters}, ${10:List<String> historicalSnapshotDates}, ${11:reports.ReportFormat reportFormat}, ${12:reports.ReportType reportType}, ${13:String currencyCode})$0",
             "ReportMetadata()\t": "ReportMetadata()$0"
         }
     },
@@ -709,17 +709,17 @@ apex_completions = {
         "properties": {},
         "methods": {
             "getRandomLong()\tLong": "getRandomLong()$0",
-            "encrypt(String algorithmName,Blob secretKey,Blob initializationVector,Blob clearData)\tBlob": "encrypt(${1:String algorithmName},${2:Blob secretKey},${3:Blob initializationVector},${4:Blob clearData})$0",
-            "decrypt(String algorithmName,Blob secretKey,Blob initializationVector,Blob encryptedData)\tBlob": "decrypt(${1:String algorithmName},${2:Blob secretKey},${3:Blob initializationVector},${4:Blob encryptedData})$0",
-            "signWithCertificate(String algorithmName,Blob input,String certDevName)\tBlob": "signWithCertificate(${1:String algorithmName},${2:Blob input},${3:String certDevName})$0",
+            "encrypt(String algorithmName,Blob secretKey,Blob initializationVector,Blob clearData)\tBlob": "encrypt(${1:String algorithmName}, ${2:Blob secretKey}, ${3:Blob initializationVector}, ${4:Blob clearData})$0",
+            "decrypt(String algorithmName,Blob secretKey,Blob initializationVector,Blob encryptedData)\tBlob": "decrypt(${1:String algorithmName}, ${2:Blob secretKey}, ${3:Blob initializationVector}, ${4:Blob encryptedData})$0",
+            "signWithCertificate(String algorithmName,Blob input,String certDevName)\tBlob": "signWithCertificate(${1:String algorithmName}, ${2:Blob input}, ${3:String certDevName})$0",
             "getRandomInteger()\tInteger": "getRandomInteger()$0",
-            "signXml(String algorithmName,dom.XmlNode node,String idAttributeName,String certDevName)\tvoid": "signXml(${1:String algorithmName},${2:dom.XmlNode node},${3:String idAttributeName},${4:String certDevName})$0",
-            "encryptWithManagedIV(String algorithmName,Blob secretKey,Blob clearData)\tBlob": "encryptWithManagedIV(${1:String algorithmName},${2:Blob secretKey},${3:Blob clearData})$0",
-            "decryptWithManagedIV(String algorithmName,Blob secretKey,Blob encryptedData)\tBlob": "decryptWithManagedIV(${1:String algorithmName},${2:Blob secretKey},${3:Blob encryptedData})$0",
+            "signXml(String algorithmName,dom.XmlNode node,String idAttributeName,String certDevName)\tvoid": "signXml(${1:String algorithmName}, ${2:dom.XmlNode node}, ${3:String idAttributeName}, ${4:String certDevName})$0",
+            "encryptWithManagedIV(String algorithmName,Blob secretKey,Blob clearData)\tBlob": "encryptWithManagedIV(${1:String algorithmName}, ${2:Blob secretKey}, ${3:Blob clearData})$0",
+            "decryptWithManagedIV(String algorithmName,Blob secretKey,Blob encryptedData)\tBlob": "decryptWithManagedIV(${1:String algorithmName}, ${2:Blob secretKey}, ${3:Blob encryptedData})$0",
             "generateAesKey(Integer size)\tBlob": "generateAesKey(${1:Integer size})$0",
-            "generateMac(String algorithmName,Blob input,Blob privateKey)\tBlob": "generateMac(${1:String algorithmName},${2:Blob input},${3:Blob privateKey})$0",
-            "generateDigest(String algorithmName,Blob input)\tBlob": "generateDigest(${1:String algorithmName},${2:Blob input})$0",
-            "sign(String algorithmName,Blob input,Blob privateKey)\tBlob": "sign(${1:String algorithmName},${2:Blob input},${3:Blob privateKey})$0"
+            "generateMac(String algorithmName,Blob input,Blob privateKey)\tBlob": "generateMac(${1:String algorithmName}, ${2:Blob input}, ${3:Blob privateKey})$0",
+            "generateDigest(String algorithmName,Blob input)\tBlob": "generateDigest(${1:String algorithmName}, ${2:Blob input})$0",
+            "sign(String algorithmName,Blob input,Blob privateKey)\tBlob": "sign(${1:String algorithmName}, ${2:Blob input}, ${3:Blob privateKey})$0"
         },
         "constructors": {
             "Crypto()\t": "Crypto()$0"
@@ -793,17 +793,17 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg},${2:Boolean escape})$0",
-            "divide(Decimal divisor,Integer scale,APEX_OBJECT roundingMode)\tDecimal": "divide(${1:Decimal divisor},${2:Integer scale},${3:APEX_OBJECT roundingMode})$0",
+            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg}, ${2:Boolean escape})$0",
+            "divide(Decimal divisor,Integer scale,APEX_OBJECT roundingMode)\tDecimal": "divide(${1:Decimal divisor}, ${2:Integer scale}, ${3:APEX_OBJECT roundingMode})$0",
             "valueOf(Long lng)\tDecimal": "valueOf(${1:Long lng})$0",
-            "setScale(Integer scale,system.RoundingMode roundingMode)\tDecimal": "setScale(${1:Integer scale},${2:system.RoundingMode roundingMode})$0",
+            "setScale(Integer scale,system.RoundingMode roundingMode)\tDecimal": "setScale(${1:Integer scale}, ${2:system.RoundingMode roundingMode})$0",
             "valueOf(String str)\tDecimal": "valueOf(${1:String str})$0",
             "precision()\tInteger": "precision()$0",
             "setScale(Integer scale)\tDecimal": "setScale(${1:Integer scale})$0",
-            "divide(Decimal divisor,Integer scale)\tDecimal": "divide(${1:Decimal divisor},${2:Integer scale})$0",
+            "divide(Decimal divisor,Integer scale)\tDecimal": "divide(${1:Decimal divisor}, ${2:Integer scale})$0",
             "scale()\tInteger": "scale()$0",
             "addError(APEX_OBJECT msg)\tvoid": "addError(${1:APEX_OBJECT msg})$0",
-            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg},${2:Boolean escape})$0",
+            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg}, ${2:Boolean escape})$0",
             "doubleValue()\tDouble": "doubleValue()$0",
             "round()\tLong": "round()$0",
             "pow(Integer exponent)\tDecimal": "pow(${1:Integer exponent})$0",
@@ -840,7 +840,7 @@ apex_completions = {
         "properties": {},
         "methods": {
             "newSObject(Id id)\tSObject": "newSObject(${1:Id id})$0",
-            "newSObject(Id recordTypeId,Boolean loadDefaultValues)\tSObject": "newSObject(${1:Id recordTypeId},${2:Boolean loadDefaultValues})$0",
+            "newSObject(Id recordTypeId,Boolean loadDefaultValues)\tSObject": "newSObject(${1:Id recordTypeId}, ${2:Boolean loadDefaultValues})$0",
             "newSObject()\tSObject": "newSObject()$0",
             "getDescribe()\tSchema.DescribeSObjectResult": "getDescribe()$0"
         },
@@ -1102,21 +1102,21 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "testInstall(system.InstallHandler script,system.Version version,Boolean isPush)\tvoid": "testInstall(${1:system.InstallHandler script},${2:system.Version version},${3:Boolean isPush})$0",
+            "testInstall(system.InstallHandler script,system.Version version,Boolean isPush)\tvoid": "testInstall(${1:system.InstallHandler script}, ${2:system.Version version}, ${3:Boolean isPush})$0",
             "testUninstall(system.UninstallHandler script)\tvoid": "testUninstall(${1:system.UninstallHandler script})$0",
             "isRunningTest()\tBoolean": "isRunningTest()$0",
             "stopTest()\tvoid": "stopTest()$0",
             "invokePage(System.PageReference p)\tComponent.apex.page": "invokePage(${1:System.PageReference p})$0",
-            "setContinuationResponse(String label,System.HttpResponse response)\tvoid": "setContinuationResponse(${1:String label},${2:System.HttpResponse response})$0",
+            "setContinuationResponse(String label,System.HttpResponse response)\tvoid": "setContinuationResponse(${1:String label}, ${2:System.HttpResponse response})$0",
             "setFixedSearchResults(List<String> searchResultsIds)\tvoid": "setFixedSearchResults(${1:List<String> searchResultsIds})$0",
-            "loadData(Schema.SObjectType sobjectType,String staticResourceName)\tList<SObject>": "loadData(${1:Schema.SObjectType sobjectType},${2:String staticResourceName})$0",
+            "loadData(Schema.SObjectType sobjectType,String staticResourceName)\tList<SObject>": "loadData(${1:Schema.SObjectType sobjectType}, ${2:String staticResourceName})$0",
             "startTest()\tvoid": "startTest()$0",
             "setCurrentPageReference(Object pageReference)\tvoid": "setCurrentPageReference(${1:Object pageReference})$0",
             "setReadOnlyApplicationMode(Boolean readOnlyApplicationMode)\tvoid": "setReadOnlyApplicationMode(${1:Boolean readOnlyApplicationMode})$0",
             "setCurrentPage(Object pageReference)\tvoid": "setCurrentPage(${1:Object pageReference})$0",
-            "invokeContinuationMethod(Object controller,system.Continuation continuation)\tObject": "invokeContinuationMethod(${1:Object controller},${2:system.Continuation continuation})$0",
-            "testInstall(system.InstallHandler script,system.Version version)\tvoid": "testInstall(${1:system.InstallHandler script},${2:system.Version version})$0",
-            "setMock(system.Type interfaceType,Object mock)\tvoid": "setMock(${1:system.Type interfaceType},${2:Object mock})$0",
+            "invokeContinuationMethod(Object controller,system.Continuation continuation)\tObject": "invokeContinuationMethod(${1:Object controller}, ${2:system.Continuation continuation})$0",
+            "testInstall(system.InstallHandler script,system.Version version)\tvoid": "testInstall(${1:system.InstallHandler script}, ${2:system.Version version})$0",
+            "setMock(system.Type interfaceType,Object mock)\tvoid": "setMock(${1:system.Type interfaceType}, ${2:Object mock})$0",
             "getStandardPricebookId()\tId": "getStandardPricebookId()$0"
         },
         "constructors": {
@@ -1136,8 +1136,8 @@ apex_completions = {
             "KEY_DEVELOPER_NAME": "KEY_DEVELOPER_NAME$0"
         },
         "methods": {
-            "testCanvasLifecycle(Canvas.CanvasLifecycleHandler handler,Canvas.RenderContext mockRenderContext)\tvoid": "testCanvasLifecycle(${1:Canvas.CanvasLifecycleHandler handler},${2:Canvas.RenderContext mockRenderContext})$0",
-            "mockRenderContext(MAP<String,String> appContextTestValues,MAP<String,String> envContextTestValues)\tCanvas.RenderContext": "mockRenderContext(${1:MAP<String,String> appContextTestValues},${2:MAP<String,String> envContextTestValues})$0"
+            "testCanvasLifecycle(Canvas.CanvasLifecycleHandler handler,Canvas.RenderContext mockRenderContext)\tvoid": "testCanvasLifecycle(${1:Canvas.CanvasLifecycleHandler handler}, ${2:Canvas.RenderContext mockRenderContext})$0",
+            "mockRenderContext(MAP<String,String> appContextTestValues,MAP<String,String> envContextTestValues)\tCanvas.RenderContext": "mockRenderContext(${1:MAP<String,String> appContextTestValues}, ${2:MAP<String,String> envContextTestValues})$0"
         },
         "constructors": {
             "Test()\t": "Test()$0"
@@ -1149,27 +1149,27 @@ apex_completions = {
         "properties": {},
         "methods": {
             "clear()\tvoid": "clear()$0",
-            "clone(Boolean preserveId,Boolean deep,Boolean preserveReadOnlyTimestamps)\tSObject": "clone(${1:Boolean preserveId},${2:Boolean deep},${3:Boolean preserveReadOnlyTimestamps})$0",
-            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg},${2:Boolean escape})$0",
+            "clone(Boolean preserveId,Boolean deep,Boolean preserveReadOnlyTimestamps)\tSObject": "clone(${1:Boolean preserveId}, ${2:Boolean deep}, ${3:Boolean preserveReadOnlyTimestamps})$0",
+            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg}, ${2:Boolean escape})$0",
             "getSObjectType()\tSchema.SObjectType": "getSObjectType()$0",
             "get(String field)\tObject": "get(${1:String field})$0",
-            "clone(Boolean preserveId,Boolean deep,Boolean preserveReadOnlyTimestamps,Boolean preserveAutoNumbers)\tSObject": "clone(${1:Boolean preserveId},${2:Boolean deep},${3:Boolean preserveReadOnlyTimestamps},${4:Boolean preserveAutoNumbers})$0",
+            "clone(Boolean preserveId,Boolean deep,Boolean preserveReadOnlyTimestamps,Boolean preserveAutoNumbers)\tSObject": "clone(${1:Boolean preserveId}, ${2:Boolean deep}, ${3:Boolean preserveReadOnlyTimestamps}, ${4:Boolean preserveAutoNumbers})$0",
             "getSObject(Schema.SObjectField field)\tSObject": "getSObject(${1:Schema.SObjectField field})$0",
             "get(Schema.SObjectField field)\tObject": "get(${1:Schema.SObjectField field})$0",
-            "putSObject(Schema.SObjectField field,SObject value)\tSObject": "putSObject(${1:Schema.SObjectField field},${2:SObject value})$0",
+            "putSObject(Schema.SObjectField field,SObject value)\tSObject": "putSObject(${1:Schema.SObjectField field}, ${2:SObject value})$0",
             "setOptions(APEX_OBJECT options)\tvoid": "setOptions(${1:APEX_OBJECT options})$0",
             "getOptions()\tDatabase.DMLOptions": "getOptions()$0",
-            "clone(Boolean preserveId,Boolean deep)\tSObject": "clone(${1:Boolean preserveId},${2:Boolean deep})$0",
+            "clone(Boolean preserveId,Boolean deep)\tSObject": "clone(${1:Boolean preserveId}, ${2:Boolean deep})$0",
             "getQuickActionName()\tString": "getQuickActionName()$0",
-            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg},${2:Boolean escape})$0",
-            "putSObject(String field,SObject value)\tSObject": "putSObject(${1:String field},${2:SObject value})$0",
+            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg}, ${2:Boolean escape})$0",
+            "putSObject(String field,SObject value)\tSObject": "putSObject(${1:String field}, ${2:SObject value})$0",
             "clone()\tSObject": "clone()$0",
-            "put(Schema.SObjectField field,Object value)\tObject": "put(${1:Schema.SObjectField field},${2:Object value})$0",
+            "put(Schema.SObjectField field,Object value)\tObject": "put(${1:Schema.SObjectField field}, ${2:Object value})$0",
             "getSObjects(String field)\tList<SObject>": "getSObjects(${1:String field})$0",
             "addError(String msg)\tvoid": "addError(${1:String msg})$0",
             "clone(Boolean preserveId)\tSObject": "clone(${1:Boolean preserveId})$0",
             "getSObject(String field)\tSObject": "getSObject(${1:String field})$0",
-            "put(String field,Object value)\tObject": "put(${1:String field},${2:Object value})$0",
+            "put(String field,Object value)\tObject": "put(${1:String field}, ${2:Object value})$0",
             "addError(APEX_OBJECT msg)\tvoid": "addError(${1:APEX_OBJECT msg})$0",
             "getSObjects(Schema.SObjectField field)\tList<SObject>": "getSObjects(${1:Schema.SObjectField field})$0"
         },
@@ -1180,40 +1180,40 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "getTrendingTopics(String communityId,Integer maxResults)\tConnectApi.TopicPage": "getTrendingTopics(${1:String communityId},${2:Integer maxResults})$0",
-            "getTopics(String communityId,Integer pageParam,Integer pageSize,ConnectApi.TopicSort sortParam)\tConnectApi.TopicPage": "getTopics(${1:String communityId},${2:Integer pageParam},${3:Integer pageSize},${4:ConnectApi.TopicSort sortParam})$0",
-            "getTopics(String communityId,String q,Integer pageParam,Integer pageSize)\tConnectApi.TopicPage": "getTopics(${1:String communityId},${2:String q},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "getTopics(String communityId,Integer pageParam,Integer pageSize)\tConnectApi.TopicPage": "getTopics(${1:String communityId},${2:Integer pageParam},${3:Integer pageSize})$0",
-            "setTestGetTrendingTopics(String communityId,Integer maxResults,ConnectApi.TopicPage result)\tvoid": "setTestGetTrendingTopics(${1:String communityId},${2:Integer maxResults},${3:ConnectApi.TopicPage result})$0",
-            "unassignTopic(String communityId,String recordId,String topicId)\tvoid": "unassignTopic(${1:String communityId},${2:String recordId},${3:String topicId})$0",
-            "getTopicSuggestions(String communityId,String recordId)\tConnectApi.TopicSuggestionPage": "getTopicSuggestions(${1:String communityId},${2:String recordId})$0",
-            "assignTopic(String communityId,String recordId,String topicId)\tConnectApi.Topic": "assignTopic(${1:String communityId},${2:String recordId},${3:String topicId})$0",
-            "setTestGetRelatedTopics(String communityId,String topicId,ConnectApi.TopicPage result)\tvoid": "setTestGetRelatedTopics(${1:String communityId},${2:String topicId},${3:ConnectApi.TopicPage result})$0",
-            "getRecentlyTalkingAboutTopicsForGroup(String communityId,String groupId)\tConnectApi.TopicPage": "getRecentlyTalkingAboutTopicsForGroup(${1:String communityId},${2:String groupId})$0",
-            "setTestGetTopicSuggestionsForText(String communityId,String text,Integer maxResults,ConnectApi.TopicSuggestionPage result)\tvoid": "setTestGetTopicSuggestionsForText(${1:String communityId},${2:String text},${3:Integer maxResults},${4:ConnectApi.TopicSuggestionPage result})$0",
-            "getTopics(String communityId,String q,ConnectApi.TopicSort sortParam)\tConnectApi.TopicPage": "getTopics(${1:String communityId},${2:String q},${3:ConnectApi.TopicSort sortParam})$0",
-            "getTopicSuggestions(String communityId,String recordId,Integer maxResults)\tConnectApi.TopicSuggestionPage": "getTopicSuggestions(${1:String communityId},${2:String recordId},${3:Integer maxResults})$0",
-            "getTopics(String communityId,ConnectApi.TopicSort sortParam)\tConnectApi.TopicPage": "getTopics(${1:String communityId},${2:ConnectApi.TopicSort sortParam})$0",
-            "getRecentlyTalkingAboutTopicsForUser(String communityId,String userId)\tConnectApi.TopicPage": "getRecentlyTalkingAboutTopicsForUser(${1:String communityId},${2:String userId})$0",
-            "getGroupsRecentlyTalkingAboutTopic(String communityId,String topicId)\tConnectApi.ChatterGroupSummaryPage": "getGroupsRecentlyTalkingAboutTopic(${1:String communityId},${2:String topicId})$0",
+            "getTrendingTopics(String communityId,Integer maxResults)\tConnectApi.TopicPage": "getTrendingTopics(${1:String communityId}, ${2:Integer maxResults})$0",
+            "getTopics(String communityId,Integer pageParam,Integer pageSize,ConnectApi.TopicSort sortParam)\tConnectApi.TopicPage": "getTopics(${1:String communityId}, ${2:Integer pageParam}, ${3:Integer pageSize}, ${4:ConnectApi.TopicSort sortParam})$0",
+            "getTopics(String communityId,String q,Integer pageParam,Integer pageSize)\tConnectApi.TopicPage": "getTopics(${1:String communityId}, ${2:String q}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "getTopics(String communityId,Integer pageParam,Integer pageSize)\tConnectApi.TopicPage": "getTopics(${1:String communityId}, ${2:Integer pageParam}, ${3:Integer pageSize})$0",
+            "setTestGetTrendingTopics(String communityId,Integer maxResults,ConnectApi.TopicPage result)\tvoid": "setTestGetTrendingTopics(${1:String communityId}, ${2:Integer maxResults}, ${3:ConnectApi.TopicPage result})$0",
+            "unassignTopic(String communityId,String recordId,String topicId)\tvoid": "unassignTopic(${1:String communityId}, ${2:String recordId}, ${3:String topicId})$0",
+            "getTopicSuggestions(String communityId,String recordId)\tConnectApi.TopicSuggestionPage": "getTopicSuggestions(${1:String communityId}, ${2:String recordId})$0",
+            "assignTopic(String communityId,String recordId,String topicId)\tConnectApi.Topic": "assignTopic(${1:String communityId}, ${2:String recordId}, ${3:String topicId})$0",
+            "setTestGetRelatedTopics(String communityId,String topicId,ConnectApi.TopicPage result)\tvoid": "setTestGetRelatedTopics(${1:String communityId}, ${2:String topicId}, ${3:ConnectApi.TopicPage result})$0",
+            "getRecentlyTalkingAboutTopicsForGroup(String communityId,String groupId)\tConnectApi.TopicPage": "getRecentlyTalkingAboutTopicsForGroup(${1:String communityId}, ${2:String groupId})$0",
+            "setTestGetTopicSuggestionsForText(String communityId,String text,Integer maxResults,ConnectApi.TopicSuggestionPage result)\tvoid": "setTestGetTopicSuggestionsForText(${1:String communityId}, ${2:String text}, ${3:Integer maxResults}, ${4:ConnectApi.TopicSuggestionPage result})$0",
+            "getTopics(String communityId,String q,ConnectApi.TopicSort sortParam)\tConnectApi.TopicPage": "getTopics(${1:String communityId}, ${2:String q}, ${3:ConnectApi.TopicSort sortParam})$0",
+            "getTopicSuggestions(String communityId,String recordId,Integer maxResults)\tConnectApi.TopicSuggestionPage": "getTopicSuggestions(${1:String communityId}, ${2:String recordId}, ${3:Integer maxResults})$0",
+            "getTopics(String communityId,ConnectApi.TopicSort sortParam)\tConnectApi.TopicPage": "getTopics(${1:String communityId}, ${2:ConnectApi.TopicSort sortParam})$0",
+            "getRecentlyTalkingAboutTopicsForUser(String communityId,String userId)\tConnectApi.TopicPage": "getRecentlyTalkingAboutTopicsForUser(${1:String communityId}, ${2:String userId})$0",
+            "getGroupsRecentlyTalkingAboutTopic(String communityId,String topicId)\tConnectApi.ChatterGroupSummaryPage": "getGroupsRecentlyTalkingAboutTopic(${1:String communityId}, ${2:String topicId})$0",
             "getTopics(String communityId)\tConnectApi.TopicPage": "getTopics(${1:String communityId})$0",
-            "getTopic(String communityId,String topicId)\tConnectApi.Topic": "getTopic(${1:String communityId},${2:String topicId})$0",
-            "getTopicSuggestionsForText(String communityId,String text,Integer maxResults)\tConnectApi.TopicSuggestionPage": "getTopicSuggestionsForText(${1:String communityId},${2:String text},${3:Integer maxResults})$0",
-            "setTestGetRecentlyTalkingAboutTopicsForGroup(String communityId,String groupId,ConnectApi.TopicPage result)\tvoid": "setTestGetRecentlyTalkingAboutTopicsForGroup(${1:String communityId},${2:String groupId},${3:ConnectApi.TopicPage result})$0",
-            "getTopicSuggestionsForText(String communityId,String text)\tConnectApi.TopicSuggestionPage": "getTopicSuggestionsForText(${1:String communityId},${2:String text})$0",
-            "setTestGetRecentlyTalkingAboutTopicsForUser(String communityId,String userId,ConnectApi.TopicPage result)\tvoid": "setTestGetRecentlyTalkingAboutTopicsForUser(${1:String communityId},${2:String userId},${3:ConnectApi.TopicPage result})$0",
-            "getTopics(String communityId,String recordId)\tConnectApi.TopicPage": "getTopics(${1:String communityId},${2:String recordId})$0",
-            "deleteTopic(String communityId,String topicId)\tvoid": "deleteTopic(${1:String communityId},${2:String topicId})$0",
-            "setTestGetTopicSuggestions(String communityId,String recordId,Integer maxResults,ConnectApi.TopicSuggestionPage result)\tvoid": "setTestGetTopicSuggestions(${1:String communityId},${2:String recordId},${3:Integer maxResults},${4:ConnectApi.TopicSuggestionPage result})$0",
-            "setTestGetTopicSuggestions(String communityId,String recordId,ConnectApi.TopicSuggestionPage result)\tvoid": "setTestGetTopicSuggestions(${1:String communityId},${2:String recordId},${3:ConnectApi.TopicSuggestionPage result})$0",
+            "getTopic(String communityId,String topicId)\tConnectApi.Topic": "getTopic(${1:String communityId}, ${2:String topicId})$0",
+            "getTopicSuggestionsForText(String communityId,String text,Integer maxResults)\tConnectApi.TopicSuggestionPage": "getTopicSuggestionsForText(${1:String communityId}, ${2:String text}, ${3:Integer maxResults})$0",
+            "setTestGetRecentlyTalkingAboutTopicsForGroup(String communityId,String groupId,ConnectApi.TopicPage result)\tvoid": "setTestGetRecentlyTalkingAboutTopicsForGroup(${1:String communityId}, ${2:String groupId}, ${3:ConnectApi.TopicPage result})$0",
+            "getTopicSuggestionsForText(String communityId,String text)\tConnectApi.TopicSuggestionPage": "getTopicSuggestionsForText(${1:String communityId}, ${2:String text})$0",
+            "setTestGetRecentlyTalkingAboutTopicsForUser(String communityId,String userId,ConnectApi.TopicPage result)\tvoid": "setTestGetRecentlyTalkingAboutTopicsForUser(${1:String communityId}, ${2:String userId}, ${3:ConnectApi.TopicPage result})$0",
+            "getTopics(String communityId,String recordId)\tConnectApi.TopicPage": "getTopics(${1:String communityId}, ${2:String recordId})$0",
+            "deleteTopic(String communityId,String topicId)\tvoid": "deleteTopic(${1:String communityId}, ${2:String topicId})$0",
+            "setTestGetTopicSuggestions(String communityId,String recordId,Integer maxResults,ConnectApi.TopicSuggestionPage result)\tvoid": "setTestGetTopicSuggestions(${1:String communityId}, ${2:String recordId}, ${3:Integer maxResults}, ${4:ConnectApi.TopicSuggestionPage result})$0",
+            "setTestGetTopicSuggestions(String communityId,String recordId,ConnectApi.TopicSuggestionPage result)\tvoid": "setTestGetTopicSuggestions(${1:String communityId}, ${2:String recordId}, ${3:ConnectApi.TopicSuggestionPage result})$0",
             "getTrendingTopics(String communityId)\tConnectApi.TopicPage": "getTrendingTopics(${1:String communityId})$0",
-            "assignTopicByName(String communityId,String recordId,String topicName)\tConnectApi.Topic": "assignTopicByName(${1:String communityId},${2:String recordId},${3:String topicName})$0",
-            "getRelatedTopics(String communityId,String topicId)\tConnectApi.TopicPage": "getRelatedTopics(${1:String communityId},${2:String topicId})$0",
-            "setTestGetGroupsRecentlyTalkingAboutTopic(String communityId,String topicId,ConnectApi.ChatterGroupSummaryPage result)\tvoid": "setTestGetGroupsRecentlyTalkingAboutTopic(${1:String communityId},${2:String topicId},${3:ConnectApi.ChatterGroupSummaryPage result})$0",
-            "getTopics(String communityId,String q,Integer pageParam,Integer pageSize,ConnectApi.TopicSort sortParam)\tConnectApi.TopicPage": "getTopics(${1:String communityId},${2:String q},${3:Integer pageParam},${4:Integer pageSize},${5:ConnectApi.TopicSort sortParam})$0",
-            "updateTopic(String communityId,String topicId,ConnectApi.TopicInput topic)\tConnectApi.Topic": "updateTopic(${1:String communityId},${2:String topicId},${3:ConnectApi.TopicInput topic})$0",
-            "setTestGetTrendingTopics(String communityId,ConnectApi.TopicPage result)\tvoid": "setTestGetTrendingTopics(${1:String communityId},${2:ConnectApi.TopicPage result})$0",
-            "setTestGetTopicSuggestionsForText(String communityId,String text,ConnectApi.TopicSuggestionPage result)\tvoid": "setTestGetTopicSuggestionsForText(${1:String communityId},${2:String text},${3:ConnectApi.TopicSuggestionPage result})$0"
+            "assignTopicByName(String communityId,String recordId,String topicName)\tConnectApi.Topic": "assignTopicByName(${1:String communityId}, ${2:String recordId}, ${3:String topicName})$0",
+            "getRelatedTopics(String communityId,String topicId)\tConnectApi.TopicPage": "getRelatedTopics(${1:String communityId}, ${2:String topicId})$0",
+            "setTestGetGroupsRecentlyTalkingAboutTopic(String communityId,String topicId,ConnectApi.ChatterGroupSummaryPage result)\tvoid": "setTestGetGroupsRecentlyTalkingAboutTopic(${1:String communityId}, ${2:String topicId}, ${3:ConnectApi.ChatterGroupSummaryPage result})$0",
+            "getTopics(String communityId,String q,Integer pageParam,Integer pageSize,ConnectApi.TopicSort sortParam)\tConnectApi.TopicPage": "getTopics(${1:String communityId}, ${2:String q}, ${3:Integer pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.TopicSort sortParam})$0",
+            "updateTopic(String communityId,String topicId,ConnectApi.TopicInput topic)\tConnectApi.Topic": "updateTopic(${1:String communityId}, ${2:String topicId}, ${3:ConnectApi.TopicInput topic})$0",
+            "setTestGetTrendingTopics(String communityId,ConnectApi.TopicPage result)\tvoid": "setTestGetTrendingTopics(${1:String communityId}, ${2:ConnectApi.TopicPage result})$0",
+            "setTestGetTopicSuggestionsForText(String communityId,String text,ConnectApi.TopicSuggestionPage result)\tvoid": "setTestGetTopicSuggestionsForText(${1:String communityId}, ${2:String text}, ${3:ConnectApi.TopicSuggestionPage result})$0"
         },
         "constructors": {}
     },
@@ -1253,40 +1253,40 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "writeStringField(String fieldName,String str)\tvoid": "writeStringField(${1:String fieldName},${2:String str})$0",
-            "writeBlobField(String fieldName,Blob b)\tvoid": "writeBlobField(${1:String fieldName},${2:Blob b})$0",
+            "writeStringField(String fieldName,String str)\tvoid": "writeStringField(${1:String fieldName}, ${2:String str})$0",
+            "writeBlobField(String fieldName,Blob b)\tvoid": "writeBlobField(${1:String fieldName}, ${2:Blob b})$0",
             "writeString(String str)\tvoid": "writeString(${1:String str})$0",
             "writeTime(Time t)\tvoid": "writeTime(${1:Time t})$0",
-            "writeTimeField(String fieldName,Time t)\tvoid": "writeTimeField(${1:String fieldName},${2:Time t})$0",
-            "writeIdField(String fieldName,Id id)\tvoid": "writeIdField(${1:String fieldName},${2:Id id})$0",
+            "writeTimeField(String fieldName,Time t)\tvoid": "writeTimeField(${1:String fieldName}, ${2:Time t})$0",
+            "writeIdField(String fieldName,Id id)\tvoid": "writeIdField(${1:String fieldName}, ${2:Id id})$0",
             "writeStartArray()\tvoid": "writeStartArray()$0",
-            "writeNumberField(String fieldName,Decimal d)\tvoid": "writeNumberField(${1:String fieldName},${2:Decimal d})$0",
+            "writeNumberField(String fieldName,Decimal d)\tvoid": "writeNumberField(${1:String fieldName}, ${2:Decimal d})$0",
             "close()\tvoid": "close()$0",
-            "writeBooleanField(String fieldName,Boolean b)\tvoid": "writeBooleanField(${1:String fieldName},${2:Boolean b})$0",
+            "writeBooleanField(String fieldName,Boolean b)\tvoid": "writeBooleanField(${1:String fieldName}, ${2:Boolean b})$0",
             "writeEndObject()\tvoid": "writeEndObject()$0",
             "writeStartObject()\tvoid": "writeStartObject()$0",
             "writeNumber(Decimal d)\tvoid": "writeNumber(${1:Decimal d})$0",
             "isClosed()\tBoolean": "isClosed()$0",
             "writeNumber(Double d)\tvoid": "writeNumber(${1:Double d})$0",
-            "writeDateTimeField(String fieldName,Datetime dt)\tvoid": "writeDateTimeField(${1:String fieldName},${2:Datetime dt})$0",
+            "writeDateTimeField(String fieldName,Datetime dt)\tvoid": "writeDateTimeField(${1:String fieldName}, ${2:Datetime dt})$0",
             "writeId(Id id)\tvoid": "writeId(${1:Id id})$0",
             "writeFieldName(String fieldName)\tvoid": "writeFieldName(${1:String fieldName})$0",
-            "writeNumberField(String fieldName,Long lng)\tvoid": "writeNumberField(${1:String fieldName},${2:Long lng})$0",
+            "writeNumberField(String fieldName,Long lng)\tvoid": "writeNumberField(${1:String fieldName}, ${2:Long lng})$0",
             "getAsString()\tString": "getAsString()$0",
             "writeBlob(Blob b)\tvoid": "writeBlob(${1:Blob b})$0",
-            "writeNumberField(String fieldName,Double d)\tvoid": "writeNumberField(${1:String fieldName},${2:Double d})$0",
+            "writeNumberField(String fieldName,Double d)\tvoid": "writeNumberField(${1:String fieldName}, ${2:Double d})$0",
             "writeNone()\tvoid": "writeNone()$0",
             "writeNoneField(String fieldName)\tvoid": "writeNoneField(${1:String fieldName})$0",
             "writeNumber(Integer i)\tvoid": "writeNumber(${1:Integer i})$0",
             "writeDateTime(Datetime dt)\tvoid": "writeDateTime(${1:Datetime dt})$0",
             "writeEndArray()\tvoid": "writeEndArray()$0",
             "writeObject(Object o)\tvoid": "writeObject(${1:Object o})$0",
-            "writeObjectField(String fieldName,Object o)\tvoid": "writeObjectField(${1:String fieldName},${2:Object o})$0",
-            "writeDateField(String fieldName,Date d)\tvoid": "writeDateField(${1:String fieldName},${2:Date d})$0",
+            "writeObjectField(String fieldName,Object o)\tvoid": "writeObjectField(${1:String fieldName}, ${2:Object o})$0",
+            "writeDateField(String fieldName,Date d)\tvoid": "writeDateField(${1:String fieldName}, ${2:Date d})$0",
             "writeBoolean(Boolean b)\tvoid": "writeBoolean(${1:Boolean b})$0",
             "writeNumber(Long lng)\tvoid": "writeNumber(${1:Long lng})$0",
             "writeDate(Date d)\tvoid": "writeDate(${1:Date d})$0",
-            "writeNumberField(String fieldName,Integer i)\tvoid": "writeNumberField(${1:String fieldName},${2:Integer i})$0"
+            "writeNumberField(String fieldName,Integer i)\tvoid": "writeNumberField(${1:String fieldName}, ${2:Integer i})$0"
         },
         "constructors": {}
     },
@@ -1410,15 +1410,15 @@ apex_completions = {
             "getHost()\tString": "getHost()$0",
             "getProtocol()\tString": "getProtocol()$0",
             "getDefaultPort()\tInteger": "getDefaultPort()$0",
-            "getFileFieldURL(String objectId,String fieldName)\tString": "getFileFieldURL(${1:String objectId},${2:String fieldName})$0",
+            "getFileFieldURL(String objectId,String fieldName)\tString": "getFileFieldURL(${1:String objectId}, ${2:String fieldName})$0",
             "getCurrentRequestUrl()\tsystem.Url": "getCurrentRequestUrl()$0",
             "getPort()\tInteger": "getPort()$0"
         },
         "constructors": {
-            "Url(String protocol,String host,Integer port,String file)\t": "Url(${1:String protocol},${2:String host},${3:Integer port},${4:String file})$0",
+            "Url(String protocol,String host,Integer port,String file)\t": "Url(${1:String protocol}, ${2:String host}, ${3:Integer port}, ${4:String file})$0",
             "Url(String spec)\t": "Url(${1:String spec})$0",
-            "Url(system.Url context,String spec)\t": "Url(${1:system.Url context},${2:String spec})$0",
-            "Url(String protocol,String host,String file)\t": "Url(${1:String protocol},${2:String host},${3:String file})$0"
+            "Url(system.Url context,String spec)\t": "Url(${1:system.Url context}, ${2:String spec})$0",
+            "Url(String protocol,String host,String file)\t": "Url(${1:String protocol}, ${2:String host}, ${3:String file})$0"
         }
     },
     "topicsuggestionpage": {
@@ -1498,7 +1498,7 @@ apex_completions = {
         "namespace": "Messaging",
         "properties": {},
         "methods": {
-            "send(String application,SET<String> users)\tvoid": "send(${1:String application},${2:SET<String> users})$0",
+            "send(String application,SET<String> users)\tvoid": "send(${1:String application}, ${2:SET<String> users})$0",
             "setPayload(MAP<String,ANY> payload)\tvoid": "setPayload(${1:MAP<String,ANY> payload})$0",
             "setTtl(Integer ttl)\tvoid": "setTtl(${1:Integer ttl})$0"
         },
@@ -1640,7 +1640,7 @@ apex_completions = {
         "constructors": {
             "QueryException(Exception param1)\t": "QueryException(${1:Exception param1})$0",
             "QueryException()\t": "QueryException()$0",
-            "QueryException(String param1,Exception param2)\t": "QueryException(${1:String param1},${2:Exception param2})$0"
+            "QueryException(String param1,Exception param2)\t": "QueryException(${1:String param1}, ${2:Exception param2})$0"
         }
     }],
     "summaryvalue": {
@@ -1659,9 +1659,9 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg},${2:Boolean escape})$0",
+            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg}, ${2:Boolean escape})$0",
             "round()\tLong": "round()$0",
-            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg},${2:Boolean escape})$0",
+            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg}, ${2:Boolean escape})$0",
             "valueOf(String str)\tDouble": "valueOf(${1:String str})$0",
             "longValue()\tLong": "longValue()$0",
             "valueOf(Object o)\tDouble": "valueOf(${1:Object o})$0",
@@ -1684,7 +1684,7 @@ apex_completions = {
             "setType(String type)\tvoid": "setType(${1:String type})$0"
         },
         "constructors": {
-            "ReportType(String type,String label)\t": "ReportType(${1:String type},${2:String label})$0",
+            "ReportType(String type,String label)\t": "ReportType(${1:String type}, ${2:String label})$0",
             "ReportType()\t": "ReportType()$0"
         }
     },
@@ -1769,8 +1769,8 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "getMotifBatch(String communityId,List<String> idOrPrefixList)\tList<ConnectApi.BatchResult>": "getMotifBatch(${1:String communityId},${2:List<String> idOrPrefixList})$0",
-            "getMotif(String communityId,String idOrPrefix)\tConnectApi.Motif": "getMotif(${1:String communityId},${2:String idOrPrefix})$0"
+            "getMotifBatch(String communityId,List<String> idOrPrefixList)\tList<ConnectApi.BatchResult>": "getMotifBatch(${1:String communityId}, ${2:List<String> idOrPrefixList})$0",
+            "getMotif(String communityId,String idOrPrefix)\tConnectApi.Motif": "getMotif(${1:String communityId}, ${2:String idOrPrefix})$0"
         },
         "constructors": {}
     },
@@ -1793,7 +1793,7 @@ apex_completions = {
             "getError()\tException": "getError()$0"
         },
         "constructors": {
-            "BatchResult(Object result,Exception error)\t": "BatchResult(${1:Object result},${2:Exception error})$0"
+            "BatchResult(Object result,Exception error)\t": "BatchResult(${1:Object result}, ${2:Exception error})$0"
         }
     },
     "communitypage": {
@@ -1907,8 +1907,8 @@ apex_completions = {
         "namespace": "Messaging",
         "properties": {},
         "methods": {
-            "apple(String alertBody,String actionLocKey,String locKey,List<String> locArgs,String launchImage,String sound,Integer badgeCount,MAP<String,ANY> userData)\tMAP<String,ANY>": "apple(${1:String alertBody},${2:String actionLocKey},${3:String locKey},${4:List<String> locArgs},${5:String launchImage},${6:String sound},${7:Integer badgeCount},${8:MAP<String,ANY> userData})$0",
-            "apple(String alert,String sound,Integer badgeCount,MAP<String,ANY> userData)\tMAP<String,ANY>": "apple(${1:String alert},${2:String sound},${3:Integer badgeCount},${4:MAP<String,ANY> userData})$0"
+            "apple(String alertBody,String actionLocKey,String locKey,List<String> locArgs,String launchImage,String sound,Integer badgeCount,MAP<String,ANY> userData)\tMAP<String,ANY>": "apple(${1:String alertBody}, ${2:String actionLocKey}, ${3:String locKey}, ${4:List<String> locArgs}, ${5:String launchImage}, ${6:String sound}, ${7:Integer badgeCount}, ${8:MAP<String,ANY> userData})$0",
+            "apple(String alert,String sound,Integer badgeCount,MAP<String,ANY> userData)\tMAP<String,ANY>": "apple(${1:String alert}, ${2:String sound}, ${3:Integer badgeCount}, ${4:MAP<String,ANY> userData})$0"
         },
         "constructors": {
             "PushNotificationPayload()\t": "PushNotificationPayload()$0"
@@ -1919,7 +1919,7 @@ apex_completions = {
         "namespace": "Process",
         "properties": {},
         "methods": {
-            "invokePluginWithJson(String className,String parameters)\tString": "invokePluginWithJson(${1:String className},${2:String parameters})$0",
+            "invokePluginWithJson(String className,String parameters)\tString": "invokePluginWithJson(${1:String className}, ${2:String parameters})$0",
             "describePlugins()\tList<Process.SparkPlugApi.SparkPlugDescribeResult>": "describePlugins()$0",
             "describePlugin(String className)\tProcess.SparkPlugApi.SparkPlugDescribeResult": "describePlugin(${1:String className})$0"
         },
@@ -1990,13 +1990,13 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "setTestSearchInZone(String communityId,String zoneId,String q,ConnectApi.ZoneSearchResultType filter,String pageParam,Integer pageSize,ConnectApi.ZoneSearchPage result)\tvoid": "setTestSearchInZone(${1:String communityId},${2:String zoneId},${3:String q},${4:ConnectApi.ZoneSearchResultType filter},${5:String pageParam},${6:Integer pageSize},${7:ConnectApi.ZoneSearchPage result})$0",
-            "searchInZone(String communityId,String zoneId,String q,ConnectApi.ZoneSearchResultType filter,String pageParam,Integer pageSize)\tConnectApi.ZoneSearchPage": "searchInZone(${1:String communityId},${2:String zoneId},${3:String q},${4:ConnectApi.ZoneSearchResultType filter},${5:String pageParam},${6:Integer pageSize})$0",
-            "searchInZone(String communityId,String zoneId,String q,ConnectApi.ZoneSearchResultType filter)\tConnectApi.ZoneSearchPage": "searchInZone(${1:String communityId},${2:String zoneId},${3:String q},${4:ConnectApi.ZoneSearchResultType filter})$0",
-            "getZone(String communityId,String zoneId)\tConnectApi.Zone": "getZone(${1:String communityId},${2:String zoneId})$0",
+            "setTestSearchInZone(String communityId,String zoneId,String q,ConnectApi.ZoneSearchResultType filter,String pageParam,Integer pageSize,ConnectApi.ZoneSearchPage result)\tvoid": "setTestSearchInZone(${1:String communityId}, ${2:String zoneId}, ${3:String q}, ${4:ConnectApi.ZoneSearchResultType filter}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:ConnectApi.ZoneSearchPage result})$0",
+            "searchInZone(String communityId,String zoneId,String q,ConnectApi.ZoneSearchResultType filter,String pageParam,Integer pageSize)\tConnectApi.ZoneSearchPage": "searchInZone(${1:String communityId}, ${2:String zoneId}, ${3:String q}, ${4:ConnectApi.ZoneSearchResultType filter}, ${5:String pageParam}, ${6:Integer pageSize})$0",
+            "searchInZone(String communityId,String zoneId,String q,ConnectApi.ZoneSearchResultType filter)\tConnectApi.ZoneSearchPage": "searchInZone(${1:String communityId}, ${2:String zoneId}, ${3:String q}, ${4:ConnectApi.ZoneSearchResultType filter})$0",
+            "getZone(String communityId,String zoneId)\tConnectApi.Zone": "getZone(${1:String communityId}, ${2:String zoneId})$0",
             "getZones(String communityId)\tConnectApi.ZonePage": "getZones(${1:String communityId})$0",
-            "setTestSearchInZone(String communityId,String zoneId,String q,ConnectApi.ZoneSearchResultType filter,ConnectApi.ZoneSearchPage result)\tvoid": "setTestSearchInZone(${1:String communityId},${2:String zoneId},${3:String q},${4:ConnectApi.ZoneSearchResultType filter},${5:ConnectApi.ZoneSearchPage result})$0",
-            "getZones(String communityId,Integer pageParam,Integer pageSize)\tConnectApi.ZonePage": "getZones(${1:String communityId},${2:Integer pageParam},${3:Integer pageSize})$0"
+            "setTestSearchInZone(String communityId,String zoneId,String q,ConnectApi.ZoneSearchResultType filter,ConnectApi.ZoneSearchPage result)\tvoid": "setTestSearchInZone(${1:String communityId}, ${2:String zoneId}, ${3:String q}, ${4:ConnectApi.ZoneSearchResultType filter}, ${5:ConnectApi.ZoneSearchPage result})$0",
+            "getZones(String communityId,Integer pageParam,Integer pageSize)\tConnectApi.ZonePage": "getZones(${1:String communityId}, ${2:Integer pageParam}, ${3:Integer pageSize})$0"
         },
         "constructors": {}
     },
@@ -2068,7 +2068,7 @@ apex_completions = {
             "setBody(String body)\tvoid": "setBody(${1:String body})$0",
             "getStatus()\tString": "getStatus()$0",
             "getBodyAsBlob()\tBlob": "getBodyAsBlob()$0",
-            "setHeader(String key,String value)\tvoid": "setHeader(${1:String key},${2:String value})$0",
+            "setHeader(String key,String value)\tvoid": "setHeader(${1:String key}, ${2:String value})$0",
             "setStatusCode(Integer statusCode)\tvoid": "setStatusCode(${1:Integer statusCode})$0",
             "toString()\tString": "toString()$0",
             "getHeaderKeys()\tList<String>": "getHeaderKeys()$0",
@@ -2285,7 +2285,7 @@ apex_completions = {
             "headers": "headers$0"
         },
         "methods": {
-            "addHeader(String name,String value)\tvoid": "addHeader(${1:String name},${2:String value})$0"
+            "addHeader(String name,String value)\tvoid": "addHeader(${1:String name}, ${2:String value})$0"
         },
         "constructors": {
             "RestResponse()\t": "RestResponse()$0"
@@ -2357,7 +2357,7 @@ apex_completions = {
             "getBlobValue()\tBlob": "getBlobValue()$0"
         },
         "constructors": {
-            "BinaryInput(Blob blobValue,String contentType,String filename)\t": "BinaryInput(${1:Blob blobValue},${2:String contentType},${3:String filename})$0"
+            "BinaryInput(Blob blobValue,String contentType,String filename)\t": "BinaryInput(${1:Blob blobValue}, ${2:String contentType}, ${3:String filename})$0"
         }
     },
     "touchhandledexception": {
@@ -2671,7 +2671,7 @@ apex_completions = {
             "toString()\tString": "toString()$0"
         },
         "constructors": {
-            "GroupingInfo(String name,reports.ColumnSortOrder sortOrder,reports.DateGranularity dateGranularity,String sortAggregate)\t": "GroupingInfo(${1:String name},${2:reports.ColumnSortOrder sortOrder},${3:reports.DateGranularity dateGranularity},${4:String sortAggregate})$0",
+            "GroupingInfo(String name,reports.ColumnSortOrder sortOrder,reports.DateGranularity dateGranularity,String sortAggregate)\t": "GroupingInfo(${1:String name}, ${2:reports.ColumnSortOrder sortOrder}, ${3:reports.DateGranularity dateGranularity}, ${4:String sortAggregate})$0",
             "GroupingInfo()\t": "GroupingInfo()$0"
         }
     },
@@ -2734,10 +2734,10 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "setHeader(String key,String val)\tvoid": "setHeader(${1:String key},${2:String val})$0",
+            "setHeader(String key,String val)\tvoid": "setHeader(${1:String key}, ${2:String val})$0",
             "setStatusCode(Integer code)\tvoid": "setStatusCode(${1:Integer code})$0",
             "respond(System.HttpRequest request)\tSystem.HttpResponse": "respond(${1:System.HttpRequest request})$0",
-            "setStaticResource(String url,String staticResourceName)\tvoid": "setStaticResource(${1:String url},${2:String staticResourceName})$0",
+            "setStaticResource(String url,String staticResourceName)\tvoid": "setStaticResource(${1:String url}, ${2:String staticResourceName})$0",
             "setStatus(String status)\tvoid": "setStatus(${1:String status})$0"
         },
         "constructors": {
@@ -2749,21 +2749,21 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "addFlagToFeedElement(String communityId,String feedElementId)\tConnectApi.ModerationCapability": "addFlagToFeedElement(${1:String communityId},${2:String feedElementId})$0",
-            "getFlagsOnFeedItem(String communityId,String feedItemId)\tConnectApi.ModerationFlags": "getFlagsOnFeedItem(${1:String communityId},${2:String feedItemId})$0",
-            "getFlagsOnFeedItem(String communityId,String feedItemId,ConnectApi.CommunityFlagVisibility visibility)\tConnectApi.ModerationFlags": "getFlagsOnFeedItem(${1:String communityId},${2:String feedItemId},${3:ConnectApi.CommunityFlagVisibility visibility})$0",
-            "getFlagsOnComment(String communityId,String commentId,ConnectApi.CommunityFlagVisibility visibility)\tConnectApi.ModerationFlags": "getFlagsOnComment(${1:String communityId},${2:String commentId},${3:ConnectApi.CommunityFlagVisibility visibility})$0",
-            "getFlagsOnFeedElement(String communityId,String feedElementId,ConnectApi.CommunityFlagVisibility visibility)\tConnectApi.ModerationCapability": "getFlagsOnFeedElement(${1:String communityId},${2:String feedElementId},${3:ConnectApi.CommunityFlagVisibility visibility})$0",
-            "getFlagsOnComment(String communityId,String commentId)\tConnectApi.ModerationFlags": "getFlagsOnComment(${1:String communityId},${2:String commentId})$0",
-            "removeFlagFromFeedElement(String communityId,String feedElementId,String userId)\tvoid": "removeFlagFromFeedElement(${1:String communityId},${2:String feedElementId},${3:String userId})$0",
-            "addFlagToFeedItem(String communityId,String feedItemId,ConnectApi.CommunityFlagVisibility visibility)\tConnectApi.ModerationFlags": "addFlagToFeedItem(${1:String communityId},${2:String feedItemId},${3:ConnectApi.CommunityFlagVisibility visibility})$0",
-            "addFlagToFeedItem(String communityId,String feedItemId)\tConnectApi.ModerationFlags": "addFlagToFeedItem(${1:String communityId},${2:String feedItemId})$0",
-            "addFlagToComment(String communityId,String commentId,ConnectApi.CommunityFlagVisibility visibility)\tConnectApi.ModerationFlags": "addFlagToComment(${1:String communityId},${2:String commentId},${3:ConnectApi.CommunityFlagVisibility visibility})$0",
-            "addFlagToFeedElement(String communityId,String feedElementId,ConnectApi.CommunityFlagVisibility visibility)\tConnectApi.ModerationCapability": "addFlagToFeedElement(${1:String communityId},${2:String feedElementId},${3:ConnectApi.CommunityFlagVisibility visibility})$0",
-            "getFlagsOnFeedElement(String communityId,String feedElementId)\tConnectApi.ModerationCapability": "getFlagsOnFeedElement(${1:String communityId},${2:String feedElementId})$0",
-            "addFlagToComment(String communityId,String commentId)\tConnectApi.ModerationFlags": "addFlagToComment(${1:String communityId},${2:String commentId})$0",
-            "removeFlagFromComment(String communityId,String commentId,String userId)\tvoid": "removeFlagFromComment(${1:String communityId},${2:String commentId},${3:String userId})$0",
-            "removeFlagFromFeedItem(String communityId,String feedItemId,String userId)\tvoid": "removeFlagFromFeedItem(${1:String communityId},${2:String feedItemId},${3:String userId})$0"
+            "addFlagToFeedElement(String communityId,String feedElementId)\tConnectApi.ModerationCapability": "addFlagToFeedElement(${1:String communityId}, ${2:String feedElementId})$0",
+            "getFlagsOnFeedItem(String communityId,String feedItemId)\tConnectApi.ModerationFlags": "getFlagsOnFeedItem(${1:String communityId}, ${2:String feedItemId})$0",
+            "getFlagsOnFeedItem(String communityId,String feedItemId,ConnectApi.CommunityFlagVisibility visibility)\tConnectApi.ModerationFlags": "getFlagsOnFeedItem(${1:String communityId}, ${2:String feedItemId}, ${3:ConnectApi.CommunityFlagVisibility visibility})$0",
+            "getFlagsOnComment(String communityId,String commentId,ConnectApi.CommunityFlagVisibility visibility)\tConnectApi.ModerationFlags": "getFlagsOnComment(${1:String communityId}, ${2:String commentId}, ${3:ConnectApi.CommunityFlagVisibility visibility})$0",
+            "getFlagsOnFeedElement(String communityId,String feedElementId,ConnectApi.CommunityFlagVisibility visibility)\tConnectApi.ModerationCapability": "getFlagsOnFeedElement(${1:String communityId}, ${2:String feedElementId}, ${3:ConnectApi.CommunityFlagVisibility visibility})$0",
+            "getFlagsOnComment(String communityId,String commentId)\tConnectApi.ModerationFlags": "getFlagsOnComment(${1:String communityId}, ${2:String commentId})$0",
+            "removeFlagFromFeedElement(String communityId,String feedElementId,String userId)\tvoid": "removeFlagFromFeedElement(${1:String communityId}, ${2:String feedElementId}, ${3:String userId})$0",
+            "addFlagToFeedItem(String communityId,String feedItemId,ConnectApi.CommunityFlagVisibility visibility)\tConnectApi.ModerationFlags": "addFlagToFeedItem(${1:String communityId}, ${2:String feedItemId}, ${3:ConnectApi.CommunityFlagVisibility visibility})$0",
+            "addFlagToFeedItem(String communityId,String feedItemId)\tConnectApi.ModerationFlags": "addFlagToFeedItem(${1:String communityId}, ${2:String feedItemId})$0",
+            "addFlagToComment(String communityId,String commentId,ConnectApi.CommunityFlagVisibility visibility)\tConnectApi.ModerationFlags": "addFlagToComment(${1:String communityId}, ${2:String commentId}, ${3:ConnectApi.CommunityFlagVisibility visibility})$0",
+            "addFlagToFeedElement(String communityId,String feedElementId,ConnectApi.CommunityFlagVisibility visibility)\tConnectApi.ModerationCapability": "addFlagToFeedElement(${1:String communityId}, ${2:String feedElementId}, ${3:ConnectApi.CommunityFlagVisibility visibility})$0",
+            "getFlagsOnFeedElement(String communityId,String feedElementId)\tConnectApi.ModerationCapability": "getFlagsOnFeedElement(${1:String communityId}, ${2:String feedElementId})$0",
+            "addFlagToComment(String communityId,String commentId)\tConnectApi.ModerationFlags": "addFlagToComment(${1:String communityId}, ${2:String commentId})$0",
+            "removeFlagFromComment(String communityId,String commentId,String userId)\tvoid": "removeFlagFromComment(${1:String communityId}, ${2:String commentId}, ${3:String userId})$0",
+            "removeFlagFromFeedItem(String communityId,String feedItemId,String userId)\tvoid": "removeFlagFromFeedItem(${1:String communityId}, ${2:String feedItemId}, ${3:String userId})$0"
         },
         "constructors": {}
     },
@@ -2964,8 +2964,8 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg},${2:Boolean escape})$0",
-            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg},${2:Boolean escape})$0",
+            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg}, ${2:Boolean escape})$0",
+            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg}, ${2:Boolean escape})$0",
             "valueOf(Object o)\tInteger": "valueOf(${1:Object o})$0",
             "valueOf(String i)\tInteger": "valueOf(${1:String i})$0",
             "addError(String msg)\tvoid": "addError(${1:String msg})$0",
@@ -3003,7 +3003,7 @@ apex_completions = {
         "properties": {},
         "methods": {
             "addFields(List<String> fieldNames)\tvoid": "addFields(${1:List<String> fieldNames})$0",
-            "selectDataCategory(String categoryGroup,String category)\tvoid": "selectDataCategory(${1:String categoryGroup},${2:String category})$0",
+            "selectDataCategory(String categoryGroup,String category)\tvoid": "selectDataCategory(${1:String categoryGroup}, ${2:String category})$0",
             "reset()\tvoid": "reset()$0",
             "view()\tSystem.PageReference": "view()$0",
             "getRecord()\tSObject": "getRecord()$0",
@@ -3053,7 +3053,7 @@ apex_completions = {
         "methods": {
             "internalLogin(String startUrl)\tSystem.PageReference": "internalLogin(${1:String startUrl})$0",
             "communitiesLanding()\tSystem.PageReference": "communitiesLanding()$0",
-            "login(String username,String password,String startUrl)\tSystem.PageReference": "login(${1:String username},${2:String password},${3:String startUrl})$0",
+            "login(String username,String password,String startUrl)\tSystem.PageReference": "login(${1:String username}, ${2:String password}, ${3:String startUrl})$0",
             "getCSS()\tString": "getCSS()$0",
             "communitiesLanding(String startUrl)\tSystem.PageReference": "communitiesLanding(${1:String startUrl})$0",
             "forwardToAuthPage(String startUrl)\tSystem.PageReference": "forwardToAuthPage(${1:String startUrl})$0"
@@ -3226,7 +3226,7 @@ apex_completions = {
         "methods": {
             "describeDataCategoryGroups(List<String> sobjects)\tList<Schema.DescribeDataCategoryGroupResult>": "describeDataCategoryGroups(${1:List<String> sobjects})$0",
             "describeTabs()\tList<Schema.DescribeTabSetResult>": "describeTabs()$0",
-            "describeDataCategoryGroupStructures(List<Schema.DataCategoryGroupSobjectTypePair> pairs,Boolean topCategoriesOnly)\tList<Schema.DescribeDataCategoryGroupStructureResult>": "describeDataCategoryGroupStructures(${1:List<Schema.DataCategoryGroupSobjectTypePair> pairs},${2:Boolean topCategoriesOnly})$0",
+            "describeDataCategoryGroupStructures(List<Schema.DataCategoryGroupSobjectTypePair> pairs,Boolean topCategoriesOnly)\tList<Schema.DescribeDataCategoryGroupStructureResult>": "describeDataCategoryGroupStructures(${1:List<Schema.DataCategoryGroupSobjectTypePair> pairs}, ${2:Boolean topCategoriesOnly})$0",
             "getModuleDescribe()\tMAP<String,Schema.SObjectType>": "getModuleDescribe()$0",
             "getAppDescribe(String appName)\tMAP<String,Schema.SObjectType>": "getAppDescribe(${1:String appName})$0",
             "describeSObjects(List<String> types)\tList<Schema.DescribeSObjectResult>": "describeSObjects(${1:List<String> types})$0",
@@ -3328,7 +3328,7 @@ apex_completions = {
         },
         "constructors": {
             "InvalidHeaderException(Exception param1)\t": "InvalidHeaderException(${1:Exception param1})$0",
-            "InvalidHeaderException(String param1,Exception param2)\t": "InvalidHeaderException(${1:String param1},${2:Exception param2})$0",
+            "InvalidHeaderException(String param1,Exception param2)\t": "InvalidHeaderException(${1:String param1}, ${2:Exception param2})$0",
             "InvalidHeaderException(String param1)\t": "InvalidHeaderException(${1:String param1})$0",
             "InvalidHeaderException()\t": "InvalidHeaderException()$0"
         }
@@ -3351,9 +3351,9 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "newInstance(Integer hour,Integer minute,Integer second,Integer millisecond)\tTime": "newInstance(${1:Integer hour},${2:Integer minute},${3:Integer second},${4:Integer millisecond})$0",
-            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg},${2:Boolean escape})$0",
-            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg},${2:Boolean escape})$0",
+            "newInstance(Integer hour,Integer minute,Integer second,Integer millisecond)\tTime": "newInstance(${1:Integer hour}, ${2:Integer minute}, ${3:Integer second}, ${4:Integer millisecond})$0",
+            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg}, ${2:Boolean escape})$0",
+            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg}, ${2:Boolean escape})$0",
             "addSeconds(Integer seconds)\tTime": "addSeconds(${1:Integer seconds})$0",
             "minute()\tInteger": "minute()$0",
             "millisecond()\tInteger": "millisecond()$0",
@@ -3402,7 +3402,7 @@ apex_completions = {
         "methods": {
             "getFileForceServers()\tList<String>": "getFileForceServers()$0",
             "getFileForceEntities()\tMAP<String,String>": "getFileForceEntities()$0",
-            "getData(String instanceName,String pageName,MAP<String,String> parameters)\tString": "getData(${1:String instanceName},${2:String pageName},${3:MAP<String,String> parameters})$0"
+            "getData(String instanceName,String pageName,MAP<String,String> parameters)\tString": "getData(${1:String instanceName}, ${2:String pageName}, ${3:MAP<String,String> parameters})$0"
         },
         "constructors": {
             "FfxPortalData()\t": "FfxPortalData()$0"
@@ -3628,7 +3628,7 @@ apex_completions = {
         "constructors": {
             "FeatureNotSupportedException()\t": "FeatureNotSupportedException()$0",
             "FeatureNotSupportedException(Exception param1)\t": "FeatureNotSupportedException(${1:Exception param1})$0",
-            "FeatureNotSupportedException(String param1,Exception param2)\t": "FeatureNotSupportedException(${1:String param1},${2:Exception param2})$0"
+            "FeatureNotSupportedException(String param1,Exception param2)\t": "FeatureNotSupportedException(${1:String param1}, ${2:Exception param2})$0"
         }
     },
     "chattergrouppage": {
@@ -3712,8 +3712,8 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg},${2:Boolean escape})$0",
-            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg},${2:Boolean escape})$0",
+            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg}, ${2:Boolean escape})$0",
+            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg}, ${2:Boolean escape})$0",
             "equals(String o)\tBoolean": "equals(${1:String o})$0",
             "getSobjectType()\tSchema.SObjectType": "getSobjectType()$0",
             "valueOf(String str)\tId": "valueOf(${1:String str})$0",
@@ -3775,7 +3775,7 @@ apex_completions = {
             "getFilterErrors()\tList<String>": "getFilterErrors()$0"
         },
         "constructors": {
-            "InvalidFilterException(String param1,Exception param2)\t": "InvalidFilterException(${1:String param1},${2:Exception param2})$0",
+            "InvalidFilterException(String param1,Exception param2)\t": "InvalidFilterException(${1:String param1}, ${2:Exception param2})$0",
             "InvalidFilterException()\t": "InvalidFilterException()$0",
             "InvalidFilterException(Exception param1)\t": "InvalidFilterException(${1:Exception param1})$0",
             "InvalidFilterException(String param1)\t": "InvalidFilterException(${1:String param1})$0"
@@ -3793,7 +3793,7 @@ apex_completions = {
             "getRelatedFields()\tList<predictive.RelatedField>": "getRelatedFields()$0"
         },
         "constructors": {
-            "RelatedResult(List<predictive.RelatedField> relatedFields,List<String> warnings)\t": "RelatedResult(${1:List<predictive.RelatedField> relatedFields},${2:List<String> warnings})$0",
+            "RelatedResult(List<predictive.RelatedField> relatedFields,List<String> warnings)\t": "RelatedResult(${1:List<predictive.RelatedField> relatedFields}, ${2:List<String> warnings})$0",
             "RelatedResult()\t": "RelatedResult()$0"
         }
     },
@@ -3951,7 +3951,7 @@ apex_completions = {
         "namespace": "Support",
         "properties": {},
         "methods": {
-            "calculateMilestoneTriggerTime(String param1,String param2)\tInteger": "calculateMilestoneTriggerTime(${1:String param1},${2:String param2})$0"
+            "calculateMilestoneTriggerTime(String param1,String param2)\tInteger": "calculateMilestoneTriggerTime(${1:String param1}, ${2:String param2})$0"
         },
         "constructors": {}
     },
@@ -4002,7 +4002,7 @@ apex_completions = {
         "constructors": {
             "ReportRunException()\t": "ReportRunException()$0",
             "ReportRunException(Exception param1)\t": "ReportRunException(${1:Exception param1})$0",
-            "ReportRunException(String param1,Exception param2)\t": "ReportRunException(${1:String param1},${2:Exception param2})$0"
+            "ReportRunException(String param1,Exception param2)\t": "ReportRunException(${1:String param1}, ${2:Exception param2})$0"
         }
     },
     "continuation": {
@@ -4037,7 +4037,7 @@ apex_completions = {
         },
         "methods": {},
         "constructors": {
-            "Event(String organizationId,String userId,String entityName,String action,String resourceType,String entityId,Datetime timeStamp,MAP<String,String> data)\t": "Event(${1:String organizationId},${2:String userId},${3:String entityName},${4:String action},${5:String resourceType},${6:String entityId},${7:Datetime timeStamp},${8:MAP<String,String> data})$0"
+            "Event(String organizationId,String userId,String entityName,String action,String resourceType,String entityId,Datetime timeStamp,MAP<String,String> data)\t": "Event(${1:String organizationId}, ${2:String userId}, ${3:String entityName}, ${4:String action}, ${5:String resourceType}, ${6:String entityId}, ${7:Datetime timeStamp}, ${8:MAP<String,String> data})$0"
         }
     },
     "currencyrecordfield": {
@@ -4071,12 +4071,12 @@ apex_completions = {
             "setBodyAsBlob(Blob body)\tvoid": "setBodyAsBlob(${1:Blob body})$0",
             "getCompressed()\tBoolean": "getCompressed()$0",
             "setBody(String body)\tvoid": "setBody(${1:String body})$0",
-            "setClientCertificate(String clientCert,String password)\tvoid": "setClientCertificate(${1:String clientCert},${2:String password})$0",
+            "setClientCertificate(String clientCert,String password)\tvoid": "setClientCertificate(${1:String clientCert}, ${2:String password})$0",
             "setCompressed(Boolean compressed)\tvoid": "setCompressed(${1:Boolean compressed})$0",
             "getBodyAsBlob()\tBlob": "getBodyAsBlob()$0",
             "setMethod(String method)\tvoid": "setMethod(${1:String method})$0",
             "toString()\tString": "toString()$0",
-            "setHeader(String key,String value)\tvoid": "setHeader(${1:String key},${2:String value})$0"
+            "setHeader(String key,String value)\tvoid": "setHeader(${1:String key}, ${2:String value})$0"
         },
         "constructors": {}
     },
@@ -4108,7 +4108,7 @@ apex_completions = {
             "getReason()\tpredictive.Reason": "getReason()$0"
         },
         "constructors": {
-            "RelatedField(String fieldName,Double score,predictive.Reason reason)\t": "RelatedField(${1:String fieldName},${2:Double score},${3:predictive.Reason reason})$0",
+            "RelatedField(String fieldName,Double score,predictive.Reason reason)\t": "RelatedField(${1:String fieldName}, ${2:Double score}, ${3:predictive.Reason reason})$0",
             "RelatedField()\t": "RelatedField()$0"
         }
     },
@@ -4145,7 +4145,7 @@ apex_completions = {
             "getCompareTo()\tDouble": "getCompareTo()$0"
         },
         "constructors": {
-            "EvaluatedCondition(String aggregateName,String aggregateLabel,Double compareTo,Double value,reports.EvaluatedConditionOperator operator)\t": "EvaluatedCondition(${1:String aggregateName},${2:String aggregateLabel},${3:Double compareTo},${4:Double value},${5:reports.EvaluatedConditionOperator operator})$0"
+            "EvaluatedCondition(String aggregateName,String aggregateLabel,Double compareTo,Double value,reports.EvaluatedConditionOperator operator)\t": "EvaluatedCondition(${1:String aggregateName}, ${2:String aggregateLabel}, ${3:Double compareTo}, ${4:Double value}, ${5:reports.EvaluatedConditionOperator operator})$0"
         }
     },
     "ideas": {
@@ -4153,9 +4153,9 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "getAllRecentReplies(String userId,String communityId)\tList<Id>": "getAllRecentReplies(${1:String userId},${2:String communityId})$0",
-            "getUnreadRecentReplies(String userId,String communityId)\tList<Id>": "getUnreadRecentReplies(${1:String userId},${2:String communityId})$0",
-            "getReadRecentReplies(String userId,String communityId)\tList<Id>": "getReadRecentReplies(${1:String userId},${2:String communityId})$0",
+            "getAllRecentReplies(String userId,String communityId)\tList<Id>": "getAllRecentReplies(${1:String userId}, ${2:String communityId})$0",
+            "getUnreadRecentReplies(String userId,String communityId)\tList<Id>": "getUnreadRecentReplies(${1:String userId}, ${2:String communityId})$0",
+            "getReadRecentReplies(String userId,String communityId)\tList<Id>": "getReadRecentReplies(${1:String userId}, ${2:String communityId})$0",
             "findSimilar(SObject idea)\tList<Id>": "findSimilar(${1:SObject idea})$0",
             "markRead(String ideaId)\tvoid": "markRead(${1:String ideaId})$0"
         },
@@ -4200,167 +4200,167 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:String q},${8:ConnectApi.FeedItemPage result})$0",
-            "getFeedElement(String communityId,String feedElementId,Integer recentCommentCount,Integer elementsPerBundle)\tConnectApi.FeedElement": "getFeedElement(${1:String communityId},${2:String feedElementId},${3:Integer recentCommentCount},${4:Integer elementsPerBundle})$0",
-            "setTestSearchFeedElementsInFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:String q},${8:ConnectApi.FeedElementPage result})$0",
-            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedSortOrder sortParam},${6:String q},${7:ConnectApi.FeedElementPage result})$0",
-            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:ConnectApi.FeedItemPage result})$0",
-            "getCommentsForFeedItem(String communityId,String feedItemId,String pageParam,Integer pageSize)\tConnectApi.CommentPage": "getCommentsForFeedItem(${1:String communityId},${2:String feedItemId},${3:String pageParam},${4:Integer pageSize})$0",
-            "getFeedElementsFromBundle(String communityId,String feedElementId)\tConnectApi.FeedElementPage": "getFeedElementsFromBundle(${1:String communityId},${2:String feedElementId})$0",
-            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,Boolean showInternalOnly,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:Integer elementsPerBundle},${6:ConnectApi.FeedDensity density},${7:String pageParam},${8:Integer pageSize},${9:ConnectApi.FeedSortOrder sortParam},${10:Boolean showInternalOnly},${11:ConnectApi.FeedElementPage result})$0",
-            "getFeedItemsFromFilterFeed(String communityId,String subjectId,String keyPrefix)\tConnectApi.FeedItemPage": "getFeedItemsFromFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix})$0",
-            "setTestGetFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,Boolean showInternalOnly,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:Integer elementsPerBundle},${6:ConnectApi.FeedDensity density},${7:String pageParam},${8:Integer pageSize},${9:String updatedSince},${10:Boolean showInternalOnly},${11:ConnectApi.FeedElementPage result})$0",
-            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedSortOrder sortParam},${6:String q})$0",
-            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,Boolean showInternalOnly)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:String q},${10:Boolean showInternalOnly})$0",
-            "searchFeedElements(String communityId,String q)\tConnectApi.FeedElementPage": "searchFeedElements(${1:String communityId},${2:String q})$0",
-            "getFeedElementsFromFilterFeedUpdatedSince(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince)\tConnectApi.FeedElementPage": "getFeedElementsFromFilterFeedUpdatedSince(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:Integer recentCommentCount},${5:Integer elementsPerBundle},${6:ConnectApi.FeedDensity density},${7:String pageParam},${8:Integer pageSize},${9:String updatedSince})$0",
-            "setTestSearchFeedElements(String communityId,String q,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElements(${1:String communityId},${2:String q},${3:ConnectApi.FeedSortOrder sortParam},${4:ConnectApi.FeedElementPage result})$0",
-            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:ConnectApi.FeedItemPage result})$0",
-            "getFeedPoll(String communityId,String feedItemId)\tConnectApi.FeedPoll": "getFeedPoll(${1:String communityId},${2:String feedItemId})$0",
-            "searchFeedElementsInFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:String q})$0",
-            "getFeedItemsFromFilterFeedUpdatedSince(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince)\tConnectApi.FeedItemPage": "getFeedItemsFromFilterFeedUpdatedSince(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:String updatedSince})$0",
-            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,Boolean showInternalOnly)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:String q},${10:Boolean showInternalOnly})$0",
-            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam})$0",
-            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:ConnectApi.FeedElementPage result})$0",
-            "setTestSearchFeedElements(String communityId,String q,Integer recentCommentCount,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElements(${1:String communityId},${2:String q},${3:Integer recentCommentCount},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:ConnectApi.FeedElementPage result})$0",
-            "getFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince)\tConnectApi.FeedElementPage": "getFeedElementsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:Integer recentCommentCount},${4:ConnectApi.FeedDensity density},${5:String pageParam},${6:Integer pageSize},${7:String updatedSince})$0",
-            "setTestGetFeedElementsFromFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:Integer recentCommentCount},${5:Integer elementsPerBundle},${6:ConnectApi.FeedDensity density},${7:String pageParam},${8:Integer pageSize},${9:ConnectApi.FeedSortOrder sortParam},${10:ConnectApi.FeedElementPage result})$0",
-            "getFeedItemsFromFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam})$0",
-            "postFeedElement(String communityId,String subjectId,ConnectApi.FeedElementType feedElementType,String text)\tConnectApi.FeedElement": "postFeedElement(${1:String communityId},${2:String subjectId},${3:ConnectApi.FeedElementType feedElementType},${4:String text})$0",
-            "searchFeedItems(String communityId,String q,Integer recentCommentCount,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "searchFeedItems(${1:String communityId},${2:String q},${3:Integer recentCommentCount},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam})$0",
-            "setTestSearchFeedItems(String communityId,String q,String pageParam,Integer pageSize,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems(${1:String communityId},${2:String q},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedItemPage result})$0",
-            "shareFeedItem(String communityId,ConnectApi.FeedType feedType,String subjectId,String originalFeedItemId)\tConnectApi.FeedItem": "shareFeedItem(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String originalFeedItemId})$0",
-            "getComment(String communityId,String commentId)\tConnectApi.Comment": "getComment(${1:String communityId},${2:String commentId})$0",
-            "getLikesForComment(String communityId,String commentId)\tConnectApi.ChatterLikePage": "getLikesForComment(${1:String communityId},${2:String commentId})$0",
-            "searchFeedItemsInFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:String q})$0",
-            "isModified(String communityId,ConnectApi.FeedType feedType,String subjectId,String since)\tConnectApi.FeedModifiedInfo": "isModified(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String since})$0",
-            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:ConnectApi.FeedItemPage result})$0",
-            "getFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,Boolean showInternalOnly)\tConnectApi.FeedElementPage": "getFeedElementsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:Integer elementsPerBundle},${6:ConnectApi.FeedDensity density},${7:String pageParam},${8:Integer pageSize},${9:String updatedSince},${10:Boolean showInternalOnly})$0",
-            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String q},${5:ConnectApi.FeedElementPage result})$0",
-            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String q})$0",
-            "getLikesForFeedItem(String communityId,String feedItemId)\tConnectApi.ChatterLikePage": "getLikesForFeedItem(${1:String communityId},${2:String feedItemId})$0",
-            "likeComment(String communityId,String commentId)\tConnectApi.ChatterLike": "likeComment(${1:String communityId},${2:String commentId})$0",
-            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:Integer recentCommentCount},${4:ConnectApi.FeedDensity density},${5:String pageParam},${6:Integer pageSize},${7:ConnectApi.FeedSortOrder sortParam})$0",
-            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,Boolean showInternalOnly)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:Boolean showInternalOnly})$0",
-            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:String q},${10:ConnectApi.FeedElementPage result})$0",
-            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:ConnectApi.FeedItemPage result})$0",
-            "deleteLike(String communityId,String likeId)\tvoid": "deleteLike(${1:String communityId},${2:String likeId})$0",
-            "postComment(String communityId,String feedItemId,String text)\tConnectApi.Comment": "postComment(${1:String communityId},${2:String feedItemId},${3:String text})$0",
-            "getFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,Boolean showInternalOnly)\tConnectApi.FeedElementPage": "getFeedElementsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:String updatedSince},${9:Boolean showInternalOnly})$0",
-            "updateBookmark(String communityId,String feedItemId,Boolean isBookmarkedByCurrentUser)\tConnectApi.FeedItem": "updateBookmark(${1:String communityId},${2:String feedItemId},${3:Boolean isBookmarkedByCurrentUser})$0",
-            "searchFeedElementsInFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:String q})$0",
-            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String q},${5:ConnectApi.FeedItemPage result})$0",
-            "setTestSearchFeedElementsInFilterFeed(String communityId,String subjectId,String keyPrefix,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:String q},${5:ConnectApi.FeedElementPage result})$0",
-            "setTestGetFeedItemsUpdatedSince(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:Integer recentCommentCount},${4:ConnectApi.FeedDensity density},${5:String pageParam},${6:Integer pageSize},${7:String updatedSince},${8:ConnectApi.FeedItemPage result})$0",
-            "setTestSearchFeedItemsInFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:String q},${10:ConnectApi.FeedItemPage result})$0",
-            "getFeedElementsFromFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElementsFromFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:Integer recentCommentCount},${5:Integer elementsPerBundle},${6:ConnectApi.FeedDensity density},${7:String pageParam},${8:Integer pageSize},${9:ConnectApi.FeedSortOrder sortParam})$0",
-            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedSortOrder sortParam},${6:String q})$0",
-            "getFeed(String communityId,ConnectApi.FeedType feedType,ConnectApi.FeedSortOrder sortParam)\tConnectApi.Feed": "getFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:ConnectApi.FeedSortOrder sortParam})$0",
-            "searchFeedItems(String communityId,String q,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "searchFeedItems(${1:String communityId},${2:String q},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedSortOrder sortParam})$0",
-            "getFeedElementBatch(String communityId,List<String> feedElementIds)\tList<ConnectApi.BatchResult>": "getFeedElementBatch(${1:String communityId},${2:List<String> feedElementIds})$0",
-            "setTestGetFeedItemsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:String updatedSince},${9:ConnectApi.FeedItemPage result})$0",
-            "searchFeedElements(String communityId,String q,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "searchFeedElements(${1:String communityId},${2:String q},${3:ConnectApi.FeedSortOrder sortParam})$0",
-            "getCommentsForFeedItem(String communityId,String feedItemId)\tConnectApi.CommentPage": "getCommentsForFeedItem(${1:String communityId},${2:String feedItemId})$0",
-            "getFilterFeed(String communityId,String subjectId,String keyPrefix)\tConnectApi.Feed": "getFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix})$0",
-            "setTestGetFeedElementsFromFilterFeed(String communityId,String subjectId,String keyPrefix,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:ConnectApi.FeedElementPage result})$0",
-            "setTestGetFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:String updatedSince},${9:ConnectApi.FeedElementPage result})$0",
-            "setTestGetFeedElementsFromFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:ConnectApi.FeedElementPage result})$0",
-            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:Integer recentCommentCount},${4:ConnectApi.FeedDensity density},${5:String pageParam},${6:Integer pageSize},${7:ConnectApi.FeedSortOrder sortParam},${8:ConnectApi.FeedElementPage result})$0",
-            "postComment(String communityId,String feedItemId,ConnectApi.CommentInput comment,ConnectApi.BinaryInput feedItemFileUpload)\tConnectApi.Comment": "postComment(${1:String communityId},${2:String feedItemId},${3:ConnectApi.CommentInput comment},${4:ConnectApi.BinaryInput feedItemFileUpload})$0",
-            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String q},${4:ConnectApi.FeedItemPage result})$0",
-            "getLikesForFeedItem(String communityId,String feedItemId,Integer pageParam,Integer pageSize)\tConnectApi.ChatterLikePage": "getLikesForFeedItem(${1:String communityId},${2:String feedItemId},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:Integer recentCommentCount},${4:ConnectApi.FeedDensity density},${5:String pageParam},${6:Integer pageSize},${7:ConnectApi.FeedSortOrder sortParam},${8:String q},${9:ConnectApi.FeedItemPage result})$0",
-            "deleteFeedItem(String communityId,String feedItemId)\tvoid": "deleteFeedItem(${1:String communityId},${2:String feedItemId})$0",
-            "searchFeedItemsInFilterFeed(String communityId,String subjectId,String keyPrefix,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:String q})$0",
-            "likeFeedItem(String communityId,String feedItemId)\tConnectApi.ChatterLike": "likeFeedItem(${1:String communityId},${2:String feedItemId})$0",
-            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:String q},${10:ConnectApi.FeedItemPage result})$0",
-            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedSortOrder sortParam},${6:ConnectApi.FeedItemPage result})$0",
-            "getFeed(String communityId,ConnectApi.FeedType feedType,String subjectId)\tConnectApi.Feed": "getFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId})$0",
-            "postFeedItem(String communityId,ConnectApi.FeedType feedType,String subjectId,String text)\tConnectApi.FeedItem": "postFeedItem(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String text})$0",
-            "setTestSearchFeedElements(String communityId,String q,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElements(${1:String communityId},${2:String q},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedSortOrder sortParam},${6:ConnectApi.FeedElementPage result})$0",
-            "getLike(String communityId,String likeId)\tConnectApi.ChatterLike": "getLike(${1:String communityId},${2:String likeId})$0",
-            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:String q})$0",
-            "getFilterFeedDirectory(String communityId,String subjectId)\tConnectApi.FeedDirectory": "getFilterFeedDirectory(${1:String communityId},${2:String subjectId})$0",
-            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedSortOrder sortParam},${6:String q},${7:ConnectApi.FeedItemPage result})$0",
-            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:String q})$0",
-            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:ConnectApi.FeedElementPage result})$0",
-            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:String q})$0",
-            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam})$0",
-            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId})$0",
-            "setTestGetFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,Boolean showInternalOnly,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:String updatedSince},${9:Boolean showInternalOnly},${10:ConnectApi.FeedElementPage result})$0",
-            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:Integer recentCommentCount},${4:ConnectApi.FeedDensity density},${5:String pageParam},${6:Integer pageSize},${7:ConnectApi.FeedSortOrder sortParam},${8:ConnectApi.FeedItemPage result})$0",
-            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId})$0",
-            "setTestSearchFeedElements(String communityId,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElements(${1:String communityId},${2:String q},${3:ConnectApi.FeedElementPage result})$0",
-            "getFeedItem(String communityId,String feedItemId)\tConnectApi.FeedItem": "getFeedItem(${1:String communityId},${2:String feedItemId})$0",
-            "getFeedElementsFromFilterFeed(String communityId,String subjectId,String keyPrefix)\tConnectApi.FeedElementPage": "getFeedElementsFromFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix})$0",
-            "setTestGetFeedItemsFromFilterFeedUpdatedSince(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFilterFeedUpdatedSince(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:String updatedSince},${9:ConnectApi.FeedItemPage result})$0",
-            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:String q},${8:ConnectApi.FeedElementPage result})$0",
-            "getFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,ConnectApi.FeedSortOrder sortParam)\tConnectApi.Feed": "getFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:ConnectApi.FeedSortOrder sortParam})$0",
-            "setTestSearchFeedItems(String communityId,String q,Integer recentCommentCount,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems(${1:String communityId},${2:String q},${3:Integer recentCommentCount},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:ConnectApi.FeedItemPage result})$0",
-            "getFeedElementsFromFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElementsFromFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam})$0",
-            "setTestSearchFeedElements(String communityId,String q,String pageParam,Integer pageSize,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElements(${1:String communityId},${2:String q},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedElementPage result})$0",
-            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedSortOrder sortParam})$0",
-            "setTestGetFeedItemsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,Boolean showInternalOnly,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:String updatedSince},${9:Boolean showInternalOnly},${10:ConnectApi.FeedItemPage result})$0",
-            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam})$0",
-            "getLikesForComment(String communityId,String commentId,Integer pageParam,Integer pageSize)\tConnectApi.ChatterLikePage": "getLikesForComment(${1:String communityId},${2:String commentId},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "searchFeedItems(String communityId,String q,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "searchFeedItems(${1:String communityId},${2:String q},${3:ConnectApi.FeedSortOrder sortParam})$0",
-            "setTestSearchFeedElementsInFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:String q},${10:ConnectApi.FeedElementPage result})$0",
-            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,Boolean showInternalOnly)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:Boolean showInternalOnly})$0",
-            "searchFeedElements(String communityId,String q,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "searchFeedElements(${1:String communityId},${2:String q},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedSortOrder sortParam})$0",
-            "setTestSearchFeedItemsInFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:String q},${8:ConnectApi.FeedItemPage result})$0",
-            "postFeedItem(String communityId,ConnectApi.FeedType feedType,String subjectId,ConnectApi.FeedItemInput feedItem,ConnectApi.BinaryInput feedItemFileUpload)\tConnectApi.FeedItem": "postFeedItem(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:ConnectApi.FeedItemInput feedItem},${5:ConnectApi.BinaryInput feedItemFileUpload})$0",
-            "postFeedElement(String communityId,ConnectApi.FeedElementInput feedElement,ConnectApi.BinaryInput feedElementFileUpload)\tConnectApi.FeedElement": "postFeedElement(${1:String communityId},${2:ConnectApi.FeedElementInput feedElement},${3:ConnectApi.BinaryInput feedElementFileUpload})$0",
-            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String q})$0",
-            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,Boolean showInternalOnly,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:Boolean showInternalOnly},${10:ConnectApi.FeedElementPage result})$0",
-            "deleteComment(String communityId,String commentId)\tvoid": "deleteComment(${1:String communityId},${2:String commentId})$0",
-            "getFeedItemsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,Boolean showInternalOnly)\tConnectApi.FeedItemPage": "getFeedItemsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:String updatedSince},${9:Boolean showInternalOnly})$0",
-            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String q},${4:ConnectApi.FeedElementPage result})$0",
-            "searchFeedItemsInFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:String q})$0",
-            "setTestGetFeedItemsFromFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:ConnectApi.FeedItemPage result})$0",
-            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,Boolean showInternalOnly)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:Integer elementsPerBundle},${6:ConnectApi.FeedDensity density},${7:String pageParam},${8:Integer pageSize},${9:ConnectApi.FeedSortOrder sortParam},${10:Boolean showInternalOnly})$0",
-            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:Integer recentCommentCount},${4:ConnectApi.FeedDensity density},${5:String pageParam},${6:Integer pageSize},${7:ConnectApi.FeedSortOrder sortParam})$0",
-            "getFeedItemsFromFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam})$0",
-            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String q})$0",
-            "setTestSearchFeedItems(String communityId,String q,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems(${1:String communityId},${2:String q},${3:ConnectApi.FeedSortOrder sortParam},${4:ConnectApi.FeedItemPage result})$0",
-            "searchFeedElementsInFilterFeed(String communityId,String subjectId,String keyPrefix,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:String q})$0",
-            "setTestGetFeedItemsFromFilterFeed(String communityId,String subjectId,String keyPrefix,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:ConnectApi.FeedItemPage result})$0",
-            "setTestGetFeedItemsFromFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:ConnectApi.FeedItemPage result})$0",
-            "getFeed(String communityId,ConnectApi.FeedType feedType)\tConnectApi.Feed": "getFeed(${1:String communityId},${2:ConnectApi.FeedType feedType})$0",
-            "shareFeedElement(String communityId,String subjectId,ConnectApi.FeedElementType feedElementType,String originalFeedElementId)\tConnectApi.FeedElement": "shareFeedElement(${1:String communityId},${2:String subjectId},${3:ConnectApi.FeedElementType feedElementType},${4:String originalFeedElementId})$0",
-            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String q})$0",
-            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedSortOrder sortParam},${6:ConnectApi.FeedElementPage result})$0",
-            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam})$0",
-            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:Integer recentCommentCount},${4:ConnectApi.FeedDensity density},${5:String pageParam},${6:Integer pageSize},${7:ConnectApi.FeedSortOrder sortParam},${8:String q},${9:ConnectApi.FeedElementPage result})$0",
-            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:Integer recentCommentCount},${4:ConnectApi.FeedDensity density},${5:String pageParam},${6:Integer pageSize},${7:ConnectApi.FeedSortOrder sortParam},${8:String q})$0",
-            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:ConnectApi.FeedElementPage result})$0",
-            "getFeedItemsUpdatedSince(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince)\tConnectApi.FeedItemPage": "getFeedItemsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:Integer recentCommentCount},${4:ConnectApi.FeedDensity density},${5:String pageParam},${6:Integer pageSize},${7:String updatedSince})$0",
-            "getFeedItemsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince)\tConnectApi.FeedItemPage": "getFeedItemsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:String updatedSince})$0",
-            "deleteFeedElement(String communityId,String feedElementId)\tvoid": "deleteFeedElement(${1:String communityId},${2:String feedElementId})$0",
-            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType})$0",
+            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:String q}, ${8:ConnectApi.FeedItemPage result})$0",
+            "getFeedElement(String communityId,String feedElementId,Integer recentCommentCount,Integer elementsPerBundle)\tConnectApi.FeedElement": "getFeedElement(${1:String communityId}, ${2:String feedElementId}, ${3:Integer recentCommentCount}, ${4:Integer elementsPerBundle})$0",
+            "setTestSearchFeedElementsInFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:String q}, ${8:ConnectApi.FeedElementPage result})$0",
+            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedSortOrder sortParam}, ${6:String q}, ${7:ConnectApi.FeedElementPage result})$0",
+            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:ConnectApi.FeedItemPage result})$0",
+            "getCommentsForFeedItem(String communityId,String feedItemId,String pageParam,Integer pageSize)\tConnectApi.CommentPage": "getCommentsForFeedItem(${1:String communityId}, ${2:String feedItemId}, ${3:String pageParam}, ${4:Integer pageSize})$0",
+            "getFeedElementsFromBundle(String communityId,String feedElementId)\tConnectApi.FeedElementPage": "getFeedElementsFromBundle(${1:String communityId}, ${2:String feedElementId})$0",
+            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,Boolean showInternalOnly,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:Integer elementsPerBundle}, ${6:ConnectApi.FeedDensity density}, ${7:String pageParam}, ${8:Integer pageSize}, ${9:ConnectApi.FeedSortOrder sortParam}, ${10:Boolean showInternalOnly}, ${11:ConnectApi.FeedElementPage result})$0",
+            "getFeedItemsFromFilterFeed(String communityId,String subjectId,String keyPrefix)\tConnectApi.FeedItemPage": "getFeedItemsFromFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix})$0",
+            "setTestGetFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,Boolean showInternalOnly,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:Integer elementsPerBundle}, ${6:ConnectApi.FeedDensity density}, ${7:String pageParam}, ${8:Integer pageSize}, ${9:String updatedSince}, ${10:Boolean showInternalOnly}, ${11:ConnectApi.FeedElementPage result})$0",
+            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedSortOrder sortParam}, ${6:String q})$0",
+            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,Boolean showInternalOnly)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:String q}, ${10:Boolean showInternalOnly})$0",
+            "searchFeedElements(String communityId,String q)\tConnectApi.FeedElementPage": "searchFeedElements(${1:String communityId}, ${2:String q})$0",
+            "getFeedElementsFromFilterFeedUpdatedSince(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince)\tConnectApi.FeedElementPage": "getFeedElementsFromFilterFeedUpdatedSince(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:Integer recentCommentCount}, ${5:Integer elementsPerBundle}, ${6:ConnectApi.FeedDensity density}, ${7:String pageParam}, ${8:Integer pageSize}, ${9:String updatedSince})$0",
+            "setTestSearchFeedElements(String communityId,String q,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElements(${1:String communityId}, ${2:String q}, ${3:ConnectApi.FeedSortOrder sortParam}, ${4:ConnectApi.FeedElementPage result})$0",
+            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:ConnectApi.FeedItemPage result})$0",
+            "getFeedPoll(String communityId,String feedItemId)\tConnectApi.FeedPoll": "getFeedPoll(${1:String communityId}, ${2:String feedItemId})$0",
+            "searchFeedElementsInFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:String q})$0",
+            "getFeedItemsFromFilterFeedUpdatedSince(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince)\tConnectApi.FeedItemPage": "getFeedItemsFromFilterFeedUpdatedSince(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:String updatedSince})$0",
+            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,Boolean showInternalOnly)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:String q}, ${10:Boolean showInternalOnly})$0",
+            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam})$0",
+            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:ConnectApi.FeedElementPage result})$0",
+            "setTestSearchFeedElements(String communityId,String q,Integer recentCommentCount,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElements(${1:String communityId}, ${2:String q}, ${3:Integer recentCommentCount}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:ConnectApi.FeedElementPage result})$0",
+            "getFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince)\tConnectApi.FeedElementPage": "getFeedElementsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:Integer recentCommentCount}, ${4:ConnectApi.FeedDensity density}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:String updatedSince})$0",
+            "setTestGetFeedElementsFromFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:Integer recentCommentCount}, ${5:Integer elementsPerBundle}, ${6:ConnectApi.FeedDensity density}, ${7:String pageParam}, ${8:Integer pageSize}, ${9:ConnectApi.FeedSortOrder sortParam}, ${10:ConnectApi.FeedElementPage result})$0",
+            "getFeedItemsFromFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam})$0",
+            "postFeedElement(String communityId,String subjectId,ConnectApi.FeedElementType feedElementType,String text)\tConnectApi.FeedElement": "postFeedElement(${1:String communityId}, ${2:String subjectId}, ${3:ConnectApi.FeedElementType feedElementType}, ${4:String text})$0",
+            "searchFeedItems(String communityId,String q,Integer recentCommentCount,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "searchFeedItems(${1:String communityId}, ${2:String q}, ${3:Integer recentCommentCount}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam})$0",
+            "setTestSearchFeedItems(String communityId,String q,String pageParam,Integer pageSize,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems(${1:String communityId}, ${2:String q}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedItemPage result})$0",
+            "shareFeedItem(String communityId,ConnectApi.FeedType feedType,String subjectId,String originalFeedItemId)\tConnectApi.FeedItem": "shareFeedItem(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String originalFeedItemId})$0",
+            "getComment(String communityId,String commentId)\tConnectApi.Comment": "getComment(${1:String communityId}, ${2:String commentId})$0",
+            "getLikesForComment(String communityId,String commentId)\tConnectApi.ChatterLikePage": "getLikesForComment(${1:String communityId}, ${2:String commentId})$0",
+            "searchFeedItemsInFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:String q})$0",
+            "isModified(String communityId,ConnectApi.FeedType feedType,String subjectId,String since)\tConnectApi.FeedModifiedInfo": "isModified(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String since})$0",
+            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:ConnectApi.FeedItemPage result})$0",
+            "getFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,Boolean showInternalOnly)\tConnectApi.FeedElementPage": "getFeedElementsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:Integer elementsPerBundle}, ${6:ConnectApi.FeedDensity density}, ${7:String pageParam}, ${8:Integer pageSize}, ${9:String updatedSince}, ${10:Boolean showInternalOnly})$0",
+            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String q}, ${5:ConnectApi.FeedElementPage result})$0",
+            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String q})$0",
+            "getLikesForFeedItem(String communityId,String feedItemId)\tConnectApi.ChatterLikePage": "getLikesForFeedItem(${1:String communityId}, ${2:String feedItemId})$0",
+            "likeComment(String communityId,String commentId)\tConnectApi.ChatterLike": "likeComment(${1:String communityId}, ${2:String commentId})$0",
+            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:Integer recentCommentCount}, ${4:ConnectApi.FeedDensity density}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:ConnectApi.FeedSortOrder sortParam})$0",
+            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,Boolean showInternalOnly)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:Boolean showInternalOnly})$0",
+            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:String q}, ${10:ConnectApi.FeedElementPage result})$0",
+            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:ConnectApi.FeedItemPage result})$0",
+            "deleteLike(String communityId,String likeId)\tvoid": "deleteLike(${1:String communityId}, ${2:String likeId})$0",
+            "postComment(String communityId,String feedItemId,String text)\tConnectApi.Comment": "postComment(${1:String communityId}, ${2:String feedItemId}, ${3:String text})$0",
+            "getFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,Boolean showInternalOnly)\tConnectApi.FeedElementPage": "getFeedElementsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:String updatedSince}, ${9:Boolean showInternalOnly})$0",
+            "updateBookmark(String communityId,String feedItemId,Boolean isBookmarkedByCurrentUser)\tConnectApi.FeedItem": "updateBookmark(${1:String communityId}, ${2:String feedItemId}, ${3:Boolean isBookmarkedByCurrentUser})$0",
+            "searchFeedElementsInFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:String q})$0",
+            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String q}, ${5:ConnectApi.FeedItemPage result})$0",
+            "setTestSearchFeedElementsInFilterFeed(String communityId,String subjectId,String keyPrefix,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:String q}, ${5:ConnectApi.FeedElementPage result})$0",
+            "setTestGetFeedItemsUpdatedSince(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:Integer recentCommentCount}, ${4:ConnectApi.FeedDensity density}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:String updatedSince}, ${8:ConnectApi.FeedItemPage result})$0",
+            "setTestSearchFeedItemsInFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:String q}, ${10:ConnectApi.FeedItemPage result})$0",
+            "getFeedElementsFromFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElementsFromFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:Integer recentCommentCount}, ${5:Integer elementsPerBundle}, ${6:ConnectApi.FeedDensity density}, ${7:String pageParam}, ${8:Integer pageSize}, ${9:ConnectApi.FeedSortOrder sortParam})$0",
+            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedSortOrder sortParam}, ${6:String q})$0",
+            "getFeed(String communityId,ConnectApi.FeedType feedType,ConnectApi.FeedSortOrder sortParam)\tConnectApi.Feed": "getFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:ConnectApi.FeedSortOrder sortParam})$0",
+            "searchFeedItems(String communityId,String q,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "searchFeedItems(${1:String communityId}, ${2:String q}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedSortOrder sortParam})$0",
+            "getFeedElementBatch(String communityId,List<String> feedElementIds)\tList<ConnectApi.BatchResult>": "getFeedElementBatch(${1:String communityId}, ${2:List<String> feedElementIds})$0",
+            "setTestGetFeedItemsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:String updatedSince}, ${9:ConnectApi.FeedItemPage result})$0",
+            "searchFeedElements(String communityId,String q,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "searchFeedElements(${1:String communityId}, ${2:String q}, ${3:ConnectApi.FeedSortOrder sortParam})$0",
+            "getCommentsForFeedItem(String communityId,String feedItemId)\tConnectApi.CommentPage": "getCommentsForFeedItem(${1:String communityId}, ${2:String feedItemId})$0",
+            "getFilterFeed(String communityId,String subjectId,String keyPrefix)\tConnectApi.Feed": "getFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix})$0",
+            "setTestGetFeedElementsFromFilterFeed(String communityId,String subjectId,String keyPrefix,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:ConnectApi.FeedElementPage result})$0",
+            "setTestGetFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:String updatedSince}, ${9:ConnectApi.FeedElementPage result})$0",
+            "setTestGetFeedElementsFromFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:ConnectApi.FeedElementPage result})$0",
+            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:Integer recentCommentCount}, ${4:ConnectApi.FeedDensity density}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:ConnectApi.FeedSortOrder sortParam}, ${8:ConnectApi.FeedElementPage result})$0",
+            "postComment(String communityId,String feedItemId,ConnectApi.CommentInput comment,ConnectApi.BinaryInput feedItemFileUpload)\tConnectApi.Comment": "postComment(${1:String communityId}, ${2:String feedItemId}, ${3:ConnectApi.CommentInput comment}, ${4:ConnectApi.BinaryInput feedItemFileUpload})$0",
+            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String q}, ${4:ConnectApi.FeedItemPage result})$0",
+            "getLikesForFeedItem(String communityId,String feedItemId,Integer pageParam,Integer pageSize)\tConnectApi.ChatterLikePage": "getLikesForFeedItem(${1:String communityId}, ${2:String feedItemId}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:Integer recentCommentCount}, ${4:ConnectApi.FeedDensity density}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:ConnectApi.FeedSortOrder sortParam}, ${8:String q}, ${9:ConnectApi.FeedItemPage result})$0",
+            "deleteFeedItem(String communityId,String feedItemId)\tvoid": "deleteFeedItem(${1:String communityId}, ${2:String feedItemId})$0",
+            "searchFeedItemsInFilterFeed(String communityId,String subjectId,String keyPrefix,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:String q})$0",
+            "likeFeedItem(String communityId,String feedItemId)\tConnectApi.ChatterLike": "likeFeedItem(${1:String communityId}, ${2:String feedItemId})$0",
+            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:String q}, ${10:ConnectApi.FeedItemPage result})$0",
+            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedSortOrder sortParam}, ${6:ConnectApi.FeedItemPage result})$0",
+            "getFeed(String communityId,ConnectApi.FeedType feedType,String subjectId)\tConnectApi.Feed": "getFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId})$0",
+            "postFeedItem(String communityId,ConnectApi.FeedType feedType,String subjectId,String text)\tConnectApi.FeedItem": "postFeedItem(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String text})$0",
+            "setTestSearchFeedElements(String communityId,String q,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElements(${1:String communityId}, ${2:String q}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedSortOrder sortParam}, ${6:ConnectApi.FeedElementPage result})$0",
+            "getLike(String communityId,String likeId)\tConnectApi.ChatterLike": "getLike(${1:String communityId}, ${2:String likeId})$0",
+            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:String q})$0",
+            "getFilterFeedDirectory(String communityId,String subjectId)\tConnectApi.FeedDirectory": "getFilterFeedDirectory(${1:String communityId}, ${2:String subjectId})$0",
+            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedSortOrder sortParam}, ${6:String q}, ${7:ConnectApi.FeedItemPage result})$0",
+            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:String q})$0",
+            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:ConnectApi.FeedElementPage result})$0",
+            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:String q})$0",
+            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam})$0",
+            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId})$0",
+            "setTestGetFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,Boolean showInternalOnly,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:String updatedSince}, ${9:Boolean showInternalOnly}, ${10:ConnectApi.FeedElementPage result})$0",
+            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:Integer recentCommentCount}, ${4:ConnectApi.FeedDensity density}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:ConnectApi.FeedSortOrder sortParam}, ${8:ConnectApi.FeedItemPage result})$0",
+            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId})$0",
+            "setTestSearchFeedElements(String communityId,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElements(${1:String communityId}, ${2:String q}, ${3:ConnectApi.FeedElementPage result})$0",
+            "getFeedItem(String communityId,String feedItemId)\tConnectApi.FeedItem": "getFeedItem(${1:String communityId}, ${2:String feedItemId})$0",
+            "getFeedElementsFromFilterFeed(String communityId,String subjectId,String keyPrefix)\tConnectApi.FeedElementPage": "getFeedElementsFromFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix})$0",
+            "setTestGetFeedItemsFromFilterFeedUpdatedSince(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFilterFeedUpdatedSince(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:String updatedSince}, ${9:ConnectApi.FeedItemPage result})$0",
+            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:String q}, ${8:ConnectApi.FeedElementPage result})$0",
+            "getFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,ConnectApi.FeedSortOrder sortParam)\tConnectApi.Feed": "getFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:ConnectApi.FeedSortOrder sortParam})$0",
+            "setTestSearchFeedItems(String communityId,String q,Integer recentCommentCount,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems(${1:String communityId}, ${2:String q}, ${3:Integer recentCommentCount}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:ConnectApi.FeedItemPage result})$0",
+            "getFeedElementsFromFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElementsFromFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam})$0",
+            "setTestSearchFeedElements(String communityId,String q,String pageParam,Integer pageSize,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElements(${1:String communityId}, ${2:String q}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedElementPage result})$0",
+            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedSortOrder sortParam})$0",
+            "setTestGetFeedItemsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,Boolean showInternalOnly,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:String updatedSince}, ${9:Boolean showInternalOnly}, ${10:ConnectApi.FeedItemPage result})$0",
+            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam})$0",
+            "getLikesForComment(String communityId,String commentId,Integer pageParam,Integer pageSize)\tConnectApi.ChatterLikePage": "getLikesForComment(${1:String communityId}, ${2:String commentId}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "searchFeedItems(String communityId,String q,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "searchFeedItems(${1:String communityId}, ${2:String q}, ${3:ConnectApi.FeedSortOrder sortParam})$0",
+            "setTestSearchFeedElementsInFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:String q}, ${10:ConnectApi.FeedElementPage result})$0",
+            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,Boolean showInternalOnly)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:Boolean showInternalOnly})$0",
+            "searchFeedElements(String communityId,String q,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "searchFeedElements(${1:String communityId}, ${2:String q}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedSortOrder sortParam})$0",
+            "setTestSearchFeedItemsInFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:String q}, ${8:ConnectApi.FeedItemPage result})$0",
+            "postFeedItem(String communityId,ConnectApi.FeedType feedType,String subjectId,ConnectApi.FeedItemInput feedItem,ConnectApi.BinaryInput feedItemFileUpload)\tConnectApi.FeedItem": "postFeedItem(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:ConnectApi.FeedItemInput feedItem}, ${5:ConnectApi.BinaryInput feedItemFileUpload})$0",
+            "postFeedElement(String communityId,ConnectApi.FeedElementInput feedElement,ConnectApi.BinaryInput feedElementFileUpload)\tConnectApi.FeedElement": "postFeedElement(${1:String communityId}, ${2:ConnectApi.FeedElementInput feedElement}, ${3:ConnectApi.BinaryInput feedElementFileUpload})$0",
+            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String q})$0",
+            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,Boolean showInternalOnly,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:Boolean showInternalOnly}, ${10:ConnectApi.FeedElementPage result})$0",
+            "deleteComment(String communityId,String commentId)\tvoid": "deleteComment(${1:String communityId}, ${2:String commentId})$0",
+            "getFeedItemsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,Boolean showInternalOnly)\tConnectApi.FeedItemPage": "getFeedItemsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:String updatedSince}, ${9:Boolean showInternalOnly})$0",
+            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String q}, ${4:ConnectApi.FeedElementPage result})$0",
+            "searchFeedItemsInFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:String q})$0",
+            "setTestGetFeedItemsFromFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:ConnectApi.FeedItemPage result})$0",
+            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,Boolean showInternalOnly)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:Integer elementsPerBundle}, ${6:ConnectApi.FeedDensity density}, ${7:String pageParam}, ${8:Integer pageSize}, ${9:ConnectApi.FeedSortOrder sortParam}, ${10:Boolean showInternalOnly})$0",
+            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:Integer recentCommentCount}, ${4:ConnectApi.FeedDensity density}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:ConnectApi.FeedSortOrder sortParam})$0",
+            "getFeedItemsFromFilterFeed(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItemsFromFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam})$0",
+            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String q})$0",
+            "setTestSearchFeedItems(String communityId,String q,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems(${1:String communityId}, ${2:String q}, ${3:ConnectApi.FeedSortOrder sortParam}, ${4:ConnectApi.FeedItemPage result})$0",
+            "searchFeedElementsInFilterFeed(String communityId,String subjectId,String keyPrefix,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:String q})$0",
+            "setTestGetFeedItemsFromFilterFeed(String communityId,String subjectId,String keyPrefix,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:ConnectApi.FeedItemPage result})$0",
+            "setTestGetFeedItemsFromFilterFeed(String communityId,String subjectId,String keyPrefix,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:ConnectApi.FeedItemPage result})$0",
+            "getFeed(String communityId,ConnectApi.FeedType feedType)\tConnectApi.Feed": "getFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType})$0",
+            "shareFeedElement(String communityId,String subjectId,ConnectApi.FeedElementType feedElementType,String originalFeedElementId)\tConnectApi.FeedElement": "shareFeedElement(${1:String communityId}, ${2:String subjectId}, ${3:ConnectApi.FeedElementType feedElementType}, ${4:String originalFeedElementId})$0",
+            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String q})$0",
+            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedSortOrder sortParam}, ${6:ConnectApi.FeedElementPage result})$0",
+            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam})$0",
+            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:Integer recentCommentCount}, ${4:ConnectApi.FeedDensity density}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:ConnectApi.FeedSortOrder sortParam}, ${8:String q}, ${9:ConnectApi.FeedElementPage result})$0",
+            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:Integer recentCommentCount}, ${4:ConnectApi.FeedDensity density}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:ConnectApi.FeedSortOrder sortParam}, ${8:String q})$0",
+            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:ConnectApi.FeedElementPage result})$0",
+            "getFeedItemsUpdatedSince(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince)\tConnectApi.FeedItemPage": "getFeedItemsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:Integer recentCommentCount}, ${4:ConnectApi.FeedDensity density}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:String updatedSince})$0",
+            "getFeedItemsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince)\tConnectApi.FeedItemPage": "getFeedItemsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:String updatedSince})$0",
+            "deleteFeedElement(String communityId,String feedElementId)\tvoid": "deleteFeedElement(${1:String communityId}, ${2:String feedElementId})$0",
+            "getFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType)\tConnectApi.FeedItemPage": "getFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType})$0",
             "getFeedDirectory(String communityId)\tConnectApi.FeedDirectory": "getFeedDirectory(${1:String communityId})$0",
-            "setTestSearchFeedItems(String communityId,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems(${1:String communityId},${2:String q},${3:ConnectApi.FeedItemPage result})$0",
-            "getFeedElementsFromBundle(String communityId,String feedElementId,String pageParam,Integer pageSize,Integer elementsPerBundle,Integer recentCommentCount)\tConnectApi.FeedElementPage": "getFeedElementsFromBundle(${1:String communityId},${2:String feedElementId},${3:String pageParam},${4:Integer pageSize},${5:Integer elementsPerBundle},${6:Integer recentCommentCount})$0",
-            "getFilterFeed(String communityId,String subjectId,String keyPrefix,ConnectApi.FeedSortOrder sortParam)\tConnectApi.Feed": "getFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:ConnectApi.FeedSortOrder sortParam})$0",
-            "setTestSearchFeedItemsInFilterFeed(String communityId,String subjectId,String keyPrefix,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFilterFeed(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:String q},${5:ConnectApi.FeedItemPage result})$0",
-            "searchFeedElements(String communityId,String q,Integer recentCommentCount,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "searchFeedElements(${1:String communityId},${2:String q},${3:Integer recentCommentCount},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam})$0",
-            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:ConnectApi.FeedElementPage result})$0",
-            "searchFeedElements(String communityId,String q,String pageParam,Integer pageSize)\tConnectApi.FeedElementPage": "searchFeedElements(${1:String communityId},${2:String q},${3:String pageParam},${4:Integer pageSize})$0",
-            "getFeedElement(String communityId,String feedElementId)\tConnectApi.FeedElement": "getFeedElement(${1:String communityId},${2:String feedElementId})$0",
-            "setTestSearchFeedItems(String communityId,String q,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems(${1:String communityId},${2:String q},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedSortOrder sortParam},${6:ConnectApi.FeedItemPage result})$0",
-            "searchFeedItems(String communityId,String q)\tConnectApi.FeedItemPage": "searchFeedItems(${1:String communityId},${2:String q})$0",
-            "voteOnFeedPoll(String communityId,String feedItemId,String myChoiceId)\tConnectApi.FeedPoll": "voteOnFeedPoll(${1:String communityId},${2:String feedItemId},${3:String myChoiceId})$0",
-            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,Boolean showInternalOnly,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:String q},${10:Boolean showInternalOnly},${11:ConnectApi.FeedItemPage result})$0",
-            "setTestGetFeedElementsFromFilterFeedUpdatedSince(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFilterFeedUpdatedSince(${1:String communityId},${2:String subjectId},${3:String keyPrefix},${4:Integer recentCommentCount},${5:Integer elementsPerBundle},${6:ConnectApi.FeedDensity density},${7:String pageParam},${8:Integer pageSize},${9:String updatedSince},${10:ConnectApi.FeedElementPage result})$0",
-            "getFeedItemBatch(String communityId,List<String> feedItemIds)\tList<ConnectApi.BatchResult>": "getFeedItemBatch(${1:String communityId},${2:List<String> feedItemIds})$0",
-            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType})$0",
-            "searchFeedItems(String communityId,String q,String pageParam,Integer pageSize)\tConnectApi.FeedItemPage": "searchFeedItems(${1:String communityId},${2:String q},${3:String pageParam},${4:Integer pageSize})$0",
-            "setTestGetFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:Integer recentCommentCount},${4:ConnectApi.FeedDensity density},${5:String pageParam},${6:Integer pageSize},${7:String updatedSince},${8:ConnectApi.FeedElementPage result})$0",
-            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,Boolean showInternalOnly,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:Boolean showInternalOnly},${10:ConnectApi.FeedItemPage result})$0",
-            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:Integer recentCommentCount},${4:ConnectApi.FeedDensity density},${5:String pageParam},${6:Integer pageSize},${7:ConnectApi.FeedSortOrder sortParam},${8:String q})$0",
-            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:String q})$0",
-            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String pageParam},${4:Integer pageSize},${5:ConnectApi.FeedSortOrder sortParam})$0",
-            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,Boolean showInternalOnly,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:String q},${10:Boolean showInternalOnly},${11:ConnectApi.FeedElementPage result})$0",
-            "getFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince)\tConnectApi.FeedElementPage": "getFeedElementsUpdatedSince(${1:String communityId},${2:ConnectApi.FeedType feedType},${3:String subjectId},${4:Integer recentCommentCount},${5:ConnectApi.FeedDensity density},${6:String pageParam},${7:Integer pageSize},${8:String updatedSince})$0"
+            "setTestSearchFeedItems(String communityId,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems(${1:String communityId}, ${2:String q}, ${3:ConnectApi.FeedItemPage result})$0",
+            "getFeedElementsFromBundle(String communityId,String feedElementId,String pageParam,Integer pageSize,Integer elementsPerBundle,Integer recentCommentCount)\tConnectApi.FeedElementPage": "getFeedElementsFromBundle(${1:String communityId}, ${2:String feedElementId}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:Integer elementsPerBundle}, ${6:Integer recentCommentCount})$0",
+            "getFilterFeed(String communityId,String subjectId,String keyPrefix,ConnectApi.FeedSortOrder sortParam)\tConnectApi.Feed": "getFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:ConnectApi.FeedSortOrder sortParam})$0",
+            "setTestSearchFeedItemsInFilterFeed(String communityId,String subjectId,String keyPrefix,String q,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFilterFeed(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:String q}, ${5:ConnectApi.FeedItemPage result})$0",
+            "searchFeedElements(String communityId,String q,Integer recentCommentCount,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "searchFeedElements(${1:String communityId}, ${2:String q}, ${3:Integer recentCommentCount}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam})$0",
+            "setTestGetFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:ConnectApi.FeedElementPage result})$0",
+            "searchFeedElements(String communityId,String q,String pageParam,Integer pageSize)\tConnectApi.FeedElementPage": "searchFeedElements(${1:String communityId}, ${2:String q}, ${3:String pageParam}, ${4:Integer pageSize})$0",
+            "getFeedElement(String communityId,String feedElementId)\tConnectApi.FeedElement": "getFeedElement(${1:String communityId}, ${2:String feedElementId})$0",
+            "setTestSearchFeedItems(String communityId,String q,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItems(${1:String communityId}, ${2:String q}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedSortOrder sortParam}, ${6:ConnectApi.FeedItemPage result})$0",
+            "searchFeedItems(String communityId,String q)\tConnectApi.FeedItemPage": "searchFeedItems(${1:String communityId}, ${2:String q})$0",
+            "voteOnFeedPoll(String communityId,String feedItemId,String myChoiceId)\tConnectApi.FeedPoll": "voteOnFeedPoll(${1:String communityId}, ${2:String feedItemId}, ${3:String myChoiceId})$0",
+            "setTestSearchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,Boolean showInternalOnly,ConnectApi.FeedItemPage result)\tvoid": "setTestSearchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:String q}, ${10:Boolean showInternalOnly}, ${11:ConnectApi.FeedItemPage result})$0",
+            "setTestGetFeedElementsFromFilterFeedUpdatedSince(String communityId,String subjectId,String keyPrefix,Integer recentCommentCount,Integer elementsPerBundle,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsFromFilterFeedUpdatedSince(${1:String communityId}, ${2:String subjectId}, ${3:String keyPrefix}, ${4:Integer recentCommentCount}, ${5:Integer elementsPerBundle}, ${6:ConnectApi.FeedDensity density}, ${7:String pageParam}, ${8:Integer pageSize}, ${9:String updatedSince}, ${10:ConnectApi.FeedElementPage result})$0",
+            "getFeedItemBatch(String communityId,List<String> feedItemIds)\tList<ConnectApi.BatchResult>": "getFeedItemBatch(${1:String communityId}, ${2:List<String> feedItemIds})$0",
+            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType})$0",
+            "searchFeedItems(String communityId,String q,String pageParam,Integer pageSize)\tConnectApi.FeedItemPage": "searchFeedItems(${1:String communityId}, ${2:String q}, ${3:String pageParam}, ${4:Integer pageSize})$0",
+            "setTestGetFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElementsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:Integer recentCommentCount}, ${4:ConnectApi.FeedDensity density}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:String updatedSince}, ${8:ConnectApi.FeedElementPage result})$0",
+            "setTestGetFeedItemsFromFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,Boolean showInternalOnly,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItemsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:Boolean showInternalOnly}, ${10:ConnectApi.FeedItemPage result})$0",
+            "searchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedElementPage": "searchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:Integer recentCommentCount}, ${4:ConnectApi.FeedDensity density}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:ConnectApi.FeedSortOrder sortParam}, ${8:String q})$0",
+            "searchFeedItemsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q)\tConnectApi.FeedItemPage": "searchFeedItemsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:String q})$0",
+            "getFeedElementsFromFeed(String communityId,ConnectApi.FeedType feedType,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElementsFromFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.FeedSortOrder sortParam})$0",
+            "setTestSearchFeedElementsInFeed(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,String q,Boolean showInternalOnly,ConnectApi.FeedElementPage result)\tvoid": "setTestSearchFeedElementsInFeed(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:String q}, ${10:Boolean showInternalOnly}, ${11:ConnectApi.FeedElementPage result})$0",
+            "getFeedElementsUpdatedSince(String communityId,ConnectApi.FeedType feedType,String subjectId,Integer recentCommentCount,ConnectApi.FeedDensity density,String pageParam,Integer pageSize,String updatedSince)\tConnectApi.FeedElementPage": "getFeedElementsUpdatedSince(${1:String communityId}, ${2:ConnectApi.FeedType feedType}, ${3:String subjectId}, ${4:Integer recentCommentCount}, ${5:ConnectApi.FeedDensity density}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:String updatedSince})$0"
         },
         "constructors": {}
     },
@@ -4556,7 +4556,7 @@ apex_completions = {
             "getLiveChatTranscriptId()\tString": "getLiveChatTranscriptId()$0"
         },
         "constructors": {
-            "LiveChatRoutingRequest(String chatKey,String liveChatButtonId,String liveChatTranscriptId)\t": "LiveChatRoutingRequest(${1:String chatKey},${2:String liveChatButtonId},${3:String liveChatTranscriptId})$0"
+            "LiveChatRoutingRequest(String chatKey,String liveChatButtonId,String liveChatTranscriptId)\t": "LiveChatRoutingRequest(${1:String chatKey}, ${2:String liveChatButtonId}, ${3:String liveChatTranscriptId})$0"
         }
     },
     "getdeletedresult": {
@@ -4713,7 +4713,7 @@ apex_completions = {
         "namespace": "Social",
         "properties": {},
         "methods": {
-            "handleInboundSocialPost(SocialPost param1,SocialPersona param2,MAP<String,ANY> param3)\tSocial.InboundSocialPostResult": "handleInboundSocialPost(${1:SocialPost param1},${2:SocialPersona param2},${3:MAP<String,ANY> param3})$0"
+            "handleInboundSocialPost(SocialPost param1,SocialPersona param2,MAP<String,ANY> param3)\tSocial.InboundSocialPostResult": "handleInboundSocialPost(${1:SocialPost param1}, ${2:SocialPersona param2}, ${3:MAP<String,ANY> param3})$0"
         },
         "constructors": {}
     },
@@ -4736,53 +4736,53 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "getGroup(String communityId,String groupId)\tConnectApi.ChatterGroupDetail": "getGroup(${1:String communityId},${2:String groupId})$0",
-            "getGroupMembershipRequests(String communityId,String groupId,ConnectApi.GroupMembershipRequestStatus status)\tConnectApi.GroupMembershipRequests": "getGroupMembershipRequests(${1:String communityId},${2:String groupId},${3:ConnectApi.GroupMembershipRequestStatus status})$0",
-            "addMember(String communityId,String groupId,String userId)\tConnectApi.GroupMember": "addMember(${1:String communityId},${2:String groupId},${3:String userId})$0",
-            "searchGroups(String communityId,String q)\tConnectApi.ChatterGroupPage": "searchGroups(${1:String communityId},${2:String q})$0",
-            "getMembers(String communityId,String groupId,Integer pageParam,Integer pageSize)\tConnectApi.GroupMemberPage": "getMembers(${1:String communityId},${2:String groupId},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "setTestSearchGroups(String communityId,String q,ConnectApi.GroupArchiveStatus archiveStatus,Integer pageParam,Integer pageSize,ConnectApi.ChatterGroupPage result)\tvoid": "setTestSearchGroups(${1:String communityId},${2:String q},${3:ConnectApi.GroupArchiveStatus archiveStatus},${4:Integer pageParam},${5:Integer pageSize},${6:ConnectApi.ChatterGroupPage result})$0",
-            "deletePhoto(String communityId,String groupId)\tvoid": "deletePhoto(${1:String communityId},${2:String groupId})$0",
-            "requestGroupMembership(String communityId,String groupId)\tConnectApi.GroupMembershipRequest": "requestGroupMembership(${1:String communityId},${2:String groupId})$0",
-            "setPhotoWithAttributes(String communityId,String groupId,ConnectApi.PhotoInput photo)\tConnectApi.Photo": "setPhotoWithAttributes(${1:String communityId},${2:String groupId},${3:ConnectApi.PhotoInput photo})$0",
-            "updateGroup(String communityId,String groupId,ConnectApi.ChatterGroupInput groupInput)\tConnectApi.ChatterGroupDetail": "updateGroup(${1:String communityId},${2:String groupId},${3:ConnectApi.ChatterGroupInput groupInput})$0",
-            "updateRequestStatus(String communityId,String requestId,ConnectApi.GroupMembershipRequestStatus status)\tConnectApi.GroupMembershipRequest": "updateRequestStatus(${1:String communityId},${2:String requestId},${3:ConnectApi.GroupMembershipRequestStatus status})$0",
-            "getGroups(String communityId,Integer pageParam,Integer pageSize)\tConnectApi.ChatterGroupPage": "getGroups(${1:String communityId},${2:Integer pageParam},${3:Integer pageSize})$0",
-            "getGroups(String communityId,ConnectApi.GroupArchiveStatus archiveStatus,Integer pageParam,Integer pageSize)\tConnectApi.ChatterGroupPage": "getGroups(${1:String communityId},${2:ConnectApi.GroupArchiveStatus archiveStatus},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "setPhoto(String communityId,String groupId,String fileId,Integer versionNumber)\tConnectApi.Photo": "setPhoto(${1:String communityId},${2:String groupId},${3:String fileId},${4:Integer versionNumber})$0",
-            "updateMyChatterSettings(String communityId,String groupId,ConnectApi.GroupEmailFrequency emailFrequency)\tConnectApi.GroupChatterSettings": "updateMyChatterSettings(${1:String communityId},${2:String groupId},${3:ConnectApi.GroupEmailFrequency emailFrequency})$0",
-            "postAnnouncement(String communityId,String groupId,ConnectApi.AnnouncementInput announcement)\tConnectApi.Announcement": "postAnnouncement(${1:String communityId},${2:String groupId},${3:ConnectApi.AnnouncementInput announcement})$0",
-            "getMembershipBatch(String communityId,List<String> membershipIds)\tList<ConnectApi.BatchResult>": "getMembershipBatch(${1:String communityId},${2:List<String> membershipIds})$0",
-            "updateGroupMember(String communityId,String membershipId,ConnectApi.GroupMembershipType role)\tConnectApi.GroupMember": "updateGroupMember(${1:String communityId},${2:String membershipId},${3:ConnectApi.GroupMembershipType role})$0",
-            "searchGroups(String communityId,String q,ConnectApi.GroupArchiveStatus archiveStatus,Integer pageParam,Integer pageSize)\tConnectApi.ChatterGroupPage": "searchGroups(${1:String communityId},${2:String q},${3:ConnectApi.GroupArchiveStatus archiveStatus},${4:Integer pageParam},${5:Integer pageSize})$0",
-            "setPhotoWithAttributes(String communityId,String groupId,ConnectApi.PhotoInput photo,ConnectApi.BinaryInput fileUpload)\tConnectApi.Photo": "setPhotoWithAttributes(${1:String communityId},${2:String groupId},${3:ConnectApi.PhotoInput photo},${4:ConnectApi.BinaryInput fileUpload})$0",
+            "getGroup(String communityId,String groupId)\tConnectApi.ChatterGroupDetail": "getGroup(${1:String communityId}, ${2:String groupId})$0",
+            "getGroupMembershipRequests(String communityId,String groupId,ConnectApi.GroupMembershipRequestStatus status)\tConnectApi.GroupMembershipRequests": "getGroupMembershipRequests(${1:String communityId}, ${2:String groupId}, ${3:ConnectApi.GroupMembershipRequestStatus status})$0",
+            "addMember(String communityId,String groupId,String userId)\tConnectApi.GroupMember": "addMember(${1:String communityId}, ${2:String groupId}, ${3:String userId})$0",
+            "searchGroups(String communityId,String q)\tConnectApi.ChatterGroupPage": "searchGroups(${1:String communityId}, ${2:String q})$0",
+            "getMembers(String communityId,String groupId,Integer pageParam,Integer pageSize)\tConnectApi.GroupMemberPage": "getMembers(${1:String communityId}, ${2:String groupId}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "setTestSearchGroups(String communityId,String q,ConnectApi.GroupArchiveStatus archiveStatus,Integer pageParam,Integer pageSize,ConnectApi.ChatterGroupPage result)\tvoid": "setTestSearchGroups(${1:String communityId}, ${2:String q}, ${3:ConnectApi.GroupArchiveStatus archiveStatus}, ${4:Integer pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.ChatterGroupPage result})$0",
+            "deletePhoto(String communityId,String groupId)\tvoid": "deletePhoto(${1:String communityId}, ${2:String groupId})$0",
+            "requestGroupMembership(String communityId,String groupId)\tConnectApi.GroupMembershipRequest": "requestGroupMembership(${1:String communityId}, ${2:String groupId})$0",
+            "setPhotoWithAttributes(String communityId,String groupId,ConnectApi.PhotoInput photo)\tConnectApi.Photo": "setPhotoWithAttributes(${1:String communityId}, ${2:String groupId}, ${3:ConnectApi.PhotoInput photo})$0",
+            "updateGroup(String communityId,String groupId,ConnectApi.ChatterGroupInput groupInput)\tConnectApi.ChatterGroupDetail": "updateGroup(${1:String communityId}, ${2:String groupId}, ${3:ConnectApi.ChatterGroupInput groupInput})$0",
+            "updateRequestStatus(String communityId,String requestId,ConnectApi.GroupMembershipRequestStatus status)\tConnectApi.GroupMembershipRequest": "updateRequestStatus(${1:String communityId}, ${2:String requestId}, ${3:ConnectApi.GroupMembershipRequestStatus status})$0",
+            "getGroups(String communityId,Integer pageParam,Integer pageSize)\tConnectApi.ChatterGroupPage": "getGroups(${1:String communityId}, ${2:Integer pageParam}, ${3:Integer pageSize})$0",
+            "getGroups(String communityId,ConnectApi.GroupArchiveStatus archiveStatus,Integer pageParam,Integer pageSize)\tConnectApi.ChatterGroupPage": "getGroups(${1:String communityId}, ${2:ConnectApi.GroupArchiveStatus archiveStatus}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "setPhoto(String communityId,String groupId,String fileId,Integer versionNumber)\tConnectApi.Photo": "setPhoto(${1:String communityId}, ${2:String groupId}, ${3:String fileId}, ${4:Integer versionNumber})$0",
+            "updateMyChatterSettings(String communityId,String groupId,ConnectApi.GroupEmailFrequency emailFrequency)\tConnectApi.GroupChatterSettings": "updateMyChatterSettings(${1:String communityId}, ${2:String groupId}, ${3:ConnectApi.GroupEmailFrequency emailFrequency})$0",
+            "postAnnouncement(String communityId,String groupId,ConnectApi.AnnouncementInput announcement)\tConnectApi.Announcement": "postAnnouncement(${1:String communityId}, ${2:String groupId}, ${3:ConnectApi.AnnouncementInput announcement})$0",
+            "getMembershipBatch(String communityId,List<String> membershipIds)\tList<ConnectApi.BatchResult>": "getMembershipBatch(${1:String communityId}, ${2:List<String> membershipIds})$0",
+            "updateGroupMember(String communityId,String membershipId,ConnectApi.GroupMembershipType role)\tConnectApi.GroupMember": "updateGroupMember(${1:String communityId}, ${2:String membershipId}, ${3:ConnectApi.GroupMembershipType role})$0",
+            "searchGroups(String communityId,String q,ConnectApi.GroupArchiveStatus archiveStatus,Integer pageParam,Integer pageSize)\tConnectApi.ChatterGroupPage": "searchGroups(${1:String communityId}, ${2:String q}, ${3:ConnectApi.GroupArchiveStatus archiveStatus}, ${4:Integer pageParam}, ${5:Integer pageSize})$0",
+            "setPhotoWithAttributes(String communityId,String groupId,ConnectApi.PhotoInput photo,ConnectApi.BinaryInput fileUpload)\tConnectApi.Photo": "setPhotoWithAttributes(${1:String communityId}, ${2:String groupId}, ${3:ConnectApi.PhotoInput photo}, ${4:ConnectApi.BinaryInput fileUpload})$0",
             "getGroups(String communityId)\tConnectApi.ChatterGroupPage": "getGroups(${1:String communityId})$0",
-            "createGroup(String communityId,ConnectApi.ChatterGroupInput groupInput)\tConnectApi.ChatterGroupDetail": "createGroup(${1:String communityId},${2:ConnectApi.ChatterGroupInput groupInput})$0",
-            "getMyChatterSettings(String communityId,String groupId)\tConnectApi.GroupChatterSettings": "getMyChatterSettings(${1:String communityId},${2:String groupId})$0",
-            "setTestSearchGroups(String communityId,String q,ConnectApi.ChatterGroupPage result)\tvoid": "setTestSearchGroups(${1:String communityId},${2:String q},${3:ConnectApi.ChatterGroupPage result})$0",
-            "getGroupMembershipRequests(String communityId,String groupId)\tConnectApi.GroupMembershipRequests": "getGroupMembershipRequests(${1:String communityId},${2:String groupId})$0",
-            "getAnnouncements(String communityId,String groupId,Integer pageParam,Integer pageSize)\tConnectApi.AnnouncementPage": "getAnnouncements(${1:String communityId},${2:String groupId},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "getFollowings(String communityId,String groupId,Integer pageParam)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId},${2:String groupId},${3:Integer pageParam})$0",
-            "setTestSearchGroups(String communityId,String q,Integer pageParam,Integer pageSize,ConnectApi.ChatterGroupPage result)\tvoid": "setTestSearchGroups(${1:String communityId},${2:String q},${3:Integer pageParam},${4:Integer pageSize},${5:ConnectApi.ChatterGroupPage result})$0",
-            "deleteMember(String communityId,String membershipId)\tvoid": "deleteMember(${1:String communityId},${2:String membershipId})$0",
-            "getGroupBatch(String communityId,List<String> groupIds)\tList<ConnectApi.BatchResult>": "getGroupBatch(${1:String communityId},${2:List<String> groupIds})$0",
-            "addMemberWithRole(String communityId,String groupId,String userId,ConnectApi.GroupMembershipType role)\tConnectApi.GroupMember": "addMemberWithRole(${1:String communityId},${2:String groupId},${3:String userId},${4:ConnectApi.GroupMembershipType role})$0",
-            "getGroupMembershipRequest(String communityId,String requestId)\tConnectApi.GroupMembershipRequest": "getGroupMembershipRequest(${1:String communityId},${2:String requestId})$0",
-            "deleteGroup(String communityId,String groupId)\tvoid": "deleteGroup(${1:String communityId},${2:String groupId})$0",
-            "getPhoto(String communityId,String groupId)\tConnectApi.Photo": "getPhoto(${1:String communityId},${2:String groupId})$0",
-            "getFollowings(String communityId,String groupId,String filterType,Integer pageParam,Integer pageSize)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId},${2:String groupId},${3:String filterType},${4:Integer pageParam},${5:Integer pageSize})$0",
-            "getRecords(String communityId,String groupId,Integer pageParam,Integer pageSize)\tConnectApi.GroupRecordPage": "getRecords(${1:String communityId},${2:String groupId},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "getMember(String communityId,String membershipId)\tConnectApi.GroupMember": "getMember(${1:String communityId},${2:String membershipId})$0",
-            "getAnnouncements(String communityId,String groupId)\tConnectApi.AnnouncementPage": "getAnnouncements(${1:String communityId},${2:String groupId})$0",
-            "getFollowings(String communityId,String groupId)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId},${2:String groupId})$0",
-            "getMembers(String communityId,String groupId)\tConnectApi.GroupMemberPage": "getMembers(${1:String communityId},${2:String groupId})$0",
-            "getFollowings(String communityId,String groupId,String filterType,Integer pageParam)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId},${2:String groupId},${3:String filterType},${4:Integer pageParam})$0",
-            "getRecords(String communityId,String groupId)\tConnectApi.GroupRecordPage": "getRecords(${1:String communityId},${2:String groupId})$0",
-            "getFollowings(String communityId,String groupId,String filterType)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId},${2:String groupId},${3:String filterType})$0",
-            "searchGroups(String communityId,String q,Integer pageParam,Integer pageSize)\tConnectApi.ChatterGroupPage": "searchGroups(${1:String communityId},${2:String q},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "follow(String communityId,String groupId,String subjectId)\tConnectApi.Subscription": "follow(${1:String communityId},${2:String groupId},${3:String subjectId})$0",
-            "getFollowings(String communityId,String groupId,Integer pageParam,Integer pageSize)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId},${2:String groupId},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "setPhoto(String communityId,String groupId,ConnectApi.BinaryInput fileUpload)\tConnectApi.Photo": "setPhoto(${1:String communityId},${2:String groupId},${3:ConnectApi.BinaryInput fileUpload})$0"
+            "createGroup(String communityId,ConnectApi.ChatterGroupInput groupInput)\tConnectApi.ChatterGroupDetail": "createGroup(${1:String communityId}, ${2:ConnectApi.ChatterGroupInput groupInput})$0",
+            "getMyChatterSettings(String communityId,String groupId)\tConnectApi.GroupChatterSettings": "getMyChatterSettings(${1:String communityId}, ${2:String groupId})$0",
+            "setTestSearchGroups(String communityId,String q,ConnectApi.ChatterGroupPage result)\tvoid": "setTestSearchGroups(${1:String communityId}, ${2:String q}, ${3:ConnectApi.ChatterGroupPage result})$0",
+            "getGroupMembershipRequests(String communityId,String groupId)\tConnectApi.GroupMembershipRequests": "getGroupMembershipRequests(${1:String communityId}, ${2:String groupId})$0",
+            "getAnnouncements(String communityId,String groupId,Integer pageParam,Integer pageSize)\tConnectApi.AnnouncementPage": "getAnnouncements(${1:String communityId}, ${2:String groupId}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "getFollowings(String communityId,String groupId,Integer pageParam)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId}, ${2:String groupId}, ${3:Integer pageParam})$0",
+            "setTestSearchGroups(String communityId,String q,Integer pageParam,Integer pageSize,ConnectApi.ChatterGroupPage result)\tvoid": "setTestSearchGroups(${1:String communityId}, ${2:String q}, ${3:Integer pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.ChatterGroupPage result})$0",
+            "deleteMember(String communityId,String membershipId)\tvoid": "deleteMember(${1:String communityId}, ${2:String membershipId})$0",
+            "getGroupBatch(String communityId,List<String> groupIds)\tList<ConnectApi.BatchResult>": "getGroupBatch(${1:String communityId}, ${2:List<String> groupIds})$0",
+            "addMemberWithRole(String communityId,String groupId,String userId,ConnectApi.GroupMembershipType role)\tConnectApi.GroupMember": "addMemberWithRole(${1:String communityId}, ${2:String groupId}, ${3:String userId}, ${4:ConnectApi.GroupMembershipType role})$0",
+            "getGroupMembershipRequest(String communityId,String requestId)\tConnectApi.GroupMembershipRequest": "getGroupMembershipRequest(${1:String communityId}, ${2:String requestId})$0",
+            "deleteGroup(String communityId,String groupId)\tvoid": "deleteGroup(${1:String communityId}, ${2:String groupId})$0",
+            "getPhoto(String communityId,String groupId)\tConnectApi.Photo": "getPhoto(${1:String communityId}, ${2:String groupId})$0",
+            "getFollowings(String communityId,String groupId,String filterType,Integer pageParam,Integer pageSize)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId}, ${2:String groupId}, ${3:String filterType}, ${4:Integer pageParam}, ${5:Integer pageSize})$0",
+            "getRecords(String communityId,String groupId,Integer pageParam,Integer pageSize)\tConnectApi.GroupRecordPage": "getRecords(${1:String communityId}, ${2:String groupId}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "getMember(String communityId,String membershipId)\tConnectApi.GroupMember": "getMember(${1:String communityId}, ${2:String membershipId})$0",
+            "getAnnouncements(String communityId,String groupId)\tConnectApi.AnnouncementPage": "getAnnouncements(${1:String communityId}, ${2:String groupId})$0",
+            "getFollowings(String communityId,String groupId)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId}, ${2:String groupId})$0",
+            "getMembers(String communityId,String groupId)\tConnectApi.GroupMemberPage": "getMembers(${1:String communityId}, ${2:String groupId})$0",
+            "getFollowings(String communityId,String groupId,String filterType,Integer pageParam)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId}, ${2:String groupId}, ${3:String filterType}, ${4:Integer pageParam})$0",
+            "getRecords(String communityId,String groupId)\tConnectApi.GroupRecordPage": "getRecords(${1:String communityId}, ${2:String groupId})$0",
+            "getFollowings(String communityId,String groupId,String filterType)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId}, ${2:String groupId}, ${3:String filterType})$0",
+            "searchGroups(String communityId,String q,Integer pageParam,Integer pageSize)\tConnectApi.ChatterGroupPage": "searchGroups(${1:String communityId}, ${2:String q}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "follow(String communityId,String groupId,String subjectId)\tConnectApi.Subscription": "follow(${1:String communityId}, ${2:String groupId}, ${3:String subjectId})$0",
+            "getFollowings(String communityId,String groupId,Integer pageParam,Integer pageSize)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId}, ${2:String groupId}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "setPhoto(String communityId,String groupId,ConnectApi.BinaryInput fileUpload)\tConnectApi.Photo": "setPhoto(${1:String communityId}, ${2:String groupId}, ${3:ConnectApi.BinaryInput fileUpload})$0"
         },
         "constructors": {}
     },
@@ -4812,7 +4812,7 @@ apex_completions = {
         "properties": {},
         "methods": {
             "formatAmount()\tString": "formatAmount()$0",
-            "newInstance(Decimal amount,String isoCode)\tCURRENCY": "newInstance(${1:Decimal amount},${2:String isoCode})$0",
+            "newInstance(Decimal amount,String isoCode)\tCURRENCY": "newInstance(${1:Decimal amount}, ${2:String isoCode})$0",
             "format()\tString": "format()$0"
         },
         "constructors": {}
@@ -4905,7 +4905,7 @@ apex_completions = {
         },
         "methods": {},
         "constructors": {
-            "PluginResult(String outputKey,Object outputValue)\t": "PluginResult(${1:String outputKey},${2:Object outputValue})$0",
+            "PluginResult(String outputKey,Object outputValue)\t": "PluginResult(${1:String outputKey}, ${2:Object outputValue})$0",
             "PluginResult(MAP<String,ANY> outputParameters)\t": "PluginResult(${1:MAP<String,ANY> outputParameters})$0"
         }
     },
@@ -4914,11 +4914,11 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "nextStartDate(Id businessHoursId,Datetime targetDate)\tDatetime": "nextStartDate(${1:Id businessHoursId},${2:Datetime targetDate})$0",
-            "diff(String businessHoursId,Datetime startDate,Datetime endDate)\tLong": "diff(${1:String businessHoursId},${2:Datetime startDate},${3:Datetime endDate})$0",
-            "addGmt(Id businessHoursId,Datetime startDate,Long interval)\tDatetime": "addGmt(${1:Id businessHoursId},${2:Datetime startDate},${3:Long interval})$0",
-            "add(Id businessHoursId,Datetime startDate,Long interval)\tDatetime": "add(${1:Id businessHoursId},${2:Datetime startDate},${3:Long interval})$0",
-            "isWithin(String businessHoursId,Datetime targetDate)\tBoolean": "isWithin(${1:String businessHoursId},${2:Datetime targetDate})$0"
+            "nextStartDate(Id businessHoursId,Datetime targetDate)\tDatetime": "nextStartDate(${1:Id businessHoursId}, ${2:Datetime targetDate})$0",
+            "diff(String businessHoursId,Datetime startDate,Datetime endDate)\tLong": "diff(${1:String businessHoursId}, ${2:Datetime startDate}, ${3:Datetime endDate})$0",
+            "addGmt(Id businessHoursId,Datetime startDate,Long interval)\tDatetime": "addGmt(${1:Id businessHoursId}, ${2:Datetime startDate}, ${3:Long interval})$0",
+            "add(Id businessHoursId,Datetime startDate,Long interval)\tDatetime": "add(${1:Id businessHoursId}, ${2:Datetime startDate}, ${3:Long interval})$0",
+            "isWithin(String businessHoursId,Datetime targetDate)\tBoolean": "isWithin(${1:String businessHoursId}, ${2:Datetime targetDate})$0"
         },
         "constructors": {
             "BusinessHours()\t": "BusinessHours()$0"
@@ -4930,7 +4930,7 @@ apex_completions = {
         "properties": {},
         "methods": {
             "isSameDay(Date other)\tBoolean": "isSameDay(${1:Date other})$0",
-            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg},${2:Boolean escape})$0",
+            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg}, ${2:Boolean escape})$0",
             "toStartOfWeek()\tDate": "toStartOfWeek()$0",
             "isLeapYear(Integer year)\tBoolean": "isLeapYear(${1:Integer year})$0",
             "valueOf(String str)\tDate": "valueOf(${1:String str})$0",
@@ -4941,16 +4941,16 @@ apex_completions = {
             "valueOf(Object o)\tDate": "valueOf(${1:Object o})$0",
             "addDays(Integer days)\tDate": "addDays(${1:Integer days})$0",
             "addError(APEX_OBJECT msg)\tvoid": "addError(${1:APEX_OBJECT msg})$0",
-            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg},${2:Boolean escape})$0",
+            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg}, ${2:Boolean escape})$0",
             "today()\tDate": "today()$0",
             "year()\tInteger": "year()$0",
             "daysBetween(Date other)\tInteger": "daysBetween(${1:Date other})$0",
-            "newInstance(Integer year,Integer month,Integer day)\tDate": "newInstance(${1:Integer year},${2:Integer month},${3:Integer day})$0",
+            "newInstance(Integer year,Integer month,Integer day)\tDate": "newInstance(${1:Integer year}, ${2:Integer month}, ${3:Integer day})$0",
             "monthsBetween(Date other)\tInteger": "monthsBetween(${1:Date other})$0",
             "month()\tInteger": "month()$0",
             "addMonths(Integer months)\tDate": "addMonths(${1:Integer months})$0",
             "toStartOfMonth()\tDate": "toStartOfMonth()$0",
-            "daysInMonth(Integer year,Integer month)\tInteger": "daysInMonth(${1:Integer year},${2:Integer month})$0",
+            "daysInMonth(Integer year,Integer month)\tInteger": "daysInMonth(${1:Integer year}, ${2:Integer month})$0",
             "addError(String msg)\tvoid": "addError(${1:String msg})$0",
             "format()\tString": "format()$0"
         },
@@ -5020,10 +5020,10 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "deleteSubscription(String communityId,String subscriptionId)\tvoid": "deleteSubscription(${1:String communityId},${2:String subscriptionId})$0",
-            "getFollowers(String communityId,String recordId)\tConnectApi.FollowerPage": "getFollowers(${1:String communityId},${2:String recordId})$0",
-            "getSubscription(String communityId,String subscriptionId)\tConnectApi.Subscription": "getSubscription(${1:String communityId},${2:String subscriptionId})$0",
-            "getFollowers(String communityId,String recordId,Integer pageParam,Integer pageSize)\tConnectApi.FollowerPage": "getFollowers(${1:String communityId},${2:String recordId},${3:Integer pageParam},${4:Integer pageSize})$0"
+            "deleteSubscription(String communityId,String subscriptionId)\tvoid": "deleteSubscription(${1:String communityId}, ${2:String subscriptionId})$0",
+            "getFollowers(String communityId,String recordId)\tConnectApi.FollowerPage": "getFollowers(${1:String communityId}, ${2:String recordId})$0",
+            "getSubscription(String communityId,String subscriptionId)\tConnectApi.Subscription": "getSubscription(${1:String communityId}, ${2:String subscriptionId})$0",
+            "getFollowers(String communityId,String recordId,Integer pageParam,Integer pageSize)\tConnectApi.FollowerPage": "getFollowers(${1:String communityId}, ${2:String recordId}, ${3:Integer pageParam}, ${4:Integer pageSize})$0"
         },
         "constructors": {}
     },
@@ -5069,7 +5069,7 @@ apex_completions = {
         "constructors": {
             "MetadataException(Exception param1)\t": "MetadataException(${1:Exception param1})$0",
             "MetadataException()\t": "MetadataException()$0",
-            "MetadataException(String param1,Exception param2)\t": "MetadataException(${1:String param1},${2:Exception param2})$0"
+            "MetadataException(String param1,Exception param2)\t": "MetadataException(${1:String param1}, ${2:Exception param2})$0"
         }
     },
     "reportformat": {
@@ -5183,12 +5183,12 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "max(Integer x,Integer y)\tInteger": "max(${1:Integer x},${2:Integer y})$0",
+            "max(Integer x,Integer y)\tInteger": "max(${1:Integer x}, ${2:Integer y})$0",
             "tan(Decimal x)\tDecimal": "tan(${1:Decimal x})$0",
             "sqrt(Decimal x)\tDecimal": "sqrt(${1:Decimal x})$0",
             "random()\tDouble": "random()$0",
             "roundToLong(Decimal x)\tLong": "roundToLong(${1:Decimal x})$0",
-            "min(Decimal x,Decimal y)\tDecimal": "min(${1:Decimal x},${2:Decimal y})$0",
+            "min(Decimal x,Decimal y)\tDecimal": "min(${1:Decimal x}, ${2:Decimal y})$0",
             "round(Double x)\tInteger": "round(${1:Double x})$0",
             "sin(Double x)\tDouble": "sin(${1:Double x})$0",
             "abs(Double x)\tDouble": "abs(${1:Double x})$0",
@@ -5196,13 +5196,13 @@ apex_completions = {
             "acos(Double x)\tDouble": "acos(${1:Double x})$0",
             "floor(Decimal x)\tDecimal": "floor(${1:Decimal x})$0",
             "sqrt(Double x)\tDouble": "sqrt(${1:Double x})$0",
-            "max(Decimal x,Decimal y)\tDecimal": "max(${1:Decimal x},${2:Decimal y})$0",
+            "max(Decimal x,Decimal y)\tDecimal": "max(${1:Decimal x}, ${2:Decimal y})$0",
             "sinh(Decimal x)\tDecimal": "sinh(${1:Decimal x})$0",
             "sin(Decimal x)\tDecimal": "sin(${1:Decimal x})$0",
             "log10(Double x)\tDouble": "log10(${1:Double x})$0",
             "exp(Decimal x)\tDecimal": "exp(${1:Decimal x})$0",
-            "max(Double x,Double y)\tDouble": "max(${1:Double x},${2:Double y})$0",
-            "max(Long x,Long y)\tLong": "max(${1:Long x},${2:Long y})$0",
+            "max(Double x,Double y)\tDouble": "max(${1:Double x}, ${2:Double y})$0",
+            "max(Long x,Long y)\tLong": "max(${1:Long x}, ${2:Long y})$0",
             "cosh(Decimal x)\tDecimal": "cosh(${1:Decimal x})$0",
             "acos(Decimal x)\tDecimal": "acos(${1:Decimal x})$0",
             "cos(Double x)\tDouble": "cos(${1:Double x})$0",
@@ -5213,25 +5213,25 @@ apex_completions = {
             "rint(Decimal x)\tDecimal": "rint(${1:Decimal x})$0",
             "abs(Integer x)\tInteger": "abs(${1:Integer x})$0",
             "rint(Double x)\tDouble": "rint(${1:Double x})$0",
-            "min(Double x,Double y)\tDouble": "min(${1:Double x},${2:Double y})$0",
+            "min(Double x,Double y)\tDouble": "min(${1:Double x}, ${2:Double y})$0",
             "cos(Decimal x)\tDecimal": "cos(${1:Decimal x})$0",
             "sinh(Double x)\tDouble": "sinh(${1:Double x})$0",
             "cbrt(Double x)\tDouble": "cbrt(${1:Double x})$0",
             "exp(Double x)\tDouble": "exp(${1:Double x})$0",
-            "mod(Long x,Long y)\tLong": "mod(${1:Long x},${2:Long y})$0",
-            "atan2(Double x,Double y)\tDouble": "atan2(${1:Double x},${2:Double y})$0",
+            "mod(Long x,Long y)\tLong": "mod(${1:Long x}, ${2:Long y})$0",
+            "atan2(Double x,Double y)\tDouble": "atan2(${1:Double x}, ${2:Double y})$0",
             "tan(Double x)\tDouble": "tan(${1:Double x})$0",
             "log(Decimal x)\tDecimal": "log(${1:Decimal x})$0",
-            "min(Integer x,Integer y)\tInteger": "min(${1:Integer x},${2:Integer y})$0",
-            "mod(Integer x,Integer y)\tInteger": "mod(${1:Integer x},${2:Integer y})$0",
+            "min(Integer x,Integer y)\tInteger": "min(${1:Integer x}, ${2:Integer y})$0",
+            "mod(Integer x,Integer y)\tInteger": "mod(${1:Integer x}, ${2:Integer y})$0",
             "log10(Decimal x)\tDecimal": "log10(${1:Decimal x})$0",
-            "pow(Double base,Double exp)\tDouble": "pow(${1:Double base},${2:Double exp})$0",
+            "pow(Double base,Double exp)\tDouble": "pow(${1:Double base}, ${2:Double exp})$0",
             "ceil(Double x)\tDouble": "ceil(${1:Double x})$0",
             "abs(Long x)\tLong": "abs(${1:Long x})$0",
             "log(Double x)\tDouble": "log(${1:Double x})$0",
             "atan(Decimal x)\tDecimal": "atan(${1:Decimal x})$0",
             "cbrt(Decimal x)\tDecimal": "cbrt(${1:Decimal x})$0",
-            "min(Long x,Long y)\tLong": "min(${1:Long x},${2:Long y})$0",
+            "min(Long x,Long y)\tLong": "min(${1:Long x}, ${2:Long y})$0",
             "asin(Decimal x)\tDecimal": "asin(${1:Decimal x})$0",
             "ceil(Decimal x)\tDecimal": "ceil(${1:Decimal x})$0",
             "asin(Double x)\tDouble": "asin(${1:Double x})$0",
@@ -5239,7 +5239,7 @@ apex_completions = {
             "round(Decimal x)\tInteger": "round(${1:Decimal x})$0",
             "floor(Double x)\tDouble": "floor(${1:Double x})$0",
             "abs(Decimal x)\tDecimal": "abs(${1:Decimal x})$0",
-            "atan2(Decimal x,Decimal y)\tDecimal": "atan2(${1:Decimal x},${2:Decimal y})$0",
+            "atan2(Decimal x,Decimal y)\tDecimal": "atan2(${1:Decimal x}, ${2:Decimal y})$0",
             "tanh(Decimal x)\tDecimal": "tanh(${1:Decimal x})$0"
         },
         "constructors": {
@@ -5336,7 +5336,7 @@ apex_completions = {
             "containsKey(ANY key)\tBoolean": "containsKey(${1:ANY key})$0",
             "hashCode()\tInteger": "hashCode()$0",
             "remove(ANY key)\tString": "remove(${1:ANY key})$0",
-            "put(ANY key,ANY value)\tString": "put(${1:ANY key},${2:ANY value})$0",
+            "put(ANY key,ANY value)\tString": "put(${1:ANY key}, ${2:ANY value})$0",
             "putAll(MAP entries)\tvoid": "putAll(${1:MAP entries})$0",
             "size()\tInteger": "size()$0",
             "values()\tList<String>": "values()$0",
@@ -5477,8 +5477,8 @@ apex_completions = {
         },
         "methods": {},
         "constructors": {
-            "OutputParameter(String name,Process.PluginDescribeResult.ParameterType parameterType)\t": "OutputParameter(${1:String name},${2:Process.PluginDescribeResult.ParameterType parameterType})$0",
-            "OutputParameter(String name,String description,Process.PluginDescribeResult.ParameterType parameterType)\t": "OutputParameter(${1:String name},${2:String description},${3:Process.PluginDescribeResult.ParameterType parameterType})$0"
+            "OutputParameter(String name,Process.PluginDescribeResult.ParameterType parameterType)\t": "OutputParameter(${1:String name}, ${2:Process.PluginDescribeResult.ParameterType parameterType})$0",
+            "OutputParameter(String name,String description,Process.PluginDescribeResult.ParameterType parameterType)\t": "OutputParameter(${1:String name}, ${2:String description}, ${3:Process.PluginDescribeResult.ParameterType parameterType})$0"
         }
     },
     "pluginrequest": {
@@ -5658,7 +5658,7 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "doInvoke(Object param1,Object param2,MAP<String,ANY> param3,String param4,String param5,String param6,String param7,String param8,String param9)\tvoid": "doInvoke(${1:Object param1},${2:Object param2},${3:MAP<String,ANY> param3},${4:String param4},${5:String param5},${6:String param6},${7:String param7},${8:String param8},${9:String param9})$0"
+            "doInvoke(Object param1,Object param2,MAP<String,ANY> param3,String param4,String param5,String param6,String param7,String param8,String param9)\tvoid": "doInvoke(${1:Object param1}, ${2:Object param2}, ${3:MAP<String,ANY> param3}, ${4:String param4}, ${5:String param5}, ${6:String param6}, ${7:String param7}, ${8:String param8}, ${9:String param9})$0"
         },
         "constructors": {}
     },
@@ -5829,7 +5829,7 @@ apex_completions = {
             "getTypeName()\tString": "getTypeName()$0"
         },
         "constructors": {
-            "PredictiveException(String param1,Exception param2)\t": "PredictiveException(${1:String param1},${2:Exception param2})$0",
+            "PredictiveException(String param1,Exception param2)\t": "PredictiveException(${1:String param1}, ${2:Exception param2})$0",
             "PredictiveException(Exception param1)\t": "PredictiveException(${1:Exception param1})$0",
             "PredictiveException()\t": "PredictiveException()$0"
         }
@@ -5896,19 +5896,19 @@ apex_completions = {
             "getSObjectType()\tSchema.SObjectType": "getSObjectType()$0",
             "addAll(SET elements)\tvoid": "addAll(${1:SET elements})$0",
             "equals(ANY obj)\tBoolean": "equals(${1:ANY obj})$0",
-            "add(Integer index,ANY element)\tvoid": "add(${1:Integer index},${2:ANY element})$0",
+            "add(Integer index,ANY element)\tvoid": "add(${1:Integer index}, ${2:ANY element})$0",
             "hashCode()\tInteger": "hashCode()$0",
             "size()\tInteger": "size()$0",
             "deepClone(Boolean preserveId)\tList<String>": "deepClone(${1:Boolean preserveId})$0",
-            "deepClone(Boolean preserveId,Boolean preserveReadOnlyTimestamps,Boolean preserveAutoNumbers)\tList<String>": "deepClone(${1:Boolean preserveId},${2:Boolean preserveReadOnlyTimestamps},${3:Boolean preserveAutoNumbers})$0",
+            "deepClone(Boolean preserveId,Boolean preserveReadOnlyTimestamps,Boolean preserveAutoNumbers)\tList<String>": "deepClone(${1:Boolean preserveId}, ${2:Boolean preserveReadOnlyTimestamps}, ${3:Boolean preserveAutoNumbers})$0",
             "add(ANY element)\tObject": "add(${1:ANY element})$0",
             "iterator()\tsystem.ListIterator": "iterator()$0",
             "clone()\tList<String>": "clone()$0",
             "remove(Integer index)\tObject": "remove(${1:Integer index})$0",
             "sort()\tvoid": "sort()$0",
-            "deepClone(Boolean preserveId,Boolean preserveReadOnlyTimestamps)\tList<String>": "deepClone(${1:Boolean preserveId},${2:Boolean preserveReadOnlyTimestamps})$0",
+            "deepClone(Boolean preserveId,Boolean preserveReadOnlyTimestamps)\tList<String>": "deepClone(${1:Boolean preserveId}, ${2:Boolean preserveReadOnlyTimestamps})$0",
             "isEmpty()\tBoolean": "isEmpty()$0",
-            "set(Integer index,ANY value)\tvoid": "set(${1:Integer index},${2:ANY value})$0",
+            "set(Integer index,ANY value)\tvoid": "set(${1:Integer index}, ${2:ANY value})$0",
             "get(Integer index)\tObject": "get(${1:Integer index})$0",
             "addAll(List elements)\tvoid": "addAll(${1:List elements})$0",
             "deepClone()\tList<String>": "deepClone()$0"
@@ -6053,39 +6053,39 @@ apex_completions = {
         "methods": {
             "getOriginalUrl()\tString": "getOriginalUrl()$0",
             "getErrorMessage()\tString": "getErrorMessage()$0",
-            "setPortalUserAsAuthProvider(SObject user,String accountId)\tvoid": "setPortalUserAsAuthProvider(${1:SObject user},${2:String accountId})$0",
+            "setPortalUserAsAuthProvider(SObject user,String accountId)\tvoid": "setPortalUserAsAuthProvider(${1:SObject user}, ${2:String accountId})$0",
             "getPathPrefix()\tString": "getPathPrefix()$0",
             "getBaseUrl()\tString": "getBaseUrl()$0",
             "getMasterLabel()\tString": "getMasterLabel()$0",
             "getAdminId()\tId": "getAdminId()$0",
             "getErrorDescription()\tString": "getErrorDescription()$0",
-            "changePassword(String newPassword,String verifyNewPassword)\tSystem.PageReference": "changePassword(${1:String newPassword},${2:String verifyNewPassword})$0",
+            "changePassword(String newPassword,String verifyNewPassword)\tSystem.PageReference": "changePassword(${1:String newPassword}, ${2:String verifyNewPassword})$0",
             "getDomain()\tString": "getDomain()$0",
             "getSiteId()\tId": "getSiteId()$0",
             "getCurrentSiteUrl()\tString": "getCurrentSiteUrl()$0",
-            "changePassword(String newPassword,String verifyNewPassword,String oldPassword)\tSystem.PageReference": "changePassword(${1:String newPassword},${2:String verifyNewPassword},${3:String oldPassword})$0",
+            "changePassword(String newPassword,String verifyNewPassword,String oldPassword)\tSystem.PageReference": "changePassword(${1:String newPassword}, ${2:String verifyNewPassword}, ${3:String oldPassword})$0",
             "getPrefix()\tString": "getPrefix()$0",
             "getBaseInsecureUrl()\tString": "getBaseInsecureUrl()$0",
             "getBaseSecureUrl()\tString": "getBaseSecureUrl()$0",
-            "createPortalUser(SObject user,String accountId,String password)\tId": "createPortalUser(${1:SObject user},${2:String accountId},${3:String password})$0",
+            "createPortalUser(SObject user,String accountId,String password)\tId": "createPortalUser(${1:SObject user}, ${2:String accountId}, ${3:String password})$0",
             "getCustomWebAddress()\tString": "getCustomWebAddress()$0",
             "getAnalyticsTrackingCode()\tString": "getAnalyticsTrackingCode()$0",
             "getBaseRequestUrl()\tString": "getBaseRequestUrl()$0",
             "forgotPassword(String username)\tBoolean": "forgotPassword(${1:String username})$0",
-            "login(String username,String password,String startUrl)\tSystem.PageReference": "login(${1:String username},${2:String password},${3:String startUrl})$0",
-            "createPortalUser(SObject user,String accountId,String password,Boolean sendEmailConfirmation)\tId": "createPortalUser(${1:SObject user},${2:String accountId},${3:String password},${4:Boolean sendEmailConfirmation})$0",
+            "login(String username,String password,String startUrl)\tSystem.PageReference": "login(${1:String username}, ${2:String password}, ${3:String startUrl})$0",
+            "createPortalUser(SObject user,String accountId,String password,Boolean sendEmailConfirmation)\tId": "createPortalUser(${1:SObject user}, ${2:String accountId}, ${3:String password}, ${4:Boolean sendEmailConfirmation})$0",
             "isLoginEnabled()\tBoolean": "isLoginEnabled()$0",
             "getSiteType()\tString": "getSiteType()$0",
             "isRegistrationEnabled()\tBoolean": "isRegistrationEnabled()$0",
-            "createPersonAccountPortalUser(SObject user,String ownerId,String password)\tId": "createPersonAccountPortalUser(${1:SObject user},${2:String ownerId},${3:String password})$0",
+            "createPersonAccountPortalUser(SObject user,String ownerId,String password)\tId": "createPersonAccountPortalUser(${1:SObject user}, ${2:String ownerId}, ${3:String password})$0",
             "getName()\tString": "getName()$0",
             "isPasswordExpired()\tBoolean": "isPasswordExpired()$0",
-            "createPortalUser(SObject user,String accountId)\tId": "createPortalUser(${1:SObject user},${2:String accountId})$0",
+            "createPortalUser(SObject user,String accountId)\tId": "createPortalUser(${1:SObject user}, ${2:String accountId})$0",
             "getTemplate()\tSystem.PageReference": "getTemplate()$0",
             "getSiteTypeLabel()\tString": "getSiteTypeLabel()$0",
             "getBaseCustomUrl()\tString": "getBaseCustomUrl()$0",
             "getAdminEmail()\tString": "getAdminEmail()$0",
-            "createPersonAccountPortalUser(SObject user,String ownerId,String recordTypeId,String password)\tId": "createPersonAccountPortalUser(${1:SObject user},${2:String ownerId},${3:String recordTypeId},${4:String password})$0"
+            "createPersonAccountPortalUser(SObject user,String ownerId,String recordTypeId,String password)\tId": "createPersonAccountPortalUser(${1:SObject user}, ${2:String ownerId}, ${3:String recordTypeId}, ${4:String password})$0"
         },
         "constructors": {
             "Site()\t": "Site()$0"
@@ -6096,7 +6096,7 @@ apex_completions = {
         "namespace": "ChatterAnswers",
         "properties": {},
         "methods": {
-            "createAccount(String param1,String param2,Id param3)\tString": "createAccount(${1:String param1},${2:String param2},${3:Id param3})$0"
+            "createAccount(String param1,String param2,Id param3)\tString": "createAccount(${1:String param1}, ${2:String param2}, ${3:Id param3})$0"
         },
         "constructors": {}
     },
@@ -6206,29 +6206,29 @@ apex_completions = {
         "namespace": "dom",
         "properties": {},
         "methods": {
-            "addChildElement(String name,String namespace,String prefix)\tdom.XmlNode": "addChildElement(${1:String name},${2:String namespace},${3:String prefix})$0",
+            "addChildElement(String name,String namespace,String prefix)\tdom.XmlNode": "addChildElement(${1:String name}, ${2:String namespace}, ${3:String prefix})$0",
             "getNamespaceFor(String prefix)\tString": "getNamespaceFor(${1:String prefix})$0",
             "getAttributeKeyNsAt(Integer index)\tString": "getAttributeKeyNsAt(${1:Integer index})$0",
             "getText()\tString": "getText()$0",
-            "removeAttribute(String key,String keyNamespace)\tBoolean": "removeAttribute(${1:String key},${2:String keyNamespace})$0",
+            "removeAttribute(String key,String keyNamespace)\tBoolean": "removeAttribute(${1:String key}, ${2:String keyNamespace})$0",
             "getParent()\tdom.XmlNode": "getParent()$0",
             "getAttributeCount()\tInteger": "getAttributeCount()$0",
             "getNodeType()\tDom.XmlNodeType": "getNodeType()$0",
             "getChildren()\tList<dom.XmlNode>": "getChildren()$0",
             "addTextNode(String text)\tdom.XmlNode": "addTextNode(${1:String text})$0",
             "addCommentNode(String text)\tdom.XmlNode": "addCommentNode(${1:String text})$0",
-            "getAttribute(String key,String keyNamespace)\tString": "getAttribute(${1:String key},${2:String keyNamespace})$0",
-            "getChildElement(String name,String namespace)\tdom.XmlNode": "getChildElement(${1:String name},${2:String namespace})$0",
-            "setAttributeNs(String key,String value,String keyNamespace,String valueNamespace)\tvoid": "setAttributeNs(${1:String key},${2:String value},${3:String keyNamespace},${4:String valueNamespace})$0",
+            "getAttribute(String key,String keyNamespace)\tString": "getAttribute(${1:String key}, ${2:String keyNamespace})$0",
+            "getChildElement(String name,String namespace)\tdom.XmlNode": "getChildElement(${1:String name}, ${2:String namespace})$0",
+            "setAttributeNs(String key,String value,String keyNamespace,String valueNamespace)\tvoid": "setAttributeNs(${1:String key}, ${2:String value}, ${3:String keyNamespace}, ${4:String valueNamespace})$0",
             "removeChild(ANY child)\tBoolean": "removeChild(${1:ANY child})$0",
-            "setNamespace(String prefix,String namespace)\tvoid": "setNamespace(${1:String prefix},${2:String namespace})$0",
+            "setNamespace(String prefix,String namespace)\tvoid": "setNamespace(${1:String prefix}, ${2:String namespace})$0",
             "getAttributeKeyAt(Integer index)\tString": "getAttributeKeyAt(${1:Integer index})$0",
             "getNamespace()\tString": "getNamespace()$0",
             "getName()\tString": "getName()$0",
-            "getAttributeValueNs(String key,String keyNamespace)\tString": "getAttributeValueNs(${1:String key},${2:String keyNamespace})$0",
+            "getAttributeValueNs(String key,String keyNamespace)\tString": "getAttributeValueNs(${1:String key}, ${2:String keyNamespace})$0",
             "getPrefixFor(String namespace)\tString": "getPrefixFor(${1:String namespace})$0",
-            "getAttributeValue(String key,String keyNamespace)\tString": "getAttributeValue(${1:String key},${2:String keyNamespace})$0",
-            "setAttribute(String key,String value)\tvoid": "setAttribute(${1:String key},${2:String value})$0",
+            "getAttributeValue(String key,String keyNamespace)\tString": "getAttributeValue(${1:String key}, ${2:String keyNamespace})$0",
+            "setAttribute(String key,String value)\tvoid": "setAttribute(${1:String key}, ${2:String value})$0",
             "getChildElements()\tList<dom.XmlNode>": "getChildElements()$0"
         },
         "constructors": {}
@@ -6263,7 +6263,7 @@ apex_completions = {
         "namespace": "Database",
         "properties": {},
         "methods": {
-            "execute(Database.BatchableContext param1,List<ANY> param2)\tvoid": "execute(${1:Database.BatchableContext param1},${2:List<ANY> param2})$0",
+            "execute(Database.BatchableContext param1,List<ANY> param2)\tvoid": "execute(${1:Database.BatchableContext param1}, ${2:List<ANY> param2})$0",
             "start(Database.BatchableContext param1)\tsystem.Iterable": "start(${1:Database.BatchableContext param1})$0",
             "finish(Database.BatchableContext param1)\tvoid": "finish(${1:Database.BatchableContext param1})$0"
         },
@@ -6347,7 +6347,7 @@ apex_completions = {
         "namespace": "dom",
         "properties": {},
         "methods": {
-            "createRootElement(String name,String namespace,String prefix)\tdom.XmlNode": "createRootElement(${1:String name},${2:String namespace},${3:String prefix})$0",
+            "createRootElement(String name,String namespace,String prefix)\tdom.XmlNode": "createRootElement(${1:String name}, ${2:String namespace}, ${3:String prefix})$0",
             "load(String xml)\tvoid": "load(${1:String xml})$0",
             "getRootElement()\tdom.XmlNode": "getRootElement()$0",
             "toXmlString()\tString": "toXmlString()$0"
@@ -6376,7 +6376,7 @@ apex_completions = {
             "hashCode()\tInteger": "hashCode()$0",
             "forName(String clsName)\tsystem.Type": "forName(${1:String clsName})$0",
             "getName()\tString": "getName()$0",
-            "forName(String namespace,String clsName)\tsystem.Type": "forName(${1:String namespace},${2:String clsName})$0",
+            "forName(String namespace,String clsName)\tsystem.Type": "forName(${1:String namespace}, ${2:String clsName})$0",
             "newInstance()\tObject": "newInstance()$0",
             "equals(Object o)\tBoolean": "equals(${1:Object o})$0",
             "toString()\tString": "toString()$0"
@@ -6787,13 +6787,13 @@ apex_completions = {
         "properties": {},
         "methods": {
             "dayOfYearGmt()\tInteger": "dayOfYearGmt()$0",
-            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg},${2:Boolean escape})$0",
+            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg}, ${2:Boolean escape})$0",
             "formatLong()\tString": "formatLong()$0",
             "addSeconds(Integer seconds)\tDatetime": "addSeconds(${1:Integer seconds})$0",
             "formatGmt(String dateformat)\tString": "formatGmt(${1:String dateformat})$0",
             "format(String dateformat)\tString": "format(${1:String dateformat})$0",
             "yearGmt()\tInteger": "yearGmt()$0",
-            "newInstanceGmt(Integer year,Integer month,Integer day,Integer hour,Integer minute,Integer second)\tDatetime": "newInstanceGmt(${1:Integer year},${2:Integer month},${3:Integer day},${4:Integer hour},${5:Integer minute},${6:Integer second})$0",
+            "newInstanceGmt(Integer year,Integer month,Integer day,Integer hour,Integer minute,Integer second)\tDatetime": "newInstanceGmt(${1:Integer year}, ${2:Integer month}, ${3:Integer day}, ${4:Integer hour}, ${5:Integer minute}, ${6:Integer second})$0",
             "addDays(Integer days)\tDatetime": "addDays(${1:Integer days})$0",
             "day()\tInteger": "day()$0",
             "minute()\tInteger": "minute()$0",
@@ -6802,7 +6802,7 @@ apex_completions = {
             "valueOf(String str)\tDatetime": "valueOf(${1:String str})$0",
             "valueOfGmt(String str)\tDatetime": "valueOfGmt(${1:String str})$0",
             "second()\tInteger": "second()$0",
-            "newInstance(Integer year,Integer month,Integer day,Integer hour,Integer minute,Integer second)\tDatetime": "newInstance(${1:Integer year},${2:Integer month},${3:Integer day},${4:Integer hour},${5:Integer minute},${6:Integer second})$0",
+            "newInstance(Integer year,Integer month,Integer day,Integer hour,Integer minute,Integer second)\tDatetime": "newInstance(${1:Integer year}, ${2:Integer month}, ${3:Integer day}, ${4:Integer hour}, ${5:Integer minute}, ${6:Integer second})$0",
             "valueOf(Object o)\tDatetime": "valueOf(${1:Object o})$0",
             "dayGmt()\tInteger": "dayGmt()$0",
             "millisecondGmt()\tInteger": "millisecondGmt()$0",
@@ -6810,23 +6810,23 @@ apex_completions = {
             "addError(String msg)\tvoid": "addError(${1:String msg})$0",
             "format()\tString": "format()$0",
             "minuteGmt()\tInteger": "minuteGmt()$0",
-            "newInstanceGmt(Integer year,Integer month,Integer day)\tDatetime": "newInstanceGmt(${1:Integer year},${2:Integer month},${3:Integer day})$0",
+            "newInstanceGmt(Integer year,Integer month,Integer day)\tDatetime": "newInstanceGmt(${1:Integer year}, ${2:Integer month}, ${3:Integer day})$0",
             "hour()\tInteger": "hour()$0",
             "parse(String str)\tDatetime": "parse(${1:String str})$0",
-            "format(String dateformat,String timezone)\tString": "format(${1:String dateformat},${2:String timezone})$0",
-            "newInstance(Date date,Time time)\tDatetime": "newInstance(${1:Date date},${2:Time time})$0",
+            "format(String dateformat,String timezone)\tString": "format(${1:String dateformat}, ${2:String timezone})$0",
+            "newInstance(Date date,Time time)\tDatetime": "newInstance(${1:Date date}, ${2:Time time})$0",
             "isSameDay(Datetime other)\tBoolean": "isSameDay(${1:Datetime other})$0",
             "dayOfYear()\tInteger": "dayOfYear()$0",
             "addYears(Integer years)\tDatetime": "addYears(${1:Integer years})$0",
             "hourGmt()\tInteger": "hourGmt()$0",
             "addHours(Integer hours)\tDatetime": "addHours(${1:Integer hours})$0",
-            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg},${2:Boolean escape})$0",
+            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg}, ${2:Boolean escape})$0",
             "now()\tDatetime": "now()$0",
-            "newInstanceGmt(Date date,Time time)\tDatetime": "newInstanceGmt(${1:Date date},${2:Time time})$0",
+            "newInstanceGmt(Date date,Time time)\tDatetime": "newInstanceGmt(${1:Date date}, ${2:Time time})$0",
             "year()\tInteger": "year()$0",
             "millisecond()\tInteger": "millisecond()$0",
             "date()\tDate": "date()$0",
-            "newInstance(Integer year,Integer month,Integer day)\tDatetime": "newInstance(${1:Integer year},${2:Integer month},${3:Integer day})$0",
+            "newInstance(Integer year,Integer month,Integer day)\tDatetime": "newInstance(${1:Integer year}, ${2:Integer month}, ${3:Integer day})$0",
             "timeGmt()\tTime": "timeGmt()$0",
             "secondGmt()\tInteger": "secondGmt()$0",
             "addMonths(Integer months)\tDatetime": "addMonths(${1:Integer months})$0",
@@ -6866,9 +6866,9 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "getAnnouncement(String communityId,String announcementId)\tConnectApi.Announcement": "getAnnouncement(${1:String communityId},${2:String announcementId})$0",
-            "updateAnnouncement(String communityId,String announcementId,Datetime expirationDate)\tConnectApi.Announcement": "updateAnnouncement(${1:String communityId},${2:String announcementId},${3:Datetime expirationDate})$0",
-            "deleteAnnouncement(String communityId,String announcementId)\tvoid": "deleteAnnouncement(${1:String communityId},${2:String announcementId})$0"
+            "getAnnouncement(String communityId,String announcementId)\tConnectApi.Announcement": "getAnnouncement(${1:String communityId}, ${2:String announcementId})$0",
+            "updateAnnouncement(String communityId,String announcementId,Datetime expirationDate)\tConnectApi.Announcement": "updateAnnouncement(${1:String communityId}, ${2:String announcementId}, ${3:Datetime expirationDate})$0",
+            "deleteAnnouncement(String communityId,String announcementId)\tvoid": "deleteAnnouncement(${1:String communityId}, ${2:String announcementId})$0"
         },
         "constructors": {}
     },
@@ -6883,7 +6883,7 @@ apex_completions = {
             "CanvasRenderException(Exception param1)\t": "CanvasRenderException(${1:Exception param1})$0",
             "CanvasRenderException(String param1)\t": "CanvasRenderException(${1:String param1})$0",
             "CanvasRenderException()\t": "CanvasRenderException()$0",
-            "CanvasRenderException(String param1,Exception param2)\t": "CanvasRenderException(${1:String param1},${2:Exception param2})$0"
+            "CanvasRenderException(String param1,Exception param2)\t": "CanvasRenderException(${1:String param1}, ${2:Exception param2})$0"
         }
     },
     "visualforcepage": {
@@ -7087,9 +7087,9 @@ apex_completions = {
         "methods": {
             "pattern()\tString": "pattern()$0",
             "split(String input)\tList<String>": "split(${1:String input})$0",
-            "split(String input,Integer n)\tList<String>": "split(${1:String input},${2:Integer n})$0",
+            "split(String input,Integer n)\tList<String>": "split(${1:String input}, ${2:Integer n})$0",
             "quote(String s)\tString": "quote(${1:String s})$0",
-            "matches(String regex,String input)\tBoolean": "matches(${1:String regex},${2:String input})$0",
+            "matches(String regex,String input)\tBoolean": "matches(${1:String regex}, ${2:String input})$0",
             "matcher(String input)\tsystem.Matcher": "matcher(${1:String input})$0",
             "compile(String regex)\tsystem.Pattern": "compile(${1:String regex})$0"
         },
@@ -7148,7 +7148,7 @@ apex_completions = {
         "namespace": "Messaging",
         "properties": {},
         "methods": {
-            "handleInboundEmail(Messaging.InboundEmail param1,Messaging.InboundEnvelope param2)\tMessaging.InboundEmailResult": "handleInboundEmail(${1:Messaging.InboundEmail param1},${2:Messaging.InboundEnvelope param2})$0"
+            "handleInboundEmail(Messaging.InboundEmail param1,Messaging.InboundEnvelope param2)\tMessaging.InboundEmailResult": "handleInboundEmail(${1:Messaging.InboundEmail param1}, ${2:Messaging.InboundEnvelope param2})$0"
         },
         "constructors": {}
     },
@@ -7157,11 +7157,11 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "getMentionValidations(String communityId,String parentId,List<String> recordIds,ConnectApi.FeedItemVisibilityType visibility)\tConnectApi.MentionValidations": "getMentionValidations(${1:String communityId},${2:String parentId},${3:List<String> recordIds},${4:ConnectApi.FeedItemVisibilityType visibility})$0",
-            "setTestGetMentionCompletions(String communityId,String q,String contextId,ConnectApi.MentionCompletionType type,Integer pageParam,Integer pageSize,ConnectApi.MentionCompletionPage result)\tvoid": "setTestGetMentionCompletions(${1:String communityId},${2:String q},${3:String contextId},${4:ConnectApi.MentionCompletionType type},${5:Integer pageParam},${6:Integer pageSize},${7:ConnectApi.MentionCompletionPage result})$0",
-            "getMentionCompletions(String communityId,String q,String contextId,ConnectApi.MentionCompletionType type,Integer pageParam,Integer pageSize)\tConnectApi.MentionCompletionPage": "getMentionCompletions(${1:String communityId},${2:String q},${3:String contextId},${4:ConnectApi.MentionCompletionType type},${5:Integer pageParam},${6:Integer pageSize})$0",
-            "setTestGetMentionCompletions(String communityId,String q,String contextId,ConnectApi.MentionCompletionPage result)\tvoid": "setTestGetMentionCompletions(${1:String communityId},${2:String q},${3:String contextId},${4:ConnectApi.MentionCompletionPage result})$0",
-            "getMentionCompletions(String communityId,String q,String contextId)\tConnectApi.MentionCompletionPage": "getMentionCompletions(${1:String communityId},${2:String q},${3:String contextId})$0"
+            "getMentionValidations(String communityId,String parentId,List<String> recordIds,ConnectApi.FeedItemVisibilityType visibility)\tConnectApi.MentionValidations": "getMentionValidations(${1:String communityId}, ${2:String parentId}, ${3:List<String> recordIds}, ${4:ConnectApi.FeedItemVisibilityType visibility})$0",
+            "setTestGetMentionCompletions(String communityId,String q,String contextId,ConnectApi.MentionCompletionType type,Integer pageParam,Integer pageSize,ConnectApi.MentionCompletionPage result)\tvoid": "setTestGetMentionCompletions(${1:String communityId}, ${2:String q}, ${3:String contextId}, ${4:ConnectApi.MentionCompletionType type}, ${5:Integer pageParam}, ${6:Integer pageSize}, ${7:ConnectApi.MentionCompletionPage result})$0",
+            "getMentionCompletions(String communityId,String q,String contextId,ConnectApi.MentionCompletionType type,Integer pageParam,Integer pageSize)\tConnectApi.MentionCompletionPage": "getMentionCompletions(${1:String communityId}, ${2:String q}, ${3:String contextId}, ${4:ConnectApi.MentionCompletionType type}, ${5:Integer pageParam}, ${6:Integer pageSize})$0",
+            "setTestGetMentionCompletions(String communityId,String q,String contextId,ConnectApi.MentionCompletionPage result)\tvoid": "setTestGetMentionCompletions(${1:String communityId}, ${2:String q}, ${3:String contextId}, ${4:ConnectApi.MentionCompletionPage result})$0",
+            "getMentionCompletions(String communityId,String q,String contextId)\tConnectApi.MentionCompletionPage": "getMentionCompletions(${1:String communityId}, ${2:String q}, ${3:String contextId})$0"
         },
         "constructors": {}
     },
@@ -7485,24 +7485,24 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "getFeedItems(String communityId,String subjectId,String favoriteId,Integer recentCommentCount,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItems(${1:String communityId},${2:String subjectId},${3:String favoriteId},${4:Integer recentCommentCount},${5:String pageParam},${6:Integer pageSize},${7:ConnectApi.FeedSortOrder sortParam})$0",
-            "getFeedElements(String communityId,String subjectId,String favoriteId)\tConnectApi.FeedElementPage": "getFeedElements(${1:String communityId},${2:String subjectId},${3:String favoriteId})$0",
-            "setTestGetFeedItems(String communityId,String subjectId,String favoriteId,Integer recentCommentCount,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItems(${1:String communityId},${2:String subjectId},${3:String favoriteId},${4:Integer recentCommentCount},${5:String pageParam},${6:Integer pageSize},${7:ConnectApi.FeedSortOrder sortParam},${8:ConnectApi.FeedItemPage result})$0",
-            "getFeedElements(String communityId,String subjectId,String favoriteId,Integer recentCommentCount,Integer elementsPerBundle,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElements(${1:String communityId},${2:String subjectId},${3:String favoriteId},${4:Integer recentCommentCount},${5:Integer elementsPerBundle},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam})$0",
-            "getFeedElements(String communityId,String subjectId,String favoriteId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElements(${1:String communityId},${2:String subjectId},${3:String favoriteId},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam})$0",
-            "getFeedItems(String communityId,String subjectId,String favoriteId)\tConnectApi.FeedItemPage": "getFeedItems(${1:String communityId},${2:String subjectId},${3:String favoriteId})$0",
-            "getFeedItems(String communityId,String subjectId,String favoriteId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItems(${1:String communityId},${2:String subjectId},${3:String favoriteId},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam})$0",
-            "setTestGetFeedItems(String communityId,String subjectId,String favoriteId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItems(${1:String communityId},${2:String subjectId},${3:String favoriteId},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:ConnectApi.FeedItemPage result})$0",
-            "getFavorites(String communityId,String subjectId)\tConnectApi.FeedFavorites": "getFavorites(${1:String communityId},${2:String subjectId})$0",
-            "deleteFavorite(String communityId,String subjectId,String favoriteId)\tvoid": "deleteFavorite(${1:String communityId},${2:String subjectId},${3:String favoriteId})$0",
-            "getFavorite(String communityId,String subjectId,String favoriteId)\tConnectApi.FeedFavorite": "getFavorite(${1:String communityId},${2:String subjectId},${3:String favoriteId})$0",
-            "setTestGetFeedItems(String communityId,String subjectId,String favoriteId,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItems(${1:String communityId},${2:String subjectId},${3:String favoriteId},${4:ConnectApi.FeedItemPage result})$0",
-            "setTestGetFeedElements(String communityId,String subjectId,String favoriteId,Integer recentCommentCount,Integer elementsPerBundle,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElements(${1:String communityId},${2:String subjectId},${3:String favoriteId},${4:Integer recentCommentCount},${5:Integer elementsPerBundle},${6:String pageParam},${7:Integer pageSize},${8:ConnectApi.FeedSortOrder sortParam},${9:ConnectApi.FeedElementPage result})$0",
-            "addFavorite(String communityId,String subjectId,String searchText)\tConnectApi.FeedFavorite": "addFavorite(${1:String communityId},${2:String subjectId},${3:String searchText})$0",
-            "setTestGetFeedElements(String communityId,String subjectId,String favoriteId,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElements(${1:String communityId},${2:String subjectId},${3:String favoriteId},${4:ConnectApi.FeedElementPage result})$0",
-            "updateFavorite(String communityId,String subjectId,String favoriteId,Boolean updateLastViewDate)\tConnectApi.FeedFavorite": "updateFavorite(${1:String communityId},${2:String subjectId},${3:String favoriteId},${4:Boolean updateLastViewDate})$0",
-            "setTestGetFeedElements(String communityId,String subjectId,String favoriteId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElements(${1:String communityId},${2:String subjectId},${3:String favoriteId},${4:String pageParam},${5:Integer pageSize},${6:ConnectApi.FeedSortOrder sortParam},${7:ConnectApi.FeedElementPage result})$0",
-            "addRecordFavorite(String communityId,String subjectId,String targetId)\tConnectApi.FeedFavorite": "addRecordFavorite(${1:String communityId},${2:String subjectId},${3:String targetId})$0"
+            "getFeedItems(String communityId,String subjectId,String favoriteId,Integer recentCommentCount,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItems(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId}, ${4:Integer recentCommentCount}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:ConnectApi.FeedSortOrder sortParam})$0",
+            "getFeedElements(String communityId,String subjectId,String favoriteId)\tConnectApi.FeedElementPage": "getFeedElements(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId})$0",
+            "setTestGetFeedItems(String communityId,String subjectId,String favoriteId,Integer recentCommentCount,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItems(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId}, ${4:Integer recentCommentCount}, ${5:String pageParam}, ${6:Integer pageSize}, ${7:ConnectApi.FeedSortOrder sortParam}, ${8:ConnectApi.FeedItemPage result})$0",
+            "getFeedElements(String communityId,String subjectId,String favoriteId,Integer recentCommentCount,Integer elementsPerBundle,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElements(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId}, ${4:Integer recentCommentCount}, ${5:Integer elementsPerBundle}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam})$0",
+            "getFeedElements(String communityId,String subjectId,String favoriteId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedElementPage": "getFeedElements(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam})$0",
+            "getFeedItems(String communityId,String subjectId,String favoriteId)\tConnectApi.FeedItemPage": "getFeedItems(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId})$0",
+            "getFeedItems(String communityId,String subjectId,String favoriteId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam)\tConnectApi.FeedItemPage": "getFeedItems(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam})$0",
+            "setTestGetFeedItems(String communityId,String subjectId,String favoriteId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItems(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:ConnectApi.FeedItemPage result})$0",
+            "getFavorites(String communityId,String subjectId)\tConnectApi.FeedFavorites": "getFavorites(${1:String communityId}, ${2:String subjectId})$0",
+            "deleteFavorite(String communityId,String subjectId,String favoriteId)\tvoid": "deleteFavorite(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId})$0",
+            "getFavorite(String communityId,String subjectId,String favoriteId)\tConnectApi.FeedFavorite": "getFavorite(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId})$0",
+            "setTestGetFeedItems(String communityId,String subjectId,String favoriteId,ConnectApi.FeedItemPage result)\tvoid": "setTestGetFeedItems(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId}, ${4:ConnectApi.FeedItemPage result})$0",
+            "setTestGetFeedElements(String communityId,String subjectId,String favoriteId,Integer recentCommentCount,Integer elementsPerBundle,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElements(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId}, ${4:Integer recentCommentCount}, ${5:Integer elementsPerBundle}, ${6:String pageParam}, ${7:Integer pageSize}, ${8:ConnectApi.FeedSortOrder sortParam}, ${9:ConnectApi.FeedElementPage result})$0",
+            "addFavorite(String communityId,String subjectId,String searchText)\tConnectApi.FeedFavorite": "addFavorite(${1:String communityId}, ${2:String subjectId}, ${3:String searchText})$0",
+            "setTestGetFeedElements(String communityId,String subjectId,String favoriteId,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElements(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId}, ${4:ConnectApi.FeedElementPage result})$0",
+            "updateFavorite(String communityId,String subjectId,String favoriteId,Boolean updateLastViewDate)\tConnectApi.FeedFavorite": "updateFavorite(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId}, ${4:Boolean updateLastViewDate})$0",
+            "setTestGetFeedElements(String communityId,String subjectId,String favoriteId,String pageParam,Integer pageSize,ConnectApi.FeedSortOrder sortParam,ConnectApi.FeedElementPage result)\tvoid": "setTestGetFeedElements(${1:String communityId}, ${2:String subjectId}, ${3:String favoriteId}, ${4:String pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.FeedSortOrder sortParam}, ${7:ConnectApi.FeedElementPage result})$0",
+            "addRecordFavorite(String communityId,String subjectId,String targetId)\tConnectApi.FeedFavorite": "addRecordFavorite(${1:String communityId}, ${2:String subjectId}, ${3:String targetId})$0"
         },
         "constructors": {}
     },
@@ -7534,7 +7534,7 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "getUserProfile(String communityId,String userId)\tConnectApi.UserProfile": "getUserProfile(${1:String communityId},${2:String userId})$0"
+            "getUserProfile(String communityId,String userId)\tConnectApi.UserProfile": "getUserProfile(${1:String communityId}, ${2:String userId})$0"
         },
         "constructors": {}
     },
@@ -7636,7 +7636,7 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "setHeader(String key,String val)\tvoid": "setHeader(${1:String key},${2:String val})$0",
+            "setHeader(String key,String val)\tvoid": "setHeader(${1:String key}, ${2:String val})$0",
             "setStatusCode(Integer code)\tvoid": "setStatusCode(${1:Integer code})$0",
             "respond(System.HttpRequest request)\tSystem.HttpResponse": "respond(${1:System.HttpRequest request})$0",
             "setStaticResource(String staticResourceName)\tvoid": "setStaticResource(${1:String staticResourceName})$0",
@@ -7675,36 +7675,36 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "setCookie(String name,String value)\tvoid": "setCookie(${1:String name},${2:String value})$0",
+            "setCookie(String name,String value)\tvoid": "setCookie(${1:String name}, ${2:String value})$0",
             "getPackageManifest(String pkgVersionId)\tString": "getPackageManifest(${1:String pkgVersionId})$0",
-            "createOrg(String firstName,String lastName,String companyName,String email,String language,String adminUserName,String packageId,String evalUserName,Boolean isExtension)\tString": "createOrg(${1:String firstName},${2:String lastName},${3:String companyName},${4:String email},${5:String language},${6:String adminUserName},${7:String packageId},${8:String evalUserName},${9:Boolean isExtension})$0",
+            "createOrg(String firstName,String lastName,String companyName,String email,String language,String adminUserName,String packageId,String evalUserName,Boolean isExtension)\tString": "createOrg(${1:String firstName}, ${2:String lastName}, ${3:String companyName}, ${4:String email}, ${5:String language}, ${6:String adminUserName}, ${7:String packageId}, ${8:String evalUserName}, ${9:Boolean isExtension})$0",
             "isGuestUser()\tBoolean": "isGuestUser()$0",
             "getInstalledPackageVersions(String orgId)\tList<String>": "getInstalledPackageVersions(${1:String orgId})$0",
             "updateSingleAsAdmin(SObject sobj)\tDatabase.SaveResult": "updateSingleAsAdmin(${1:SObject sobj})$0",
             "getSiteId()\tString": "getSiteId()$0",
             "isDuplicateUserName(String username)\tBoolean": "isDuplicateUserName(${1:String username})$0",
-            "getConfig(String section,String key)\tString": "getConfig(${1:String section},${2:String key})$0",
-            "setCookie(String name,String value,String cookieDomainName,Integer cookieAge)\tvoid": "setCookie(${1:String name},${2:String value},${3:String cookieDomainName},${4:Integer cookieAge})$0",
+            "getConfig(String section,String key)\tString": "getConfig(${1:String section}, ${2:String key})$0",
+            "setCookie(String name,String value,String cookieDomainName,Integer cookieAge)\tvoid": "setCookie(${1:String name}, ${2:String value}, ${3:String cookieDomainName}, ${4:Integer cookieAge})$0",
             "getPortalAdminId()\tString": "getPortalAdminId()$0",
             "to18(String id)\tString": "to18(${1:String id})$0",
-            "setLicenseManagementOrganization(String pkgVersionId,String orgId,String username,String password)\tString": "setLicenseManagementOrganization(${1:String pkgVersionId},${2:String orgId},${3:String username},${4:String password})$0",
-            "createPortalUser(SObject user,String accountId)\tId": "createPortalUser(${1:SObject user},${2:String accountId})$0",
+            "setLicenseManagementOrganization(String pkgVersionId,String orgId,String username,String password)\tString": "setLicenseManagementOrganization(${1:String pkgVersionId}, ${2:String orgId}, ${3:String username}, ${4:String password})$0",
+            "createPortalUser(SObject user,String accountId)\tId": "createPortalUser(${1:SObject user}, ${2:String accountId})$0",
             "getOrgName(String orgId)\tString": "getOrgName(${1:String orgId})$0",
-            "createSession(String appExchangeOrgId,String portalId,String siteId,String portalUserId)\tString": "createSession(${1:String appExchangeOrgId},${2:String portalId},${3:String siteId},${4:String portalUserId})$0",
+            "createSession(String appExchangeOrgId,String portalId,String siteId,String portalUserId)\tString": "createSession(${1:String appExchangeOrgId}, ${2:String portalId}, ${3:String siteId}, ${4:String portalUserId})$0",
             "to15(String id)\tString": "to15(${1:String id})$0",
-            "setDefaultLicenseTerms(String pkgVersionId,String orgId,String defaultLicenseStatus,Integer defaultLicenseLength,Integer defaultLicenseSeats)\tvoid": "setDefaultLicenseTerms(${1:String pkgVersionId},${2:String orgId},${3:String defaultLicenseStatus},${4:Integer defaultLicenseLength},${5:Integer defaultLicenseSeats})$0",
+            "setDefaultLicenseTerms(String pkgVersionId,String orgId,String defaultLicenseStatus,Integer defaultLicenseLength,Integer defaultLicenseSeats)\tvoid": "setDefaultLicenseTerms(${1:String pkgVersionId}, ${2:String orgId}, ${3:String defaultLicenseStatus}, ${4:Integer defaultLicenseLength}, ${5:Integer defaultLicenseSeats})$0",
             "setHttpResponseStatus(Integer statusCode)\tvoid": "setHttpResponseStatus(${1:Integer statusCode})$0",
             "stopListingPopularityJob()\tvoid": "stopListingPopularityJob()$0",
             "getPortalId()\tString": "getPortalId()$0",
             "getCookie(String name)\tString": "getCookie(${1:String name})$0",
             "debug(String message)\tvoid": "debug(${1:String message})$0",
-            "provisionPackageLicense(String orgId,String allPackageId,Integer numLicenses,Date expirationDate,String status)\tString": "provisionPackageLicense(${1:String orgId},${2:String allPackageId},${3:Integer numLicenses},${4:Date expirationDate},${5:String status})$0",
-            "getTrialTemplates(String callerOrgId,String lmPkgId,String username)\tList<TrialTemplate>": "getTrialTemplates(${1:String callerOrgId},${2:String lmPkgId},${3:String username})$0",
-            "validateLMAInstalled(String username,String password)\tString": "validateLMAInstalled(${1:String username},${2:String password})$0",
+            "provisionPackageLicense(String orgId,String allPackageId,Integer numLicenses,Date expirationDate,String status)\tString": "provisionPackageLicense(${1:String orgId}, ${2:String allPackageId}, ${3:Integer numLicenses}, ${4:Date expirationDate}, ${5:String status})$0",
+            "getTrialTemplates(String callerOrgId,String lmPkgId,String username)\tList<TrialTemplate>": "getTrialTemplates(${1:String callerOrgId}, ${2:String lmPkgId}, ${3:String username})$0",
+            "validateLMAInstalled(String username,String password)\tString": "validateLMAInstalled(${1:String username}, ${2:String password})$0",
             "registerPackageVersion(String pkgVersionId)\tBoolean": "registerPackageVersion(${1:String pkgVersionId})$0",
-            "calculateListingPopularity(String testUserName,String testCronString)\tvoid": "calculateListingPopularity(${1:String testUserName},${2:String testCronString})$0",
-            "getCrossInstanceEncryptedHash(Double appVersion,String value)\tString": "getCrossInstanceEncryptedHash(${1:Double appVersion},${2:String value})$0",
-            "validateOrgUser(String username,String password)\tString": "validateOrgUser(${1:String username},${2:String password})$0",
+            "calculateListingPopularity(String testUserName,String testCronString)\tvoid": "calculateListingPopularity(${1:String testUserName}, ${2:String testCronString})$0",
+            "getCrossInstanceEncryptedHash(Double appVersion,String value)\tString": "getCrossInstanceEncryptedHash(${1:Double appVersion}, ${2:String value})$0",
+            "validateOrgUser(String username,String password)\tString": "validateOrgUser(${1:String username}, ${2:String password})$0",
             "getAuthenticatingUrl(String page)\tString": "getAuthenticatingUrl(${1:String page})$0",
             "movedPermanently(String location)\tvoid": "movedPermanently(${1:String location})$0"
         },
@@ -7815,38 +7815,38 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "updateUser(String communityId,String userId,ConnectApi.UserInput userInput)\tConnectApi.UserDetail": "updateUser(${1:String communityId},${2:String userId},${3:ConnectApi.UserInput userInput})$0",
-            "setPhotoWithAttributes(String communityId,String userId,ConnectApi.PhotoInput photo)\tConnectApi.Photo": "setPhotoWithAttributes(${1:String communityId},${2:String userId},${3:ConnectApi.PhotoInput photo})$0",
+            "updateUser(String communityId,String userId,ConnectApi.UserInput userInput)\tConnectApi.UserDetail": "updateUser(${1:String communityId}, ${2:String userId}, ${3:ConnectApi.UserInput userInput})$0",
+            "setPhotoWithAttributes(String communityId,String userId,ConnectApi.PhotoInput photo)\tConnectApi.Photo": "setPhotoWithAttributes(${1:String communityId}, ${2:String userId}, ${3:ConnectApi.PhotoInput photo})$0",
             "getUsers(String communityId)\tConnectApi.UserPage": "getUsers(${1:String communityId})$0",
-            "searchUsers(String communityId,String q,String searchContextId,Integer pageParam,Integer pageSize)\tConnectApi.UserPage": "searchUsers(${1:String communityId},${2:String q},${3:String searchContextId},${4:Integer pageParam},${5:Integer pageSize})$0",
-            "setTestSearchUsers(String communityId,String q,Integer pageParam,Integer pageSize,ConnectApi.UserPage result)\tvoid": "setTestSearchUsers(${1:String communityId},${2:String q},${3:Integer pageParam},${4:Integer pageSize},${5:ConnectApi.UserPage result})$0",
-            "deletePhoto(String communityId,String userId)\tvoid": "deletePhoto(${1:String communityId},${2:String userId})$0",
-            "searchUsers(String communityId,String q,Integer pageParam,Integer pageSize)\tConnectApi.UserPage": "searchUsers(${1:String communityId},${2:String q},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "getPhoto(String communityId,String userId)\tConnectApi.Photo": "getPhoto(${1:String communityId},${2:String userId})$0",
-            "searchUserGroups(String communityId,String userId,String q)\tConnectApi.UserGroupPage": "searchUserGroups(${1:String communityId},${2:String userId},${3:String q})$0",
-            "searchUsers(String communityId,String q)\tConnectApi.UserPage": "searchUsers(${1:String communityId},${2:String q})$0",
-            "updateChatterSettings(String communityId,String userId,ConnectApi.GroupEmailFrequency defaultGroupEmailFrequency)\tConnectApi.UserChatterSettings": "updateChatterSettings(${1:String communityId},${2:String userId},${3:ConnectApi.GroupEmailFrequency defaultGroupEmailFrequency})$0",
-            "getChatterSettings(String communityId,String userId)\tConnectApi.UserChatterSettings": "getChatterSettings(${1:String communityId},${2:String userId})$0",
-            "getFollowings(String communityId,String userId,String filterType)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId},${2:String userId},${3:String filterType})$0",
-            "getFollowings(String communityId,String userId,String filterType,Integer pageParam)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId},${2:String userId},${3:String filterType},${4:Integer pageParam})$0",
-            "setPhoto(String communityId,String userId,String fileId,Integer versionNumber)\tConnectApi.Photo": "setPhoto(${1:String communityId},${2:String userId},${3:String fileId},${4:Integer versionNumber})$0",
-            "setPhoto(String communityId,String userId,ConnectApi.BinaryInput fileUpload)\tConnectApi.Photo": "setPhoto(${1:String communityId},${2:String userId},${3:ConnectApi.BinaryInput fileUpload})$0",
-            "getFollowers(String communityId,String userId)\tConnectApi.FollowerPage": "getFollowers(${1:String communityId},${2:String userId})$0",
-            "getUsers(String communityId,Integer pageParam,Integer pageSize)\tConnectApi.UserPage": "getUsers(${1:String communityId},${2:Integer pageParam},${3:Integer pageSize})$0",
-            "setTestSearchUsers(String communityId,String q,ConnectApi.UserPage result)\tvoid": "setTestSearchUsers(${1:String communityId},${2:String q},${3:ConnectApi.UserPage result})$0",
-            "getGroups(String communityId,String userId,Integer pageParam,Integer pageSize)\tConnectApi.UserGroupPage": "getGroups(${1:String communityId},${2:String userId},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "getFollowings(String communityId,String userId,String filterType,Integer pageParam,Integer pageSize)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId},${2:String userId},${3:String filterType},${4:Integer pageParam},${5:Integer pageSize})$0",
-            "getGroups(String communityId,String userId)\tConnectApi.UserGroupPage": "getGroups(${1:String communityId},${2:String userId})$0",
-            "getFollowers(String communityId,String userId,Integer pageParam,Integer pageSize)\tConnectApi.FollowerPage": "getFollowers(${1:String communityId},${2:String userId},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "getUser(String communityId,String userId)\tConnectApi.UserDetail": "getUser(${1:String communityId},${2:String userId})$0",
-            "follow(String communityId,String userId,String subjectId)\tConnectApi.Subscription": "follow(${1:String communityId},${2:String userId},${3:String subjectId})$0",
-            "setPhotoWithAttributes(String communityId,String userId,ConnectApi.PhotoInput photo,ConnectApi.BinaryInput fileUpload)\tConnectApi.Photo": "setPhotoWithAttributes(${1:String communityId},${2:String userId},${3:ConnectApi.PhotoInput photo},${4:ConnectApi.BinaryInput fileUpload})$0",
-            "setTestSearchUsers(String communityId,String q,String searchContextId,Integer pageParam,Integer pageSize,ConnectApi.UserPage result)\tvoid": "setTestSearchUsers(${1:String communityId},${2:String q},${3:String searchContextId},${4:Integer pageParam},${5:Integer pageSize},${6:ConnectApi.UserPage result})$0",
-            "getFollowings(String communityId,String userId,Integer pageParam)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId},${2:String userId},${3:Integer pageParam})$0",
-            "getFollowings(String communityId,String userId,Integer pageParam,Integer pageSize)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId},${2:String userId},${3:Integer pageParam},${4:Integer pageSize})$0",
-            "getUserBatch(String communityId,List<String> userIds)\tList<ConnectApi.BatchResult>": "getUserBatch(${1:String communityId},${2:List<String> userIds})$0",
-            "searchUserGroups(String communityId,String userId,String q,Integer pageParam,Integer pageSize)\tConnectApi.UserGroupPage": "searchUserGroups(${1:String communityId},${2:String userId},${3:String q},${4:Integer pageParam},${5:Integer pageSize})$0",
-            "getFollowings(String communityId,String userId)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId},${2:String userId})$0"
+            "searchUsers(String communityId,String q,String searchContextId,Integer pageParam,Integer pageSize)\tConnectApi.UserPage": "searchUsers(${1:String communityId}, ${2:String q}, ${3:String searchContextId}, ${4:Integer pageParam}, ${5:Integer pageSize})$0",
+            "setTestSearchUsers(String communityId,String q,Integer pageParam,Integer pageSize,ConnectApi.UserPage result)\tvoid": "setTestSearchUsers(${1:String communityId}, ${2:String q}, ${3:Integer pageParam}, ${4:Integer pageSize}, ${5:ConnectApi.UserPage result})$0",
+            "deletePhoto(String communityId,String userId)\tvoid": "deletePhoto(${1:String communityId}, ${2:String userId})$0",
+            "searchUsers(String communityId,String q,Integer pageParam,Integer pageSize)\tConnectApi.UserPage": "searchUsers(${1:String communityId}, ${2:String q}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "getPhoto(String communityId,String userId)\tConnectApi.Photo": "getPhoto(${1:String communityId}, ${2:String userId})$0",
+            "searchUserGroups(String communityId,String userId,String q)\tConnectApi.UserGroupPage": "searchUserGroups(${1:String communityId}, ${2:String userId}, ${3:String q})$0",
+            "searchUsers(String communityId,String q)\tConnectApi.UserPage": "searchUsers(${1:String communityId}, ${2:String q})$0",
+            "updateChatterSettings(String communityId,String userId,ConnectApi.GroupEmailFrequency defaultGroupEmailFrequency)\tConnectApi.UserChatterSettings": "updateChatterSettings(${1:String communityId}, ${2:String userId}, ${3:ConnectApi.GroupEmailFrequency defaultGroupEmailFrequency})$0",
+            "getChatterSettings(String communityId,String userId)\tConnectApi.UserChatterSettings": "getChatterSettings(${1:String communityId}, ${2:String userId})$0",
+            "getFollowings(String communityId,String userId,String filterType)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId}, ${2:String userId}, ${3:String filterType})$0",
+            "getFollowings(String communityId,String userId,String filterType,Integer pageParam)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId}, ${2:String userId}, ${3:String filterType}, ${4:Integer pageParam})$0",
+            "setPhoto(String communityId,String userId,String fileId,Integer versionNumber)\tConnectApi.Photo": "setPhoto(${1:String communityId}, ${2:String userId}, ${3:String fileId}, ${4:Integer versionNumber})$0",
+            "setPhoto(String communityId,String userId,ConnectApi.BinaryInput fileUpload)\tConnectApi.Photo": "setPhoto(${1:String communityId}, ${2:String userId}, ${3:ConnectApi.BinaryInput fileUpload})$0",
+            "getFollowers(String communityId,String userId)\tConnectApi.FollowerPage": "getFollowers(${1:String communityId}, ${2:String userId})$0",
+            "getUsers(String communityId,Integer pageParam,Integer pageSize)\tConnectApi.UserPage": "getUsers(${1:String communityId}, ${2:Integer pageParam}, ${3:Integer pageSize})$0",
+            "setTestSearchUsers(String communityId,String q,ConnectApi.UserPage result)\tvoid": "setTestSearchUsers(${1:String communityId}, ${2:String q}, ${3:ConnectApi.UserPage result})$0",
+            "getGroups(String communityId,String userId,Integer pageParam,Integer pageSize)\tConnectApi.UserGroupPage": "getGroups(${1:String communityId}, ${2:String userId}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "getFollowings(String communityId,String userId,String filterType,Integer pageParam,Integer pageSize)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId}, ${2:String userId}, ${3:String filterType}, ${4:Integer pageParam}, ${5:Integer pageSize})$0",
+            "getGroups(String communityId,String userId)\tConnectApi.UserGroupPage": "getGroups(${1:String communityId}, ${2:String userId})$0",
+            "getFollowers(String communityId,String userId,Integer pageParam,Integer pageSize)\tConnectApi.FollowerPage": "getFollowers(${1:String communityId}, ${2:String userId}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "getUser(String communityId,String userId)\tConnectApi.UserDetail": "getUser(${1:String communityId}, ${2:String userId})$0",
+            "follow(String communityId,String userId,String subjectId)\tConnectApi.Subscription": "follow(${1:String communityId}, ${2:String userId}, ${3:String subjectId})$0",
+            "setPhotoWithAttributes(String communityId,String userId,ConnectApi.PhotoInput photo,ConnectApi.BinaryInput fileUpload)\tConnectApi.Photo": "setPhotoWithAttributes(${1:String communityId}, ${2:String userId}, ${3:ConnectApi.PhotoInput photo}, ${4:ConnectApi.BinaryInput fileUpload})$0",
+            "setTestSearchUsers(String communityId,String q,String searchContextId,Integer pageParam,Integer pageSize,ConnectApi.UserPage result)\tvoid": "setTestSearchUsers(${1:String communityId}, ${2:String q}, ${3:String searchContextId}, ${4:Integer pageParam}, ${5:Integer pageSize}, ${6:ConnectApi.UserPage result})$0",
+            "getFollowings(String communityId,String userId,Integer pageParam)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId}, ${2:String userId}, ${3:Integer pageParam})$0",
+            "getFollowings(String communityId,String userId,Integer pageParam,Integer pageSize)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId}, ${2:String userId}, ${3:Integer pageParam}, ${4:Integer pageSize})$0",
+            "getUserBatch(String communityId,List<String> userIds)\tList<ConnectApi.BatchResult>": "getUserBatch(${1:String communityId}, ${2:List<String> userIds})$0",
+            "searchUserGroups(String communityId,String userId,String q,Integer pageParam,Integer pageSize)\tConnectApi.UserGroupPage": "searchUserGroups(${1:String communityId}, ${2:String userId}, ${3:String q}, ${4:Integer pageParam}, ${5:Integer pageSize})$0",
+            "getFollowings(String communityId,String userId)\tConnectApi.FollowingPage": "getFollowings(${1:String communityId}, ${2:String userId})$0"
         },
         "constructors": {}
     },
@@ -7918,8 +7918,8 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg},${2:Boolean escape})$0",
-            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg},${2:Boolean escape})$0",
+            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg}, ${2:Boolean escape})$0",
+            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg}, ${2:Boolean escape})$0",
             "valueOf(Object a)\tBoolean": "valueOf(${1:Object a})$0",
             "addError(String msg)\tvoid": "addError(${1:String msg})$0",
             "addError(APEX_OBJECT msg)\tvoid": "addError(${1:APEX_OBJECT msg})$0"
@@ -7937,8 +7937,8 @@ apex_completions = {
         },
         "methods": {},
         "constructors": {
-            "InputParameter(String name,String description,Process.PluginDescribeResult.ParameterType parameterType,Boolean required)\t": "InputParameter(${1:String name},${2:String description},${3:Process.PluginDescribeResult.ParameterType parameterType},${4:Boolean required})$0",
-            "InputParameter(String name,Process.PluginDescribeResult.ParameterType parameterType,Boolean required)\t": "InputParameter(${1:String name},${2:Process.PluginDescribeResult.ParameterType parameterType},${3:Boolean required})$0"
+            "InputParameter(String name,String description,Process.PluginDescribeResult.ParameterType parameterType,Boolean required)\t": "InputParameter(${1:String name}, ${2:String description}, ${3:Process.PluginDescribeResult.ParameterType parameterType}, ${4:Boolean required})$0",
+            "InputParameter(String name,Process.PluginDescribeResult.ParameterType parameterType,Boolean required)\t": "InputParameter(${1:String name}, ${2:Process.PluginDescribeResult.ParameterType parameterType}, ${3:Boolean required})$0"
         }
     },
     "filepublishstatus": {
@@ -8041,9 +8041,9 @@ apex_completions = {
         "properties": {},
         "methods": {
             "convertToHex(Blob s)\tString": "convertToHex(${1:Blob s})$0",
-            "urlDecode(String s,String enc)\tString": "urlDecode(${1:String s},${2:String enc})$0",
+            "urlDecode(String s,String enc)\tString": "urlDecode(${1:String s}, ${2:String enc})$0",
             "base64Decode(String s)\tBlob": "base64Decode(${1:String s})$0",
-            "urlEncode(String s,String enc)\tString": "urlEncode(${1:String s},${2:String enc})$0",
+            "urlEncode(String s,String enc)\tString": "urlEncode(${1:String s}, ${2:String enc})$0",
             "base64Encode(Blob s)\tString": "base64Encode(${1:Blob s})$0",
             "convertFromHex(String input)\tBlob": "convertFromHex(${1:String input})$0"
         },
@@ -8059,18 +8059,18 @@ apex_completions = {
             "setDefaultNamespace(String uri)\tvoid": "setDefaultNamespace(${1:String uri})$0",
             "writeEndDocument()\tvoid": "writeEndDocument()$0",
             "writeCData(String data)\tvoid": "writeCData(${1:String data})$0",
-            "writeStartElement(String prefix,String localName,String namesapceURI)\tvoid": "writeStartElement(${1:String prefix},${2:String localName},${3:String namesapceURI})$0",
+            "writeStartElement(String prefix,String localName,String namesapceURI)\tvoid": "writeStartElement(${1:String prefix}, ${2:String localName}, ${3:String namesapceURI})$0",
             "writeCharacters(String text)\tvoid": "writeCharacters(${1:String text})$0",
-            "writeStartDocument(String encoding,String version)\tvoid": "writeStartDocument(${1:String encoding},${2:String version})$0",
+            "writeStartDocument(String encoding,String version)\tvoid": "writeStartDocument(${1:String encoding}, ${2:String version})$0",
             "writeComment(String data)\tvoid": "writeComment(${1:String data})$0",
             "writeDefaultNamespace(String namesapceURI)\tvoid": "writeDefaultNamespace(${1:String namesapceURI})$0",
-            "writeProcessingInstruction(String target,String data)\tvoid": "writeProcessingInstruction(${1:String target},${2:String data})$0",
+            "writeProcessingInstruction(String target,String data)\tvoid": "writeProcessingInstruction(${1:String target}, ${2:String data})$0",
             "close()\tvoid": "close()$0",
-            "writeAttribute(String prefix,String namespaceURI,String localName,String value)\tvoid": "writeAttribute(${1:String prefix},${2:String namespaceURI},${3:String localName},${4:String value})$0",
+            "writeAttribute(String prefix,String namespaceURI,String localName,String value)\tvoid": "writeAttribute(${1:String prefix}, ${2:String namespaceURI}, ${3:String localName}, ${4:String value})$0",
             "writeEndElement()\tvoid": "writeEndElement()$0",
-            "writeNamespace(String prefix,String namesapceURI)\tvoid": "writeNamespace(${1:String prefix},${2:String namesapceURI})$0",
+            "writeNamespace(String prefix,String namesapceURI)\tvoid": "writeNamespace(${1:String prefix}, ${2:String namesapceURI})$0",
             "getXmlString()\tString": "getXmlString()$0",
-            "writeEmptyElement(String prefix,String localName,String namesapceURI)\tvoid": "writeEmptyElement(${1:String prefix},${2:String localName},${3:String namesapceURI})$0"
+            "writeEmptyElement(String prefix,String localName,String namesapceURI)\tvoid": "writeEmptyElement(${1:String prefix}, ${2:String localName}, ${3:String namesapceURI})$0"
         },
         "constructors": {}
     },
@@ -8090,7 +8090,7 @@ apex_completions = {
             "hasNext()\tBoolean": "hasNext()$0",
             "getPrefix()\tString": "getPrefix()$0",
             "getNamespaceURIAt(Integer index)\tString": "getNamespaceURIAt(${1:Integer index})$0",
-            "getAttributeValue(String namespaceURI,String localName)\tString": "getAttributeValue(${1:String namespaceURI},${2:String localName})$0",
+            "getAttributeValue(String namespaceURI,String localName)\tString": "getAttributeValue(${1:String namespaceURI}, ${2:String localName})$0",
             "getAttributeValueAt(Integer index)\tString": "getAttributeValueAt(${1:Integer index})$0",
             "getNamespacePrefix(Integer index)\tString": "getNamespacePrefix(${1:Integer index})$0",
             "getAttributeType(Integer index)\tString": "getAttributeType(${1:Integer index})$0",
@@ -8194,9 +8194,9 @@ apex_completions = {
         "methods": {
             "getRefreshStatus()\tpredictive.ObjectRefreshStatus": "getRefreshStatus()$0",
             "refresh(predictive.ObjectTreatment objectTreatment)\tvoid": "refresh(${1:predictive.ObjectTreatment objectTreatment})$0",
-            "predict(predictive.Row fixed,List<String> predict)\tpredictive.PredictedResult": "predict(${1:predictive.Row fixed},${2:List<String> predict})$0",
+            "predict(predictive.Row fixed,List<String> predict)\tpredictive.PredictedResult": "predict(${1:predictive.Row fixed}, ${2:List<String> predict})$0",
             "getObjectName()\tString": "getObjectName()$0",
-            "findSimilar(predictive.Row target,String fieldName)\tpredictive.SimilarResult": "findSimilar(${1:predictive.Row target},${2:String fieldName})$0",
+            "findSimilar(predictive.Row target,String fieldName)\tpredictive.SimilarResult": "findSimilar(${1:predictive.Row target}, ${2:String fieldName})$0",
             "toString()\tString": "toString()$0"
         },
         "constructors": {}
@@ -8207,7 +8207,7 @@ apex_completions = {
         "properties": {},
         "methods": {
             "findSimilar(SObject question)\tList<Id>": "findSimilar(${1:SObject question})$0",
-            "setBestReply(String questionId,String bestReplyId)\tvoid": "setBestReply(${1:String questionId},${2:String bestReplyId})$0"
+            "setBestReply(String questionId,String bestReplyId)\tvoid": "setBestReply(${1:String questionId}, ${2:String bestReplyId})$0"
         },
         "constructors": {
             "Answers()\t": "Answers()$0"
@@ -8283,8 +8283,8 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg},${2:Boolean escape})$0",
-            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg},${2:Boolean escape})$0",
+            "addError(String msg,Boolean escape)\tvoid": "addError(${1:String msg}, ${2:Boolean escape})$0",
+            "addError(APEX_OBJECT msg,Boolean escape)\tvoid": "addError(${1:APEX_OBJECT msg}, ${2:Boolean escape})$0",
             "intValue()\tInteger": "intValue()$0",
             "valueOf(String str)\tLong": "valueOf(${1:String str})$0",
             "addError(String msg)\tvoid": "addError(${1:String msg})$0",
@@ -8318,9 +8318,9 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "getRecentRecords(String communityId,String userId)\tConnectApi.RecordSummaryList": "getRecentRecords(${1:String communityId},${2:String userId})$0",
-            "getRecentRecords(String communityId,String userId,Integer size)\tConnectApi.RecordSummaryList": "getRecentRecords(${1:String communityId},${2:String userId},${3:Integer size})$0",
-            "getRecordView(String communityId,String recordId)\tConnectApi.RecordView": "getRecordView(${1:String communityId},${2:String recordId})$0"
+            "getRecentRecords(String communityId,String userId)\tConnectApi.RecordSummaryList": "getRecentRecords(${1:String communityId}, ${2:String userId})$0",
+            "getRecentRecords(String communityId,String userId,Integer size)\tConnectApi.RecordSummaryList": "getRecentRecords(${1:String communityId}, ${2:String userId}, ${3:Integer size})$0",
+            "getRecordView(String communityId,String recordId)\tConnectApi.RecordView": "getRecordView(${1:String communityId}, ${2:String recordId})$0"
         },
         "constructors": {}
     },
@@ -8378,23 +8378,23 @@ apex_completions = {
         "properties": {},
         "methods": {
             "setTranslationToIncomplete(String articleVersionId)\tvoid": "setTranslationToIncomplete(${1:String articleVersionId})$0",
-            "assignDraftTranslationTask(String translationVersionId,String assigneeId,String instructions,Datetime dueDate,Boolean sendEmailNotification)\tvoid": "assignDraftTranslationTask(${1:String translationVersionId},${2:String assigneeId},${3:String instructions},${4:Datetime dueDate},${5:Boolean sendEmailNotification})$0",
+            "assignDraftTranslationTask(String translationVersionId,String assigneeId,String instructions,Datetime dueDate,Boolean sendEmailNotification)\tvoid": "assignDraftTranslationTask(${1:String translationVersionId}, ${2:String assigneeId}, ${3:String instructions}, ${4:Datetime dueDate}, ${5:Boolean sendEmailNotification})$0",
             "editArchivedArticle(String articleId)\tString": "editArchivedArticle(${1:String articleId})$0",
             "cancelScheduledPublicationOfArticle(String articleId)\tvoid": "cancelScheduledPublicationOfArticle(${1:String articleId})$0",
             "cancelScheduledArchivingOfArticle(String articleId)\tvoid": "cancelScheduledArchivingOfArticle(${1:String articleId})$0",
-            "editPublishedTranslation(String articleId,String language,Boolean unpublish)\tString": "editPublishedTranslation(${1:String articleId},${2:String language},${3:Boolean unpublish})$0",
-            "submitForTranslation(String articleId,String language,String assigneeId,Datetime dueDate)\tString": "submitForTranslation(${1:String articleId},${2:String language},${3:String assigneeId},${4:Datetime dueDate})$0",
+            "editPublishedTranslation(String articleId,String language,Boolean unpublish)\tString": "editPublishedTranslation(${1:String articleId}, ${2:String language}, ${3:Boolean unpublish})$0",
+            "submitForTranslation(String articleId,String language,String assigneeId,Datetime dueDate)\tString": "submitForTranslation(${1:String articleId}, ${2:String language}, ${3:String assigneeId}, ${4:Datetime dueDate})$0",
             "deleteArchivedArticle(String articleId)\tvoid": "deleteArchivedArticle(${1:String articleId})$0",
-            "restoreOldVersion(String articleId,Integer versionNumber)\tString": "restoreOldVersion(${1:String articleId},${2:Integer versionNumber})$0",
-            "assignDraftArticleTask(String articleId,String assigneeId,String instructions,Datetime dueDate,Boolean sendEmailNotification)\tvoid": "assignDraftArticleTask(${1:String articleId},${2:String assigneeId},${3:String instructions},${4:Datetime dueDate},${5:Boolean sendEmailNotification})$0",
-            "archiveOnlineArticle(String articleId,Datetime scheduledDate)\tvoid": "archiveOnlineArticle(${1:String articleId},${2:Datetime scheduledDate})$0",
-            "deleteArchivedArticleVersion(String articleId,Integer versionNumber)\tvoid": "deleteArchivedArticleVersion(${1:String articleId},${2:Integer versionNumber})$0",
+            "restoreOldVersion(String articleId,Integer versionNumber)\tString": "restoreOldVersion(${1:String articleId}, ${2:Integer versionNumber})$0",
+            "assignDraftArticleTask(String articleId,String assigneeId,String instructions,Datetime dueDate,Boolean sendEmailNotification)\tvoid": "assignDraftArticleTask(${1:String articleId}, ${2:String assigneeId}, ${3:String instructions}, ${4:Datetime dueDate}, ${5:Boolean sendEmailNotification})$0",
+            "archiveOnlineArticle(String articleId,Datetime scheduledDate)\tvoid": "archiveOnlineArticle(${1:String articleId}, ${2:Datetime scheduledDate})$0",
+            "deleteArchivedArticleVersion(String articleId,Integer versionNumber)\tvoid": "deleteArchivedArticleVersion(${1:String articleId}, ${2:Integer versionNumber})$0",
             "deleteDraftArticle(String articleId)\tvoid": "deleteDraftArticle(${1:String articleId})$0",
-            "scheduleForPublication(String articleId,Datetime scheduledDate)\tvoid": "scheduleForPublication(${1:String articleId},${2:Datetime scheduledDate})$0",
+            "scheduleForPublication(String articleId,Datetime scheduledDate)\tvoid": "scheduleForPublication(${1:String articleId}, ${2:Datetime scheduledDate})$0",
             "deleteDraftTranslation(String articleVersionId)\tvoid": "deleteDraftTranslation(${1:String articleVersionId})$0",
             "completeTranslation(String articleVersionId)\tvoid": "completeTranslation(${1:String articleVersionId})$0",
-            "editOnlineArticle(String articleId,Boolean unpublish)\tString": "editOnlineArticle(${1:String articleId},${2:Boolean unpublish})$0",
-            "publishArticle(String articleId,Boolean flagAsNew)\tvoid": "publishArticle(${1:String articleId},${2:Boolean flagAsNew})$0"
+            "editOnlineArticle(String articleId,Boolean unpublish)\tString": "editOnlineArticle(${1:String articleId}, ${2:Boolean unpublish})$0",
+            "publishArticle(String articleId,Boolean flagAsNew)\tvoid": "publishArticle(${1:String articleId}, ${2:Boolean flagAsNew})$0"
         },
         "constructors": {
             "PublishingService()\t": "PublishingService()$0"
@@ -8647,38 +8647,38 @@ apex_completions = {
         "namespace": "ConnectApi",
         "properties": {},
         "methods": {
-            "searchMessages(String pageParam,Integer pageSize,String q)\tConnectApi.ChatterMessagePage": "searchMessages(${1:String pageParam},${2:Integer pageSize},${3:String q})$0",
-            "searchConversation(String communityId,String conversationId,String q)\tConnectApi.ChatterConversation": "searchConversation(${1:String communityId},${2:String conversationId},${3:String q})$0",
-            "getMessage(String communityId,String messageId)\tConnectApi.ChatterMessage": "getMessage(${1:String communityId},${2:String messageId})$0",
-            "getConversation(String communityId,String conversationId)\tConnectApi.ChatterConversation": "getConversation(${1:String communityId},${2:String conversationId})$0",
+            "searchMessages(String pageParam,Integer pageSize,String q)\tConnectApi.ChatterMessagePage": "searchMessages(${1:String pageParam}, ${2:Integer pageSize}, ${3:String q})$0",
+            "searchConversation(String communityId,String conversationId,String q)\tConnectApi.ChatterConversation": "searchConversation(${1:String communityId}, ${2:String conversationId}, ${3:String q})$0",
+            "getMessage(String communityId,String messageId)\tConnectApi.ChatterMessage": "getMessage(${1:String communityId}, ${2:String messageId})$0",
+            "getConversation(String communityId,String conversationId)\tConnectApi.ChatterConversation": "getConversation(${1:String communityId}, ${2:String conversationId})$0",
             "getConversations()\tConnectApi.ChatterConversationPage": "getConversations()$0",
             "getConversation(String conversationId)\tConnectApi.ChatterConversation": "getConversation(${1:String conversationId})$0",
-            "searchConversation(String conversationId,String q)\tConnectApi.ChatterConversation": "searchConversation(${1:String conversationId},${2:String q})$0",
+            "searchConversation(String conversationId,String q)\tConnectApi.ChatterConversation": "searchConversation(${1:String conversationId}, ${2:String q})$0",
             "getMessages(String communityId)\tConnectApi.ChatterMessagePage": "getMessages(${1:String communityId})$0",
             "getUnreadCount()\tConnectApi.UnreadConversationCount": "getUnreadCount()$0",
-            "searchMessages(String communityId,String pageParam,Integer pageSize,String q)\tConnectApi.ChatterMessagePage": "searchMessages(${1:String communityId},${2:String pageParam},${3:Integer pageSize},${4:String q})$0",
-            "sendMessage(String text,String recipients)\tConnectApi.ChatterMessage": "sendMessage(${1:String text},${2:String recipients})$0",
+            "searchMessages(String communityId,String pageParam,Integer pageSize,String q)\tConnectApi.ChatterMessagePage": "searchMessages(${1:String communityId}, ${2:String pageParam}, ${3:Integer pageSize}, ${4:String q})$0",
+            "sendMessage(String text,String recipients)\tConnectApi.ChatterMessage": "sendMessage(${1:String text}, ${2:String recipients})$0",
             "getConversations(String communityId)\tConnectApi.ChatterConversationPage": "getConversations(${1:String communityId})$0",
-            "searchConversation(String communityId,String conversationId,String pageParam,Integer pageSize,String q)\tConnectApi.ChatterConversation": "searchConversation(${1:String communityId},${2:String conversationId},${3:String pageParam},${4:Integer pageSize},${5:String q})$0",
+            "searchConversation(String communityId,String conversationId,String pageParam,Integer pageSize,String q)\tConnectApi.ChatterConversation": "searchConversation(${1:String communityId}, ${2:String conversationId}, ${3:String pageParam}, ${4:Integer pageSize}, ${5:String q})$0",
             "getMessages()\tConnectApi.ChatterMessagePage": "getMessages()$0",
-            "markConversationRead(String communityId,String conversationId,Boolean read)\tConnectApi.ChatterConversationSummary": "markConversationRead(${1:String communityId},${2:String conversationId},${3:Boolean read})$0",
-            "getMessages(String communityId,String pageParam,Integer pageSize)\tConnectApi.ChatterMessagePage": "getMessages(${1:String communityId},${2:String pageParam},${3:Integer pageSize})$0",
-            "sendMessage(String communityId,String text,String recipients)\tConnectApi.ChatterMessage": "sendMessage(${1:String communityId},${2:String text},${3:String recipients})$0",
+            "markConversationRead(String communityId,String conversationId,Boolean read)\tConnectApi.ChatterConversationSummary": "markConversationRead(${1:String communityId}, ${2:String conversationId}, ${3:Boolean read})$0",
+            "getMessages(String communityId,String pageParam,Integer pageSize)\tConnectApi.ChatterMessagePage": "getMessages(${1:String communityId}, ${2:String pageParam}, ${3:Integer pageSize})$0",
+            "sendMessage(String communityId,String text,String recipients)\tConnectApi.ChatterMessage": "sendMessage(${1:String communityId}, ${2:String text}, ${3:String recipients})$0",
             "searchMessages(String q)\tConnectApi.ChatterMessagePage": "searchMessages(${1:String q})$0",
-            "markConversationRead(String conversationId,Boolean read)\tConnectApi.ChatterConversationSummary": "markConversationRead(${1:String conversationId},${2:Boolean read})$0",
+            "markConversationRead(String conversationId,Boolean read)\tConnectApi.ChatterConversationSummary": "markConversationRead(${1:String conversationId}, ${2:Boolean read})$0",
             "getMessage(String messageId)\tConnectApi.ChatterMessage": "getMessage(${1:String messageId})$0",
-            "searchConversations(String communityId,String pageParam,Integer pageSize,String q)\tConnectApi.ChatterConversationPage": "searchConversations(${1:String communityId},${2:String pageParam},${3:Integer pageSize},${4:String q})$0",
-            "getMessages(String pageParam,Integer pageSize)\tConnectApi.ChatterMessagePage": "getMessages(${1:String pageParam},${2:Integer pageSize})$0",
-            "searchConversation(String conversationId,String pageParam,Integer pageSize,String q)\tConnectApi.ChatterConversation": "searchConversation(${1:String conversationId},${2:String pageParam},${3:Integer pageSize},${4:String q})$0",
-            "replyToMessage(String text,String inReplyTo)\tConnectApi.ChatterMessage": "replyToMessage(${1:String text},${2:String inReplyTo})$0",
-            "getConversation(String communityId,String conversationId,String pageParam,Integer pageSize)\tConnectApi.ChatterConversation": "getConversation(${1:String communityId},${2:String conversationId},${3:String pageParam},${4:Integer pageSize})$0",
-            "getConversation(String conversationId,String pageParam,Integer pageSize)\tConnectApi.ChatterConversation": "getConversation(${1:String conversationId},${2:String pageParam},${3:Integer pageSize})$0",
-            "searchConversations(String pageParam,Integer pageSize,String q)\tConnectApi.ChatterConversationPage": "searchConversations(${1:String pageParam},${2:Integer pageSize},${3:String q})$0",
-            "replyToMessage(String communityId,String text,String inReplyTo)\tConnectApi.ChatterMessage": "replyToMessage(${1:String communityId},${2:String text},${3:String inReplyTo})$0",
-            "searchMessages(String communityId,String q)\tConnectApi.ChatterMessagePage": "searchMessages(${1:String communityId},${2:String q})$0",
-            "getConversations(String communityId,String pageParam,Integer pageSize)\tConnectApi.ChatterConversationPage": "getConversations(${1:String communityId},${2:String pageParam},${3:Integer pageSize})$0",
-            "searchConversations(String communityId,String q)\tConnectApi.ChatterConversationPage": "searchConversations(${1:String communityId},${2:String q})$0",
-            "getConversations(String pageParam,Integer pageSize)\tConnectApi.ChatterConversationPage": "getConversations(${1:String pageParam},${2:Integer pageSize})$0",
+            "searchConversations(String communityId,String pageParam,Integer pageSize,String q)\tConnectApi.ChatterConversationPage": "searchConversations(${1:String communityId}, ${2:String pageParam}, ${3:Integer pageSize}, ${4:String q})$0",
+            "getMessages(String pageParam,Integer pageSize)\tConnectApi.ChatterMessagePage": "getMessages(${1:String pageParam}, ${2:Integer pageSize})$0",
+            "searchConversation(String conversationId,String pageParam,Integer pageSize,String q)\tConnectApi.ChatterConversation": "searchConversation(${1:String conversationId}, ${2:String pageParam}, ${3:Integer pageSize}, ${4:String q})$0",
+            "replyToMessage(String text,String inReplyTo)\tConnectApi.ChatterMessage": "replyToMessage(${1:String text}, ${2:String inReplyTo})$0",
+            "getConversation(String communityId,String conversationId,String pageParam,Integer pageSize)\tConnectApi.ChatterConversation": "getConversation(${1:String communityId}, ${2:String conversationId}, ${3:String pageParam}, ${4:Integer pageSize})$0",
+            "getConversation(String conversationId,String pageParam,Integer pageSize)\tConnectApi.ChatterConversation": "getConversation(${1:String conversationId}, ${2:String pageParam}, ${3:Integer pageSize})$0",
+            "searchConversations(String pageParam,Integer pageSize,String q)\tConnectApi.ChatterConversationPage": "searchConversations(${1:String pageParam}, ${2:Integer pageSize}, ${3:String q})$0",
+            "replyToMessage(String communityId,String text,String inReplyTo)\tConnectApi.ChatterMessage": "replyToMessage(${1:String communityId}, ${2:String text}, ${3:String inReplyTo})$0",
+            "searchMessages(String communityId,String q)\tConnectApi.ChatterMessagePage": "searchMessages(${1:String communityId}, ${2:String q})$0",
+            "getConversations(String communityId,String pageParam,Integer pageSize)\tConnectApi.ChatterConversationPage": "getConversations(${1:String communityId}, ${2:String pageParam}, ${3:Integer pageSize})$0",
+            "searchConversations(String communityId,String q)\tConnectApi.ChatterConversationPage": "searchConversations(${1:String communityId}, ${2:String q})$0",
+            "getConversations(String pageParam,Integer pageSize)\tConnectApi.ChatterConversationPage": "getConversations(${1:String pageParam}, ${2:Integer pageSize})$0",
             "getUnreadCount(String communityId)\tConnectApi.UnreadConversationCount": "getUnreadCount(${1:String communityId})$0",
             "searchConversations(String q)\tConnectApi.ChatterConversationPage": "searchConversations(${1:String q})$0"
         },
@@ -8689,10 +8689,10 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "updat(String type,List<String> ids,MAP<String,ANY> fields)\tMAP<String,ANY>": "updat(${1:String type},${2:List<String> ids},${3:MAP<String,ANY> fields})$0",
-            "create(String type,MAP<String,ANY> fields)\tMAP<String,ANY>": "create(${1:String type},${2:MAP<String,ANY> fields})$0",
-            "del(String type,List<String> ids)\tMAP<String,ANY>": "del(${1:String type},${2:List<String> ids})$0",
-            "retrieve(String type,List<String> fields,MAP<String,ANY> criteria)\tMAP<String,ANY>": "retrieve(${1:String type},${2:List<String> fields},${3:MAP<String,ANY> criteria})$0"
+            "updat(String type,List<String> ids,MAP<String,ANY> fields)\tMAP<String,ANY>": "updat(${1:String type}, ${2:List<String> ids}, ${3:MAP<String,ANY> fields})$0",
+            "create(String type,MAP<String,ANY> fields)\tMAP<String,ANY>": "create(${1:String type}, ${2:MAP<String,ANY> fields})$0",
+            "del(String type,List<String> ids)\tMAP<String,ANY>": "del(${1:String type}, ${2:List<String> ids})$0",
+            "retrieve(String type,List<String> fields,MAP<String,ANY> criteria)\tMAP<String,ANY>": "retrieve(${1:String type}, ${2:List<String> fields}, ${3:MAP<String,ANY> criteria})$0"
         },
         "constructors": {
             "RemoteObjectController()\t": "RemoteObjectController()$0"
@@ -8789,7 +8789,7 @@ apex_completions = {
         "constructors": {
             "EmptyStackException(Exception param1)\t": "EmptyStackException(${1:Exception param1})$0",
             "EmptyStackException()\t": "EmptyStackException()$0",
-            "EmptyStackException(String param1,Exception param2)\t": "EmptyStackException(${1:String param1},${2:Exception param2})$0",
+            "EmptyStackException(String param1,Exception param2)\t": "EmptyStackException(${1:String param1}, ${2:Exception param2})$0",
             "EmptyStackException(String param1)\t": "EmptyStackException(${1:String param1})$0"
         }
     },
@@ -8847,7 +8847,7 @@ apex_completions = {
         },
         "constructors": {
             "InvalidReportMetadataException()\t": "InvalidReportMetadataException()$0",
-            "InvalidReportMetadataException(String param1,Exception param2)\t": "InvalidReportMetadataException(${1:String param1},${2:Exception param2})$0",
+            "InvalidReportMetadataException(String param1,Exception param2)\t": "InvalidReportMetadataException(${1:String param1}, ${2:Exception param2})$0",
             "InvalidReportMetadataException(String param1)\t": "InvalidReportMetadataException(${1:String param1})$0",
             "InvalidReportMetadataException(Exception param1)\t": "InvalidReportMetadataException(${1:Exception param1})$0"
         }
@@ -8936,7 +8936,7 @@ apex_completions = {
         "namespace": "LiveAgent",
         "properties": {},
         "methods": {
-            "setButtonStatus(String liveChatButtonId,Boolean online)\tvoid": "setButtonStatus(${1:String liveChatButtonId},${2:Boolean online})$0",
+            "setButtonStatus(String liveChatButtonId,Boolean online)\tvoid": "setButtonStatus(${1:String liveChatButtonId}, ${2:Boolean online})$0",
             "cancelChatRequests(List<String> requests)\tvoid": "cancelChatRequests(${1:List<String> requests})$0",
             "routeChatRequests(List<LiveAgent.LiveChatRoutingRoute> routes)\tList<LiveAgent.LiveChatRoutingResult>": "routeChatRequests(${1:List<LiveAgent.LiveChatRoutingRoute> routes})$0"
         },
@@ -9106,7 +9106,7 @@ apex_completions = {
             "getTypeName()\tString": "getTypeName()$0"
         },
         "constructors": {
-            "UnsupportedOperationException(String param1,Exception param2)\t": "UnsupportedOperationException(${1:String param1},${2:Exception param2})$0",
+            "UnsupportedOperationException(String param1,Exception param2)\t": "UnsupportedOperationException(${1:String param1}, ${2:Exception param2})$0",
             "UnsupportedOperationException()\t": "UnsupportedOperationException()$0",
             "UnsupportedOperationException(String param1)\t": "UnsupportedOperationException(${1:String param1})$0",
             "UnsupportedOperationException(Exception param1)\t": "UnsupportedOperationException(${1:Exception param1})$0"
@@ -9119,7 +9119,7 @@ apex_completions = {
             "getTypeName()\tString": "getTypeName()$0"
         },
         "constructors": {
-            "UnsupportedOperationException(String param1,Exception param2)\t": "UnsupportedOperationException(${1:String param1},${2:Exception param2})$0",
+            "UnsupportedOperationException(String param1,Exception param2)\t": "UnsupportedOperationException(${1:String param1}, ${2:Exception param2})$0",
             "UnsupportedOperationException()\t": "UnsupportedOperationException()$0",
             "UnsupportedOperationException(Exception param1)\t": "UnsupportedOperationException(${1:Exception param1})$0"
         }
@@ -9164,12 +9164,12 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "execute(Database.BatchableContext BC,List<SObject> caseList)\tvoid": "execute(${1:Database.BatchableContext BC},${2:List<SObject> caseList})$0",
+            "execute(Database.BatchableContext BC,List<SObject> caseList)\tvoid": "execute(${1:Database.BatchableContext BC}, ${2:List<SObject> caseList})$0",
             "start(Database.BatchableContext BC)\tDatabase.QueryLocator": "start(${1:Database.BatchableContext BC})$0",
             "finish(Database.BatchableContext BC)\tvoid": "finish(${1:Database.BatchableContext BC})$0"
         },
         "constructors": {
-            "CollectSimilarCasesData(Integer nCases,Integer similarCutoffNumber)\t": "CollectSimilarCasesData(${1:Integer nCases},${2:Integer similarCutoffNumber})$0"
+            "CollectSimilarCasesData(Integer nCases,Integer similarCutoffNumber)\t": "CollectSimilarCasesData(${1:Integer nCases}, ${2:Integer similarCutoffNumber})$0"
         }
     },
     "processworkitemrequest": {
@@ -9194,17 +9194,17 @@ apex_completions = {
         "properties": {},
         "methods": {
             "runAsyncReport(Id reportId)\treports.ReportInstance": "runAsyncReport(${1:Id reportId})$0",
-            "runReport(Id reportId,reports.ReportMetadata rmData)\treports.ReportResults": "runReport(${1:Id reportId},${2:reports.ReportMetadata rmData})$0",
+            "runReport(Id reportId,reports.ReportMetadata rmData)\treports.ReportResults": "runReport(${1:Id reportId}, ${2:reports.ReportMetadata rmData})$0",
             "runReport(Id reportId)\treports.ReportResults": "runReport(${1:Id reportId})$0",
             "getReportInstances(Id reportId)\tList<reports.ReportInstance>": "getReportInstances(${1:Id reportId})$0",
-            "runAsyncReport(Id reportId,reports.ReportMetadata rmData)\treports.ReportInstance": "runAsyncReport(${1:Id reportId},${2:reports.ReportMetadata rmData})$0",
+            "runAsyncReport(Id reportId,reports.ReportMetadata rmData)\treports.ReportInstance": "runAsyncReport(${1:Id reportId}, ${2:reports.ReportMetadata rmData})$0",
             "getDatatypeFilterOperatorMap()\tMAP<String,List<reports.FilterOperator>>": "getDatatypeFilterOperatorMap()$0",
             "describeReport(Id reportId)\treports.ReportDescribeResult": "describeReport(${1:Id reportId})$0",
-            "runAsyncReport(Id reportId,reports.ReportMetadata rmData,Boolean includeDetails)\treports.ReportInstance": "runAsyncReport(${1:Id reportId},${2:reports.ReportMetadata rmData},${3:Boolean includeDetails})$0",
-            "runAsyncReport(Id reportId,Boolean includeDetails)\treports.ReportInstance": "runAsyncReport(${1:Id reportId},${2:Boolean includeDetails})$0",
+            "runAsyncReport(Id reportId,reports.ReportMetadata rmData,Boolean includeDetails)\treports.ReportInstance": "runAsyncReport(${1:Id reportId}, ${2:reports.ReportMetadata rmData}, ${3:Boolean includeDetails})$0",
+            "runAsyncReport(Id reportId,Boolean includeDetails)\treports.ReportInstance": "runAsyncReport(${1:Id reportId}, ${2:Boolean includeDetails})$0",
             "getReportInstance(Id instanceId)\treports.ReportInstance": "getReportInstance(${1:Id instanceId})$0",
-            "runReport(Id reportId,Boolean includeDetails)\treports.ReportResults": "runReport(${1:Id reportId},${2:Boolean includeDetails})$0",
-            "runReport(Id reportId,reports.ReportMetadata rmData,Boolean includeDetails)\treports.ReportResults": "runReport(${1:Id reportId},${2:reports.ReportMetadata rmData},${3:Boolean includeDetails})$0"
+            "runReport(Id reportId,Boolean includeDetails)\treports.ReportResults": "runReport(${1:Id reportId}, ${2:Boolean includeDetails})$0",
+            "runReport(Id reportId,reports.ReportMetadata rmData,Boolean includeDetails)\treports.ReportResults": "runReport(${1:Id reportId}, ${2:reports.ReportMetadata rmData}, ${3:Boolean includeDetails})$0"
         },
         "constructors": {
             "ReportManager()\t": "ReportManager()$0"
@@ -9216,7 +9216,7 @@ apex_completions = {
         "properties": {},
         "methods": {
             "getMaxNumberOfDaysClosedToReopenCase()\tInteger": "getMaxNumberOfDaysClosedToReopenCase()$0",
-            "handleInboundSocialPost(SocialPost post,SocialPersona persona,MAP<String,ANY> rawData)\tSocial.InboundSocialPostResult": "handleInboundSocialPost(${1:SocialPost post},${2:SocialPersona persona},${3:MAP<String,ANY> rawData})$0",
+            "handleInboundSocialPost(SocialPost post,SocialPersona persona,MAP<String,ANY> rawData)\tSocial.InboundSocialPostResult": "handleInboundSocialPost(${1:SocialPost post}, ${2:SocialPersona persona}, ${3:MAP<String,ANY> rawData})$0",
             "getDefaultAccountId()\tString": "getDefaultAccountId()$0",
             "createPersonaParent(SocialPersona persona)\tSObject": "createPersonaParent(${1:SocialPersona persona})$0"
         },
@@ -9355,64 +9355,64 @@ apex_completions = {
             "delete(List<Id> ids)\tList<Database.DeleteResult>": "delete(${1:List<Id> ids})$0",
             "emptyRecycleBin(List<Id> ids)\tList<Database.EmptyRecycleBinResult>": "emptyRecycleBin(${1:List<Id> ids})$0",
             "undelete(List<SObject> sobjects)\tList<Database.UndeleteResult>": "undelete(${1:List<SObject> sobjects})$0",
-            "insert(SObject sobject,APEX_OBJECT DmlOptions)\tDatabase.SaveResult": "insert(${1:SObject sobject},${2:APEX_OBJECT DmlOptions})$0",
+            "insert(SObject sobject,APEX_OBJECT DmlOptions)\tDatabase.SaveResult": "insert(${1:SObject sobject}, ${2:APEX_OBJECT DmlOptions})$0",
             "getQueryLocator(List<SObject> query)\tDatabase.QueryLocator": "getQueryLocator(${1:List<SObject> query})$0",
             "convertLead(List<Database.LeadConvert> leadConverts)\tList<Database.LeadConvertResult>": "convertLead(${1:List<Database.LeadConvert> leadConverts})$0",
             "delete(SObject sobject)\tDatabase.DeleteResult": "delete(${1:SObject sobject})$0",
-            "insert(SObject sobject,Boolean allOrNothing)\tDatabase.SaveResult": "insert(${1:SObject sobject},${2:Boolean allOrNothing})$0",
+            "insert(SObject sobject,Boolean allOrNothing)\tDatabase.SaveResult": "insert(${1:SObject sobject}, ${2:Boolean allOrNothing})$0",
             "rollback(System.Savepoint savepoint)\tvoid": "rollback(${1:System.Savepoint savepoint})$0",
             "undelete(SObject sobject)\tDatabase.UndeleteResult": "undelete(${1:SObject sobject})$0",
-            "merge(SObject master,List<Id> duplicates)\tList<Database.MergeResult>": "merge(${1:SObject master},${2:List<Id> duplicates})$0",
-            "upsert(SObject sobject,Boolean allOrNothing)\tDatabase.UpsertResult": "upsert(${1:SObject sobject},${2:Boolean allOrNothing})$0",
+            "merge(SObject master,List<Id> duplicates)\tList<Database.MergeResult>": "merge(${1:SObject master}, ${2:List<Id> duplicates})$0",
+            "upsert(SObject sobject,Boolean allOrNothing)\tDatabase.UpsertResult": "upsert(${1:SObject sobject}, ${2:Boolean allOrNothing})$0",
             "update(List<SObject> sobjects)\tList<Database.SaveResult>": "update(${1:List<SObject> sobjects})$0",
-            "merge(SObject master,SObject duplicate)\tDatabase.MergeResult": "merge(${1:SObject master},${2:SObject duplicate})$0",
-            "delete(SObject sobject,Boolean allOrNothing)\tDatabase.DeleteResult": "delete(${1:SObject sobject},${2:Boolean allOrNothing})$0",
+            "merge(SObject master,SObject duplicate)\tDatabase.MergeResult": "merge(${1:SObject master}, ${2:SObject duplicate})$0",
+            "delete(SObject sobject,Boolean allOrNothing)\tDatabase.DeleteResult": "delete(${1:SObject sobject}, ${2:Boolean allOrNothing})$0",
             "undelete(Id id)\tDatabase.UndeleteResult": "undelete(${1:Id id})$0",
-            "convertLead(List<Database.LeadConvert> leadConverts,Boolean allOrNothing)\tList<Database.LeadConvertResult>": "convertLead(${1:List<Database.LeadConvert> leadConverts},${2:Boolean allOrNothing})$0",
-            "delete(Id id,Boolean allOrNothing)\tDatabase.DeleteResult": "delete(${1:Id id},${2:Boolean allOrNothing})$0",
+            "convertLead(List<Database.LeadConvert> leadConverts,Boolean allOrNothing)\tList<Database.LeadConvertResult>": "convertLead(${1:List<Database.LeadConvert> leadConverts}, ${2:Boolean allOrNothing})$0",
+            "delete(Id id,Boolean allOrNothing)\tDatabase.DeleteResult": "delete(${1:Id id}, ${2:Boolean allOrNothing})$0",
             "emptyRecycleBin(SObject sobject)\tDatabase.EmptyRecycleBinResult": "emptyRecycleBin(${1:SObject sobject})$0",
-            "delete(List<SObject> sobjects,Boolean allOrNothing)\tList<Database.DeleteResult>": "delete(${1:List<SObject> sobjects},${2:Boolean allOrNothing})$0",
+            "delete(List<SObject> sobjects,Boolean allOrNothing)\tList<Database.DeleteResult>": "delete(${1:List<SObject> sobjects}, ${2:Boolean allOrNothing})$0",
             "insert(List<SObject> sobjects)\tList<Database.SaveResult>": "insert(${1:List<SObject> sobjects})$0",
-            "update(SObject sobject,Boolean allOrNothing)\tDatabase.SaveResult": "update(${1:SObject sobject},${2:Boolean allOrNothing})$0",
+            "update(SObject sobject,Boolean allOrNothing)\tDatabase.SaveResult": "update(${1:SObject sobject}, ${2:Boolean allOrNothing})$0",
             "insert(SObject sobject)\tDatabase.SaveResult": "insert(${1:SObject sobject})$0",
             "undelete(List<Id> ids)\tList<Database.UndeleteResult>": "undelete(${1:List<Id> ids})$0",
-            "merge(SObject master,List<SObject> duplicates,Boolean allOrNothing)\tList<Database.MergeResult>": "merge(${1:SObject master},${2:List<SObject> duplicates},${3:Boolean allOrNothing})$0",
-            "upsert(SObject sobject,Schema.SObjectField field,Boolean allOrNothing)\tDatabase.UpsertResult": "upsert(${1:SObject sobject},${2:Schema.SObjectField field},${3:Boolean allOrNothing})$0",
+            "merge(SObject master,List<SObject> duplicates,Boolean allOrNothing)\tList<Database.MergeResult>": "merge(${1:SObject master}, ${2:List<SObject> duplicates}, ${3:Boolean allOrNothing})$0",
+            "upsert(SObject sobject,Schema.SObjectField field,Boolean allOrNothing)\tDatabase.UpsertResult": "upsert(${1:SObject sobject}, ${2:Schema.SObjectField field}, ${3:Boolean allOrNothing})$0",
             "getQueryLocator(String query)\tDatabase.QueryLocator": "getQueryLocator(${1:String query})$0",
-            "merge(SObject master,Id duplicate)\tDatabase.MergeResult": "merge(${1:SObject master},${2:Id duplicate})$0",
-            "update(List<SObject> sobjects,Boolean allOrNothing)\tList<Database.SaveResult>": "update(${1:List<SObject> sobjects},${2:Boolean allOrNothing})$0",
-            "upsert(List<SObject> sobjects,Schema.SObjectField field,Boolean allOrNothing)\tList<Database.UpsertResult>": "upsert(${1:List<SObject> sobjects},${2:Schema.SObjectField field},${3:Boolean allOrNothing})$0",
-            "delete(List<Id> ids,Boolean allOrNothing)\tList<Database.DeleteResult>": "delete(${1:List<Id> ids},${2:Boolean allOrNothing})$0",
-            "upsert(List<SObject> sobjects,Boolean allOrNothing)\tList<Database.UpsertResult>": "upsert(${1:List<SObject> sobjects},${2:Boolean allOrNothing})$0",
-            "undelete(Id id,Boolean allOrNothing)\tDatabase.UndeleteResult": "undelete(${1:Id id},${2:Boolean allOrNothing})$0",
-            "merge(SObject master,SObject duplicate,Boolean allOrNothing)\tDatabase.MergeResult": "merge(${1:SObject master},${2:SObject duplicate},${3:Boolean allOrNothing})$0",
-            "update(List<SObject> sobjects,APEX_OBJECT allOrNothing)\tList<Database.SaveResult>": "update(${1:List<SObject> sobjects},${2:APEX_OBJECT allOrNothing})$0",
-            "upsert(List<SObject> sobjects,Schema.SObjectField field)\tList<Database.UpsertResult>": "upsert(${1:List<SObject> sobjects},${2:Schema.SObjectField field})$0",
+            "merge(SObject master,Id duplicate)\tDatabase.MergeResult": "merge(${1:SObject master}, ${2:Id duplicate})$0",
+            "update(List<SObject> sobjects,Boolean allOrNothing)\tList<Database.SaveResult>": "update(${1:List<SObject> sobjects}, ${2:Boolean allOrNothing})$0",
+            "upsert(List<SObject> sobjects,Schema.SObjectField field,Boolean allOrNothing)\tList<Database.UpsertResult>": "upsert(${1:List<SObject> sobjects}, ${2:Schema.SObjectField field}, ${3:Boolean allOrNothing})$0",
+            "delete(List<Id> ids,Boolean allOrNothing)\tList<Database.DeleteResult>": "delete(${1:List<Id> ids}, ${2:Boolean allOrNothing})$0",
+            "upsert(List<SObject> sobjects,Boolean allOrNothing)\tList<Database.UpsertResult>": "upsert(${1:List<SObject> sobjects}, ${2:Boolean allOrNothing})$0",
+            "undelete(Id id,Boolean allOrNothing)\tDatabase.UndeleteResult": "undelete(${1:Id id}, ${2:Boolean allOrNothing})$0",
+            "merge(SObject master,SObject duplicate,Boolean allOrNothing)\tDatabase.MergeResult": "merge(${1:SObject master}, ${2:SObject duplicate}, ${3:Boolean allOrNothing})$0",
+            "update(List<SObject> sobjects,APEX_OBJECT allOrNothing)\tList<Database.SaveResult>": "update(${1:List<SObject> sobjects}, ${2:APEX_OBJECT allOrNothing})$0",
+            "upsert(List<SObject> sobjects,Schema.SObjectField field)\tList<Database.UpsertResult>": "upsert(${1:List<SObject> sobjects}, ${2:Schema.SObjectField field})$0",
             "delete(List<SObject> sobjects)\tList<Database.DeleteResult>": "delete(${1:List<SObject> sobjects})$0",
-            "executeBatch(APEX_OBJECT batchable,Integer batchSize)\tString": "executeBatch(${1:APEX_OBJECT batchable},${2:Integer batchSize})$0",
-            "update(SObject sobject,APEX_OBJECT allOrNothing)\tDatabase.SaveResult": "update(${1:SObject sobject},${2:APEX_OBJECT allOrNothing})$0",
-            "insert(List<SObject> sobjects,Boolean allOrNothing)\tList<Database.SaveResult>": "insert(${1:List<SObject> sobjects},${2:Boolean allOrNothing})$0",
+            "executeBatch(APEX_OBJECT batchable,Integer batchSize)\tString": "executeBatch(${1:APEX_OBJECT batchable}, ${2:Integer batchSize})$0",
+            "update(SObject sobject,APEX_OBJECT allOrNothing)\tDatabase.SaveResult": "update(${1:SObject sobject}, ${2:APEX_OBJECT allOrNothing})$0",
+            "insert(List<SObject> sobjects,Boolean allOrNothing)\tList<Database.SaveResult>": "insert(${1:List<SObject> sobjects}, ${2:Boolean allOrNothing})$0",
             "query(String query)\tList<SObject>": "query(${1:String query})$0",
             "upsert(List<SObject> sobjects)\tList<Database.UpsertResult>": "upsert(${1:List<SObject> sobjects})$0",
-            "merge(SObject master,Id duplicate,Boolean allOrNothing)\tDatabase.MergeResult": "merge(${1:SObject master},${2:Id duplicate},${3:Boolean allOrNothing})$0",
+            "merge(SObject master,Id duplicate,Boolean allOrNothing)\tDatabase.MergeResult": "merge(${1:SObject master}, ${2:Id duplicate}, ${3:Boolean allOrNothing})$0",
             "upsert(SObject sobject)\tDatabase.UpsertResult": "upsert(${1:SObject sobject})$0",
-            "getUpdated(String sobjectType,Datetime startDate,Datetime endDate)\tDatabase.GetUpdatedResult": "getUpdated(${1:String sobjectType},${2:Datetime startDate},${3:Datetime endDate})$0",
-            "undelete(List<Id> ids,Boolean allOrNothing)\tList<Database.UndeleteResult>": "undelete(${1:List<Id> ids},${2:Boolean allOrNothing})$0",
+            "getUpdated(String sobjectType,Datetime startDate,Datetime endDate)\tDatabase.GetUpdatedResult": "getUpdated(${1:String sobjectType}, ${2:Datetime startDate}, ${3:Datetime endDate})$0",
+            "undelete(List<Id> ids,Boolean allOrNothing)\tList<Database.UndeleteResult>": "undelete(${1:List<Id> ids}, ${2:Boolean allOrNothing})$0",
             "update(SObject sobject)\tDatabase.SaveResult": "update(${1:SObject sobject})$0",
-            "getDeleted(String sobjectType,Datetime startDate,Datetime endDate)\tDatabase.GetDeletedResult": "getDeleted(${1:String sobjectType},${2:Datetime startDate},${3:Datetime endDate})$0",
+            "getDeleted(String sobjectType,Datetime startDate,Datetime endDate)\tDatabase.GetDeletedResult": "getDeleted(${1:String sobjectType}, ${2:Datetime startDate}, ${3:Datetime endDate})$0",
             "setSavepoint()\tSystem.Savepoint": "setSavepoint()$0",
             "emptyRecycleBin(List<SObject> sobjects)\tList<Database.EmptyRecycleBinResult>": "emptyRecycleBin(${1:List<SObject> sobjects})$0",
             "countQuery(String query)\tInteger": "countQuery(${1:String query})$0",
             "convertLead(Database.LeadConvert leadConvert)\tDatabase.LeadConvertResult": "convertLead(${1:Database.LeadConvert leadConvert})$0",
             "delete(Id id)\tDatabase.DeleteResult": "delete(${1:Id id})$0",
-            "insert(List<SObject> sobjects,APEX_OBJECT DmlOptions)\tList<Database.SaveResult>": "insert(${1:List<SObject> sobjects},${2:APEX_OBJECT DmlOptions})$0",
+            "insert(List<SObject> sobjects,APEX_OBJECT DmlOptions)\tList<Database.SaveResult>": "insert(${1:List<SObject> sobjects}, ${2:APEX_OBJECT DmlOptions})$0",
             "executeBatch(APEX_OBJECT batchable)\tString": "executeBatch(${1:APEX_OBJECT batchable})$0",
-            "undelete(List<SObject> sobjects,Boolean allOrNothing)\tList<Database.UndeleteResult>": "undelete(${1:List<SObject> sobjects},${2:Boolean allOrNothing})$0",
-            "convertLead(Database.LeadConvert leadConvert,Boolean allOrNothing)\tDatabase.LeadConvertResult": "convertLead(${1:Database.LeadConvert leadConvert},${2:Boolean allOrNothing})$0",
-            "merge(SObject master,List<Id> duplicates,Boolean allOrNothing)\tList<Database.MergeResult>": "merge(${1:SObject master},${2:List<Id> duplicates},${3:Boolean allOrNothing})$0",
-            "merge(SObject master,List<SObject> duplicates)\tList<Database.MergeResult>": "merge(${1:SObject master},${2:List<SObject> duplicates})$0",
-            "undelete(SObject sobject,Boolean allOrNothing)\tDatabase.UndeleteResult": "undelete(${1:SObject sobject},${2:Boolean allOrNothing})$0",
-            "upsert(SObject sobject,Schema.SObjectField field)\tDatabase.UpsertResult": "upsert(${1:SObject sobject},${2:Schema.SObjectField field})$0"
+            "undelete(List<SObject> sobjects,Boolean allOrNothing)\tList<Database.UndeleteResult>": "undelete(${1:List<SObject> sobjects}, ${2:Boolean allOrNothing})$0",
+            "convertLead(Database.LeadConvert leadConvert,Boolean allOrNothing)\tDatabase.LeadConvertResult": "convertLead(${1:Database.LeadConvert leadConvert}, ${2:Boolean allOrNothing})$0",
+            "merge(SObject master,List<Id> duplicates,Boolean allOrNothing)\tList<Database.MergeResult>": "merge(${1:SObject master}, ${2:List<Id> duplicates}, ${3:Boolean allOrNothing})$0",
+            "merge(SObject master,List<SObject> duplicates)\tList<Database.MergeResult>": "merge(${1:SObject master}, ${2:List<SObject> duplicates})$0",
+            "undelete(SObject sobject,Boolean allOrNothing)\tDatabase.UndeleteResult": "undelete(${1:SObject sobject}, ${2:Boolean allOrNothing})$0",
+            "upsert(SObject sobject,Schema.SObjectField field)\tDatabase.UpsertResult": "upsert(${1:SObject sobject}, ${2:Schema.SObjectField field})$0"
         },
         "constructors": {}
     },
@@ -9426,7 +9426,7 @@ apex_completions = {
         "constructors": {
             "AnalysisException(Exception param1)\t": "AnalysisException(${1:Exception param1})$0",
             "AnalysisException()\t": "AnalysisException()$0",
-            "AnalysisException(String param1,Exception param2)\t": "AnalysisException(${1:String param1},${2:Exception param2})$0"
+            "AnalysisException(String param1,Exception param2)\t": "AnalysisException(${1:String param1}, ${2:Exception param2})$0"
         }
     },
     "feeditemtype": {
@@ -9484,8 +9484,8 @@ apex_completions = {
             "headers": "headers$0"
         },
         "methods": {
-            "addParameter(String name,String value)\tvoid": "addParameter(${1:String name},${2:String value})$0",
-            "addHeader(String name,String value)\tvoid": "addHeader(${1:String name},${2:String value})$0"
+            "addParameter(String name,String value)\tvoid": "addParameter(${1:String name}, ${2:String value})$0",
+            "addHeader(String name,String value)\tvoid": "addHeader(${1:String name}, ${2:String value})$0"
         },
         "constructors": {
             "RestRequest()\t": "RestRequest()$0"
@@ -9525,11 +9525,11 @@ apex_completions = {
         "namespace": "System",
         "properties": {},
         "methods": {
-            "deserializeStrict(String jsonString,system.Type apexType)\tObject": "deserializeStrict(${1:String jsonString},${2:system.Type apexType})$0",
+            "deserializeStrict(String jsonString,system.Type apexType)\tObject": "deserializeStrict(${1:String jsonString}, ${2:system.Type apexType})$0",
             "createGenerator(Boolean pretty)\tsystem.JSONGenerator": "createGenerator(${1:Boolean pretty})$0",
             "createParser(String jsonString)\tsystem.JSONParser": "createParser(${1:String jsonString})$0",
             "serializePretty(Object o)\tString": "serializePretty(${1:Object o})$0",
-            "deserialize(String jsonString,system.Type apexType)\tObject": "deserialize(${1:String jsonString},${2:system.Type apexType})$0",
+            "deserialize(String jsonString,system.Type apexType)\tObject": "deserialize(${1:String jsonString}, ${2:system.Type apexType})$0",
             "serialize(Object o)\tString": "serialize(${1:Object o})$0",
             "deserializeUntyped(String jsonString)\tObject": "deserializeUntyped(${1:String jsonString})$0"
         },
@@ -9582,7 +9582,7 @@ apex_completions = {
             "groupCount()\tInteger": "groupCount()$0",
             "hasAnchoringBounds()\tBoolean": "hasAnchoringBounds()$0",
             "regionStart()\tInteger": "regionStart()$0",
-            "region(Integer start,Integer ending)\tsystem.Matcher": "region(${1:Integer start},${2:Integer ending})$0",
+            "region(Integer start,Integer ending)\tsystem.Matcher": "region(${1:Integer start}, ${2:Integer ending})$0",
             "hitEnd()\tBoolean": "hitEnd()$0",
             "quoteReplacement(String s)\tString": "quoteReplacement(${1:String s})$0",
             "reset(String input)\tsystem.Matcher": "reset(${1:String input})$0",
@@ -9768,7 +9768,7 @@ apex_completions = {
             "getReportInstance()\treports.ReportInstance": "getReportInstance()$0"
         },
         "constructors": {
-            "NotificationActionContext(reports.ReportInstance reportInstance,reports.ThresholdInformation thresholdInformation)\t": "NotificationActionContext(${1:reports.ReportInstance reportInstance},${2:reports.ThresholdInformation thresholdInformation})$0"
+            "NotificationActionContext(reports.ReportInstance reportInstance,reports.ThresholdInformation thresholdInformation)\t": "NotificationActionContext(${1:reports.ReportInstance reportInstance}, ${2:reports.ThresholdInformation thresholdInformation})$0"
         }
     },
     "followingcounts": {
@@ -9851,9 +9851,9 @@ apex_completions = {
             "sendEmail(List<Messaging.Email> emailMessages)\tList<Messaging.SendEmailResult>": "sendEmail(${1:List<Messaging.Email> emailMessages})$0",
             "reserveMassEmailCapacity(Integer count)\tvoid": "reserveMassEmailCapacity(${1:Integer count})$0",
             "sendEmailMessage(List<Id> emailMessagesIds)\tList<Messaging.SendEmailResult>": "sendEmailMessage(${1:List<Id> emailMessagesIds})$0",
-            "sendEmail(List<Messaging.Email> emailMessages,Boolean allOrNothing)\tList<Messaging.SendEmailResult>": "sendEmail(${1:List<Messaging.Email> emailMessages},${2:Boolean allOrNothing})$0",
+            "sendEmail(List<Messaging.Email> emailMessages,Boolean allOrNothing)\tList<Messaging.SendEmailResult>": "sendEmail(${1:List<Messaging.Email> emailMessages}, ${2:Boolean allOrNothing})$0",
             "reserveSingleEmailCapacity(Integer count)\tvoid": "reserveSingleEmailCapacity(${1:Integer count})$0",
-            "sendEmailMessage(List<Id> emailMessagesIds,Boolean allOrNothing)\tList<Messaging.SendEmailResult>": "sendEmailMessage(${1:List<Id> emailMessagesIds},${2:Boolean allOrNothing})$0"
+            "sendEmailMessage(List<Id> emailMessagesIds,Boolean allOrNothing)\tList<Messaging.SendEmailResult>": "sendEmailMessage(${1:List<Id> emailMessagesIds}, ${2:Boolean allOrNothing})$0"
         },
         "constructors": {}
     },
@@ -9968,7 +9968,7 @@ apex_completions = {
         "constructors": {
             "InstanceAccessException(Exception param1)\t": "InstanceAccessException(${1:Exception param1})$0",
             "InstanceAccessException()\t": "InstanceAccessException()$0",
-            "InstanceAccessException(String param1,Exception param2)\t": "InstanceAccessException(${1:String param1},${2:Exception param2})$0"
+            "InstanceAccessException(String param1,Exception param2)\t": "InstanceAccessException(${1:String param1}, ${2:Exception param2})$0"
         }
     },
     "feeddirectoryitem": {

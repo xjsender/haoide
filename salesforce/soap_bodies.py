@@ -178,6 +178,14 @@ deploy_package = """
        </soapenv:Body>
     </soapenv:Envelope>"""
 
+static_resource_meta_xml = """<?xml version="1.0" encoding="UTF-8"?>
+<StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
+    <cacheControl>{0}</cacheControl>
+    <contentType>application/zip</contentType>
+    <description>{1}</description>
+</StaticResource>
+"""
+
 # Body for retrieving Metadata of sObjects and Workflow
 retrieve_sobjects_workflow_task_body = """
   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
