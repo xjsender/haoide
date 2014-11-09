@@ -1351,7 +1351,7 @@ class UpdateStaticResource(sublime_plugin.WindowCommand):
         processor.handle_deploy_thread(base64_package)
 
     def is_enabled(self, dirs):
-        if len(dirs) > 1: return False
+        if not dirs or len(dirs) > 1: return False
         self.resource_dir = dirs[0]
 
         static_resource_folder, resource_name = os.path.split(self.resource_dir)
