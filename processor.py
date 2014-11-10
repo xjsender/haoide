@@ -162,7 +162,8 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         view.assign_syntax('Packages/Java/Java.tmLanguage')
 
         if result["totalSize"] == 0:
-            view.run_command('append', {'characters': "No coverage"})
+            view.run_command('append', {'characters': "No Code Coverage"})
+            win.run_command("show_panel", {"panel": "output.code_coverage"})
             return
 
         # Populate the coverage info from server
@@ -172,7 +173,8 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         uncovered_lines_count = len(uncovered_lines)
         total_lines_count = covered_lines_count + uncovered_lines_count
         if total_lines_count == 0:
-            view.run_command('append', {'characters': "No coverage"})
+            view.run_command('append', {'characters': "No Code Coverage"})
+            win.run_command("show_panel", {"panel": "output.code_coverage"})
             return
         coverage_percent = covered_lines_count / total_lines_count * 100
 
