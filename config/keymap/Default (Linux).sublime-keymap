@@ -13,7 +13,7 @@
     
     {"keys": ["alt+`"], "command": "show_panel", 
         "args": {
-            "panel": "output.panel"
+            "panel": "output.log"
         }
     },
 

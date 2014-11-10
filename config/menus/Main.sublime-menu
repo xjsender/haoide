@@ -122,15 +122,6 @@
                 "caption": "Debug",
                 "children": [
                     {
-                        "id": "openoutputpanel",
-                        "caption": "Open Output Panel",
-                        "command": "show_panel",
-                        "args": {
-                            "panel": "output.panel"
-                        }
-                    },
-
-                    {
                         "id": "createdebuglog",
                         "caption": "Track Debug Log",
                         "command": "track_debug_log"
@@ -157,17 +148,33 @@
                         "command": "run_one_test"
                     },
 
-                    {
-                        "id": "runalltest",
-                        "caption": "Run All Test",
-                        "command": "run_all_test"
-                    }
+                    // {
+                    //     "id": "runalltest",
+                    //     "caption": "Run All Test",
+                    //     "command": "run_all_test"
+                    // }
                 ]
             },
 
             {
                 "caption": "Utilities",
                 "children": [
+                    {
+                        "caption": "Open Log Panel",
+                        "command": "show_panel",
+                        "args": {
+                            "panel": "output.log"
+                        }
+                    },
+
+                    {
+                        "caption": "Open Coverage Panel",
+                        "command": "show_panel",
+                        "args": {
+                            "panel": "output.code_coverage"
+                        }
+                    },
+
                     {
                         "id": "describesobject",
                         "caption": "Describe sObject",

@@ -20,7 +20,9 @@ from .salesforce.api.bulk import BulkJob
 from .salesforce.api.bulk import BulkApi
 from .salesforce.api.metadata import MetadataApi
 from .salesforce.api.tooling import ToolingApi
+from .salesforce.api.apex import ApexApi
 from .progress import ThreadProgress, ThreadsProgress
+from .salesforce.lib.diff import diff_changes
 
 
 def populate_users():
@@ -155,40 +157,54 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         result = api.result
         if not result["success"]: return
 
+        win = sublime.active_window()
+        view = win.create_output_panel('code_coverage')
+        view.assign_syntax('Packages/Java/Java.tmLanguage')
+
         if result["totalSize"] == 0:
-            util.show_output_panel(message.SEPRATE.format("You should run test class firstly"))
+            view.run_command('append', {'characters': "No coverage"})
             return
 
+        # Populate the coverage info from server
         uncovered_lines = result["records"][0]["Coverage"]["uncoveredLines"]
         covered_lines = result["records"][0]["Coverage"]["coveredLines"]
         covered_lines_count = len(covered_lines)
         uncovered_lines_count = len(uncovered_lines)
         total_lines_count = covered_lines_count + uncovered_lines_count
         if total_lines_count == 0:
-            util.show_output_panel(message.SEPRATE.format("You should run test class firstly"))
+            view.run_command('append', {'characters': "No coverage"})
             return
+        coverage_percent = covered_lines_count / total_lines_count * 100
 
-        # Open new view to display the coverage result
-        view = sublime.active_window().new_file()
-        view.run_command("new_view", {
-            "name": component_name + " Code Coverage",
-            "input": body
-        })
+        # Append coverage statistic info
+        coverage_statistic = message.SEPRATE.format(
+            "The coverage percent is %.2f%%(%s/%s), uncovered lines marked as red background" % (
+                coverage_percent, covered_lines_count, total_lines_count
+            )
+        ) + "\n"
+        view.run_command('append', {'characters': coverage_statistic})
 
-        all_region_by_line = view.lines(sublime.Region(0, view.size()))
+        # Because the first few lines are occupied by the coverage statistic info
+        uncovered_lines = [l+5 for l in uncovered_lines]
+        
+        # If has coverage, just append body to the output panel
+        view.run_command('append', {'characters': body})
+        
+        # Calculate line coverage
+        split_lines = view.lines(sublime.Region(0, view.size()))
         uncovered_region = []
-        for region in all_region_by_line:
+        for region in split_lines:
+            # The first four Lines are the coverage info
             line = view.rowcol(region.begin() + 1)[0] + 1
             if line in uncovered_lines:
                 uncovered_region.append(region)
 
-        view.add_regions("mark", uncovered_region, "bookmark", 'markup.inserted',
-            sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE | sublime.DRAW_STIPPLED_UNDERLINE)
+        # Append body with uncovered line
+        view.add_regions("uncovered_lines", uncovered_region, "invalid", "dot",
+            sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
 
-        coverage = covered_lines_count / total_lines_count * 100
-        print (message.SEPRATE.format("The coverage is %.2f%%(%s/%s), " %\
-            (coverage, covered_lines_count, total_lines_count) + 
-            "uncovered lines are marked in the new open view"))
+        # Show output panel
+        win.run_command("show_panel", {"panel": "output.code_coverage"})
 
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -825,7 +841,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
         util.add_operation_history('execute_anonymous', apex_string)
 
     settings = context.get_settings()
-    api = MetadataApi(settings)
+    api = ApexApi(settings)
     thread = threading.Thread(target=api.execute_anonymous, args=(apex_string, ))
     thread.start()
     ThreadProgress(api, thread, "Execute Anonymous", "Execute Anonymous Succeed")
@@ -906,77 +922,12 @@ def handle_view_debug_log_detail(log_id, timeout=120):
     handle_thread(thread, timeout)
 
 def handle_run_all_test(timeout=120):
-    def handle_threads(api_threads, timeout):
-        for api, thread in api_threads:
-            if thread.is_alive():
-                sublime.set_timeout(lambda: handle_threads(api_threads, timeout), timeout)
-                return
-            else:
-                result = api.result
-                if "success" in result and not result["success"]: continue
-
-                # No error, just display log in a new view
-                test_result = util.parse_test_result(result)
-                view = util.get_view_by_name("Run All Test Result")
-                if not view:
-                    view = sublime.active_window().new_file()
-                    view.run_command("new_dynamic_view", {
-                        "view_id": view.id(),
-                        "view_name": "Run All Test Result",
-                        "input": util.parse_test_result(result) + "\n" * 4 + "*" * 100
-                    })
-                else:
-                    view.run_command("new_dynamic_view", {
-                        "view_id": view.id(),
-                        "view_name": "Run All Test Result",
-                        "input": "\n" + util.parse_test_result(result) + "\n" * 4 + "*" * 100,
-                        "point": view.size()
-                    })
-
-                api_threads.remove((api, thread))
-
-
-        # If Network issue, view will be None
-        if not util.get_view_by_name("Run All Test Result"): return
-
-        # After run test succeed, get ApexCodeCoverageAggreate
-        query = "SELECT ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage " +\
-                "FROM ApexCodeCoverageAggregate"
-        api = ToolingApi(settings)
-        thread = threading.Thread(target=api.query, args=(query, True, ))
-        thread.start()
-        wait_message = "Get Code Coverage of All Class"
-        ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
-        handle_code_coverage_thread(thread, api, view, timeout)
-
-    def handle_code_coverage_thread(thread, api, view, timeout=120):
+    def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda: handle_code_coverage_thread(thread, api, view, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
 
-        code_coverage = util.parse_code_coverage(api.result)
-        view.run_command("new_dynamic_view", {
-            "view_id": view.id(),
-            "view_name": "Run All Test Result",
-            "input": code_coverage,
-            "point": view.size()
-        })
-
-    class_ids = util.populate_all_test_classes()
-    if not class_ids: return
-
-    settings = context.get_settings()
-
-    api_threads = []
-    threads = []
-    for class_id in class_ids:
-        api = ToolingApi(settings)
-        thread = threading.Thread(target=api.run_test, args=(class_id, ))
-        threads.append(thread)
-        api_threads.append((api, thread))
-        thread.start()
-    ThreadsProgress(threads, "Run All Test", "Run All Test Succeed")
-    handle_threads(api_threads, timeout)
+    pass
 
 def handle_run_test(class_name, class_id, timeout=120):
     def handle_thread(thread, timeout):
@@ -992,6 +943,7 @@ def handle_run_test(class_name, class_id, timeout=120):
 
         # No error, just display log in a new view
         test_result = util.parse_test_result(result)
+        print (result)
         class_name = result[0]["ApexClass"]["Name"]
         view = sublime.active_window().new_file()
         view.run_command("new_dynamic_view", {
@@ -1388,7 +1340,7 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
             return
 
     # Open panel
-    panel = sublime.active_window().create_output_panel('panel')  # Create panel
+    panel = sublime.active_window().create_output_panel('log')  # Create panel
     compile_or_save = "compile" if is_check_only else "save"
     util.append_message(panel, "Start to %s %s" % (compile_or_save, file_base_name))
 
@@ -1484,6 +1436,27 @@ def handle_refresh_static_resource(component_attribute, file_name, timeout=120):
     thread.start()
     ThreadProgress(api, thread, 'Refresh StaticResource', 'Refresh StaticResource Succeed')
     handle_thread(thread, timeout)
+
+def handle_diff_with_server(component_attribute, file_name, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+        
+        result = api.result
+        
+        # If error, just skip, error is processed in ThreadProgress
+        if not result["success"]: return
+
+        # Diff Change Compare
+        diff_changes(file_name, result)
+
+    settings = context.get_settings()
+    api = ToolingApi(settings)
+    thread = threading.Thread(target=api.get, args=(component_attribute["url"], ))
+    thread.start()
+    handle_thread(thread, timeout)
+    ThreadProgress(api, thread, 'Diff With Server', 'Diff With Server Succeed')
 
 def handle_refresh_component(component_attribute, file_name, timeout=120):
     def handle_thread(thread, timeout):

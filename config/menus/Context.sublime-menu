@@ -17,6 +17,10 @@
             {"caption": "Destruct from Server", "command": "destruct_file_from_server"},
 
             {"caption": "-"},
+
+            {"caption": "Diff With Server", "command": "diff_with_server"},
+
+            {"caption": "-"},
             
             {"caption": "Refresh from Server", "command": "refresh_component"},
             

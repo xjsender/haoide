@@ -321,7 +321,7 @@ def hide_output_panel(toggle=False):
     """
 
     sublime.active_window().run_command("hide_panel", 
-        {"panel": "output.panel"})
+        {"panel": "output.log"})
 
 def show_output_panel(message, toggle=False):
     """ Used for showing panel in sublime
@@ -330,8 +330,8 @@ def show_output_panel(message, toggle=False):
 
     * toggle  -- optional; if true, just toggle, else, just show panel
     """
-    panel = sublime.active_window().create_output_panel('panel')
-    sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
+    panel = sublime.active_window().create_output_panel('log')
+    sublime.active_window().run_command("show_panel", {"panel": "output.log"})
     panel.set_read_only(False)
     panel.set_syntax_file("Packages/Java/Java.tmLanguage")
     panel.run_command('append', {'characters': message})
@@ -346,7 +346,7 @@ def append_message(panel, message, time_prefix=True):
     * message   -- message to append into the panel
     """
     
-    sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
+    sublime.active_window().run_command("show_panel", {"panel": "output.log"})
     panel.set_read_only(False)
     panel.set_syntax_file("Packages/JavaScript/JavaScript.tmLanguage")
     time_stamp = "[%s]" % time.strftime("%Y.%m.%d %H:%M:%S", 
@@ -1148,8 +1148,9 @@ def reload_apex_code_cache(file_properties, settings=None):
 
         # Check whether component is Test Class or not
         if component_type == "ApexClass":
+            cl = component_name.lower()
             component_attribute[lower_name]["is_test"] =\
-                "test" in component_name.lower()
+                cl.startswith("test") or cl.endswith("test")
 
     component_settings.set(settings["username"], component_attributes)
     sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)

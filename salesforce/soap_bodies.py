@@ -45,6 +45,24 @@ execute_anonymous_body = """
        </soapenv:Body>
     </soapenv:Envelope>"""
 
+# Body for running all test class
+run_all_test = """<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:apex="http://soap.sforce.com/2006/08/apex">
+   <soapenv:Header>
+      <apex:SessionHeader>
+         <apex:sessionId>{session_id}</apex:sessionId>
+      </apex:SessionHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <apex:runTests>
+         <apex:RunTestsRequest>
+            <apex:allTests>true</apex:allTests>
+         </apex:RunTestsRequest>
+      </apex:runTests>
+   </soapenv:Body>
+</soapenv:Envelope>
+"""
+
 # Body for describing layout
 describe_layout_body = """
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 

@@ -118,6 +118,66 @@ class MetadataApi():
         # This result is used for invoker
         return result
 
+    def run_all_test(self):
+        # Firstly Login
+        self.login()
+
+        # https://gist.github.com/richardvanhook/1245068
+        headers = {
+            "Content-Type": "text/xml;charset=UTF-8",
+            "Accept-Encoding": 'identity, deflate, compress, gzip',
+            "SOAPAction": '""'
+        }
+
+        soap_body = soap_bodies.run_all_test.format(
+            session_id=globals()[self.username]["session_id"])
+
+        try:
+            response = requests.post(self.apex_url, soap_body, verify=False, 
+                headers=headers)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": url,
+                "Operation": "Execute Anonymous",
+                "success": False
+            }
+            return self.result
+
+        # Check whether session_id is expired
+        if "INVALID_SESSION_ID" in response.text:
+            self.login(True)
+            return self.execute_anonymous(apex_string)
+
+        # If status_code is > 399, which means it has error
+        content = response.content
+        result = {"success": response.status_code < 399}
+        if response.status_code > 399:
+            if response.status_code == 500:
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
+            else:
+                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
+                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
+
+            self.result = result
+            return result
+
+        content = response.content
+        result = xmltodict.parse(content)
+        try:
+            result = result["soapenv:Envelope"]["soapenv:Body"]["runTestsResponse"]["result"]
+        except (KeyError):
+            result = {
+                "errorCode": "Convert Xml to JSON Exception",
+                "message": 'body["runTestsResponse"]["result"] KeyError'
+            }
+
+        # print (json.dumps(result, indent=4))
+        result["success"] = response.status_code < 399
+        self.result = result
+        return result
+
     def execute_anonymous(self, apex_string):
         """ Generate a new view to display executed reusult of Apex Snippet
 
@@ -160,7 +220,7 @@ class MetadataApi():
             result = {
                 "Error Message": "Anonymous code can't contain non-english character",
                 "URL": self.apex_url,
-                "Operation": "PUT",
+                "Operation": "Execute Anonymous",
                 "success": False
             }
             self.result = result
@@ -169,7 +229,7 @@ class MetadataApi():
             self.result = {
                 "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
                 "URL": url,
-                "Operation": "PUT",
+                "Operation": "Execute Anonymous",
                 "success": False
             }
             return self.result
@@ -243,7 +303,7 @@ class MetadataApi():
             result = result["soapenv:Envelope"]["soapenv:Body"]["checkStatusResponse"]["result"]
         except (KeyError):
             result = {
-                "errorCode": "Convert Xml to Dict Exception",
+                "errorCode": "Convert Xml to JSON Exception",
                 "message": 'body["checkStatusResponse"]["result"] KeyError'
             }
 
@@ -306,7 +366,7 @@ class MetadataApi():
         start_time = datetime.datetime.now()
 
         # Open panel
-        panel = sublime.active_window().create_output_panel('panel')  # Create panel
+        panel = sublime.active_window().create_output_panel('log')  # Create panel
 
         # Firstly Login
         util.append_message(panel, "[sf:retrieve] Start login...")
@@ -391,7 +451,7 @@ class MetadataApi():
             time.sleep(sleep_seconds)
 
             result = self.check_status(async_process_id)
-            sublime.active_window().run_command("show_panel", {"panel": "output.panel"})
+            sublime.active_window().run_command("show_panel", {"panel": "output.log"})
             util.append_message(panel, "[sf:retrieve] Request Status: %s" % result["state"])
 
         # If check status request failed, this will not be done
@@ -474,7 +534,7 @@ class MetadataApi():
             result["success"] = True
         except KeyError as ke:
             result = {
-                "Message": "Convert Xml to Dict Exception",
+                "Message": "Convert Xml to JSON Exception",
                 "Detail": 'body["checkDeployStatusResponse"]["result"] KeyError' + str(ke),
                 "success": False
             }
@@ -527,7 +587,7 @@ class MetadataApi():
             }
         except KeyError as ke:
             result = {
-                "Message": "Convert Xml to Dict Exception",
+                "Message": "Convert Xml to JSON Exception",
                 "Detail": 'body["checkDeployStatusResponse"]["result"] KeyError' + str(ke),
                 "success": False
             }
@@ -545,7 +605,7 @@ class MetadataApi():
         start_time = datetime.datetime.now()
 
         # Open panel
-        panel = sublime.active_window().create_output_panel('panel')  # Create panel
+        panel = sublime.active_window().create_output_panel('log')  # Create panel
 
         # Populate the soap_body with actual session id
         deploy_options = self.settings["deploy_options"]

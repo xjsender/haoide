@@ -47,7 +47,7 @@ class ReloadDocument():
         start_time = datetime.datetime.now()
 
         # Open panel
-        panel = sublime.active_window().create_output_panel('panel')  # Create panel
+        panel = sublime.active_window().create_output_panel('log')  # Create panel
 
         # Start retriving docs
         util.append_message(panel, "Start to retrieve document reference")

@@ -8,8 +8,8 @@ import sys
 import shutil
 import zipfile
 import json
-import time
 import pprint
+import time
 
 from . import requests
 from . import processor
@@ -19,6 +19,18 @@ from . import util
 from .salesforce import xmltodict
 from .salesforce import message
 
+
+class DiffWithServerCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        component_attribute = util.get_component_attribute(self.file_name)[0]
+        processor.handle_diff_with_server(component_attribute, self.file_name)
+
+    def is_enabled(self):
+        self.file_name = self.view.file_name()
+        if not self.file_name: return False
+        component_attribute = util.get_component_attribute(self.file_name)[0]
+        if not component_attribute: return False
+        return True
 
 class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -151,7 +163,7 @@ class ExecuteRestTest(sublime_plugin.TextCommand):
         try:
             data = json.loads(data) if data else None
         except ValueError as ve:
-            panel = sublime.active_window().create_output_panel('panel')  # Create panel
+            panel = sublime.active_window().create_output_panel('log')  # Create panel
             util.append_message(panel, 'JSON Input Parse Error: ' + str(ve), False)
             if not sublime.ok_cancel_dialog("Do you want to try again?"): return
             self.view.window().show_input_panel("Input JSON Body: ", 

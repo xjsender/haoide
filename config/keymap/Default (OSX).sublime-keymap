@@ -10,6 +10,13 @@
 
     // Update the user language of running user
     {"keys": ["alt+u"], "command": "update_user_language"},
+
+    // Open Output Log Panel
+    {"keys": ["alt+`"], "command": "show_panel", 
+        "args": {
+            "panel": "output.log"
+        }
+    },
     
     // Open Document
     {"keys": ["super+alt+o"], "command": "open_documentation"},

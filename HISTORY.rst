@@ -5,6 +5,18 @@ Release History
 ---------------
 
 
+Release 2.1.0 (2014-11-10)
+++++++++++++++++++
++ Fix Bug: ``IndexError: list index out of range`` caused by release 2.0.0
++ Fix Bug for test class judgment: test class is that starts with `test` or ends with `test`
++ Add a new apex.py module, move execute_anonymous method from metadata.py to apex.py
++ Add a new command for ``diff with server`` in the context menu
++ Optimization on ``view_code_coverage`` feature
++ Add a new command ``Utilities > Open Coverage Panel`` in the main menu to open coverage panel
++ Rename ``Open Output Panel`` command to ``Open Log Panel`` and move it from ``Debug`` to ``Utilities`` in the main menu
++ Temporarily remove the ``Run All Test`` feature from ``Debug`` in the main menu
+
+
 Release 2.0.0 (2014-11-08)
 ++++++++++++++++++
 + Fix minor bug for ``Duplicate Save Execution of Same Component``

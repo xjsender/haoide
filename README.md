@@ -1,4 +1,4 @@
-# Sublime IDE for salesforce
+# Sublime IDE for Salesforce
 This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change the default Workspace for OSX**, otherwise, the downloaded code will not appeared in the sidebar), not tested for Linux.
 **If you think this plugin is helpful, please star this plugin.**
 

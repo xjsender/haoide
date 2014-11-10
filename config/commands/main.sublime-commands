@@ -17,14 +17,6 @@
     },
 
     {
-        "caption": "SublimeApex: Open Log Panel",
-        "command": "show_panel", 
-        "args": {
-            "panel": "output.panel"
-        }
-    },
-
-    {
         "caption": "SublimeApex: New ApexTrigger",
         "command": "create_apex_trigger"
     },
@@ -55,17 +47,34 @@
             "is_check_only": true
         }
     },
+
     {
         "caption": "SublimeApex: Compile Component",
         "command": "compile_component",
     },
+
     {
-        "caption": "SublimeApex: Refresh Component",
-        "command": "refresh_component"
+        "caption": "SublimeApex: Diff With Server",
+        "command": "diff_with_server"
     },
 
     {
-        "caption": "SublimeApex: Delete Component",
+        "caption": "SublimeApex: Retrieve from Server", 
+        "command": "retrieve_file_from_server"
+    },
+    
+    {
+        "caption": "SublimeApex: Deploy to Server", 
+        "command": "deploy_file_to_server"
+    },
+
+    {
+        "caption": "SublimeApex: Destruct from Server", 
+        "command": "destruct_file_from_server"
+    },
+
+    {
+        "caption": "SublimeApex: Delete From Server",
         "command": "delete_component"
     },
 
@@ -107,6 +116,22 @@
     {
         "caption": "SublimeApex: Deploy Open Files",
         "command": "deploy_open_files_to_server"
+    },
+
+    {
+        "caption": "Open Log Panel",
+        "command": "show_panel",
+        "args": {
+            "panel": "output.log"
+        }
+    },
+
+    {
+        "caption": "Open Coverage Panel",
+        "command": "show_panel",
+        "args": {
+            "panel": "output.code_coverage"
+        }
     },
 
     {
