@@ -22,7 +22,7 @@ from .salesforce.api.metadata import MetadataApi
 from .salesforce.api.tooling import ToolingApi
 from .salesforce.api.apex import ApexApi
 from .progress import ThreadProgress, ThreadsProgress
-from .salesforce.lib.diff import diff_changes
+from .salesforce.lib import diff
 
 
 def populate_users():
@@ -1451,7 +1451,7 @@ def handle_diff_with_server(component_attribute, file_name, timeout=120):
         if not result["success"]: return
 
         # Diff Change Compare
-        diff_changes(file_name, result)
+        diff.diff_changes(file_name, result)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
