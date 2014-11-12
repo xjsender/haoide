@@ -497,25 +497,22 @@ def handle_destructive_files(files, timeout=120):
         if "body" in api.result and api.result["body"]["status"] == "Succeeded":
             win = sublime.active_window()
             for _file in files:
-                try:
-                    # Remove file from local disk and close the related view
-                    view = util.get_view_by_file_name(_file)
+                # Remove file from local disk and close the related view
+                view = util.get_view_by_file_name(_file)
+                if view: 
+                    win.focus_view(view)
+                    win.run_command("close")
+
+                os.remove(_file)
+
+                # Remove related *-meta.xml file from local disk and close the related view
+                if os.path.isfile(_file+"-meta.xml"):
+                    view = util.get_view_by_file_name(_file+"-meta.xml")
                     if view: 
                         win.focus_view(view)
                         win.run_command("close")
 
-                    os.remove(_file)
-
-                    # Remove related *-meta.xml file from local disk and close the related view
-                    if os.path.isfile(_file+"-meta.xml"):
-                        view = util.get_view_by_file_name(_file+"-meta.xml")
-                        if view: 
-                            win.focus_view(view)
-                            win.run_command("close")
-
-                        os.remove(_file+"-meta.xml")
-                except:
-                    continue
+                    os.remove(_file+"-meta.xml")
 
     settings = context.get_settings()
     api = MetadataApi(settings)
@@ -758,8 +755,9 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
         view.set_syntax_file("Packages/JavaScript/JavaScript.tmLanguage")
+        time_stamp = time.strftime("%H:%M:%S", time.localtime(time.time()))
         view.run_command("new_view", {
-            "name": "Execute Rest %s Result" % operation,
+            "name": "Rest %s-%s" % (operation, time_stamp), 
             "input": pprint.pformat(result)
         })
 
@@ -833,11 +831,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
         if not result["success"]: return
 
         # No error, just display log in a new view
-        view = sublime.active_window().new_file()
-        view.run_command("new_view", {
-            "name": "Execute Anonymous Result",
-            "input": util.parse_execute_anonymous_xml(result)
-        })
+        util.show_output_panel(util.parse_execute_anonymous_xml(result))
 
         # Keep the history apex script to local
         util.add_operation_history('execute_anonymous', apex_string)
@@ -858,18 +852,11 @@ def handle_fetch_debug_logs(user_full_name, user_id, timeout=120):
         result = api.result
         records = result["records"]
         debug_logs_table = util.format_debug_logs(settings, records)
-        view = sublime.active_window().new_file()
-        view.run_command("new_view", {
-            "name": "Debug Logs",
-            "input": debug_logs_table
-        })
+        util.show_output_panel(debug_logs_table)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    query = "SELECT Id,LogUserId,LogLength,Request,Operation,Application," +\
-            "Status,DurationMilliseconds,StartTime,Location FROM ApexLog " +\
-            "WHERE LogUserId='%s' ORDER BY StartTime DESC LIMIT %s" % (user_id, settings["last_n_logs"])
-    thread = threading.Thread(target=api.query, args=(query, ))
+    thread = threading.Thread(target=api.query_logs, args=(settings["last_n_logs"], user_id, ))
     thread.start()
     ThreadProgress(api, thread, "List Debug Logs for " + user_full_name, 
         "List Debug Logs for " + user_full_name + " Succeed")
@@ -1176,8 +1163,8 @@ def handle_new_project(settings, is_update=False, timeout=120):
             del settings["password"]
             del settings["default_project"]
 
-            util.add_config_history('settings', str(settings).replace("'", '"'))
-            util.add_config_history('session', str(api.session).replace("'", '"'))
+            util.add_config_history('settings', json.dumps(settings, indent=4))
+            util.add_config_history('session', json.dumps(api.session, indent=4))
 
         # In windows, folder is not shown in the sidebar, 
         # we need to refresh the sublime workspace to show it

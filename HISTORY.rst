@@ -4,6 +4,25 @@ Release History
 
 ---------------
 
+Release 2.2.0 (2014-11-12)
+++++++++++++++++++
+Fix Issue:
+
+* Fix issue: TypeError: string indices must be integers when refreshed folder is empty
+* Fix issue: In windows, change of folder or file in sidebar is not reflect in real time
+* Fix issue: Sometimes, file is not remove from local after ``destruct file from server``
+* Fix issue: format problem of local ``.config`` info
+* Fix issue: #52
+
+Enhancement:
+
+* Add time stamp for new view name of ``rest test``
+* Show logs of ``fetch debug logs`` and ``execute_anonymous`` in the output panel but not new view
+* Change default value of ``folder_exclude_patterns`` and ``file_exclude_patterns`` settings
+
+New Feature:
+* Add new command for ``fetch self debug log`` in the main menu and command palette
+
 
 Release 2.1.0 (2014-11-10)
 ++++++++++++++++++

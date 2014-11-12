@@ -879,11 +879,12 @@ class TrackDebugLogCommand(sublime_plugin.WindowCommand):
     def run(self, track_self=False):
         if track_self:
             processor.handle_create_debug_log('Me', None)
-        else:
-            self.users = processor.populate_users()
-            if not self.users: return # Network Issue Cause
-            self.users_name = sorted(self.users.keys(), reverse=False)
-            self.window.show_quick_panel(self.users_name, self.on_done)
+            return
+            
+        self.users = processor.populate_users()
+        if not self.users: return # Network Issue Cause
+        self.users_name = sorted(self.users.keys(), reverse=False)
+        self.window.show_quick_panel(self.users_name, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
@@ -896,7 +897,11 @@ class FetchDebugLogCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(FetchDebugLogCommand, self).__init__(*args, **kwargs)
 
-    def run(self):
+    def run(self, fetch_self=False):
+        if fetch_self:
+            processor.handle_fetch_debug_logs('Me', None)
+            return
+
         self.users = processor.populate_users()
         if not self.users: return # Network Issue Cause
         self.users_name = sorted(self.users.keys(), reverse=False)
@@ -1212,6 +1217,10 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
 
         with open(file_name, "w") as fp:
             fp.write(body)
+
+        # In windows, new file is not shown in the sidebar, 
+        # we need to refresh the sublime workspace to show it
+        sublime.active_window().run_command("refresh_folder_list")
 
         # Build Post body
         data = {

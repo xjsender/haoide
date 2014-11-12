@@ -174,12 +174,14 @@ Click ```SublimeApex``` > ```New``` > ```New ApexComponent```, and then input th
 Click ```SublimeApex``` > ```New``` > ```New ApexTrigger```, choose the sobject on which you will create trigger, and then input the trigger name in the input panel at the bottom, after that, your trigger will be created.
 
 ## Create Debug Log
-If you want to track the log of any user, click ```SublimeApex``` > ```Debug``` > ```Create Debug Log```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
+If you want to track the log of any user, click ```SublimeApex``` > ```Debug``` > ```Track Debug Log```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
 
-There is a default ```trace_flag``` settings that is used to define the debug log level in the default settings, you can put your own change into your user settings
+If you just want to track debug log of yourself, you can click click ```SublimeApex``` > ```Debug``` > ```Track Self Debug Log```.
 
-## List Debug Log
-If you want to see the log list of any user, click ```SublimeApex``` > ```Apex Test``` > ```List Debug Logs```, wait for a moment, you will see the user list, choose one and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
+There is a default ```trace_flag``` settings that is used to define the debug log level in the default settings, you can put your own change into your user settings.
+
+## Fetch Debug Log
+If you want to see the log list of any user, click ```SublimeApex``` > ```Apex Test``` > ```Fetch Debug Logs```, wait for a moment, you will see the user list, choose one and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
 
 You can choose the ```Log Id``` and click ```SublimeApex``` > ```View Debug Log In Sublime``` command in the context menu, wait for the end of the progress on the status bar, after it is finished, a new view with the log detail will be opened.
 

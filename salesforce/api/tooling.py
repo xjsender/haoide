@@ -7,10 +7,10 @@ import os
 import re
 
 import urllib.parse
-from ... import requests, util, context
-
-from ..login import soap_login
 from xml.sax.saxutils import unescape
+
+from ... import requests, util, context
+from ..login import soap_login
 
 class ToolingApi():
     def __init__(self, settings, **kwargs):
@@ -536,6 +536,26 @@ class ToolingApi():
         # This result is used for invoker
         return self.result
 
+    def query_logs(self, last_n_logs, user_id=None):
+        """ Query the latest logs of user
+
+        * last_n_logs -- Latest number of logs
+        """
+
+        # Login firstly
+        self.login()
+
+        # If user_id is empty, just use current user id
+        if not user_id: user_id = globals()[self.username]["user_id"]
+
+        # Query self logs
+        soql = "SELECT Id,LogUserId,LogLength,Request,Operation,Application," +\
+            "Status,DurationMilliseconds,StartTime,Location FROM ApexLog " +\
+            "WHERE LogUserId='%s' ORDER BY StartTime DESC LIMIT %s" % (user_id, last_n_logs)
+
+        self.result = self.query(soql, is_toolingapi=True)
+        return self.result
+
     def update_user(self, data):
         """ Use the data to update the detail of running user
 
@@ -875,7 +895,9 @@ class ToolingApi():
             
             if not class_attr["LastModifiedById"] == globals()[self.username]["user_id"]:
                 try:
-                    user_details = self.query("SELECT Id, FirstName, LastName FROM User WHERE Id = '%s'" % last_modified_id)
+                    soql = "SELECT Id, FirstName, LastName, TimeZoneSidKey " +\
+                           "FROM User WHERE Id = '%s'" % last_modified_id
+                    user_details = self.query(soql)
                     user_detail = user_details["records"][0]
                     last_modified_name = "%s %s" % (user_detail["LastName"], user_detail["FirstName"])
                 except:
@@ -972,11 +994,6 @@ class ToolingApi():
             return_result = {}
             if len(compile_errors) > 0:
                 return_result = compile_errors[0]
-                return_result["problem"] = "Error (line %s, column %s): %s" % (
-                    return_result["lineNumber"],
-                    return_result["columnNumber"],
-                    return_result["problem"]
-                )
             else:
                 return_result["Error Message"] = result["ErrorMsg"]
 

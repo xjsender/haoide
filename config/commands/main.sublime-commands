@@ -140,16 +140,24 @@
     },
 
     {
+        "caption": "SublimeApex: Fetch Debug Log",
+        "command": "fetch_debug_log"
+    },
+
+    {
         "caption": "SublimeApex: Track Self Debug Log",
-        "command": "track_debug_log", 
+        "command": "track_debug_log",
         "args": {
             "track_self": true
         }
     },
 
     {
-        "caption": "SublimeApex: Fetch Debug Log",
-        "command": "fetch_debug_log"
+        "caption": "SublimeApex: Fetch Self Debug Log",
+        "command": "fetch_debug_log", 
+        "args": {
+            "fetch_self": true
+        }
     },
 
     {

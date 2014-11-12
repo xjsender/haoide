@@ -1007,6 +1007,10 @@ def extract_encoded_zipfile(encoded_zip_file, extract_to, ignore_package_xml=Fal
     # Remove original src tree
     os.remove(zipfile_path)
 
+    # In windows, folder is not shown in the sidebar, 
+    # we need to refresh the sublime workspace to show it
+    sublime.active_window().run_command("refresh_folder_list")
+
 def extract_static_resource(zipfile_path, extract_to):
     """ Extract Static Resource to staticresources folder
     """
@@ -1115,7 +1119,13 @@ def reload_apex_code_cache(file_properties, settings=None):
 
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
     component_attributes = component_settings.get(settings["username"])
+
+     # If new project at the first time
     if not component_attributes: component_attributes = {}
+
+    # If the package only contains `package.xml`
+    if isinstance(file_properties, dict): file_properties = [file_properties]
+
     for filep in file_properties:
         # No need to process package.xml
         if not filep["type"] in component_body_or_markup.keys(): continue
@@ -1215,7 +1225,7 @@ def format_debug_logs(settings, records):
             content += "%-*s" % (debug_log_headers_properties[header]["width"], record[header])
         content += "\n"
 
-    return headers + "\n" + content[:len(content)-1]
+    return headers + "\n" + (len(headers) * "-") + "\n" + content[:len(content)-1]
 
 def format_error_message(result):
     """Format message as below format
