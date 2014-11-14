@@ -175,32 +175,35 @@ class BulkApi():
 class BulkJob():
     def __init__(self, settings, operation, sobject, external_field=None, **kwargs):
         self.settings = settings
-        self.username = settings["username"]
         self.operation = operation
         self.sobject = sobject
         self.batchs = []
         self.result = None
         
     def login(self, session_id_expired=False):
-        if self.username not in globals() or session_id_expired:
-            result = soap_login(self.settings)
+        """ Login with default project credentials
 
-            # If login succeed, display error and return False
-            if not result["success"]:
-                result["Default Project"] = self.settings["default_project"]["project_name"]
-                self.result = result
-                return self.result
+        Arguments:
 
-            result["headers"] = {
-                "success": True,
-                "X-SFDC-Session": result["session_id"],
-            }
-            globals()[self.username] = result
-        else:
-            result = globals()[self.username]
+        * session_id_expired -- Optional; generally, session in .config/session.json is expired, 
+            if INVALID_SESSION_ID appeared in response requested by session in session.json,
+            we need to call this method with expired session flag again
+
+        Returns:
+
+        * result -- Keep the session info, if `output_session_info` in plugin setting is True, 
+            session info will be outputted to console
+        """
+        result = soap_login(self.settings, session_id_expired)
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         self.base_url = result["instance_url"]  + "/services/async/%s.0" % self.settings["api_version"]
-        self.headers = result["headers"]
+        self.headers = {
+            "X-SFDC-Session": result["session_id"],
+            "Content-Type": "application/xml; charset=UTF-8"
+        }
         self.result = result
         return result
 
@@ -213,10 +216,7 @@ class BulkJob():
 
         url = self.base_url + "/job"
         body = soap_bodies.create_job.format(operation=self.operation, sobject=self.sobject)
-        headers = self.headers 
-        headers["Content-Type"] = "application/xml; charset=UTF-8"
-
-        response = requests.post(url, body, verify=False, headers=headers)
+        response = requests.post(url, body, verify=False, headers=self.headers)
         self.job_id = util.getUniqueElementValueFromXmlString(response.content, "id")
 
     # https://instance.salesforce.com/services/async/27.0/job/jobId/batch
@@ -323,8 +323,6 @@ class BulkJob():
         
         url = self.base_url + "/job/%s" % self.job_id
         body = soap_bodies.close_job
-        headers = self.headers
-        headers["Content-Type"] = "application/xml; charset=UTF-8"
 
-        response = requests.post(url, body, verify=False, headers=headers)
+        response = requests.post(url, body, verify=False, headers=self.headers)
         return response.status_code

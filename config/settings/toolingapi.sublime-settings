@@ -302,6 +302,10 @@
             "keyword" : "apexcode",
             "pattern" : "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
         },
+        "Analytic Api" : {
+            "keyword" : "api_analytics",
+            "pattern" : "*.//TocEntry[@DescendantCount='0'].."
+        },
         "Visualforce" : {
             "keyword" : "pages",
             "pattern" : "*.//TocEntry[@DescendantCount='0'].."

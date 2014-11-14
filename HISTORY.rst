@@ -4,6 +4,18 @@ Release History
 
 ---------------
 
+
+Release 2.3.0 (2014-11-14)
+++++++++++++++++++
+* Use local ``<workspace>/.config/session.json`` to reuse session but not globals() again
+* Use local ``<workspace>/.config/recordtype.json`` to ``record type`` but not globals() again
+* Use local ``<workspace>/.config/users.json`` to ``users`` but not globals() again
+* If ``execute_anonymous`` compiled succeed, use new view to display result, else, use output panel to display result
+* Use frontdoor method to login to SFDC
+* Add new document reference for ``Analytic Api``
+* Display session expired message in the output panel
+
+
 Release 2.2.0 (2014-11-12)
 ++++++++++++++++++
 Fix Issue:
@@ -21,6 +33,7 @@ Enhancement:
 * Change default value of ``folder_exclude_patterns`` and ``file_exclude_patterns`` settings
 
 New Feature:
+
 * Add new command for ``fetch self debug log`` in the main menu and command palette
 
 

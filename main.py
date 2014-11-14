@@ -999,19 +999,23 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
         # Get toolingapi settings
         settings = context.get_settings()
 
-        # Combine Login URL
-        show_params = {
-            "un": settings["username"],
-            "pw": settings["password"],
-            "startURL": startURL
-        }
-
-        if util.is_python3x():
-            show_params = urllib.parse.urlencode(show_params)
+        # If .config/session.json is exist, just use frontdoor method
+        session_path = settings["workspace"]+"/.config/session.json"
+        if os.path.isfile(session_path):
+            session = json.loads(open(session_path).read())
+            show_url = "%s/secur/frontdoor.jsp?sid=%s&retURL=%s" % (
+                session["instance_url"], session["session_id"], startURL
+            )
+        # If .config/session.json is not exist, use credentials to login
         else:
-            show_params = urllib.urlencode(show_params)
+            show_params = {
+                "un": settings["username"],
+                "pw": settings["password"],
+                "startURL": startURL
+            }
+            show_params = urllib.parse.urlencode(show_params)
+            show_url = settings["login_url"] + '?%s' % show_params
 
-        show_url = settings["login_url"] + '?%s' % show_params
         util.open_with_browser(show_url)
 
 class AboutCommand(sublime_plugin.ApplicationCommand):

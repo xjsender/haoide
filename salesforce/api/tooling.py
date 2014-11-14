@@ -16,7 +16,6 @@ class ToolingApi():
     def __init__(self, settings, **kwargs):
         self.settings = settings
         self.api_version = settings["api_version"]
-        self.username = settings["username"]
         self.session = None
         self.result = None
 
@@ -25,8 +24,8 @@ class ToolingApi():
 
         Arguments:
 
-        * session_id_expired -- Optional; generally, session in globals() is expired, 
-            if INVALID_SESSION_ID appeared in response requested by session in globals(),
+        * session_id_expired -- Optional; generally, session in .config/session.json is expired, 
+            if INVALID_SESSION_ID appeared in response requested by session in session.json,
             we need to call this method with expired session flag again
 
         Returns:
@@ -34,26 +33,13 @@ class ToolingApi():
         * result -- Keep the session info, if `output_session_info` in plugin setting is True, 
             session info will be outputted to console
         """
-        if self.username not in globals() or session_id_expired:
-            result = soap_login(self.settings)
-
-            # If login succeed, display error and return False
-            if not result["success"]:
-                result["Default Project"] = self.settings["default_project"]["project_name"]
-                self.result = result
-                return self.result
-
-            result["headers"] = {
-                "Authorization": "OAuth " + result["session_id"],
-                "Content-Type": "application/json; charset=UTF-8",
-                "Accept": "application/json"
-            }
-            globals()[self.username] = result
-        else:
-            result = globals()[self.username]
+        result = soap_login(self.settings, session_id_expired)
+        if not result["success"]:
+            self.result = result
+            return self.result
 
         self.session = result
-        self.headers = globals()[self.username]["headers"]
+        self.headers = result["headers"]
         self.instance_url = result["instance_url"]
         self.base_url = self.instance_url + "/services/data/v%s.0" % self.api_version
 
@@ -546,7 +532,7 @@ class ToolingApi():
         self.login()
 
         # If user_id is empty, just use current user id
-        if not user_id: user_id = globals()[self.username]["user_id"]
+        if not user_id: user_id = self.session["user_id"]
 
         # Query self logs
         soql = "SELECT Id,LogUserId,LogLength,Request,Operation,Application," +\
@@ -562,7 +548,7 @@ class ToolingApi():
         * sobject -- sobject name, for example, Account, Contact
         """
         self.login()
-        patch_url = "/sobjects/User/%s" % globals()[self.username]["user_id"]
+        patch_url = "/sobjects/User/%s" % self.session["user_id"]
         result = self.patch(patch_url, data)
         self.result = result
         return self.result
@@ -649,12 +635,9 @@ class ToolingApi():
         * traced_entity_id -- Optional; Component Id or User Id
         """
 
-        # If traced_entity_id is none, just set it as current user
-        while not traced_entity_id and (self.username not in globals()):
-            self.login(True)
-
-        # Populate traced_entity_id from cache
-        traced_entity_id = globals()[self.username]["user_id"]
+        if not traced_entity_id:
+            self.login()
+            traced_entity_id = self.session["user_id"]
 
         # Check whether traced user already has trace flag
         # If not, just create it for him/her
@@ -771,7 +754,7 @@ class ToolingApi():
             self.result = result
             return self.result
 
-        traced_entity_id = globals()[self.username]["user_id"]
+        traced_entity_id = self.session["user_id"]
         self.create_trace_flag(traced_entity_id)
 
         # Exception Process
@@ -893,7 +876,7 @@ class ToolingApi():
             last_modified_id = class_attr["LastModifiedById"]
             last_modified_date = class_attr["LastModifiedDate"][:19]
             
-            if not class_attr["LastModifiedById"] == globals()[self.username]["user_id"]:
+            if not class_attr["LastModifiedById"] == self.session["user_id"]:
                 try:
                     soql = "SELECT Id, FirstName, LastName, TimeZoneSidKey " +\
                            "FROM User WHERE Id = '%s'" % last_modified_id

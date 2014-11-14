@@ -1,5 +1,5 @@
 {
-    "2.1.0": "config/messages/2.1.0.txt",
     "2.2.0": "config/messages/2.2.0.txt",
+    "2.3.0": "config/messages/2.3.0.md",
     "install": "config/messages/install.txt"
 }

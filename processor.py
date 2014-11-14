@@ -37,13 +37,14 @@ def populate_users():
     }
     """
 
-    # Get username
+    # Get settings
     settings = context.get_settings()
-    username = settings["username"]
 
-    # If sobjects is exist in globals()[], just return it
-    if (username + "users") in globals(): 
-        return globals()[username + "users"]
+    # If sobjects is exist in `/.config/session.json`, just return it
+    users_path = settings["workspace"]+"/.config/users.json"
+    if os.path.isfile(users_path):
+        users = json.loads(open(users_path).read())
+        return users
         
     # If sobjects is not exist in globals(), post request to pouplate it
     api = ToolingApi(settings)
@@ -68,7 +69,7 @@ def populate_users():
         else:
             users[user["LastName"] + " " + user["FirstName"]] = user["Id"]
 
-    globals()[username + "users"] = users
+    util.add_config_history("users", json.dumps(users, indent=4))
     return users
 
 
@@ -84,13 +85,14 @@ def populate_sobject_recordtypes():
     }
     """
 
-    # Get username
+    # Get settings
     settings = context.get_settings()
-    username = settings["username"]
 
-    # If sobjects is exist in globals()[], just return it
-    if (username + "sobject_recordtypes") in globals(): 
-        return globals()[username + "sobject_recordtypes"]
+    # If sobjects is exist in `/.config/recordtype.json`, just return it
+    recordtype_path = settings["workspace"]+"/.config/recordtype.json"
+    if os.path.isfile(recordtype_path):
+        recordtype = json.loads(open(recordtype_path).read())
+        return users
 
     # If sobjects is not exist in globals(), post request to pouplate it
     api = ToolingApi(settings)
@@ -121,7 +123,7 @@ def populate_sobject_recordtypes():
         if not sobject_describe["layoutable"]: continue
         sobject_recordtypes[sobject_type + ", Master"] = "012000000000000AAA"
 
-    globals()[username + "sobject_recordtypes"] = sobject_recordtypes
+    util.add_config_history("recordtype", json.dumps(sobject_recordtypes, indent=4))
     return sobject_recordtypes
 
 def handle_update_user_language(language, timeout=120):
@@ -758,7 +760,7 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         time_stamp = time.strftime("%H:%M:%S", time.localtime(time.time()))
         view.run_command("new_view", {
             "name": "Rest %s-%s" % (operation, time_stamp), 
-            "input": pprint.pformat(result)
+            "input": json.dumps(result, indent=4)
         })
 
         # If you have installed the htmljs plugin, below statement will work
@@ -807,7 +809,7 @@ def handle_execute_query(soql, timeout=120):
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "Execute Query Result",
-            "input": pprint.pformat(result)
+            "input": json.dumps(result, indent=4)
         })
 
         # Keep the history in the local history rep
@@ -830,8 +832,15 @@ def handle_execute_anonymous(apex_string, timeout=120):
         result = api.result
         if not result["success"]: return
 
-        # No error, just display log in a new view
-        util.show_output_panel(util.parse_execute_anonymous_xml(result))
+        if result["compiled"] == "false":
+            util.show_output_panel(util.parse_execute_anonymous_xml(result))
+        else:
+            # No error, just display log in a new view
+            view = sublime.active_window().new_file()
+            view.run_command("new_view", {
+                "name": "Execute Anonymous Result",
+                "input": util.parse_execute_anonymous_xml(result)
+            })
 
         # Keep the history apex script to local
         util.add_operation_history('execute_anonymous', apex_string)
@@ -1166,10 +1175,6 @@ def handle_new_project(settings, is_update=False, timeout=120):
             util.add_config_history('settings', json.dumps(settings, indent=4))
             util.add_config_history('session', json.dumps(api.session, indent=4))
 
-        # In windows, folder is not shown in the sidebar, 
-        # we need to refresh the sublime workspace to show it
-        sublime.active_window().run_command("refresh_folder_list")
-
     settings = context.get_settings()
     api = MetadataApi(settings)
     types = util.build_package_types(settings["subscribed_meta_types"])
@@ -1197,8 +1202,6 @@ def handle_retrieve_package(package_xml_content, extract_to,
         thread = threading.Thread(target=util.extract_encoded_zipfile, 
             args=(result["zipFile"], extract_to, ignore_package_xml, ))
         thread.start()
-
-        pprint.pprint(result["fileProperties"])
 
     # Start to request
     settings = context.get_settings()

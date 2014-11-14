@@ -16,7 +16,6 @@ class ApexApi():
     def __init__(self, settings, **kwargs):
         self.settings = settings
         self.api_version = settings["api_version"]
-        self.username = settings["username"]
         self.session = None
         self.result = None
 
@@ -25,8 +24,8 @@ class ApexApi():
 
         Arguments:
 
-        * session_id_expired -- Optional; generally, session in globals() is expired, 
-            if INVALID_SESSION_ID appeared in response requested by session in globals(),
+        * session_id_expired -- Optional; generally, session in .config/session.json is expired, 
+            if INVALID_SESSION_ID appeared in response requested by session in session.json,
             we need to call this method with expired session flag again
 
         Returns:
@@ -34,26 +33,13 @@ class ApexApi():
         * result -- Keep the session info, if `output_session_info` in plugin setting is True, 
             session info will be outputted to console
         """
-        if self.username not in globals() or session_id_expired:
-            result = soap_login(self.settings)
-
-            # If login succeed, display error and return False
-            if not result["success"]:
-                result["Default Project"] = self.settings["default_project"]["project_name"]
-                self.result = result
-                return self.result
-
-            result["headers"] = {
-                "Authorization": "OAuth " + result["session_id"],
-                "Content-Type": "application/json; charset=UTF-8",
-                "Accept": "application/json"
-            }
-            globals()[self.username] = result
-        else:
-            result = globals()[self.username]
-
+        result = soap_login(self.settings, session_id_expired)
+        if not result["success"]:
+            self.result = result
+            return self.result
+        
         self.session = result
-        self.headers = globals()[self.username]["headers"]
+        self.headers = result["headers"]
         self.instance_url = result["instance_url"]
         self.partner_url = self.instance_url + "/services/Soap/u/%s.0" % self.api_version
         self.metadata_url = self.instance_url + "/services/Soap/m/%s.0" % self.api_version
@@ -73,9 +59,7 @@ class ApexApi():
             "SOAPAction": '""'
         }
 
-        soap_body = soap_bodies.run_all_test.format(
-            session_id=globals()[self.username]["session_id"])
-
+        soap_body = soap_bodies.run_all_test.format(session_id=self.session["session_id"])
         try:
             response = requests.post(self.apex_url, soap_body, verify=False, 
                 headers=headers)
@@ -154,7 +138,7 @@ class ApexApi():
 
         soap_body = soap_bodies.execute_anonymous_body.format(
             log_levels=log_levels,
-            session_id=globals()[self.username]["session_id"], 
+            session_id=self.session["session_id"], 
             apex_string=apex_string)
 
         try:

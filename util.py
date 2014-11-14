@@ -27,7 +27,7 @@ def populate_components():
     settings = context.get_settings()
     username = settings["username"]
 
-    # If sobjects is exist in globals()[], just return it
+    # If sobjects is exist in local cache, just return it
     component_metadata = sublime.load_settings("component_metadata.sublime-settings")
     if not component_metadata.has(username):
         sublime.error_message("No Cache, Please New Project Firstly.")
@@ -57,7 +57,7 @@ def populate_classes():
     settings = context.get_settings()
     username = settings["username"]
 
-    # If sobjects is exist in globals()[], just return it
+    # If sobjects is exist in local cache, just return it
     component_metadata = sublime.load_settings("component_metadata.sublime-settings")
     if not component_metadata.has(username):
         sublime.error_message("No Cache, Please New Project Firstly.")
@@ -622,6 +622,9 @@ def add_config_history(operation, content, ext="json"):
     fp = open(outputdir + "/%s.%s" % (operation, ext), "wb")
     fp.write(content.encode("utf-8"))
     fp.close()
+
+    # After write the file to local, refresh sidebar
+    sublime.active_window().run_command("refresh_folder_list")
 
 def export_report_api(rootdir):
     reports = []
