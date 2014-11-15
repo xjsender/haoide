@@ -619,8 +619,8 @@ def add_config_history(operation, content, ext="json"):
     if not os.path.exists(outputdir): 
         os.makedirs(outputdir)
 
-    fp = open(outputdir + "/%s.%s" % (operation, ext), "wb")
-    fp.write(content.encode("utf-8"))
+    fp = open(outputdir + "/%s.%s" % (operation, ext), "w")
+    fp.write(content)
     fp.close()
 
     # After write the file to local, refresh sidebar
