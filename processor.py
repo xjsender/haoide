@@ -69,7 +69,7 @@ def populate_users():
         else:
             users[user["LastName"] + " " + user["FirstName"]] = user["Id"]
 
-    util.add_config_history("users", json.dumps(users, indent=4))
+    util.add_config_history("users", users)
     return users
 
 
@@ -92,7 +92,7 @@ def populate_sobject_recordtypes():
     recordtype_path = settings["workspace"]+"/.config/recordtype.json"
     if os.path.isfile(recordtype_path):
         recordtype = json.loads(open(recordtype_path).read())
-        return users
+        return recordtype
 
     # If sobjects is not exist in globals(), post request to pouplate it
     api = ToolingApi(settings)
@@ -123,7 +123,7 @@ def populate_sobject_recordtypes():
         if not sobject_describe["layoutable"]: continue
         sobject_recordtypes[sobject_type + ", Master"] = "012000000000000AAA"
 
-    util.add_config_history("recordtype", json.dumps(sobject_recordtypes, indent=4))
+    util.add_config_history("recordtype", sobject_recordtypes)
     return sobject_recordtypes
 
 def handle_update_user_language(language, timeout=120):
@@ -159,13 +159,8 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         result = api.result
         if not result["success"]: return
 
-        win = sublime.active_window()
-        view = win.create_output_panel('code_coverage')
-        view.assign_syntax('Packages/Java/Java.tmLanguage')
-
         if result["totalSize"] == 0:
-            view.run_command('append', {'characters': "No Code Coverage"})
-            win.run_command("show_panel", {"panel": "output.code_coverage"})
+            sublime.error_message("No Code Coverage")
             return
 
         # Populate the coverage info from server
@@ -175,24 +170,22 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         uncovered_lines_count = len(uncovered_lines)
         total_lines_count = covered_lines_count + uncovered_lines_count
         if total_lines_count == 0:
-            view.run_command('append', {'characters': "No Code Coverage"})
-            win.run_command("show_panel", {"panel": "output.code_coverage"})
+            sublime.error_message("No Code Coverage")
             return
         coverage_percent = covered_lines_count / total_lines_count * 100
 
         # Append coverage statistic info
-        coverage_statistic = message.SEPRATE.format(
-            "The coverage percent is %.2f%%(%s/%s), uncovered lines marked as red background" % (
-                coverage_percent, covered_lines_count, total_lines_count
-            )
-        ) + "\n"
-        view.run_command('append', {'characters': coverage_statistic})
-
-        # Because the first few lines are occupied by the coverage statistic info
-        uncovered_lines = [l+5 for l in uncovered_lines]
+        coverage_statistic = "%s Coverage: %.2f%%(%s/%s)" % (
+            component_name, coverage_percent, 
+            covered_lines_count, total_lines_count
+        )
         
-        # If has coverage, just append body to the output panel
-        view.run_command('append', {'characters': body})
+        # If has coverage, just add coverage info to new view
+        view = sublime.active_window().new_file()
+        view.run_command("new_view", {
+            "name": coverage_statistic,
+            "input": body
+        })
         
         # Calculate line coverage
         split_lines = view.lines(sublime.Region(0, view.size()))
@@ -206,9 +199,6 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         # Append body with uncovered line
         view.add_regions("uncovered_lines", uncovered_region, "invalid", "dot",
             sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
-
-        # Show output panel
-        win.run_command("show_panel", {"panel": "output.code_coverage"})
 
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -760,7 +750,7 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         time_stamp = time.strftime("%H:%M:%S", time.localtime(time.time()))
         view.run_command("new_view", {
             "name": "Rest %s-%s" % (operation, time_stamp), 
-            "input": json.dumps(result, indent=4)
+            "input": json.dumps(result, ensure_ascii=False, indent=4)
         })
 
         # If you have installed the htmljs plugin, below statement will work
@@ -941,7 +931,6 @@ def handle_run_test(class_name, class_id, timeout=120):
 
         # No error, just display log in a new view
         test_result = util.parse_test_result(result)
-        print (result)
         class_name = result[0]["ApexClass"]["Name"]
         view = sublime.active_window().new_file()
         view.run_command("new_dynamic_view", {
@@ -1166,14 +1155,11 @@ def handle_new_project(settings, is_update=False, timeout=120):
                 handle_reload_symbol_tables(120)
 
         # Write the settings to local cache
-        if settings["keep_config_history"]:
-             # Not keep the confidential info to .settings
-            del settings["projects"]
-            del settings["password"]
-            del settings["default_project"]
-
-            util.add_config_history('settings', json.dumps(settings, indent=4))
-            util.add_config_history('session', json.dumps(api.session, indent=4))
+        # Not keep the confidential info to .settings
+        del settings["projects"]
+        del settings["password"]
+        del settings["default_project"]
+        util.add_config_history('settings', settings)
 
     settings = context.get_settings()
     api = MetadataApi(settings)
@@ -1217,7 +1203,7 @@ def handle_retrieve_package(package_xml_content, extract_to,
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
 
-def handle_save_component(component_name, component_attribute, body, is_check_only=False, timeout=120):
+def handle_save_component(file_name, is_check_only=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -1228,6 +1214,12 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
 
         # Process request result
         result = api.result
+
+        # If cancel, just diff with server
+        if "Operation" in result and result["Operation"] == "cancel":
+            handle_diff_with_server(component_attribute, file_name)
+            return
+
         if "success" in result and result["success"]:
             # 1. Write succeed body to local change history
             if settings["keep_local_change_history"] and not is_check_only:
@@ -1314,6 +1306,9 @@ def handle_save_component(component_name, component_attribute, body, is_check_on
                 # Add highlight for error line and remove the highlight after several seconds
                 component_id = component_attribute["id"]
                 view.run_command("set_check_point", {"mark":component_id+"build_error"})
+
+    component_attribute, component_name = util.get_component_attribute(file_name)
+    body = open(file_name, encoding="utf-8").read()
 
     # Component Full Name
     extension = component_attribute["extension"]

@@ -888,8 +888,9 @@ class ToolingApi():
 
                 message = "Modified by %s at %s, continue?" % (last_modified_name, last_modified_date.replace("T", " "))
                 if not sublime.ok_cancel_dialog(message):
+                    util.append_message(panel, "Has conflict, comparing with server...")
                     self.result = {
-                        "success": False,
+                        "Operation": "cancel",
                         "Message": "Save operation is cancelled by you due to the conflict"
                     }
                     return self.result

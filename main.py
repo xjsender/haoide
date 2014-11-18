@@ -1248,16 +1248,9 @@ class SaveComponentCommand(sublime_plugin.TextCommand):
         # Automatically save current file if dirty
         if self.view.is_dirty():
             self.view.run_command("save")
-            
-        # Get file_name and component_attribute
-        file_name = self.view.file_name()
-        component_attribute, component_name = util.get_component_attribute(file_name)
-
-        # Read file content
-        body = open(file_name, encoding="utf-8").read()
 
         # Handle Save Current Component
-        processor.handle_save_component(component_name, component_attribute, body, is_check_only)
+        processor.handle_save_component(self.view.file_name(), is_check_only)
 
     def is_enabled(self):
         if not self.view or not self.view.file_name(): return False

@@ -613,14 +613,12 @@ def add_config_history(operation, content, ext="json"):
     * history_content -- the content needed to keep
     """
     settings = context.get_settings()
-    if not settings["keep_config_history"]: return
-
     outputdir = settings["workspace"]+"/.config"
     if not os.path.exists(outputdir): 
         os.makedirs(outputdir)
 
     fp = open(outputdir + "/%s.%s" % (operation, ext), "w")
-    fp.write(content)
+    fp.write(json.dumps(content, indent=4))
     fp.close()
 
     # After write the file to local, refresh sidebar

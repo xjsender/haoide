@@ -5,6 +5,17 @@ Release History
 ---------------
 
 
+Release 2.4.0 (2014-11-18)
+++++++++++++++++++
+* Fix issue #55
+* Fix issue: non-english words are encoded to Unicode in result of ``Rest Test``
+* Fix issue: when read local cache of record type, ``global name 'users' is not defined`` exception
+* Rollback feature of ``view_code_coverage``, see issue #56
+* Deprecate ``keep_config_history`` setting
+* Update the description of ``keep_local_change_history`` setting
+* When save operation has conflict and we cancel it, compare the local with server automatically
+
+
 Release 2.3.0 (2014-11-14)
 ++++++++++++++++++
 * Use local ``<workspace>/.config/session.json`` to reuse session but not globals() again
