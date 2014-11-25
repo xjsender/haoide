@@ -1,6 +1,11 @@
 {
     "extensions": [
         "page",
-        "component"
+        "component",
+        "auradoc",
+        "cmp",
+        "app",
+        "intf",
+        "evt"
     ]
 }

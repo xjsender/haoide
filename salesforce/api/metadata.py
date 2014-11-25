@@ -162,95 +162,6 @@ class MetadataApi():
         self.result = result
         return result
 
-    def execute_anonymous(self, apex_string):
-        """ Generate a new view to display executed reusult of Apex Snippet
-
-        Arguments:
-
-        * apex_string -- Apex Snippet
-        """
-        # Firstly Login
-        self.login()
-
-        # https://gist.github.com/richardvanhook/1245068
-        headers = {
-            "Content-Type": "text/xml;charset=UTF-8",
-            "Accept-Encoding": 'identity, deflate, compress, gzip',
-            "SOAPAction": '""'
-        }
-
-        # If we don't quote <, >, & in body, we will get below exception
-        # Element type "String" must be followed by either attribute specifications, ">" or "/>"
-        # http://wiki.python.org/moin/EscapingXml
-        apex_string = quoteattr(apex_string).replace('"', '')
-        log_levels = ""
-        for log_level in self.settings["anonymous_log_levels"]:
-            log_levels += """
-            <apex:categories>
-                <apex:category>%s</apex:category>
-                <apex:level>%s</apex:level>
-            </apex:categories>
-            """ % (log_level["log_category"], log_level["log_level"])
-
-        soap_body = soap_bodies.execute_anonymous_body.format(
-            log_levels=log_levels,
-            session_id=self.session["session_id"],
-            apex_string=apex_string)
-
-        try:
-            response = requests.post(self.apex_url, soap_body, verify=False, 
-                headers=headers)
-        except UnicodeEncodeError as ue:
-            result = {
-                "Error Message": "Anonymous code can't contain non-english character",
-                "URL": self.apex_url,
-                "Operation": "Execute Anonymous",
-                "success": False
-            }
-            self.result = result
-            return self.result
-        except Exception as e:
-            self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
-                "Operation": "Execute Anonymous",
-                "success": False
-            }
-            return self.result
-
-        # Check whether session_id is expired
-        if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
-            return self.execute_anonymous(apex_string)
-
-        # If status_code is > 399, which means it has error
-        content = response.content
-        result = {"success": response.status_code < 399}
-        if response.status_code > 399:
-            if response.status_code == 500:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
-            else:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
-
-            self.result = result
-            return result
-        
-        # If execute anonymous succeed, just display message with a new view
-        result["debugLog"] = unescape(util.getUniqueElementValueFromXmlString(content, "debugLog"))
-        result["column"] = util.getUniqueElementValueFromXmlString(content, "column")
-        result["compileProblem"] = unescape(util.getUniqueElementValueFromXmlString(content, "compileProblem"))
-        result["compiled"] = util.getUniqueElementValueFromXmlString(content, "compiled")
-        result["line"] = util.getUniqueElementValueFromXmlString(content, "line")
-        result["success"] = util.getUniqueElementValueFromXmlString(content, "success")
-        
-        # Self.result is used to keep thread result
-        self.result = result
-
-        # This result is used for invoker
-        return result
-
     def check_status(self, async_process_id):
         """ Ensure the retrieve request is done and then we can 
             continue other work
@@ -764,6 +675,8 @@ class MetadataApi():
             util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
             util.append_message(panel, "Request ID: %s" % async_process_id, False)
 
+            # print (json.dumps(body, indent=4))
+
             # Output Failure Details
             failures_messages = []
             if "componentFailures" in body["details"]:
@@ -788,6 +701,9 @@ class MetadataApi():
                             component_failure["lineNumber"] \
                                 if "lineNumber" in component_failure else "0"
                         ))
+            elif "errorMessage" in body:
+                util.append_message(panel, "\n" + body["errorMessage"], False)
+                util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
 
             # Output failure message
             if failures_messages:

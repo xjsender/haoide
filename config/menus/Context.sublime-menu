@@ -14,6 +14,8 @@
             
             {"caption": "Deploy to Server", "command": "deploy_file_to_server"},
 
+            {"caption": "Deploy Lighting Element to Server", "command": "deploy_lighting_element_to_server"},
+
             {"caption": "Destruct from Server", "command": "destruct_file_from_server"},
 
             {"caption": "-"},

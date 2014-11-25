@@ -32,12 +32,58 @@
         "caption": "SublimeApex: New ApexPage",
         "command": "create_apex_page"
     },
+    
+    {"caption": "-"},
+
+    {
+        "caption": "SublimeApex: New Lighting Application",
+        "command": "create_lighting_definition", 
+        "args": {
+            "_type": "Application"
+        }
+    },
+
+    {
+        "caption": "SublimeApex: New Lighting Component",
+        "command": "create_lighting_definition", 
+        "args": {
+            "_type": "Component"
+        }
+    },
+
+    {
+        "caption": "SublimeApex: New Lighting Interface",
+        "command": "create_lighting_definition", 
+        "args": {
+            "_type": "Interface"
+        }
+    },
+
+    {
+        "caption": "SublimeApex: New Lighting Event",
+        "command": "create_lighting_definition", 
+        "args": {
+            "_type": "Event"
+        }
+    },
     {
         "caption": "SublimeApex: Reload Salesforce Document",
         "command": "reload_salesforce_document"
     },
     {
+        "caption": "SublimeApex: Deploy Lighting Element to Server",
+        "command": "deploy_lighting_element_to_server"
+    },
+    {
+        "caption": "SublimeApex: Preview Lighting App In Server",
+        "command": "preview_lighting_app_in_server"
+    },
+    {
         "caption": "SublimeApex: Save Component",
+        "command": "save_component"
+    },
+    {
+        "caption": "SublimeApex: Deploy Auras to Server",
         "command": "save_component"
     },
     {

@@ -19,7 +19,7 @@ from . import context
 from xml.sax.saxutils import unescape
 
 
-def populate_components():
+def populate_all_components():
     """ Get all components from local cache
     """
 
@@ -31,7 +31,7 @@ def populate_components():
     component_metadata = sublime.load_settings("component_metadata.sublime-settings")
     if not component_metadata.has(username):
         sublime.error_message("No Cache, Please New Project Firstly.")
-        return
+        return {}
 
     return_component_attributes = {}
     for component_type in component_metadata.get(username).keys():
@@ -44,7 +44,7 @@ def populate_components():
 
     return return_component_attributes
 
-def populate_classes():
+def populate_components(_type):
     """
     Get dict (Class Name => Class Id) which NamespacePrefix is null in whole org
 
@@ -60,10 +60,28 @@ def populate_classes():
     # If sobjects is exist in local cache, just return it
     component_metadata = sublime.load_settings("component_metadata.sublime-settings")
     if not component_metadata.has(username):
-        sublime.error_message("No Cache, Please New Project Firstly.")
-        return
+        sublime.error_message("No cache, please create new project firstly")
+        return {}
 
-    return component_metadata.get(username).get("ApexClass")
+    return component_metadata.get(username).get(_type)
+
+def populate_lighting_applications():
+    settings = context.get_settings()
+    workspace = settings["workspace"]
+    username = settings["username"]
+    aura_path = os.path.join(workspace, "src", "aura")
+    component_settings = sublime.load_settings("component_metadata.sublime-settings")
+    if not component_settings.has(username):
+        return {}
+
+    aura_attributes = {}
+    aura_cache = component_settings.get(username).get("AuraDefinitionBundle")
+    for name in aura_cache:
+        aura_name, element_name = aura_cache[name]["name"].split("/")
+        if element_name.endswith(".app"):
+            aura_attributes[aura_name] = aura_cache[name]
+
+    return aura_attributes
 
 def populate_sobjects_describe():
     """
@@ -675,6 +693,7 @@ def get_view_by_name(view_name):
     """
     view = None
     for v in sublime.active_window().views():
+        if not v.name(): continue
         if v.name() == view_name:
             view = v
 
@@ -695,6 +714,7 @@ def get_view_by_file_name(file_name):
 
     view = None
     for v in sublime.active_window().views():
+        if not v.file_name(): continue
         if file_name in v.file_name():
             view = v
 
@@ -710,12 +730,13 @@ def get_view_by_id(view_id):
 
     view = None
     for v in sublime.active_window().views():
+        if not v.id(): continue
         if v.id() == view_id:
             view = v
 
     return view
 
-def build_package_dict(files):
+def build_package_dict(files, ignore_folder=True):
     """ Build Package Dict as follow structure by files
         {
             'ApexClass': [{
@@ -736,22 +757,33 @@ def build_package_dict(files):
     package_dict = {}
     for f in files:
         # Ignore folder
-        if not os.path.isfile(f): continue
+        if ignore_folder and not os.path.isfile(f): continue
 
         # Ignore "-meta.xml"
         if f.endswith("-meta.xml"): continue
 
         # Get meta_type and code name
-        base, name = os.path.split(f)
-        name, extension = name.split(".")
-        base, folder = os.path.split(base)
-        meta_type = settings[folder]["type"]
-        file_dict = {
-            "name": name,
-            "dir": f,
-            "folder": folder,
-            "extension": "."+extension
-        }
+        if ignore_folder:
+            base, name = os.path.split(f)
+            name, extension = name.split(".")
+            base, folder = os.path.split(base)
+            meta_type = settings[folder]["type"]
+            file_dict = {
+                "name": name,
+                "dir": f,
+                "folder": folder,
+                "extension": "."+extension
+            }
+        else:
+            base, name = os.path.split(f)
+            base, folder = os.path.split(base)
+            meta_type = settings[folder]["type"]
+            file_dict = {
+                "name": name,
+                "dir": f,
+                "folder": folder,
+                "extension": ""
+            }
 
         # Build dict
         if meta_type in package_dict:
@@ -761,12 +793,24 @@ def build_package_dict(files):
 
     return package_dict
 
-def build_package_xml(settings, package_dict, deploy=True):
+def build_package_xml(settings, package_dict):
+    """ Build Package XML as follow structure
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+            <types>
+                <met:members>*</met:members>
+                <met:members>Account</met:members>
+                <name>CustomObject</name>
+            </types>
+            <version>32.0</version>
+        </Package>
+    """
+
     # Build types for package.xml
     types = []
-    for p in package_dict:
+    for meta_type in package_dict:
         members = []
-        for f in package_dict[p]:
+        for f in package_dict[meta_type]:
             members.append("<members>%s</members>" % f["name"])
 
         types.append("""
@@ -774,7 +818,7 @@ def build_package_xml(settings, package_dict, deploy=True):
             %s
             <name>%s</name>
         </types>
-        """ % (" ".join(members), p))
+        """ % (" ".join(members), meta_type))
 
     # Build package.xml
     package_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
@@ -786,15 +830,14 @@ def build_package_xml(settings, package_dict, deploy=True):
 
     return package_xml_content
 
-def build_destructive_package(files):
-    # Initiate zipfile
+def build_destructive_package(files, ignore_folder=True):
     settings = context.get_settings()
     workspace = settings["workspace"]
-    if not os.path.exists(workspace):
+    if not os.path.exists(workspace): 
         os.makedirs(workspace)
 
     # Constucture package dict 
-    package_dict = build_package_dict(files)
+    package_dict = build_package_dict(files, ignore_folder)
 
     # Build destructiveChanges.xml
     destructive_xml_content = build_package_xml(settings, package_dict)
@@ -868,36 +911,7 @@ def build_deploy_package(files):
 
     return base64_package
 
-def compress_folder(source_folder, target_folder, resource_name, meta_xml_content):
-    """ Prepare base64 encoded zip for uploading static resource
-
-    Arguments:
-
-    * target_folder - static resource folder in project
-    * source_folder - to be uploaded folder as static resource
-    * meta_xml_content - the content of corresponding resource-meta.xml
-    """
-
-    # Create StaticResource File
-    static_resource_file = os.path.join(target_folder, resource_name+".resource")
-    zf = zipfile.ZipFile(static_resource_file, "w", zipfile.ZIP_DEFLATED)
-    for dirpath, dirnames, filenames in os.walk(source_folder):
-        basename = dirpath[len(source_folder)+1:]
-        for filename in filenames:
-            zf.write(os.path.join(dirpath, filename), basename+"/"+filename)
-    zf.close()
-
-    # Create Meta-XML file
-    meta_xml_file = os.path.join(target_folder, resource_name+".resource-meta.xml")
-    with open(meta_xml_file, "wb") as fp:
-        fp.write(meta_xml_content.encode("utf-8"))
-
-    # Build package
-    base64_package = build_deploy_package([static_resource_file])
-
-    return base64_package
-
-def compress_folder(resource_folder):
+def compress_resource_folder(resource_folder):
     """ Prepare base64 encoded zip for uploading static resource
 
     Arguments:
@@ -918,6 +932,60 @@ def compress_folder(resource_folder):
 
     # Build package
     base64_package = build_deploy_package([static_resource_file])
+
+    return base64_package
+
+def build_aura_package(files_or_dirs):
+    # Build package
+    settings = context.get_settings()
+    workspace = settings["workspace"]
+    if not os.path.exists(workspace): os.makedirs(workspace)
+    zipfile_path = workspace+"/aura.zip"
+    zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
+
+    aura_names = []
+    for _file_or_dir in files_or_dirs:
+        if os.path.isfile(_file_or_dir):
+            base, aura_element = os.path.split(_file_or_dir)
+            base, aura_name = os.path.split(base)
+            base, meta_type = os.path.split(base)
+            aura_names.append(aura_name)
+            zf.write(_file_or_dir, "%s/%s/%s" % (meta_type, aura_name, aura_element))
+        else:
+            base, aura_name = os.path.split(_file_or_dir)
+            base, meta_type = os.path.split(base)
+            aura_names.append(aura_name)
+            for dirpath, dirnames, filenames in os.walk(_file_or_dir):
+                base, aura_name = os.path.split(dirpath)
+                if not filenames:
+                    zf.write(dirpath, meta_type+"/"+aura_name)
+                else:
+                    for filename in filenames:
+                        zf.write(os.path.join(dirpath, filename), "%s/%s/%s" % (meta_type, aura_name, filename))
+
+    # Write package.xml to zip
+    package_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
+        <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+            <types>
+                %s
+                <name>AuraDefinitionBundle</name>
+            </types>
+            <version>%s.0</version>
+        </Package>
+    """ % ("\n".join(["<members>%s</members>" % a for a in aura_names]), settings["api_version"])
+    package_xml_path = settings["workspace"]+"/package.xml"
+    open(package_xml_path, "wb").write(package_xml_content.encode("utf-8"))
+    zf.write(package_xml_path, "package.xml")
+    os.remove(package_xml_path)
+
+    # Close zip input stream
+    zf.close()
+
+    # base64 encode zip package
+    base64_package = base64_encode(zipfile_path)
+
+    # Remove temporary `test.zip`
+    # os.remove(zipfile_path)
 
     return base64_package
 
@@ -1012,8 +1080,8 @@ def extract_encoded_zipfile(encoded_zip_file, extract_to, ignore_package_xml=Fal
     # we need to refresh the sublime workspace to show it
     sublime.active_window().run_command("refresh_folder_list")
 
-def extract_static_resource(zipfile_path, extract_to):
-    """ Extract Static Resource to staticresources folder
+def extract_zipfile(zipfile_path, extract_to):
+    """ Extract Zip File to current folder
     """
 
     try:
@@ -1082,6 +1150,26 @@ def parse_package(package_content):
 
     * package_path -- package content to parse
 
+    Convert
+    ```
+    <?xml version="1.0" encoding="UTF-8"?>
+    <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+        <types>
+            <members>*</members>
+            <name>ApexClass</name>
+        </types>
+        <version>32.0</version>
+    </Package>
+    ```
+
+    To
+    ```
+    <types>
+        <met:members>*</met:members>
+        <name>ApexClass</name>
+    </types>
+    ```
+
     """
     result = xmltodict.parse(package_content)
 
@@ -1115,40 +1203,34 @@ def reload_apex_code_cache(file_properties, settings=None):
         "ApexTrigger": "Body",
         "StaticResource": "Body",
         "ApexPage": "Markup",
-        "ApexComponent": "Markup"
+        "ApexComponent": "Markup",
+        "AuraDefinitionBundle": ""
     }
-
-    component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
-    component_attributes = component_settings.get(settings["username"])
-
-     # If new project at the first time
-    if not component_attributes: component_attributes = {}
 
     # If the package only contains `package.xml`
     if isinstance(file_properties, dict): file_properties = [file_properties]
-
+    component_attrs = {}
     for filep in file_properties:
         # No need to process package.xml
-        if not filep["type"] in component_body_or_markup.keys(): continue
+        if filep["type"] not in component_body_or_markup: continue
 
         # Get component type
         component_type = filep["type"]
 
-        # Check component type is already exist in component_attributes
-        component_attribute = {}
-        if component_type in component_attributes:
-            component_attribute = component_attributes[component_type]
+        if component_type in component_attrs:
+            component_attr = component_attrs[component_type]
         else:
-            component_attributes[component_type] = component_attribute
+            component_attr = {}
 
         component_name = filep['fullName']
         component_id = filep["id"]
-        lower_name = component_name.lower()
+        namespacePrefix = filep["namespacePrefix"] if "namespacePrefix" in filep else ""
         component_url = "/services/data/v%s.0/sobjects/%s/%s" % (
             settings["api_version"], component_type, component_id
         )
 
-        component_attribute[lower_name] = {
+        component_attr[component_name.lower()] = {
+            "namespacePrefix": namespacePrefix,
             "name": component_name,
             "body": component_body_or_markup[component_type],
             "extension": "."+(filep["fileName"].split(".")[1]),
@@ -1160,9 +1242,16 @@ def reload_apex_code_cache(file_properties, settings=None):
         # Check whether component is Test Class or not
         if component_type == "ApexClass":
             cl = component_name.lower()
-            component_attribute[lower_name]["is_test"] =\
+            component_attr[component_name.lower()]["is_test"] =\
                 cl.startswith("test") or cl.endswith("test")
 
+        component_attrs[component_type] = component_attr
+
+    component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
+    component_attributes = component_settings.get(settings["username"])
+    if not component_attributes: component_attributes = {}
+    for component_type in component_attrs:
+        component_attributes[component_type] = component_attrs[component_type]
     component_settings.set(settings["username"], component_attributes)
     sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
@@ -1171,7 +1260,7 @@ def format_debug_logs(settings, records):
 
     # Used to list debug logs as below format
     debug_log_headers = [
-        "Id", "StartTime", "Operation", "Status", "LogLength"
+        "Id", "StartTime", "DurationMilliseconds", "Status", "LogLength", "Operation"
     ]
     debug_log_headers_properties = {
         "Id": {

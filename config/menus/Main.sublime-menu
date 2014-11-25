@@ -20,6 +20,9 @@
                         "caption": "New Project",
                         "command": "create_new_project"
                     },
+
+                    {"caption": "-"},
+                    
                     {
                         "id": "createtrigger",
                         "caption": "New ApexTrigger",
@@ -42,6 +45,28 @@
                         "id": "createcomponent",
                         "caption": "New ApexComponent",
                         "command": "create_apex_component"
+                    },
+
+                    {"caption": "-"},
+
+                    {
+                        "caption": "New Lighting Application",
+                        "command": "create_lighting_application"
+                    },
+
+                    {
+                        "caption": "New Lighting Component",
+                        "command": "create_lighting_component"
+                    },
+
+                    {
+                        "caption": "New Lighting Interface",
+                        "command": "create_lighting_interface"
+                    },
+
+                    {
+                        "caption": "New Lighting Event",
+                        "command": "create_lighting_event"
                     }
                 ]
             },
@@ -72,6 +97,11 @@
             {
                 "caption": "Cache",
                 "children": [
+                    {
+                        "id": "clearsession",
+                        "caption": "Clear Session Cache",
+                        "command": "clear_session_cache"
+                    },
                     {
                         "id": "reloadsymboltablecache",
                         "caption": "Reload SymbolTable Cache",
@@ -173,14 +203,6 @@
                         "command": "show_panel",
                         "args": {
                             "panel": "output.log"
-                        }
-                    },
-
-                    {
-                        "caption": "Open Coverage Panel",
-                        "command": "show_panel",
-                        "args": {
-                            "panel": "output.code_coverage"
                         }
                     },
 
@@ -461,6 +483,12 @@
                 ]
             },
             { "caption": "-" },
+
+            {
+                "id": "viewreleasenotes",
+                "caption": "View Release Notes",
+                "command": "view_release_notes"
+            },
 
             {
                 "id": "reportissue",

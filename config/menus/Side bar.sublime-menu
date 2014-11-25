@@ -39,13 +39,65 @@
             {"caption": "-"},
 
             {
-                "caption": "Extract StaticResource", "command": "extract_static_resource",
+                "caption": "Extract To Here", "command": "extract_to_here",
                 "args": {"files": []}
             },
 
             {
                 "caption": "Update StaticResource", "command": "update_static_resource",
                 "args": {"dirs": []}
+            },
+
+            {"caption": "-"},
+
+            {
+                "caption": "Retrieve Lighting From Server", 
+                "command": "retrieve_lighting_from_server",
+                "args": {"dirs": []}
+            },
+
+            {
+                "caption": "Destruct Lighting From Server", 
+                "command": "destruct_lighting_from_server",
+                "args": {"dirs": []}
+            },
+
+            {
+                "caption": "Deploy Lighting To Server", 
+                "command": "deploy_lighting_to_server",
+                "args": {"dirs": []}
+            },
+
+            {"caption": "-"},
+            
+            {
+                "caption": "Create Lighting Controller", 
+                "command": "create_lighting_element",
+                "args": {"dirs": [], "element": "Controller"}
+            },
+
+            {
+                "caption": "Create Lighting Helper", 
+                "command": "create_lighting_element",
+                "args": {"dirs": [], "element": "Helper"}
+            },
+
+            {
+                "caption": "Create Lighting Style", 
+                "command": "create_lighting_element",
+                "args": {"dirs": [], "element": "Style"}
+            },
+
+            {
+                "caption": "Create Lighting Documentation", 
+                "command": "create_lighting_element",
+                "args": {"dirs": [], "element": "Documentation"}
+            },
+
+            {
+                "caption": "Create Lighting Renderer", 
+                "command": "create_lighting_element",
+                "args": {"dirs": [], "element": "Renderer"}
             },
 
             {"caption": "-"},

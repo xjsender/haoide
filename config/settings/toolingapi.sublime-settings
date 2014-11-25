@@ -54,7 +54,7 @@
     "maximum_concurrent_connections": 30,
 
     // API version
-    "api_version" : 31,
+    "api_version" : 32,
 
     // Browser Path, you should set a valid browser path, otherwise, it will have problem
     // Some policy prevents setting chrome as default browser, so this setting is here
@@ -303,8 +303,16 @@
             "keyword" : "apexcode",
             "pattern" : "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
         },
+        "Ajax" : {
+            "keyword" : "ajax",
+            "pattern" : "*.//TocEntry[@DescendantCount='0'].."
+        },
         "Analytic Api" : {
             "keyword" : "api_analytics",
+            "pattern" : "*.//TocEntry[@DescendantCount='0'].."
+        },
+        "Analytics Cloud Dashboard JSON": {
+            "keyword" : "bi_dev_guide_json",
             "pattern" : "*.//TocEntry[@DescendantCount='0'].."
         },
         "Visualforce" : {
@@ -317,6 +325,10 @@
         },
         "Streaming Api" : {
             "keyword" : "api_streaming",
+            "pattern" : ".//TocEntry[@DescendantCount='0']"
+        },
+        "Security Implementation" : {
+            "keyword" : "securityImplGuide",
             "pattern" : ".//TocEntry[@DescendantCount='0']"
         },
         "Bulk Api" : {
@@ -349,6 +361,10 @@
         },
         "Metadata Api" : {
             "keyword" : "api_meta",
+            "pattern" : "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
+        },
+        "Lighting Component" : {
+            "keyword" : "lightning",
             "pattern" : "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
         }
     },
@@ -519,6 +535,20 @@
             "folder" : "workflows",
             "type" : "Workflow",
             "extension": ".workflow"
+        }, {
+            "children" : null,
+            "subscribe" : false,
+            "folder" : "settings",
+            "type" : "Settings",
+            "extension": ".settings"
+        }, {
+            "children" : [
+                "Application", "Component", "Interface", "Event"
+            ],
+            "subscribe" : true,
+            "folder" : "aura",
+            "type" : "AuraDefinitionBundle",
+            "extension": ".aura"
         }
     ]
 }

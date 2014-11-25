@@ -129,7 +129,14 @@ def populate_sobject_recordtypes():
 def handle_update_user_language(language, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.update_user, args=({"LanguageLocaleKey": language}, ))
+    session_path = settings["workspace"]+"/.config/session.json"
+    if not os.path.isfile(session_path):
+        sublime.error_message("Please wait until the login succeed")
+        return
+        
+    session = json.loads(open(session_path).read())
+    patch_url = "/sobjects/User/%s" % session["user_id"]
+    thread = threading.Thread(target=api.patch, args=(patch_url, {"LanguageLocaleKey": language}, ))
     thread.start()
     ThreadProgress(api, thread, "Updating User Language", "User language is updated to " + language)
 
@@ -230,6 +237,7 @@ def handle_refresh_folder(folders_dict, timeout=120):
             args=(result["zipFile"], extract_to, True, ))
         thread.start()
 
+        print (json.dumps(result["fileProperties"], indent=4))
         util.reload_apex_code_cache(result["fileProperties"], settings)
 
         # Hide panel 0.5 seconds later
@@ -479,26 +487,29 @@ def handle_reload_sobjects_completions(timeout=120):
     ThreadProgress(api, thread, "Global Describe", "Global Describe Succeed")
     handle_thread(api, thread, timeout)
 
-def handle_destructive_files(files, timeout=120):
+def handle_destructive_files(dirs_or_files, ignore_folder=True, timeout=120):
     def handle_thread(thread, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
 
-        # After succeed, remove files and related *-meta.xml from local
+        # After succeed, remove dirs_or_files and related *-meta.xml from local
         if "body" in api.result and api.result["body"]["status"] == "Succeeded":
             win = sublime.active_window()
-            for _file in files:
+            for _file_or_dir in dirs_or_files:
                 # Remove file from local disk and close the related view
-                view = util.get_view_by_file_name(_file)
+                view = util.get_view_by_file_name(_file_or_dir)
                 if view: 
                     win.focus_view(view)
                     win.run_command("close")
 
-                os.remove(_file)
+                if os.path.isfile(_file_or_dir):
+                    os.remove(_file_or_dir)
+                else:
+                    shutil.rmtree(_file_or_dir)
 
                 # Remove related *-meta.xml file from local disk and close the related view
-                if os.path.isfile(_file+"-meta.xml"):
+                if ignore_folder and os.path.isfile(_file+"-meta.xml"):
                     view = util.get_view_by_file_name(_file+"-meta.xml")
                     if view: 
                         win.focus_view(view)
@@ -508,7 +519,7 @@ def handle_destructive_files(files, timeout=120):
 
     settings = context.get_settings()
     api = MetadataApi(settings)
-    base64_encoded_zip = util.build_destructive_package(files)
+    base64_encoded_zip = util.build_destructive_package(dirs_or_files, ignore_folder)
     thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip, ))
     thread.start()
     ThreadProgress(api, thread, "Destructing Files", "Destructing Files Succeed")
@@ -1197,6 +1208,7 @@ def handle_retrieve_package(package_xml_content, extract_to,
     except xml.parsers.expat.ExpatError as err:
         sublime.error_message("XML Parse Error: "+str(err))
         return
+
     body = soap_bodies.retrieve_body.replace("{{meta_types}}", types)
     thread = threading.Thread(target=api.retrieve, args=(body, ))
     thread.start()
@@ -1470,7 +1482,7 @@ def handle_refresh_component(component_attribute, file_name, timeout=120):
     component_url = component_attribute["url"]
     thread = threading.Thread(target=api.get, args=(component_url, ))
     thread.start()
-    ThreadProgress(api, thread, 'Refresh Component', 'Refresh Succeed')
+    ThreadProgress(api, thread, 'Refreshing Component', 'Refresh Succeed')
     handle_thread(thread, timeout)
 
 def handle_delete_component(component_url, file_name, timeout=120):

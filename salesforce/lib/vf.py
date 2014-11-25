@@ -1,4 +1,265 @@
 tag_defs = {
+    "aura:application": {
+        "simple": False,
+        "attribs": {
+            "access": {
+                "type": "Picklist",
+                "values":[
+                    "PUBLIC", "GLOBAL"
+                ]
+            },
+            "controller": {
+                "type": "String"
+            },
+            "description": {
+                "type": "String"
+            },
+            "implements": {
+                "type": "String"
+            },
+            "useAppcache": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "aura:component": {
+        "simple": False,
+        "attribs": {
+            "access": {
+                "type": "Picklist",
+                "values":[
+                    "PUBLIC", "GLOBAL"
+                ]
+            },
+            "controller": {
+                "type": "String"
+            },
+            "description": {
+                "type": "String"
+            },
+            "implements": {
+                "type": "String"
+            }
+        }
+    },
+
+    "aura:dependency": {
+        "simple": False,
+        "attribs": {
+            "resource": {
+                "type": "String",
+                "values": [
+                    "markup://sampleNamespace:sampleComponent",
+                    "markup://sampleNamespace:*",
+                    "markup://sampleNamespace:input*"
+                ]
+            },
+            "type": {
+                "type": "Picklist",
+                "values": [
+                    "COMPONENT", "APPLICATION", "EVENT"
+                ]
+            }
+        }
+    },
+
+    "aura:event": {
+        "simple": False,
+        "attribs": {
+            "access": {
+                "type": "Picklist",
+                "values":[
+                    "PUBLIC", "GLOBAL"
+                ]
+            },
+            "description": {
+                "type": "String"
+            },
+            "extends": {
+                "type": "String",
+                "values": [
+                    "namespace:myEvent"
+                ]
+            },
+            "type": {
+                "type": "Picklist",
+                "values": [
+                    "COMPONENT", "APPLICATION"
+                ]
+            }
+        }
+    },
+
+    "aura:if": {
+        "simple": False,
+        "attribs": {
+            "else": {
+                "type": "ComponentDefRef[]"
+            },
+            "isTrue": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "aura:interface": {
+        "simple": False,
+        "attribs": {
+            "access": {
+                "type": "Picklist",
+                "values":[
+                    "PUBLIC", "GLOBAL"
+                ]
+            },
+            "description": {
+                "type": "String"
+            },
+            "extends": {
+                "type": "String",
+                "values": [
+                    "namespace:myEvent"
+                ]
+            }
+        }
+    },
+
+    "aura:iteration": {
+        "simple": False,
+        "attribs": {
+            "body": {
+                "type": "ComponentDefRef[]"
+            },
+            "indexVar": {
+                "type": "String"
+            },
+            "items": {
+                "type": "List"
+            },
+            "var": {
+                "type": "String"
+            },
+        }
+    },
+
+    "aura:renderIf": {
+        "simple": False,
+        "attribs": {
+            "else": {
+                "type": "ComponentDefRef[]"
+            },
+            "isTrue": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            }
+        }
+    },
+
+    "aura:set": {
+        "simple": False,
+        "attribs": {
+            "attribute": {
+                "type": "String"
+            },
+            "value": {
+                "type": "String"
+            },
+        }
+    },
+
+    "aura:attribute": {
+        "simple": False,
+        "attribs": {
+            "access": {
+                "type": "Picklist",
+                "values":[
+                    "PUBLIC", "GLOBAL", "PRIVATE"
+                ]
+            },
+            "name": {
+                "type": "String"
+            },
+            "type": {
+                "type": "Picklist",
+                "values": [
+                    "Boolean", "Date", "DateTime", "Decimal", 
+                    "Double", "Integer", "Long", "String",
+                    "Object", "List", "Set", "Map"
+                ]
+            },
+            "default": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "required": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "description": {
+                "type": "String"
+            }
+        }
+    },
+
+    "apex:attribute": {
+        "simple": False,
+        "attribs": {
+            "access": {
+                "type": "Picklist",
+                "values":[
+                    "PUBLIC", "GLOBAL"
+                ]
+            },
+            "assignTo": {
+                "type": "Object"
+            },
+            "name": {
+                "type": "String"
+            },
+            "type": {
+                "type": "Picklist",
+                "values": [
+                    "Boolean", "Date", "DateTime", "Decimal", 
+                    "Double", "Integer", "Long", "String", 
+                    "Object"
+                ]
+            },
+            "id": {
+                "type": "String"
+            },
+            "encode": {
+                "type": "String"
+            },
+            "default": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "required": {
+                "type": "Boolean",
+                "values":[
+                    "true", "false"
+                ]
+            },
+            "description": {
+                "type": "String"
+            }
+        }
+    },
+
     # ChatterAnswer
     "chatteranswers:aboutme": {
         "simple": False,

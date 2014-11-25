@@ -78,6 +78,22 @@ class ReloadSymbolTableCacheCommand(sublime_plugin.WindowCommand):
         if confirm == False: return
         processor.handle_reload_symbol_tables()
 
+class ClearSessionCacheCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ClearSessionCacheCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        settings = context.get_settings()
+        confirm = sublime.ok_cancel_dialog("Are you sure you really want to clear session?")
+        if confirm == False: return
+        
+        session_path = settings["workspace"]+"/.config/session.json"
+        try:
+            os.remove(session_path)
+            sublime.status_message("Session cache is cleared")
+        except:
+            sublime.status_message("Session cache clear is failed")
+
 class ClearCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ClearCacheCommand, self).__init__(*args, **kwargs)
@@ -144,6 +160,9 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
         # handle this describe request
         util.check_workspace_available()
         processor.handle_export_data_template_thread(sobject, recordtype_name, recordtype_id)
+
+    def is_enabled(self):
+        return util.check_new_component_enabled()
 
 class ExecuteRestTest(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -392,7 +411,7 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
                                           self.settings["workspace"], 
                                           ignore_package_xml=True)
 
-    def is_enabled(self, files):
+    def is_visible(self, files):
         if len(files) == 0: return False
         self.settings = context.get_settings()
         for _file in files:
@@ -406,10 +425,12 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
 
 class CancelDeployment(sublime_plugin.TextCommand):
     def run(self, edit):
+        processor.handle_cancel_deployment_thread(self.sel_text)
+
+    def is_enabled(self):
         sel = self.view.sel()[0]
-        sel_text = self.view.substr(self.view.word(sel.begin()))
-        if sel_text.startswith("0Af"):
-            processor.handle_cancel_deployment_thread(sel_text)
+        self.sel_text = self.view.substr(self.view.word(sel.begin()))
+        return self.sel_text.startswith("0Af")
 
 class DestructFileFromServer(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -435,7 +456,7 @@ class DestructFilesFromServer(sublime_plugin.WindowCommand):
         if not confirm: return
         processor.handle_destructive_files(files)
 
-    def is_enabled(self, files):
+    def is_visible(self, files):
         if len(files) == 0: return False
         self.settings = context.get_settings()
         for _file in files:
@@ -522,7 +543,7 @@ class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
 
         processor.handle_deploy_thread(util.compress_package(self.package_dir));
 
-    def is_enabled(self, dirs):
+    def is_visible(self, dirs):
         if not dirs: return False
         if len(dirs) > 1: return False
 
@@ -575,7 +596,7 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
         base64_encoded_zip = util.build_deploy_package(self.files)
         processor.handle_deploy_thread(base64_encoded_zip)
 
-    def is_enabled(self, files):
+    def is_visible(self, files):
         """
         1. You must have selected one file or more
         2. All selected file should be in predefined meta folders
@@ -604,6 +625,9 @@ class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
 
         processor.handle_export_validation_rules(settings)
 
+    def is_enabled(self):
+        return util.check_new_component_enabled()
+
 class ExportCustomLablesCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ExportCustomLablesCommand, self).__init__(*args, **kwargs)
@@ -621,6 +645,9 @@ class ExportCustomLablesCommand(sublime_plugin.WindowCommand):
         lables = xmltodict.parse(open(lable_path, "rb").read())
         util.list2csv(outputdir+"/Labels.csv", lables["CustomLabels"]["labels"])
 
+    def is_enabled(self):
+        return util.check_new_component_enabled()
+
 class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ExportWorkflowsCommand, self).__init__(*args, **kwargs)
@@ -634,6 +661,9 @@ class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
             return
 
         processor.handle_export_workflows(settings)
+
+    def is_enabled(self):
+        return util.check_new_component_enabled()
 
 class ExportFieldDependencyCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -657,6 +687,9 @@ class ExportCustomFieldCommand(sublime_plugin.WindowCommand):
     def run(self):
         util.check_workspace_available()
         processor.handle_export_customfield()
+        
+    def is_enabled(self):
+        return util.check_new_component_enabled()
 
 class DescribeSobjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -705,26 +738,26 @@ class ExportWorkbookCommand(sublime_plugin.WindowCommand):
             # After ensured input is valid, just start to generate workbooks
             processor.handle_export_specified_workbooks(sobjects)
 
+    def is_enabled(self):
+        return util.check_new_component_enabled()
+
 class ViewComponentInSfdcCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ViewComponentInSfdcCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        global all_components
-        global all_components_name
+        self.all_components = util.populate_all_components()
 
-        all_components = util.populate_components()
-
-        if len(all_components) == 0:
+        if not self.all_components:
             sublime.message_dialog("Please click 'New Project' Firstly.")
             return
 
-        all_components_name = sorted(list(all_components.keys()))
-        self.window.show_quick_panel(all_components_name, self.on_done)
+        self.all_components_name = sorted(list(self.all_components.keys()))
+        self.window.show_quick_panel(self.all_components_name, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
-        class_id = all_components[all_components_name[index]]
+        class_id = self.all_components[self.all_components_name[index]]
         startURL = "/" + class_id
         self.window.run_command("login_to_sfdc", {"startURL": startURL})
 
@@ -775,7 +808,7 @@ class RunOneTestCommand(sublime_plugin.WindowCommand):
         super(RunOneTestCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.classes_attr = util.populate_classes()
+        self.classes_attr = util.populate_classes("ApexClass")
         self.classmap = {}
         for key in self.classes_attr:
             if not self.classes_attr[key]["is_test"]: continue
@@ -1035,6 +1068,11 @@ class ReportIssueCommand(sublime_plugin.ApplicationCommand):
         show_url = "https://github.com/xjsender/SublimeApex/issues"
         util.open_with_browser(show_url)
 
+class ViewReleaseNotesCommand(sublime_plugin.ApplicationCommand):
+    def run(command):
+        show_url = "https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst#release-250-2014-11-24"
+        util.open_with_browser(show_url)
+
 class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeleteSelectedComponentsCommand, self).__init__(*args, **kwargs)
@@ -1188,7 +1226,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
     def on_input(self, input):
         # Create component to local according to user input
         if not re.match('^[a-zA-Z]+\\w+$', input):
-            message = 'Invalid format, are you want to input again?'
+            message = 'Invalid format, do you want to try again?'
             if not sublime.ok_cancel_dialog(message): return
             self.window.show_input_panel("Please Input Name: ", "", self.on_input, None, None)
             return
@@ -1242,6 +1280,306 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
                                                 self.component_type, 
                                                 self.markup_or_body, 
                                                 file_name)
+
+class DeployLightingElementToServer(sublime_plugin.TextCommand):
+    def run(self, edit):
+        if self.view.is_dirty(): self.view.run_command("save")
+        processor.handle_deploy_thread(util.build_aura_package([self._file]))
+
+    def is_visible(self):
+        if not self.view or not self.view.file_name(): return False
+        self.settings = context.get_settings()
+        self._file = self.view.file_name()
+        base, lighting_component_name = os.path.split(self._file)
+        base, lighting_name = os.path.split(base)
+        base, meta_type = os.path.split(base)
+        if meta_type != "aura": return False
+        if self.settings["default_project_name"] not in self._file:
+            return False
+
+        return True
+
+class DeployLightingToServer(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DeployLightingToServer, self).__init__(*args, **kwargs)
+
+    def run(self, dirs, switch_project=True):
+        # Get the package path to deploy
+        self.dirs = dirs
+
+        if not switch_project:
+            base64_package = util.build_aura_package(dirs)
+            processor.handle_deploy_thread(base64_package)
+            return
+
+        # Choose the target ORG to deploy
+        self.settings = context.get_settings()
+        self.projects = self.settings["projects"]
+        self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
+            'Inactive') + ") " + p for p in self.projects]
+        self.projects = sorted(self.projects, reverse=False)
+        self.window.show_quick_panel(self.projects, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+        # Change the chosen project as default
+        # Split with ") " and get the second project name
+        default_project = self.projects[index].split(") ")[1]
+        util.switch_project(default_project)
+
+        base64_package = util.build_aura_package(self.dirs)
+        processor.handle_deploy_thread(base64_package)
+
+    def is_visible(self, dirs, switch_project=True):
+        if not dirs or len(dirs) == 0: return False
+
+        self.settings = context.get_settings()
+        for _dir in dirs:
+            base, aura_name = os.path.split(_dir)
+            base, meta_type = os.path.split(base)
+            if meta_type != "aura": return False
+            if self.settings["default_project_name"] not in _dir:
+                return False
+
+        return True
+
+class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(PreviewLightingAppInServer, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.aura_attrs = util.populate_lighting_applications()
+        self.app_names = list(self.aura_attrs.keys())
+        self.window.show_quick_panel(self.app_names, self.on_chosen)
+
+    def on_chosen(self, index):
+        if index == -1: return
+        app_name = self.app_names[index]
+        app_attr = self.aura_attrs[app_name]
+
+        settings = context.get_settings()
+        session_path = settings["workspace"]+"/.config/session.json"
+        session = json.loads(open(session_path).read())
+        instance_url = session["instance_url"]
+        instance = instance_url[8:instance_url.index(".")]
+        if instance == "emea": instance = "eu0"
+        start_url = "https://%s.lightning.force.com/%s/%s.app" % (
+            instance, app_attr["namespacePrefix"], app_name
+        )
+        self.window.run_command("login_to_sfdc", {"startURL": start_url})
+
+class RetrieveLightingFromServer(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RetrieveLightingFromServer, self).__init__(*args, **kwargs)
+
+    def run(self, dirs):
+        package_dict = util.build_package_dict(dirs, ignore_folder=False)
+        package_xml_content = util.build_package_xml(self.settings, package_dict)
+        processor.handle_retrieve_package(package_xml_content, 
+                                          self.settings["workspace"], 
+                                          ignore_package_xml=True)
+
+    def is_visible(self, dirs):
+        if len(dirs) == 0: return False
+        self.settings = context.get_settings()
+        for _dir in dirs:
+            if os.path.isfile(_dir): continue
+            base, _name = os.path.split(_dir)
+            base, _folder = os.path.split(base)
+            if _folder not in self.settings["meta_folders"]: return False
+            if self.settings["default_project_name"] not in _dir:
+                return False
+
+        return True
+
+class DestructLightingFromServer(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DestructLightingFromServer, self).__init__(*args, **kwargs)
+
+    def run(self, dirs):
+        confirm = sublime.ok_cancel_dialog("Are you sure you really want to continue?")
+        if not confirm: return
+        processor.handle_destructive_files(dirs, ignore_folder=False)
+
+    def is_visible(self, dirs):
+        if len(dirs) == 0: return False
+        self.settings = context.get_settings()
+        for _dir in dirs:
+            base, name = os.path.split(_dir)
+            base, _folder = os.path.split(base)
+            if _folder not in self.settings["meta_folders"]: return False
+            if not util.check_enabled(_dir, check_cache=False): 
+                return False
+
+        return True
+
+class CreateLightingElement(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateLightingElement, self).__init__(*args, **kwargs)
+
+    def run(self, dirs, element=""):
+        """ element: Component, Controller, Helper, Style, Documentation, Render
+        """
+
+        # Get template attribute
+        template_settings = sublime.load_settings("template.sublime-settings")
+        template = template_settings.get("template").get("AuraEelement").get(element)
+        extension = template["extension"]
+        body = template["body"]
+
+        # JS Component is different with others
+        element_name = "%s%s%s" % (
+            self.aura_name,
+            element if extension == ".js" else "", 
+            extension
+        )
+
+        # Combine Aura element component name
+        element_file = os.path.join(self._dir, element_name)
+
+        # If element file is already exist, just alert
+        if os.path.isfile(element_file):
+            sublime.error_message(element_name+" is already exist")
+            return
+
+        # Create Aura Element file
+        with open(element_file, "w") as fp:
+            fp.write(body)
+
+        # If created succeed, just open it and refresh project
+        window = sublime.active_window()
+        window.open_file(lihghting_file)
+        window.run_command("refresh_folder_list")
+
+        # Deploy Aura to server
+        self.window.run_command("deploy_auras_to_server", {
+            "dirs": [self._dir],
+            "switch_project": False
+        })
+
+    def is_visible(self, dirs, element=""):
+        if not dirs or len(dirs) != 1: return False
+        self._dir = dirs[0]
+
+        # Check whether project is the active one
+        settings = context.get_settings()
+        if settings["default_project_name"] not in self._dir:
+            return False
+
+        base, self.aura_name = os.path.split(self._dir)
+        base, meta_type = os.path.split(base)
+        if meta_type != "aura": return False
+
+        lighting_extensions = []
+        for dirpath, dirnames, filenames in os.walk(self._dir):
+            for filename in filenames:
+                extension = filename[filename.find("."):]
+                lighting_extensions.append(extension)
+
+        # Just Component and Application can have child elements
+        if ".cmp" in lighting_extensions or ".app" in lighting_extensions:
+            return True
+
+        return False
+
+class CreateLightingDefinition(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateLightingDefinition, self).__init__(*args, **kwargs)
+
+    def run(self, _type=""):
+        self._type = _type
+        self.window.show_input_panel("Please Input Lighting Name: ", 
+            "", self.on_input, None, None)
+
+    def on_input(self, lighting_name):
+        # Create component to local according to user input
+        if not re.match('^[a-zA-Z]+\\w+$', lighting_name):
+            message = 'Invalid format, do you want to try again?'
+            if not sublime.ok_cancel_dialog(message): return
+            self.window.show_input_panel("Please Input Lighting Name: ", 
+                "", self.on_input, None, None)
+            return
+
+        # Get template attribute
+        template_settings = sublime.load_settings("template.sublime-settings")
+        template = template_settings.get("template").get("Aura").get(self._type)
+
+        # Build dir for new lighting component
+        settings = context.get_settings()
+        component_dir = os.path.join(settings["workspace"], "src", "aura", lighting_name)
+        if not os.path.exists(component_dir):
+            os.makedirs(component_dir)
+        else:
+            message = lighting_name+" is already exist, do you want to try again?"
+            if not sublime.ok_cancel_dialog(message): return
+            self.window.show_input_panel("Please Input Lighting Name: ", 
+                "", self.on_input, None, None)
+            return
+        
+        lihghting_file = os.path.join(component_dir, lighting_name+template["extension"])
+
+        # Create Aura lighting file
+        with open(lihghting_file, "w") as fp:
+            fp.write(template["body"])
+
+        # If created succeed, just open it and refresh project
+        window = sublime.active_window()
+        window.open_file(lihghting_file)
+        window.run_command("refresh_folder_list")
+
+        # Deploy Aura to server
+        self.window.run_command("deploy_auras_to_server", {
+            "dirs": [component_dir],
+            "switch_project": False
+        })
+
+class CreateLightingApplication(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateLightingApplication, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.window.run_command("create_lighting_definition", {
+            "_type": "Application"
+        })
+
+    def is_enabled(self):
+        return util.check_new_component_enabled()
+
+class CreateLightingComponent(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateLightingComponent, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.window.run_command("create_lighting_definition", {
+            "_type": "Component"
+        })
+
+    def is_enabled(self):
+        return util.check_new_component_enabled()
+
+class CreateLightingInterface(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateLightingInterface, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.window.run_command("create_lighting_definition", {
+            "_type": "Interface"
+        })
+
+    def is_enabled(self):
+        return util.check_new_component_enabled()
+
+class CreateLightingEvent(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateLightingEvent, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.window.run_command("create_lighting_definition", {
+            "_type": "Event"
+        })
+
+    def is_enabled(self):
+        return util.check_new_component_enabled()
 
 class SaveComponentCommand(sublime_plugin.TextCommand):
     def run(self, edit, is_check_only=False):
@@ -1338,25 +1676,22 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
             util.add_project_to_workspace(settings)
             processor.handle_new_project(settings)
 
-class ExtractStaticResource(sublime_plugin.WindowCommand):
+class ExtractToHere(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(ExtractStaticResource, self).__init__(*args, **kwargs)
+        super(ExtractToHere, self).__init__(*args, **kwargs)
 
     def run(self, files):
         extract_to, name = os.path.split(self._file)
         name, extension = name.split(".")
 
         extract_to = os.path.join(extract_to, name)
-        util.extract_static_resource(self._file, extract_to)
+        util.extract_zipfile(self._file, extract_to)
 
-    def is_enabled(self, files):
+    def is_visible(self, files):
         if not files or len(files) > 1: 
             return False
 
         self._file = files[0]
-
-        if not self._file.endswith("resource"): 
-            return False
 
         return True
 
@@ -1365,10 +1700,10 @@ class UpdateStaticResource(sublime_plugin.WindowCommand):
         super(UpdateStaticResource, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        base64_package = util.compress_folder(self.resource_dir)
+        base64_package = util.compress_resource_folder(self.resource_dir)
         processor.handle_deploy_thread(base64_package)
 
-    def is_enabled(self, dirs):
+    def is_visible(self, dirs):
         if not dirs or len(dirs) > 1: return False
         self.resource_dir = dirs[0]
 

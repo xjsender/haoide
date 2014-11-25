@@ -1,5 +1,58 @@
 {
     "template": {
+        "Aura": {
+            "Application": {
+                "extension": ".app",
+                "body": "<aura:application></aura:application>",
+                "children": ["Controller", "Helper", "Style", "Documentation", "Renderer"]
+            },
+
+            "Component": {
+                "extension": ".cmp",
+                "body": "<aura:component implements=\"force:appHostable\">\n\t\n</aura:component>",
+                "children": ["Controller", "Helper", "Style", "Documentation", "Renderer"]
+            },
+
+            "Interface": {
+                "extension": ".intf",
+                "body": "<aura:interface description=\"Interface template\">\n\t<aura:attribute name=\"example\" type=\"String\" default=\"\" description=\"An example attribute.\"/>\n</aura:interface>",
+                "children": []
+            },
+
+            "Event": {
+                "extension": ".evt",
+                "body": "<aura:event type=\"APPLICATION\" description=\"Event template\" />",
+                "children": []
+            }
+        },
+
+        "AuraEelement": {
+            "Controller": {
+                "extension": ".js",
+                "body": "({\n\tmyAction : function(component, event, helper) {\n\t\t\n\t}\n})"
+            },
+
+            "Helper": {
+                "extension": ".js",
+                "body": "({\n\thelperMethod : function() {\n\t\t\n\t}\n})"
+            },
+
+            "Style": {
+                "extension": ".css",
+                "body": ".THIS {}"
+            },
+
+            "Documentation": {
+                "extension": ".auradoc",
+                "body": "<aura:documentation>\n\t<aura:description>Documentation</aura:description>\n\t<aura:example name=\"ExampleName\" ref=\"exampleComponentName\" label=\"Label\">\n\t\tExample Description\n\t</aura:example>\n</aura:documentation>"
+            },
+
+            "Renderer": {
+                "extension": ".js",
+                "body": "({\n\t// Your renderer method overrides go here\n})"
+            },
+        },
+
         "ApexClass": {
             "Utility Class": {
                 "extension": ".cls",
