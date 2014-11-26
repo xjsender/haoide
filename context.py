@@ -64,6 +64,9 @@ def get_settings():
     # Check whether the LastModifiedById is current user
     settings["check_save_conflict"] = s.get("check_save_conflict", True)
 
+    # After component save succeed, flag for controlling whether track debug log for running user
+    settings["track_log_after_saved"] = s.get("track_log_after_saved", False);
+
     # Trace Flag
     settings["trace_flag"] = s.get("trace_flag")
     settings["last_n_logs"] = s.get("last_n_logs", 10)

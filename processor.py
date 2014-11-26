@@ -509,13 +509,13 @@ def handle_destructive_files(dirs_or_files, ignore_folder=True, timeout=120):
                     shutil.rmtree(_file_or_dir)
 
                 # Remove related *-meta.xml file from local disk and close the related view
-                if ignore_folder and os.path.isfile(_file+"-meta.xml"):
-                    view = util.get_view_by_file_name(_file+"-meta.xml")
+                if ignore_folder and os.path.isfile(_file_or_dir+"-meta.xml"):
+                    view = util.get_view_by_file_name(_file_or_dir+"-meta.xml")
                     if view: 
                         win.focus_view(view)
                         win.run_command("close")
 
-                    os.remove(_file+"-meta.xml")
+                    os.remove(_file_or_dir+"-meta.xml")
 
     settings = context.get_settings()
     api = MetadataApi(settings)
@@ -1298,26 +1298,36 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
             delay_seconds = settings["delay_seconds_for_hidden_output_panel_when_succeed"]
             sublime.set_timeout_async(util.hide_output_panel, delay_seconds * 1000)
 
+            # If track_log_after_saved is true, track self debug log asynchronously
+            if settings["track_log_after_saved"]:
+                handle_create_debug_log("Me", None)
+
         # If not succeed, just go to the error line
         # Because error line in page is always at the line 1, so just work in class or trigger
         elif "success" in result and not result["success"]:
+            # Get the active view
             view = sublime.active_window().active_view()
-            if file_base_name in view.file_name() and extension in [".trigger", ".cls", ".page"]:
-                if "line" in result:
-                    line = result["line"]
-                elif "lineNumber" in result:
-                    line = result["lineNumber"]
-                else:
-                    return
-                    
-                if isinstance(line, list): line = line[0]
-                if extension == ".page" and line < 2: return
-                view.run_command("goto_line", {"line": line})
-                view.run_command("expand_selection", {"to":"line"})
 
-                # Add highlight for error line and remove the highlight after several seconds
-                component_id = component_attribute["id"]
-                view.run_command("set_check_point", {"mark":component_id+"build_error"})
+            # Check current view the saving code file
+            if not view.file_name(): return
+            if not file_base_name in view.file_name(): return
+            if not extension in [".trigger", ".cls", ".page"]: return
+
+            if "line" in result:
+                line = result["line"]
+            elif "lineNumber" in result:
+                line = result["lineNumber"]
+            else:
+                return
+                
+            if isinstance(line, list): line = line[0]
+            if extension == ".page" and line < 2: return
+            view.run_command("goto_line", {"line": line})
+            view.run_command("expand_selection", {"to":"line"})
+
+            # Add highlight for error line and remove the highlight after several seconds
+            component_id = component_attribute["id"]
+            view.run_command("set_check_point", {"mark":component_id+"build_error"})
 
     component_attribute, component_name = util.get_component_attribute(file_name)
     body = open(file_name, encoding="utf-8").read()

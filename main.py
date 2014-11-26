@@ -1070,7 +1070,7 @@ class ReportIssueCommand(sublime_plugin.ApplicationCommand):
 
 class ViewReleaseNotesCommand(sublime_plugin.ApplicationCommand):
     def run(command):
-        show_url = "https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst#release-250-2014-11-24"
+        show_url = "https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst"
         util.open_with_browser(show_url)
 
 class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):

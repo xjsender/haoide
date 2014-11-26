@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+Release 2.5.1 (2014-11-26)
+++++++++++++++++++
+* Fix Bug: NoneType Exception when destruct files from server
+* Fix Bug: when saving component, the active view is not file
+* Add a new settings ``track_log_after_saved`` to control whether track log after save succeed
+
 
 Release 2.5.0 (2014-11-26)
 ++++++++++++++++++

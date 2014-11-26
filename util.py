@@ -985,7 +985,7 @@ def build_aura_package(files_or_dirs):
     base64_package = base64_encode(zipfile_path)
 
     # Remove temporary `test.zip`
-    # os.remove(zipfile_path)
+    os.remove(zipfile_path)
 
     return base64_package
 
