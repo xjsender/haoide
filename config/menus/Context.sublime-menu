@@ -5,7 +5,10 @@
         "children":
         [
             {"caption": "Convert XML to JSON", "command": "convert_xml_to_dict"},
+            {"caption": "Pretty JSON","command": "pretty_json"},
 
+            {"caption": "-"},
+            
             {"caption": "Retrieve Package.xml", "command": "retrieve_package_file"},
 
             {"caption": "-"},

@@ -20,6 +20,31 @@ from .salesforce import xmltodict
 from .salesforce import message
 
 
+class PrettyJson(sublime_plugin.TextCommand):
+    def run(self, view):
+        try:
+            pretty_json = json.dumps(json.loads(self.selection), 
+                ensure_ascii=False, indent=4)
+        except ValueError as ex:
+            util.show_output_panel(str(ex))
+            return
+            
+        view = sublime.active_window().new_file()
+        view.run_command("new_view", {
+            "name": "PrettyJson",
+            "input": pretty_json
+        })
+
+        # If you have installed the htmljs plugin, below statement will work
+        view.run_command("htmlprettify")
+
+    def is_enabled(self):
+        # Enabled if has selection
+        self.selection = self.view.substr(self.view.sel()[0])
+        if not self.selection: return False
+
+        return True
+
 class DiffWithServerCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         component_attribute = util.get_component_attribute(self.file_name)[0]
@@ -1452,7 +1477,7 @@ class CreateLightingElement(sublime_plugin.WindowCommand):
         window.run_command("refresh_folder_list")
 
         # Deploy Aura to server
-        self.window.run_command("deploy_auras_to_server", {
+        self.window.run_command("deploy_lighting_to_server", {
             "dirs": [self._dir],
             "switch_project": False
         })
@@ -1528,7 +1553,7 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
         window.run_command("refresh_folder_list")
 
         # Deploy Aura to server
-        self.window.run_command("deploy_auras_to_server", {
+        self.window.run_command("deploy_lighting_to_server", {
             "dirs": [component_dir],
             "switch_project": False
         })

@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+
+Release 2.5.2 (2014-11-27)
+++++++++++++++++++
+* After new lighting component is created, deploy it to server
+* Add a new command for ``pretty json`` in the context menu
+* hide the status message in progress bar when track self debug log after save succeed
+
+
 Release 2.5.1 (2014-11-26)
 ++++++++++++++++++
 * Fix Bug: NoneType Exception when destruct files from server

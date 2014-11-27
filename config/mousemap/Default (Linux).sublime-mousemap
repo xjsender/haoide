@@ -21,13 +21,13 @@
 
     // Press alt and Click Left Mouse for twice will quick view the code coverage
     {
-        "button": "button1", "count": 2, "modifiers": ["alt"],
+        "button": "button1", "count": 3, "modifiers": ["alt"],
         "press_command": "view_selected_code_coverage"
     },
 
     // Press alt and Click Left Mouse for triple will cancel deployment of specified task Id
     {
-        "button": "button1", "count": 3, "modifiers": ["alt"],
+        "button": "button1", "count": 2, "modifiers": ["alt"],
         "press_command": "cancel_deployment"
     }
 ]

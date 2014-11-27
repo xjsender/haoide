@@ -1300,7 +1300,8 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
 
             # If track_log_after_saved is true, track self debug log asynchronously
             if settings["track_log_after_saved"]:
-                handle_create_debug_log("Me", None)
+                thread = threading.Thread(target=api.create_trace_flag)
+                thread.start()
 
         # If not succeed, just go to the error line
         # Because error line in page is always at the line 1, so just work in class or trigger
