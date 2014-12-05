@@ -237,7 +237,6 @@ def handle_refresh_folder(folders_dict, timeout=120):
             args=(result["zipFile"], extract_to, True, ))
         thread.start()
 
-        print (json.dumps(result["fileProperties"], indent=4))
         util.reload_apex_code_cache(result["fileProperties"], settings)
 
         # Hide panel 0.5 seconds later
@@ -1152,8 +1151,10 @@ def handle_new_project(settings, is_update=False, timeout=120):
         thread.start()
 
         # Apex Code Cache
-        if isinstance(result["fileProperties"], list):
+        if "fileProperties" in result and isinstance(result["fileProperties"], list):
             util.reload_apex_code_cache(result["fileProperties"], settings)
+        else:
+            print ('fileProperties for new project: ' + json.dumps(result, indent=4))
 
         # Hide panel
         sublime.set_timeout_async(util.hide_output_panel, 500)

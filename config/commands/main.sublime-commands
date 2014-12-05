@@ -135,6 +135,11 @@
     },
 
     {
+        "caption": "SublimeApex: Pretty JSON",
+        "command": "pretty_json"
+    },
+
+    {
         "caption": "SublimeApex: Retrieve Package.xml",
         "command": "retrieve_package"
     },

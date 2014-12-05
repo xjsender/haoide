@@ -220,6 +220,7 @@ def get_component_completion(username, component_type):
         if component_type in component_attrs:
             components = component_attrs[component_type]
             for name in components:
+                if "name" not in components[name]: continue
                 component_name = components[name]["name"]
                 if component_type == "ApexComponent":
                     completion_list.append(("c:"+component_name+"\t"+component_type, "c:"+component_name))

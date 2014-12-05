@@ -22,6 +22,7 @@ See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 + [Save Multiple Files to Server](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/SaveMultipleFilesToServer.gif)
 + [Refresh Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RefreshFolders.gif)
 + [Convert XML to JSON](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ConvertXML2JSON.gif)
++ [Lighting Component Development](https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif)
 + [More Demos](https://github.com/xjsender/SublimeApexScreenshot)
 
 **Please don't change the password and email in the build-in test org**
@@ -287,6 +288,9 @@ If you just want to export some attributes of sobject workbook, you can remove s
 
 ## Exceute Rest Test
 Up to now, support ```Get```, ```Post```, ```Put```, ```Patch```, ```Delete```, ```Tooling Query```, ```Query```, ```Query All```, ```Head```, ```Retrieve Body```, ```Search``` and ```Quick Search``` methods.
+
+## Lighting Component Development
+Support kinds of lighting development, see [lighting component demo](https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif)
 
 for example, 
 

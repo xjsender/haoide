@@ -833,7 +833,7 @@ class RunOneTestCommand(sublime_plugin.WindowCommand):
         super(RunOneTestCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        self.classes_attr = util.populate_classes("ApexClass")
+        self.classes_attr = util.populate_components("ApexClass")
         self.classmap = {}
         for key in self.classes_attr:
             if not self.classes_attr[key]["is_test"]: continue

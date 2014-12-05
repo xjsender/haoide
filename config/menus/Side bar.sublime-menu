@@ -1,7 +1,6 @@
 [
     { "caption": "-" },
     {
-        "id": "SublimeApex",
         "caption": "SublimeApex",
         "children":
         [
@@ -112,5 +111,6 @@
                 "args": {"files": []}
             }
         ]
-    }
+    },
+    { "caption": "-" }
 ]

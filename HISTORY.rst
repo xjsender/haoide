@@ -5,6 +5,16 @@ Release History
 ---------------
 
 
+Release 2.5.3 (2014-12-05)
+++++++++++++++++++
+* Adjust the context menu from most bottom to center
+* Adjust the sidebar menu from most bottom to center
+* Fix Bug for issue #62: 'module' object has no attribute 'populate_classes'
+* Fix Bug for issue #61: KeyError: 'name' in `get_component_completion`
+* Fix Bug for issue #60: Error with 'Update Project'
+* Add lighting component description for `Lighting Component` development
+
+
 Release 2.5.2 (2014-11-27)
 ++++++++++++++++++
 * After new lighting component is created, deploy it to server

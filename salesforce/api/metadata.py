@@ -122,7 +122,7 @@ class MetadataApi():
         except Exception as e:
             self.result = {
                 "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
+                "URL": self.apex_url,
                 "Operation": "Execute Anonymous",
                 "success": False
             }
