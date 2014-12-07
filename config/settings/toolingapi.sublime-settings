@@ -12,6 +12,10 @@
     "workspace" : "C:/ForcedotcomWorkspace",
     "projects" : {
         "pro-test" : {
+            /**
+             * Below are Required Properties
+             */
+            
             // default is true means current project is active project
             // There should be only one active project in projects settings
             "default" : true,
@@ -25,6 +29,10 @@
             "password" : "sublime111111",
             "username" : "apex.sublime@dev.com",
 
+            /**
+             * Below are not required properties
+             */
+            
             // If you don't need security token,
             // just leave it as below or just delete below
             "security_token" : "",
@@ -32,6 +40,9 @@
             // Valid value should be package namespace
             // for example, "allowed_packages": ["sinaweibo", "twitter", "facebook"],
             "allowed_packages" : [],
+
+            // Allow custom workspace for every single project
+            "workspace": "C:/ForcedotcomWorkspace"
         }
     },
 

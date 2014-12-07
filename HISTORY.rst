@@ -5,6 +5,15 @@ Release History
 ---------------
 
 
+Release 2.5.4 (2014-12-07)
+++++++++++++++++++
+* Add `dateutil` module for supporting timezone converting
+* Fix Bug for `track debug log`
+* Trim the space for `REST URI` automatically
+* Remove `lib` from `Packages` in `.gitignore` file
+* Support project level workspace for issue #63, see more detail at `workspace <https://github.com/xjsender/SublimeApex#workspace>`_
+
+
 Release 2.5.3 (2014-12-05)
 ++++++++++++++++++
 * Adjust the context menu from most bottom to center

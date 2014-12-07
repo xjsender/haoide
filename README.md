@@ -31,8 +31,58 @@ See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), after you [installed the package control](https://sublime.wbond.net/installation#st3), you can install this plugin by searching ```Salesforce IDE``` in package control
 
 # Project Configuration
-If your operation system is **OSX**, you must set the workspace in ```SublimeApex``` > ```Setting``` > ```Setting - User```.
+## Worspace
+If your operation system is **OSX**, you must change the workspace in ```SublimeApex``` > ```Setting``` > ```Setting - User``` to override the default workspace.
 
+There are two tiers of workspace concept in this plugin, including plugin level workspace and project level workspace, the privilege level of project level is higher than the plugin level workspace, if you didn't define the workspace in the project property of ```projects``` setting, plugin will set your plugin level workspace to the default workspace, for example, if the settings is set as below:
+
+```javascript
+{
+    // Workspace in OSX is different with windows, 
+    // workspace can be "/Users/<Your User>/salesforce/workspace"
+    "workspace": "c:/salesforce/workspace1",
+    "projects": {
+        "pro-exercise": {
+            "default": true,
+            "login_url": "https://login.salesforce.com",
+            "password": "******",
+            "username": "mouse@exercise.com",
+            "workspace": "c:/salesforce/workspace2",
+        }
+    }
+}
+```
+
+Your plugin level workspace is ```c:/salesforce/workspace1```, your project level workspace is ```c:/salesforce/workspace2```, because you have defined your project level workspace, so the default workspace of ```pro-exercise``` project is ```c:/salesforce/workspace2```, however, if the settings is set as below,
+
+```javascript
+{
+    // Workspace in OSX is different with windows, 
+    // workspace can be "/Users/<Your User>/salesforce/workspace"
+    "workspace": "c:/salesforce/workspace1",
+    "projects": {
+        "pro-exercise": {
+            "default": true,
+            "login_url": "https://login.salesforce.com",
+            "password": "******",
+            "username": "mouse@exercise.com",
+            "workspace": "c:/salesforce/workspace2",
+        },
+
+        "sandbox-exercise": {
+            "default": true,
+            "login_url": "https://login.salesforce.com",
+            "password": "******",
+            "username": "mouse@exercise.com"
+        }
+    }
+}
+```
+
+Your plugin level workspace is ```c:/salesforce/workspace1```, because ```pro-exercise``` has its own workspace and ```sandbox-exercise``` doesn't have, so, the workspace of ```pro-exercise``` is ```c:/salesforce/workspace2```, the workspace of ```sandbox-exercise``` is ```c:/salesforce/workspace1```
+
+
+## Projects
 There is a default test org in this plugin, you can see it by clicking ```SublimeApex``` > ```Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project.
 
 In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```SublimeApex``` > ```Settings``` > ```Setting - User```.
@@ -89,7 +139,7 @@ if today is ```2013/07/30``` and user settings is
 {
     // Workspace in OSX is different with windows, 
     // workspace can be "/Users/<Your User>/salesforce/workspace"
-    "workspace": "d:/ForcedotcomWorkspace",
+    "workspace": "c:/ForcedotcomWorkspace",
     "projects": {
         "Exercise-Pro": {
             "default": true,
@@ -286,11 +336,11 @@ You can click ```SublimeApex``` > ```Export``` > ```Export Workbook``` to export
 
 If you just want to export some attributes of sobject workbook, you can remove some columns in the ```workbook_field_describe_columns``` setting and put it into your own user settings
 
-## Exceute Rest Test
-Up to now, support ```Get```, ```Post```, ```Put```, ```Patch```, ```Delete```, ```Tooling Query```, ```Query```, ```Query All```, ```Head```, ```Retrieve Body```, ```Search``` and ```Quick Search``` methods.
-
 ## Lighting Component Development
 Support kinds of lighting development, see [lighting component demo](https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif)
+
+## Exceute Rest Test
+Up to now, support ```Get```, ```Post```, ```Put```, ```Patch```, ```Delete```, ```Tooling Query```, ```Query```, ```Query All```, ```Head```, ```Retrieve Body```, ```Search``` and ```Quick Search``` methods.
 
 for example, 
 
@@ -412,3 +462,4 @@ Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanc
 # Build-in Dependency Lib
 + [requests](https://github.com/kennethreitz/requests)
 + [xmltodict](https://github.com/martinblech/xmltodict)
++ [dateutil](http://labix.org/python-dateutil/)

@@ -7,6 +7,7 @@ import urllib
 import pprint
 import sys
 import time
+import datetime
 import base64
 import zipfile
 import shutil
@@ -15,9 +16,48 @@ import xml.dom.minidom
  
 from .salesforce import message
 from .salesforce import xmltodict
+from .salesforce.lib import dateutil
+from .salesforce.lib.dateutil import tz
 from . import context
 from xml.sax.saxutils import unescape
 
+
+def get_local_timezone_offset():
+    """ Return the timezone offset of local time with GMT standard
+
+    Return:
+    * offset_hours -- date time offset hours with GMT
+    """
+    localtz = dateutil.tz.tzlocal()
+    localoffset = localtz.utcoffset(datetime.datetime.now(localtz))
+    offset_hours = localoffset.total_seconds() / 3600
+
+    return offset_hours
+
+# https://docs.python.org/3.2/library/datetime.html#strftime-and-strptime-behavior
+# http://stackoverflow.com/questions/12015170/how-do-i-automatically-get-the-timezone-offset-for-my-local-time-zone
+def local_datetime(server_datetime_str):
+    """ Convert the Datetime got from server to local GMT Datetime
+
+    Return:
+    * local_datetime -- local datetime with GMT offset
+    """
+    offset = get_local_timezone_offset()
+    local_datetime = datetime.datetime.strptime(server_datetime_str[:19], '%Y-%m-%dT%H:%M:%S')
+    local_datetime += datetime.timedelta(hours=offset)
+
+    return local_datetime
+
+def server_datetime(local_datetime):
+    """ Convert the Datetime got from local to GMT Standard
+
+    Return:
+    * server_datetime -- standard GMT server datetime
+    """
+    offset = get_local_timezone_offset()
+    server_datetime = local_datetime + datetime.timedelta(hours=-offset)
+
+    return server_datetime
 
 def populate_all_components():
     """ Get all components from local cache
