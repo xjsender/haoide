@@ -57,6 +57,9 @@ class ToolingApi():
 
         * url -- the valid salesforce REST URI
         """
+        # Before parse, trip first
+        component_url = component_url.strip()
+
         if "https://" in component_url:
             url = component_url
         elif "/services" in component_url:
@@ -630,9 +633,12 @@ class ToolingApi():
 
         # Check whether traced user already has trace flag
         # If not, just create it for him/her
-        time_stamp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.localtime(time.time()))
+        server_datetime = util.server_datetime(datetime.datetime.now())
+        server_datetime_str = server_datetime.strftime("%Y-%m-%dT%H:%M:%SZ")
         query = "SELECT Id, ExpirationDate FROM TraceFlag " +\
-                "WHERE TracedEntityId = '%s' AND ExpirationDate >= %s" % (traced_entity_id, time_stamp)
+                "WHERE TracedEntityId = '%s' AND ExpirationDate >= %s ORDER BY CreatedDate DESC" % (
+                    traced_entity_id, server_datetime_str
+                )
         result = self.query(query, True)
 
         # Exception Process
@@ -642,8 +648,10 @@ class ToolingApi():
 
         # If trace flag is exist, just delete it
         if result["totalSize"] > 0:
-            self.delete("/tooling/sobjects/TraceFlag/" + result["records"][0]["Id"])
-            return self.create_trace_flag(traced_entity_id)
+            result = result["records"][0]
+            result["success"] = True
+            self.result = result
+            return result
 
         # Create Trace Flag
         trace_flag = self.settings["trace_flag"]
@@ -651,9 +659,8 @@ class ToolingApi():
 
         # We must set the expiration date to next day, 
         # otherwise, the debug log record will not be created 
-        nextday = datetime.date.today() + datetime.timedelta(1)
-        nextday_str = datetime.datetime.strftime(nextday, "%Y-%m-%d")
-        trace_flag["ExpirationDate"] = nextday_str
+        next_day = util.server_datetime(datetime.datetime.now()) + datetime.timedelta(days=1)
+        trace_flag["ExpirationDate"] = next_day.strftime("%Y-%m-%dT%H:%M:%SZ")
         post_url = "/tooling/sobjects/TraceFlag"
         result = self.post(post_url, trace_flag)
 
@@ -662,7 +669,6 @@ class ToolingApi():
             self.result = result
             return self.result
 
-        result["message"] = "TraceFlag creation succeed"
         self.result = result
         return result
 
@@ -863,7 +869,7 @@ class ToolingApi():
             # C2P relationship query is not available, it's a bug?
             class_attr = result["records"][0]
             last_modified_id = class_attr["LastModifiedById"]
-            last_modified_date = class_attr["LastModifiedDate"][:19]
+            lmdate_str = util.local_datetime(class_attr["LastModifiedDate"])
             
             if not class_attr["LastModifiedById"] == self.session["user_id"]:
                 try:
@@ -875,7 +881,7 @@ class ToolingApi():
                 except:
                     last_modified_name = last_modified_id
 
-                message = "Modified by %s at %s, continue?" % (last_modified_name, last_modified_date.replace("T", " "))
+                message = "Modified by %s at %s, continue?" % (last_modified_name, lmdate_str)
                 if not sublime.ok_cancel_dialog(message):
                     util.append_message(panel, "Has conflict, comparing with server...")
                     self.result = {
@@ -884,8 +890,7 @@ class ToolingApi():
                     }
                     return self.result
             else:
-                util.append_message(panel, "No conflict, last modified by you at %s" % 
-                    last_modified_date.replace("T", " "))
+                util.append_message(panel, "No conflict, last modified by you at %s" % lmdate_str)
 
         # Get MetadataContainerId
         util.append_message(panel, "Start to fetch MetadataContainerId")

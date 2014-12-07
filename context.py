@@ -42,9 +42,9 @@ def get_settings():
 
     # User Settings Part
     settings["projects"] = projects
-    workspace = s.get("workspace") + "/" + default_project_name +\
-        ("-" + time.strftime('%Y%m%d') if s.get("keep_project_name_time_suffix") else "")
-    settings["workspace"] = workspace
+    workspace = default_project["workspace"] if "workspace" in default_project else s.get("workspace")
+    project_name = default_project_name + ("-" + time.strftime('%Y%m%d') if s.get("keep_project_name_time_suffix") else "")
+    settings["workspace"] = workspace + "/" + project_name
     settings["file_exclude_patterns"] = s.get("file_exclude_patterns", [])
     settings["folder_exclude_patterns"] = s.get("folder_exclude_patterns", [])
     settings["username"] = default_project.get("username")

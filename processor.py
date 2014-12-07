@@ -40,7 +40,7 @@ def populate_users():
     # Get settings
     settings = context.get_settings()
 
-    # If sobjects is exist in `/.config/session.json`, just return it
+    # If sobjects is exist in `/.config/users.json`, just return it
     users_path = settings["workspace"]+"/.config/users.json"
     if os.path.isfile(users_path):
         users = json.loads(open(users_path).read())
@@ -879,7 +879,7 @@ def handle_create_debug_log(user_name, user_id, timeout=120):
 
         result = api.result
         if not result["success"]: return
-        print (message.SEPRATE.format(user_name + " " + result["message"]) )
+        print (result)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
