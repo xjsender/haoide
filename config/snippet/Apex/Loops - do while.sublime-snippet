@@ -3,7 +3,7 @@
 do {
    $1
 } 
-while (${2:CONDITION}});
+while (${2:CONDITION});
 ]]></content>
     <tabTrigger>dw</tabTrigger>
     <scope>source.java</scope>

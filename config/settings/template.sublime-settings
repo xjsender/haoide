@@ -9,7 +9,7 @@
 
             "Component": {
                 "extension": ".cmp",
-                "body": "<aura:component implements=\"force:appHostable\">\n\t\n</aura:component>",
+                "body": "<aura:component>\n\t\n</aura:component>",
                 "children": ["Controller", "Helper", "Style", "Documentation", "Renderer"]
             },
 

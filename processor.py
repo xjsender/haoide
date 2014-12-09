@@ -1412,6 +1412,27 @@ def handle_create_component(data, component_name, component_type, markup_or_body
 
         # Save settings and show success message
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
+
+        # Create Meta.xml File
+        if component_type in ["ApexClass", "ApexTrigger"]:
+            meta_file_content = ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +\
+                "<{0} xmlns=\"http://soap.sforce.com/2006/04/metadata\">\n" +\
+                "    <apiVersion>{1}.0</apiVersion>\n" +\
+                "    <status>Active</status>\n" +\
+                "</{0}>").format(component_type, settings["api_version"])
+
+        elif component_type in ["ApexPage", "ApexComponent"]:
+            meta_file_content = ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +\
+                "<{0} xmlns=\"http://soap.sforce.com/2006/04/metadata\">\n" +\
+                "    <apiVersion>{1}.0</apiVersion>\n" +\
+                "    <label>{2}</label>\n" +\
+                "</{0}>").format(component_type, settings["api_version"], component_name)
+
+        # Generate new meta.xml file
+        with open(file_name+"-meta.xml", "w") as fp:
+            fp.write(meta_file_content)
+
+        # Output succeed message in console
         file_base_name = component_name + extension
         print (message.SEPRATE.format(
             "{0} is created successfully at {1}".format(file_base_name, 

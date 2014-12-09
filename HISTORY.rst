@@ -5,6 +5,17 @@ Release History
 ---------------
 
 
+Release 2.5.5 (2014-12-09)
+++++++++++++++++++
+* Fix Bug for creating Lighting Component Element
+* When deploy failed due to lower code coverage, display the coverage warning message
+* When new component is created, create the meta.xml file for it
+* Hide ``Retrieve Lighting from Server`` command when chosen folder is not aura folder
+* Hide ``Destruct Lighting from Server`` command when chosen folder is not aura folder
+* Hide ``Extract to Here`` command if file extension is not `zip` or `resource`
+* Update the Documentation
+
+
 Release 2.5.4 (2014-12-07)
 ++++++++++++++++++
 * Add `dateutil` module for supporting timezone converting

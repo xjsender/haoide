@@ -170,9 +170,10 @@ You can click ```SublimeApex > Update > Update Project``` in the main menu or pr
 + HTML Elements Completion
 + HTML and Visualforce Component Attribute Completion
 + HTML and Visualforce Component Attribute Value Completion
+See [Completions Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
 
 ## Execute Anonymous
-Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```SublimeApex``` > ```Execute Anonymous```, the executed result will be shown in a new view.
+Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```SublimeApex``` > ```Execute Anonymous```, you will see the result, you should be aware, if anonymous code compile is failed, message will be shown in output panel, just after compile succeed, the executed result will be shown in the new view.
 
 There has a ```log_levels``` setting in the default setting, If you want to change anonymous log levels, you can put your log levels settings into your user setting.
 
@@ -293,28 +294,36 @@ Put the focus in the Class Name, and then, press <kbd>shift</kbd>,  and click ``
 ## Retrieve All Metadata
 Click ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve All``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
 
+**This feature is not good enough, because there is no listPackage feature supported, for example, report and dashboard can't be retrieve if no detail folder/report is specified in package.xml**
+
 ## Retrieve Package.xml
 Click ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve Package.xml``` in the main menu, input your package file path, after that, you will see the effect.
 
 see [Retrieve Package.xml Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
 
+Actually, you can open any package.xml file in the sublime and click ``SublimeApex`` > ``Retrieve Package.xml`` command in the context menu to retrieve specified metadata from default project.
+
 ## Update Static Resource
-Choose the resource that you need to update in the side bar, firstly, you need to click ``SublimeApex`` > ``Extract StaticResource`` to extract it to sub folder of ``staticresources``, after you made some change in the extracted folder, choose the extracted folder name and click ``SublimeApex`` > ``Upload StaticResource`` to save it to server.
+Choose the resource that you need to update in the side bar, firstly, you need to click ``SublimeApex`` > ``Extract To Here`` to extract it to sub folder of ``staticresources``, after you made some change in the extracted folder, choose the extracted folder name and click ``SublimeApex`` > ``Upload StaticResource`` to save it to server.
+
+You can even use this command to extract any other zip file not limited to Salesforce StaticResource.
 
 see [UpdateStaticResource](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/UpdateStaticResource.gif)
 
 ## Deploy Package Zip
-Click ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve Metadata``` in the main menu, input your zip file path, after that, you will see the effect.
+Click ```SublimeApex``` > ```Metadata Migration``` > ```Deploy Package.zip``` in the main menu, input your zip file path, after that, you will see the effect.
 
 see [Deploy Package Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
 
-## Deploy Package Zip
-Click ```SublimeApex``` > ```Metadata Migration``` > ```Deploy Open Files``` in the main menu to deploy multiply files to target server, this command is just enabled when any one of open files is salesforce code files.
+## Deploy Open Files
+Sometimes, when you want to deploy class, page or somethings else, however, you didn't want to choose them in the sidebar when there are huge number of code files, you can open the files that you want to deploy to server and Click ```SublimeApex``` > ```Metadata Migration``` > ```Deploy Open Files``` in the main menu to deploy multiply files to target server. 
+
+Actually, you can even open code files in different orgs and deploy them to the same org, for example, there have three classes to be deployed, A and B are in UAT environment and they are newly developed feature, C in UAT environment is completely different with production environment and there is urgent bug needed to be fixed in production, so at this moment, you can open A and B classes in UAT and the fixed version of C class in production and click ```Deploy Open Files``` to deploy the three class from different orgs to production environment.
+
+This command is just enabled when any one of open files is salesforce code files.
 
 ## Deploy Package Folder
 Choose a valid package folder, click right button, check if the ```Deploy to Server``` command is enabled, if yes, it means the package folder is valid, and then click the ```Deploy To Server`` command, you will see the effect.
-
-**This feature is in beta now, Default Deploy checkOnly is true, need more detail? please check the deploy_options settings in default settings**
 
 see [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
 
@@ -332,7 +341,7 @@ If you just want to export some attributes of validation rules, you can remove s
 You can click ```SublimeApex``` > ```Export``` > ```Export CustomFields``` to export all custom fields in your org to csv.
 
 ## Export Workbook of sobjects
-You can click ```SublimeApex``` > ```Export``` > ```Export Workbook``` to export all sobject workbooks in your org to csv.
+You can click ```SublimeApex``` > ```Export``` > ```Export Workbook``` to export all sObject workbooks or some sObject separated with semi-colon in your org to csv.
 
 If you just want to export some attributes of sobject workbook, you can remove some columns in the ```workbook_field_describe_columns``` setting and put it into your own user settings
 
@@ -404,16 +413,12 @@ for example,
 
 + **Delete Sample**: input ```/sobjects/Account/001O000000MIiSXIA1``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Delete``` in the popup menu, wait for a moment, the delete result will be shown in the new view:
 ```
-{
-
-}
+{}
 ```
 
 + **Patch Sample**: Sometimes, you want to update some fields of record, you can input ```/sobjects/Account/001O000000MIiSXIA1``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Patch``` in the popup menu and input ```{"Name": "Test Path"}``` in the input panel, wait for a moment, the patch result will be shown in the new view:
 ```
-{
-
-}
+{}
 ```
 
 + **Search Sample**: Sometimes, want to test search action, you can input ```FIND {test}``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Search``` in the popup menu, wait for a moment, the patch result will be shown in the new view:

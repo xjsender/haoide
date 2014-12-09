@@ -1411,7 +1411,7 @@ class RetrieveLightingFromServer(sublime_plugin.WindowCommand):
             if os.path.isfile(_dir): continue
             base, _name = os.path.split(_dir)
             base, _folder = os.path.split(base)
-            if _folder not in self.settings["meta_folders"]: return False
+            if _folder != "aura": return False
             if self.settings["default_project_name"] not in _dir:
                 return False
 
@@ -1432,7 +1432,7 @@ class DestructLightingFromServer(sublime_plugin.WindowCommand):
         for _dir in dirs:
             base, name = os.path.split(_dir)
             base, _folder = os.path.split(base)
-            if _folder not in self.settings["meta_folders"]: return False
+            if _folder != "aura": return False
             if not util.check_enabled(_dir, check_cache=False): 
                 return False
 
@@ -1473,7 +1473,7 @@ class CreateLightingElement(sublime_plugin.WindowCommand):
 
         # If created succeed, just open it and refresh project
         window = sublime.active_window()
-        window.open_file(lihghting_file)
+        window.open_file(element_file)
         window.run_command("refresh_folder_list")
 
         # Deploy Aura to server
@@ -1717,6 +1717,12 @@ class ExtractToHere(sublime_plugin.WindowCommand):
             return False
 
         self._file = files[0]
+        try:
+            extension = self._file.split(".")[1]
+            if extension not in ["zip", "resource"]:
+                return False
+        except:
+            return False
 
         return True
 

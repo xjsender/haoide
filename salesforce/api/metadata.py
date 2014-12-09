@@ -703,14 +703,34 @@ class MetadataApi():
                         ))
             elif "errorMessage" in body:
                 util.append_message(panel, "\n" + body["errorMessage"], False)
-                util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
+
+            warning_messages = []
+            if "runTestResult" in body["details"]:
+                runTestResult = body["details"]["runTestResult"]
+                if "codeCoverageWarnings" in runTestResult:
+                    coverage_warnings = runTestResult["codeCoverageWarnings"]
+                    if isinstance(runTestResult["codeCoverageWarnings"], dict):
+                        coverage_warnings = [coverage_warnings]
+                    elif isinstance(runTestResult["codeCoverageWarnings"], list):
+                        coverage_warnings = coverage_warnings
+
+                    for warn in coverage_warnings:
+                        if not isinstance(warn["name"], str): continue
+                        warning_messages.append("%s -- %s" % (warn["name"], warn["message"]))
 
             # Output failure message
             if failures_messages:
                 util.append_message(panel, "\n\nAll Component Failures:", False)
                 util.append_message(panel, "\n"+"\n\n".join(failures_messages), False)
-                util.append_message(panel, "\n*********** %s FAILED ***********" % (
-                    deploy_or_validate.upper()), False)
+
+            # Output warning message
+            if warning_messages:
+                util.append_message(panel, "\n\nTest Coverage Warnings:", False)
+                util.append_message(panel, "\n"+"\n".join(warning_messages), False)
+            
+            # End for Deploy Result
+            util.append_message(panel, "\n*********** %s FAILED ***********" % (
+                deploy_or_validate.upper()), False)
         else:
             # Append succeed message
             util.append_message(panel, "\n[sf:%s] Request Succeed" % deploy_or_validate, False)

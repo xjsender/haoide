@@ -45,6 +45,7 @@ def local_datetime(server_datetime_str):
     offset = get_local_timezone_offset()
     local_datetime = datetime.datetime.strptime(server_datetime_str[:19], '%Y-%m-%dT%H:%M:%S')
     local_datetime += datetime.timedelta(hours=offset)
+    print ("offset: " + str(offset), "\nserver date: " + server_datetime_str, "\nlocal date: " + str(local_datetime))
 
     return local_datetime
 
