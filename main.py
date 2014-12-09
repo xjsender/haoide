@@ -430,19 +430,20 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
         super(RetrieveFilesFromServer, self).__init__(*args, **kwargs)
 
     def run(self, files):
+        settings = context.get_settings()
         package_dict = util.build_package_dict(files)
-        package_xml_content = util.build_package_xml(self.settings, package_dict)
+        package_xml_content = util.build_package_xml(settings, package_dict)
         processor.handle_retrieve_package(package_xml_content, 
-                                          self.settings["workspace"], 
+                                          settings["workspace"], 
                                           ignore_package_xml=True)
 
     def is_visible(self, files):
-        if len(files) == 0: return False
-        self.settings = context.get_settings()
+        if not files: return False
+        settings = context.get_settings()
         for _file in files:
             if not os.path.isfile(_file): continue # Ignore folder
             _folder = util.get_meta_folder(_file)
-            if _folder not in self.settings["meta_folders"]: return False
+            if _folder not in settings["meta_folders"]: return False
             if not util.check_enabled(_file, check_cache=False): 
                 return False
 
