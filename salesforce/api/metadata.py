@@ -223,8 +223,17 @@ class MetadataApi():
             session_id=self.session["session_id"],
             async_process_id=async_process_id)
 
-        response = requests.post(self.metadata_url, soap_body, 
-            verify=False, headers=headers)
+        try:
+            response = requests.post(self.metadata_url, soap_body, 
+                verify=False, headers=headers)
+        except Exception as e:
+            self.result = {
+                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
+                "URL": self.metadata_url,
+                "Operation": "RETRIEVE",
+                "success": False
+            }
+            return self.result
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -357,6 +366,12 @@ class MetadataApi():
         # 3 Obtain zipFile(base64)
         util.append_message(panel, "[sf:retrieve] Start to download package zipFile")
         result = self.check_retrieve_status(async_process_id)
+
+        # Catch exception of status retrieve
+        if not result["success"]:
+            self.result = result
+            return self.result
+
         util.append_message(panel, "[sf:retrieve] Finished zipFile downloading")
 
         # Output the message if have
@@ -450,7 +465,7 @@ class MetadataApi():
         soap_body = soap_bodies.check_deploy_status.format(
             self.session["session_id"], async_process_id)
         response = requests.post(self.metadata_url, soap_body, verify=False, 
-            headers=headers)
+            headers=headers, timeout=120)
 
         # If status_code is > 399, which means it has error
         content = response.content
@@ -462,11 +477,9 @@ class MetadataApi():
             else:
                 result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
                 result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
-            self.result = result
             return result
             
         result = xmltodict.parse(content)
-        # print (json.dumps(result, indent=4))
         try:
             header = None
             if "soapenv:Header" in result["soapenv:Envelope"]:

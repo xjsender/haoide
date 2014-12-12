@@ -12,6 +12,11 @@
     },
 
     {
+        "caption": "SublimeApex: Update Project Pattern",
+        "command": "update_project_patterns"
+    },
+
+    {
         "caption": "SublimeApex: Update User Language",
         "command": "update_user_language"
     },

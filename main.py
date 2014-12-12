@@ -601,6 +601,13 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
         super(DeployFilesToServer, self).__init__(*args, **kwargs)
 
     def run(self, files):
+        # Before deploy, save files to local
+        # Enhancement for issue #67
+        for _file in files:
+            view = util.get_view_by_file_name(_file)
+            if not view: continue
+            view.run_command("save")
+
         # Get the package path to deploy
         self.files = files
 
@@ -1310,17 +1317,18 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
 class DeployLightingElementToServer(sublime_plugin.TextCommand):
     def run(self, edit):
         if self.view.is_dirty(): self.view.run_command("save")
-        processor.handle_deploy_thread(util.build_aura_package([self._file]))
+        processor.handle_deploy_thread(util.build_aura_package([self.lightning_dir]))
 
     def is_visible(self):
         if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
-        self._file = self.view.file_name()
-        base, lighting_component_name = os.path.split(self._file)
-        base, lighting_name = os.path.split(base)
-        base, meta_type = os.path.split(base)
+        _file = self.view.file_name()
+        self.lightning_dir, lighting_component_name = os.path.split(_file)
+        aura_path, lighting_name = os.path.split(self.lightning_dir)
+        base, meta_type = os.path.split(aura_path)
+
         if meta_type != "aura": return False
-        if self.settings["default_project_name"] not in self._file:
+        if self.settings["default_project_name"] not in _file:
             return False
 
         return True

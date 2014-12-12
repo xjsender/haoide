@@ -468,3 +468,4 @@ Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanc
 + [requests](https://github.com/kennethreitz/requests)
 + [xmltodict](https://github.com/martinblech/xmltodict)
 + [dateutil](http://labix.org/python-dateutil/)
++ [xmlformatter](https://pypi.python.org/pypi/xmlformatter/)
