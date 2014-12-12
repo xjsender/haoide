@@ -13,7 +13,8 @@ import zipfile
 import shutil
 import webbrowser
 import xml.dom.minidom
- 
+
+from .salesforce.lib import xmlformatter
 from .salesforce import message
 from .salesforce import xmltodict
 from .salesforce.lib import dateutil
@@ -26,8 +27,10 @@ def get_local_timezone_offset():
     """ Return the timezone offset of local time with GMT standard
 
     Return:
+
     * offset_hours -- date time offset hours with GMT
     """
+
     localtz = dateutil.tz.tzlocal()
     localoffset = localtz.utcoffset(datetime.datetime.now(localtz))
     offset_hours = localoffset.total_seconds() / 3600
@@ -40,12 +43,13 @@ def local_datetime(server_datetime_str):
     """ Convert the Datetime got from server to local GMT Datetime
 
     Return:
+
     * local_datetime -- local datetime with GMT offset
     """
+    
     offset = get_local_timezone_offset()
     local_datetime = datetime.datetime.strptime(server_datetime_str[:19], '%Y-%m-%dT%H:%M:%S')
     local_datetime += datetime.timedelta(hours=offset)
-    print ("offset: " + str(offset), "\nserver date: " + server_datetime_str, "\nlocal date: " + str(local_datetime))
 
     return local_datetime
 
@@ -935,12 +939,17 @@ def build_deploy_package(files):
             if os.path.isfile(met_xml):
                 zf.write(met_xml, "%s/%s%s" % (f["folder"], f["name"], f["extension"]+"-meta.xml"))
 
-    # Write package.xml to zip
+    # Prepare package XML content
     package_xml_content = build_package_xml(settings, package_dict)
-    package_xml_path = settings["workspace"]+"/package.xml"
-    open(package_xml_path, "wb").write(package_xml_content.encode("utf-8"))
-    zf.write(package_xml_path, "package.xml")
-    os.remove(package_xml_path)
+    package_xml_content = format_xml(package_xml_content)
+
+    # Write package content to .package path
+    package_xml_dir = settings["workspace"]+"/.package"
+    if not os.path.exists(package_xml_dir): os.makedirs(package_xml_dir)
+    time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
+    package_xml_dir = package_xml_dir + "/package-%s.xml" % time_stamp
+    open(package_xml_dir, "wb").write(package_xml_content)
+    zf.write(package_xml_dir, "package.xml")
 
     # Close zip input stream
     zf.close()
@@ -1352,7 +1361,7 @@ def format_debug_logs(settings, records):
         for header in debug_log_headers:
             if header == "StartTime":
                 content += "%-*s" % (debug_log_headers_properties[header]["width"],
-                    record[header][0:19].replace('T', ' '))
+                    local_datetime(record[header]))
                 continue
             content += "%-*s" % (debug_log_headers_properties[header]["width"], record[header])
         content += "\n"
@@ -1405,6 +1414,27 @@ def format_waiting_message(result, header=""):
             error_message += "\n"
 
     return error_message
+
+def format_xml(xml_string, indent="4"):
+    """Return formatted XML string
+
+    Arguments:
+
+    * xml_string -- required parameter, not formatted XML string
+    * indent     -- optional parameter, format indent
+
+    Returns:
+
+    * content    -- formatted XML string
+    """
+
+    try:
+        formatter = xmlformatter.Formatter(indent=indent)
+        content = formatter.format_string(xml_string)
+    except:
+        content = xml_string.encode("utf-8")
+
+    return content
 
 def none_value(value):
     """

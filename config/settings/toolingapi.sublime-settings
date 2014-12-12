@@ -282,6 +282,9 @@
         "Case", "CaseStatus", "CaseComment", "Contract", "Solution",
         "OpportunityContactRole", "ContractContactRole", "AccountContactRole",
 
+        // History Objects
+        "OpportunityHistory", "OpportunityFieldHistory", "AccountHistory",
+
         // Task and Event Sobjects
         "Event", "EventRelation", "Task", "TaskStatus", "TaskPriority",
 

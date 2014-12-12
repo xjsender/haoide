@@ -900,6 +900,9 @@ class ToolingApi():
         container_url = "/tooling/sobjects/MetadataContainer"
         result = self.post(container_url, data)
 
+        # If not succeed, just skip
+        if not result["success"]: return
+
         # If status_code < 399, it means post succeed
         if result["success"]:
             container_id = result.get("id")

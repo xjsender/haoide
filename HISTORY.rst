@@ -5,6 +5,16 @@ Release History
 ---------------
 
 
+Release 2.5.6 (2014-12-13)
+++++++++++++++++++
+* Fix Bug for issue #65
+* Fix Bug for issue #66
+* Enhancement for issue #48, after deployed, the `package.xml` is saved to `.package` in workspace
+* Before files are deployed to server, save them to local
+* When you deploy any lighting element, just deploy the whole lighting component
+* Convert StartTime of debug log to local time by timezone module
+
+
 Release 2.5.5 (2014-12-09)
 ++++++++++++++++++
 * Fix Bug for creating Lighting Component Element
