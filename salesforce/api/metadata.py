@@ -7,7 +7,7 @@ import json
 import datetime
 from xml.sax.saxutils import unescape, quoteattr
 
-from .. import xmltodict, soap_bodies
+from .. import xmltodict, soap
 from ..login import soap_login
 from ... import requests, util
 
@@ -64,7 +64,7 @@ class MetadataApi():
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
         }
-        soap_body = soap_bodies.describe_layout_body.format(
+        soap_body = soap.describe_layout_body.format(
             session_id=self.session["session_id"], 
             sobject=sobject, recordtype_id=recordtype_id)
 
@@ -114,7 +114,7 @@ class MetadataApi():
             "SOAPAction": '""'
         }
 
-        soap_body = soap_bodies.run_all_test.format(session_id=self.session["session_id"])
+        soap_body = soap.run_all_test.format(session_id=self.session["session_id"])
 
         try:
             response = requests.post(self.apex_url, soap_body, verify=False, 
@@ -175,7 +175,7 @@ class MetadataApi():
             "Accept-Encoding": 'identity, deflate, compress, gzip',
             "SOAPAction": '""'
         }
-        soap_body = soap_bodies.check_status_body.format(
+        soap_body = soap.check_status_body.format(
             session_id=self.session["session_id"],
             async_process_id=async_process_id)
 
@@ -219,7 +219,7 @@ class MetadataApi():
             "Accept-Encoding": 'identity, deflate, compress, gzip',
             "SOAPAction": '""'
         }
-        soap_body = soap_bodies.check_retrieve_status_body.format(
+        soap_body = soap.check_retrieve_status_body.format(
             session_id=self.session["session_id"],
             async_process_id=async_process_id)
 
@@ -418,7 +418,7 @@ class MetadataApi():
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
         }
-        soap_body = soap_bodies.cancel_deployment.format(self.session["session_id"], async_process_id)
+        soap_body = soap.cancel_deployment.format(self.session["session_id"], async_process_id)
         response = requests.post(self.metadata_url, soap_body, verify=False, 
             headers=headers)
 
@@ -462,7 +462,7 @@ class MetadataApi():
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
         }
-        soap_body = soap_bodies.check_deploy_status.format(
+        soap_body = soap.check_deploy_status.format(
             self.session["session_id"], async_process_id)
         response = requests.post(self.metadata_url, soap_body, verify=False, 
             headers=headers, timeout=120)
@@ -537,7 +537,7 @@ class MetadataApi():
         # [sf:%s]
         util.append_message(panel, "[sf:%s] Start request for a deploy..." % deploy_or_validate)
 
-        soap_body = soap_bodies.deploy_package.format(
+        soap_body = soap.deploy_package.format(
             self.session["session_id"],
             base64_zip,
             deploy_options["allowMissingFiles"],
@@ -749,7 +749,8 @@ class MetadataApi():
             util.append_message(panel, "\n[sf:%s] Request Succeed" % deploy_or_validate, False)
             util.append_message(panel, "[sf:%s] *********** %s SUCCEEDED ***********" % (
                 deploy_or_validate, deploy_or_validate.upper()), False)
-            util.append_message(panel, "[sf:%s] Finished request %s successfully." % (deploy_or_validate, async_process_id), False)
+            util.append_message(panel, "[sf:%s] Finished request %s successfully." % (
+                deploy_or_validate, async_process_id), False)
 
         # Total time
         total_seconds = (datetime.datetime.now() - start_time).seconds

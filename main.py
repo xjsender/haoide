@@ -85,13 +85,41 @@ class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
 
         return True
 
+class ToggleComponent(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ToggleComponent, self).__init__(*args, **kwargs)
+
+    def run(self, subscribe=True):
+        self.subscribe = subscribe
+        self.s = sublime.load_settings("toolingapi.sublime-settings")
+        self.components = self.s.get("components")
+        if self.subscribe:
+            self.component_types = [c["type"] for c in self.components if not c["subscribe"]]
+        else:
+            self.component_types = [c["type"] for c in self.components if c["subscribe"]]
+        self.window.show_quick_panel(self.component_types, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        subscribe_type = None
+        for c in self.components:
+            if c["type"] == self.component_types[index]:
+                c["subscribe"] = self.subscribe
+                subscribe_type = c["type"]
+                break
+
+        self.s.set("components", self.components)
+        sublime.save_settings("toolingapi.sublime-settings")
+        sublime.status_message("%s is subscribed" % subscribe_type)
+
 class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ReloadSobjectCacheCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        confirm = sublime.ok_cancel_dialog("Are you sure you really want to update sObject cache?")
-        if confirm == False: return
+        message = "Are you sure you really want to update sObject cache?"
+        if not sublime.ok_cancel_dialog(message): return
         processor.handle_reload_sobjects_completions()
 
 class ReloadSymbolTableCacheCommand(sublime_plugin.WindowCommand):
@@ -99,7 +127,8 @@ class ReloadSymbolTableCacheCommand(sublime_plugin.WindowCommand):
         super(ReloadSymbolTableCacheCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        confirm = sublime.ok_cancel_dialog("Are you sure you really want to update symbol table cache?")
+        message = "Are you sure you really want to update symbol table cache?"
+        if not sublime.ok_cancel_dialog(message): return
         if confirm == False: return
         processor.handle_reload_symbol_tables()
 
@@ -108,10 +137,10 @@ class ClearSessionCacheCommand(sublime_plugin.WindowCommand):
         super(ClearSessionCacheCommand, self).__init__(*args, **kwargs)
 
     def run(self):
+        message = "Are you sure you really want to clear session?"
+        if not sublime.ok_cancel_dialog(message): return
+
         settings = context.get_settings()
-        confirm = sublime.ok_cancel_dialog("Are you sure you really want to clear session?")
-        if confirm == False: return
-        
         session_path = settings["workspace"]+"/.config/session.json"
         try:
             os.remove(session_path)
@@ -134,8 +163,8 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
 
     def on_done(self, index):
         if index == -1: return
-        confirm = sublime.ok_cancel_dialog("Are you sure you really want to clear this?")
-        if confirm == False: return
+        message = "Are you sure you really want to clear this cache?"
+        if not sublime.ok_cancel_dialog(message): return
         util.clear_cache(self.caches[index][1], self.cache_name)
 
 class Convert15Id218IdCommand(sublime_plugin.WindowCommand):
@@ -366,32 +395,57 @@ class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
         if confirm == False: return
         processor.handle_retrieve_all_thread(retrieve_all=retrieve_all)
 
-class RetrievePackageCommand(sublime_plugin.WindowCommand):
+class CreatePackageXml(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(RetrievePackageCommand, self).__init__(*args, **kwargs)
+        super(CreatePackageXml, self).__init__(*args, **kwargs)
 
-    def run(self):
-        path = sublime.get_clipboard()
-        if not os.path.isfile(path): path = ""
-        self.window.show_input_panel("Input Package.xml Path: ", 
-            path, self.on_input, None, None)
+    def run(self, dirs):
+        _dir = dirs[0]
+        settings = context.get_settings()
+        package_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
+            <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+                <types>
+                    <members>*</members>
+                    <name>ApexClass</name>
+                </types>
+                <version>{0}.0</version>
+            </Package>
+        """.format(settings["api_version"])
+        file_name = os.path.join(_dir, "package.xml")
+        if os.path.isfile(file_name):
+            if not sublime.ok_cancel_dialog("Package.xml is already exist, override?"):
+                return
 
-    def on_input(self, _file):
-        if not _file.lower().endswith('xml'): 
-            sublime.error_message("Input file must be valid Package.xml file")
-            return
+        with open(file_name, "wb") as fp:
+            fp.write(util.format_xml(package_xml_content))
 
-        if not os.path.exists(_file):
-            sublime.error_message(_file + " is not valid file")
-            return
+        # If created succeed, just open it
+        sublime.active_window().open_file(file_name)
 
+    def is_visible(self, dirs):
+        if not dirs or len(dirs) > 1: return False
+        return True
+
+class RetrievePackageXml(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RetrievePackageXml, self).__init__(*args, **kwargs)
+
+    def run(self, files=None):
+        _file = files[0]
         path, name = os.path.split(_file)
         package_xml_content = open(_file, "rb").read()
         time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
         settings = context.get_settings()
         project_name = settings["default_project_name"]
-        extract_to = os.path.join(path, project_name+"-"+time_stamp)
-        processor.handle_retrieve_package(package_xml_content, path)
+        extract_to = os.path.join(path, project_name+"-"+name)
+        processor.handle_retrieve_package(package_xml_content, extract_to)
+
+    def is_visible(self, files=None):
+        if not files: return False
+        if files and len(files) > 1: return False
+        if files and not files[0].endswith(".xml"): return False
+
+        return True
 
 class RetrievePackageFileCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -1671,6 +1725,9 @@ class UpdateUserLanguageCommand(sublime_plugin.WindowCommand):
 
         chosen_language = self.languages[index]
         processor.handle_update_user_language(self.languages_settings[chosen_language])
+
+    def is_enabled(self):
+        return util.check_new_component_enabled()
 
 class UpdateProjectPatternsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

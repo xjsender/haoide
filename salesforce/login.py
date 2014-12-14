@@ -5,7 +5,7 @@ import time
 from xml.sax.saxutils import escape
 
 from .. import requests
-from . import soap_bodies
+from . import soap
 from .. import util
 
 # https://github.com/xjsender/simple-salesforce/blob/master/simple_salesforce/login.py
@@ -16,7 +16,7 @@ def soap_login(settings, session_id_expired=False, timeout=120):
             session = json.loads(open(session_path).read())
             return session
 
-    login_soap_request_body = soap_bodies.login_body.format(
+    login_soap_request_body = soap.login_body.format(
         username = settings["username"], 
         password = escape(settings["password"]) + settings["security_token"])
 

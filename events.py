@@ -57,9 +57,17 @@ class SFDCEventListener(sublime_plugin.EventListener):
         elif "extensions" in matched_block:
             template_name = "StandardController Extension"
 
-        # Check whether the class is exist
+        # Check whether project of current page is active
         settings = context.get_settings();
-        file_name = "%s/src/classes/%s.cls" % (settings["workspace"], class_name)
+        base, name = os.path.split(view.file_name())
+        src, meta_type = os.path.split(base)
+        default_project = settings["default_project_name"]
+        if default_project not in src:
+            sublime.error_message("Current page is not in active project")
+            return
+
+        # Check whether the class is exist
+        file_name = os.path.join(src, "classes", class_name+".cls")
         if os.path.exists(file_name): 
             sublime.error_message("%s is already exist" % class_name)
             return

@@ -15,7 +15,7 @@ import math
 from xml.sax.saxutils import unescape
 from . import requests, context, util
 from .context import COMPONENT_METADATA_SETTINGS
-from .salesforce import soap_bodies, message
+from .salesforce import soap, message
 from .salesforce.api.bulk import BulkJob
 from .salesforce.api.bulk import BulkApi
 from .salesforce.api.metadata import MetadataApi
@@ -249,7 +249,7 @@ def handle_refresh_folder(folders_dict, timeout=120):
     for folder in folders_dict:
         meta_types.append(settings[folder]["type"])
     types = util.build_package_types(meta_types)
-    body = soap_bodies.retrieve_body.replace("{{allowed_packages}}", "").replace("{{meta_types}}", types)
+    body = soap.retrieve_body.replace("{{allowed_packages}}", "").replace("{{meta_types}}", types)
     thread = threading.Thread(target=api.retrieve, args=(body, ))
     thread.start()
     handle_thread(thread, timeout)
@@ -621,9 +621,9 @@ def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
     api = MetadataApi(settings)
 
     if retrieve_all:
-        soap_body = soap_bodies.retrieve_all_task_body
+        soap_body = soap.retrieve_all_task_body
     else:
-        soap_body = soap_bodies.retrieve_sobjects_workflow_task_body
+        soap_body = soap.retrieve_sobjects_workflow_task_body
 
     thread = threading.Thread(target=api.retrieve, args=(soap_body, ))
     thread.start()
@@ -1176,7 +1176,7 @@ def handle_new_project(settings, is_update=False, timeout=120):
     settings = context.get_settings()
     api = MetadataApi(settings)
     types = util.build_package_types(settings["subscribed_meta_types"])
-    body = soap_bodies.retrieve_body.replace("{{meta_types}}", types)
+    body = soap.retrieve_body.replace("{{meta_types}}", types)
     body = body.replace("{{allowed_packages}}", 
         "".join(["<met:packageNames>%s</met:packageNames>" % a for a in settings["allowed_packages"]]))
     thread = threading.Thread(target=api.retrieve, args=(body, ))
@@ -1210,7 +1210,7 @@ def handle_retrieve_package(package_xml_content, extract_to,
         sublime.error_message("XML Parse Error: "+str(err))
         return
 
-    body = soap_bodies.retrieve_body.replace("{{meta_types}}", types)
+    body = soap.retrieve_body.replace("{{meta_types}}", types)
     thread = threading.Thread(target=api.retrieve, args=(body, ))
     thread.start()
     handle_thread(thread, timeout)

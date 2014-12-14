@@ -98,11 +98,6 @@
                 "caption": "Cache",
                 "children": [
                     {
-                        "id": "clearsession",
-                        "caption": "Clear Session Cache",
-                        "command": "clear_session_cache"
-                    },
-                    {
                         "id": "reloadsymboltablecache",
                         "caption": "Reload SymbolTable Cache",
                         "command": "reload_symbol_table_cache"
@@ -127,6 +122,11 @@
                         "args": {
                             "cache_name": "sobjects_completion"
                         }
+                    },
+                    {
+                        "id": "clearsession",
+                        "caption": "Clear Session Cache",
+                        "command": "clear_session_cache"
                     }
                 ]
             },
@@ -359,11 +359,8 @@
                             "retrieve_all": false
                         }
                     },
-                    {
-                        "id": "retrievepackage",
-                        "caption": "Retrieve Package.xml",
-                        "command": "retrieve_package"
-                    },
+
+                    { "caption": "-" },
 
                     {
                         "id": "deployzip",
@@ -437,6 +434,26 @@
             {
                 "caption": "Settings",
                 "children": [
+                    {
+                        "id": "subscribecomponent",
+                        "caption": "Subscribe Component",
+                        "command": "toggle_component",
+                        "args": {
+                            "subscribe": true
+                        }
+                    },
+
+                    {
+                        "id": "unsubscribecomponent",
+                        "caption": "Unsubscribe Component",
+                        "command": "toggle_component",
+                        "args": {
+                            "subscribe": false
+                        }
+                    },
+
+                    { "caption": "-" },
+
                     {
                         "command": "open_file", 
                         "args": {

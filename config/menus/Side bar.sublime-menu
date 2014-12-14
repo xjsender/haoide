@@ -27,6 +27,17 @@
                 "args": {"files": []}
             },
 
+            {"caption": "-"},
+
+            {
+                "caption": "Retrieve Package.xml", "command": "retrieve_package_xml",
+                "args": {"files": []}
+            },
+
+            {
+                "caption": "Create Package.xml", "command": "create_package_xml",
+                "args": {"dirs": []}
+            },
 
             {"caption": "-"},
 

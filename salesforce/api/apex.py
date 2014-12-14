@@ -7,7 +7,7 @@ import json
 import datetime
 from xml.sax.saxutils import unescape, quoteattr
 
-from .. import xmltodict, soap_bodies
+from .. import xmltodict, soap
 from ..login import soap_login
 from ... import requests, util
 
@@ -59,7 +59,7 @@ class ApexApi():
             "SOAPAction": '""'
         }
 
-        soap_body = soap_bodies.run_all_test.format(session_id=self.session["session_id"])
+        soap_body = soap.run_all_test.format(session_id=self.session["session_id"])
         try:
             response = requests.post(self.apex_url, soap_body, verify=False, 
                 headers=headers)
@@ -136,7 +136,7 @@ class ApexApi():
             </apex:categories>
             """ % (log_level["log_category"], log_level["log_level"])
 
-        soap_body = soap_bodies.execute_anonymous_body.format(
+        soap_body = soap.execute_anonymous_body.format(
             log_levels=log_levels,
             session_id=self.session["session_id"], 
             apex_string=apex_string)

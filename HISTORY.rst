@@ -5,6 +5,21 @@ Release History
 ---------------
 
 
+Release 2.5.7 (2014-12-14)
+++++++++++++++++++
+* Fix Bug for creating extension or controller after input # in visualforce page
+* Adjust the location of ``Cache`` menu item
+* Add a new command for ``retrieve package.xml`` in sidebar menu
+* Add a new command for ``create package.xml`` in sidebar menu
+* Add a new command for ``subscribe component`` in ``settings`` of main menu
+* Add a new command for ``unsubscribe component`` in ``settings`` of main menu
+* Add quick command for ``subscribe component`` in quick command palette
+* Add quick command for ``unsubscribe component`` in quick command palette
+* Remove ``retrieve_package_xml`` command from ``Metadata Migration`` of main menu
+* Rename ``soap_bodies`` to ``soap``
+* Update visibility for ``Update User Language``
+
+
 Release 2.5.6 (2014-12-13)
 ++++++++++++++++++
 * Fix Bug for issue #65
@@ -895,7 +910,7 @@ Release 0.3.2  (2014-03-22)
 Release 0.3.0 (2014-03-20)
 ++++++++++++++++++
 
-- Remove the duplicate ``New Component`` command and add ``New ApexPage`` command in the quick command plate
+- Remove the duplicate ``New Component`` command and add ``New ApexPage`` command in the quick command palette
 - Update the apex standard class lib
 - Add SymbolTable support for completions (Completion Parser is copy from Mavensmate)
 

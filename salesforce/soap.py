@@ -1,11 +1,11 @@
 # Body for creating job and closing job
 create_job = """<?xml version="1.0" encoding="UTF-8"?>
-                <jobInfo xmlns="http://www.force.com/2009/06/asyncapi/dataload">
-                    <operation>{operation}</operation>
-                    <object>{sobject}</object>
-                    <concurrencyMode>Parallel</concurrencyMode>
-                    <contentType>CSV</contentType>
-                </jobInfo>"""
+<jobInfo xmlns="http://www.force.com/2009/06/asyncapi/dataload">
+    <operation>{operation}</operation>
+    <object>{sobject}</object>
+    <concurrencyMode>Parallel</concurrencyMode>
+    <contentType>CSV</contentType>
+</jobInfo>"""
 
 close_job = """<?xml version="1.0" encoding="UTF-8"?>
                 <jobInfo xmlns="http://www.force.com/2009/06/asyncapi/dataload">
@@ -175,7 +175,7 @@ deploy_package = """
     xmlns:met="http://soap.sforce.com/2006/04/metadata">
         <soapenv:Header>
             <met:SessionHeader>
-               <met:sessionId>{0}</met:sessionId>
+                <met:sessionId>{0}</met:sessionId>
             </met:SessionHeader>
         </soapenv:Header>
        <soapenv:Body>

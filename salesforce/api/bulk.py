@@ -5,7 +5,7 @@ import os
 import csv
 
 from ..login import soap_login
-from .. import soap_bodies, xmltodict
+from .. import soap, xmltodict
 from ... import requests, util
 from ..api.tooling import ToolingApi
 
@@ -215,7 +215,7 @@ class BulkJob():
             return self.result
 
         url = self.base_url + "/job"
-        body = soap_bodies.create_job.format(operation=self.operation, sobject=self.sobject)
+        body = soap.create_job.format(operation=self.operation, sobject=self.sobject)
         response = requests.post(url, body, verify=False, headers=self.headers)
         self.job_id = util.getUniqueElementValueFromXmlString(response.content, "id")
 
@@ -322,7 +322,7 @@ class BulkJob():
         if job_id: self.job_id = job_id
         
         url = self.base_url + "/job/%s" % self.job_id
-        body = soap_bodies.close_job
+        body = soap.close_job
 
         response = requests.post(url, body, verify=False, headers=self.headers)
         return response.status_code
