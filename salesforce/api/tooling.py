@@ -623,22 +623,20 @@ class ToolingApi():
         """ Create Debug Log Trace by traced_entity_id
 
         Arguments:
-
+        
         * traced_entity_id -- Optional; Component Id or User Id
         """
 
+        # If traced_entity_id is none, just set it as current user
         if not traced_entity_id:
             self.login()
             traced_entity_id = self.session["user_id"]
 
         # Check whether traced user already has trace flag
         # If not, just create it for him/her
-        server_datetime = util.server_datetime(datetime.datetime.now())
-        server_datetime_str = server_datetime.strftime("%Y-%m-%dT%H:%M:%SZ")
+        time_stamp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.localtime(time.time()))
         query = "SELECT Id, ExpirationDate FROM TraceFlag " +\
-                "WHERE TracedEntityId = '%s' AND ExpirationDate >= %s ORDER BY CreatedDate DESC" % (
-                    traced_entity_id, server_datetime_str
-                )
+                "WHERE TracedEntityId = '%s' AND ExpirationDate >= %s" % (traced_entity_id, time_stamp)
         result = self.query(query, True)
 
         # Exception Process
@@ -648,10 +646,8 @@ class ToolingApi():
 
         # If trace flag is exist, just delete it
         if result["totalSize"] > 0:
-            result = result["records"][0]
-            result["success"] = True
-            self.result = result
-            return result
+            self.delete("/tooling/sobjects/TraceFlag/" + result["records"][0]["Id"])
+            return self.create_trace_flag(traced_entity_id)
 
         # Create Trace Flag
         trace_flag = self.settings["trace_flag"]
@@ -659,8 +655,9 @@ class ToolingApi():
 
         # We must set the expiration date to next day, 
         # otherwise, the debug log record will not be created 
-        next_day = util.server_datetime(datetime.datetime.now()) + datetime.timedelta(days=1)
-        trace_flag["ExpirationDate"] = next_day.strftime("%Y-%m-%dT%H:%M:%SZ")
+        nextday = datetime.date.today() + datetime.timedelta(1)
+        nextday_str = datetime.datetime.strftime(nextday, "%Y-%m-%d")
+        trace_flag["ExpirationDate"] = nextday_str
         post_url = "/tooling/sobjects/TraceFlag"
         result = self.post(post_url, trace_flag)
 
@@ -669,6 +666,7 @@ class ToolingApi():
             self.result = result
             return self.result
 
+        result["message"] = "TraceFlag creation succeed"
         self.result = result
         return result
 
