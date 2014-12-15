@@ -85,33 +85,39 @@ class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
 
         return True
 
-class ToggleComponent(sublime_plugin.WindowCommand):
+class ToggleComponents(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(ToggleComponent, self).__init__(*args, **kwargs)
+        super(ToggleComponents, self).__init__(*args, **kwargs)
 
-    def run(self, subscribe=True):
-        self.subscribe = subscribe
+    def run(self):
         self.s = sublime.load_settings("toolingapi.sublime-settings")
         self.components = self.s.get("components")
-        if self.subscribe:
-            self.component_types = [c["type"] for c in self.components if not c["subscribe"]]
-        else:
-            self.component_types = [c["type"] for c in self.components if c["subscribe"]]
+        self.components = sorted(self.components, key=lambda k : k['subscribe'])
+        self.component_types = ["%s=>%s" % ("Subscribed" if c["subscribe"] else "Unsubscribed", 
+            c["type"]) for c in self.components]
+        self.component_types = sorted(self.component_types)
         self.window.show_quick_panel(self.component_types, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
 
-        subscribe_type = None
+        chosen_type = self.component_types[index].split("=>")[1]
+        subscribe_type, is_subscribe = None, False
         for c in self.components:
-            if c["type"] == self.component_types[index]:
-                c["subscribe"] = self.subscribe
+            if c["type"] == chosen_type:
+                c["subscribe"] = is_subscribe = not c["subscribe"]
                 subscribe_type = c["type"]
                 break
 
         self.s.set("components", self.components)
         sublime.save_settings("toolingapi.sublime-settings")
-        sublime.status_message("%s is subscribed" % subscribe_type)
+        sublime.status_message("%s is %s" % (subscribe_type, 
+            "subscribed" if is_subscribe else "unsubscribed"))
+
+        if not is_subscribe: return
+        settings = context.get_settings()
+        folder = os.path.join(settings["workspace"], "src", settings[chosen_type]["folder"])
+        sublime.active_window().run_command("refresh_folder", {"dirs": [folder]})
 
 class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -119,7 +125,7 @@ class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         message = "Are you sure you really want to update sObject cache?"
-        if not sublime.ok_cancel_dialog(message): return
+        if not sublime.ok_cancel_dialog(message, "Confirm Reload?"): return
         processor.handle_reload_sobjects_completions()
 
 class ReloadSymbolTableCacheCommand(sublime_plugin.WindowCommand):
@@ -127,8 +133,8 @@ class ReloadSymbolTableCacheCommand(sublime_plugin.WindowCommand):
         super(ReloadSymbolTableCacheCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        message = "Are you sure you really want to update symbol table cache?"
-        if not sublime.ok_cancel_dialog(message): return
+        message = "Are you sure you really want to reload symbol table cache?"
+        if not sublime.ok_cancel_dialog(message, "Confirm Reload"): return
         if confirm == False: return
         processor.handle_reload_symbol_tables()
 
@@ -138,7 +144,7 @@ class ClearSessionCacheCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         message = "Are you sure you really want to clear session?"
-        if not sublime.ok_cancel_dialog(message): return
+        if not sublime.ok_cancel_dialog(message, "Confirm Clear?"): return
 
         settings = context.get_settings()
         session_path = settings["workspace"]+"/.config/session.json"
@@ -164,7 +170,7 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
     def on_done(self, index):
         if index == -1: return
         message = "Are you sure you really want to clear this cache?"
-        if not sublime.ok_cancel_dialog(message): return
+        if not sublime.ok_cancel_dialog(message, "Confirm Clear"): return
         util.clear_cache(self.caches[index][1], self.cache_name)
 
 class Convert15Id218IdCommand(sublime_plugin.WindowCommand):
@@ -238,7 +244,7 @@ class ExecuteRestTest(sublime_plugin.TextCommand):
         except ValueError as ve:
             panel = sublime.active_window().create_output_panel('log')  # Create panel
             util.append_message(panel, 'JSON Input Parse Error: ' + str(ve), False)
-            if not sublime.ok_cancel_dialog("Do you want to try again?"): return
+            if not sublime.ok_cancel_dialog("Do you want to try again?", "Yes?"): return
             self.view.window().show_input_panel("Input JSON Body: ", 
                 "", self.on_input, None, None)
             return
@@ -364,12 +370,23 @@ class RefreshFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        confirm = sublime.ok_cancel_dialog("Are you sure you really want to refresh this folder")
-        if not confirm: return
+        message = "Are you sure you really want to refresh %s"
+        if len(dirs) == 1:
+            base, folder = os.path.split(dirs[0])
+            message = message % folder + " folder"
+        else:
+            message = message % "these folders"
+        if not sublime.ok_cancel_dialog(message, "Refresh Folders"): return
 
+        # Makedir
+        for _dir in dirs:
+            if not os.path.exists(_dir):
+                os.makedirs(_dir)
+
+        # Retrieve file from server
         processor.handle_refresh_folder(self.folders_dict)
 
-    def is_visible(self, dirs):
+    def is_enabled(self, dirs):
         if not dirs: return False
 
         # Get settings
@@ -391,8 +408,8 @@ class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
         super(RetrieveMetadataCommand, self).__init__(*args, **kwargs)
 
     def run(self, retrieve_all=True):
-        confirm = sublime.ok_cancel_dialog("Are your sure you really want to continue?")
-        if confirm == False: return
+        message = "Are your sure you really want to continue?"
+        if not sublime.ok_cancel_dialog(message, "Retrieve Metadata"): return
         processor.handle_retrieve_all_thread(retrieve_all=retrieve_all)
 
 class CreatePackageXml(sublime_plugin.WindowCommand):
@@ -413,7 +430,8 @@ class CreatePackageXml(sublime_plugin.WindowCommand):
         """.format(settings["api_version"])
         file_name = os.path.join(_dir, "package.xml")
         if os.path.isfile(file_name):
-            if not sublime.ok_cancel_dialog("Package.xml is already exist, override?"):
+            message = "Package.xml is already exist, override?"
+            if not sublime.ok_cancel_dialog(message, "Override?"):
                 return
 
         with open(file_name, "wb") as fp:
@@ -532,8 +550,8 @@ class DestructFilesFromServer(sublime_plugin.WindowCommand):
         super(DestructFilesFromServer, self).__init__(*args, **kwargs)
 
     def run(self, files):
-        confirm = sublime.ok_cancel_dialog("Are you sure you really want to continue?")
-        if not confirm: return
+        message = "Are you sure you really want to destruct these files?"
+        if not sublime.ok_cancel_dialog(message, "Destruct Files From Server"): return
         processor.handle_destructive_files(files)
 
     def is_visible(self, files):
@@ -817,7 +835,7 @@ class ExportWorkbookCommand(sublime_plugin.WindowCommand):
             for sobject in sobjects:
                 if sobject not in sobjects_describe:
                     message = '"%s" is not valid sobject, do you want to try again?' % sobject
-                    if not sublime.ok_cancel_dialog(message): return
+                    if not sublime.ok_cancel_dialog(message, "Continue?"): return
                     self.window.show_input_panel("Sobjects(* means all, or sobjects seprated with semi-colon)", 
                         input, self.on_input, None, None)
                     return
@@ -857,16 +875,6 @@ class PreviewPageCommand(sublime_plugin.TextCommand):
         if not self.view.file_name(): return False
         self.filename, self.extension = util.get_file_attr(self.view.file_name())
         return self.extension == ".page"
-
-class RunAllTestCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(RunAllTestCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        confirm = sublime.ok_cancel_dialog("Are you sure you really want to continue?")
-        if confirm == False: return
-
-        processor.handle_run_all_test()
 
 class RunOneTestCommand(sublime_plugin.WindowCommand):
     """ List the test classes from local cache, after any one is chosen,
@@ -1314,7 +1322,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         # Create component to local according to user input
         if not re.match('^[a-zA-Z]+\\w+$', input):
             message = 'Invalid format, do you want to try again?'
-            if not sublime.ok_cancel_dialog(message): return
+            if not sublime.ok_cancel_dialog(message, "Try Again?"): return
             self.window.show_input_panel("Please Input Name: ", "", self.on_input, None, None)
             return
         
@@ -1340,7 +1348,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         file_name = "%s/%s" % (component_outputdir, self.component_name + extension)
         if os.path.isfile(file_name):
             message = '"%s" is already exist, do you want to try again?' % self.component_name
-            if not sublime.ok_cancel_dialog(message): return
+            if not sublime.ok_cancel_dialog(message, "Continue?"): return
             self.window.show_input_panel("Please Input Name: ", "", self.on_input, None, None)
             return
 
@@ -1599,7 +1607,7 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
             os.makedirs(component_dir)
         else:
             message = lighting_name+" is already exist, do you want to try again?"
-            if not sublime.ok_cancel_dialog(message): return
+            if not sublime.ok_cancel_dialog(message, "Try Again?"): return
             self.window.show_input_panel("Please Input Lighting Name: ", 
                 "", self.on_input, None, None)
             return
@@ -1745,8 +1753,8 @@ class UpdateProjectCommand(sublime_plugin.WindowCommand):
         super(UpdateProjectCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        confirm = sublime.ok_cancel_dialog("Are you sure you really want to update this project?")
-        if confirm == False: return
+        message = "Are you sure you really want to update this project?"
+        if not sublime.ok_cancel_dialog(message, "Update Project?"): return
         settings = context.get_settings()
         util.add_project_to_workspace(settings)
         processor.handle_new_project(settings, is_update=True)
@@ -1761,11 +1769,19 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
     def run(self):
         # Get settings
         settings = context.get_settings()
+        if sublime.platform() == "osx" and "c:/salesforce/workspace" in settings["workspace"]:
+            sublime.active_window().open_file(sublime.packages_path()+"/User/toolingapi.sublime-settings")
+            message = "Do you want to take a look at how to config your workspace"
+            if not sublime.ok_cancel_dialog(message, "Go to Github"): return
+            util.open_with_browser("https://github.com/xjsender/SublimeApex#worspace")
+            return
+
         dpn = settings["default_project"]["project_name"]
         message = "Are you sure you really want to create new project for %s?" % dpn
-        if sublime.ok_cancel_dialog(message):
-            util.add_project_to_workspace(settings)
-            processor.handle_new_project(settings)
+        if not sublime.ok_cancel_dialog(message, "Create New Project?"): return
+        
+        util.add_project_to_workspace(settings)
+        processor.handle_new_project(settings)
 
 class ExtractToHere(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1812,8 +1828,8 @@ class UpdateStaticResource(sublime_plugin.WindowCommand):
 
 class RefreshComponentCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        confirm = sublime.ok_cancel_dialog("Are you sure you want to continue?")
-        if not confirm: return
+        message = "Are you sure you want to continue?"
+        if not sublime.ok_cancel_dialog(message, "Refresh This?"): return
     
         # Get file_name and component_attribute
         file_name = self.view.file_name()
@@ -1833,8 +1849,8 @@ class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
         super(RefreshSelectedComponentsCommand, self).__init__(*args, **kwargs)
 
     def run(self, files):
-        confirm = sublime.ok_cancel_dialog("Are you sure you really want to continue?")
-        if not confirm: return
+        message = "Are you sure you really want to continue?"
+        if not sublime.ok_cancel_dialog(message, "Refresh Selected?"): return
 
         for file_name in self._files:
             if file_name.endswith("-meta.xml"): continue # Ignore -meta.xml file

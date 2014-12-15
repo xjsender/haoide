@@ -14,7 +14,7 @@ class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
     def run(self):
         message = "Generally, you should reload it every salesforce release, " +\
                   "do you really want to continue?"
-        if not sublime.ok_cancel_dialog(message): return
+        if not sublime.ok_cancel_dialog(message, "Continue Reloading?"): return
 
         settings = context.get_settings()
         self.rd = ReloadDocument(settings["docs"])

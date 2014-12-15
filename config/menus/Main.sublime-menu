@@ -185,13 +185,7 @@
                         "id": "runonetest",
                         "caption": "Run Test",
                         "command": "run_one_test"
-                    },
-
-                    // {
-                    //     "id": "runalltest",
-                    //     "caption": "Run All Test",
-                    //     "command": "run_all_test"
-                    // }
+                    }
                 ]
             },
 
@@ -203,6 +197,14 @@
                         "command": "show_panel",
                         "args": {
                             "panel": "output.log"
+                        }
+                    },
+
+                    {
+                        "caption": "Open Diff Panel",
+                        "command": "show_panel",
+                        "args": {
+                            "panel": "output.diff_with_server"
                         }
                     },
 
@@ -435,21 +437,9 @@
                 "caption": "Settings",
                 "children": [
                     {
-                        "id": "subscribecomponent",
-                        "caption": "Subscribe Component",
-                        "command": "toggle_component",
-                        "args": {
-                            "subscribe": true
-                        }
-                    },
-
-                    {
-                        "id": "unsubscribecomponent",
-                        "caption": "Unsubscribe Component",
-                        "command": "toggle_component",
-                        "args": {
-                            "subscribe": false
-                        }
+                        "id": "togglecomponent",
+                        "caption": "Toggle Component",
+                        "command": "toggle_component"
                     },
 
                     { "caption": "-" },

@@ -5,6 +5,18 @@ Release History
 ---------------
 
 
+Release 2.5.8 (2014-12-15)
+++++++++++++++++++
+* Add all ``sharingRules`` metadata types to default components setting
+* Rename ``.package`` to ``.deploy`` for ``deploy to server`` execution
+* Remove ``subscribe_component`` and ``unsubscribe_component`` commands
+* Add a new ``toggle_commands`` command to replace above two commands
+* After a new component is subscribed, refresh the new folder from server
+* Rename "ok" in confirm dialog to related message
+* Add workspace check when create new project
+* Update README.MD
+
+
 Release 2.5.7 (2014-12-14)
 ++++++++++++++++++
 * Fix Bug for creating extension or controller after input # in visualforce page

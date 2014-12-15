@@ -944,7 +944,7 @@ def build_deploy_package(files):
     package_xml_content = format_xml(package_xml_content)
 
     # Write package content to .package path
-    package_xml_dir = settings["workspace"]+"/.package"
+    package_xml_dir = settings["workspace"]+"/.deploy"
     if not os.path.exists(package_xml_dir): os.makedirs(package_xml_dir)
     time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
     package_xml_dir = package_xml_dir + "/package-%s.xml" % time_stamp

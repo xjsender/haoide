@@ -2,19 +2,8 @@
     {"caption": "SublimeApex: Switch Project", "command": "switch_project"},
 
     {
-        "caption": "SublimeApex: Subscribe Component",
-        "command": "toggle_component",
-        "args": {
-            "subscribe": true
-        }
-    },
-
-    {
-        "caption": "SublimeApex: Unsubscribe Component",
-        "command": "toggle_component",
-        "args": {
-            "subscribe": false
-        }
+        "caption": "SublimeApex: Toggle Component",
+        "command": "toggle_component"
     },
 
     {

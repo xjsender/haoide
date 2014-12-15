@@ -158,18 +158,18 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 You can click ```SublimeApex > Update > Update Project``` in the main menu or press <kbd>Alt</kbd>+<kbd>R</kbd> to update your active project.
 
 ## Completions:
-+ Standard Class Completion
-+ sObject Fields Completion and sObject Relationship Completion
-+ Relationship Fields Completion
-+ Custom Class Completion
-+ Input any Character, Show All Standard sObject, Custom sObject, Standard Class and Custom Class
-+ After input ``Page.``, list all custom visualforce page
-+ Picklist Value Completion
-+ SOQL Fields Completion
-+ Standard Visualforce Component and Custom Visualforce Component Completion
-+ HTML Elements Completion
-+ HTML and Visualforce Component Attribute Completion
-+ HTML and Visualforce Component Attribute Value Completion
++ [x] Standard Class Completion
++ [x] sObject Fields Completion and sObject Relationship Completion
++ [x] Relationship Fields Completion
++ [x] Custom Class Completion
++ [x] Input any Character, Show All Standard sObject, Custom sObject, Standard Class and Custom Class
++ [x] After input ``Page.``, list all custom visualforce page
++ [x] Picklist Value Completion
++ [x] SOQL Fields Completion
++ [x] Standard Visualforce Component and Custom Visualforce Component Completion
++ [x] HTML Elements Completion
++ [x] HTML and Visualforce Component Attribute Completion
++ [x] HTML and Visualforce Component Attribute Value Completion
 See [Completions Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
 
 ## Execute Anonymous
