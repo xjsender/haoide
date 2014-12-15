@@ -438,8 +438,8 @@
                 "children": [
                     {
                         "id": "togglecomponent",
-                        "caption": "Toggle Component",
-                        "command": "toggle_component"
+                        "caption": "Toggle Components",
+                        "command": "toggle_components"
                     },
 
                     { "caption": "-" },

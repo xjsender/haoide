@@ -231,7 +231,8 @@ class BulkJob():
             result = api.combine_soql(self.sobject, contains_compound=False)
             records = result["soql"]
 
-        response = requests.post(url, records.encode("utf-8"), verify=False, headers=headers)
+        if not isinstance(records, bytes): records = records.encode("utf-8")
+        response = requests.post(url, records, verify=False, headers=headers)
         if response.status_code == 400:
             result = self.parse_response(response, url)
             result["operation"] = self.operation

@@ -2,8 +2,8 @@
     {"caption": "SublimeApex: Switch Project", "command": "switch_project"},
 
     {
-        "caption": "SublimeApex: Toggle Component",
-        "command": "toggle_component"
+        "caption": "SublimeApex: Toggle Components",
+        "command": "toggle_components"
     },
 
     {
