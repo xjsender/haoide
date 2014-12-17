@@ -437,9 +437,9 @@
                 "caption": "Settings",
                 "children": [
                     {
-                        "id": "togglecomponent",
-                        "caption": "Toggle Components",
-                        "command": "toggle_components"
+                        "id": "togglemetadatatypes",
+                        "caption": "Toggle Metdata Types",
+                        "command": "toggle_metadata_types"
                     },
 
                     { "caption": "-" },

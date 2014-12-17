@@ -100,6 +100,9 @@ def get_settings():
     # Indicate whether keep history to local
     settings["keep_operation_history"] = s.get("keep_operation_history", True)
 
+    # Debug Mode
+    settings["debug_mode"] = s.get("debug_mode", False)
+
     # Completions Part
     settings["disable_fields_completion"] = s.get("disable_fields_completion", False)
     settings["disable_keyword_completion"] = s.get("disable_keyword_completion", False)
@@ -140,7 +143,7 @@ def get_settings():
     settings["allowed_packages"] = allowed_packages
     
     # Populate all global variables
-    components = s.get("components")
+    components = s.get("metadata_types")
     settings["meta_types"] = [c["type"] for c in components]
     settings["meta_folders"] = [c["folder"] for c in components]
     settings["subscribed_meta_types"] = [c["type"] for c in components if c["subscribe"]]
@@ -148,5 +151,9 @@ def get_settings():
     for component in components:
         settings[component["type"]] = component
         settings[component["folder"]] = component
+
+        if component["children"]:
+            for child in component["children"]:
+                settings[child] = component
 
     return settings

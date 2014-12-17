@@ -44,7 +44,7 @@ class PackageCompletions(sublime_plugin.EventListener):
             return completion_list
 
         # <members></members> completion
-        elif "<members>" in view.substr(full_line):
+        if "<members>" in view.substr(full_line):
             matched_region = view.find("<name>\\w+</name>", full_line.begin())
             if not matched_region: return []
             matched_content = view.substr(matched_region)
@@ -88,7 +88,7 @@ class PackageCompletions(sublime_plugin.EventListener):
                     if settings["debug_mode"]:
                         print ('[] Completion KeyError: %s' % str(e))
 
-        return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+        return completion_list
 
 class ApexCompletions(sublime_plugin.EventListener):
     """ There are two type of completions:
@@ -340,7 +340,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                 for pv in picklist_values:
                     completion_list.append(("%s(%s)\t%s" % (pv["value"], pv["label"], field_name), " '%s'" % pv["value"]))
 
-        return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+        return completion_list
 
 class PageCompletions(sublime_plugin.EventListener):
     """ There are two kinds of completion, Visualforce and Html

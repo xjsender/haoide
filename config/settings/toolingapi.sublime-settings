@@ -83,6 +83,9 @@
     // It depends on your choice.
     "keep_project_name_time_suffix" : true,
 
+    // Debug Mode
+    "debug_mode": false,
+
     // Indicate whether output session info in the console when you switch the project
     // Deprecated, replace by `.config/session.json`
     "output_session_info" : false,
@@ -389,7 +392,7 @@
         }
     },
 
-    "components" : [{
+    "metadata_types" : [{
             "children" : null,              // [Can't change] Reserved settings for future
             "subscribe" : false,            // [Can change] true means it will be downloaded
             "folder" : "analyticSnapshots", // [Can't change] Metadata Folder Property
@@ -432,16 +435,22 @@
             "type" : "CustomApplication",
             "extension": ".app"
         }, {
-            "children" : ["CustomLabel"],
+            "children" : {"CustomLabel": "labels"},
             "subscribe" : false,
             "folder" : "labels",
             "type" : "CustomLabels",
             "extension": ".labels"
         }, {
-            "children" : [
-                "CustomField", "BusinessProcess", "RecordType", "WebLink",
-                "ValidationRule", "NamedFilter", "SharingReason", "ListView", "FieldSet"
-            ],
+            "children" : {
+                "CustomField" : "fields",
+                "RecordType" : "recordTypes",
+                "WebLink" : "webLinks",
+                "ValidationRule" : "validationRules",
+                "NamedFilter" : "namesFilters",
+                "SharingReason" : "sharingReasons",
+                "ListView" : "listViews",
+                "FieldSet" : "fieldSets"
+            },
             "subscribe" : false,
             "folder" : "objects",
             "type" : "CustomObject",
@@ -548,9 +557,13 @@
             "type" : "Scontrol",
             "extension": ".scontrol"
         }, {
-            "children" : ["WorkflowAlert", "WorkflowTask", "WorkflowOutboundMessage",
-                "WorkflowFieldUpdate", "WorkflowRule"
-            ],
+            "children" : {
+                "WorkflowAlert": "alerts",
+                "WorkflowTask": "tasks",
+                "WorkflowOutboundMessage": "outboundMessages",
+                "WorkflowFieldUpdate": "fieldUpdates",
+                "WorkflowRule": "rules"
+            },
             "subscribe" : false,
             "folder" : "workflows",
             "type" : "Workflow",
@@ -562,9 +575,7 @@
             "type" : "Settings",
             "extension": ".settings"
         }, {
-            "children" : [
-                "Application", "Component", "Interface", "Event"
-            ],
+            "children" : null,
             "subscribe" : true,
             "folder" : "aura",
             "type" : "AuraDefinitionBundle",
@@ -705,6 +716,14 @@
             "folder": "customObjectCriteriaBasedSharingRule",
             "subscribe": false,
             "type": "CustomObjectCriteriaBasedSharingRule"
+        },
+
+        {
+            "children": null,
+            "extension": ".customApplicationComponent",
+            "folder": "customApplicationComponents",
+            "subscribe": false,
+            "type": "CustomApplicationComponent"
         }
     ]
 }

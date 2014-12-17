@@ -22,6 +22,7 @@ See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
 + [Save Multiple Files to Server](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/SaveMultipleFilesToServer.gif)
 + [Refresh Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RefreshFolders.gif)
 + [Convert XML to JSON](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ConvertXML2JSON.gif)
++ [Build Package.xml](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/BuildPackageXML.gif)
 + [Lighting Component Development](https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif)
 + [More Demos](https://github.com/xjsender/SublimeApexScreenshot)
 

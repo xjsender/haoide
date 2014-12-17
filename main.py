@@ -85,13 +85,13 @@ class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
 
         return True
 
-class ToggleComponents(sublime_plugin.WindowCommand):
+class ToggleMetadataTypes(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(ToggleComponents, self).__init__(*args, **kwargs)
+        super(ToggleMetadataTypes, self).__init__(*args, **kwargs)
 
     def run(self):
         self.s = sublime.load_settings("toolingapi.sublime-settings")
-        self.components = self.s.get("components")
+        self.components = self.s.get("metadata_types")
         self.components = sorted(self.components, key=lambda k : k['subscribe'])
         self.component_types = ["%s=>%s" % ("Subscribed" if c["subscribe"] else "Unsubscribed", 
             c["type"]) for c in self.components]
@@ -109,7 +109,7 @@ class ToggleComponents(sublime_plugin.WindowCommand):
                 subscribe_type = c["type"]
                 break
 
-        self.s.set("components", self.components)
+        self.s.set("metadata_types", self.components)
         sublime.save_settings("toolingapi.sublime-settings")
         sublime.status_message("%s is %s" % (subscribe_type, 
             "subscribed" if is_subscribe else "unsubscribed"))
@@ -455,7 +455,7 @@ class RetrievePackageXml(sublime_plugin.WindowCommand):
         time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
         settings = context.get_settings()
         project_name = settings["default_project_name"]
-        extract_to = os.path.join(path, project_name+"-"+name)
+        extract_to = os.path.join(path, project_name+"-"+time_stamp+"-"+name)
         processor.handle_retrieve_package(package_xml_content, extract_to)
 
     def is_visible(self, files=None):

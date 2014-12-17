@@ -4,6 +4,9 @@
         "characters": ".=",
         "selector": "source.java"
     }, {
+        "characters": ".abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ",
+        "selector": "text.xml"
+    }, {
         "characters": "<: =#",
         "selector": "text.html - source"
     }]

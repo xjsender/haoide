@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 2.5.9 (2014-12-17)
+++++++++++++++++++
+* Completion enhancement for building package.xml
+* Fix duplicate MetadataContainerId for issue #69
+* `Build Package.xml Demo <https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/BuildPackageXML.gif>`_
+
+
 Release 2.5.8 (2014-12-15)
 ++++++++++++++++++
 * Add all ``sharingRules`` metadata types to default components setting
