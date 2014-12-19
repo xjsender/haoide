@@ -782,6 +782,24 @@ def get_view_by_id(view_id):
 
     return view
 
+def build_folders_dict(dirs):
+    """  Build folders_dict for folder refreshing
+        {
+            "classes": "<workspace>/src/classes",
+            "triggers": "<workspace>/src/triggers",
+            "objects": "<workspace>/src/objects",
+        }
+    """
+    settings = context.get_settings()
+    folders_dict = {}
+    for _dir in dirs:
+        project_name, folder_name = get_path_attr(_dir)
+        if folder_name not in settings: continue
+        if project_name not in settings["default_project_name"]: continue
+        folders_dict[folder_name] = _dir
+
+    return folders_dict
+
 def build_package_dict(files, ignore_folder=True):
     """ Build Package Dict as follow structure by files
         {
@@ -1636,18 +1654,18 @@ def parse_validation_rule(settings, sobjects):
     """
 
     # Open target file
-    outputdir = settings["workspace"] + "/validation"
+    outputdir = settings["workspace"] + "/.export"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
     # Initiate CSV Writer and Write headers
     columns = settings["validation_rule_columns"]
-    with open(outputdir + "/Validation Rules.csv", "wb") as fp:
+    with open(outputdir + "/ValidationRules.csv", "wb") as fp:
         fp.write(u'\ufeff'.encode('utf8')) # Write BOM Header
         fp.write(",".join(columns).encode("utf-8") + b"\n") # Write Header
 
     # Open workflow source file
-    validation_rule_path = settings["workspace"] + "/metadata/src/objects"
+    validation_rule_path = settings["workspace"] + "/src/objects"
     for sobject in sobjects:
         try:
             with open(validation_rule_path + "/" + sobject + ".object", "rb") as f:
@@ -1675,7 +1693,7 @@ def parse_workflow_metadata(settings, sobjects):
     * workflow_metadata_path -- downloaded workflow path by Force.com IDE or ANT
     """
     # Create workflow dir
-    outputdir = settings["workspace"] + "/workflow"
+    outputdir = settings["workspace"] + "/.export"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
@@ -1718,7 +1736,7 @@ def parse_workflow_metadata(settings, sobjects):
             fp.write(",".join(columns).encode("utf-8") + b"\n") # Write Header
 
         # Append Body
-        rule_path = settings["workspace"] + "/metadata/src/workflows"
+        rule_path = settings["workspace"] + "/src/workflows"
         for sobject in sobjects:
             try:
                 with open(rule_path + "/" + sobject + ".workflow", "rb") as f:
@@ -1948,7 +1966,7 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
     fields_key = workbook_field_describe_columns
 
     # If workbook path is not exist, just make it
-    outputdir = workspace + "/Workbooks"
+    outputdir = workspace + "/.export/workbooks"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 

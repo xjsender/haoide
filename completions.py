@@ -86,7 +86,7 @@ class PackageCompletions(sublime_plugin.EventListener):
                             completion_list.append((display, child["fullName"]))
                 except KeyError as e:
                     if settings["debug_mode"]:
-                        print ('[] Completion KeyError: %s' % str(e))
+                        print ('[Debug] Completion KeyError: %s' % str(e))
 
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 

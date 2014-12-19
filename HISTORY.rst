@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 2.6.0 (2014-12-20)
+++++++++++++++++++
+* Enhancement for ``refresh_folder``
+* Enhancement for ``retrieve_all`` and ``retrieve_sobjects_and_workflows``
+* Move export csv files to ``.export`` folder, for example, CustomFields, ValidationRules, Workflows and Workbooks, etc.
+
+
 Release 2.5.9 (2014-12-17)
 ++++++++++++++++++
 * Completion enhancement for building package.xml

@@ -116,8 +116,9 @@ class ToggleMetadataTypes(sublime_plugin.WindowCommand):
 
         if not is_subscribe: return
         settings = context.get_settings()
-        folder = os.path.join(settings["workspace"], "src", settings[chosen_type]["folder"])
-        sublime.active_window().run_command("refresh_folder", {"dirs": [folder]})
+        _dir = os.path.join(settings["workspace"], "src", settings[chosen_type]["folder"])
+        folders_dict = util.build_folders_dict([_dir])
+        processor.handle_refresh_folder(folders_dict)
 
 class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -370,36 +371,16 @@ class RefreshFolderCommand(sublime_plugin.WindowCommand):
         super(RefreshFolderCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        message = "Are you sure you really want to refresh %s"
-        if len(dirs) == 1:
-            base, folder = os.path.split(dirs[0])
-            message = message % folder + " folder"
-        else:
-            message = message % "these folders"
+        message = "Are you sure you really want to refresh these folders"
         if not sublime.ok_cancel_dialog(message, "Refresh Folders"): return
-
-        # Makedir
-        for _dir in dirs:
-            if not os.path.exists(_dir):
-                os.makedirs(_dir)
 
         # Retrieve file from server
         processor.handle_refresh_folder(self.folders_dict)
 
-    def is_enabled(self, dirs):
+    def is_visible(self, dirs):
         if not dirs: return False
-
-        # Get settings
-        settings = context.get_settings()
-
-        project_names = []
-        self.folders_dict = {}
-        for d in dirs:
-            project_name, folder_name = util.get_path_attr(d)
-            if folder_name not in settings: return False
-            if project_name not in settings["default_project_name"]: return False
-            project_names.append(project_name)
-            self.folders_dict[folder_name] = d
+        self.folders_dict = util.build_folders_dict(dirs)
+        if not self.folders_dict: return False
 
         return True
 
@@ -410,7 +391,22 @@ class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
     def run(self, retrieve_all=True):
         message = "Are your sure you really want to continue?"
         if not sublime.ok_cancel_dialog(message, "Retrieve Metadata"): return
-        processor.handle_retrieve_all_thread(retrieve_all=retrieve_all)
+        settings = context.get_settings()
+        dirs = []
+        if not retrieve_all:
+            for c in ["CustomObject", "Workflow"]:
+                _folder = settings[c]["folder"]
+                _dir = os.path.join(settings["workspace"], "src", _folder)
+                dirs.append(_dir)
+        else:
+            for c in settings["metadata_types"]:
+                _folder = c["folder"]
+                _dir = os.path.join(settings["workspace"], "src", _folder)
+                dirs.append(_dir)
+
+        # Build folders_dict and Refresh these folder
+        folders_dict = util.build_folders_dict(dirs)
+        processor.handle_refresh_folder(folders_dict, not retrieve_all)
 
 class CreatePackageXml(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -723,7 +719,7 @@ class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         settings = context.get_settings()
-        workflow_path = settings["workspace"] + "/metadata/src/objects"
+        workflow_path = settings["workspace"] + "/src/objects"
         if not os.path.exists(workflow_path):
             sublime.error_message(message.METADATA_CHECK)
             return
@@ -740,12 +736,12 @@ class ExportCustomLablesCommand(sublime_plugin.WindowCommand):
     def run(self):
         settings = context.get_settings()
         workspace = settings["workspace"]
-        lable_path = workspace + "/metadata/src/labels/CustomLabels.labels"
+        lable_path = workspace + "/src/labels/CustomLabels.labels"
         if not os.path.isfile(lable_path):
             sublime.error_message(message.METADATA_CHECK)
             return
 
-        outputdir = settings["workspace"] + "/Labels"
+        outputdir = settings["workspace"] + "/.export/labels"
         if not os.path.exists(outputdir): os.makedirs(outputdir)
         lables = xmltodict.parse(open(lable_path, "rb").read())
         util.list2csv(outputdir+"/Labels.csv", lables["CustomLabels"]["labels"])
@@ -760,7 +756,7 @@ class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
     def run(self):
         settings = context.get_settings()
         workspace = settings["workspace"]
-        workflow_path = workspace + "/metadata/src/workflows"
+        workflow_path = workspace + "/src/workflows"
         if not os.path.exists(workflow_path):
             sublime.error_message(message.METADATA_CHECK)
             return
@@ -769,21 +765,6 @@ class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
 
     def is_enabled(self):
         return util.check_new_component_enabled()
-
-class ExportFieldDependencyCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(ExportFieldDependencyCommand, self).__init__(*args, **kwargs)
-
-    def run(self):
-        settings = context.get_settings()
-        workspace = settings["workspace"]
-        workflow_path = workspace + "/metadata/src/objects"
-        if not os.path.exists(workflow_path):
-            sublime.error_message(message.METADATA_CHECK)
-            return
-
-        util.check_workspace_available()
-        processor.handle_export_field_dependencies()
 
 class ExportCustomFieldCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1339,7 +1320,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
 
         self.settings = context.get_settings()
         workspace = self.settings["workspace"]
-        component_outputdir = workspace+"/src/"+self.settings[self.component_type]["folder"]
+        component_outputdir = os.path.join(workspace, "src", self.settings[self.component_type]["folder"])
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
             self.settings = context.get_settings()

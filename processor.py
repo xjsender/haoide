@@ -217,7 +217,7 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         "View Code Coverage of " + component_name + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_refresh_folder(folders_dict, timeout=120):
+def handle_refresh_folder(folders_dict, ignore_package_xml=True, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -234,7 +234,7 @@ def handle_refresh_folder(folders_dict, timeout=120):
 
         # Extract zip, True means not override package.xml
         thread = threading.Thread(target=util.extract_encoded_zipfile, 
-            args=(result["zipFile"], extract_to, True, ))
+            args=(result["zipFile"], extract_to, ignore_package_xml, ))
         thread.start()
 
         util.reload_apex_code_cache(result["fileProperties"], settings)
@@ -246,7 +246,10 @@ def handle_refresh_folder(folders_dict, timeout=120):
     settings = context.get_settings()
     api = MetadataApi(settings)
     meta_types = []
+    print (folders_dict)
     for folder in folders_dict:
+        if not os.path.exists(folders_dict[folder]):
+            os.makedirs(folders_dict[folder])
         meta_types.append(settings[folder]["type"])
     types = util.build_package_types(meta_types)
     body = soap.retrieve_body.replace("{{allowed_packages}}", "").replace("{{meta_types}}", types)
@@ -596,40 +599,6 @@ def handle_backup_all_sobjects_thread(timeout=120):
     ThreadProgress(api, thread, "Describe Global", "Describe Global Succeed")
     handle_thread(thread, timeout)
 
-def handle_retrieve_all_thread(timeout=120, retrieve_all=True):
-    def handle_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
-            return
-
-        result = api.result
-        if not result or not result["success"]: return
-
-        # Mkdir for output dir of zip file
-        util.add_project_to_workspace(settings)
-        outputdir = settings["workspace"] + "/metadata"
-
-        # Extract the zipFile to extract_to
-        thread = threading.Thread(target=util.extract_encoded_zipfile, 
-            args=(result["zipFile"], outputdir, ))
-        thread.start()
-
-        # Refresh Project Folders
-        sublime.active_window().run_command("refresh_folder_list")
-
-    settings = context.get_settings()
-    api = MetadataApi(settings)
-
-    if retrieve_all:
-        soap_body = soap.retrieve_all_task_body
-    else:
-        soap_body = soap.retrieve_sobjects_workflow_task_body
-
-    thread = threading.Thread(target=api.retrieve, args=(soap_body, ))
-    thread.start()
-    ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
-    handle_thread(thread, timeout)
-
 def handle_export_workflows(settings, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -659,13 +628,11 @@ def handle_export_validation_rules(settings, timeout=120):
         sobjects_describe = api.result["sobjects"]
         util.parse_validation_rule(settings, sobjects_describe.keys())
         sublime.active_window().run_command("refresh_folder_list")
-        print (message.SEPRATE.format("Outputdir: " + outputdir))
 
-    outputdir = settings["workspace"] + "/Validation/Validation Rules.csv"
     api = ToolingApi(settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
-    ThreadProgress(api, thread, "Export All Validation Rules", "Outputdir: " + outputdir)
+    ThreadProgress(api, thread, "Export All Validation Rules", "Validation Rules Export Succeed")
     handle_thread(thread, 10)
 
 def handle_export_customfield(timeout=120):
@@ -679,6 +646,7 @@ def handle_export_customfield(timeout=120):
         if not result or not result["success"]: return
 
         # Write list to csv
+        outputdir = os.path.join(settings["workspace"], ".export")
         if not os.path.exists(outputdir): os.makedirs(outputdir)
         records = sorted(result["records"], key=lambda k : k['TableEnumOrId'])
         util.list2csv(outputdir + "/CustomField.csv", records)
@@ -688,14 +656,11 @@ def handle_export_customfield(timeout=120):
         print (message.SEPRATE.format(outputdir))
 
     settings = context.get_settings()
-    workspace = context.get_settings().get("workspace")
-    outputdir = workspace + "/CustomField"
     api = ToolingApi(settings)
     query = "SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName FROM CustomField"
     thread = threading.Thread(target=api.query, args=(query, True,))
     thread.start()
-    ThreadProgress(api, thread, 'Describe CustomField', 
-        'Outputdir: ' + outputdir + "/customfield.csv")
+    ThreadProgress(api, thread, 'Export CustomFields', "Export CustomFields Succeed")
     handle_thread(thread, 10)
 
 def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, timeout=120):
@@ -717,11 +682,10 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
         util.show_output_panel(message.SEPRATE.format("Data Template outputdir: " + output_file_dir))
 
     settings = context.get_settings()
-    outputdir = settings["workspace"] + "/template"
+    outputdir = settings["workspace"] + "/.export/templates"
     output_file_dir = outputdir + "/" + sobject + "-" + recordtype_name + ".csv"
     api = ToolingApi(settings)
     url = "/sobjects/%s/describe/layouts/%s" % (sobject, recordtype_id)
-    print (url)
     thread = threading.Thread(target=api.get, args=(url, ))
     thread.start()
     wait_message = "Export Data Template of %s=>%s" % (sobject, recordtype_name)

@@ -144,6 +144,7 @@ def get_settings():
     
     # Populate all global variables
     components = s.get("metadata_types")
+    settings["metadata_types"] = components
     settings["meta_types"] = [c["type"] for c in components]
     settings["meta_folders"] = [c["folder"] for c in components]
     settings["subscribed_meta_types"] = [c["type"] for c in components if c["subscribe"]]
