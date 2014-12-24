@@ -63,13 +63,13 @@ class SFDCEventListener(sublime_plugin.EventListener):
         src, meta_type = os.path.split(base)
         default_project = settings["default_project_name"]
         if default_project not in src:
-            sublime.error_message("Current page is not in active project")
+            util.show_output_panel("Current page is not in active project")
             return
 
         # Check whether the class is exist
         file_name = os.path.join(src, "classes", class_name+".cls")
         if os.path.exists(file_name): 
-            sublime.error_message("%s is already exist" % class_name)
+            util.show_output_panel("%s is already exist" % class_name)
             return
 
         sublime.active_window().run_command("create_component", {

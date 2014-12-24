@@ -1,506 +1,363 @@
-# Body for creating job and closing job
-create_job = """<?xml version="1.0" encoding="UTF-8"?>
-<jobInfo xmlns="http://www.force.com/2009/06/asyncapi/dataload">
-    <operation>{operation}</operation>
-    <object>{sobject}</object>
-    <concurrencyMode>Parallel</concurrencyMode>
-    <contentType>CSV</contentType>
-</jobInfo>"""
+import os
+import json
 
-close_job = """<?xml version="1.0" encoding="UTF-8"?>
-                <jobInfo xmlns="http://www.force.com/2009/06/asyncapi/dataload">
-                    <state>Closed</state>
-                </jobInfo>"""
+from .lib import xmlformatter
+from .login import soap_login
+from .. import util
+from .. import context
 
-# Body for login
-login_body = """<?xml version="1.0" encoding="utf-8" ?>
-    <env:Envelope
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
-        <env:Body>
-            <n1:login xmlns:n1="urn:partner.soap.sforce.com">
-                <n1:username>{username}</n1:username>
-                <n1:password>{password}</n1:password>
-            </n1:login>
-        </env:Body>
-    </env:Envelope>"""
+"""
+from .salesforce.soap import SOAP
+from . import context
 
-# Body for executing anonymous apex
-execute_anonymous_body = """
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-    xmlns:apex="http://soap.sforce.com/2006/08/apex">
-       <soapenv:Header>
-          <apex:DebuggingHeader>
-            {log_levels}
-          </apex:DebuggingHeader>
-          <apex:SessionHeader>
-            <sessionId>{session_id}</sessionId>
-          </apex:SessionHeader>
-       </soapenv:Header>
-       <soapenv:Body>
-          <apex:executeAnonymous>
-             <apex:String>{apex_string}</apex:String>
-          </apex:executeAnonymous>
-       </soapenv:Body>
-    </soapenv:Envelope>"""
-
-# Body for running all test class
-run_all_test = """<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-    xmlns:apex="http://soap.sforce.com/2006/08/apex">
-   <soapenv:Header>
-      <apex:SessionHeader>
-         <apex:sessionId>{session_id}</apex:sessionId>
-      </apex:SessionHeader>
-   </soapenv:Header>
-   <soapenv:Body>
-      <apex:runTests>
-         <apex:RunTestsRequest>
-            <apex:allTests>true</apex:allTests>
-         </apex:RunTestsRequest>
-      </apex:runTests>
-   </soapenv:Body>
-</soapenv:Envelope>
+settings = context.get_settings()
+soap = SOAP(settings)
+soap.create_request('read_metadata', {
+    "types": {
+        "CustomObject": ["haoliu__Expense__c"]
+    }
+})
 """
 
-# Body for describing layout
-describe_layout_body = """
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-        xmlns:urn="urn:partner.soap.sforce.com">
-        <soapenv:Header>
-            <urn:SessionHeader>
-                <urn:sessionId>{session_id}</urn:sessionId>
-            </urn:SessionHeader>
-        </soapenv:Header>
-        <soapenv:Body>
+class SOAP():
+    def __init__(self, settings, indent=4, **kwargs):
+        self.settings = settings
+        self.indent = indent
+
+    def get_session_id(self):
+        session = util.get_session_info(self.settings)
+        if not session:
+            result = soap_login(self.settings, True)
+            if not result["success"]:
+                util.show_output_panel(result["message"])
+            session_id = None
+        else:
+            session_id = session["session_id"]
+
+        return session_id
+
+    # Dynamically invoke function by name
+    def create_request(self, request_type, options={}):
+        soap_body = getattr(self, "create_%s_request" % request_type)(options)
+        if self.settings["debug_mode"]:
+            print ("[Debug for %s]: \n%s" % (request_type, soap_body.decode("UTF-8")))
+        return soap_body
+
+    # Format the request body
+    def format_request_envelope(self, request_body):
+        try:
+            formatter = xmlformatter.Formatter(indent=self.indent)
+            formatted_body = formatter.format_string(request_body)
+        except Exception as ex:
+            if self.settings["debug_mode"]: 
+                print ("[Format Request Body] " + str(ex))
+            formatted_body = request_body
+
+        return formatted_body
+
+    ##############################################
+    # Metadata API Request
+    ##############################################
+    def create_metadata_envelope(self, body):
+        metadata_request_envelope = """<?xml version="1.0" encoding="UTF-8"?>
+            <soapenv:Envelope 
+                xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+                xmlns:met="http://soap.sforce.com/2006/04/metadata">
+            <soapenv:Header>
+                <met:SessionHeader>
+                    <met:sessionId>{session_id}</met:sessionId>
+                </met:SessionHeader>
+            </soapenv:Header>
+            <soapenv:Body>
+                {body}
+            </soapenv:Body>
+        </soapenv:Envelope>""".format(session_id=self.get_session_id(), body=body)
+        
+        return self.format_request_envelope(metadata_request_envelope)
+
+    def create_check_status_request(self, options):
+        check_status_body = """
+            <met:checkStatus>
+               <met:asyncProcessId>{async_process_id}</met:asyncProcessId>
+            </met:checkStatus>
+        """.format(**options)
+
+        return self.create_metadata_envelope(check_status_body)
+
+    def create_check_retrieve_status_request(self, options):
+        check_retrieve_status_request_body = """
+            <met:checkRetrieveStatus>
+               <met:asyncProcessId>{async_process_id}</met:asyncProcessId>
+            </met:checkRetrieveStatus>
+        """.format(**options)
+
+        return self.create_metadata_envelope(check_retrieve_status_request_body)
+
+    def create_cancel_deploy_request(self, options):
+        cancel_deploy_request_body = """
+            <met:cancelDeploy>
+                <met:String>{async_process_id}</met:String>
+            </met:cancelDeploy>
+        """.format(**options)
+
+        return self.create_metadata_envelope(cancel_deploy_request_body)
+
+    def create_check_deploy_status_request(self, options):
+        check_deploy_status_request_body = """
+            <met:checkDeployStatus>
+                <met:asyncProcessId>{async_process_id}</met:asyncProcessId>
+                <met:includeDetails>true</met:includeDetails>
+            </met:checkDeployStatus>
+        """.format(**options)
+
+        return self.create_metadata_envelope(check_deploy_status_request_body)
+
+    def create_delete_metadata_request(self, options):
+        """ Just support deletion of components of one type, for example,
+
+            {
+                "ApexClass": ["TestClass", "TestClass2"]
+            }
+
+        Has below exception, why?
+            INVALID_TYPE: This type of metadata is not available for this organization
+        """
+        types = options["types"]
+        for t in types:
+            meta_type = t
+            elements = ["<met:fullNames>%s</met:fullNames>" % e for e in types[t]]
+
+        delete_metadata_body = """
+            <met:deleteMetadata>
+                <met:type>{0}</met:type>
+                {1}
+            </met:deleteMetadata>
+        """.format(meta_type, "".join(elements))
+
+        return self.create_metadata_envelope(delete_metadata_body)
+
+    def create_read_metadata_request(self, options):
+        """ Just support deletion of components of one type, for example,
+
+            {
+                "ApexClass": ["TestClass", "TestClass2"]
+            }
+
+        Has below exception, why?
+            INVALID_TYPE: This type of metadata is not available for this organization
+        """
+        types = options["types"]
+        for t in types:
+            meta_type = t
+            elements = ["<met:fullNames>%s</met:fullNames>" % e for e in types[t]]
+
+        read_metadata_body = """
+            <met:readMetadata>
+                <met:type>{0}</met:type>
+                {1}
+            </met:readMetadata>
+        """.format(meta_type, "".join(elements))
+
+        return self.create_metadata_envelope(read_metadata_body)
+
+    def create_rename_metadata_request(self, options):
+        """ Just support deletion of components of one type, for example,
+
+            {
+                "type": "ApexClass",
+                "old_name": "TestClass",
+                "new_name": "TestClass1"
+            }
+
+        Has below exception, why?
+            INVALID_TYPE: This type of metadata is not available for this organization
+        """
+        rename_metadata_body = """
+            <met:renameMetadata>
+                <met:type>{type}</met:type>
+                <met:oldFullName>{old_name}</met:oldFullName>
+                <met:newFullName>{new_name}</met:newFullName>
+            </met:renameMetadata>
+        """.format(**options)
+
+        return self.create_metadata_envelope(rename_metadata_body)
+
+    def create_describe_metadata_request(self, options):
+        describe_metadata_body = """
+            <met:describeMetadata>
+                <met:asOfVersion>{api_version}</met:asOfVersion>
+            </met:describeMetadata>
+        """.format(**options)
+
+        return self.create_metadata_envelope(describe_metadata_body)
+
+    def create_deploy_request(self, options):
+        deploy_request_body = """
+            <met:deploy>
+                <met:ZipFile>{zipfile}</met:ZipFile>
+                <met:DeployOptions>
+                    <met:allowMissingFiles>{allowMissingFiles}</met:allowMissingFiles>
+                    <met:autoUpdatePackage>{autoUpdatePackage}</met:autoUpdatePackage>
+                    <met:checkOnly>{checkOnly}</met:checkOnly>
+                    <met:ignoreWarnings>{ignoreWarnings}</met:ignoreWarnings>
+                    <met:performRetrieve>{performRetrieve}</met:performRetrieve>
+                    <met:purgeOnDelete>{purgeOnDelete}</met:purgeOnDelete>
+                    <met:rollbackOnError>{rollbackOnError}</met:rollbackOnError>
+                    <met:runAllTests>{runAllTests}</met:runAllTests>
+                    <met:singlePackage>{singlePackage}</met:singlePackage>
+                </met:DeployOptions>
+            </met:deploy>
+        """.format(**options)
+
+        return self.create_metadata_envelope(deploy_request_body)
+
+    def create_sobjects_workflow_request(self, options):
+        types = {} # Define types
+
+        # Build sObject types
+        allowed_sobjects = self.settings["allowed_sobjects"] # All allowed sObjects
+        allowed_sobjects.append("*") # CustomObject
+        types["CustomObject"] = allowed_sobjects
+
+        # Build Workflows types
+        types["Workflow"] = "*"
+
+        return self.create_retrieve_request(types)
+
+    def create_retrieve_request(self, options):
+        packages = ""
+        if "package_names" in options:
+            packages = "".join(["<met:packageNames>%s</met:packageNames>" % pn \
+                for pn in options["package_names"]])
+
+        metadata_objects = []
+        types = options["types"]
+        for _type in types:
+            metadata_objects.append(
+                "<met:types>%s<name>%s</name></met:types>" % (
+                    "".join(["<met:members>%s</met:members>" % m for m in types[_type]]),
+                    _type
+                )
+            )
+
+        retrieve_request_body = """
+            <met:retrieve>
+                <met:retrieveRequest>
+                    <met:apiVersion>{api_version}.0</met:apiVersion>
+                    {packages}
+                    <met:unpackaged>{metadata_objects}</met:unpackaged>
+                </met:retrieveRequest>
+            </met:retrieve>
+        """.format(
+            api_version=self.settings["api_version"],
+            packages=packages,
+            metadata_objects="".join(metadata_objects)
+        )
+
+        return self.create_metadata_envelope(retrieve_request_body)
+
+    ##############################################
+    # Bulk API Request
+    ##############################################
+    def create_close_job_request(self, options):
+        close_job_request_envelope = """<?xml version="1.0" encoding="UTF-8"?>
+            <jobInfo xmlns="http://www.force.com/2009/06/asyncapi/dataload">
+                <state>{state}</state>
+            </jobInfo>
+        """.format(**options)
+
+        return self.format_request_envelope(close_job_request_envelope)
+
+    def create_new_job_request(self, options):
+        new_job_request_envelope = """<?xml version="1.0" encoding="UTF-8"?>
+            <jobInfo xmlns="http://www.force.com/2009/06/asyncapi/dataload">
+                <operation>{operation}</operation>
+                <object>{sobject}</object>
+                <concurrencyMode>{parallel}</concurrencyMode>
+                <contentType>{content_type}</contentType>
+            </jobInfo>
+        """.format(**options)
+
+        return self.format_request_envelope(new_job_request_envelope)
+
+    ##############################################
+    # Apex API Request
+    ##############################################
+    def create_apex_envelope(self, body):
+        log_levels = ""
+        for log_level in self.settings["anonymous_log_levels"]:
+            log_levels += """
+                <apex:categories>
+                    <apex:category>%s</apex:category>
+                    <apex:level>%s</apex:level>
+                </apex:categories>
+            """ % (log_level["log_category"], log_level["log_level"])
+
+        apex_request_envelope = """<soapenv:Envelope 
+            xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+            xmlns:apex="http://soap.sforce.com/2006/08/apex">
+            <soapenv:Header>
+                <apex:DebuggingHeader>
+                    {log_levels}
+                </apex:DebuggingHeader>
+                <apex:SessionHeader>
+                    <apex:sessionId>{session_id}</apex:sessionId>
+                </apex:SessionHeader>
+            </soapenv:Header>
+            <soapenv:Body>
+                {body}
+            </soapenv:Body>
+        </soapenv:Envelope>
+        """.format(log_levels=log_levels, session_id=self.get_session_id(), body=body)
+
+        return self.format_request_envelope(apex_request_envelope)
+
+    def create_execute_anonymous_request(self, options):
+        execute_anonymous_request_body = """
+            <apex:executeAnonymous>
+                <apex:String>{apex_string}</apex:String>
+            </apex:executeAnonymous>
+        """.format(**options)
+
+        return self.create_apex_envelope(execute_anonymous_request_body)
+
+    def create_run_all_test_request(self, options):
+        run_all_test_request_body = """
+            <apex:runTests>
+                <apex:RunTestsRequest>
+                    <apex:allTests>true</apex:allTests>
+                </apex:RunTestsRequest>
+            </apex:runTests>
+        """
+
+        return self.create_apex_envelope(run_all_test_request_body)
+
+    ##############################################
+    # Partner API Request
+    ##############################################
+    def create_partner_envelope(self, body):
+        apex_request_envelope = """<soapenv:Envelope 
+            xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+            xmlns:urn="urn:partner.soap.sforce.com">
+            <soapenv:Header>
+                <urn:SessionHeader>
+                    <urn:sessionId>{session_id}</urn:sessionId>
+                </urn:SessionHeader>
+            </soapenv:Header>
+            <soapenv:Body>
+                {body}
+            </soapenv:Body>
+        </soapenv:Envelope>
+        """.format(session_id=self.get_session_id(), body=body)
+
+        return self.format_request_envelope(apex_request_envelope)
+
+    def create_describe_layout_request(self, options):
+        describe_layout_request_body = """
             <urn:describeLayout>
                 <urn:sObjectType>{sobject}</urn:sObjectType>
                 <urn:recordTypeIds>{recordtype_id}</urn:recordTypeIds>
             </urn:describeLayout>
-        </soapenv:Body>
-    </soapenv:Envelope>"""
+        """.format(**options)
 
-# Body for checking status of retrieve or deploy
-check_status_body = """
-  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-  xmlns:met="http://soap.sforce.com/2006/04/metadata">
-     <soapenv:Header>
-        <met:SessionHeader>
-           <met:sessionId>{session_id}</met:sessionId>
-        </met:SessionHeader>
-     </soapenv:Header>
-     <soapenv:Body>
-        <met:checkStatus>
-           <met:asyncProcessId>{async_process_id}</met:asyncProcessId>
-        </met:checkStatus>
-     </soapenv:Body>
-  </soapenv:Envelope>
-  """
-
-# Body for retrieving status
-check_retrieve_status_body = """
-  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-  xmlns:met="http://soap.sforce.com/2006/04/metadata">
-     <soapenv:Header>
-        <met:SessionHeader>
-           <met:sessionId>{session_id}</met:sessionId>
-        </met:SessionHeader>
-     </soapenv:Header>
-     <soapenv:Body>
-        <met:checkRetrieveStatus>
-           <met:asyncProcessId>{async_process_id}</met:asyncProcessId>
-        </met:checkRetrieveStatus>
-     </soapenv:Body>
-  </soapenv:Envelope>
-  """
-
-# Body for retrieve metadata by specified package.xml
-retrieve_body = """
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-        xmlns:met="http://soap.sforce.com/2006/04/metadata">
-        <soapenv:Header>
-            <met:SessionHeader>
-                <met:sessionId>{0}</met:sessionId>
-            </met:SessionHeader>
-        </soapenv:Header>
-        <soapenv:Body>
-            <met:retrieve>
-                <met:retrieveRequest>
-                    <met:apiVersion>{1}.0</met:apiVersion>
-                      {{allowed_packages}}
-                    <met:unpackaged>
-                      {{meta_types}}
-                    </met:unpackaged>
-                </met:retrieveRequest>
-            </met:retrieve>
-        </soapenv:Body>
-    </soapenv:Envelope>
-"""
-
-cancel_deployment = """
-  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-    xmlns:met="http://soap.sforce.com/2006/04/metadata">
-      <soapenv:Header>
-        <met:SessionHeader>
-          <met:sessionId>{0}</met:sessionId>
-        </met:SessionHeader>
-      </soapenv:Header>
-      <soapenv:Body>
-        <met:cancelDeploy>
-          <met:String>{1}</met:String>
-        </met:cancelDeploy>
-      </soapenv:Body>
-  </soapenv:Envelope>"""
-
-# Body for checking deploy status
-check_deploy_status = """
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-    xmlns:met="http://soap.sforce.com/2006/04/metadata">
-       <soapenv:Header>
-          <met:SessionHeader>
-             <met:sessionId>{0}</met:sessionId>
-          </met:SessionHeader>
-       </soapenv:Header>
-       <soapenv:Body>
-          <met:checkDeployStatus>
-             <met:asyncProcessId>{1}</met:asyncProcessId>
-             <met:includeDetails>true</met:includeDetails>
-          </met:checkDeployStatus>
-       </soapenv:Body>
-    </soapenv:Envelope>"""
-
-# Body for deploying base64 zipfile
-deploy_package = """
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-    xmlns:met="http://soap.sforce.com/2006/04/metadata">
-        <soapenv:Header>
-            <met:SessionHeader>
-                <met:sessionId>{0}</met:sessionId>
-            </met:SessionHeader>
-        </soapenv:Header>
-       <soapenv:Body>
-          <met:deploy>
-             <met:ZipFile>{1}</met:ZipFile>
-             <met:DeployOptions>
-                <met:allowMissingFiles>{2}</met:allowMissingFiles>
-                <met:autoUpdatePackage>{3}</met:autoUpdatePackage>
-                <met:checkOnly>{4}</met:checkOnly>
-                <met:ignoreWarnings>{5}</met:ignoreWarnings>
-                <met:performRetrieve>{6}</met:performRetrieve>
-                <met:purgeOnDelete>{7}</met:purgeOnDelete>
-                <met:rollbackOnError>{8}</met:rollbackOnError>
-                <met:runAllTests>{9}</met:runAllTests>
-                <met:singlePackage>{10}</met:singlePackage>
-             </met:DeployOptions>
-          </met:deploy>
-       </soapenv:Body>
-    </soapenv:Envelope>"""
-
-static_resource_meta_xml = """<?xml version="1.0" encoding="UTF-8"?>
-<StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
-    <cacheControl>{0}</cacheControl>
-    <contentType>application/zip</contentType>
-    <description>{1}</description>
-</StaticResource>
-"""
-
-# Body for retrieving Metadata of sObjects and Workflow
-retrieve_sobjects_workflow_task_body = """
-  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-  xmlns:met="http://soap.sforce.com/2006/04/metadata">
-     <soapenv:Header>
-        <met:SessionHeader>
-           <met:sessionId>{0}</met:sessionId>
-        </met:SessionHeader>
-     </soapenv:Header>
-     <soapenv:Body>
-        <met:retrieve>
-           <met:retrieveRequest>
-              <met:apiVersion>{1}.0</met:apiVersion>
-              <met:unpackaged>
-                  <met:types>
-                      <met:members>*</met:members>
-                      <met:members>Account</met:members>
-                      <met:members>AccountContactRole</met:members>
-                      <met:members>Activity</met:members>
-                      <met:members>Asset</met:members>
-                      <met:members>Campaign</met:members>
-                      <met:members>CampaignMember</met:members>
-                      <met:members>Case</met:members>
-                      <met:members>CaseContactRole</met:members>
-                      <met:members>Contact</met:members>
-                      <met:members>ContentVersion</met:members>
-                      <met:members>Contract</met:members>
-                      <met:members>ContractContactRole</met:members>
-                      <met:members>Event</met:members>
-                      <met:members>Idea</met:members>
-                      <met:members>Lead</met:members>
-                      <met:members>Opportunity</met:members>
-                      <met:members>OpportunityContactRole</met:members>
-                      <met:members>OpportunityLineItem</met:members>
-                      <met:members>PartnerRole</met:members>
-                      <met:members>Product2</met:members>
-                      <met:members>Site</met:members>
-                      <met:members>Solution</met:members>
-                      <met:members>Task</met:members>
-                      <met:members>User</met:members>
-                      <name>CustomObject</name>
-                  </met:types>
-                  <met:types>
-                      <met:members>*</met:members>
-                      <name>Workflow</name>
-                  </met:types>
-                  <met:version>{1}.0</met:version>
-              </met:unpackaged>
-           </met:retrieveRequest>
-        </met:retrieve>
-     </soapenv:Body>
-  </soapenv:Envelope>"""
-
-# Body for retrieving all metadata
-retrieve_all_task_body = """
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-      xmlns:met="http://soap.sforce.com/2006/04/metadata">
-        <soapenv:Header>
-            <met:SessionHeader>
-               <met:sessionId>{0}</met:sessionId>
-            </met:SessionHeader>
-        </soapenv:Header>
-        <soapenv:Body>
-            <met:retrieve>
-                <met:retrieveRequest>
-                    <met:apiVersion>{1}.0</met:apiVersion>
-                    <met:unpackaged>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>AccountCriteriaBasedSharingRule</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>AccountOwnerSharingRule</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>AnalyticSnapshot</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>ApexClass</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>ApexComponent</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>ApexPage</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>ApexTrigger</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>ApprovalProcess</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>AuthProvider</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>CallCenter</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>CampaignCriteriaBasedSharingRule</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>CampaignOwnerSharingRule</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>CaseCriteriaBasedSharingRule</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>CaseOwnerSharingRule</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Community</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>ContactCriteriaBasedSharingRule</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>ContactOwnerSharingRule</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>CustomApplication</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>CustomApplicationComponent</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>CustomLabels</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <met:members>Account</met:members>
-                            <met:members>AccountContactRole</met:members>
-                            <met:members>Activity</met:members>
-                            <met:members>Asset</met:members>
-                            <met:members>Campaign</met:members>
-                            <met:members>CampaignMember</met:members>
-                            <met:members>Case</met:members>
-                            <met:members>CaseContactRole</met:members>
-                            <met:members>Contact</met:members>
-                            <met:members>ContentVersion</met:members>
-                            <met:members>Contract</met:members>
-                            <met:members>ContractContactRole</met:members>
-                            <met:members>Event</met:members>
-                            <met:members>Idea</met:members>
-                            <met:members>Lead</met:members>
-                            <met:members>Opportunity</met:members>
-                            <met:members>OpportunityCompetitor</met:members>
-                            <met:members>OpportunityContactRole</met:members>
-                            <met:members>OpportunityLineItem</met:members>
-                            <met:members>PartnerRole</met:members>
-                            <met:members>Pricebook2</met:members>
-                            <met:members>Product2</met:members>
-                            <met:members>Site</met:members>
-                            <met:members>Solution</met:members>
-                            <met:members>Task</met:members>
-                            <met:members>User</met:members>
-                            <name>CustomObject</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>CustomObjectTranslation</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>CustomPageWebLink</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>CustomSite</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>CustomTab</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Dashboard</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>DataCategoryGroup</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <met:members>SharedDocuments</met:members>
-                            <name>Document</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>EmailTemplate</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Flow</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Group</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>HomePageComponent</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>HomePageLayout</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Layout</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>LeadCriteriaBasedSharingRule</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>LeadOwnerSharingRule</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Letterhead</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>OpportunityCriteriaBasedSharingRule</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>OpportunityOwnerSharingRule</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>PermissionSet</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Profile</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Queue</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>QuickAction</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Report</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>ReportType</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Role</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Scontrol</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>StaticResource</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Workflow</name>
-                        </met:types>
-                        <met:types>
-                            <met:members>*</met:members>
-                            <name>Settings</name>
-                        </met:types>
-                      <met:version>{1}.0</met:version>
-                    </met:unpackaged>
-                </met:retrieveRequest>
-            </met:retrieve>
-        </soapenv:Body>
-    </soapenv:Envelope>"""
+        return self.create_partner_envelope(describe_layout_request_body)

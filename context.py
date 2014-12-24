@@ -143,18 +143,17 @@ def get_settings():
     settings["allowed_packages"] = allowed_packages
     
     # Populate all global variables
-    components = s.get("metadata_types")
-    settings["metadata_types"] = components
-    settings["meta_types"] = [c["type"] for c in components]
-    settings["meta_folders"] = [c["folder"] for c in components]
-    settings["subscribed_meta_types"] = [c["type"] for c in components if c["subscribe"]]
-    settings["subscribed_meta_folders"] = [c["folder"] for c in components if c["subscribe"]]
+    components = s.get("metadataObjects")
+    settings["metadata_objects"] = components
+    settings["metadata_folders"] = [c["directoryName"] for c in components]
+    settings["subscribed_metadata_objects"] = [c["xmlName"] for c in components if c["subscribe"]]
+    settings["subscribed_metadata_folders"] = [c["directoryName"] for c in components if c["subscribe"]]
     for component in components:
-        settings[component["type"]] = component
-        settings[component["folder"]] = component
+        settings[component["xmlName"]] = component
+        settings[component["directoryName"]] = component
 
-        if component["children"]:
-            for child in component["children"]:
+        if "childXmlNames" in component:
+            for child in component["childXmlNames"]:
                 settings[child] = component
 
     return settings

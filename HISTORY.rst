@@ -5,6 +5,18 @@ Release History
 ---------------
 
 
+Release 2.6.1 (2014-12-23)
+++++++++++++++++++
+* Rearrange the menu items of ``Login To`` in alphabetical order
+* New format: ``LastName + FirstName => Email`` for ``Debug Log User List``
+* Milestone change for soap body request
+* Enhancement for quick extension and quick controller
+* Fix Bug for Package Completion
+* Fix Bug for ``opps`` completions in ``getAccountList(List<Opportunity> opps)``
+* Fix Bug for ``allowed_sobjects``, change ``Assert`` to ``Asset``
+* Add a new command ``rename_metadata``
+
+
 Release 2.6.0 (2014-12-20)
 ++++++++++++++++++
 * Enhancement for ``refresh_folder``

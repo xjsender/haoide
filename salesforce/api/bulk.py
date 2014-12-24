@@ -177,6 +177,7 @@ class BulkJob():
         self.settings = settings
         self.operation = operation
         self.sobject = sobject
+        self.soap = SOAP(settings)
         self.batchs = []
         self.result = None
         
@@ -323,7 +324,7 @@ class BulkJob():
         if job_id: self.job_id = job_id
         
         url = self.base_url + "/job/%s" % self.job_id
-        body = soap.close_job
+        soap_body = self.soap.create_request("close_job", {"state": "Closed"})
 
-        response = requests.post(url, body, verify=False, headers=self.headers)
+        response = requests.post(url, soap_body, verify=False, headers=self.headers)
         return response.status_code

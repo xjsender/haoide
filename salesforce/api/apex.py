@@ -7,7 +7,8 @@ import json
 import datetime
 from xml.sax.saxutils import unescape, quoteattr
 
-from .. import xmltodict, soap
+from .. import xmltodict
+from ..soap import SOAP
 from ..login import soap_login
 from ... import requests, util
 
@@ -15,6 +16,7 @@ from ... import requests, util
 class ApexApi():
     def __init__(self, settings, **kwargs):
         self.settings = settings
+        self.soap = SOAP(settings)
         self.api_version = settings["api_version"]
         self.session = None
         self.result = None
@@ -41,8 +43,6 @@ class ApexApi():
         self.session = result
         self.headers = result["headers"]
         self.instance_url = result["instance_url"]
-        self.partner_url = self.instance_url + "/services/Soap/u/%s.0" % self.api_version
-        self.metadata_url = self.instance_url + "/services/Soap/m/%s.0" % self.api_version
         self.apex_url = self.instance_url + "/services/Soap/s/%s.0" % self.api_version
 
         self.result = result
@@ -60,6 +60,8 @@ class ApexApi():
         }
 
         soap_body = soap.run_all_test.format(session_id=self.session["session_id"])
+
+        body = self.soap.create_request('run_all_test')
         try:
             response = requests.post(self.apex_url, soap_body, verify=False, 
                 headers=headers)
@@ -127,22 +129,10 @@ class ApexApi():
         # Element type "String" must be followed by either attribute specifications, ">" or "/>"
         # http://wiki.python.org/moin/EscapingXml
         apex_string = quoteattr(apex_string).replace('"', '')
-        log_levels = ""
-        for log_level in self.settings["anonymous_log_levels"]:
-            log_levels += """
-            <apex:categories>
-                <apex:category>%s</apex:category>
-                <apex:level>%s</apex:level>
-            </apex:categories>
-            """ % (log_level["log_category"], log_level["log_level"])
-
-        soap_body = soap.execute_anonymous_body.format(
-            log_levels=log_levels,
-            session_id=self.session["session_id"], 
-            apex_string=apex_string)
+        body = self.soap.create_request('execute_anonymous', {"apex_string": apex_string})
 
         try:
-            response = requests.post(self.apex_url, soap_body, verify=False, 
+            response = requests.post(self.apex_url, body, verify=False, 
                 headers=headers)
         except UnicodeEncodeError as ue:
             result = {
@@ -182,9 +172,9 @@ class ApexApi():
             return result
         
         # If execute anonymous succeed, just display message with a new view
-        result["debugLog"] = unescape(util.getUniqueElementValueFromXmlString(content, "debugLog"))
+        result["debugLog"] = util.getUniqueElementValueFromXmlString(content, "debugLog")
         result["column"] = util.getUniqueElementValueFromXmlString(content, "column")
-        result["compileProblem"] = unescape(util.getUniqueElementValueFromXmlString(content, "compileProblem"))
+        result["compileProblem"] = util.getUniqueElementValueFromXmlString(content, "compileProblem")
         result["compiled"] = util.getUniqueElementValueFromXmlString(content, "compiled")
         result["line"] = util.getUniqueElementValueFromXmlString(content, "line")
         result["success"] = util.getUniqueElementValueFromXmlString(content, "success")

@@ -189,7 +189,7 @@
     },
 
     {
-        "caption": "Open Log Panel",
+        "caption": "SublimeApex: Open Log Panel",
         "command": "show_panel",
         "args": {
             "panel": "output.log"
@@ -197,10 +197,10 @@
     },
 
     {
-        "caption": "Open Coverage Panel",
+        "caption": "SublimeApex: Open Diff Panel",
         "command": "show_panel",
         "args": {
-            "panel": "output.code_coverage"
+            "panel": "output.diff_with_server"
         }
     },
 

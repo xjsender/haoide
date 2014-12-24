@@ -13,6 +13,8 @@
 
             {"caption": "-"},
 
+            {"caption": "Rename Metadata", "command": "rename_metadata"},
+
             {"caption": "Retrieve from Server", "command": "retrieve_file_from_server"},
             
             {"caption": "Deploy to Server", "command": "deploy_file_to_server"},

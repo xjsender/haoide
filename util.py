@@ -23,6 +23,25 @@ from . import context
 from xml.sax.saxutils import unescape
 
 
+def get_session_info(settings):
+    """ Get Session Info
+
+    Arguments:
+
+    * settings -- plugin settings
+
+    Return:
+
+    * session -- Session Info
+    """
+
+    session = None
+    session_directory = os.path.join(settings["workspace"], ".config", "session.json")
+    if os.path.isfile(session_directory):
+        session = json.loads(open(session_directory).read())
+
+    return session
+
 def get_local_timezone_offset():
     """ Return the timezone offset of local time with GMT standard
 
@@ -57,8 +76,10 @@ def server_datetime(local_datetime):
     """ Convert the Datetime got from local to GMT Standard
 
     Return:
+
     * server_datetime -- standard GMT server datetime
     """
+
     offset = get_local_timezone_offset()
     server_datetime = local_datetime + datetime.timedelta(hours=-offset)
 
@@ -782,23 +803,60 @@ def get_view_by_id(view_id):
 
     return view
 
-def build_folders_dict(dirs):
+def build_package_types(package_xml_content):
+    result = xmltodict.parse(package_xml_content)
+
+    elements = []
+    metadata_types = result["Package"]["types"]
+
+    # If there is only one types in package
+    if isinstance(metadata_types, dict): 
+        metadata_types = [metadata_types]
+
+    types = {}
+    for t in metadata_types:
+        name = t["name"]
+        members = t["members"]
+
+        if isinstance(members, str):
+            types[name] = [members]
+        elif isinstance(members, list):
+            types[name] = members
+
+    return types
+
+def build_folder_types(dirs):
     """  Build folders_dict for folder refreshing
         {
-            "classes": "<workspace>/src/classes",
-            "triggers": "<workspace>/src/triggers",
-            "objects": "<workspace>/src/objects",
+            "ApexClass": ["*"],
+            "ApexTrigger": ["*"],
+            "CustomObject": ["*"]
         }
     """
     settings = context.get_settings()
-    folders_dict = {}
+    dname = settings["default_project_name"]
+    types = {}
     for _dir in dirs:
-        project_name, folder_name = get_path_attr(_dir)
-        if folder_name not in settings: continue
-        if project_name not in settings["default_project_name"]: continue
-        folders_dict[folder_name] = _dir
+        base, folder = os.path.split(_dir)
+        
+        if folder not in settings: continue
+        if dname not in _dir: continue
 
-    return folders_dict
+        xml_name = settings[folder]["xmlName"]
+        if xml_name == "CustomObject":
+            types[xml_name] = [
+                "Account", "AccountContactRole", "Activity", 
+                "Asset", "Campaign", "CampaignMember", "Case", 
+                "CaseContactRole", "Contact", "ContentVersion", 
+                "Contract", "ContractContactRole", "Event", "Idea", 
+                "Lead", "Opportunity", "OpportunityContactRole", 
+                "OpportunityLineItem", "PartnerRole", "Product2", 
+                "Site", "Solution", "Task", "User", "*"
+            ]
+        else:
+            types[xml_name] = ["*"]
+
+    return types
 
 def build_package_dict(files, ignore_folder=True):
     """ Build Package Dict as follow structure by files
@@ -826,12 +884,12 @@ def build_package_dict(files, ignore_folder=True):
         # Ignore "-meta.xml"
         if f.endswith("-meta.xml"): continue
 
-        # Get meta_type and code name
+        # Get xml_name and code name
         if ignore_folder:
             base, name = os.path.split(f)
             name, extension = name.split(".")
             base, folder = os.path.split(base)
-            meta_type = settings[folder]["type"]
+            xml_name = settings[folder]["xmlName"]
             file_dict = {
                 "name": name,
                 "dir": f,
@@ -841,7 +899,7 @@ def build_package_dict(files, ignore_folder=True):
         else:
             base, name = os.path.split(f)
             base, folder = os.path.split(base)
-            meta_type = settings[folder]["type"]
+            xml_name = settings[folder]["xmlName"]
             file_dict = {
                 "name": name,
                 "dir": f,
@@ -850,10 +908,10 @@ def build_package_dict(files, ignore_folder=True):
             }
 
         # Build dict
-        if meta_type in package_dict:
-            package_dict[meta_type].append(file_dict)
+        if xml_name in package_dict:
+            package_dict[xml_name].append(file_dict)
         else:
-            package_dict[meta_type] = [file_dict]
+            package_dict[xml_name] = [file_dict]
 
     return package_dict
 
@@ -1057,53 +1115,6 @@ def build_aura_package(files_or_dirs):
     os.remove(zipfile_path)
 
     return base64_package
-
-def build_package_types(meta_types):
-    """ Build <types> by specified metadata types
-    """
-
-    types = []
-    for t in meta_types:
-        if t == "CustomObject":
-            types.append("""
-                <met:types>
-                    <met:members>*</met:members>
-                    <met:members>Account</met:members>
-                    <met:members>AccountContactRole</met:members>
-                    <met:members>Activity</met:members>
-                    <met:members>Asset</met:members>
-                    <met:members>Campaign</met:members>
-                    <met:members>CampaignMember</met:members>
-                    <met:members>Case</met:members>
-                    <met:members>CaseContactRole</met:members>
-                    <met:members>Contact</met:members>
-                    <met:members>ContentVersion</met:members>
-                    <met:members>Contract</met:members>
-                    <met:members>ContractContactRole</met:members>
-                    <met:members>Event</met:members>
-                    <met:members>Idea</met:members>
-                    <met:members>Lead</met:members>
-                    <met:members>Opportunity</met:members>
-                    <met:members>OpportunityContactRole</met:members>
-                    <met:members>OpportunityLineItem</met:members>
-                    <met:members>PartnerRole</met:members>
-                    <met:members>Product2</met:members>
-                    <met:members>Site</met:members>
-                    <met:members>Solution</met:members>
-                    <met:members>Task</met:members>
-                    <met:members>User</met:members>
-                    <name>%s</name>
-                </met:types>
-            """ % t)
-        else:
-            types.append("""
-                <met:types>
-                    <met:members>*</met:members>
-                    <name>%s</name>
-                </met:types>
-            """ % t)
-
-    return " ".join(types)
 
 def base64_encode(zipfile):
     with open(zipfile, "rb") as f:
@@ -2209,7 +2220,18 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
     if len(elementsByName) > 0:
         elementValue = elementsByName[0].toxml().replace('<' +\
             elementName + '>','').replace('</' + elementName + '>','')
-    return elementValue
+    return unescape(elementValue, {"&apos;": "'", "&quot;": '"'})
+
+def get_response_error(response):
+    content = response.content
+    result = {"success": False}
+    if response.status_code == 500:
+        result["Error Code"] = getUniqueElementValueFromXmlString(content, "faultcode")
+        result["Error Message"] = getUniqueElementValueFromXmlString(content, "faultstring")
+    else:
+        result["Error Code"] = getUniqueElementValueFromXmlString(content, "errorCode")
+        result["Error Message"] = getUniqueElementValueFromXmlString(content, "message")
+    return result
 
 def get_path_attr(path_dir):
     """Return project name and component folder attribute
@@ -2224,7 +2246,7 @@ def get_path_attr(path_dir):
     * folder -- folder describe defined in settings, for example, ApexClass foder is 'src/classes'
     """
     # Get the Folder Name and Project Name
-    path, meta_folder = os.path.split(path_dir)
+    path, metadata_folder = os.path.split(path_dir)
     path, src = os.path.split(path)
     path, project_name = os.path.split(path)
 
@@ -2232,7 +2254,7 @@ def get_path_attr(path_dir):
     year = get_current_year()
     if year in project_name: project_name = project_name[:-9]
 
-    return project_name, meta_folder
+    return project_name, metadata_folder
 
 def get_current_year():
     """Get the current year
@@ -2264,12 +2286,12 @@ def get_meta_folder(file_name):
 
     Returns: 
 
-    * meta_folder -- the metadata folder
+    * metadata_folder -- the metadata folder
     """
 
     folder, name = os.path.split(file_name)
-    src_folder, meta_folder = os.path.split(folder)
-    return meta_folder
+    src_folder, metadata_folder = os.path.split(folder)
+    return metadata_folder
 
 def get_component_attribute(file_name):
     """
@@ -2298,16 +2320,16 @@ def get_component_attribute(file_name):
     # Check whether current file is subscribed component
     folder, name = os.path.split(file_name)
     component_name = name.split(".")[0]
-    src_folder, meta_folder = os.path.split(folder)
-    if meta_folder not in settings["meta_folders"]:
+    src_folder, metadata_folder = os.path.split(folder)
+    if metadata_folder not in settings["metadata_folders"]:
         return None, None
 
-    meta_type = settings[meta_folder]["type"]
+    xml_name = settings[metadata_folder]["xmlName"]
     username = settings["username"]
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
 
     try:
-        component_attribute = component_settings.get(username)[meta_type][component_name.lower()]
+        component_attribute = component_settings.get(username)[xml_name][component_name.lower()]
     except:
         component_attribute, component_name = None, None
 
@@ -2334,7 +2356,7 @@ def check_enabled(file_name, check_cache=True):
     # Check whether current file is subscribed component
     folder, name = os.path.split(file_name)
     src_folder, folder_name = os.path.split(folder)
-    if folder_name not in settings["meta_folders"]: 
+    if folder_name not in settings["metadata_folders"]: 
         sublime.status_message("Not valid SFDC component")
         return False
 

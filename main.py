@@ -85,16 +85,16 @@ class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
 
         return True
 
-class ToggleMetadataTypes(sublime_plugin.WindowCommand):
+class ToggleMetadataObjects(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(ToggleMetadataTypes, self).__init__(*args, **kwargs)
+        super(ToggleMetadataObjects, self).__init__(*args, **kwargs)
 
     def run(self):
         self.s = sublime.load_settings("toolingapi.sublime-settings")
-        self.components = self.s.get("metadata_types")
+        self.components = self.s.get("metadataObjects")
         self.components = sorted(self.components, key=lambda k : k['subscribe'])
         self.component_types = ["%s=>%s" % ("Subscribed" if c["subscribe"] else "Unsubscribed", 
-            c["type"]) for c in self.components]
+            c["xmlName"]) for c in self.components]
         self.component_types = sorted(self.component_types)
         self.window.show_quick_panel(self.component_types, self.on_done)
 
@@ -104,21 +104,21 @@ class ToggleMetadataTypes(sublime_plugin.WindowCommand):
         chosen_type = self.component_types[index].split("=>")[1]
         subscribe_type, is_subscribe = None, False
         for c in self.components:
-            if c["type"] == chosen_type:
+            if c["xmlName"] == chosen_type:
                 c["subscribe"] = is_subscribe = not c["subscribe"]
-                subscribe_type = c["type"]
+                subscribe_type = c["xmlName"]
                 break
 
-        self.s.set("metadata_types", self.components)
+        self.s.set("metadataObjects", self.components)
         sublime.save_settings("toolingapi.sublime-settings")
         sublime.status_message("%s is %s" % (subscribe_type, 
             "subscribed" if is_subscribe else "unsubscribed"))
 
         if not is_subscribe: return
         settings = context.get_settings()
-        _dir = os.path.join(settings["workspace"], "src", settings[chosen_type]["folder"])
-        folders_dict = util.build_folders_dict([_dir])
-        processor.handle_refresh_folder(folders_dict)
+        _dir = os.path.join(settings["workspace"], "src", settings[chosen_type]["directoryName"])
+        types = util.build_folder_types([_dir])
+        processor.handle_refresh_folder(types)
 
 class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -153,7 +153,7 @@ class ClearSessionCacheCommand(sublime_plugin.WindowCommand):
             os.remove(session_path)
             sublime.status_message("Session cache is cleared")
         except:
-            sublime.status_message("Session cache clear is failed")
+            sublime.status_message("Session cache clear failed")
 
 class ClearCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -163,7 +163,7 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
         self.cache_name = cache_name+".sublime-settings"
         self.caches = util.get_sobject_caches(self.cache_name)
         if not self.caches:
-            sublime.message_dialog("No cache already")
+            util.show_output_panel("No cache already")
             return
 
         self.window.show_quick_panel(self.caches, self.on_done)
@@ -244,7 +244,7 @@ class ExecuteRestTest(sublime_plugin.TextCommand):
             data = json.loads(data) if data else None
         except ValueError as ve:
             panel = sublime.active_window().create_output_panel('log')  # Create panel
-            util.append_message(panel, 'JSON Input Parse Error: ' + str(ve), False)
+            util.show_output_panel(str(ve))
             if not sublime.ok_cancel_dialog("Do you want to try again?", "Yes?"): return
             self.view.window().show_input_panel("Input JSON Body: ", 
                 "", self.on_input, None, None)
@@ -267,10 +267,11 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
         sel_text = self.view.substr(self.view.word(sel.begin()))
         
         settings = context.get_settings()
-        for ct in settings["subscribed_meta_types"]:
-            folder = settings[ct]["folder"]
-            extension = settings[ct]["extension"]
-            target_file = settings["workspace"] + "/src/%s/%s%s" % (folder, sel_text, extension)
+        for ct in settings["subscribed_metadata_objects"]:
+            if "suffix" not in settings[ct]: continue
+            suffix = settings[ct]["suffix"]
+            folder = settings[ct]["directoryName"]
+            target_file = settings["workspace"] + "/src/%s/%s.%s" % (folder, sel_text, suffix)
             if os.path.isfile(target_file):
                 self.view.window().open_file(target_file)
 
@@ -375,12 +376,12 @@ class RefreshFolderCommand(sublime_plugin.WindowCommand):
         if not sublime.ok_cancel_dialog(message, "Refresh Folders"): return
 
         # Retrieve file from server
-        processor.handle_refresh_folder(self.folders_dict)
+        processor.handle_refresh_folder(self.types)
 
     def is_visible(self, dirs):
         if not dirs: return False
-        self.folders_dict = util.build_folders_dict(dirs)
-        if not self.folders_dict: return False
+        self.types = util.build_folder_types(dirs)
+        if not self.types: return False
 
         return True
 
@@ -395,18 +396,18 @@ class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
         dirs = []
         if not retrieve_all:
             for c in ["CustomObject", "Workflow"]:
-                _folder = settings[c]["folder"]
-                _dir = os.path.join(settings["workspace"], "src", _folder)
+                metadata_folder = settings[c]["directoryName"]
+                _dir = os.path.join(settings["workspace"], "src", metadata_folder)
                 dirs.append(_dir)
         else:
-            for c in settings["metadata_types"]:
-                _folder = c["folder"]
-                _dir = os.path.join(settings["workspace"], "src", _folder)
+            for c in settings["metadata_objects"]:
+                metadata_folder = c["directoryName"]
+                _dir = os.path.join(settings["workspace"], "src", metadata_folder)
                 dirs.append(_dir)
 
         # Build folders_dict and Refresh these folder
-        folders_dict = util.build_folders_dict(dirs)
-        processor.handle_refresh_folder(folders_dict, not retrieve_all)
+        types = util.build_folder_types(dirs)
+        processor.handle_refresh_folder(types, not retrieve_all)
 
 class CreatePackageXml(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -446,13 +447,25 @@ class RetrievePackageXml(sublime_plugin.WindowCommand):
 
     def run(self, files=None):
         _file = files[0]
+
+        # Build types
+        try:
+            with open(_file, "rb") as fp:
+                content = fp.read()
+            types = util.build_package_types(content)
+        except Exception as ex:
+            util.show_output_panel(str(ex))
+            return
+
+        # Initiate extract_to
         path, name = os.path.split(_file)
-        package_xml_content = open(_file, "rb").read()
         time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
         settings = context.get_settings()
         project_name = settings["default_project_name"]
         extract_to = os.path.join(path, project_name+"-"+time_stamp+"-"+name)
-        processor.handle_retrieve_package(package_xml_content, extract_to)
+
+        # Start retrieve
+        processor.handle_retrieve_package(types, extract_to)
 
     def is_visible(self, files=None):
         if not files: return False
@@ -463,18 +476,56 @@ class RetrievePackageXml(sublime_plugin.WindowCommand):
 
 class RetrievePackageFileCommand(sublime_plugin.TextCommand):
     def run(self, edit):
+        # Build types
+        try:
+            with open(self._file, "rb") as fp:
+                content = fp.read()
+            types = util.build_package_types(content)
+        except Exception as ex:
+            util.show_output_panel(str(ex))
+            return
+
+        # Initiate extract_to
         path, name = os.path.split(self._file)
-        package_xml_content = open(self._file, "rb").read()
         time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
         settings = context.get_settings()
         project_name = settings["default_project_name"]
-        extract_to = os.path.join(path, project_name+"-"+time_stamp)
-        processor.handle_retrieve_package(package_xml_content, extract_to)
+        extract_to = os.path.join(path, project_name+"-"+time_stamp+"-"+name)
+
+        # Start retrieve
+        print (types)
+        processor.handle_retrieve_package(types, extract_to)
 
     def is_visible(self):
         self._file = self.view.file_name()
         if not self._file: return False
         if not self._file.endswith(".xml"): return False
+
+        return True
+
+class RenameMetadata(sublime_plugin.TextCommand):
+    def run(self, edit):
+        self.view.window().show_input_panel("Input New Name", 
+            "", self.on_input, None, None)
+
+    def on_input(self, new_name):
+        if not new_name or not re.match("\w+[a-zA-Z0-9]+", new_name):
+            util.show_output_panel("Input name is not valid")
+            return
+
+        processor.handle_rename_metadata(self.xml_name, self.filename, new_name)
+
+    def is_enabled(self):
+        if not self.view or not self.view.file_name(): return False
+        self.settings = context.get_settings()
+        base, filename = os.path.split(self.view.file_name())
+        base, folder = os.path.split(base)
+        if folder not in self.settings["metadata_folders"]:return False
+        if not util.check_enabled(self.view.file_name(), check_cache=False): 
+            return False
+
+        self.filename = filename.split(".")[0]
+        self.xml_name = self.settings[folder]["xmlName"]
 
         return True
 
@@ -486,8 +537,8 @@ class RetrieveFileFromServer(sublime_plugin.TextCommand):
     def is_enabled(self):
         if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
-        _folder = util.get_meta_folder(self.view.file_name())
-        if _folder not in self.settings["meta_folders"]:return False
+        metadata_folder = util.get_meta_folder(self.view.file_name())
+        if metadata_folder not in self.settings["metadata_folders"]: return False
         if not util.check_enabled(self.view.file_name(), check_cache=False): 
             return False
 
@@ -499,19 +550,27 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
 
     def run(self, files):
         settings = context.get_settings()
-        package_dict = util.build_package_dict(files)
-        package_xml_content = util.build_package_xml(settings, package_dict)
-        processor.handle_retrieve_package(package_xml_content, 
-                                          settings["workspace"], 
-                                          ignore_package_xml=True)
+        types = {}
+        for _file in files:
+            base, filename = os.path.split(_file)
+            base, folder = os.path.split(base)
+
+            name = filename.split(".")[0]
+            xmlName = settings[folder]["xmlName"]
+            if xmlName in types:
+                types[xmlName].append(name)
+            else:
+                types[xmlName] = [name]
+
+        processor.handle_retrieve_package(types, settings["workspace"], ignore_package_xml=True)
 
     def is_visible(self, files):
         if not files: return False
         settings = context.get_settings()
         for _file in files:
             if not os.path.isfile(_file): continue # Ignore folder
-            _folder = util.get_meta_folder(_file)
-            if _folder not in settings["meta_folders"]: return False
+            metadata_folder = util.get_meta_folder(_file)
+            if metadata_folder not in settings["metadata_folders"]: return False
             if not util.check_enabled(_file, check_cache=False): 
                 return False
 
@@ -534,8 +593,8 @@ class DestructFileFromServer(sublime_plugin.TextCommand):
     def is_enabled(self):
         if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
-        _folder = util.get_meta_folder(self.view.file_name())
-        if _folder not in self.settings["meta_folders"]:return False
+        metadata_folder = util.get_meta_folder(self.view.file_name())
+        if metadata_folder not in self.settings["metadata_folders"]:return False
         if not util.check_enabled(self.view.file_name(), check_cache=False): 
             return False
 
@@ -556,7 +615,7 @@ class DestructFilesFromServer(sublime_plugin.WindowCommand):
         for _file in files:
             if not os.path.isfile(_file): continue # Ignore folder
             _folder = util.get_meta_folder(_file)
-            if _folder not in self.settings["meta_folders"]: return False
+            if _folder not in self.settings["metadata_folders"]: return False
             if not util.check_enabled(_file, check_cache=False): 
                 return False
 
@@ -605,7 +664,7 @@ class DeployOpenFilesToServer(sublime_plugin.WindowCommand):
             _file = _view.file_name()
             if not _file or not os.path.isfile(_file): continue # Ignore folder
             _folder = util.get_meta_folder(_file) # Ignore non-sfdc files
-            if _folder not in self.settings["meta_folders"]:
+            if _folder not in self.settings["metadata_folders"]:
                 continue
 
             self.files.append(_file)
@@ -659,7 +718,7 @@ class DeployFileToServer(sublime_plugin.TextCommand):
         if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
         _folder = util.get_meta_folder(self.view.file_name())
-        if _folder not in self.settings["meta_folders"]:
+        if _folder not in self.settings["metadata_folders"]:
             return False
 
         return True
@@ -708,7 +767,7 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
         for _file in files:
             if not os.path.isfile(_file): continue # Ignore folder
             _folder = util.get_meta_folder(_file)
-            if _folder not in self.settings["meta_folders"]:
+            if _folder not in self.settings["metadata_folders"]:
                 return False
 
         return True
@@ -1107,16 +1166,10 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
     def run(self, startURL=""):
         # Get toolingapi settings
         settings = context.get_settings()
+        session = util.get_session_info(settings)
 
         # If .config/session.json is exist, just use frontdoor method
-        session_path = settings["workspace"]+"/.config/session.json"
-        if os.path.isfile(session_path):
-            session = json.loads(open(session_path).read())
-            show_url = "%s/secur/frontdoor.jsp?sid=%s&retURL=%s" % (
-                session["instance_url"], session["session_id"], startURL
-            )
-        # If .config/session.json is not exist, use credentials to login
-        else:
+        if not session:
             show_params = {
                 "un": settings["username"],
                 "pw": settings["password"],
@@ -1124,6 +1177,12 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
             }
             show_params = urllib.parse.urlencode(show_params)
             show_url = settings["login_url"] + '?%s' % show_params
+
+        # If .config/session.json is not exist, use credentials to login
+        else:
+            show_url = "%s/secur/frontdoor.jsp?sid=%s&retURL=%s" % (
+                session["instance_url"], session["session_id"], startURL
+            )
 
         util.open_with_browser(show_url)
 
@@ -1435,8 +1494,7 @@ class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
         app_attr = self.aura_attrs[app_name]
 
         settings = context.get_settings()
-        session_path = settings["workspace"]+"/.config/session.json"
-        session = json.loads(open(session_path).read())
+        session = util.get_session_info(settings)
         instance_url = session["instance_url"]
         instance = instance_url[8:instance_url.index(".")]
         if instance == "emea": instance = "eu0"
@@ -1450,22 +1508,35 @@ class RetrieveLightingFromServer(sublime_plugin.WindowCommand):
         super(RetrieveLightingFromServer, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        package_dict = util.build_package_dict(dirs, ignore_folder=False)
-        package_xml_content = util.build_package_xml(self.settings, package_dict)
-        processor.handle_retrieve_package(package_xml_content, 
-                                          self.settings["workspace"], 
-                                          ignore_package_xml=True)
+        processor.handle_retrieve_package(
+            self.types, 
+            self.settings["workspace"], 
+            ignore_package_xml=True
+        )
 
     def is_visible(self, dirs):
         if len(dirs) == 0: return False
         self.settings = context.get_settings()
+        self.types = {}
         for _dir in dirs:
             if os.path.isfile(_dir): continue
             base, _name = os.path.split(_dir)
             base, _folder = os.path.split(base)
-            if _folder != "aura": return False
-            if self.settings["default_project_name"] not in _dir:
-                return False
+
+            # Check Metadata Type
+            if _folder != "aura": continue
+
+            # Check Project Name
+            pn = self.settings["default_project_name"]
+            if pn not in _dir: continue
+
+            if "AuraDefinitionBundle" in self.types:
+                self.types["AuraDefinitionBundle"].append(_name)
+            else:
+                self.types["AuraDefinitionBundle"] = [_name]
+        
+        # Check whether any aura components are chosen
+        if not self.types: return False
 
         return True
 

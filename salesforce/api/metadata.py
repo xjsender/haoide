@@ -7,7 +7,8 @@ import json
 import datetime
 from xml.sax.saxutils import unescape, quoteattr
 
-from .. import xmltodict, soap
+from .. import xmltodict
+from ..soap import SOAP
 from ..login import soap_login
 from ... import requests, util
 
@@ -16,6 +17,7 @@ class MetadataApi():
     def __init__(self, settings, **kwargs):
         self.settings = settings
         self.api_version = settings["api_version"]
+        self.soap = SOAP(settings)
         self.session = None
         self.result = None
 
@@ -38,129 +40,34 @@ class MetadataApi():
             self.result = result
             return self.result
 
-        self.session = result
-        self.instance_url = result["instance_url"]
-        self.partner_url = self.instance_url + "/services/Soap/u/%s.0" % self.api_version
-        self.metadata_url = self.instance_url + "/services/Soap/m/%s.0" % self.api_version
-        self.apex_url = self.instance_url + "/services/Soap/s/%s.0" % self.api_version
+        self.metadata_url = result["instance_url"] + "/services/Soap/m/%s.0" % self.api_version
 
         self.result = result
         return result
-
-    def describe_layout(self, sobject, recordtype_id):
-        """ Get Page Layout Describe result, including Edit Layout Elements
-            View Layout Elements and Available Picklist Values
-
-        Arguments:
-
-        * sobject -- sobject name
-        * recordtype_id -- RecordType Id
-        """
-        # Firstly Login
+    
+    def rename_metadata(self, options):
         self.login()
 
-        # Combine server_url and headers and soap_body
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
         }
-        soap_body = soap.describe_layout_body.format(
-            session_id=self.session["session_id"], 
-            sobject=sobject, recordtype_id=recordtype_id)
 
-        try:
-            response = requests.post(self.partner_url, soap_body, 
-                verify=False, headers=headers)
-        except Exception as e:
-            self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": self.partner_url,
-                "Operation": "DESCRIBE LAYOUT",
-                "success": False
-            }
-            return self.result
+        # Build soap_body
+        soap_body = self.soap.create_request('rename_metadata', options)
 
-        # Check whether session_id is expired
-        if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
-            return self.describe_layout(sobject, recordtype_name)
-
-        content = response.content
-        result = xmltodict.parse(content)
-
-        try:
-            result = result["soapenv:Envelope"]["soapenv:Body"]["describeLayoutResponse"]["result"]
-        except (KeyError):
-            result = {}
-            result["errorCode"] = "Unknown"
-            result["message"] = 'body["describeLayoutResponse"]["result"] KeyError'
-
-        result["success"] = response.status_code < 399
-
-        # Self.result is used to keep thread result
-        self.result = result
-
-        # This result is used for invoker
-        return result
-
-    def run_all_test(self):
-        # Firstly Login
-        self.login()
-
-        # https://gist.github.com/richardvanhook/1245068
-        headers = {
-            "Content-Type": "text/xml;charset=UTF-8",
-            "Accept-Encoding": 'identity, deflate, compress, gzip',
-            "SOAPAction": '""'
-        }
-
-        soap_body = soap.run_all_test.format(session_id=self.session["session_id"])
-
-        try:
-            response = requests.post(self.apex_url, soap_body, verify=False, 
-                headers=headers)
-        except Exception as e:
-            self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": self.apex_url,
-                "Operation": "Execute Anonymous",
-                "success": False
-            }
-            return self.result
-
-        # Check whether session_id is expired
-        if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
-            return self.execute_anonymous(apex_string)
+        response = requests.post(self.metadata_url, 
+            soap_body, verify=False, headers=headers)
 
         # If status_code is > 399, which means it has error
-        content = response.content
-        result = {"success": response.status_code < 399}
         if response.status_code > 399:
-            if response.status_code == 500:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
-            else:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
+            self.result = util.get_response_error(response)
+            return self.result
 
-            self.result = result
-            return result
-
-        content = response.content
-        result = xmltodict.parse(content)
-        try:
-            result = result["soapenv:Envelope"]["soapenv:Body"]["runTestsResponse"]["result"]
-        except (KeyError):
-            result = {
-                "errorCode": "Convert Xml to JSON Exception",
-                "message": 'body["runTestsResponse"]["result"] KeyError'
-            }
-
-        # print (json.dumps(result, indent=4))
-        result["success"] = response.status_code < 399
-        self.result = result
-        return result
+        result = xmltodict.parse(response.content)
+        self.result = result["soapenv:Envelope"]["soapenv:Body"]["renameMetadataResponse"]["result"]
+        self.result["success"] = True
+        return self.result
 
     def check_status(self, async_process_id):
         """ Ensure the retrieve request is done and then we can 
@@ -175,36 +82,22 @@ class MetadataApi():
             "Accept-Encoding": 'identity, deflate, compress, gzip',
             "SOAPAction": '""'
         }
-        soap_body = soap.check_status_body.format(
-            session_id=self.session["session_id"],
-            async_process_id=async_process_id)
+        soap_body = self.soap.create_request('check_status', {
+            "async_process_id": async_process_id
+        })
 
         response = requests.post(self.metadata_url, soap_body, verify=False, 
             headers=headers)
 
         # If status_code is > 399, which means it has error
-        content = response.content
-        result = {}
         if response.status_code > 399:
-            result["errorCode"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-            result["message"] = util.getUniqueElementValueFromXmlString(content, "message")
-            result["done"] = "Failed"
-            result["success"] = False
-            return result
+            self.result = util.get_response_error(response)
+            return self.result
 
-        content = response.content
-        result = xmltodict.parse(content)
-        try:
-            result = result["soapenv:Envelope"]["soapenv:Body"]["checkStatusResponse"]["result"]
-        except (KeyError):
-            result = {
-                "errorCode": "Convert Xml to JSON Exception",
-                "message": 'body["checkStatusResponse"]["result"] KeyError'
-            }
-
-        # print (json.dumps(result, indent=4))
-        result["success"] = response.status_code < 399
-        return result
+        result = xmltodict.parse(response.content)
+        self.result = result["soapenv:Envelope"]["soapenv:Body"]["checkStatusResponse"]["result"]
+        self.result["success"] = True
+        return self.result
 
     def check_retrieve_status(self, async_process_id):
         """ After async process is done, post a checkRetrieveStatus to 
@@ -219,9 +112,9 @@ class MetadataApi():
             "Accept-Encoding": 'identity, deflate, compress, gzip',
             "SOAPAction": '""'
         }
-        soap_body = soap.check_retrieve_status_body.format(
-            session_id=self.session["session_id"],
-            async_process_id=async_process_id)
+        soap_body = self.soap.create_request('check_retrieve_status', {
+            "async_process_id": async_process_id
+        })
 
         try:
             response = requests.post(self.metadata_url, soap_body, 
@@ -236,23 +129,16 @@ class MetadataApi():
             return self.result
 
         # If status_code is > 399, which means it has error
-        content = response.content
-        result = {"success": response.status_code < 399}
         if response.status_code > 399:
-            if response.status_code == 500:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
-            else:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
-            return result
+            self.result = util.get_response_error(response)
+            return self.result
 
         result = xmltodict.parse(response.content)
         result = result["soapenv:Envelope"]["soapenv:Body"]["checkRetrieveStatusResponse"]["result"]
         result["success"] = response.status_code < 399
         return result
 
-    def retrieve(self, soap_body, timeout=120):
+    def retrieve(self, options, timeout=120):
         """ 1. Issue a retrieve request to start the asynchronous retrieval and asyncProcessId is returned
             2. Thread sleep for a while and then issue a checkStatus request to check whether the async 
                process job is completed.
@@ -263,8 +149,10 @@ class MetadataApi():
 
         Arguments:
 
-        * soap_body -- soap_body for retrieving
+        * options -- {"types" : types, "package_names": package_names}
         """
+        result = self.login()
+        if not result or not result["success"]: return
 
         # Log the StartTime
         start_time = datetime.datetime.now()
@@ -272,30 +160,21 @@ class MetadataApi():
         # Open panel
         panel = sublime.active_window().create_output_panel('log')  # Create panel
 
-        # Firstly Login
-        util.append_message(panel, "[sf:retrieve] Start login...")
-        result = self.login()
-        if not result["success"]:
-            util.append_message(panel, "[sf:retrieve] Login failed...")
-            self.result = result
-            return self.result
-        util.append_message(panel, "[sf:retrieve] Login succeed...")
-
         # 1. Issue a retrieve request to start the asynchronous retrieval
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
         }
 
-        # Populate the soap_body with actual session id
-        parsed_soap_body = soap_body.format(self.session["session_id"], self.api_version)
-
         # [sf:retrieve]
         util.append_message(panel, "[sf:retrieve] Start request for a retrieve...")
 
+        # Build soap_body
+        soap_body = self.soap.create_request('retrieve', options)
+
         # Post retrieve request
         try:
-            response = requests.post(self.metadata_url, parsed_soap_body, verify=False, 
+            response = requests.post(self.metadata_url, soap_body, verify=False, 
                 headers=headers, timeout=120)
         except Exception as e:
             self.result = {
@@ -310,26 +189,18 @@ class MetadataApi():
         if "INVALID_SESSION_ID" in response.text:
             util.append_message(panel, "[sf:retrieve] Session expired, need login again")
             self.login(True)
-            return self.retrieve(soap_body)
+            return self.retrieve(options)
 
         # If status_code is > 399, which means it has error
-        content = response.content
-        result = {"success": response.status_code < 399}
         if response.status_code > 399:
-            if response.status_code == 500:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
-            else:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
-            self.result = result
-            return
+            self.result = util.get_response_error(response)
+            return self.result
 
         # [sf:retrieve]
         util.append_message(panel, "[sf:retrieve] Request for a retrieve submitted successfully.")
 
         # Get async process id
-        async_process_id = util.getUniqueElementValueFromXmlString(content, "id")
+        async_process_id = util.getUniqueElementValueFromXmlString(response.content, "id")
 
         # [sf:retrieve]
         util.append_message(panel, "[sf:retrieve] Request ID for the current retrieve task: "+async_process_id)
@@ -368,7 +239,8 @@ class MetadataApi():
         result = self.check_retrieve_status(async_process_id)
 
         # Catch exception of status retrieve
-        if not result["success"]:
+        if not result["success"] or result["status"] == "Failed":
+            result["success"] = False
             self.result = result
             return self.result
 
@@ -418,24 +290,19 @@ class MetadataApi():
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
         }
-        soap_body = soap.cancel_deployment.format(self.session["session_id"], async_process_id)
-        response = requests.post(self.metadata_url, soap_body, verify=False, 
+        body = self.soap.create_request('cancel_deployment', {
+            "async_process_id": async_process_id
+        })
+
+        response = requests.post(self.metadata_url, body, verify=False, 
             headers=headers)
 
         # If status_code is > 399, which means it has error
-        content = response.content
-        result = {"success": response.status_code < 399}
         if response.status_code > 399:
-            if response.status_code == 500:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
-            else:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
-            self.result = result
-            return result
+            self.result = util.get_response_error(response)
+            return self.result
 
-        result = xmltodict.parse(content)
+        result = xmltodict.parse(response.content)
         # print (json.dumps(result, indent=4))
         try:
             result = result["soapenv:Envelope"]["soapenv:Body"]["cancelDeployResponse"]["result"]
@@ -462,24 +329,19 @@ class MetadataApi():
             "Content-Type": "text/xml;charset=UTF-8",
             "SOAPAction": '""'
         }
-        soap_body = soap.check_deploy_status.format(
-            self.session["session_id"], async_process_id)
+        soap_body = self.soap.create_request('check_deploy_status', {
+            "async_process_id": async_process_id
+        })
+
         response = requests.post(self.metadata_url, soap_body, verify=False, 
             headers=headers, timeout=120)
 
         # If status_code is > 399, which means it has error
-        content = response.content
-        result = {"success": response.status_code < 399}
         if response.status_code > 399:
-            if response.status_code == 500:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
-            else:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
-            return result
+            self.result = util.get_response_error(response)
+            return self.result
             
-        result = xmltodict.parse(content)
+        result = xmltodict.parse(response.content)
         try:
             header = None
             if "soapenv:Header" in result["soapenv:Envelope"]:
@@ -507,6 +369,9 @@ class MetadataApi():
 
         * zipFile -- base64 encoded zipfile 
         """
+        result = self.login()
+        if not result or not result["success"]: return
+
         # Log the StartTime
         start_time = datetime.datetime.now()
 
@@ -519,15 +384,6 @@ class MetadataApi():
         # If just checkOnly, output VALIDATE, otherwise, output DEPLOY
         deploy_or_validate = "validate" if deploy_options["checkOnly"] else "deploy"
 
-        # Firstly Login
-        util.append_message(panel, "[sf:%s] Start login..." % deploy_or_validate)
-        result = self.login()
-        if not result["success"]:
-            util.append_message(panel, "[sf:%s] Login failed..." % deploy_or_validate)
-            self.result = result
-            return self.result
-        util.append_message(panel, "[sf:%s] Login succeed..." % deploy_or_validate)
-
         # 1. Issue a deploy request to start the asynchronous retrieval
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
@@ -536,20 +392,9 @@ class MetadataApi():
 
         # [sf:%s]
         util.append_message(panel, "[sf:%s] Start request for a deploy..." % deploy_or_validate)
-
-        soap_body = soap.deploy_package.format(
-            self.session["session_id"],
-            base64_zip,
-            deploy_options["allowMissingFiles"],
-            deploy_options["autoUpdatePackage"],
-            deploy_options["checkOnly"],
-            deploy_options["ignoreWarnings"],
-            deploy_options["performRetrieve"],
-            deploy_options["purgeOnDelete"],
-            deploy_options["rollbackOnError"],
-            deploy_options["runAllTests"],
-            deploy_options["singlePackage"]
-        )
+        options = deploy_options
+        options["zipfile"] = base64_zip
+        soap_body = self.soap.create_request('deploy', options)
 
         try:
             response = requests.post(self.metadata_url, soap_body, verify=False, headers=headers)
@@ -569,23 +414,16 @@ class MetadataApi():
             return self.deploy(base64_zip)
 
         # If status_code is > 399, which means it has error
-        content = response.content
-        result = {"success": response.status_code < 399}
+        # If status_code is > 399, which means it has error
         if response.status_code > 399:
-            if response.status_code == 500:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "faultcode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "faultstring")
-            else:
-                result["Error Code"] = util.getUniqueElementValueFromXmlString(content, "errorCode")
-                result["Error Message"] = util.getUniqueElementValueFromXmlString(content, "message")
-            self.result = result
-            return
+            self.result = util.get_response_error(response)
+            return self.result
 
         # [sf:%s]
         util.append_message(panel, "[sf:%s] Request for a deploy submitted successfully." % deploy_or_validate)
 
         # Get async process id
-        async_process_id = util.getUniqueElementValueFromXmlString(content, "id")
+        async_process_id = util.getUniqueElementValueFromXmlString(response.content, "id")
 
         # [sf:%s]
         util.append_message(panel, "[sf:%s] Request ID for the current deploy task: %s" % (deploy_or_validate, async_process_id))

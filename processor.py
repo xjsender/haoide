@@ -16,6 +16,7 @@ from xml.sax.saxutils import unescape
 from . import requests, context, util
 from .context import COMPONENT_METADATA_SETTINGS
 from .salesforce import soap, message
+from .salesforce.login import soap_login
 from .salesforce.api.bulk import BulkJob
 from .salesforce.api.bulk import BulkApi
 from .salesforce.api.metadata import MetadataApi
@@ -48,7 +49,7 @@ def populate_users():
         
     # If sobjects is not exist in globals(), post request to pouplate it
     api = ToolingApi(settings)
-    query = """SELECT Id, FirstName, LastName FROM User WHERE LastName != null 
+    query = """SELECT Id, FirstName, LastName, Username FROM User WHERE LastName != null 
                AND IsActive = true"""
     thread = threading.Thread(target=api.query_all, args=(query, ))
     thread.start()
@@ -65,13 +66,14 @@ def populate_users():
     users = {}
     for user in records:
         if not user["FirstName"]:
-            users[user["LastName"]] = user["Id"]
+            name = "%s => %s" % (user["LastName"], user["Username"])
         else:
-            users[user["LastName"] + " " + user["FirstName"]] = user["Id"]
+            name = "%s => %s" % (user["LastName"] + " " + user["FirstName"], user["Username"])
+
+        users[name] = user["Id"]
 
     util.add_config_history("users", users)
     return users
-
 
 def populate_sobject_recordtypes():
     """
@@ -129,12 +131,10 @@ def populate_sobject_recordtypes():
 def handle_update_user_language(language, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
-    session_path = settings["workspace"]+"/.config/session.json"
-    if not os.path.isfile(session_path):
-        sublime.error_message("Please wait until the login succeed")
+    session = util.get_session_info(settings)
+    if not session:
+        util.show_output_panel("Please Login Firstly")
         return
-        
-    session = json.loads(open(session_path).read())
     patch_url = "/sobjects/User/%s" % session["user_id"]
     thread = threading.Thread(target=api.patch, args=(patch_url, {"LanguageLocaleKey": language}, ))
     thread.start()
@@ -217,7 +217,7 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         "View Code Coverage of " + component_name + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_refresh_folder(folders_dict, ignore_package_xml=True, timeout=120):
+def handle_refresh_folder(types, ignore_package_xml=True, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -245,15 +245,7 @@ def handle_refresh_folder(folders_dict, ignore_package_xml=True, timeout=120):
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
-    meta_types = []
-    print (folders_dict)
-    for folder in folders_dict:
-        if not os.path.exists(folders_dict[folder]):
-            os.makedirs(folders_dict[folder])
-        meta_types.append(settings[folder]["type"])
-    types = util.build_package_types(meta_types)
-    body = soap.retrieve_body.replace("{{allowed_packages}}", "").replace("{{meta_types}}", types)
-    thread = threading.Thread(target=api.retrieve, args=(body, ))
+    thread = threading.Thread(target=api.retrieve, args=({"types": types}, ))
     thread.start()
     handle_thread(thread, timeout)
     message = "Refresh Folder"
@@ -1105,8 +1097,8 @@ def handle_new_project(settings, is_update=False, timeout=120):
                     pass
 
         # Makedir for subscribed meta types
-        for meta_folder in settings["subscribed_meta_folders"]:
-            outputdir = os.path.join(extract_to, "src", meta_folder);
+        for metadata_folder in settings["subscribed_metadata_folders"]:
+            outputdir = os.path.join(extract_to, "src", metadata_folder);
             if not os.path.exists(outputdir): os.makedirs(outputdir)
 
         # Extract the zipFile to extract_to
@@ -1118,7 +1110,9 @@ def handle_new_project(settings, is_update=False, timeout=120):
         if "fileProperties" in result and isinstance(result["fileProperties"], list):
             util.reload_apex_code_cache(result["fileProperties"], settings)
         else:
-            print ('fileProperties for new project: ' + json.dumps(result, indent=4))
+            if settings["debug_mode"]:
+                print ('[Debug] fileProperties:\n' + json.dumps(result, indent=4))
+
 
         # Hide panel
         sublime.set_timeout_async(util.hide_output_panel, 500)
@@ -1139,18 +1133,52 @@ def handle_new_project(settings, is_update=False, timeout=120):
 
     settings = context.get_settings()
     api = MetadataApi(settings)
-    types = util.build_package_types(settings["subscribed_meta_types"])
-    body = soap.retrieve_body.replace("{{meta_types}}", types)
-    body = body.replace("{{allowed_packages}}", 
-        "".join(["<met:packageNames>%s</met:packageNames>" % a for a in settings["allowed_packages"]]))
-    thread = threading.Thread(target=api.retrieve, args=(body, ))
+    types = {}
+    for xml_name in settings["subscribed_metadata_objects"]:
+        if xml_name == "CustomObject":
+            types[xml_name] = [
+                "Account", "AccountContactRole", "Activity", 
+                "Asset", "Campaign", "CampaignMember", "Case", 
+                "CaseContactRole", "Contact", "ContentVersion", 
+                "Contract", "ContractContactRole", "Event", "Idea", 
+                "Lead", "Opportunity", "OpportunityContactRole", 
+                "OpportunityLineItem", "PartnerRole", "Product2", 
+                "Site", "Solution", "Task", "User", "*"
+            ]
+        else:
+            types[xml_name] = ["*"]
+
+    thread = threading.Thread(target=api.retrieve, args=({
+        "types": types,
+        "package_names": settings["allowed_packages"]
+    }, ))
     thread.start()
     wating_message = ("Creating New " if not is_update else "Updating ") + " Project"
-    ThreadProgress(api, thread, wating_message, wating_message + " Succeed")
+    ThreadProgress(api, thread, wating_message, wating_message + " Finished")
     handle_thread(thread, timeout)
 
-def handle_retrieve_package(package_xml_content, extract_to, 
-                            ignore_package_xml=False, timeout=120):
+def handle_rename_metadata(meta_type, old_name, new_name, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+        
+        # If not succeed, just stop
+        if not api.result or not api.result["success"]: return
+        result = api.result
+
+        pprint.pprint (result)
+
+    # Start to request
+    settings = context.get_settings()
+    api = MetadataApi(settings)
+    options = {"type": meta_type, "old_name": old_name, "new_name": new_name}
+    thread = threading.Thread(target=api.rename_metadata, args=(options, ))
+    thread.start()
+    handle_thread(thread, timeout)
+    ThreadProgress(api, thread, "Rename Metadata", "Rename Metadata Finished")
+
+def handle_retrieve_package(types, extract_to, ignore_package_xml=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -1168,14 +1196,7 @@ def handle_retrieve_package(package_xml_content, extract_to,
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
-    try:
-        types = util.parse_package(package_xml_content)
-    except xml.parsers.expat.ExpatError as err:
-        sublime.error_message("XML Parse Error: "+str(err))
-        return
-
-    body = soap.retrieve_body.replace("{{meta_types}}", types)
-    thread = threading.Thread(target=api.retrieve, args=(body, ))
+    thread = threading.Thread(target=api.retrieve, args=({"types": types}, ))
     thread.start()
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")

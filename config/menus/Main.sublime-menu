@@ -281,10 +281,32 @@
                         "caption": "Apex Code",
                         "command": "view_component_in_sfdc"
                     },
+
                     {
                         "id": "logintosfdc",
-                        "caption": "Home Page",
-                        "command": "login_to_sfdc"
+                        "caption": "Apex Job",
+                        "command": "login_to_sfdc",
+                        "args": {
+                            "startURL": "/apexpages/setup/listAsyncApexJobs.apexp"
+                        }
+                    },
+
+                    {
+                        "id": "logintosfdc",
+                        "caption": "Apex Test Execution",
+                        "command": "login_to_sfdc",
+                        "args": {
+                            "startURL": "/ui/setup/apex/ApexTestQueuePage"
+                        }
+                    },
+
+                    {
+                        "id": "logintosfdc",
+                        "caption": "Create Object",
+                        "command": "login_to_sfdc",
+                        "args": {
+                            "startURL": "/p/setup/custent/CustomObjectsPage?setupid=CustomObjects"
+                        }
                     },
 
                     {
@@ -304,23 +326,11 @@
                             "startURL": "/setup/ui/listApexTraces.apexp"
                         }
                     },
-
+                    
                     {
                         "id": "logintosfdc",
-                        "caption": "Apex Job",
-                        "command": "login_to_sfdc",
-                        "args": {
-                            "startURL": "/apexpages/setup/listAsyncApexJobs.apexp"
-                        }
-                    },
-
-                    {
-                        "id": "logintosfdc",
-                        "caption": "Create Object",
-                        "command": "login_to_sfdc",
-                        "args": {
-                            "startURL": "/p/setup/custent/CustomObjectsPage?setupid=CustomObjects"
-                        }
+                        "caption": "Home Page",
+                        "command": "login_to_sfdc"
                     },
 
                     {
@@ -329,15 +339,6 @@
                         "command": "login_to_sfdc",
                         "args": {
                             "startURL": "/01Q"
-                        }
-                    },
-
-                    {
-                        "id": "logintosfdc",
-                        "caption": "Apex Test Execution",
-                        "command": "login_to_sfdc",
-                        "args": {
-                            "startURL": "/ui/setup/apex/ApexTestQueuePage"
                         }
                     }
                 ]
@@ -437,9 +438,8 @@
                 "caption": "Settings",
                 "children": [
                     {
-                        "id": "togglemetadatatypes",
-                        "caption": "Toggle Metdata Types",
-                        "command": "toggle_metadata_types"
+                        "caption": "Toggle Metdata Objects",
+                        "command": "toggle_metadata_objects"
                     },
 
                     { "caption": "-" },

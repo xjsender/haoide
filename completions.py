@@ -15,7 +15,7 @@ class PackageCompletions(sublime_plugin.EventListener):
             return []
 
         # Check whether current file is package file
-        pattern = "<types>[\s.*<>\w/]+</types>"
+        pattern = "<types>[\s.*<>\-\w/\%1-9]+</types>"
         if not view.find_all(pattern): return
 
         location = locations[0]
@@ -32,14 +32,14 @@ class PackageCompletions(sublime_plugin.EventListener):
         # <name></name> completion
         full_line = view.full_line(pt)
         if "<name>" in view.substr(full_line):
-            for component in s.get("metadata_types"):
-                display = "%s\t%s" % (component["type"], "Metadata Type")
-                completion_list.append((display, component["type"]))
+            for component in s.get("metadataObjects"):
+                display = "%s\t%s" % (component["xmlName"], "Metadata Type")
+                completion_list.append((display, component["xmlName"]))
 
                 # Component Child
-                if component["children"]:
-                    for child in component["children"]:
-                        display = "%s\t%s" % (child, component["type"])
+                if "childXmlNames" in component:
+                    for child in component["childXmlNames"]:
+                        display = "%s\t%s" % (child, component["xmlName"])
                         completion_list.append((display, child))
             return completion_list
 
@@ -48,41 +48,41 @@ class PackageCompletions(sublime_plugin.EventListener):
             matched_region = view.find("<name>\\w+</name>", full_line.begin())
             if not matched_region: return []
             matched_content = view.substr(matched_region)
-            meta_type = matched_content[6:-7].strip()
+            xml_name = matched_content[6:-7].strip()
             
             # Get the _dir, for example: <workspace>/src/classes
-            if meta_type not in settings: return []
-            folder = settings[meta_type]["folder"]
-            _type = settings[meta_type]["type"]
-            _dir = os.path.join(settings["workspace"], "src", folder)
+            if xml_name not in settings: return []
+            folder = settings[xml_name]["directoryName"]
+            xml_name = settings[xml_name]["xmlName"]
+            directory_name = os.path.join(settings["workspace"], "src", folder)
 
             # File name completion
             if ch != ".":
                 # List File Names
-                for parent, dirnames, filenames in os.walk(_dir):
+                for parent, dirnames, filenames in os.walk(directory_name):
                     for _file in filenames:
                         if _file.endswith("-meta.xml"): continue
                         base, name = os.path.split(_file)
-                        name, extension = name.split(".")
-                        display = "%s\t%s" % (name, _type)
+                        name, suffix = name.split(".")
+                        display = "%s\t%s" % (name, xml_name)
                         completion_list.append((display, name))
 
             # Child content of file name completion
             if ch == ".":
                 # Object properties completion
-                parent = settings[meta_type]
+                parent = settings[xml_name]
                 parent_type = parent["type"]
-                children = settings[meta_type]["children"]
+                children = settings[xml_name]["children"]
                 try:
-                    file_name = os.path.join(_dir, variable_name+parent["extension"])
+                    file_name = os.path.join(directory_name, variable_name+"."+parent["suffix"])
                     if os.path.isfile(file_name):
                         result = xmltodict.parse(open(file_name, "rb"))
-                        key = children[meta_type]
+                        key = children[xml_name]
                         childs = result[parent_type][key]
                         if isinstance(childs, dict): childs = [childs]
                         for child in childs:
                             if "fullName" not in child: continue
-                            display = "%s\t%s" % (child["fullName"], meta_type)
+                            display = "%s\t%s" % (child["fullName"], xml_name)
                             completion_list.append((display, child["fullName"]))
                 except KeyError as e:
                     if settings["debug_mode"]:
@@ -179,7 +179,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                 return util.get_component_completion(settings["username"], "ApexPage")
 
             # Get the variable type by variable name
-            pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[^\\n][<,.\\s>a-zA-Z_1-9]*)\\s+%s[,;\\s:=){]" % variable_name
+            pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[^\\n^(][<,.\\s>a-zA-Z_1-9]*)\\s+%s[,;\\s:=){]" % variable_name
             variable_type = util.get_variable_type(view, pt, pattern)
             variable_type = variable_type.lower()
 
