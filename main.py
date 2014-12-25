@@ -136,7 +136,6 @@ class ReloadSymbolTableCacheCommand(sublime_plugin.WindowCommand):
     def run(self):
         message = "Are you sure you really want to reload symbol table cache?"
         if not sublime.ok_cancel_dialog(message, "Confirm Reload"): return
-        if confirm == False: return
         processor.handle_reload_symbol_tables()
 
 class ClearSessionCacheCommand(sublime_plugin.WindowCommand):
