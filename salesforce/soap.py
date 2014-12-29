@@ -273,7 +273,7 @@ class SOAP():
             <jobInfo xmlns="http://www.force.com/2009/06/asyncapi/dataload">
                 <operation>{operation}</operation>
                 <object>{sobject}</object>
-                <concurrencyMode>{parallel}</concurrencyMode>
+                <concurrencyMode>{mode}</concurrencyMode>
                 <contentType>{content_type}</contentType>
             </jobInfo>
         """.format(**options)

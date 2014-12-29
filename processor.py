@@ -1372,7 +1372,7 @@ def handle_create_component(data, component_name, component_type, markup_or_body
 
         # Get the created component id
         component_id = result.get("id")
-        extension = settings[component_type]["extension"]
+        extension = "." + settings[component_type]["suffix"]
         
         # Save it to component.sublime-settings
         s = sublime.load_settings(COMPONENT_METADATA_SETTINGS)

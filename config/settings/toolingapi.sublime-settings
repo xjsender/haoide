@@ -190,7 +190,7 @@
     },
 
     // The return number of "fetch logs" command
-    "last_n_logs" : 10,
+    "last_n_logs" : 20,
 
     // User Language
     "user_language" : {

@@ -48,41 +48,41 @@ class PackageCompletions(sublime_plugin.EventListener):
             matched_region = view.find("<name>\\w+</name>", full_line.begin())
             if not matched_region: return []
             matched_content = view.substr(matched_region)
-            xml_name = matched_content[6:-7].strip()
+            meta_type = matched_content[6:-7].strip()
             
             # Get the _dir, for example: <workspace>/src/classes
-            if xml_name not in settings: return []
-            folder = settings[xml_name]["directoryName"]
-            xml_name = settings[xml_name]["xmlName"]
-            directory_name = os.path.join(settings["workspace"], "src", folder)
+            if meta_type not in settings: return []
+            folder = settings[meta_type]["directoryName"]
+            _type = settings[meta_type]["xmlName"]
+            _dir = os.path.join(settings["workspace"], "src", folder)
 
             # File name completion
             if ch != ".":
                 # List File Names
-                for parent, dirnames, filenames in os.walk(directory_name):
+                for parent, dirnames, filenames in os.walk(_dir):
                     for _file in filenames:
                         if _file.endswith("-meta.xml"): continue
                         base, name = os.path.split(_file)
-                        name, suffix = name.split(".")
-                        display = "%s\t%s" % (name, xml_name)
+                        name, extension = name.split(".")
+                        display = "%s\t%s" % (name, _type)
                         completion_list.append((display, name))
 
             # Child content of file name completion
             if ch == ".":
                 # Object properties completion
-                parent = settings[xml_name]
-                parent_type = parent["type"]
-                children = settings[xml_name]["children"]
+                parent = settings[meta_type]
+                parent_type = parent["xmlName"]
+                children = settings[meta_type]["childXmlNames"]
                 try:
-                    file_name = os.path.join(directory_name, variable_name+"."+parent["suffix"])
+                    file_name = os.path.join(_dir, variable_name+"."+parent["suffix"])
                     if os.path.isfile(file_name):
                         result = xmltodict.parse(open(file_name, "rb"))
-                        key = children[xml_name]
+                        key = children[meta_type]
                         childs = result[parent_type][key]
                         if isinstance(childs, dict): childs = [childs]
                         for child in childs:
                             if "fullName" not in child: continue
-                            display = "%s\t%s" % (child["fullName"], xml_name)
+                            display = "%s\t%s" % (child["fullName"], meta_type)
                             completion_list.append((display, child["fullName"]))
                 except KeyError as e:
                     if settings["debug_mode"]:

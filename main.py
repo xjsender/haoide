@@ -1378,7 +1378,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
 
         self.settings = context.get_settings()
         workspace = self.settings["workspace"]
-        component_outputdir = os.path.join(workspace, "src", self.settings[self.component_type]["folder"])
+        component_outputdir = os.path.join(workspace, "src", self.settings[self.component_type]["directoryName"])
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
             self.settings = context.get_settings()

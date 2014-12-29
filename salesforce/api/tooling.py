@@ -763,10 +763,6 @@ class ToolingApi():
         if not result["success"]:
             self.result = result
             return self.result
-
-        if not result["success"]:
-            self.result = result
-            return
         
         # Wait for the ApexTestQueueItem is over
         time.sleep(5)
@@ -781,7 +777,7 @@ class ToolingApi():
         
         # If totalSize is Zero, it means we need to wait until test is finished
         while result["totalSize"] == 0 or result["records"][0]["Status"] in ["Queued", "Processing"]:
-            time.sleep(5)
+            time.sleep(2)
             result = self.query(queue_item_soql)
 
         test_result_soql = """SELECT ApexClass.Id,ApexClass.Name,ApexLogId,
