@@ -77,6 +77,7 @@ class PackageCompletions(sublime_plugin.EventListener):
                     file_name = os.path.join(_dir, variable_name+"."+parent["suffix"])
                     if os.path.isfile(file_name):
                         result = xmltodict.parse(open(file_name, "rb"))
+                        if meta_type not in children: return
                         key = children[meta_type]
                         childs = result[parent_type][key]
                         if isinstance(childs, dict): childs = [childs]

@@ -400,7 +400,7 @@
         "xmlName": "InstalledPackage",
         "subscribe": false
     }, {
-        "childXmlNames": "CustomLabel",
+        "childXmlNames": {"CustomLabel": "labels"},
         "directoryName": "labels",
         "inFolder": "false",
         "metaFile": "false",
@@ -477,17 +477,16 @@
         "xmlName": "UiPlugin",
         "subscribe": false
     }, {
-        "childXmlNames": [
-            "CustomField",
-            "BusinessProcess",
-            "CompactLayout",
-            "RecordType",
-            "WebLink",
-            "ValidationRule",
-            "SharingReason",
-            "ListView",
-            "FieldSet"
-        ],
+        "childXmlNames": {
+            "CustomField" : "fields",
+            "RecordType" : "recordTypes",
+            "WebLink" : "webLinks",
+            "ValidationRule" : "validationRules",
+            "NamedFilter" : "namesFilters",
+            "SharingReason" : "sharingReasons",
+            "ListView" : "listViews",
+            "FieldSet" : "fieldSets"
+        },
         "directoryName": "objects",
         "inFolder": "false",
         "metaFile": "false",
@@ -599,15 +598,13 @@
         "xmlName": "Flow",
         "subscribe": false
     }, {
-        "childXmlNames": [
-            "WorkflowFieldUpdate",
-            "WorkflowKnowledgePublish",
-            "WorkflowTask",
-            "WorkflowAlert",
-            "WorkflowSend",
-            "WorkflowOutboundMessage",
-            "WorkflowRule"
-        ],
+        "childXmlNames": {
+            "WorkflowAlert": "alerts",
+            "WorkflowTask": "tasks",
+            "WorkflowOutboundMessage": "outboundMessages",
+            "WorkflowFieldUpdate": "fieldUpdates",
+            "WorkflowRule": "rules"
+        },
         "directoryName": "workflows",
         "inFolder": "false",
         "metaFile": "false",
