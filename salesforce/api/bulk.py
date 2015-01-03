@@ -5,7 +5,8 @@ import os
 import csv
 
 from ..login import soap_login
-from .. import soap, xmltodict
+from ..soap import SOAP
+from .. import xmltodict
 from ... import requests, util
 from ..api.tooling import ToolingApi
 
@@ -216,7 +217,12 @@ class BulkJob():
             return self.result
 
         url = self.base_url + "/job"
-        body = soap.create_job.format(operation=self.operation, sobject=self.sobject)
+        body = self.soap.create_request('new_job', {
+            "operation": self.operation, 
+            "sobject": self.sobject,
+            "mode": "Parallel",
+            "content_type": "CSV"
+        })
         response = requests.post(url, body, verify=False, headers=self.headers)
         self.job_id = util.getUniqueElementValueFromXmlString(response.content, "id")
 

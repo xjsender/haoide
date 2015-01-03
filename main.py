@@ -136,7 +136,6 @@ class ReloadSymbolTableCacheCommand(sublime_plugin.WindowCommand):
     def run(self):
         message = "Are you sure you really want to reload symbol table cache?"
         if not sublime.ok_cancel_dialog(message, "Confirm Reload"): return
-        if confirm == False: return
         processor.handle_reload_symbol_tables()
 
 class ClearSessionCacheCommand(sublime_plugin.WindowCommand):
@@ -1379,7 +1378,7 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
 
         self.settings = context.get_settings()
         workspace = self.settings["workspace"]
-        component_outputdir = os.path.join(workspace, "src", self.settings[self.component_type]["folder"])
+        component_outputdir = os.path.join(workspace, "src", self.settings[self.component_type]["directoryName"])
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)
             self.settings = context.get_settings()
