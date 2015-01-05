@@ -676,14 +676,14 @@
             "metaFile": "true",
             "suffix": "cls",
             "xmlName": "ApexClass",
-            "subscribe": false
+            "subscribe": true
         }, {
             "directoryName": "triggers",
             "inFolder": "false",
             "metaFile": "true",
             "suffix": "trigger",
             "xmlName": "ApexTrigger",
-            "subscribe": false
+            "subscribe": true
         }, {
             "directoryName": "profiles",
             "inFolder": "false",

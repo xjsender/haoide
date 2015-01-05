@@ -666,7 +666,6 @@ class ToolingApi():
             self.result = result
             return self.result
 
-        result["message"] = "TraceFlag creation succeed"
         self.result = result
         return result
 
@@ -924,7 +923,7 @@ class ToolingApi():
         member_result = self.post(url, data)
 
         # Post ContainerAsyncRequest
-        util.append_message(panel, "Start to post ContainerAsyncRequest")
+        util.append_message(panel, "Start to post ContainerAsyncRequest Request")
         data = {
             "MetadataContainerId": container_id,
             "IsCheckOnly": is_check_only,
