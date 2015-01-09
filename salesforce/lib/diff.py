@@ -3,7 +3,7 @@ import difflib
 import time
 import datetime
 import codecs
-
+import os
 
 def diff_changes(file_name, result):
     try:
@@ -14,7 +14,7 @@ def diff_changes(file_name, result):
 
         local = codecs.open(file_name, "r", "utf-8").read().splitlines()
     except UnicodeDecodeError:
-        sublime.message_dialog("Diff only works with UTF-8 files")
+        show_diff_panel("Diff only works with UTF-8 files")
         return
 
     time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
@@ -26,9 +26,12 @@ def diff_changes(file_name, result):
     difftxt = u"\n".join(line for line in diff)
 
     if difftxt == "":
-        sublime.message_dialog("No changes")
+        show_diff_panel("There is no change between %s and server" % os.path.basename(file_name))
         return
 
+    show_diff_panel(difftxt)
+
+def show_diff_panel(difftxt):
     win = sublime.active_window()
     v = win.create_output_panel('diff_with_server')
     v.assign_syntax('Packages/Diff/Diff.tmLanguage')

@@ -323,7 +323,7 @@ class ToolingApi():
             self.result = {
                 "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
                 "URL": url,
-                "Operation": "POST",
+                "Operation": "DELETE",
                 "success": False
             }
             return self.result

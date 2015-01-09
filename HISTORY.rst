@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 2.7.1 (2015-01-09)
+++++++++++++++++++
+* Enhancement for ``standardController completion`` in ``<apex:page standardController=""``
+* Enhancement for ``{!acc.} completion`` in visualforce page
+* Enhancement for ``diff module``
+* Fix some minor bugs
+
 
 Release 2.7.0 (2015-01-03)
 ++++++++++++++++++

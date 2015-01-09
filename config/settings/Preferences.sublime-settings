@@ -7,7 +7,7 @@
         "characters": ".abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ",
         "selector": "text.xml"
     }, {
-        "characters": "<: =#",
+        "characters": ".<: =#\"",
         "selector": "text.html - source"
     }]
 }

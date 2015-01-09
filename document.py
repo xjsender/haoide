@@ -50,7 +50,7 @@ class ReloadDocument():
         panel = sublime.active_window().create_output_panel('log')  # Create panel
 
         # Start retriving docs
-        util.append_message(panel, "Start to retrieve document reference")
+        util.append_message(panel, "Start to reload document reference")
 
         title_link = {}
         for prefix in self.docs:

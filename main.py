@@ -47,14 +47,13 @@ class PrettyJson(sublime_plugin.TextCommand):
 
 class DiffWithServerCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        component_attribute = util.get_component_attribute(self.file_name)[0]
-        processor.handle_diff_with_server(component_attribute, self.file_name)
+        processor.handle_diff_with_server(self.component_attribute, self.file_name)
 
     def is_enabled(self):
         self.file_name = self.view.file_name()
         if not self.file_name: return False
-        component_attribute = util.get_component_attribute(self.file_name)[0]
-        if not component_attribute: return False
+        self.component_attribute = util.get_component_attribute(self.file_name)[0]
+        if not self.component_attribute: return False
         return True
 
 class ConvertXmlToDictCommand(sublime_plugin.TextCommand):

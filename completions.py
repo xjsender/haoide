@@ -1,6 +1,7 @@
 import sublime
 import sublime_plugin
 import os
+import re
 
 from . import context
 from . import util
@@ -195,14 +196,14 @@ class ApexCompletions(sublime_plugin.EventListener):
                 if sobject_name != "" and sobject_name in sobjects_describe:
                     sobject_describe = sobjects_describe.get(sobject_name)
                     completion_list = util.get_sobject_completion_list(sobject_describe)
-                    
+
                     # If variable_name is not empty, show the methods extended from sobject
                     if variable_type: 
                         methods = apex.apex_completions["sobject"]["methods"]
                         for key in sorted(methods.keys()):
                             completion_list.append(("Sobject." + key, methods[key]))
 
-            if not settings["disable_relationship_completion"] and parentRelationships:
+            if not completion_list and not settings["disable_relationship_completion"] and parentRelationships:
                 # Parent sobject Field completions
                 if variable_name in parentRelationships:
                     # Because relationship name is not unique, so we need to display sobject name prefix
@@ -341,7 +342,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                 for pv in picklist_values:
                     completion_list.append(("%s(%s)\t%s" % (pv["value"], pv["label"], field_name), " '%s'" % pv["value"]))
 
-        return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+        return completion_list
 
 class PageCompletions(sublime_plugin.EventListener):
     """ There are two kinds of completion, Visualforce and Html
@@ -361,7 +362,20 @@ class PageCompletions(sublime_plugin.EventListener):
 
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
+        variable_name = view.substr(view.word(pt-1))
+        begin = view.full_line(pt).begin()
+
+        # Get plugin settings
         settings = context.get_settings()
+        username = settings["username"]
+
+        # Get sobjects metadata and symbol tables
+        metadata = util.get_sobject_metadata_and_symbol_tables(username)[0]
+
+        # Get Sobjects Describe and ParentRelationships Describe
+        sobjects_describe = {}
+        if metadata and "sobjects" in metadata: 
+            sobjects_describe = metadata["sobjects"]
 
         completion_list = []
         if ch == "<":
@@ -370,7 +384,6 @@ class PageCompletions(sublime_plugin.EventListener):
                 completion_list.append((tag + "\tvf", tag))
 
             # Custom Component
-            username = settings.get("username")
             component_completion_list = util.get_component_completion(username, "ApexComponent")
             completion_list.extend(component_completion_list)
 
@@ -386,7 +399,6 @@ class PageCompletions(sublime_plugin.EventListener):
 
             # If tag prefix 'c', list all custom components
             if matched_tag_prefix == "c":
-                username = settings.get("username")
                 return util.get_component_completion(username, "ApexComponent")
 
             # Combine components
@@ -490,4 +502,41 @@ class PageCompletions(sublime_plugin.EventListener):
             # Sort the completion_list by first element
             completion_list.sort(key=lambda tup:tup[1])
 
-        return (completion_list)
+        elif ch == '"':
+            pattern = "<\\w+:\\w+\\s+standardController=\"\\w+\""
+            matched_region = view.find(pattern, begin, sublime.IGNORECASE)
+            if not matched_region: return completion_list # If not match, just return
+            for key in sorted(sobjects_describe.keys()):
+                sobject_name = sobjects_describe[key]["name"]
+                completion_list.append((sobject_name + "\tSobject", sobject_name))
+
+        elif ch == ".":
+            if not view.file_name(): return completion_list
+
+            # Get the name of controller or extension
+            pattern = '\\s+(controller="\\w+"|extensions="\\w+")'
+            matched_regions = view.find_all(pattern)
+            if not matched_regions: return completion_list
+            controller_name = view.substr(matched_regions[0]).split('"')[1]
+
+            # Get the classes path
+            base, filename = os.path.split(view.file_name())
+            src, path = os.path.split(base)
+            controller_path = os.path.join(src, "classes", controller_name+".cls")
+            if not os.path.isfile(controller_path): return completion_list
+
+            # Get the variable type in the respective controller
+            # and then show the field list of variable type
+            with open(controller_path, "rb") as fp:
+                content = fp.read()
+
+            # Page Variable Completion
+            pattern = "[a-zA-Z_1-9]+\\s+%s[,;\\s:=){]" % variable_name
+            match = re.compile(pattern.encode("utf-8"), re.IGNORECASE).search(content)
+            if match and match.group():
+                variable_type = match.group().decode("utf-8").split(" ")[0]
+                if variable_type.lower() in sobjects_describe:
+                    sobject_describe = sobjects_describe.get(variable_type.lower())
+                    completion_list = util.get_sobject_completion_list(sobject_describe)
+
+        return completion_list
