@@ -134,15 +134,6 @@ class ApexApi():
         try:
             response = requests.post(self.apex_url, body, verify=False, 
                 headers=headers)
-        except UnicodeEncodeError as ue:
-            result = {
-                "Error Message": "Anonymous code can't contain non-english character",
-                "URL": self.apex_url,
-                "Operation": "Execute Anonymous",
-                "success": False
-            }
-            self.result = result
-            return self.result
         except Exception as e:
             self.result = {
                 "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),

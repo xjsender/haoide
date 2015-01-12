@@ -6,6 +6,7 @@ import re
 
 from . import context
 from . import util
+from .salesforce.lib.panel import Printer
 
 class SFDCEventListener(sublime_plugin.EventListener):
     def on_new(self, view):
@@ -63,13 +64,13 @@ class SFDCEventListener(sublime_plugin.EventListener):
         src, meta_type = os.path.split(base)
         default_project = settings["default_project_name"]
         if default_project not in src:
-            util.show_output_panel("Current page is not in active project")
+            Printer.get('error').write("Current page is not in active project")
             return
 
         # Check whether the class is exist
         file_name = os.path.join(src, "classes", class_name+".cls")
         if os.path.exists(file_name): 
-            util.show_output_panel("%s is already exist" % class_name)
+            Printer.get('error').write("%s is already exist" % class_name)
             return
 
         sublime.active_window().run_command("create_component", {

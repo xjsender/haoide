@@ -3,6 +3,8 @@ import sublime_plugin
 import os
 import time
 
+from .salesforce.lib.panel import Printer
+
 COMPONENT_METADATA_SETTINGS = "component_metadata.sublime-settings"
 TOOLING_API_SETTINGS = "toolingapi.sublime-settings"
 
@@ -32,7 +34,7 @@ def get_settings():
             usernames.append(project_attr["username"])
 
     if not default_project:
-        sublime.error_message("You should have at least one default project - please, review your settings.")
+        Printer.get('error').write("You should have at least one default project - please, review your settings.")
         return
 
     # Default Project Part

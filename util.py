@@ -96,7 +96,7 @@ def populate_all_components():
     # If sobjects is exist in local cache, just return it
     component_metadata = sublime.load_settings("component_metadata.sublime-settings")
     if not component_metadata.has(username):
-        sublime.error_message("No Cache, Please New Project Firstly.")
+        Printer.get('error').write("No Cache, Please New Project Firstly.")
         return {}
 
     return_component_attributes = {}
@@ -126,7 +126,7 @@ def populate_components(_type):
     # If sobjects is exist in local cache, just return it
     component_metadata = sublime.load_settings("component_metadata.sublime-settings")
     if not component_metadata.has(username):
-        sublime.error_message("No cache, please create new project firstly")
+        Printer.get("error").write("No cache, please create new project firstly")
         return {}
 
     return component_metadata.get(username).get(_type)
@@ -161,7 +161,7 @@ def populate_sobjects_describe():
     # If sobjects is exist in sobjects_completion.sublime-settings, just return it
     sobjects_completions = sublime.load_settings("sobjects_completion.sublime-settings")
     if not sobjects_completions.has(username):
-        sublime.error_message("No Cache, Please New Project Firstly.")
+        Printer.get('error').write("No Cache, Please New Project Firstly.")
         return
 
     sobjects_describe = {}
@@ -178,7 +178,7 @@ def populate_all_test_classes():
 
     component_metadata = sublime.load_settings("component_metadata.sublime-settings")
     if not component_metadata.has(username):
-        sublime.error_message("No Cache, Please New Project Firstly.")
+        Printer.get('error').write("No cache, please create new project firstly.")
         return
 
     classes = component_metadata.get(username)["ApexClass"]
@@ -355,89 +355,6 @@ def open_with_browser(show_url, use_default_chrome=True):
     else:
         webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
         webbrowser.get('chrome').open_new_tab(show_url)
-
-def hide_panel(toggle=False):
-    """ uSed for hiding panel in sublime
-
-    Arguments:
-
-    * toggle  -- optional; if true, just toggle, else, just hide panel
-    """
-    sublime.active_window().run_command("hide_panel", 
-        {"panel": "console", "toggle": toggle})
-
-def show_panel(toggle=False):
-    """ uSed for showing panel in sublime
-
-    Arguments:
-
-    * toggle  -- optional; if true, just toggle, else, just show panel
-    """
-    sublime.active_window().run_command("show_panel", 
-        {"panel": "console", "toggle": toggle})
-
-def toggle_output_panel(panel_name="panel", toggle=False):
-    """ Used for showing panel in sublime
-
-    Arguments:
-
-    * toggle  -- optional; if true, just toggle, else, just show panel
-    """
-
-    panel = sublime.active_window().get_output_panel(panel_name)
-    message = panel.substr(sublime.Region(0, panel.size()))
-
-    if bool(panel.window()):
-        sublime.active_window().run_command("hide_panel", {"panel": "output."+panel_name})
-    else:
-        sublime.active_window().run_command("show_panel", {"panel": "output."+panel_name})
-
-    panel.set_read_only(False)
-    panel.set_syntax_file("Packages/Java/Java.tmLanguage")
-    panel.run_command('append', {'characters': message})
-    panel.set_read_only(True)
-
-def hide_output_panel(toggle=False):
-    """ Used for showing panel in sublime
-
-    Arguments:
-
-    * toggle  -- optional; if true, just toggle, else, just show panel
-    """
-
-    sublime.active_window().run_command("hide_panel", 
-        {"panel": "output.log"})
-
-def show_output_panel(message, toggle=False):
-    """ Used for showing panel in sublime
-
-    Arguments:
-
-    * toggle  -- optional; if true, just toggle, else, just show panel
-    """
-    panel = sublime.active_window().create_output_panel('log')
-    sublime.active_window().run_command("show_panel", {"panel": "output.log"})
-    panel.set_read_only(False)
-    panel.set_syntax_file("Packages/Java/Java.tmLanguage")
-    panel.run_command('append', {'characters': message})
-    panel.set_read_only(True)
-
-def append_message(panel, message, time_prefix=True):
-    """ Used for showing panel in sublime
-
-    Arguments:
-
-    * panel     -- already created panel
-    * message   -- message to append into the panel
-    """
-    
-    sublime.active_window().run_command("show_panel", {"panel": "output.log"})
-    panel.set_read_only(False)
-    panel.set_syntax_file("Packages/JavaScript/JavaScript.tmLanguage")
-    time_stamp = "[%s]" % time.strftime("%Y.%m.%d %H:%M:%S", 
-        time.localtime(time.time()))+" " if time_prefix else ""
-    panel.run_command('append', {'characters': time_stamp+message+"\n"})
-    panel.set_read_only(True)
 
 def advance_to_first_non_white_space_on_line(view, pt):
     while True:
@@ -1167,7 +1084,7 @@ def extract_zipfile(zipfile_path, extract_to):
     try:
         zfile = zipfile.ZipFile(zipfile_path, 'r')
     except zipfile.BadZipFile as ex:
-        sublime.error_message(str(ex))
+        Printer.get('error').write(str(ex))
         return
 
     if not os.path.exists(extract_to): 
@@ -1290,6 +1207,7 @@ def reload_apex_code_cache(file_properties, settings=None):
     # If the package only contains `package.xml`
     if isinstance(file_properties, dict): file_properties = [file_properties]
     component_attrs = {}
+    # print (json.dumps(file_properties))
     for filep in file_properties:
         # No need to process package.xml
         if filep["type"] not in component_body_or_markup: continue
@@ -1625,9 +1543,9 @@ def parse_test_result(test_result):
     """
 
     # Parse Test Result
-    if len(test_result) == 0: return "It's not test class"
     test_result_desc = ' Test Result\n'
     test_result_content = ""
+    class_name = ""
     for record in test_result:
         test_result_content += "-" * 100 + "\n"
         test_result_content += "% 30s    " % "MethodName: "

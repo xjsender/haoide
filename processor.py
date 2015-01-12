@@ -22,6 +22,7 @@ from .salesforce.api.bulk import BulkApi
 from .salesforce.api.metadata import MetadataApi
 from .salesforce.api.tooling import ToolingApi
 from .salesforce.api.apex import ApexApi
+from .salesforce.lib.panel import Printer
 from .progress import ThreadProgress, ThreadsProgress
 from .salesforce.lib import diff
 
@@ -59,7 +60,7 @@ def populate_users():
 
     # Exception Process
     if not api.result["success"]:
-        util.show_output_panel(message.SEPRATE.format(util.format_error_message(api.result)))
+        Printer.get('error').write(message.SEPRATE.format(util.format_error_message(api.result)))
         return
 
     records = api.result["records"]
@@ -107,7 +108,7 @@ def populate_sobject_recordtypes():
 
     # Exception Process
     if not api.result["success"]:
-        util.show_output_panel(message.SEPRATE.format(util.format_error_message(api.result)))
+        Printer.get('error').write(message.SEPRATE.format(util.format_error_message(api.result)))
         return
 
     records = api.result["records"]
@@ -133,8 +134,9 @@ def handle_update_user_language(language, timeout=120):
     api = ToolingApi(settings)
     session = util.get_session_info(settings)
     if not session:
-        util.show_output_panel("Please Login Firstly")
+        Printer.get('error').write("Please Login Firstly")
         return
+    
     patch_url = "/sobjects/User/%s" % session["user_id"]
     thread = threading.Thread(target=api.patch, args=(patch_url, {"LanguageLocaleKey": language}, ))
     thread.start()
@@ -167,7 +169,7 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         if not result["success"]: return
 
         if result["totalSize"] == 0:
-            sublime.error_message("No Code Coverage")
+            Printer.get("log").write("No code coverage")
             return
 
         # Populate the coverage info from server
@@ -177,7 +179,7 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         uncovered_lines_count = len(uncovered_lines)
         total_lines_count = covered_lines_count + uncovered_lines_count
         if total_lines_count == 0:
-            sublime.error_message("No Code Coverage")
+            Printer.get("log").write("No Code Coverage")
             return
         coverage_percent = covered_lines_count / total_lines_count * 100
 
@@ -240,7 +242,7 @@ def handle_refresh_folder(types, ignore_package_xml=True, timeout=120):
         util.reload_apex_code_cache(result["fileProperties"], settings)
 
         # Hide panel 0.5 seconds later
-        sublime.set_timeout_async(util.hide_output_panel, 500)
+        sublime.set_timeout_async(Printer.get("log").hide_panel, 500)
 
     # Start to request
     settings = context.get_settings()
@@ -671,7 +673,7 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
         # Write parsed result to csv
         util.parse_data_template(output_file_dir, result)
         sublime.active_window().run_command("refresh_folder_list")
-        util.show_output_panel(message.SEPRATE.format("Data Template outputdir: " + output_file_dir))
+        Printer.get("log").write("Data Template for %s: %s" % (sobject, output_file_dir))
 
     settings = context.get_settings()
     outputdir = settings["workspace"] + "/.export/templates"
@@ -748,7 +750,7 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         thread = threading.Thread(target=target, args=(url,))
     thread.start()
     progress_message = "Execute Rest %s Test" % operation
-    ThreadProgress(api, thread, progress_message, progress_message + " Succeed", open_console=False)
+    ThreadProgress(api, thread, progress_message, progress_message + " Succeed", show_error=False)
     handle_new_view_thread(thread, timeout)
 
 def handle_execute_query(soql, timeout=120):
@@ -789,7 +791,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
         if not result["success"]: return
 
         if result["compiled"] == "false":
-            util.show_output_panel(util.parse_execute_anonymous_xml(result))
+            Printer.get('error').write(util.parse_execute_anonymous_xml(result))
         else:
             # No error, just display log in a new view
             view = sublime.active_window().new_file()
@@ -817,7 +819,7 @@ def handle_fetch_debug_logs(user_full_name, user_id, timeout=120):
         result = api.result
         records = result["records"]
         debug_logs_table = util.format_debug_logs(settings, records)
-        util.show_output_panel(debug_logs_table)
+        Printer.get("log").write_start().write("\n"+debug_logs_table)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -895,9 +897,11 @@ def handle_run_test(class_name, class_id, timeout=120):
         # If error
         if "success" in result and not result["success"]: return
 
+        if not result:
+            Printer.get("error").write("%s is not a test class" % class_name)
+
         # No error, just display log in a new view
         test_result = util.parse_test_result(result)
-        class_name = result[0]["ApexClass"]["Name"]
         view = sublime.active_window().new_file()
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
@@ -1115,7 +1119,7 @@ def handle_new_project(settings, is_update=False, timeout=120):
 
 
         # Hide panel
-        sublime.set_timeout_async(util.hide_output_panel, 500)
+        sublime.set_timeout_async(Printer.get("log").hide_panel, 500)
 
         # Reload sObject Cache and SymbolTables
         if not is_update: 
@@ -1222,7 +1226,7 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
             # 1. Write succeed body to local change history
             if settings["keep_local_change_history"] and not is_check_only:
                 # Append message to output panel
-                util.append_message(panel, "Start to keep local change history")
+                Printer.get('log').write("Start to keep local change history")
 
                 # Get current file name and Read file content
                 view = sublime.active_window().active_view()
@@ -1239,9 +1243,9 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
                     fp.write(body.encode("utf-8"))
 
             # 2. Write symbol table to local cache
-            if "symbol_table" in result:
+            if "symbol_table" in result and result["symbol_table"]:
                 # Append message to output panel
-                util.append_message(panel, "Start to write symbol table to local cache")
+                Printer.get('log').write("Start to write symbol table to local cache")
 
                 # Start to write
                 symbol_table = result["symbol_table"]
@@ -1252,6 +1256,7 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
 
                 # Outer completions 
                 outer = util.parse_symbol_table(symbol_table)
+
                 symboltable_dict[symbol_table["name"].lower()] = {
                     "outer" : outer,
                     "name": symbol_table["name"]
@@ -1269,11 +1274,11 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
 
             # Output succeed message in the console
             save_or_compile = "Compiled" if is_check_only else "Saved"
-            util.append_message(panel, "%s %s successfully" % (save_or_compile, file_base_name))
+            Printer.get('log').write("%s %s successfully" % (save_or_compile, file_base_name))
 
             # Add total seconds message
             total_seconds = (datetime.datetime.now() - start_time).seconds
-            util.append_message(panel, "\nTotal time: %s seconds" % total_seconds, False)
+            Printer.get('log').write("\nTotal time: %s seconds" % total_seconds, False)
 
             # Remove highlight
             view = sublime.active_window().active_view()
@@ -1282,7 +1287,7 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
 
             # If succeed, just hide it in two seconds later
             delay_seconds = settings["delay_seconds_for_hidden_output_panel_when_succeed"]
-            sublime.set_timeout_async(util.hide_output_panel, delay_seconds * 1000)
+            sublime.set_timeout_async(Printer.get("log").hide_panel, delay_seconds * 1000)
 
             # If track_log_after_saved is true, track self debug log asynchronously
             if settings["track_log_after_saved"]:
@@ -1292,6 +1297,14 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
         # If not succeed, just go to the error line
         # Because error line in page is always at the line 1, so just work in class or trigger
         elif "success" in result and not result["success"]:
+            message = "Compile Error for %s: %s at column %s line %s" % (
+                file_base_name, 
+                result["problem"], 
+                result["columnNumber"], 
+                result["lineNumber"]
+            )
+            Printer.get('log').write(message)
+
             # Get the active view
             view = sublime.active_window().active_view()
 
@@ -1336,13 +1349,12 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
             return
 
     # Open panel
-    panel = sublime.active_window().create_output_panel('log')  # Create panel
     compile_or_save = "compile" if is_check_only else "save"
-    util.append_message(panel, "Start to %s %s" % (compile_or_save, file_base_name))
+    Printer.get('log').write_start().write("Start to %s %s" % (compile_or_save, file_base_name))
 
     api = ToolingApi(settings)
     thread = threading.Thread(target=api.save_component,
-        args=(panel, component_attribute, body, is_check_only, ))
+        args=(component_attribute, body, is_check_only, ))
     thread.start()
 
     # If saving thread is started, set the flag to True
@@ -1350,7 +1362,7 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
 
     # Display thread progress
     wait_message = ("Compiling " if is_check_only else "Saving ") + component_name
-    ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
+    ThreadProgress(api, thread, wait_message, wait_message + " Succeed", show_error=False)
     handle_thread(thread, timeout)
 
 def handle_create_component(data, component_name, component_type, markup_or_body, file_name, timeout=120):

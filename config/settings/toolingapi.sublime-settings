@@ -314,7 +314,8 @@
         "AccountShare", "ContactShare", "OpportunityShare", "LeadShare", "CampaignShare", "UserShare",
 
         // Team Member
-        "AccountTeamMember", "OpportunityTeamMember", "CaseTeamMember", "UserTeamMember",
+        "AccountTeamMember", "OpportunityTeamMember", "CaseTeamMember", "UserTeamMember", 
+        "GroupMember", "Group",
 
         // Apex Code
         "ApexClass", "ApexComponent", "ApexTrigger", "ApexPage", "StaticResource", "AsyncApexJob"
@@ -818,7 +819,7 @@
             "suffix": "settings",
             "xmlName": "Settings",
             "subscribe": false
-            }, {
+        }, {
             "inFolder": "false",
             "metaFile": "false",
             "suffix": ".sharingRules",

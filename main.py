@@ -16,6 +16,7 @@ from . import processor
 from . import context
 from . import util
 
+from .salesforce.lib.panel import Printer
 from .salesforce import xmltodict
 from .salesforce import message
 
@@ -26,7 +27,7 @@ class PrettyJson(sublime_plugin.TextCommand):
             pretty_json = json.dumps(json.loads(self.selection), 
                 ensure_ascii=False, indent=4)
         except ValueError as ex:
-            util.show_output_panel(str(ex))
+            Printer.get('error').write(str(ex))
             return
             
         view = sublime.active_window().new_file()
@@ -83,6 +84,13 @@ class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
             return False
 
         return True
+
+class ShowMyPanel(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ShowMyPanel, self).__init__(*args, **kwargs)
+
+    def run(self, panel):
+        Printer.get(panel).show_panel()
 
 class ToggleMetadataObjects(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -161,7 +169,7 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
         self.cache_name = cache_name+".sublime-settings"
         self.caches = util.get_sobject_caches(self.cache_name)
         if not self.caches:
-            util.show_output_panel("No cache already")
+            Printer.get('error').write("No cache already")
             return
 
         self.window.show_quick_panel(self.caches, self.on_done)
@@ -182,7 +190,7 @@ class Convert15Id218IdCommand(sublime_plugin.WindowCommand):
 
     def on_input(self, input):
         c18Id = util.convert_15_to_18(input)
-        util.show_output_panel(message.SEPRATE.format("Converted 18 Digit Id: " + c18Id))
+        Printer.get('log').write("Converted 18 Digit Id: " + c18Id);
 
 class GenerateSoqlCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -242,7 +250,7 @@ class ExecuteRestTest(sublime_plugin.TextCommand):
             data = json.loads(data) if data else None
         except ValueError as ve:
             panel = sublime.active_window().create_output_panel('log')  # Create panel
-            util.show_output_panel(str(ve))
+            Printer.get('error').write(str(ve))
             if not sublime.ok_cancel_dialog("Do you want to try again?", "Yes?"): return
             self.view.window().show_input_panel("Input JSON Body: ", 
                 "", self.on_input, None, None)
@@ -452,7 +460,7 @@ class RetrievePackageXml(sublime_plugin.WindowCommand):
                 content = fp.read()
             types = util.build_package_types(content)
         except Exception as ex:
-            util.show_output_panel(str(ex))
+            Printer.get('error').write(str(ex))
             return
 
         # Initiate extract_to
@@ -480,7 +488,7 @@ class RetrievePackageFileCommand(sublime_plugin.TextCommand):
                 content = fp.read()
             types = util.build_package_types(content)
         except Exception as ex:
-            util.show_output_panel(str(ex))
+            Printer.get('error').write(str(ex))
             return
 
         # Initiate extract_to
@@ -508,7 +516,7 @@ class RenameMetadata(sublime_plugin.TextCommand):
 
     def on_input(self, new_name):
         if not new_name or not re.match("\w+[a-zA-Z0-9]+", new_name):
-            util.show_output_panel("Input name is not valid")
+            Printer.get('error').write("Input name is not valid")
             return
 
         processor.handle_rename_metadata(self.xml_name, self.filename, new_name)
@@ -632,7 +640,7 @@ class DeployZipCommand(sublime_plugin.WindowCommand):
 
     def on_input(self, zipfile_path):
         if not zipfile_path.endswith('.zip'):
-            sublime.error_message("Invalid Zip File")
+            Printer.get("error").write("Invalid Zip File")
             return
 
         processor.handle_deploy_thread(util.base64_encode(zipfile_path))
@@ -778,7 +786,7 @@ class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
         settings = context.get_settings()
         workflow_path = settings["workspace"] + "/src/objects"
         if not os.path.exists(workflow_path):
-            sublime.error_message(message.METADATA_CHECK)
+            Printer.get('error').write(message.METADATA_CHECK)
             return
 
         processor.handle_export_validation_rules(settings)
@@ -795,7 +803,7 @@ class ExportCustomLablesCommand(sublime_plugin.WindowCommand):
         workspace = settings["workspace"]
         lable_path = workspace + "/src/labels/CustomLabels.labels"
         if not os.path.isfile(lable_path):
-            sublime.error_message(message.METADATA_CHECK)
+            Printer.get('error').write(message.METADATA_CHECK)
             return
 
         outputdir = settings["workspace"] + "/.export/labels"
@@ -815,7 +823,7 @@ class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
         workspace = settings["workspace"]
         workflow_path = workspace + "/src/workflows"
         if not os.path.exists(workflow_path):
-            sublime.error_message(message.METADATA_CHECK)
+            Printer.get('error').write(message.METADATA_CHECK)
             return
 
         processor.handle_export_workflows(settings)
@@ -890,9 +898,8 @@ class ViewComponentInSfdcCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         self.all_components = util.populate_all_components()
-
         if not self.all_components:
-            sublime.message_dialog("Please click 'New Project' Firstly.")
+            Printer.get("error").write("No components cache")
             return
 
         self.all_components_name = sorted(list(self.all_components.keys()))
@@ -948,7 +955,7 @@ class RunOneTestCommand(sublime_plugin.WindowCommand):
             self.classmap[self.classes_attr[key]["name"]] = key
 
         if not self.classmap:
-            sublime.error_message("No Test Class");
+            Printer.get('error').write("No Test Class");
             return
 
         self.class_names = sorted(list(self.classmap.keys()))
@@ -1585,7 +1592,7 @@ class CreateLightingElement(sublime_plugin.WindowCommand):
 
         # If element file is already exist, just alert
         if os.path.isfile(element_file):
-            sublime.error_message(element_name+" is already exist")
+            Printer.get('error').write(element_name+" is already exist")
             return
 
         # Create Aura Element file

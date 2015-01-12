@@ -194,9 +194,17 @@
                 "children": [
                     {
                         "caption": "Open Log Panel",
-                        "command": "show_panel",
+                        "command": "show_my_panel",
                         "args": {
-                            "panel": "output.log"
+                            "panel": "log"
+                        }
+                    },
+
+                    {
+                        "caption": "Open Error Panel",
+                        "command": "show_my_panel",
+                        "args": {
+                            "panel": "error"
                         }
                     },
 

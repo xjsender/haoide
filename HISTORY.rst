@@ -4,6 +4,19 @@ Release History
 
 ---------------
 
+
+Release 2.7.2 (2015-01-12)
+++++++++++++++++++
+* Fix bug for issue #74
+* Fix bug for ``cancel_deployment``
+* Fix bug for ``reload symbol table`` when symbol_table is None
+* Fix bug for ``execute anonymous`` when anonymous code contains non-english words since release 2.7.0
+* Enhancement for message tracking in output panel
+* Enhancement for settings check, if settings is valid, just display it in output panel
+* Update snippet ``Debug - debug variable.sublime-snippet``
+* Add snippet ``Debug - debug json.sublime-snippet``
+
+
 Release 2.7.1 (2015-01-09)
 ++++++++++++++++++
 * Enhancement for ``standardController completion`` in ``<apex:page standardController=""``

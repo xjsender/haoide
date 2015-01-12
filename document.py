@@ -6,6 +6,7 @@ import threading
 import urllib
 from . import requests, context, util
 from .progress import ThreadProgress
+from .salesforce.lib.panel import Printer
 
 class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -46,21 +47,18 @@ class ReloadDocument():
         # Log the StartTime
         start_time = datetime.datetime.now()
 
-        # Open panel
-        panel = sublime.active_window().create_output_panel('log')  # Create panel
-
         # Start retriving docs
-        util.append_message(panel, "Start to reload document reference")
+        Printer.get("log").write_start().write("Start to reload document reference")
 
         title_link = {}
         for prefix in self.docs:
             doc_attr = self.docs[prefix]
-            util.append_message(panel, "Reloading %s" % prefix)
+            Printer.get("log").write("Reloading %s" % prefix)
             xml_url = 'http://www.salesforce.com/us/developer/docs/%s/Data/Toc.xml' % doc_attr["keyword"]
             try: 
                 res = requests.get(xml_url, headers={"Accept": "application/xml"})
             except Exception as e: 
-                util.append_message(panel, "Reloading %s Failed" % prefix)
+                Printer.get("log").write("Reloading %s Failed" % prefix)
                 continue
 
             tree = ElementTree.fromstring(res.content)
@@ -85,14 +83,14 @@ class ReloadDocument():
                     }
 
         # Build Successful
-        util.append_message(panel, "RELOADING SUCCESSFUL")
+        Printer.get("log").write("RELOADING SUCCESSFUL")
         
         # Total time
         total_seconds = (datetime.datetime.now() - start_time).seconds
-        util.append_message(panel, "Total time: %s seconds" % total_seconds)
+        Printer.get("log").write("Total time: %s seconds" % total_seconds)
 
         # Hide panel
-        sublime.set_timeout_async(util.hide_output_panel, 500)
+        sublime.set_timeout_async(Printer.get("log").hide_panel, 500)
 
         self.result = title_link
 

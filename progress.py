@@ -1,7 +1,9 @@
 import sublime
 from .salesforce import message
+
 from . import util
 from . import context
+from .salesforce.lib.panel import Printer
 
 class ThreadProgress():
     """
@@ -19,14 +21,14 @@ class ThreadProgress():
         The message to display once the thread is complete
     """
 
-    def __init__(self, api, thread, message, success_message, open_console=True):
+    def __init__(self, api, thread, message, success_message, show_error=True):
         self.api = api
         self.thread = thread
         self.message = message
         self.success_message = success_message
         self.addend = 1
         self.size = 15
-        self.open_console = open_console
+        self.show_error = show_error
         sublime.set_timeout(lambda: self.run(0), 100)
 
     def run(self, i):
@@ -39,8 +41,8 @@ class ThreadProgress():
             # according to response
             result = self.api.result
             if isinstance(result, dict) and "success" in result and not result["success"]:
-                if not self.open_console: return
-                util.show_output_panel(message.SEPRATE.format(util.format_error_message(result)))
+                if not self.show_error: return
+                Printer.get('error').write(message.SEPRATE.format(util.format_error_message(result)))
             else:
                 sublime.status_message(self.success_message)
             return

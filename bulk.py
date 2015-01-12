@@ -3,7 +3,7 @@ import sublime_plugin
 import os
 from . import util
 from . import processor
-
+from .salesforce.lib.panel import Printer
 
 class CloseJobsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -14,7 +14,7 @@ class CloseJobsCommand(sublime_plugin.WindowCommand):
 
     def on_input(self, input):
         if not input:
-            sublime.error_message("Please input job ids that is separated by ','")
+            Printer.get("error").write("Please input job ids that is separated by ','")
             return
 
         job_ids = input.split(",")
@@ -40,7 +40,7 @@ class BulkExportSingleCommand(sublime_plugin.WindowCommand):
 
     def on_input(self, soql):
         if not soql or not soql.upper().startswith("SELECT"):
-            sublime.error_message("Invalid SOQL")
+            Printer.get("error").write("Invalid SOQL")
             return
 
         processor.handle_backup_sobject_thread(self.chosen_sobject, soql)
@@ -72,11 +72,11 @@ class BulkOperationCommand(sublime_plugin.WindowCommand):
 
     def on_input(self, file_path):
         if not file_path.endswith('csv'): 
-            sublime.error_message("Input file must be CSV")
+            Printer.get("error").write("Input file must be CSV")
             return
 
         if not os.path.exists(file_path):
-            sublime.error_message(file_path + " is not valid file")
+            Printer.get("error").write(file_path + " is not valid file")
             return
 
         processor.handle_bulk_operation_thread(self.sobject, file_path, self.operation)

@@ -11,7 +11,7 @@ from .. import xmltodict
 from ..soap import SOAP
 from ..login import soap_login
 from ... import requests, util
-
+from ..lib.panel import Printer
 
 class MetadataApi():
     def __init__(self, settings, **kwargs):
@@ -157,9 +157,6 @@ class MetadataApi():
         # Log the StartTime
         start_time = datetime.datetime.now()
 
-        # Open panel
-        panel = sublime.active_window().create_output_panel('log')  # Create panel
-
         # 1. Issue a retrieve request to start the asynchronous retrieval
         headers = {
             "Content-Type": "text/xml;charset=UTF-8",
@@ -167,7 +164,7 @@ class MetadataApi():
         }
 
         # [sf:retrieve]
-        util.append_message(panel, "[sf:retrieve] Start request for a retrieve...")
+        Printer.get('log').write_start().write("[sf:retrieve] Start request for a retrieve...")
 
         # Build soap_body
         soap_body = self.soap.create_request('retrieve', options)
@@ -187,7 +184,7 @@ class MetadataApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            util.append_message(panel, "[sf:retrieve] Session expired, need login again")
+            Printer.get('log').write("[sf:retrieve] Session expired, need login again")
             self.login(True)
             return self.retrieve(options)
 
@@ -197,16 +194,16 @@ class MetadataApi():
             return self.result
 
         # [sf:retrieve]
-        util.append_message(panel, "[sf:retrieve] Request for a retrieve submitted successfully.")
+        Printer.get('log').write("[sf:retrieve] Request for a retrieve submitted successfully.")
 
         # Get async process id
         async_process_id = util.getUniqueElementValueFromXmlString(response.content, "id")
 
         # [sf:retrieve]
-        util.append_message(panel, "[sf:retrieve] Request ID for the current retrieve task: "+async_process_id)
+        Printer.get('log').write("[sf:retrieve] Request ID for the current retrieve task: "+async_process_id)
 
         # Issue request for retrieving status and waiting for response
-        util.append_message(panel, "[sf:retrieve] Waiting for server to finish processing the request...")
+        Printer.get('log').write("[sf:retrieve] Waiting for server to finish processing the request...")
 
         # 2. issue a check status loop request to assure the async request is done
         result = self.check_status(async_process_id)
@@ -217,7 +214,7 @@ class MetadataApi():
             return self.result
         
         # Output retrieve status
-        util.append_message(panel, "[sf:retrieve] Request Status: %s" % result["state"])
+        Printer.get('log').write("[sf:retrieve] Request Status: %s" % result["state"])
         
         # Check status until retrieve request is finished
         while result["done"] == "false":
@@ -226,16 +223,16 @@ class MetadataApi():
 
             result = self.check_status(async_process_id)
             sublime.active_window().run_command("show_panel", {"panel": "output.log"})
-            util.append_message(panel, "[sf:retrieve] Request Status: %s" % result["state"])
+            Printer.get('log').write("[sf:retrieve] Request Status: %s" % result["state"])
 
         # If check status request failed, this will not be done
         if result["state"] == "Failed":
-            util.append_message(panel, "[sf:retrieve] Request Failed") # [sf:retrieve]
+            Printer.get('log').write("[sf:retrieve] Request Failed") # [sf:retrieve]
             self.result = result
             return
 
         # 3 Obtain zipFile(base64)
-        util.append_message(panel, "[sf:retrieve] Start to download package zipFile")
+        Printer.get('log').write("[sf:retrieve] Start to download package zipFile")
         result = self.check_retrieve_status(async_process_id)
 
         # Catch exception of status retrieve
@@ -244,32 +241,32 @@ class MetadataApi():
             self.result = result
             return self.result
 
-        util.append_message(panel, "[sf:retrieve] Finished zipFile downloading")
+        Printer.get('log').write("[sf:retrieve] Finished zipFile downloading")
 
         # Output the message if have
         if "messages" in result:
             if isinstance(result["messages"], dict):
                 message = result["messages"]
-                util.append_message(panel, "[sf:retrieve] %s - %s" % (
+                Printer.get('log').write("[sf:retrieve] %s - %s" % (
                     message["fileName"], 
                     message["problem"]
                 ))
             elif isinstance(result["messages"], list):
                 for message in result["messages"]:
-                    util.append_message(panel, "[sf:retrieve] %s - %s" % (
+                    Printer.get('log').write("[sf:retrieve] %s - %s" % (
                         message["fileName"], 
                         message["problem"]
                     ))
 
         # [sf:retrieve]
-        util.append_message(panel, "[sf:retrieve] Finished request %s successfully." % async_process_id)
+        Printer.get('log').write("[sf:retrieve] Finished request %s successfully." % async_process_id)
 
         # Build Successful
-        util.append_message(panel, "\n\nBUILD SUCCESSFUL", False)
+        Printer.get('log').write("\n\nBUILD SUCCESSFUL", False)
         
         # Total time
         total_seconds = (datetime.datetime.now() - start_time).seconds
-        util.append_message(panel, "Total time: %s seconds" % total_seconds, False)
+        Printer.get('log').write("Total time: %s seconds" % total_seconds, False)
 
         self.result = result
 
@@ -375,9 +372,6 @@ class MetadataApi():
         # Log the StartTime
         start_time = datetime.datetime.now()
 
-        # Open panel
-        panel = sublime.active_window().create_output_panel('log')  # Create panel
-
         # Populate the soap_body with actual session id
         deploy_options = self.settings["deploy_options"]
         
@@ -391,7 +385,7 @@ class MetadataApi():
         }
 
         # [sf:%s]
-        util.append_message(panel, "[sf:%s] Start request for a deploy..." % deploy_or_validate)
+        Printer.get('log').write_start().write("[sf:%s] Start request for a deploy..." % deploy_or_validate)
         options = deploy_options
         options["zipfile"] = base64_zip
         soap_body = self.soap.create_request('deploy', options)
@@ -409,7 +403,7 @@ class MetadataApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            util.append_message(panel, "[sf:%s] Session expired, need login again" % deploy_or_validate)
+            Printer.get('log').write("[sf:%s] Session expired, need login again" % deploy_or_validate)
             self.login(True)
             return self.deploy(base64_zip)
 
@@ -420,16 +414,16 @@ class MetadataApi():
             return self.result
 
         # [sf:%s]
-        util.append_message(panel, "[sf:%s] Request for a deploy submitted successfully." % deploy_or_validate)
+        Printer.get('log').write("[sf:%s] Request for a deploy submitted successfully." % deploy_or_validate)
 
         # Get async process id
         async_process_id = util.getUniqueElementValueFromXmlString(response.content, "id")
 
         # [sf:%s]
-        util.append_message(panel, "[sf:%s] Request ID for the current deploy task: %s" % (deploy_or_validate, async_process_id))
+        Printer.get('log').write("[sf:%s] Request ID for the current deploy task: %s" % (deploy_or_validate, async_process_id))
 
         # [sf:%s]
-        util.append_message(panel, "[sf:%s] Waiting for server to finish processing the request..." % deploy_or_validate)
+        Printer.get('log').write("[sf:%s] Waiting for server to finish processing the request..." % deploy_or_validate)
 
         # 2. issue a check status loop request to assure the async
         # process is done
@@ -442,7 +436,7 @@ class MetadataApi():
         while body["status"] in ["Pending", "InProgress", "Canceling"]:
             if "stateDetail" in body:
                 if body["numberComponentsDeployed"] < body["numberComponentsTotal"]:
-                    util.append_message(panel, "[sf:%s] Request Status: %s (%s/%s)  -- %s" % (
+                    Printer.get('log').write("[sf:%s] Request Status: %s (%s/%s)  -- %s" % (
                         deploy_or_validate,
                         body["status"], 
                         body["numberComponentsDeployed"],
@@ -450,7 +444,7 @@ class MetadataApi():
                         body["stateDetail"]
                     ))
                 else:
-                    util.append_message(panel, "[sf:%s] TestRun Status: %s (%s/%s)  -- %s" % (
+                    Printer.get('log').write("[sf:%s] TestRun Status: %s (%s/%s)  -- %s" % (
                         deploy_or_validate,
                         body["status"], 
                         body["numberTestsCompleted"],
@@ -458,7 +452,7 @@ class MetadataApi():
                         body["stateDetail"]
                     ))
             else:
-                util.append_message(panel, "[sf:%s] Request Status: %s" % (
+                Printer.get('log').write("[sf:%s] Request Status: %s" % (
                     deploy_or_validate, body["status"]
                 ))
 
@@ -471,17 +465,13 @@ class MetadataApi():
                     if failures["id"] not in failure_dict:
                         failure_dict[failures["id"]] = failures
 
-                        # [sf:deploy] -------------------------------------------------------
-                        util.append_message(panel, "-" * 84)
-
-                        # Failure message body
-                        util.append_message(panel, "Test Failures: ")
-                        util.append_message(panel, "%s.\t%s" % (index, failures["message"]))
+                        Printer.get('log').write("-" * 84).write("Test Failures: ")
+                        Printer.get('log').write("%s.\t%s" % (index, failures["message"]))
                         for msg in failures["stackTrace"].split("\n"):
-                            util.append_message(panel, "\t%s" % msg)
+                            Printer.get('log').write("\t%s" % msg)
 
-                        # [sf:deploy] -------------------------------------------------------
-                        util.append_message(panel, "-" * 84)
+                        # [sf:deploy]
+                        Printer.get('log').write("-" * 84)
 
                         index += index
                         
@@ -490,17 +480,14 @@ class MetadataApi():
                         if f["id"] not in failure_dict:
                             failure_dict[f["id"]] = f
 
-                            # [sf:deploy] -------------------------------------------------------
-                            util.append_message(panel, "-" * 84)
-
-                            util.append_message(panel, "Test Failures: ")
-                            util.append_message(panel, "%s.\t%s" % (index, f["message"]))
+                            Printer.get('log').write("-" * 84).write("Test Failures: ")
+                            Printer.get('log').write("%s.\t%s" % (index, f["message"]))
 
                             # If compile error, there will no stack trace
                             if isinstance(f["stackTrace"], str):
                                 for msg in f["stackTrace"].split("\n"):
-                                    util.append_message(panel, "\t%s" % msg)
-                                util.append_message(panel, "-" * 84)
+                                    Printer.get('log').write("\t%s" % msg)
+                                Printer.get('log').write("-" * 84)
 
                             index += 1
 
@@ -513,18 +500,18 @@ class MetadataApi():
 
         # Check if job is canceled
         if body["status"] == "Canceled":
-            util.append_message(panel, "\nBUILD FAILED", False)
-            util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
-            util.append_message(panel, "Request ID: %s" % async_process_id, False)
-            util.append_message(panel, "\nRequest Canceled", False)
-            util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
+            Printer.get('log').write("\nBUILD FAILED", False)
+            Printer.get('log').write("*********** DEPLOYMENT FAILED ***********", False)
+            Printer.get('log').write("Request ID: %s" % async_process_id, False)
+            Printer.get('log').write("\nRequest Canceled", False)
+            Printer.get('log').write("*********** DEPLOYMENT FAILED ***********", False)
 
         # If check status request failed, this will not be done
         elif body["status"] == "Failed":
             # Append failure message
-            util.append_message(panel, "[sf:%s] Request Failed\n\nBUILD FAILED" % deploy_or_validate)
-            util.append_message(panel, "*********** DEPLOYMENT FAILED ***********", False)
-            util.append_message(panel, "Request ID: %s" % async_process_id, False)
+            Printer.get('log').write("[sf:%s] Request Failed\n\nBUILD FAILED" % deploy_or_validate)
+            Printer.get('log').write("*********** DEPLOYMENT FAILED ***********", False)
+            Printer.get('log').write("Request ID: %s" % async_process_id, False)
 
             # print (json.dumps(body, indent=4))
 
@@ -553,7 +540,7 @@ class MetadataApi():
                                 if "lineNumber" in component_failure else "0"
                         ))
             elif "errorMessage" in body:
-                util.append_message(panel, "\n" + body["errorMessage"], False)
+                Printer.get('log').write("\n" + body["errorMessage"], False)
 
             warning_messages = []
             if "runTestResult" in body["details"]:
@@ -571,28 +558,28 @@ class MetadataApi():
 
             # Output failure message
             if failures_messages:
-                util.append_message(panel, "\n\nAll Component Failures:", False)
-                util.append_message(panel, "\n"+"\n\n".join(failures_messages), False)
+                Printer.get('log').write("\n\nAll Component Failures:", False)
+                Printer.get('log').write("\n"+"\n\n".join(failures_messages), False)
 
             # Output warning message
             if warning_messages:
-                util.append_message(panel, "\n\nTest Coverage Warnings:", False)
-                util.append_message(panel, "\n"+"\n".join(warning_messages), False)
+                Printer.get('log').write("\n\nTest Coverage Warnings:", False)
+                Printer.get('log').write("\n"+"\n".join(warning_messages), False)
             
             # End for Deploy Result
-            util.append_message(panel, "\n*********** %s FAILED ***********" % (
+            Printer.get('log').write("\n*********** %s FAILED ***********" % (
                 deploy_or_validate.upper()), False)
         else:
             # Append succeed message
-            util.append_message(panel, "\n[sf:%s] Request Succeed" % deploy_or_validate, False)
-            util.append_message(panel, "[sf:%s] *********** %s SUCCEEDED ***********" % (
+            Printer.get('log').write("\n[sf:%s] Request Succeed" % deploy_or_validate, False)
+            Printer.get('log').write("[sf:%s] *********** %s SUCCEEDED ***********" % (
                 deploy_or_validate, deploy_or_validate.upper()), False)
-            util.append_message(panel, "[sf:%s] Finished request %s successfully." % (
+            Printer.get('log').write("[sf:%s] Finished request %s successfully." % (
                 deploy_or_validate, async_process_id), False)
 
         # Total time
         total_seconds = (datetime.datetime.now() - start_time).seconds
-        util.append_message(panel, "\n\nTotal time: %s seconds" % total_seconds, False)
+        Printer.get('log').write("\n\nTotal time: %s seconds" % total_seconds, False)
 
         # Display debug log message in the new view
         if "header" in result and result["header"] and "debugLog" in result["header"]:

@@ -178,8 +178,6 @@ Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> 
 
 There has a ```log_levels``` setting in the default setting, If you want to change anonymous log levels, you can put your log levels settings into your user setting.
 
-**If your chosen code snippet contains non-english word, there will have problem.**
-
 ## Execute Query
 After any snippet which start with SELECT is chosen, you can press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Q</kbd> in windows or click ```SublimeApex``` > ```Execute Query```, the queried json result will be formated and shown in a new view.
 

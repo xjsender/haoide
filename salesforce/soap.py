@@ -1,10 +1,11 @@
 import os
 import json
 
-from .lib import xmlformatter
-from .login import soap_login
 from .. import util
 from .. import context
+from .lib import xmlformatter
+from .login import soap_login
+from .lib.panel import Printer
 
 """
 from .salesforce.soap import SOAP
@@ -29,7 +30,7 @@ class SOAP():
         if not session:
             result = soap_login(self.settings, True)
             if not result["success"]:
-                util.show_output_panel(result["message"])
+                Printer.get('error').write(result["message"])
             session_id = None
         else:
             session_id = session["session_id"]
@@ -93,7 +94,7 @@ class SOAP():
 
         return self.create_metadata_envelope(check_retrieve_status_request_body)
 
-    def create_cancel_deploy_request(self, options):
+    def create_cancel_deployment_request(self, options):
         cancel_deploy_request_body = """
             <met:cancelDeploy>
                 <met:String>{async_process_id}</met:String>
