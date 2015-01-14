@@ -931,6 +931,13 @@
             "directoryName": "customObjectCriteriaBasedSharingRule",
             "subscribe": false,
             "xmlName": "CustomObjectCriteriaBasedSharingRule"
+        }, {
+            "inFolder": "false",
+            "metaFile": "false",
+            "suffix": ".translation",
+            "directoryName": "translations",
+            "subscribe": false,
+            "xmlName": "Translations"
         }
     ]
 }

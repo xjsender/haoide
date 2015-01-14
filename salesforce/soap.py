@@ -214,14 +214,8 @@ class SOAP():
 
     def create_sobjects_workflow_request(self, options):
         types = {} # Define types
-
-        # Build sObject types
-        allowed_sobjects = self.settings["allowed_sobjects"] # All allowed sObjects
-        allowed_sobjects.append("*") # CustomObject
-        types["CustomObject"] = allowed_sobjects
-
-        # Build Workflows types
-        types["Workflow"] = "*"
+        for xml_name in ["Workflow", "CustomObject"]:
+            types[xml_name] = util.make_types(self.settings, xml_name)
 
         return self.create_retrieve_request(types)
 

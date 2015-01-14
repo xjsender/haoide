@@ -15,7 +15,7 @@ import math
 from xml.sax.saxutils import unescape
 from . import requests, context, util
 from .context import COMPONENT_METADATA_SETTINGS
-from .salesforce import soap, message
+from .salesforce import soap, message, login
 from .salesforce.login import soap_login
 from .salesforce.api.bulk import BulkJob
 from .salesforce.api.bulk import BulkApi
@@ -819,7 +819,7 @@ def handle_fetch_debug_logs(user_full_name, user_id, timeout=120):
         result = api.result
         records = result["records"]
         debug_logs_table = util.format_debug_logs(settings, records)
-        Printer.get("log").write_start().write("\n"+debug_logs_table)
+        Printer.get("log").write_start().write(debug_logs_table)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -1139,18 +1139,7 @@ def handle_new_project(settings, is_update=False, timeout=120):
     api = MetadataApi(settings)
     types = {}
     for xml_name in settings["subscribed_metadata_objects"]:
-        if xml_name == "CustomObject":
-            types[xml_name] = [
-                "Account", "AccountContactRole", "Activity", 
-                "Asset", "Campaign", "CampaignMember", "Case", 
-                "CaseContactRole", "Contact", "ContentVersion", 
-                "Contract", "ContractContactRole", "Event", "Idea", 
-                "Lead", "Opportunity", "OpportunityContactRole", 
-                "OpportunityLineItem", "PartnerRole", "Product2", 
-                "Site", "Solution", "Task", "User", "*"
-            ]
-        else:
-            types[xml_name] = ["*"]
+        types[xml_name] = util.make_types(settings, xml_name)
 
     thread = threading.Thread(target=api.retrieve, args=({
         "types": types,

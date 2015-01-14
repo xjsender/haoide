@@ -222,8 +222,8 @@ class MetadataApi():
             time.sleep(sleep_seconds)
 
             result = self.check_status(async_process_id)
-            sublime.active_window().run_command("show_panel", {"panel": "output.log"})
             Printer.get('log').write("[sf:retrieve] Request Status: %s" % result["state"])
+            print (json.dumps(result))
 
         # If check status request failed, this will not be done
         if result["state"] == "Failed":
@@ -435,7 +435,7 @@ class MetadataApi():
         failure_dict = {}
         while body["status"] in ["Pending", "InProgress", "Canceling"]:
             if "stateDetail" in body:
-                if body["numberComponentsDeployed"] < body["numberComponentsTotal"]:
+                if int(body["numberComponentsDeployed"]) < int(body["numberComponentsTotal"]):
                     Printer.get('log').write("[sf:%s] Request Status: %s (%s/%s)  -- %s" % (
                         deploy_or_validate,
                         body["status"], 

@@ -85,6 +85,15 @@ class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
 
         return True
 
+class ExportProfile(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ExportProfile, self).__init__(*args, **kwargs)
+
+    def run(self):
+        import threading
+        thread = threading.Thread(target=util.export_profile_settings)
+        thread.start()
+
 class ShowMyPanel(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ShowMyPanel, self).__init__(*args, **kwargs)
@@ -249,7 +258,6 @@ class ExecuteRestTest(sublime_plugin.TextCommand):
         try:
             data = json.loads(data) if data else None
         except ValueError as ve:
-            panel = sublime.active_window().create_output_panel('log')  # Create panel
             Printer.get('error').write(str(ve))
             if not sublime.ok_cancel_dialog("Do you want to try again?", "Yes?"): return
             self.view.window().show_input_panel("Input JSON Body: ", 
@@ -1857,7 +1865,8 @@ class ExtractToHere(sublime_plugin.WindowCommand):
 
         self._file = files[0]
         try:
-            extension = self._file.split(".")[1]
+            base, name = os.path.split(self._file)
+            name, extension = name.split(".")
             if extension not in ["zip", "resource"]:
                 return False
         except:

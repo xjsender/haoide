@@ -19,6 +19,7 @@ from .salesforce import message
 from .salesforce import xmltodict
 from .salesforce.lib import dateutil
 from .salesforce.lib.dateutil import tz
+from .salesforce.lib.panel import Printer
 from . import context
 from xml.sax.saxutils import unescape
 
@@ -760,20 +761,26 @@ def build_folder_types(dirs):
         if dname not in _dir: continue
 
         xml_name = settings[folder]["xmlName"]
-        if xml_name == "CustomObject":
-            types[xml_name] = [
-                "Account", "AccountContactRole", "Activity", 
-                "Asset", "Campaign", "CampaignMember", "Case", 
-                "CaseContactRole", "Contact", "ContentVersion", 
-                "Contract", "ContractContactRole", "Event", "Idea", 
-                "Lead", "Opportunity", "OpportunityContactRole", 
-                "OpportunityLineItem", "PartnerRole", "Product2", 
-                "Site", "Solution", "Task", "User", "*"
-            ]
-        else:
-            types[xml_name] = ["*"]
+        types[xml_name] = make_types(settings, xml_name)
 
     return types
+
+def make_types(settings, xml_name):
+    if xml_name == "CustomObject":
+        sobjects = [
+            "Account", "AccountContactRole", "Activity", "Asset", 
+            "Campaign", "CampaignMember", "Case", "CaseComment", 
+            "CaseContactRole", "Contact", "ContentVersion", "Contract", 
+            "ContractContactRole", "Event", "ForecastingQuota", "Idea", 
+            "Lead", "Opportunity", "OpportunityCompetitor", "OpportunityContactRole", 
+            "OpportunityLineItem", "OpportunityTeamMember", "PartnerRole", 
+            "Pricebook2", "PricebookEntry", "Product2", 
+            "Quote", "QuoteLineItem", "Site", "Solution", "Task", "User"
+        ]
+        sobjects.append("*")
+        return sobjects
+    else:
+        return ["*"]
 
 def build_package_dict(files, ignore_folder=True):
     """ Build Package Dict as follow structure by files
@@ -1303,7 +1310,7 @@ def format_debug_logs(settings, records):
 
     # Content
     content = ""
-    records = reversed(sorted(records, key=lambda k : k['StartTime']))
+    records = sorted(records, key=lambda k : k['StartTime'])
     for record in records:
         for header in debug_log_headers:
             if header == "StartTime":
@@ -1313,7 +1320,7 @@ def format_debug_logs(settings, records):
             content += "%-*s" % (debug_log_headers_properties[header]["width"], record[header])
         content += "\n"
 
-    return headers + "\n" + (len(headers) * "-") + "\n" + content[:len(content)-1]
+    return "\n" + headers + "\n" + (len(headers) * "-") + "\n" + content[:len(content)-1]
 
 def format_error_message(result):
     """Format message as below format
@@ -2366,3 +2373,120 @@ def add_project_to_workspace(settings):
 
     project_data["folders"] = folders
     sublime.active_window().set_project_data(project_data)
+
+def export_profile_settings():
+    settings = context.get_settings()
+
+    profiles = []
+    profile_dir = os.path.join(settings["workspace"], "src", "profiles")
+    if not os.path.exists(profile_dir):
+        Printer.get("error").write("Please retrieve all firstly")
+        return
+
+    Printer.get("log").write_start().write("Start to read all profile names")
+    for parent, dirnames, filenames in os.walk(profile_dir):
+        for _file in filenames:
+            base, name = os.path.split(_file)
+            name, extension = name.split(".")
+            profiles.append(name)
+
+    columns = ["Object"].extend(profiles)
+
+    profile_settings = {}
+    for profile in profiles:
+        Printer.get("log").write("Parsing the profile security settings of "+profile)
+        profile_file = os.path.join(profile_dir, profile+".profile")
+        result = xmltodict.parse(open(profile_file, "rb").read())
+        object_permissions = result["Profile"]["objectPermissions"]
+        sobjects_permission = {}
+        for object_permisson in object_permissions:
+            sobjects_permission[object_permisson["object"]] = object_permisson
+        profile_settings[profile] = sobjects_permission
+
+    # Define standard sObjects
+    sobjects = [
+        "Account", "Asset", "Campaign", "Case", 
+        "Contact", "Contract", "Document", "Idea", 
+        "Lead", "Opportunity", "Pricebook2", 
+        "Product2", "Quote", "Solution"
+    ]
+    Printer.get("log").write("All standard sobjects are %s" % (",".join(sobjects)))
+
+    # Get the custom objects
+    Printer.get("log").write("Start describing global to get all custom objects")
+    from .salesforce.api.tooling import ToolingApi
+    api = ToolingApi(settings)
+    result = api.describe_global()
+
+    print (result)
+    if not result["success"]:
+        Printer.get("log").write(json.dumps(result))
+        return
+
+    for name in result["sobjects"]:
+        if name.endswith("__ka"): continue
+        so = result["sobjects"][name]
+        if so["custom"] and not so["customSetting"]:
+            sobjects.append(name)
+
+    # Define object CRUD
+    cruds = [
+        "allowRead", "allowCreate", "allowEdit", 
+        "allowDelete", "modifyAllRecords", 
+        "viewAllRecords"
+    ]
+
+    # cruds_translation = {
+    #     "allowRead": "读取", 
+    #     "allowCreate": "创建", 
+    #     "allowEdit": "编辑", 
+    #     "allowDelete": "删除", 
+    #     "modifyAllRecords": "更有所有", 
+    #     "viewAllRecords": "查看所有"
+    # }
+    # 
+    cruds_translation = {
+        "allowRead": "Read", 
+        "allowCreate": "Create", 
+        "allowEdit": "Edit", 
+        "allowDelete": "Delete", 
+        "modifyAllRecords": "ModifyAll", 
+        "viewAllRecords": "ViewAll"
+    }
+
+    # Define the column that contains profile
+    Printer.get("log").write("Generating csv content for profile object security")
+    profile_headers = ["Object"]
+    for profile in profiles:
+        profile_headers.append(profile)
+        for i in range(len(cruds) - 1):
+            profile_headers.append("")
+
+    # Define the column
+    crud_headers = [""]
+    for profile in profiles:
+        for crud in cruds:
+            crud_headers.append(cruds_translation[crud])
+
+    all_rows = [",".join(profile_headers), ",".join(crud_headers)]
+    for sobject in sobjects:
+        permissions = [sobject]
+        for profile in profiles:
+            # Some standard sObject is not configurable
+            if sobject in profile_settings[profile]:
+                object_permission = profile_settings[profile][sobject]
+                for crud in cruds:
+                    permissions.append("√" if object_permission[crud] == "true" else "x")
+            else:
+                for crud in cruds:
+                    permissions.append("x")
+
+        all_rows.append(",".join(permissions))
+
+    outputdir = settings["workspace"]+ "/.export/profile"
+    if not os.path.exists(outputdir):
+        os.makedirs(outputdir)
+
+    Printer.get("log").write("Write profile object security to "+outputdir)
+    with open(outputdir+"/profile.csv", "wb") as fp:
+        fp.write("\n".join(all_rows).encode("utf-8"))

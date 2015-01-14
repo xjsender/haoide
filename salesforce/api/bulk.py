@@ -9,7 +9,7 @@ from ..soap import SOAP
 from .. import xmltodict
 from ... import requests, util
 from ..api.tooling import ToolingApi
-
+from ..lib.panel import Printer
 
 class BulkApi():
     def __init__(self, settings, sobject, input=None, external_field=None):

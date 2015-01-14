@@ -242,6 +242,7 @@
                         "caption": "Export CustomField",
                         "command": "export_custom_field"
                     },
+
                     {
                         "id": "exportworkflow",
                         "caption": "Export Workflow",
@@ -258,6 +259,12 @@
                         "id": "exportcustomlables",
                         "caption": "Export Custom Labels",
                         "command": "export_custom_lables"
+                    },
+
+                    {
+                        "id": "exportprofile",
+                        "caption": "Export Profile",
+                        "command": "export_profile"
                     },
 
                     {

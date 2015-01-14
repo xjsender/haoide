@@ -5,6 +5,18 @@ Release History
 ---------------
 
 
+Release 2.7.3 (2015-01-14)
+++++++++++++++++++
+* Fix bug for ``extract here`` command
+* Fix bug for ``bulk api`` caused by release 2.7.2
+* Fix long-term bug for inProgress message of deployment
+* Enhancement for ``list debug log``, for example, sort logs order by StartTime ASC, remove the useless "\n"
+* Add missed standard objects for ``CustomObject`` when retrieve metadata
+* Add new command for exporting profile object security settings, it's a very useful feature
+* Add ``Translations`` to metadataObjects settings
+* Update snippet description for ``Debug - debug json.sublime-snippet``
+
+
 Release 2.7.2 (2015-01-12)
 ++++++++++++++++++
 * Fix bug for issue #74
