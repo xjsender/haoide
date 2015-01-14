@@ -2397,10 +2397,25 @@ def export_profile_settings():
         Printer.get("log").write("Parsing the profile security settings of "+profile)
         profile_file = os.path.join(profile_dir, profile+".profile")
         result = xmltodict.parse(open(profile_file, "rb").read())
+
+        # Some profiles don't have objectPermissions
+        if "objectPermissions" not in result["Profile"]:
+            continue
+
         object_permissions = result["Profile"]["objectPermissions"]
         sobjects_permission = {}
+
+        # Some profiles just only have one objectPermissions
+        if isinstance(object_permissions, dict):
+            object_permissions = [object_permissions]
+
         for object_permisson in object_permissions:
             sobjects_permission[object_permisson["object"]] = object_permisson
+
+        # Escape profile name, for example, 
+        # "Custom%3A Sales Profile" changed to "Custom: Sales Profile"
+        profile = urllib.parse.unquote(unescape(profile, {"&apos;": "'", "&quot;": '"'}))
+
         profile_settings[profile] = sobjects_permission
 
     # Define standard sObjects
@@ -2418,7 +2433,6 @@ def export_profile_settings():
     api = ToolingApi(settings)
     result = api.describe_global()
 
-    print (result)
     if not result["success"]:
         Printer.get("log").write(json.dumps(result))
         return
@@ -2457,6 +2471,7 @@ def export_profile_settings():
     # Define the column that contains profile
     Printer.get("log").write("Generating csv content for profile object security")
     profile_headers = ["Object"]
+    profiles = sorted(list(profile_settings.keys()))
     for profile in profiles:
         profile_headers.append(profile)
         for i in range(len(cruds) - 1):
