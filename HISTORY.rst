@@ -5,6 +5,18 @@ Release History
 ---------------
 
 
+Release 2.7.4 (2015-01-16)
+++++++++++++++++++
+* Fix bug for issue #75
+* Update ``Chanel`` to ``Channel`` in the plugin copyright information
+* Update license information
+* Remove ``InstalledPackage`` from ``metadataObjects`` settings
+* No longer check save conflict when compile code
+* Add commands for ``export_profile`` in command palette
+* Update default keymap for ``open log panel``, ``open error panel`` and ``open diff panel`` in the ``Utilities`` menu item
+* Enhancement for login module, decrease the timeout seconds and repeat login until repeat times exceed 12 times
+
+
 Release 2.7.3 (2015-01-14)
 ++++++++++++++++++
 * Fix bug for ``extract here`` command

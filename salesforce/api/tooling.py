@@ -846,7 +846,7 @@ class ToolingApi():
         component_id = component_attribute["id"]
         component_body = component_attribute["body"]
 
-        if self.settings["check_save_conflict"]:
+        if self.settings["check_save_conflict"] and not is_check_only:
             Printer.get('log').write("Start to check saving conflict")
             query = "SELECT Id, LastModifiedById, LastModifiedDate " +\
                     "FROM %s WHERE Id = '%s'" % (component_type, component_id)

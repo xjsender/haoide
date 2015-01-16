@@ -21,7 +21,7 @@ class Printer(object):
             printer.init()
             cls.printers[str(window_id)+name] = printer
             package_info = sublime.load_settings("package.sublime-settings")
-            version_info = "Copyright © 2013-2014 By %s, Dev Chanel, Build v%s\n" % (
+            version_info = "Copyright © 2013-2015 By %s, Dev Channel, Build v%s\n" % (
                 package_info.get("author"),
                 package_info.get("version")
             )

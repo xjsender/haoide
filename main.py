@@ -507,7 +507,6 @@ class RetrievePackageFileCommand(sublime_plugin.TextCommand):
         extract_to = os.path.join(path, project_name+"-"+time_stamp+"-"+name)
 
         # Start retrieve
-        print (types)
         processor.handle_retrieve_package(types, extract_to)
 
     def is_visible(self):
@@ -1203,7 +1202,7 @@ class AboutCommand(sublime_plugin.ApplicationCommand):
     def run(command):
         package_info = sublime.load_settings("package.sublime-settings")
 
-        version_info = "\n%s\n\n%s\n\nCopyright © 2013-2014 By %s\n\tDev Chanel, Build v%s" % (
+        version_info = "\n%s\n\n%s\n\nCopyright © 2013-2015 By %s\n\tDev Channel, Build v%s" % (
             package_info.get("description"),
             package_info.get("homepage"),
             package_info.get("author"),

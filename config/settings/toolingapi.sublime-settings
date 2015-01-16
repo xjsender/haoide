@@ -1,11 +1,10 @@
 // While you can edit this file, it's best to put your changes in
-// "User/Preferences.sublime-settings", which overrides the settings in here.
-// Settings may also be placed in file type specific options files, for
-// example, in Packages/Python/Python.sublime-settings for python files.
+// "User/toolingapi.sublime-settings", which overrides the settings in here.
+// Settings may also be placed in file type specific options files
 {
     // In order to prevent plugin update override your toolingapi settings,
     // you should save the workspace, login_url, username and password to user settings.
-    // If you want to do this, you should click [Sublime > Setting - User], and copy these settings into it
+    // If you want to do this, you should click [Sublime > Settings > Setting - User], and copy these settings into it
     // User Settings is prior to Default Settings, it's very important.
     // You should have more than one project in "projects", however, only one project can be default
     // Every time you switch the project, the update projects settings will be saved to user settings.
@@ -394,13 +393,6 @@
     },
 
     "metadataObjects": [{
-            "directoryName": "installedPackages",
-            "inFolder": "false",
-            "metaFile": "false",
-            "suffix": "installedPackage",
-            "xmlName": "InstalledPackage",
-            "subscribe": false
-        }, {
             "childXmlNames": {"CustomLabel": "labels"},
             "directoryName": "labels",
             "inFolder": "false",

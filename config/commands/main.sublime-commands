@@ -312,6 +312,10 @@
         "command": "export_data_template"
     },
     {
+        "caption": "SublimeApex: Export Profile",
+        "command": "export_profile"
+    },
+    {
         "caption": "SublimeApex: Export Workbook",
         "command": "export_workbook"
     },

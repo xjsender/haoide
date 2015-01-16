@@ -278,7 +278,7 @@ class SOAP():
     ##############################################
     # Apex API Request
     ##############################################
-    def create_apex_envelope(self, body):
+    def create_apex_envelope(self, body, need_format=True):
         log_levels = ""
         for log_level in self.settings["anonymous_log_levels"]:
             log_levels += """
@@ -305,7 +305,12 @@ class SOAP():
         </soapenv:Envelope>
         """.format(log_levels=log_levels, session_id=self.get_session_id(), body=body)
 
-        return self.format_request_envelope(apex_request_envelope)
+        if need_format:
+            return_body = self.format_request_envelope(apex_request_envelope)
+        else:
+            return_body = apex_request_envelope.encode("utf-8")
+
+        return return_body
 
     def create_execute_anonymous_request(self, options):
         execute_anonymous_request_body = """
@@ -314,7 +319,7 @@ class SOAP():
             </apex:executeAnonymous>
         """.format(**options)
 
-        return self.create_apex_envelope(execute_anonymous_request_body)
+        return self.create_apex_envelope(execute_anonymous_request_body, False)
 
     def create_run_all_test_request(self, options):
         run_all_test_request_body = """

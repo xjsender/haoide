@@ -223,7 +223,6 @@ class MetadataApi():
 
             result = self.check_status(async_process_id)
             Printer.get('log').write("[sf:retrieve] Request Status: %s" % result["state"])
-            print (json.dumps(result))
 
         # If check status request failed, this will not be done
         if result["state"] == "Failed":

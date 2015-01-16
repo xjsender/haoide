@@ -15,11 +15,19 @@
     {"keys": ["alt+u"], "command": "update_user_language"},
 
     // Open Output Log Panel
-    {"keys": ["alt+`"], "command": "show_panel", 
-        "args": {
-            "panel": "output.log"
-        }
-    },
+    {"keys": ["ctrl+1"], "command": "show_my_panel", "args": {
+        "panel": "log"
+    }},
+
+    // Open Output Error Panel
+    {"keys": ["ctrl+2"], "command": "show_my_panel", "args": {
+        "panel": "error"
+    }},
+
+    // Open Output Diff Panel
+    {"keys": ["ctrl+3"], "command": "show_panel", "args": {
+        "panel": "output.diff_with_server"
+    }},
     
     // Open Document
     {"keys": ["super+alt+o"], "command": "open_documentation"},

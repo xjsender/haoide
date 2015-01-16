@@ -8,7 +8,7 @@ from .. import requests
 from .. import util
 
 # https://github.com/xjsender/simple-salesforce/blob/master/simple_salesforce/login.py
-def soap_login(settings, session_id_expired=False, timeout=120):
+def soap_login(settings, session_id_expired=False, timeout=10):
     if not session_id_expired:
         session = util.get_session_info(settings)
         if session: return session
@@ -40,6 +40,18 @@ def soap_login(settings, session_id_expired=False, timeout=120):
         response = requests.post(settings["soap_login_url"], login_soap_request_body, 
             verify=False, headers=headers, timeout=timeout)
     except Exception as e:
+        if "repeat_times" not in globals():
+            globals()["repeat_times"] = 1
+        else:
+            globals()["repeat_times"] += 1
+
+        if settings["debug_mode"]:
+            print ("Login Exception: " + str(e))
+            print ("repeat_times: " + str(globals()["repeat_times"]))
+
+        if globals()["repeat_times"] <= 12:
+            return soap_login(settings, session_id_expired, timeout)
+
         result = {
             "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
             "URL": settings["soap_login_url"],
@@ -47,6 +59,10 @@ def soap_login(settings, session_id_expired=False, timeout=120):
             "success": False
         }
         return result
+
+    # If request succeed, just clear repeat_times
+    if "repeat_times" in globals():
+        del globals()["repeat_times"]
 
     result = {}
     if response.status_code != 200:
