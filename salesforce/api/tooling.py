@@ -686,10 +686,11 @@ class ToolingApi():
 
         url = self.parse_url(retrieve_url)
         headers = self.headers.copy()
-        headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
+        headers["Accept-Encoding"] = 'gzip'
 
         try:
             response = requests.get(url, verify=False, headers=headers, timeout=timeout)
+            response.encoding = "UTF-8"
         except Exception as e:
             self.result = {
                 "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),

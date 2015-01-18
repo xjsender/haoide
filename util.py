@@ -2374,75 +2374,111 @@ def add_project_to_workspace(settings):
     project_data["folders"] = folders
     sublime.active_window().set_project_data(project_data)
 
-def export_profile_settings():
-    settings = context.get_settings()
+def get_metadata_elements(metadata_dir):
+    """ Get the name list by specified metadataObject
 
-    profiles = []
-    profile_dir = os.path.join(settings["workspace"], "src", "profiles")
-    if not os.path.exists(profile_dir):
-        Printer.get("error").write("Please retrieve all firstly")
-        return
+    Arguments:
 
-    Printer.get("log").write_start().write("Start to read all profile names")
-    for parent, dirnames, filenames in os.walk(profile_dir):
+    metadata_dir -- directory of metadataObject
+
+    Return:
+
+    names -- elements in the specified metadataObject folder
+    """
+
+    
+    elements = []
+    for parent, dirnames, filenames in os.walk(metadata_dir):
         for _file in filenames:
             base, name = os.path.split(_file)
             name, extension = name.split(".")
-            profiles.append(name)
+            elements.append(name)
 
-    columns = ["Object"].extend(profiles)
+    return elements
 
-    profile_settings = {}
-    for profile in profiles:
-        Printer.get("log").write("Parsing the profile security settings of "+profile)
-        profile_file = os.path.join(profile_dir, profile+".profile")
-        result = xmltodict.parse(open(profile_file, "rb").read())
+def export_profile_settings():
+    settings = context.get_settings()
 
-        # Some profiles don't have objectPermissions
-        if "objectPermissions" not in result["Profile"]:
-            continue
-
-        object_permissions = result["Profile"]["objectPermissions"]
-        sobjects_permission = {}
-
-        # Some profiles just only have one objectPermissions
-        if isinstance(object_permissions, dict):
-            object_permissions = [object_permissions]
-
-        for object_permisson in object_permissions:
-            sobjects_permission[object_permisson["object"]] = object_permisson
-
-        # Escape profile name, for example, 
-        # "Custom%3A Sales Profile" changed to "Custom: Sales Profile"
-        profile = urllib.parse.unquote(unescape(profile, {"&apos;": "'", "&quot;": '"'}))
-
-        profile_settings[profile] = sobjects_permission
-
-    # Define standard sObjects
-    sobjects = [
-        "Account", "Asset", "Campaign", "Case", 
-        "Contact", "Contract", "Document", "Idea", 
-        "Lead", "Opportunity", "Pricebook2", 
-        "Product2", "Quote", "Solution"
-    ]
-    Printer.get("log").write("All standard sobjects are %s" % (",".join(sobjects)))
-
-    # Get the custom objects
-    Printer.get("log").write("Start describing global to get all custom objects")
-    from .salesforce.api.tooling import ToolingApi
-    api = ToolingApi(settings)
-    result = api.describe_global()
-
-    if not result["success"]:
-        Printer.get("log").write(json.dumps(result))
+    # Read all profile names
+    profile_dir = os.path.join(settings["workspace"], "src", "profiles")
+    if not os.path.exists(profile_dir):
+        Printer.get("error").write("Profile directory can not be found, please execute `retrieve all` command")
         return
 
-    for name in result["sobjects"]:
-        if name.endswith("__ka"): continue
-        so = result["sobjects"][name]
-        if so["custom"] and not so["customSetting"]:
-            sobjects.append(name)
+    Printer.get("log").write_start().write("Start to read all file name in profile folder")
+    profiles = get_metadata_elements(profile_dir)
 
+    profile_settings = {}
+    sobject_names = []
+    tab_names = []
+    permission_names = []
+    for profile in profiles:
+        # Escape profile name, for example, 
+        # "Custom%3A Sales Profile" changed to "Custom: Sales Profile"
+        unquoted_profile = urllib.parse.unquote(unescape(profile, {"&apos;": "'", "&quot;": '"'}))
+        Printer.get("log").write("Parsing the profile security settings of "+unquoted_profile)
+
+        profile_file = os.path.join(profile_dir, profile+".profile")
+        result = xmltodict.parse(open(profile_file, "rb").read())
+        result = result["Profile"]
+
+        profile_settings[unquoted_profile] = {}
+
+        # Some profiles don't have objectPermissions
+        if "objectPermissions" in result:
+            sobjects_permission = {}
+
+            object_permissions = result["objectPermissions"]
+
+            # Some profiles just only have one objectPermissions
+            if isinstance(result["objectPermissions"], dict): 
+                object_permissions = [object_permissions]
+
+            for op in object_permissions:
+                sobjects_permission[op["object"]] = op
+                if op["object"] not in sobject_names:
+                    sobject_names.append(op["object"])
+
+            profile_settings[unquoted_profile]["objectPermissions"] = sobjects_permission
+
+        # Parsing tabVisibilities as {}
+        if "recordTypeVisibilities" in result:
+            pass
+
+        # Parsing tabVisibilities as {"tabName1": "visibility", "tabName2": "Visibility"}
+        if "tabVisibilities" in result:
+            tab_visibilities = {}
+
+            # Some profiles just only have one tabVisibilities
+            tvs = result["tabVisibilities"]
+            if isinstance(tvs, dict): tvs = [tvs]
+
+            for tv in tvs:
+                tab_visibilities[tv["tab"]] = tv["visibility"]
+                if tv["tab"] not in tab_names:
+                    tab_names.append(tv["tab"])
+            profile_settings[unquoted_profile]["tabVisibilities"] = tab_visibilities
+
+        # Parsing userPermissions as {"ApiEnabled": true, ""AllowUniversalSearch"": false}
+        if "userPermissions" in result:
+            user_permissions = {}
+
+            # Some profiles just only have one userPermissions
+            ups = result["userPermissions"]
+            if isinstance(ups, dict): ups = [ups]
+
+            for up in ups:
+                user_permissions[up["name"]] = up["enabled"]
+                if up["name"] not in permission_names:
+                    permission_names.append(up["name"])
+            profile_settings[unquoted_profile]["userPermissions"] = user_permissions
+
+    # Get the unescaped profiles
+    profiles = sorted(list(profile_settings.keys()))
+    
+    #########################################
+    # 1. Export objectPermissions
+    #########################################
     # Define object CRUD
     cruds = [
         "allowRead", "allowCreate", "allowEdit", 
@@ -2450,15 +2486,6 @@ def export_profile_settings():
         "viewAllRecords"
     ]
 
-    # cruds_translation = {
-    #     "allowRead": "读取", 
-    #     "allowCreate": "创建", 
-    #     "allowEdit": "编辑", 
-    #     "allowDelete": "删除", 
-    #     "modifyAllRecords": "更有所有", 
-    #     "viewAllRecords": "查看所有"
-    # }
-    # 
     cruds_translation = {
         "allowRead": "Read", 
         "allowCreate": "Create", 
@@ -2471,7 +2498,6 @@ def export_profile_settings():
     # Define the column that contains profile
     Printer.get("log").write("Generating csv content for profile object security")
     profile_headers = ["Object"]
-    profiles = sorted(list(profile_settings.keys()))
     for profile in profiles:
         profile_headers.append(profile)
         for i in range(len(cruds) - 1):
@@ -2483,25 +2509,84 @@ def export_profile_settings():
         for crud in cruds:
             crud_headers.append(cruds_translation[crud])
 
+    sobject_names = sorted(sobject_names)
     all_rows = [",".join(profile_headers), ",".join(crud_headers)]
-    for sobject in sobjects:
-        permissions = [sobject]
+    for sobject in sobject_names:
+        rows = [sobject]
         for profile in profiles:
             # Some standard sObject is not configurable
-            if sobject in profile_settings[profile]:
-                object_permission = profile_settings[profile][sobject]
-                for crud in cruds:
-                    permissions.append("√" if object_permission[crud] == "true" else "x")
+            if "objectPermissions" in profile_settings[profile]:
+                if sobject in profile_settings[profile]["objectPermissions"]:
+                    object_permission = profile_settings[profile]["objectPermissions"][sobject]
+                    for crud in cruds:
+                        rows.append("√" if object_permission[crud] == "true" else "x")
+                else:
+                    for crud in cruds:
+                        rows.append("x")
             else:
                 for crud in cruds:
-                    permissions.append("x")
+                    rows.append("x")
 
-        all_rows.append(",".join(permissions))
+        all_rows.append(",".join(rows))
 
     outputdir = settings["workspace"]+ "/.export/profile"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
-    Printer.get("log").write("Write profile object security to "+outputdir)
-    with open(outputdir+"/profile.csv", "wb") as fp:
+    Printer.get("log").write("Writing profile object security to "+outputdir)
+    with open(outputdir+"/ObjectPermissions.csv", "wb") as fp:
+        fp.write("\n".join(all_rows).encode("utf-8"))
+
+    #########################################
+    # 2. Export tabVisibilities
+    #########################################
+    # Populate Header
+    headers = ["Tab Name"]
+    headers.extend(profiles)
+
+    # Populate Rows
+    tab_names = sorted(tab_names)
+    all_rows = [",".join(headers)]
+    for tab_name in tab_names:
+        rows = [tab_name]
+        for profile in profiles:
+            if "tabVisibilities" in profile_settings[profile]:
+                if tab_name in profile_settings[profile]["tabVisibilities"]:
+                    rows.append(profile_settings[profile]["tabVisibilities"][tab_name])
+                else:
+                    rows.append("TabHidden")
+            else:
+                rows.append("No Tab Permission")
+
+        all_rows.append(",".join(rows))
+
+    Printer.get("log").write("Writing profile tab visibility to "+outputdir)
+    with open(outputdir+"/TabVisibilities.csv", "wb") as fp:
+        fp.write("\n".join(all_rows).encode("utf-8"))
+
+    #########################################
+    # 3. Export tabVisibilities
+    #########################################
+    # Populate Header
+    headers = ["Permission"]
+    headers.extend(profiles)
+
+    # Populate Rows
+    all_rows = [",".join(headers)]
+    permission_names = sorted(permission_names)
+    for permission_name in permission_names:
+        rows = [permission_name]
+        for profile in profiles:
+            if permission_name in profile_settings[profile]["userPermissions"]:
+                if profile_settings[profile]["userPermissions"][permission_name] == "true":
+                    rows.append("√")
+                else:
+                    rows.append("x")
+            else:
+                rows.append("x")
+
+        all_rows.append(",".join(rows))
+
+    Printer.get("log").write("Writing profile user permission to "+outputdir)
+    with open(outputdir+"/UserPermissions.csv", "wb") as fp:
         fp.write("\n".join(all_rows).encode("utf-8"))

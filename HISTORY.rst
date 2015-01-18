@@ -5,6 +5,16 @@ Release History
 ---------------
 
 
+Release 2.7.5 (2015-01-18)
+++++++++++++++++++
+* Fix bug: messy code when view debug log detail in sublime
+* Fix bug: timeout exception is not caught when save component
+* Enhancement for completions
+* Enhancement for ``export profile`` feature
+* Add feature for export of ``userPermission`` and ``tabVisibility``
+* Update README.MD
+
+
 Release 2.7.4 (2015-01-16)
 ++++++++++++++++++
 * Fix bug for issue #75

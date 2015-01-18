@@ -60,13 +60,8 @@ class PackageCompletions(sublime_plugin.EventListener):
             # File name completion
             if ch != ".":
                 # List File Names
-                for parent, dirnames, filenames in os.walk(_dir):
-                    for _file in filenames:
-                        if _file.endswith("-meta.xml"): continue
-                        base, name = os.path.split(_file)
-                        name, extension = name.split(".")
-                        display = "%s\t%s" % (name, _type)
-                        completion_list.append((display, name))
+                for name in util.get_metadata_elements(_dir):
+                    completion_list.append((name+"\t"+_type, name))
 
             # Child content of file name completion
             if ch == ".":
@@ -83,9 +78,9 @@ class PackageCompletions(sublime_plugin.EventListener):
                         childs = result[parent_type][key]
                         if isinstance(childs, dict): childs = [childs]
                         for child in childs:
-                            if "fullName" not in child: continue
-                            display = "%s\t%s" % (child["fullName"], meta_type)
-                            completion_list.append((display, child["fullName"]))
+                            if "fullName" in child:
+                                display = "%s\t%s" % (child["fullName"], meta_type)
+                                completion_list.append((display, child["fullName"]))
                 except KeyError as e:
                     if settings["debug_mode"]:
                         print ('[Debug] Completion KeyError: %s' % str(e))

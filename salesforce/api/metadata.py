@@ -118,7 +118,7 @@ class MetadataApi():
 
         try:
             response = requests.post(self.metadata_url, soap_body, 
-                verify=False, headers=headers)
+                verify=False, headers=headers, timeout=120)
         except Exception as e:
             self.result = {
                 "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),

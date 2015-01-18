@@ -332,15 +332,20 @@ After you downloaded all metadata by clicking ```SublimeApex``` > ```Metadata Mi
 If you just want to export some attributes of workflows, you can remove some columns in the ```workflow_rule_columns```, ``workflow_field_update_columns``, ``workflow_email_alert_columns``, ``workflow_outbound_message_columns`` and ``workflow_task_columns`` settings and put it into your own user settings.
 
 ## Export Validation Rules
-After you downloaded all metadata by clicking ```SublimeApex``` > ```Migration``` > ```Retrieve Sobject And Workflow```, you can click ```SublimeApex``` > ```Export``` > ```Export Validation Rule``` to backup all validation rules in your org to csv.
+After you downloaded all metadata by clicking ```SublimeApex``` > ```Migration``` > ```Retrieve Sobject And Workflow```, you can click ```SublimeApex``` > ```Export``` > ```Export Validation Rule``` to backup all validation rules in your org to CSV.
 
 If you just want to export some attributes of validation rules, you can remove some columns in the ```validation_rule_columns``` setting and put it into your own user settings
 
 ## Export CustomFields
-You can click ```SublimeApex``` > ```Export``` > ```Export CustomFields``` to export all custom fields in your org to csv.
+You can click ```SublimeApex``` > ```Export``` > ```Export CustomFields``` to export all custom fields in your org to CSV.
+
+## Export Profile Workbook
+You can click ```SublimeApex``` > ```Export``` > ```Export Profile``` to export ```ObjectPermission```, ```TabVisibilities``` and ```UserPermissions``` of all profiles to three different CSV files, see [ObjectPermission CSV Picture](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Profile.png)
+
+Before execute this command, you should execute the ```Retrieve All``` command to download all related components.
 
 ## Export Workbook of sobjects
-You can click ```SublimeApex``` > ```Export``` > ```Export Workbook``` to export all sObject workbooks or some sObject separated with semi-colon in your org to csv.
+You can click ```SublimeApex``` > ```Export``` > ```Export Workbook``` to export all sObject workbooks or some sObject separated with semi-colon in your org to CSV.
 
 If you just want to export some attributes of sobject workbook, you can remove some columns in the ```workbook_field_describe_columns``` setting and put it into your own user settings
 
