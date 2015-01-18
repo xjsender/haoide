@@ -3,37 +3,37 @@ This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change the
 **If you think this plugin is helpful, please star this plugin.**
 
 # Change Logs
-See [History](https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst)
+See [History](https://github.com/xjsender/haoide/blob/master/HISTORY.rst)
 
 # Demo
-+ [Install Plugin](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/InstallPackage.gif) 
-+ [Create New Project](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/NewProject.gif)
-+ [Completions](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
-+ [Trigger](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Trigger.gif)
-+ [Visualforce Page](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif)
-+ [Execute Rest Test](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Execute%20Rest%20Test.gif)
-+ [Document Reference](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DocumentReference.gif)
-+ [Export Workbooks](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ExportWorkbooks.gif)
-+ [Export Workflow](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ExportWorkflow.gif)
-+ [Retrieve Package.xml](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
-+ [Deploy Package.zip](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
-+ [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
-+ [Deploy Files to Server](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployFilesToServer.gif)
-+ [Save Multiple Files to Server](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/SaveMultipleFilesToServer.gif)
-+ [Refresh Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RefreshFolders.gif)
-+ [Convert XML to JSON](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ConvertXML2JSON.gif)
-+ [Build Package.xml](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/BuildPackageXML.gif)
-+ [Lighting Component Development](https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif)
-+ [More Demos](https://github.com/xjsender/SublimeApexScreenshot)
++ [Install Plugin](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/InstallPackage.gif) 
++ [Create New Project](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/NewProject.gif)
++ [Completions](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/Completions.gif)
++ [Trigger](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/Trigger.gif)
++ [Visualforce Page](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/html.gif)
++ [Execute Rest Test](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/Execute%20Rest%20Test.gif)
++ [Document Reference](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/DocumentReference.gif)
++ [Export Workbooks](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/ExportWorkbooks.gif)
++ [Export Workflow](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/ExportWorkflow.gif)
++ [Retrieve Package.xml](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/RetrievePackage.gif)
++ [Deploy Package.zip](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/DeployZip.gif)
++ [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/DeployPackageFolder.gif)
++ [Deploy Files to Server](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/DeployFilesToServer.gif)
++ [Save Multiple Files to Server](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/SaveMultipleFilesToServer.gif)
++ [Refresh Folder](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/RefreshFolders.gif)
++ [Convert XML to JSON](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/ConvertXML2JSON.gif)
++ [Build Package.xml](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/BuildPackageXML.gif)
++ [Lighting Component Development](https://github.com/xjsender/haoideScreenshot/raw/master/LightingDevelopment.gif)
++ [More Demos](https://github.com/xjsender/haoideScreenshot)
 
 **Please don't change the password and email in the build-in test org**
 
 # Installation
-This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), after you [installed the package control](https://sublime.wbond.net/installation#st3), you can install this plugin by searching ```Salesforce IDE``` in package control
+This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), after you [installed the package control](https://sublime.wbond.net/installation#st3), you can install this plugin by searching ```haoide``` in package control
 
 # Project Configuration
 ## Worspace
-If your operation system is **OSX**, you must change the workspace in ```SublimeApex``` > ```Setting``` > ```Setting - User``` to override the default workspace.
+If your operation system is **OSX**, you must change the workspace in ```haoide``` > ```Setting``` > ```Setting - User``` to override the default workspace.
 
 There are two tiers of workspace concept in this plugin, including plugin level workspace and project level workspace, the privilege level of project level is higher than the plugin level workspace, if you didn't define the workspace in the project property of ```projects``` setting, plugin will set your plugin level workspace to the default workspace, for example, if the settings is set as below:
 
@@ -84,21 +84,21 @@ Your plugin level workspace is ```c:/salesforce/workspace1```, because ```pro-ex
 
 
 ## Projects
-There is a default test org in this plugin, you can see it by clicking ```SublimeApex``` > ```Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project.
+There is a default test org in this plugin, you can see it by clicking ```haoide``` > ```Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project.
 
-In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```SublimeApex``` > ```Settings``` > ```Setting - User```.
+In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```haoide``` > ```Settings``` > ```Setting - User```.
 
-You can setup your projects follow below sample by clicking ```SublimeApex``` > ```Settings``` > ```Setting - User``` in the main menu, projects must be included in {}.
+You can setup your projects follow below sample by clicking ```haoide``` > ```Settings``` > ```Setting - User``` in the main menu, projects must be included in {}.
 
 When you initiate your settings, you can have more than one project in "projects", however, only one project default should be true.
 
 If your own org login need security token, just set it as sample.
 
-Every time you want to switch the project, you can click ```SublimeApex``` > ```Switch Project``` in the main menu and choose that you want, and then the updated projects settings will be saved to user settings.
+Every time you want to switch the project, you can click ```haoide``` > ```Switch Project``` in the main menu and choose that you want, and then the updated projects settings will be saved to user settings.
 
 If you want to check the current active project, you can check the most left of side bar or press <kbd>ALT</kbd>+<kbd>S</kbd>
 
-After your project configuration is finished, you can click ```SublimeApex``` > ```New``` > ```new project``` in the main menu to download your code.
+After your project configuration is finished, you can click ```haoide``` > ```New``` > ```new project``` in the main menu to download your code.
 ```javascript
 {
     // In OSX, the worspace path is different with windows,
@@ -156,7 +156,7 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 **If you are developing a package, you need to add your package namespace to settings ``allowed_packages``, more detail to check the ``allowed_packages`` in the default settings**
 
 ## Update Project
-You can click ```SublimeApex > Update > Update Project``` in the main menu or press <kbd>Alt</kbd>+<kbd>R</kbd> to update your active project.
+You can click ```haoide > Update > Update Project``` in the main menu or press <kbd>Alt</kbd>+<kbd>R</kbd> to update your active project.
 
 ## Completions:
 + [x] Standard Class Completion
@@ -171,84 +171,84 @@ You can click ```SublimeApex > Update > Update Project``` in the main menu or pr
 + [x] HTML Elements Completion
 + [x] HTML and Visualforce Component Attribute Completion
 + [x] HTML and Visualforce Component Attribute Value Completion
-See [Completions Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
+See [Completions Demo](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/Completions.gif)
 
 ## Execute Anonymous
-Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```SublimeApex``` > ```Execute Anonymous```, you will see the result, you should be aware, if anonymous code compile is failed, message will be shown in output panel, just after compile succeed, the executed result will be shown in the new view.
+Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```haoide``` > ```Execute Anonymous```, you will see the result, you should be aware, if anonymous code compile is failed, message will be shown in output panel, just after compile succeed, the executed result will be shown in the new view.
 
 There has a ```log_levels``` setting in the default setting, If you want to change anonymous log levels, you can put your log levels settings into your user setting.
 
 ## Execute Query
-After any snippet which start with SELECT is chosen, you can press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Q</kbd> in windows or click ```SublimeApex``` > ```Execute Query```, the queried json result will be formated and shown in a new view.
+After any snippet which start with SELECT is chosen, you can press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Q</kbd> in windows or click ```haoide``` > ```Execute Query```, the queried json result will be formated and shown in a new view.
 
 ## Describe Sobject
-Click ```SublimeApex``` > ```Describe``` > ```sObect``` and then choose a sObject in the selection panel, the describe result will appear in the new view
+Click ```haoide``` > ```Describe``` > ```sObect``` and then choose a sObject in the selection panel, the describe result will appear in the new view
 
 ## Generate SOQL
-Click ```SublimeApex``` > ```Describe``` > ```sObject SOQL``` and then choose a sObject in the selection panel, the sObject SOQL will appear in the new view
+Click ```haoide``` > ```Describe``` > ```sObject SOQL``` and then choose a sObject in the selection panel, the sObject SOQL will appear in the new view
 
 ## Keep Operation History
 By default, the operation of ```Execute Query```, ```Describe sObject```, ```Gernate SOQL```, ```Execute Anonymous``` and ```Run Test``` will be kept into the ```.history``` path in current project, you can disable this feature by setting ```keep_operation_history``` to false
 
 ## Save component
 + This command is only enabled in salesforce code file of active project
-+ After code is updated, click ```SublimeApex``` > ```Save to Server``` in the context menu or press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>
++ After code is updated, click ```haoide``` > ```Save to Server``` in the context menu or press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>
 + If the saving process failed, the console will be open and automatically hidden in **10** seconds, if you think **10** seconds is not enough to check the error message, you add it up to more by setting ```delay_seconds_for_hidden_output_panel_when_failed```
 
 ## Save multiple components
-Select the files in the sidebar, click ``SublimeApex`` > ``Deploy Files to Server`` in the sidebar menu.
+Select the files in the sidebar, click ``haoide`` > ``Deploy Files to Server`` in the sidebar menu.
 
 ## Save file to other org
-- Select the files in the sidebar, click ``SublimeApex`` > ``Deploy Files to Server`` in the sidebar menu
-- Open the file to save, click ``SublimeApex`` > ``Deploy to Server`` in the context menu
+- Select the files in the sidebar, click ``haoide`` > ``Deploy Files to Server`` in the sidebar menu
+- Open the file to save, click ``haoide`` > ``Deploy to Server`` in the context menu
 
 ## Refresh component
 + This command is only enabled in salesforce code file of active project
-+ After code is updated in UI or other IDE, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>R</kbd> or click ```SublimeApex``` > ```Refresh From Server``` to refresh it from server.
++ After code is updated in UI or other IDE, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>R</kbd> or click ```haoide``` > ```Refresh From Server``` to refresh it from server.
 
 ## Delete component
 + This command is only enabled in salesforce code file
-+ If you want to delete it from server, click ```SublimeApex``` > ```Delete From Server```
++ If you want to delete it from server, click ```haoide``` > ```Delete From Server```
 
 ## New ApexClass
-Click ```SublimeApex``` > ```New``` > ```New ApexClass```, choose the predefined template, and then input the class name in the input panel at the bottom, after that, your class will be created.
+Click ```haoide``` > ```New``` > ```New ApexClass```, choose the predefined template, and then input the class name in the input panel at the bottom, after that, your class will be created.
 
 ## New ApexPage
-Click ```SublimeApex``` > ```New``` > ```New ApexPage```, and then input the page name in the input panel at the bottom, after that, your page will be created.
+Click ```haoide``` > ```New``` > ```New ApexPage```, and then input the page name in the input panel at the bottom, after that, your page will be created.
 
-After you input # after extension or controller name in visualforce page, plugin will create it for you automatically, see [demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/QuickController.gif)
+After you input # after extension or controller name in visualforce page, plugin will create it for you automatically, see [demo](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/QuickController.gif)
 
 ## New ApexComponent
-Click ```SublimeApex``` > ```New``` > ```New ApexComponent```, and then input the component name in the input panel at the bottom, after that, your component will be created.
+Click ```haoide``` > ```New``` > ```New ApexComponent```, and then input the component name in the input panel at the bottom, after that, your component will be created.
 
 ## New ApexTrigger
-Click ```SublimeApex``` > ```New``` > ```New ApexTrigger```, choose the sobject on which you will create trigger, and then input the trigger name in the input panel at the bottom, after that, your trigger will be created.
+Click ```haoide``` > ```New``` > ```New ApexTrigger```, choose the sobject on which you will create trigger, and then input the trigger name in the input panel at the bottom, after that, your trigger will be created.
 
 ## Create Debug Log
-If you want to track the log of any user, click ```SublimeApex``` > ```Debug``` > ```Track Debug Log```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
+If you want to track the log of any user, click ```haoide``` > ```Debug``` > ```Track Debug Log```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
 
-If you just want to track debug log of yourself, you can click click ```SublimeApex``` > ```Debug``` > ```Track Self Debug Log```.
+If you just want to track debug log of yourself, you can click click ```haoide``` > ```Debug``` > ```Track Self Debug Log```.
 
 There is a default ```trace_flag``` settings that is used to define the debug log level in the default settings, you can put your own change into your user settings.
 
 ## Fetch Debug Log
-If you want to see the log list of any user, click ```SublimeApex``` > ```Apex Test``` > ```Fetch Debug Logs```, wait for a moment, you will see the user list, choose one and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
+If you want to see the log list of any user, click ```haoide``` > ```Apex Test``` > ```Fetch Debug Logs```, wait for a moment, you will see the user list, choose one and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
 
-You can choose the ```Log Id``` and click ```SublimeApex``` > ```View Debug Log In Sublime``` command in the context menu, wait for the end of the progress on the status bar, after it is finished, a new view with the log detail will be opened.
+You can choose the ```Log Id``` and click ```haoide``` > ```View Debug Log In Sublime``` command in the context menu, wait for the end of the progress on the status bar, after it is finished, a new view with the log detail will be opened.
 
-Or, you can choose any Log Id and click ```SublimeApex``` > ```View Id In Salesforce Web```, wait for a moment, browser will be open and redirect to the log detail page.
+Or, you can choose any Log Id and click ```haoide``` > ```View Id In Salesforce Web```, wait for a moment, browser will be open and redirect to the log detail page.
 
 ## View Debug Log Detail
 Put the focus in the ```Log Id```, press ```alt``` and click left button, the debug log detail will be retrieved and displayed in the new view.
 
 ## Run Test
 There are two methods to run test, one is by Main Menu, other is in the context menu
-By Main Menu: click ```SublimeApex``` > ```Debug``` > ```Run Test```, choose the test class and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
-By Context Menu: in the context of opened class, click ```SublimeApex``` > ```Run Test Class```, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
+By Main Menu: click ```haoide``` > ```Debug``` > ```Run Test```, choose the test class and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
+By Context Menu: in the context of opened class, click ```haoide``` > ```Run Test Class```, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
 
 ## View Code Coverage
 This feature just works when api version is >= 29.0
-In the context menu of open class or trigger, click ```SublimeApex``` > ```View Code Coverage``` in the context menu, ait for the end of the progress on the status bar, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
+In the context menu of open class or trigger, click ```haoide``` > ```View Code Coverage``` in the context menu, ait for the end of the progress on the status bar, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
 
 Put the focus in the ApexClass Name, press ```alt``` and click left button for twice, the code coverage of specified class will be retrieved and displayed in the new view.
 
@@ -258,12 +258,12 @@ When you save code, this plugin will keep the change after you saved it to serve
 You can close this feature by change ```keep_local_history_change``` settings to false and put it into your own ``user settings``
 
 ## Refresh Folder
-Choose the folders in the side bar and refresh them by click ```SublimeApex > Refresh Folder`` in the sidebar menu
+Choose the folders in the side bar and refresh them by click ```haoide > Refresh Folder`` in the sidebar menu
 
 ## Salesforce Document Quick Reference
 I get the idea idea from [Salesforce Referencee](https://github.com/Oblongmana/sublime-salesforce-reference) and added some feature based on it.
 
-Click the ```SublimeApex``` > ```Document``` > ```Reload Salesforce Reference``` in the main menu, you need to confirm whether continue, after you confirmed it, then wait for a moment until the ```Open Document``` command is enabled, at this moment, you can press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd> or Click it to invoke the ```Open Document``` command, nearly all reference api will be shown in the list, you can try to choose any one and it will be opened in browser.
+Click the ```haoide``` > ```Document``` > ```Reload Salesforce Reference``` in the main menu, you need to confirm whether continue, after you confirmed it, then wait for a moment until the ```Open Document``` command is enabled, at this moment, you can press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd> or Click it to invoke the ```Open Document``` command, nearly all reference api will be shown in the list, you can try to choose any one and it will be opened in browser.
 
 There is default ```docs``` settings, if you want to add some other document reference to here, you can customize it yourself.
 ```
@@ -282,40 +282,40 @@ There is default ```docs``` settings, if you want to add some other document ref
 **You should be aware that every reloading is time-consuming, generally, you should reload it in every salesforce release**
 
 ## Refresh Multiply Components
-Choose the components you want to refresh, and then Click ```SublimeApex``` > ```Refresh Selected Components``` in the Sidebar Menu
+Choose the components you want to refresh, and then Click ```haoide``` > ```Refresh Selected Components``` in the Sidebar Menu
 
 ## Delete Multiply Components
-Choose the components you want to delete, and then Click ```SublimeApex``` > ```Delete Selected Components``` in the Sidebar Menu
+Choose the components you want to delete, and then Click ```haoide``` > ```Delete Selected Components``` in the Sidebar Menu
 
 ## Quick Goto Component
 Put the focus in the Class Name, and then, press <kbd>shift</kbd>,  and click ```button1``` for twice, the class file will be open in background if this class file is exist, however, if you want to open this class in the foreground, you should press <kbd>shift</kbd> and click ```button1``` for triple.
 
 ## Retrieve All Metadata
-Click ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve All``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
+Click ```haoide``` > ```Metadata Migration``` > ```Retrieve All``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
 
 **This feature is not good enough, because there is no listPackage feature supported, for example, report and dashboard can't be retrieve if no detail folder/report is specified in package.xml**
 
 ## Retrieve Package.xml
-Click ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve Package.xml``` in the main menu, input your package file path, after that, you will see the effect.
+Click ```haoide``` > ```Metadata Migration``` > ```Retrieve Package.xml``` in the main menu, input your package file path, after that, you will see the effect.
 
-see [Retrieve Package.xml Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
+see [Retrieve Package.xml Demo](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/RetrievePackage.gif)
 
-Actually, you can open any package.xml file in the sublime and click ``SublimeApex`` > ``Retrieve Package.xml`` command in the context menu to retrieve specified metadata from default project.
+Actually, you can open any package.xml file in the sublime and click ``haoide`` > ``Retrieve Package.xml`` command in the context menu to retrieve specified metadata from default project.
 
 ## Update Static Resource
-Choose the resource that you need to update in the side bar, firstly, you need to click ``SublimeApex`` > ``Extract To Here`` to extract it to sub folder of ``staticresources``, after you made some change in the extracted folder, choose the extracted folder name and click ``SublimeApex`` > ``Upload StaticResource`` to save it to server.
+Choose the resource that you need to update in the side bar, firstly, you need to click ``haoide`` > ``Extract To Here`` to extract it to sub folder of ``staticresources``, after you made some change in the extracted folder, choose the extracted folder name and click ``haoide`` > ``Upload StaticResource`` to save it to server.
 
 You can even use this command to extract any other zip file not limited to Salesforce StaticResource.
 
-see [UpdateStaticResource](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/UpdateStaticResource.gif)
+see [UpdateStaticResource](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/UpdateStaticResource.gif)
 
 ## Deploy Package Zip
-Click ```SublimeApex``` > ```Metadata Migration``` > ```Deploy Package.zip``` in the main menu, input your zip file path, after that, you will see the effect.
+Click ```haoide``` > ```Metadata Migration``` > ```Deploy Package.zip``` in the main menu, input your zip file path, after that, you will see the effect.
 
-see [Deploy Package Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
+see [Deploy Package Demo](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/DeployZip.gif)
 
 ## Deploy Open Files
-Sometimes, when you want to deploy class, page or somethings else, however, you didn't want to choose them in the sidebar when there are huge number of code files, you can open the files that you want to deploy to server and Click ```SublimeApex``` > ```Metadata Migration``` > ```Deploy Open Files``` in the main menu to deploy multiply files to target server. 
+Sometimes, when you want to deploy class, page or somethings else, however, you didn't want to choose them in the sidebar when there are huge number of code files, you can open the files that you want to deploy to server and Click ```haoide``` > ```Metadata Migration``` > ```Deploy Open Files``` in the main menu to deploy multiply files to target server. 
 
 Actually, you can even open code files in different orgs and deploy them to the same org, for example, there have three classes to be deployed, A and B are in UAT environment and they are newly developed feature, C in UAT environment is completely different with production environment and there is urgent bug needed to be fixed in production, so at this moment, you can open A and B classes in UAT and the fixed version of C class in production and click ```Deploy Open Files``` to deploy the three class from different orgs to production environment.
 
@@ -324,33 +324,33 @@ This command is just enabled when any one of open files is salesforce code files
 ## Deploy Package Folder
 Choose a valid package folder, click right button, check if the ```Deploy to Server``` command is enabled, if yes, it means the package folder is valid, and then click the ```Deploy To Server`` command, you will see the effect.
 
-see [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
+see [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/DeployPackageFolder.gif)
 
 ## Export Workflow Rules
-After you downloaded all metadata by clicking ```SublimeApex``` > ```Metadata Migration``` > ```Retrieve Sobject And Workflow```, you can click ```SublimeApex``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.
+After you downloaded all metadata by clicking ```haoide``` > ```Metadata Migration``` > ```Retrieve Sobject And Workflow```, you can click ```haoide``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.
 
 If you just want to export some attributes of workflows, you can remove some columns in the ```workflow_rule_columns```, ``workflow_field_update_columns``, ``workflow_email_alert_columns``, ``workflow_outbound_message_columns`` and ``workflow_task_columns`` settings and put it into your own user settings.
 
 ## Export Validation Rules
-After you downloaded all metadata by clicking ```SublimeApex``` > ```Migration``` > ```Retrieve Sobject And Workflow```, you can click ```SublimeApex``` > ```Export``` > ```Export Validation Rule``` to backup all validation rules in your org to CSV.
+After you downloaded all metadata by clicking ```haoide``` > ```Migration``` > ```Retrieve Sobject And Workflow```, you can click ```haoide``` > ```Export``` > ```Export Validation Rule``` to backup all validation rules in your org to CSV.
 
 If you just want to export some attributes of validation rules, you can remove some columns in the ```validation_rule_columns``` setting and put it into your own user settings
 
 ## Export CustomFields
-You can click ```SublimeApex``` > ```Export``` > ```Export CustomFields``` to export all custom fields in your org to CSV.
+You can click ```haoide``` > ```Export``` > ```Export CustomFields``` to export all custom fields in your org to CSV.
 
 ## Export Profile Workbook
-You can click ```SublimeApex``` > ```Export``` > ```Export Profile``` to export ```ObjectPermission```, ```TabVisibilities``` and ```UserPermissions``` of all profiles to three different CSV files, see [ObjectPermission CSV Picture](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Profile.png)
+You can click ```haoide``` > ```Export``` > ```Export Profile``` to export ```ObjectPermission```, ```TabVisibilities``` and ```UserPermissions``` of all profiles to three different CSV files, see [ObjectPermission CSV Picture](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/Profile.png)
 
 Before execute this command, you should execute the ```Retrieve All``` command to download all related components.
 
 ## Export Workbook of sobjects
-You can click ```SublimeApex``` > ```Export``` > ```Export Workbook``` to export all sObject workbooks or some sObject separated with semi-colon in your org to CSV.
+You can click ```haoide``` > ```Export``` > ```Export Workbook``` to export all sObject workbooks or some sObject separated with semi-colon in your org to CSV.
 
 If you just want to export some attributes of sobject workbook, you can remove some columns in the ```workbook_field_describe_columns``` setting and put it into your own user settings
 
 ## Lighting Component Development
-Support kinds of lighting development, see [lighting component demo](https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif)
+Support kinds of lighting development, see [lighting component demo](https://github.com/xjsender/haoideScreenshot/raw/master/LightingDevelopment.gif)
 
 ## Exceute Rest Test
 Up to now, support ```Get```, ```Post```, ```Put```, ```Patch```, ```Delete```, ```Tooling Query```, ```Query```, ```Query All```, ```Head```, ```Retrieve Body```, ```Search``` and ```Quick Search``` methods.
@@ -449,7 +449,7 @@ for example,
 
 
 ## Export Data Template
-Click ```SublimeApex``` > ```Export``` > ```Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported. From the row 1 to row 6, meaning is show as below,
+Click ```haoide``` > ```Export``` > ```Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported. From the row 1 to row 6, meaning is show as below,
 ```
 [Field Label]...
 [Field API]...

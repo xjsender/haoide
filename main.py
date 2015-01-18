@@ -1212,12 +1212,12 @@ class AboutCommand(sublime_plugin.ApplicationCommand):
 
 class ReportIssueCommand(sublime_plugin.ApplicationCommand):
     def run(command):
-        show_url = "https://github.com/xjsender/SublimeApex/issues"
+        show_url = "https://github.com/xjsender/haoide/issues"
         util.open_with_browser(show_url)
 
 class ViewReleaseNotesCommand(sublime_plugin.ApplicationCommand):
     def run(command):
-        show_url = "https://github.com/xjsender/SublimeApex/blob/master/HISTORY.rst"
+        show_url = "https://github.com/xjsender/haoide/blob/master/HISTORY.rst"
         util.open_with_browser(show_url)
 
 class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
@@ -1837,7 +1837,7 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
             sublime.active_window().open_file(sublime.packages_path()+"/User/toolingapi.sublime-settings")
             message = "Do you want to take a look at how to config your workspace"
             if not sublime.ok_cancel_dialog(message, "Go to Github"): return
-            util.open_with_browser("https://github.com/xjsender/SublimeApex#worspace")
+            util.open_with_browser("https://github.com/xjsender/haoide#worspace")
             return
 
         dpn = settings["default_project"]["project_name"]

@@ -1,55 +1,55 @@
 [
-    {"caption": "SublimeApex: Switch Project", "command": "switch_project"},
+    {"caption": "haoide: Switch Project", "command": "switch_project"},
 
     {
-        "caption": "SublimeApex: Toggle Metdata Types",
+        "caption": "haoide: Toggle Metdata Types",
         "command": "toggle_metadata_types"
     },
 
     {
-        "caption": "SublimeApex: New Project",
+        "caption": "haoide: New Project",
         "command": "create_new_project"
     },
 
     {
-        "caption": "SublimeApex: Update Project",
+        "caption": "haoide: Update Project",
         "command": "update_project"
     },
 
     {
-        "caption": "SublimeApex: Update Project Pattern",
+        "caption": "haoide: Update Project Pattern",
         "command": "update_project_patterns"
     },
 
     {
-        "caption": "SublimeApex: Update User Language",
+        "caption": "haoide: Update User Language",
         "command": "update_user_language"
     },
 
     {
-        "caption": "SublimeApex: New ApexTrigger",
+        "caption": "haoide: New ApexTrigger",
         "command": "create_apex_trigger"
     },
 
     {
-        "caption": "SublimeApex: New ApexClass",
+        "caption": "haoide: New ApexClass",
         "command": "create_apex_class"
     },
 
     {
-        "caption": "SublimeApex: New ApexComponent",
+        "caption": "haoide: New ApexComponent",
         "command": "create_apex_component"
     },
 
     {
-        "caption": "SublimeApex: New ApexPage",
+        "caption": "haoide: New ApexPage",
         "command": "create_apex_page"
     },
     
     {"caption": "-"},
 
     {
-        "caption": "SublimeApex: New Lighting Application",
+        "caption": "haoide: New Lighting Application",
         "command": "create_lighting_definition", 
         "args": {
             "_type": "Application"
@@ -57,7 +57,7 @@
     },
 
     {
-        "caption": "SublimeApex: New Lighting Component",
+        "caption": "haoide: New Lighting Component",
         "command": "create_lighting_definition", 
         "args": {
             "_type": "Component"
@@ -65,7 +65,7 @@
     },
 
     {
-        "caption": "SublimeApex: New Lighting Interface",
+        "caption": "haoide: New Lighting Interface",
         "command": "create_lighting_definition", 
         "args": {
             "_type": "Interface"
@@ -73,7 +73,7 @@
     },
 
     {
-        "caption": "SublimeApex: New Lighting Event",
+        "caption": "haoide: New Lighting Event",
         "command": "create_lighting_definition", 
         "args": {
             "_type": "Event"
@@ -81,32 +81,32 @@
     },
 
     {
-        "caption": "SublimeApex: Reload Salesforce Document",
+        "caption": "haoide: Reload Salesforce Document",
         "command": "reload_salesforce_document"
     },
 
     {
-        "caption": "SublimeApex: Deploy Lighting Element to Server",
+        "caption": "haoide: Deploy Lighting Element to Server",
         "command": "deploy_lighting_element_to_server"
     },
 
     {
-        "caption": "SublimeApex: Preview Lighting App In Server",
+        "caption": "haoide: Preview Lighting App In Server",
         "command": "preview_lighting_app_in_server"
     },
 
     {
-        "caption": "SublimeApex: Save Component",
+        "caption": "haoide: Save Component",
         "command": "save_component"
     },
 
     {
-        "caption": "SublimeApex: Deploy Auras to Server",
+        "caption": "haoide: Deploy Auras to Server",
         "command": "save_component"
     },
 
     {
-        "caption": "SublimeApex: Compile Component",
+        "caption": "haoide: Compile Component",
         "command": "save_component",
         "args": {
             "is_check_only": true
@@ -114,82 +114,82 @@
     },
 
     {
-        "caption": "SublimeApex: Compile Component",
+        "caption": "haoide: Compile Component",
         "command": "compile_component",
     },
 
     {
-        "caption": "SublimeApex: Diff With Server",
+        "caption": "haoide: Diff With Server",
         "command": "diff_with_server"
     },
 
     {
-        "caption": "SublimeApex: Retrieve from Server", 
+        "caption": "haoide: Retrieve from Server", 
         "command": "retrieve_file_from_server"
     },
     
     {
-        "caption": "SublimeApex: Deploy to Server", 
+        "caption": "haoide: Deploy to Server", 
         "command": "deploy_file_to_server"
     },
 
     {
-        "caption": "SublimeApex: Destruct from Server", 
+        "caption": "haoide: Destruct from Server", 
         "command": "destruct_file_from_server"
     },
 
     {
-        "caption": "SublimeApex: Delete From Server",
+        "caption": "haoide: Delete From Server",
         "command": "delete_component"
     },
 
     {
-        "caption": "SublimeApex: Retrieve Metadata",
+        "caption": "haoide: Retrieve Metadata",
         "command": "retrieve_metadata"
     },
 
     {
-        "caption": "SublimeApex: Convert XML to JSON",
+        "caption": "haoide: Convert XML to JSON",
         "command": "convert_xml_to_dict"
     },
 
     {
-        "caption": "SublimeApex: Pretty JSON",
+        "caption": "haoide: Pretty JSON",
         "command": "pretty_json"
     },
 
     {
-        "caption": "SublimeApex: Retrieve Package.xml",
+        "caption": "haoide: Retrieve Package.xml",
         "command": "retrieve_package"
     },
 
     {
-        "caption": "SublimeApex: Retrieve Package File",
+        "caption": "haoide: Retrieve Package File",
         "command": "retrieve_package_file"
     },
 
     {
-        "caption": "SublimeApex: Preview Page In Server",
+        "caption": "haoide: Preview Page In Server",
         "command": "preview_page"
     },
 
     {
-        "caption": "SublimeApex: Deploy Package.zip",
+        "caption": "haoide: Deploy Package.zip",
         "command": "deploy_zip"
     },
 
     {
-        "caption": "SublimeApex: Destruct From Server",
+        "caption": "haoide: Destruct From Server",
         "command": "destruct_file_from_server"
     },
 
     {
-        "caption": "SublimeApex: Deploy Open Files",
+        "caption": "haoide: Deploy Open Files",
         "command": "deploy_open_files_to_server"
     },
 
     {
-        "caption": "SublimeApex: Open Log Panel",
+        "caption": "haoide: Open Log Panel",
         "command": "show_panel",
         "args": {
             "panel": "output.log"
@@ -197,7 +197,7 @@
     },
 
     {
-        "caption": "SublimeApex: Open Diff Panel",
+        "caption": "haoide: Open Diff Panel",
         "command": "show_panel",
         "args": {
             "panel": "output.diff_with_server"
@@ -205,17 +205,17 @@
     },
 
     {
-        "caption": "SublimeApex: Track Debug Log",
+        "caption": "haoide: Track Debug Log",
         "command": "track_debug_log"
     },
 
     {
-        "caption": "SublimeApex: Fetch Debug Log",
+        "caption": "haoide: Fetch Debug Log",
         "command": "fetch_debug_log"
     },
 
     {
-        "caption": "SublimeApex: Track Self Debug Log",
+        "caption": "haoide: Track Self Debug Log",
         "command": "track_debug_log",
         "args": {
             "track_self": true
@@ -223,7 +223,7 @@
     },
 
     {
-        "caption": "SublimeApex: Fetch Self Debug Log",
+        "caption": "haoide: Fetch Self Debug Log",
         "command": "fetch_debug_log", 
         "args": {
             "fetch_self": true
@@ -231,37 +231,37 @@
     },
 
     {
-        "caption": "SublimeApex: Run Test",
+        "caption": "haoide: Run Test",
         "command": "run_one_test"
     },
 
     {
-        "caption": "SublimeApex: View Code Coverage",
+        "caption": "haoide: View Code Coverage",
         "command": "view_code_coverage"
     },
     
     {
-        "caption": "SublimeApex: Execute Anonymous",
+        "caption": "haoide: Execute Anonymous",
         "command": "execute_anonymous"
     },
 
     {
-        "caption": "SublimeApex: Execute SOQL",
+        "caption": "haoide: Execute SOQL",
         "command": "execute_soql"
     },
 
     {
-        "caption": "SublimeApex: Reload Sobject Cache",
+        "caption": "haoide: Reload Sobject Cache",
         "command": "reload_sobject_cache"
     },
 
     {
-        "caption": "SublimeApex: Reload SymbolTable Cache",
+        "caption": "haoide: Reload SymbolTable Cache",
         "command": "reload_symbol_table_cache"
     },
 
     {
-        "caption": "SublimeApex: Clear Sobject Cache",
+        "caption": "haoide: Clear Sobject Cache",
         "command": "clear_sobject_cache",
         "args": {
             "cache_name": "sobjects_completion"
@@ -269,7 +269,7 @@
     },
 
     {
-        "caption": "SublimeApex: Clear SymbolTable Cache",
+        "caption": "haoide: Clear SymbolTable Cache",
         "command": "clear_symbol_table_cache",
         "args": {
             "cache_name": "symbol_table"
@@ -277,87 +277,87 @@
     },
 
     {
-        "caption": "SublimeApex: Describe Global",
+        "caption": "haoide: Describe Global",
         "command": "describe_global"
     },
 
     {
-        "caption": "SublimeApex: Describe Sobject",
+        "caption": "haoide: Describe Sobject",
         "command": "describe_sobject"
     },
 
     {
-        "caption": "SublimeApex: Convert 15 Digit Id to 18 Digit",
+        "caption": "haoide: Convert 15 Digit Id to 18 Digit",
         "command": "convert15_id218_id"
     },
 
     {
-        "caption": "SublimeApex: Export CustomField",
+        "caption": "haoide: Export CustomField",
         "command": "export_custom_field"
     },
     {
-        "caption": "SublimeApex: Export Workflow",
+        "caption": "haoide: Export Workflow",
         "command": "export_workflows"
     },
     {
-        "caption": "SublimeApex: Export Validation Rule",
+        "caption": "haoide: Export Validation Rule",
         "command": "export_validation_rules"
     },
     {
-        "caption": "SublimeApex: Export Custom Labels",
+        "caption": "haoide: Export Custom Labels",
         "command": "export_custom_labels"
     },
     {
-        "caption": "SublimeApex: Export Data Template",
+        "caption": "haoide: Export Data Template",
         "command": "export_data_template"
     },
     {
-        "caption": "SublimeApex: Export Profile",
+        "caption": "haoide: Export Profile",
         "command": "export_profile"
     },
     {
-        "caption": "SublimeApex: Export Workbook",
+        "caption": "haoide: Export Workbook",
         "command": "export_workbook"
     },
     {
-        "caption": "SublimeApex: View Code in SFDC",
+        "caption": "haoide: View Code in SFDC",
         "command": "view_component_in_sfdc"
     },
     {
-        "caption": "SublimeApex: Login To Home Page",
+        "caption": "haoide: Login To Home Page",
         "command": "login_to_sfdc"
     },
     {
-        "caption": "SublimeApex: DataLoader - Export All",
+        "caption": "haoide: DataLoader - Export All",
         "command": "bulk_export_all"
     },
     {
-        "caption": "SublimeApex: DataLoader - Export Single",
+        "caption": "haoide: DataLoader - Export Single",
         "command": "bulk_export_single"
     },
     {
-        "caption": "SublimeApex: DataLoader - Export SOQL",
+        "caption": "haoide: DataLoader - Export SOQL",
         "command": "bulk_export_single",
         "args": {
             "export_soql": true
         }
     },
     {
-        "caption": "SublimeApex: DataLoader - insert",
+        "caption": "haoide: DataLoader - insert",
         "command": "bulk_operation",
         "args": {
             "operation": "insert"
         }
     },
     {
-        "caption": "SublimeApex: DataLoader - Update",
+        "caption": "haoide: DataLoader - Update",
         "command": "bulk_operation",
         "args": {
             "operation": "update"
         }
     },
     {
-        "caption": "SublimeApex: DataLoader - delete",
+        "caption": "haoide: DataLoader - delete",
         "command": "bulk_operation",
         "args": {
             "operation": "delete"

@@ -4,4 +4,4 @@ SEPRATE = """
 -------------------------------------------------------------------------------
 """
 
-METADATA_CHECK = "You should click SublimeApex > Metadata Migration > Retrieve sObject And Workflow Firstly"
+METADATA_CHECK = "You should click haoide > Metadata Migration > Retrieve sObject And Workflow Firstly"

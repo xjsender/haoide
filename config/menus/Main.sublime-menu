@@ -1,7 +1,7 @@
 [
     {
-        "id": "sublimeapex",
-        "caption": "SublimeApex",
+        "id": "haoide",
+        "caption": "haoide",
         "children":
         [
             {
@@ -462,7 +462,7 @@
                     {
                         "command": "open_file", 
                         "args": {
-                            "file": "${packages}/Salesforce IDE/config/settings/toolingapi.sublime-settings"
+                            "file": "${packages}/haoide/config/settings/toolingapi.sublime-settings"
                         },
                         "caption": "Settings – Default"
                     },
@@ -482,7 +482,7 @@
                     {
                         "command": "open_file", 
                         "args": {
-                            "file": "${packages}/Salesforce IDE/config/keymap/Default ($platform).sublime-keymap"
+                            "file": "${packages}/haoide/config/keymap/Default ($platform).sublime-keymap"
                         },
                         "caption": "Key Bindings – Default"
                     },
@@ -498,7 +498,7 @@
                     {
                         "command": "open_file", 
                         "args": {
-                            "file": "${packages}/Salesforce IDE/config/mousemap/Default ($platform).sublime-mousemap"
+                            "file": "${packages}/haoide/config/mousemap/Default ($platform).sublime-mousemap"
                         },
                         "caption": "Key Bindings – Mousemap"
                     }

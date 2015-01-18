@@ -49,7 +49,7 @@
     },
 
     // Files not shown in the sidebar and Command Palette
-    // Just work after new project is invoked or click ``SublimeApex > Update > Update Project Patterns``
+    // Just work after new project is invoked or click ``haoide > Update > Update Project Patterns``
     "file_exclude_patterns": [
         // "*.md",
         // "*-history.*",
@@ -57,7 +57,7 @@
     ],
 
     // Folders not shown in the sidebar and Command Palette
-    // Just work after new project is invoked or click ``SublimeApex > Update > Update Project Patterns``
+    // Just work after new project is invoked or click ``haoide > Update > Update Project Patterns``
     "folder_exclude_patterns": [
         // ".history"
     ],
