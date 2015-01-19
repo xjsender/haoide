@@ -6,30 +6,30 @@ This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change the
 See [History](https://github.com/xjsender/haoide/blob/master/HISTORY.rst)
 
 # Demo
-+ [Install Plugin](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/InstallPackage.gif) 
-+ [Create New Project](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/NewProject.gif)
-+ [Completions](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/Completions.gif)
-+ [Trigger](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/Trigger.gif)
-+ [Visualforce Page](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/html.gif)
-+ [Execute Rest Test](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/Execute%20Rest%20Test.gif)
-+ [Document Reference](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/DocumentReference.gif)
-+ [Export Workbooks](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/ExportWorkbooks.gif)
-+ [Export Workflow](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/ExportWorkflow.gif)
-+ [Retrieve Package.xml](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/RetrievePackage.gif)
-+ [Deploy Package.zip](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/DeployZip.gif)
-+ [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/DeployPackageFolder.gif)
-+ [Deploy Files to Server](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/DeployFilesToServer.gif)
-+ [Save Multiple Files to Server](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/SaveMultipleFilesToServer.gif)
-+ [Refresh Folder](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/RefreshFolders.gif)
-+ [Convert XML to JSON](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/ConvertXML2JSON.gif)
-+ [Build Package.xml](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/BuildPackageXML.gif)
-+ [Lighting Component Development](https://github.com/xjsender/haoideScreenshot/raw/master/LightingDevelopment.gif)
-+ [More Demos](https://github.com/xjsender/haoideScreenshot)
++ [Install Plugin](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/InstallPackage.gif) 
++ [Create New Project](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/NewProject.gif)
++ [Completions](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
++ [Trigger](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Trigger.gif)
++ [Visualforce Page](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif)
++ [Execute Rest Test](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Execute%20Rest%20Test.gif)
++ [Document Reference](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DocumentReference.gif)
++ [Export Workbooks](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ExportWorkbooks.gif)
++ [Export Workflow](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ExportWorkflow.gif)
++ [Retrieve Package.xml](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
++ [Deploy Package.zip](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
++ [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
++ [Deploy Files to Server](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployFilesToServer.gif)
++ [Save Multiple Files to Server](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/SaveMultipleFilesToServer.gif)
++ [Refresh Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RefreshFolders.gif)
++ [Convert XML to JSON](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ConvertXML2JSON.gif)
++ [Build Package.xml](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/BuildPackageXML.gif)
++ [Lighting Component Development](https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif)
++ [More Demos](https://github.com/xjsender/SublimeApexScreenshot)
 
 **Please don't change the password and email in the build-in test org**
 
 # Installation
-This plugin is hosted on [package control](https://sublime.wbond.net/packages/Salesforce%20IDE), after you [installed the package control](https://sublime.wbond.net/installation#st3), you can install this plugin by searching ```haoide``` in package control
+This plugin is hosted on [package control](https://sublime.wbond.net/packages/haoide), after you [installed the package control](https://sublime.wbond.net/installation#st3), you can install this plugin by searching ```haoide``` in package control
 
 # Project Configuration
 ## Worspace
@@ -171,7 +171,7 @@ You can click ```haoide > Update > Update Project``` in the main menu or press <
 + [x] HTML Elements Completion
 + [x] HTML and Visualforce Component Attribute Completion
 + [x] HTML and Visualforce Component Attribute Value Completion
-See [Completions Demo](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/Completions.gif)
+See [Completions Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
 
 ## Execute Anonymous
 Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```haoide``` > ```Execute Anonymous```, you will see the result, you should be aware, if anonymous code compile is failed, message will be shown in output panel, just after compile succeed, the executed result will be shown in the new view.
@@ -216,7 +216,7 @@ Click ```haoide``` > ```New``` > ```New ApexClass```, choose the predefined temp
 ## New ApexPage
 Click ```haoide``` > ```New``` > ```New ApexPage```, and then input the page name in the input panel at the bottom, after that, your page will be created.
 
-After you input # after extension or controller name in visualforce page, plugin will create it for you automatically, see [demo](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/QuickController.gif)
+After you input # after extension or controller name in visualforce page, plugin will create it for you automatically, see [demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/QuickController.gif)
 
 ## New ApexComponent
 Click ```haoide``` > ```New``` > ```New ApexComponent```, and then input the component name in the input panel at the bottom, after that, your component will be created.
@@ -298,7 +298,7 @@ Click ```haoide``` > ```Metadata Migration``` > ```Retrieve All``` in the main m
 ## Retrieve Package.xml
 Click ```haoide``` > ```Metadata Migration``` > ```Retrieve Package.xml``` in the main menu, input your package file path, after that, you will see the effect.
 
-see [Retrieve Package.xml Demo](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/RetrievePackage.gif)
+see [Retrieve Package.xml Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
 
 Actually, you can open any package.xml file in the sublime and click ``haoide`` > ``Retrieve Package.xml`` command in the context menu to retrieve specified metadata from default project.
 
@@ -307,12 +307,12 @@ Choose the resource that you need to update in the side bar, firstly, you need t
 
 You can even use this command to extract any other zip file not limited to Salesforce StaticResource.
 
-see [UpdateStaticResource](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/UpdateStaticResource.gif)
+see [UpdateStaticResource](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/UpdateStaticResource.gif)
 
 ## Deploy Package Zip
 Click ```haoide``` > ```Metadata Migration``` > ```Deploy Package.zip``` in the main menu, input your zip file path, after that, you will see the effect.
 
-see [Deploy Package Demo](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/DeployZip.gif)
+see [Deploy Package Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
 
 ## Deploy Open Files
 Sometimes, when you want to deploy class, page or somethings else, however, you didn't want to choose them in the sidebar when there are huge number of code files, you can open the files that you want to deploy to server and Click ```haoide``` > ```Metadata Migration``` > ```Deploy Open Files``` in the main menu to deploy multiply files to target server. 
@@ -324,7 +324,7 @@ This command is just enabled when any one of open files is salesforce code files
 ## Deploy Package Folder
 Choose a valid package folder, click right button, check if the ```Deploy to Server``` command is enabled, if yes, it means the package folder is valid, and then click the ```Deploy To Server`` command, you will see the effect.
 
-see [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/DeployPackageFolder.gif)
+see [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
 
 ## Export Workflow Rules
 After you downloaded all metadata by clicking ```haoide``` > ```Metadata Migration``` > ```Retrieve Sobject And Workflow```, you can click ```haoide``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.
@@ -340,7 +340,7 @@ If you just want to export some attributes of validation rules, you can remove s
 You can click ```haoide``` > ```Export``` > ```Export CustomFields``` to export all custom fields in your org to CSV.
 
 ## Export Profile Workbook
-You can click ```haoide``` > ```Export``` > ```Export Profile``` to export ```ObjectPermission```, ```TabVisibilities``` and ```UserPermissions``` of all profiles to three different CSV files, see [ObjectPermission CSV Picture](https://raw.githubusercontent.com/xjsender/haoideScreenshot/master/Profile.png)
+You can click ```haoide``` > ```Export``` > ```Export Profile``` to export ```ObjectPermission```, ```TabVisibilities``` and ```UserPermissions``` of all profiles to three different CSV files, see [ObjectPermission CSV Picture](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Profile.png)
 
 Before execute this command, you should execute the ```Retrieve All``` command to download all related components.
 
@@ -350,7 +350,7 @@ You can click ```haoide``` > ```Export``` > ```Export Workbook``` to export all 
 If you just want to export some attributes of sobject workbook, you can remove some columns in the ```workbook_field_describe_columns``` setting and put it into your own user settings
 
 ## Lighting Component Development
-Support kinds of lighting development, see [lighting component demo](https://github.com/xjsender/haoideScreenshot/raw/master/LightingDevelopment.gif)
+Support kinds of lighting development, see [lighting component demo](https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif)
 
 ## Exceute Rest Test
 Up to now, support ```Get```, ```Post```, ```Put```, ```Patch```, ```Delete```, ```Tooling Query```, ```Query```, ```Query All```, ```Head```, ```Retrieve Body```, ```Search``` and ```Quick Search``` methods.
