@@ -230,6 +230,11 @@
                         "id": "convert15idto18id",
                         "caption": "Convert 15 Id to 18 Id",
                         "command": "convert15_id218_id"
+                    },
+                    {
+                        "id": "convertjson2apex",
+                        "caption": "Convert JSON to Apex",
+                        "command": "convert_json_to_apex"
                     }
                 ]
             },

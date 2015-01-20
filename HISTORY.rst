@@ -5,6 +5,15 @@ Release History
 ---------------
 
 
+Release 2.7.6 (2015-01-20)
+++++++++++++++++++
+* Enhancement for ``create_trace_flag`` command
+* Add a enabled check logic for ``export profiles`` command
+* Add a new ``haoide > Utilities > Convert JSON to Apex`` command for converting JSON to Apex
+* Add commands for ``convert_json_to_apex`` in command palette
+* Update README.MD about the `Convert JSON to Apex <https://github.com/xjsender/haoide#convert-json-to-apex>`_
+
+
 Release 2.7.5 (2015-01-18)
 ++++++++++++++++++
 * Fix bug: messy code when view debug log detail in sublime

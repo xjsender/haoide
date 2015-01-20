@@ -16,10 +16,44 @@ from . import processor
 from . import context
 from . import util
 
+from .salesforce.lib.jsontoapex import JSONConverter
 from .salesforce.lib.panel import Printer
 from .salesforce import xmltodict
 from .salesforce import message
 
+
+class ConvertJsonToApex(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ConvertJsonToApex, self).__init__(*args, **kwargs)
+
+    def run(self):
+        sublime.active_window().show_input_panel("Input JSON Body: ", "", 
+            self.on_input_json, None, None)
+
+    def on_input_json(self, data):
+        try:
+            self.data = json.loads(data) if data else None
+        except ValueError as ve:
+            Printer.get('error').write(str(ve))
+            if not sublime.ok_cancel_dialog("Do you want to try again?", "Yes?"): return
+            sublime.active_window().show_input_panel("Input JSON Body: ", 
+                "", self.on_input_json, None, None)
+            return
+
+        sublime.active_window().show_input_panel("Input Class Name: ", 
+            "JSON2Apex", self.on_input_name, None, None)
+        
+    def on_input_name(self, name):
+        if not name: name = "JSON2Apex"
+
+        # Start converting
+        converter = JSONConverter()
+        converter.convert2apex(name, self.data)
+        view = sublime.active_window().new_file()
+        view.run_command("new_view", {
+            "name": "JSON2APEX",
+            "input": "\n".join(converter.classes)
+        })
 
 class PrettyJson(sublime_plugin.TextCommand):
     def run(self, view):
@@ -84,15 +118,6 @@ class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
             return False
 
         return True
-
-class ExportProfile(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(ExportProfile, self).__init__(*args, **kwargs)
-
-    def run(self):
-        import threading
-        thread = threading.Thread(target=util.export_profile_settings)
-        thread.start()
 
 class ShowMyPanel(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -784,6 +809,18 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
                 return False
 
         return True
+
+class ExportProfile(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ExportProfile, self).__init__(*args, **kwargs)
+
+    def run(self):
+        import threading
+        thread = threading.Thread(target=util.export_profile_settings)
+        thread.start()
+
+    def is_enabled(self):
+        return util.check_new_component_enabled()
 
 class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

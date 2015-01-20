@@ -2402,7 +2402,7 @@ def export_profile_settings():
     # Read all profile names
     profile_dir = os.path.join(settings["workspace"], "src", "profiles")
     if not os.path.exists(profile_dir):
-        Printer.get("error").write("Profile directory can not be found, please execute `retrieve all` command")
+        Printer.get("error").write("Profiles directory can not be found, please execute `retrieve all` command")
         return
 
     Printer.get("log").write_start().write("Start to read all file name in profile folder")

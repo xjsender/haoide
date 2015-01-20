@@ -190,6 +190,10 @@ Click ```haoide``` > ```Describe``` > ```sObject SOQL``` and then choose a sObje
 ## Keep Operation History
 By default, the operation of ```Execute Query```, ```Describe sObject```, ```Gernate SOQL```, ```Execute Anonymous``` and ```Run Test``` will be kept into the ```.history``` path in current project, you can disable this feature by setting ```keep_operation_history``` to false
 
+## Difference between Deploy to Server and Save to Server
+* ```Deploy to Server``` use ```Metdata API``, which can be mainly used to deploy files to other different orgs.
+* ```Save to Server``` use ```tooling API```, which can't be used in production org.
+
 ## Save component
 + This command is only enabled in salesforce code file of active project
 + After code is updated, click ```haoide``` > ```Save to Server``` in the context menu or press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>
@@ -348,6 +352,91 @@ Before execute this command, you should execute the ```Retrieve All``` command t
 You can click ```haoide``` > ```Export``` > ```Export Workbook``` to export all sObject workbooks or some sObject separated with semi-colon in your org to CSV.
 
 If you just want to export some attributes of sobject workbook, you can remove some columns in the ```workbook_field_describe_columns``` setting and put it into your own user settings
+
+## Convert 15Id to 18Id
+You can click ```haoide``` > ```Utilities``` > ```Convert 15Id to 18Id``` to convert your input 15Id to 18Id, if your input is not valid 15Id, it will be returned as original value
+
+## Convert JSON to Apex
+You can click ```haoide``` > ```Utilities``` > ```Convert JSON to Apex``` to convert your input json to Apex class.
+
+Default class name of main class is ```JSON2Apex```, after you input the JSON to be converted, plugin will ask you to input the class name, you can change the default name there.
+
+In order to keep the accuracy of converted result, you should predefine the every value of every key in the input JSON
+
+### Notes:
++ [x] If value is matched with ```\d{4}-\d{2}-\d{2}T[\d:Z.]+``` regress expression, data type will be thought as ```DateTime```
++ [x] If value is matched with ```\d{4}-\d{2}-\d{2}``` regress expression, data type will be thought as ```Date```
++ [x] If value is ```null```, data type will be thought as ```Object```
+
+### Example:
+If the json string is as below,
+```javascript
+{
+    "name": "test",
+    "birthday": "1982-01-19T09:58:13.190Z",
+    "age": 32, 
+    "money": 12321.5,
+    "createdDate": "2015-01-20",
+    "children": [
+        {
+            "name": "son",
+            "age": 2,
+            "birthday": "2013-01-19T09:58:13.190Z",
+            "money": 0, 
+            "toy": [{
+                "name": "toy1"
+            }]
+        },
+        {
+            "name": "daughter",
+            "age": 1,
+            "birthday": "2014-01-19T09:58:13.190Z",
+            "money": 0,
+            "toy": [{
+                "name": "toy2"
+            }]
+        }
+    ],
+    "father": {
+        "name": "father",
+        "age": 75,
+        "birthday": "1940-01-19T09:58:13.190Z",
+        "money": 0
+    }
+}
+```
+
+The converted apex will be as below:
+```java
+public class Father {
+    public DateTime birthday;
+    public String name;
+    public Integer age;
+    public Integer money;
+}
+
+public class Toy {
+    public String name;
+}
+
+public class Children {
+    public DateTime birthday;
+    public String name;
+    public Integer age;
+    public Integer money;
+    public List<Toy> toy;
+}
+
+public class JSON2Apex {
+    public Father father;
+    public String name;
+    public Integer age;
+    public Decimal money;
+    public DateTime birthday;
+    public Date createdDate;
+    public List<Children> children;
+}
+```
 
 ## Lighting Component Development
 Support kinds of lighting development, see [lighting component demo](https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif)
