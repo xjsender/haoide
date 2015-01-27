@@ -33,7 +33,7 @@ This plugin is hosted on [package control](https://sublime.wbond.net/packages/ha
 
 # Project Configuration
 ## Worspace
-If your operation system is **OSX**, you must change the workspace in ```haoide``` > ```Setting``` > ```Setting - User``` to override the default workspace.
+If your operation system is **OSX**, you must change the workspace in ```HaoIDE``` > ```Setting``` > ```Setting - User``` to override the default workspace.
 
 There are two tiers of workspace concept in this plugin, including plugin level workspace and project level workspace, the privilege level of project level is higher than the plugin level workspace, if you didn't define the workspace in the project property of ```projects``` setting, plugin will set your plugin level workspace to the default workspace, for example, if the settings is set as below:
 
@@ -84,21 +84,21 @@ Your plugin level workspace is ```c:/salesforce/workspace1```, because ```pro-ex
 
 
 ## Projects
-There is a default test org in this plugin, you can see it by clicking ```haoide``` > ```Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project.
+There is a default test org in this plugin, you can see it by clicking ```HaoIDE``` > ```Switch Project``` in the main menu, however, if you want to use this plugin in your own org, you need to configure your org user confidential before new project.
 
-In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```haoide``` > ```Settings``` > ```Setting - User```.
+In order to prevent plugin update overriding your settings, you should keep your customize settings into ```Setting - User``` by clicking ```HaoIDE``` > ```Settings``` > ```Setting - User```.
 
-You can setup your projects follow below sample by clicking ```haoide``` > ```Settings``` > ```Setting - User``` in the main menu, projects must be included in {}.
+You can setup your projects follow below sample by clicking ```HaoIDE``` > ```Settings``` > ```Setting - User``` in the main menu, projects must be included in {}.
 
 When you initiate your settings, you can have more than one project in "projects", however, only one project default should be true.
 
 If your own org login need security token, just set it as sample.
 
-Every time you want to switch the project, you can click ```haoide``` > ```Switch Project``` in the main menu and choose that you want, and then the updated projects settings will be saved to user settings.
+Every time you want to switch the project, you can click ```HaoIDE``` > ```Switch Project``` in the main menu and choose that you want, and then the updated projects settings will be saved to user settings.
 
 If you want to check the current active project, you can check the most left of side bar or press <kbd>ALT</kbd>+<kbd>S</kbd>
 
-After your project configuration is finished, you can click ```haoide``` > ```New``` > ```new project``` in the main menu to download your code.
+After your project configuration is finished, you can click ```HaoIDE``` > ```New``` > ```new project``` in the main menu to download your code.
 ```javascript
 {
     // In OSX, the worspace path is different with windows,
@@ -174,18 +174,18 @@ You can click ```haoide > Update > Update Project``` in the main menu or press <
 See [Completions Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
 
 ## Execute Anonymous
-Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```haoide``` > ```Execute Anonymous```, you will see the result, you should be aware, if anonymous code compile is failed, message will be shown in output panel, just after compile succeed, the executed result will be shown in the new view.
+Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```HaoIDE``` > ```Execute Anonymous```, you will see the result, you should be aware, if anonymous code compile is failed, message will be shown in output panel, just after compile succeed, the executed result will be shown in the new view.
 
 There has a ```log_levels``` setting in the default setting, If you want to change anonymous log levels, you can put your log levels settings into your user setting.
 
 ## Execute Query
-After any snippet which start with SELECT is chosen, you can press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Q</kbd> in windows or click ```haoide``` > ```Execute Query```, the queried json result will be formated and shown in a new view.
+After any snippet which start with SELECT is chosen, you can press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Q</kbd> in windows or click ```HaoIDE``` > ```Execute Query```, the queried json result will be formated and shown in a new view.
 
 ## Describe Sobject
-Click ```haoide``` > ```Describe``` > ```sObect``` and then choose a sObject in the selection panel, the describe result will appear in the new view
+Click ```HaoIDE``` > ```Describe``` > ```sObect``` and then choose a sObject in the selection panel, the describe result will appear in the new view
 
 ## Generate SOQL
-Click ```haoide``` > ```Describe``` > ```sObject SOQL``` and then choose a sObject in the selection panel, the sObject SOQL will appear in the new view
+Click ```HaoIDE``` > ```Describe``` > ```sObject SOQL``` and then choose a sObject in the selection panel, the sObject SOQL will appear in the new view
 
 ## Keep Operation History
 By default, the operation of ```Execute Query```, ```Describe sObject```, ```Gernate SOQL```, ```Execute Anonymous``` and ```Run Test``` will be kept into the ```.history``` path in current project, you can disable this feature by setting ```keep_operation_history``` to false
@@ -196,7 +196,7 @@ By default, the operation of ```Execute Query```, ```Describe sObject```, ```Ger
 
 ## Save component
 + This command is only enabled in salesforce code file of active project
-+ After code is updated, click ```haoide``` > ```Save to Server``` in the context menu or press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>
++ After code is updated, click ```HaoIDE``` > ```Save to Server``` in the context menu or press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>
 + If the saving process failed, the console will be open and automatically hidden in **10** seconds, if you think **10** seconds is not enough to check the error message, you add it up to more by setting ```delay_seconds_for_hidden_output_panel_when_failed```
 
 ## Save multiple components
@@ -208,51 +208,51 @@ Select the files in the sidebar, click ``haoide`` > ``Deploy Files to Server`` i
 
 ## Refresh component
 + This command is only enabled in salesforce code file of active project
-+ After code is updated in UI or other IDE, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>R</kbd> or click ```haoide``` > ```Refresh From Server``` to refresh it from server.
++ After code is updated in UI or other IDE, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>R</kbd> or click ```HaoIDE``` > ```Refresh From Server``` to refresh it from server.
 
 ## Delete component
 + This command is only enabled in salesforce code file
-+ If you want to delete it from server, click ```haoide``` > ```Delete From Server```
++ If you want to delete it from server, click ```HaoIDE``` > ```Delete From Server```
 
 ## New ApexClass
-Click ```haoide``` > ```New``` > ```New ApexClass```, choose the predefined template, and then input the class name in the input panel at the bottom, after that, your class will be created.
+Click ```HaoIDE``` > ```New``` > ```New ApexClass```, choose the predefined template, and then input the class name in the input panel at the bottom, after that, your class will be created.
 
 ## New ApexPage
-Click ```haoide``` > ```New``` > ```New ApexPage```, and then input the page name in the input panel at the bottom, after that, your page will be created.
+Click ```HaoIDE``` > ```New``` > ```New ApexPage```, and then input the page name in the input panel at the bottom, after that, your page will be created.
 
 After you input # after extension or controller name in visualforce page, plugin will create it for you automatically, see [demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/QuickController.gif)
 
 ## New ApexComponent
-Click ```haoide``` > ```New``` > ```New ApexComponent```, and then input the component name in the input panel at the bottom, after that, your component will be created.
+Click ```HaoIDE``` > ```New``` > ```New ApexComponent```, and then input the component name in the input panel at the bottom, after that, your component will be created.
 
 ## New ApexTrigger
-Click ```haoide``` > ```New``` > ```New ApexTrigger```, choose the sobject on which you will create trigger, and then input the trigger name in the input panel at the bottom, after that, your trigger will be created.
+Click ```HaoIDE``` > ```New``` > ```New ApexTrigger```, choose the sobject on which you will create trigger, and then input the trigger name in the input panel at the bottom, after that, your trigger will be created.
 
 ## Create Debug Log
-If you want to track the log of any user, click ```haoide``` > ```Debug``` > ```Track Debug Log```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
+If you want to track the log of any user, click ```HaoIDE``` > ```Debug``` > ```Track Debug Log```, wait for a moment, you will see the user list, choose one and press enter, check the progress in the status bar until succeed message appeared, and then your debug log user is recorded.
 
-If you just want to track debug log of yourself, you can click click ```haoide``` > ```Debug``` > ```Track Self Debug Log```.
+If you just want to track debug log of yourself, you can click click ```HaoIDE``` > ```Debug``` > ```Track Self Debug Log```.
 
 There is a default ```trace_flag``` settings that is used to define the debug log level in the default settings, you can put your own change into your user settings.
 
 ## Fetch Debug Log
-If you want to see the log list of any user, click ```haoide``` > ```Apex Test``` > ```Fetch Debug Logs```, wait for a moment, you will see the user list, choose one and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
+If you want to see the log list of any user, click ```HaoIDE``` > ```Apex Test``` > ```Fetch Debug Logs```, wait for a moment, you will see the user list, choose one and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the log list will be open.
 
-You can choose the ```Log Id``` and click ```haoide``` > ```View Debug Log In Sublime``` command in the context menu, wait for the end of the progress on the status bar, after it is finished, a new view with the log detail will be opened.
+You can choose the ```Log Id``` and click ```HaoIDE``` > ```View Debug Log In Sublime``` command in the context menu, wait for the end of the progress on the status bar, after it is finished, a new view with the log detail will be opened.
 
-Or, you can choose any Log Id and click ```haoide``` > ```View Id In Salesforce Web```, wait for a moment, browser will be open and redirect to the log detail page.
+Or, you can choose any Log Id and click ```HaoIDE``` > ```View Id In Salesforce Web```, wait for a moment, browser will be open and redirect to the log detail page.
 
 ## View Debug Log Detail
-Put the focus in the ```Log Id```, press ```alt``` and click left button, the debug log detail will be retrieved and displayed in the new view.
+Put the focus in the ```Log Id```, press <kbd>alt</kbd> and click left button, the debug log detail will be retrieved and displayed in the new view.
 
 ## Run Test
 There are two methods to run test, one is by Main Menu, other is in the context menu
-By Main Menu: click ```haoide``` > ```Debug``` > ```Run Test```, choose the test class and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
-By Context Menu: in the context of opened class, click ```haoide``` > ```Run Test Class```, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
+By Main Menu: click ```HaoIDE``` > ```Debug``` > ```Run Test```, choose the test class and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
+By Context Menu: in the context of opened class, click ```HaoIDE``` > ```Run Test Class```, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
 
 ## View Code Coverage
 This feature just works when api version is >= 29.0
-In the context menu of open class or trigger, click ```haoide``` > ```View Code Coverage``` in the context menu, ait for the end of the progress on the status bar, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
+In the context menu of open class or trigger, click ```HaoIDE``` > ```View Code Coverage``` in the context menu, ait for the end of the progress on the status bar, you will see the code coverage percentage in the console and a new view with not covered highlight lines.
 
 Put the focus in the ApexClass Name, press ```alt``` and click left button for twice, the code coverage of specified class will be retrieved and displayed in the new view.
 
@@ -267,7 +267,7 @@ Choose the folders in the side bar and refresh them by click ```haoide > Refresh
 ## Salesforce Document Quick Reference
 I get the idea idea from [Salesforce Referencee](https://github.com/Oblongmana/sublime-salesforce-reference) and added some feature based on it.
 
-Click the ```haoide``` > ```Document``` > ```Reload Salesforce Reference``` in the main menu, you need to confirm whether continue, after you confirmed it, then wait for a moment until the ```Open Document``` command is enabled, at this moment, you can press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd> or Click it to invoke the ```Open Document``` command, nearly all reference api will be shown in the list, you can try to choose any one and it will be opened in browser.
+Click the ```HaoIDE``` > ```Document``` > ```Reload Salesforce Reference``` in the main menu, you need to confirm whether continue, after you confirmed it, then wait for a moment until the ```Open Document``` command is enabled, at this moment, you can press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd> or Click it to invoke the ```Open Document``` command, nearly all reference api will be shown in the list, you can try to choose any one and it will be opened in browser.
 
 There is default ```docs``` settings, if you want to add some other document reference to here, you can customize it yourself.
 ```
@@ -286,21 +286,21 @@ There is default ```docs``` settings, if you want to add some other document ref
 **You should be aware that every reloading is time-consuming, generally, you should reload it in every salesforce release**
 
 ## Refresh Multiply Components
-Choose the components you want to refresh, and then Click ```haoide``` > ```Refresh Selected Components``` in the Sidebar Menu
+Choose the components you want to refresh, and then Click ```HaoIDE``` > ```Refresh Selected Components``` in the Sidebar Menu
 
 ## Delete Multiply Components
-Choose the components you want to delete, and then Click ```haoide``` > ```Delete Selected Components``` in the Sidebar Menu
+Choose the components you want to delete, and then Click ```HaoIDE``` > ```Delete Selected Components``` in the Sidebar Menu
 
 ## Quick Goto Component
 Put the focus in the Class Name, and then, press <kbd>shift</kbd>,  and click ```button1``` for twice, the class file will be open in background if this class file is exist, however, if you want to open this class in the foreground, you should press <kbd>shift</kbd> and click ```button1``` for triple.
 
 ## Retrieve All Metadata
-Click ```haoide``` > ```Metadata Migration``` > ```Retrieve All``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
+Click ```HaoIDE``` > ```Metadata Migration``` > ```Retrieve All``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
 
 **This feature is not good enough, because there is no listPackage feature supported, for example, report and dashboard can't be retrieve if no detail folder/report is specified in package.xml**
 
 ## Retrieve Package.xml
-Click ```haoide``` > ```Metadata Migration``` > ```Retrieve Package.xml``` in the main menu, input your package file path, after that, you will see the effect.
+Click ```HaoIDE``` > ```Metadata Migration``` > ```Retrieve Package.xml``` in the main menu, input your package file path, after that, you will see the effect.
 
 see [Retrieve Package.xml Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
 
@@ -314,12 +314,12 @@ You can even use this command to extract any other zip file not limited to Sales
 see [UpdateStaticResource](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/UpdateStaticResource.gif)
 
 ## Deploy Package Zip
-Click ```haoide``` > ```Metadata Migration``` > ```Deploy Package.zip``` in the main menu, input your zip file path, after that, you will see the effect.
+Click ```HaoIDE``` > ```Metadata Migration``` > ```Deploy Package.zip``` in the main menu, input your zip file path, after that, you will see the effect.
 
 see [Deploy Package Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
 
 ## Deploy Open Files
-Sometimes, when you want to deploy class, page or somethings else, however, you didn't want to choose them in the sidebar when there are huge number of code files, you can open the files that you want to deploy to server and Click ```haoide``` > ```Metadata Migration``` > ```Deploy Open Files``` in the main menu to deploy multiply files to target server. 
+Sometimes, when you want to deploy class, page or somethings else, however, you didn't want to choose them in the sidebar when there are huge number of code files, you can open the files that you want to deploy to server and Click ```HaoIDE``` > ```Metadata Migration``` > ```Deploy Open Files``` in the main menu to deploy multiply files to target server. 
 
 Actually, you can even open code files in different orgs and deploy them to the same org, for example, there have three classes to be deployed, A and B are in UAT environment and they are newly developed feature, C in UAT environment is completely different with production environment and there is urgent bug needed to be fixed in production, so at this moment, you can open A and B classes in UAT and the fixed version of C class in production and click ```Deploy Open Files``` to deploy the three class from different orgs to production environment.
 
@@ -331,33 +331,33 @@ Choose a valid package folder, click right button, check if the ```Deploy to Ser
 see [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
 
 ## Export Workflow Rules
-After you downloaded all metadata by clicking ```haoide``` > ```Metadata Migration``` > ```Retrieve Sobject And Workflow```, you can click ```haoide``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.
+After you downloaded all metadata by clicking ```HaoIDE``` > ```Metadata Migration``` > ```Retrieve Sobject And Workflow```, you can click ```HaoIDE``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.
 
 If you just want to export some attributes of workflows, you can remove some columns in the ```workflow_rule_columns```, ``workflow_field_update_columns``, ``workflow_email_alert_columns``, ``workflow_outbound_message_columns`` and ``workflow_task_columns`` settings and put it into your own user settings.
 
 ## Export Validation Rules
-After you downloaded all metadata by clicking ```haoide``` > ```Migration``` > ```Retrieve Sobject And Workflow```, you can click ```haoide``` > ```Export``` > ```Export Validation Rule``` to backup all validation rules in your org to CSV.
+After you downloaded all metadata by clicking ```HaoIDE``` > ```Migration``` > ```Retrieve Sobject And Workflow```, you can click ```HaoIDE``` > ```Export``` > ```Export Validation Rule``` to backup all validation rules in your org to CSV.
 
 If you just want to export some attributes of validation rules, you can remove some columns in the ```validation_rule_columns``` setting and put it into your own user settings
 
 ## Export CustomFields
-You can click ```haoide``` > ```Export``` > ```Export CustomFields``` to export all custom fields in your org to CSV.
+You can click ```HaoIDE``` > ```Export``` > ```Export CustomFields``` to export all custom fields in your org to CSV.
 
 ## Export Profile Workbook
-You can click ```haoide``` > ```Export``` > ```Export Profile``` to export ```ObjectPermission```, ```TabVisibilities``` and ```UserPermissions``` of all profiles to three different CSV files, see [ObjectPermission CSV Picture](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Profile.png)
+You can click ```HaoIDE``` > ```Export``` > ```Export Profile``` to export ```ObjectPermission```, ```TabVisibilities``` and ```UserPermissions``` of all profiles to three different CSV files, see [ObjectPermission CSV Picture](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Profile.png)
 
 Before execute this command, you should execute the ```Retrieve All``` command to download all related components.
 
 ## Export Workbook of sobjects
-You can click ```haoide``` > ```Export``` > ```Export Workbook``` to export all sObject workbooks or some sObject separated with semi-colon in your org to CSV.
+You can click ```HaoIDE``` > ```Export``` > ```Export Workbook``` to export all sObject workbooks or some sObject separated with semi-colon in your org to CSV.
 
 If you just want to export some attributes of sobject workbook, you can remove some columns in the ```workbook_field_describe_columns``` setting and put it into your own user settings
 
 ## Convert 15Id to 18Id
-You can click ```haoide``` > ```Utilities``` > ```Convert 15Id to 18Id``` to convert your input 15Id to 18Id, if your input is not valid 15Id, it will be returned as original value
+You can click ```HaoIDE``` > ```Utilities``` > ```Convert 15Id to 18Id``` to convert your input 15Id to 18Id, if your input is not valid 15Id, it will be returned as original value
 
 ## Convert JSON to Apex
-You can click ```haoide``` > ```Utilities``` > ```Convert JSON to Apex``` to convert your input json to Apex class.
+You can click ```HaoIDE``` > ```Utilities``` > ```Convert JSON to Apex``` to convert your input json to Apex class.
 
 Default class name of main class is ```JSON2Apex```, after you input the JSON to be converted, plugin will ask you to input the class name, you can change the default name there.
 
@@ -408,33 +408,43 @@ If the json string is as below,
 
 The converted apex will be as below:
 ```java
-public class Father {
-    public DateTime birthday;
-    public String name;
-    public Integer age;
-    public Integer money;
-}
-
 public class Toy {
     public String name;
 }
 
 public class Children {
+    public String name;
+    public List<Toy> toy;
+    public Integer age;
+    public Integer money;
     public DateTime birthday;
+}
+
+public class Father {
     public String name;
     public Integer age;
     public Integer money;
-    public List<Toy> toy;
+    public DateTime birthday;
 }
 
 public class JSON2Apex {
-    public Father father;
-    public String name;
+    public List<Children> children;
+    public Date createdDate;
     public Integer age;
     public Decimal money;
+    public String name;
+    public Father father;
     public DateTime birthday;
-    public Date createdDate;
-    public List<Children> children;
+}
+
+public static JSON2Apex parse(String jsonStr) {
+    return (JSON2Apex) JSON.deserialize(jsonStr, JSON2Apex.class);
+}
+
+static testMethod void testParse() {
+    String json = '{"children": [{"name": "son", "toy": [{"name": "toy1"}], "age": 2, "money": 0, "birthday": "2013-01-19T09:58:13.190Z"}, {"name": "daughter", "toy": [{"name": "toy2"}], "age": 1, "money": 0, "birthday": "2014-01-19T09:58:13.190Z"}], "createdDate": "2015-01-20", "age": 32, "money": 12321.5, "name": "test", "father": {"name": "father", "age": 75, "money": 0, "birthday": "1940-01-19T09:58:13.190Z"}, "birthday": "1982-01-19T09:58:13.190Z"}';
+    JSON2Apex obj = parse(json);
+    System.assert(obj != null);
 }
 ```
 
@@ -538,7 +548,7 @@ for example,
 
 
 ## Export Data Template
-Click ```haoide``` > ```Export``` > ```Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported. From the row 1 to row 6, meaning is show as below,
+Click ```HaoIDE``` > ```Export``` > ```Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported. From the row 1 to row 6, meaning is show as below,
 ```
 [Field Label]...
 [Field API]...

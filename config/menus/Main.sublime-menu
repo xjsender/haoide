@@ -1,7 +1,7 @@
 [
     {
         "id": "haoide",
-        "caption": "haoide",
+        "caption": "HaoIDE",
         "children":
         [
             {
@@ -190,7 +190,7 @@
             },
 
             {
-                "caption": "Utilities",
+                "caption": "Panel",
                 "children": [
                     {
                         "caption": "Open Log Panel",
@@ -214,8 +214,18 @@
                         "args": {
                             "panel": "output.diff_with_server"
                         }
-                    },
+                    }
+                ]
+            },
 
+            {
+                "caption": "Utilities",
+                "children": [
+                    {
+                        "id": "convert15idto18id",
+                        "caption": "Convert 15 Id to 18 Id",
+                        "command": "convert15_id218_id"
+                    },
                     {
                         "id": "describesobject",
                         "caption": "Describe sObject",
@@ -227,14 +237,14 @@
                         "command": "generate_soql"
                     },
                     {
-                        "id": "convert15idto18id",
-                        "caption": "Convert 15 Id to 18 Id",
-                        "command": "convert15_id218_id"
+                        "id": "convertjson2apex",
+                        "caption": "JSON to Apex",
+                        "command": "json_to_apex"
                     },
                     {
-                        "id": "convertjson2apex",
-                        "caption": "Convert JSON to Apex",
-                        "command": "convert_json_to_apex"
+                        "id": "serializejson",
+                        "caption": "JSON Serialization",
+                        "command": "json_serialization"
                     }
                 ]
             },

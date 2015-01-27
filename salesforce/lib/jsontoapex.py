@@ -1,4 +1,5 @@
 import re
+import json
 
 mappings = {
     "bool": "Boolean",
@@ -7,40 +8,49 @@ mappings = {
     "str": "String",
     "float": "Decimal",
     "int": "Integer",
-    "list": "List",
-    "dict": "JSON",
     "NoneType": "Object"
 }
 
 class JSONConverter():
     """ Example: 
-        import sublime
         from .salesforce.lib.jsontoapex import JSONConverter
-        converter = JSONConverter()
-        converter.convert2apex("Student", jsonstr)
-        view = sublime.active_window().new_file()
-        view.run_command("new_view", {
-            "name": "JSON2APEX",
-            "input": "\n".join(converter.classes)
-        })
+        snippet = JSONConverter().convert2apex(name, jsonstr).snippet
     """
     def __init__(self):
         self.classes = []
+        self.snippet = None
 
     def upcase_first_letter(self, s):
         return s[0].upper() + s[1:]
 
-    def convert2apex(self, name, jsonstr):
-        if isinstance(jsonstr, list):
-            if len(jsonstr) == 0:
-                self.classes.append("public class %s {\n\n}\n" % name)
-                return
-            else:
-                jsonstr = jsonstr[0]
+    def add_parser(self, name):
+        parser = "public static {name} parse(String jsonStr) {{\n" + \
+            "\treturn ({name}) JSON.deserialize(jsonStr, {name}.class);\n" + \
+        "}}\n"
 
-        if isinstance(jsonstr, dict):
+        self.classes.append(parser.format(name=name))
+
+    def add_testmethod(self, jsonStr):
+        testmethod = "static testMethod void testParse() {{\n" + \
+            "\tString json = '{jsonStr}';\n" + \
+            "\tJSON2Apex obj = parse(json);\n" + \
+            "\tSystem.assert(obj != null);\n" + \
+            "}}\n"
+
+        self.classes.append(testmethod.format(jsonStr=jsonStr))
+
+    def convert2apex(self, name, dict_obj, level=0):
+        if isinstance(dict_obj, list):
+            if len(dict_obj) == 0:
+                self.classes.append("public class %s {\n\n}\n" % name)
+                self.snippet = "\n".join(self.classes)[:-1]
+                return self
+            else:
+                dict_obj = dict_obj[0]
+
+        if isinstance(dict_obj, dict):
             statements = []
-            for key, value in jsonstr.items():
+            for key, value in dict_obj.items():
                 data_type = type(value).__name__
                 if data_type == "str":
                     if re.match("\d{4}-\d{2}-\d{2}T[\d:Z.]+", value):
@@ -53,17 +63,17 @@ class JSONConverter():
                         type=self.upcase_first_letter(key), name=key
                     ))
 
-                    self.convert2apex(self.upcase_first_letter(key), jsonstr[key])
+                    self.convert2apex(self.upcase_first_letter(key), dict_obj[key], 1)
 
                 elif data_type == "list":
                     statements.append("\tpublic List<{type}> {name};".format(
                         type=self.upcase_first_letter(key), name=key
                     ))
 
-                    if not jsonstr[key]:
+                    if not dict_obj[key]:
                         self.classes.append("public class %s {\n\n}\n" % self.upcase_first_letter(key))
                     else:
-                        self.convert2apex(self.upcase_first_letter(key), jsonstr[key][0])
+                        self.convert2apex(self.upcase_first_letter(key), dict_obj[key][0], 1)
 
                 else:
                     statements.append("\tpublic {type} {name};".format(
@@ -76,3 +86,10 @@ class JSONConverter():
 
             if _class not in self.classes:
                 self.classes.append(_class)
+
+            if level == 0:
+                self.add_parser(name)
+                self.add_testmethod(json.dumps(dict_obj))
+                self.snippet = "\n".join(self.classes)[:-1]
+
+        return self

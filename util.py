@@ -6,6 +6,7 @@ import csv
 import urllib
 import pprint
 import sys
+import re
 import time
 import datetime
 import base64
@@ -1983,8 +1984,8 @@ record_keys = ["label", "name", "type", "length"]
 record_key_width = {
     "label": 40, 
     "name": 40, 
-    "type": 30, 
-    "length": 10
+    "type": 20, 
+    "length": 7
 }
 recordtype_key_width = {
     "available": 10,
@@ -2390,6 +2391,7 @@ def get_metadata_elements(metadata_dir):
     elements = []
     for parent, dirnames, filenames in os.walk(metadata_dir):
         for _file in filenames:
+            if _file.endswith("-meta.xml"): continue
             base, name = os.path.split(_file)
             name, extension = name.split(".")
             elements.append(name)

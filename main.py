@@ -16,15 +16,40 @@ from . import processor
 from . import context
 from . import util
 
+from .salesforce.lib import xmlformatter
 from .salesforce.lib.jsontoapex import JSONConverter
 from .salesforce.lib.panel import Printer
 from .salesforce import xmltodict
 from .salesforce import message
 
 
-class ConvertJsonToApex(sublime_plugin.WindowCommand):
+class JsonSerialization(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(ConvertJsonToApex, self).__init__(*args, **kwargs)
+        super(JsonSerialization, self).__init__(*args, **kwargs)
+
+    def run(self):
+        sublime.active_window().show_input_panel("Input JSON Body: ", "", 
+            self.on_input_json, None, None)
+
+    def on_input_json(self, data):
+        try:
+            self.data = json.loads(data) if data else None  
+        except ValueError as ve:
+            Printer.get('error').write(str(ve))
+            if not sublime.ok_cancel_dialog("Do you want to try again?", "Yes?"): return
+            sublime.active_window().show_input_panel("Input JSON Body: ", 
+                "", self.on_input_json, None, None)
+            return
+
+        view = sublime.active_window().new_file()
+        view.run_command("new_view", {
+            "name": "SerializedJSON",
+            "input": json.dumps(self.data)
+        })
+
+class JsonToApex(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(JsonToApex, self).__init__(*args, **kwargs)
 
     def run(self):
         sublime.active_window().show_input_panel("Input JSON Body: ", "", 
@@ -47,12 +72,11 @@ class ConvertJsonToApex(sublime_plugin.WindowCommand):
         if not name: name = "JSON2Apex"
 
         # Start converting
-        converter = JSONConverter()
-        converter.convert2apex(name, self.data)
+        snippet = JSONConverter().convert2apex(name, self.data).snippet
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "JSON2APEX",
-            "input": "\n".join(converter.classes)
+            "input": snippet
         })
 
 class PrettyJson(sublime_plugin.TextCommand):

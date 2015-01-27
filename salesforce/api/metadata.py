@@ -1,3 +1,4 @@
+
 import sublime
 import time
 import pprint
@@ -519,25 +520,20 @@ class MetadataApi():
             if "componentFailures" in body["details"]:
                 component_failures = body["details"]["componentFailures"]
                 if isinstance(component_failures, dict):
-                    component_failure = component_failures
-                    failures_messages.append("1. %s -- %s: %s (line %s)" % (
+                    component_failures = [component_failures]
+
+                for index in range(len(component_failures)):
+                    component_failure = component_failures[index]
+                    failures_messages.append("%s. %s -- %s: %s (line %s column %s)" % (
+                        index+1, 
                         component_failure["fileName"],
                         component_failure["problemType"],
-                        component_failure["problem"].replace("\n", " "),
+                        component_failure["problem"],
                         component_failure["lineNumber"] \
-                            if "lineNumber" in component_failure else "0"
+                            if "lineNumber" in component_failure else "0",
+                        component_failure["columnNumber"] \
+                            if "columnNumber" in component_failure else "0"
                     ))
-                elif isinstance(component_failures, list):
-                    for index in range(len(component_failures)):
-                        component_failure = component_failures[index]
-                        failures_messages.append("%s. %s -- %s: %s (line %s)" % (
-                            index+1, 
-                            component_failure["fileName"],
-                            component_failure["problemType"],
-                            component_failure["problem"],
-                            component_failure["lineNumber"] \
-                                if "lineNumber" in component_failure else "0"
-                        ))
             elif "errorMessage" in body:
                 Printer.get('log').write("\n" + body["errorMessage"], False)
 

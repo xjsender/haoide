@@ -1,55 +1,55 @@
 [
-    {"caption": "haoide: Switch Project", "command": "switch_project"},
+    {"caption": "HaoIDE: Switch Project", "command": "switch_project"},
 
     {
-        "caption": "haoide: Toggle Metdata Types",
+        "caption": "HaoIDE: Toggle Metdata Types",
         "command": "toggle_metadata_types"
     },
 
     {
-        "caption": "haoide: New Project",
+        "caption": "HaoIDE: New Project",
         "command": "create_new_project"
     },
 
     {
-        "caption": "haoide: Update Project",
+        "caption": "HaoIDE: Update Project",
         "command": "update_project"
     },
 
     {
-        "caption": "haoide: Update Project Pattern",
+        "caption": "HaoIDE: Update Project Pattern",
         "command": "update_project_patterns"
     },
 
     {
-        "caption": "haoide: Update User Language",
+        "caption": "HaoIDE: Update User Language",
         "command": "update_user_language"
     },
 
     {
-        "caption": "haoide: New ApexTrigger",
+        "caption": "HaoIDE: New ApexTrigger",
         "command": "create_apex_trigger"
     },
 
     {
-        "caption": "haoide: New ApexClass",
+        "caption": "HaoIDE: New ApexClass",
         "command": "create_apex_class"
     },
 
     {
-        "caption": "haoide: New ApexComponent",
+        "caption": "HaoIDE: New ApexComponent",
         "command": "create_apex_component"
     },
 
     {
-        "caption": "haoide: New ApexPage",
+        "caption": "HaoIDE: New ApexPage",
         "command": "create_apex_page"
     },
     
     {"caption": "-"},
 
     {
-        "caption": "haoide: New Lighting Application",
+        "caption": "HaoIDE: New Lighting Application",
         "command": "create_lighting_definition", 
         "args": {
             "_type": "Application"
@@ -57,7 +57,7 @@
     },
 
     {
-        "caption": "haoide: New Lighting Component",
+        "caption": "HaoIDE: New Lighting Component",
         "command": "create_lighting_definition", 
         "args": {
             "_type": "Component"
@@ -65,7 +65,7 @@
     },
 
     {
-        "caption": "haoide: New Lighting Interface",
+        "caption": "HaoIDE: New Lighting Interface",
         "command": "create_lighting_definition", 
         "args": {
             "_type": "Interface"
@@ -73,7 +73,7 @@
     },
 
     {
-        "caption": "haoide: New Lighting Event",
+        "caption": "HaoIDE: New Lighting Event",
         "command": "create_lighting_definition", 
         "args": {
             "_type": "Event"
@@ -81,32 +81,32 @@
     },
 
     {
-        "caption": "haoide: Reload Salesforce Document",
+        "caption": "HaoIDE: Reload Salesforce Document",
         "command": "reload_salesforce_document"
     },
 
     {
-        "caption": "haoide: Deploy Lighting Element to Server",
+        "caption": "HaoIDE: Deploy Lighting Element to Server",
         "command": "deploy_lighting_element_to_server"
     },
 
     {
-        "caption": "haoide: Preview Lighting App In Server",
+        "caption": "HaoIDE: Preview Lighting App In Server",
         "command": "preview_lighting_app_in_server"
     },
 
     {
-        "caption": "haoide: Save Component",
+        "caption": "HaoIDE: Save Component",
         "command": "save_component"
     },
 
     {
-        "caption": "haoide: Deploy Auras to Server",
+        "caption": "HaoIDE: Deploy Auras to Server",
         "command": "save_component"
     },
 
     {
-        "caption": "haoide: Compile Component",
+        "caption": "HaoIDE: Compile Component",
         "command": "save_component",
         "args": {
             "is_check_only": true
@@ -114,82 +114,82 @@
     },
 
     {
-        "caption": "haoide: Compile Component",
+        "caption": "HaoIDE: Compile Component",
         "command": "compile_component",
     },
 
     {
-        "caption": "haoide: Diff With Server",
+        "caption": "HaoIDE: Diff With Server",
         "command": "diff_with_server"
     },
 
     {
-        "caption": "haoide: Retrieve from Server", 
+        "caption": "HaoIDE: Retrieve from Server", 
         "command": "retrieve_file_from_server"
     },
     
     {
-        "caption": "haoide: Deploy to Server", 
+        "caption": "HaoIDE: Deploy to Server", 
         "command": "deploy_file_to_server"
     },
 
     {
-        "caption": "haoide: Destruct from Server", 
+        "caption": "HaoIDE: Destruct from Server", 
         "command": "destruct_file_from_server"
     },
 
     {
-        "caption": "haoide: Delete From Server",
+        "caption": "HaoIDE: Delete From Server",
         "command": "delete_component"
     },
 
     {
-        "caption": "haoide: Retrieve Metadata",
+        "caption": "HaoIDE: Retrieve Metadata",
         "command": "retrieve_metadata"
     },
 
     {
-        "caption": "haoide: Convert XML to JSON",
+        "caption": "HaoIDE: Convert XML to JSON",
         "command": "convert_xml_to_dict"
     },
 
     {
-        "caption": "haoide: Pretty JSON",
+        "caption": "HaoIDE: Pretty JSON",
         "command": "pretty_json"
     },
 
     {
-        "caption": "haoide: Retrieve Package.xml",
+        "caption": "HaoIDE: Retrieve Package.xml",
         "command": "retrieve_package"
     },
 
     {
-        "caption": "haoide: Retrieve Package File",
+        "caption": "HaoIDE: Retrieve Package File",
         "command": "retrieve_package_file"
     },
 
     {
-        "caption": "haoide: Preview Page In Server",
+        "caption": "HaoIDE: Preview Page In Server",
         "command": "preview_page"
     },
 
     {
-        "caption": "haoide: Deploy Package.zip",
+        "caption": "HaoIDE: Deploy Package.zip",
         "command": "deploy_zip"
     },
 
     {
-        "caption": "haoide: Destruct From Server",
+        "caption": "HaoIDE: Destruct From Server",
         "command": "destruct_file_from_server"
     },
 
     {
-        "caption": "haoide: Deploy Open Files",
+        "caption": "HaoIDE: Deploy Open Files",
         "command": "deploy_open_files_to_server"
     },
 
     {
-        "caption": "haoide: Open Log Panel",
+        "caption": "HaoIDE: Open Log Panel",
         "command": "show_panel",
         "args": {
             "panel": "output.log"
@@ -197,7 +197,7 @@
     },
 
     {
-        "caption": "haoide: Open Diff Panel",
+        "caption": "HaoIDE: Open Diff Panel",
         "command": "show_panel",
         "args": {
             "panel": "output.diff_with_server"
@@ -205,17 +205,17 @@
     },
 
     {
-        "caption": "haoide: Track Debug Log",
+        "caption": "HaoIDE: Track Debug Log",
         "command": "track_debug_log"
     },
 
     {
-        "caption": "haoide: Fetch Debug Log",
+        "caption": "HaoIDE: Fetch Debug Log",
         "command": "fetch_debug_log"
     },
 
     {
-        "caption": "haoide: Track Self Debug Log",
+        "caption": "HaoIDE: Track Self Debug Log",
         "command": "track_debug_log",
         "args": {
             "track_self": true
@@ -223,7 +223,7 @@
     },
 
     {
-        "caption": "haoide: Fetch Self Debug Log",
+        "caption": "HaoIDE: Fetch Self Debug Log",
         "command": "fetch_debug_log", 
         "args": {
             "fetch_self": true
@@ -231,37 +231,37 @@
     },
 
     {
-        "caption": "haoide: Run Test",
+        "caption": "HaoIDE: Run Test",
         "command": "run_one_test"
     },
 
     {
-        "caption": "haoide: View Code Coverage",
+        "caption": "HaoIDE: View Code Coverage",
         "command": "view_code_coverage"
     },
     
     {
-        "caption": "haoide: Execute Anonymous",
+        "caption": "HaoIDE: Execute Anonymous",
         "command": "execute_anonymous"
     },
 
     {
-        "caption": "haoide: Execute SOQL",
+        "caption": "HaoIDE: Execute SOQL",
         "command": "execute_soql"
     },
 
     {
-        "caption": "haoide: Reload Sobject Cache",
+        "caption": "HaoIDE: Reload Sobject Cache",
         "command": "reload_sobject_cache"
     },
 
     {
-        "caption": "haoide: Reload SymbolTable Cache",
+        "caption": "HaoIDE: Reload SymbolTable Cache",
         "command": "reload_symbol_table_cache"
     },
 
     {
-        "caption": "haoide: Clear Sobject Cache",
+        "caption": "HaoIDE: Clear Sobject Cache",
         "command": "clear_sobject_cache",
         "args": {
             "cache_name": "sobjects_completion"
@@ -269,7 +269,7 @@
     },
 
     {
-        "caption": "haoide: Clear SymbolTable Cache",
+        "caption": "HaoIDE: Clear SymbolTable Cache",
         "command": "clear_symbol_table_cache",
         "args": {
             "cache_name": "symbol_table"
@@ -277,87 +277,97 @@
     },
 
     {
-        "caption": "haoide: Describe Global",
+        "caption": "HaoIDE: Describe Global",
         "command": "describe_global"
     },
 
     {
-        "caption": "haoide: Describe Sobject",
+        "caption": "HaoIDE: Describe Sobject",
         "command": "describe_sobject"
     },
 
     {
-        "caption": "haoide: Convert 15 Digit Id to 18 Digit",
+        "caption": "HaoIDE: Convert 15 Digit Id to 18 Digit",
         "command": "convert15_id218_id"
     },
 
     {
-        "caption": "haoide: Export CustomField",
+        "caption": "HaoIDE: Convert JSON to Apex",
+        "command": "convert_json_to_apex"
+    },
+
+    {
+        "caption": "HaoIDE: Serialize JSON",
+        "command": "serialize_json"
+    },
+
+    {
+        "caption": "HaoIDE: Export CustomField",
         "command": "export_custom_field"
     },
     {
-        "caption": "haoide: Export Workflow",
+        "caption": "HaoIDE: Export Workflow",
         "command": "export_workflows"
     },
     {
-        "caption": "haoide: Export Validation Rule",
+        "caption": "HaoIDE: Export Validation Rule",
         "command": "export_validation_rules"
     },
     {
-        "caption": "haoide: Export Custom Labels",
+        "caption": "HaoIDE: Export Custom Labels",
         "command": "export_custom_labels"
     },
     {
-        "caption": "haoide: Export Data Template",
+        "caption": "HaoIDE: Export Data Template",
         "command": "export_data_template"
     },
     {
-        "caption": "haoide: Export Profile",
+        "caption": "HaoIDE: Export Profile",
         "command": "export_profile"
     },
     {
-        "caption": "haoide: Export Workbook",
+        "caption": "HaoIDE: Export Workbook",
         "command": "export_workbook"
     },
     {
-        "caption": "haoide: View Code in SFDC",
+        "caption": "HaoIDE: View Code in SFDC",
         "command": "view_component_in_sfdc"
     },
     {
-        "caption": "haoide: Login To Home Page",
+        "caption": "HaoIDE: Login To Home Page",
         "command": "login_to_sfdc"
     },
     {
-        "caption": "haoide: DataLoader - Export All",
+        "caption": "HaoIDE: DataLoader - Export All",
         "command": "bulk_export_all"
     },
     {
-        "caption": "haoide: DataLoader - Export Single",
+        "caption": "HaoIDE: DataLoader - Export Single",
         "command": "bulk_export_single"
     },
     {
-        "caption": "haoide: DataLoader - Export SOQL",
+        "caption": "HaoIDE: DataLoader - Export SOQL",
         "command": "bulk_export_single",
         "args": {
             "export_soql": true
         }
     },
     {
-        "caption": "haoide: DataLoader - insert",
+        "caption": "HaoIDE: DataLoader - insert",
         "command": "bulk_operation",
         "args": {
             "operation": "insert"
         }
     },
     {
-        "caption": "haoide: DataLoader - Update",
+        "caption": "HaoIDE: DataLoader - Update",
         "command": "bulk_operation",
         "args": {
             "operation": "update"
         }
     },
     {
-        "caption": "haoide: DataLoader - delete",
+        "caption": "HaoIDE: DataLoader - delete",
         "command": "bulk_operation",
         "args": {
             "operation": "delete"

@@ -1,7 +1,7 @@
 [
     { "caption": "-" },
     {
-        "caption": "haoide",
+        "caption": "HaoIDE",
         "children":
         [
             {"caption": "Convert XML to JSON", "command": "convert_xml_to_dict"},

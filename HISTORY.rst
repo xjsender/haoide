@@ -5,6 +5,18 @@ Release History
 ---------------
 
 
+Release 2.7.7 (2015-01-22)
+++++++++++++++++++
+* Fix bug for ``Package.xml Completion``
+* Enhancement: display error column in XML if deploy failed
+* Enhancement for ``json_to_apex``
+* Enhancement for ``describe_sobject``
+* Add a new ``json_serialization`` command to serialize JSON to string
+* Add a new ``panel`` menu item in Main Menu
+* Rearrange Utilities menu item in Main Menu
+* Update ``haoide`` to ``HaoIDE``
+
+
 Release 2.7.6 (2015-01-20)
 ++++++++++++++++++
 * Enhancement for ``create_trace_flag`` command

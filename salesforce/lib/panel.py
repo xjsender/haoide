@@ -58,7 +58,7 @@ class Printer(object):
         size = self.panel.size()
         sublime.set_timeout(lambda : self.panel.show(size, True), 2)
 
-    def write_start(self, message="-"*150):
+    def write_start(self, message="-"*100):
         return self.write(message, False)
 
     def write(self, message, prefix=True):
