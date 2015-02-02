@@ -55,7 +55,7 @@
     {"keys": ["ctrl+alt+t"], "command": "run_test"},
 
     // Refresh current component in edit mode
-    {"keys": ["ctrl+alt+r"], "command": "refresh_component"},
+    {"keys": ["ctrl+alt+r"], "command": "refresh_file_from_server"},
 
     // Execute chosen valid SOQL
     {"keys": ["f9"], "command": "execute_rest_test"},

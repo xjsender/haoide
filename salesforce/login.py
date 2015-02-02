@@ -50,7 +50,7 @@ def soap_login(settings, session_id_expired=False, timeout=10):
             print ("repeat_times: " + str(globals()["repeat_times"]))
 
         if globals()["repeat_times"] <= 12:
-            return soap_login(settings, session_id_expired, timeout)
+            return soap_login(settings, True, timeout)
 
         result = {
             "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),

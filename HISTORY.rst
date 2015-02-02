@@ -5,6 +5,18 @@ Release History
 ---------------
 
 
+Release 2.7.8 (2015-02-02)
+++++++++++++++++++
+* Rename ``refresh_component`` command to ``refresh_file_from_server``
+* Rename ``refresh_selected_components`` command to ``refresh_files_from_server``
+* Rename ``delete_selected_components`` command to ``delete_files_from_server``
+* Add a new command for ``retrieve file from other server`` for retrieve file from different project.
+* Add a settings ``switch_back_after_migration`` to control whether switch back to original project after ``deploy to server``, ``deploy package to server``, ``deploy lighting to server`` or ``retrieve file from other server``, issue haoide:#3
+* Fix issue #5
+* Move ``pretty_json`` command from context menu to ``HaoIDE > Utilities > JSON Pretty`` in the main menu
+* Update README.MD
+
+
 Release 2.7.7 (2015-01-22)
 ++++++++++++++++++
 * Fix bug for ``Package.xml Completion``

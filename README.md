@@ -181,12 +181,6 @@ There has a ```log_levels``` setting in the default setting, If you want to chan
 ## Execute Query
 After any snippet which start with SELECT is chosen, you can press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Q</kbd> in windows or click ```HaoIDE``` > ```Execute Query```, the queried json result will be formated and shown in a new view.
 
-## Describe Sobject
-Click ```HaoIDE``` > ```Describe``` > ```sObect``` and then choose a sObject in the selection panel, the describe result will appear in the new view
-
-## Generate SOQL
-Click ```HaoIDE``` > ```Describe``` > ```sObject SOQL``` and then choose a sObject in the selection panel, the sObject SOQL will appear in the new view
-
 ## Keep Operation History
 By default, the operation of ```Execute Query```, ```Describe sObject```, ```Gernate SOQL```, ```Execute Anonymous``` and ```Run Test``` will be kept into the ```.history``` path in current project, you can disable this feature by setting ```keep_operation_history``` to false
 
@@ -313,62 +307,100 @@ You can even use this command to extract any other zip file not limited to Sales
 
 see [UpdateStaticResource](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/UpdateStaticResource.gif)
 
-## Deploy Package Zip
+## Deploy
+There has a setting ``switch_back_after_migration`` to control whether switch back to original project after deploy is finished, default value is ``true``
+
+### Deploy Package Zip
 Click ```HaoIDE``` > ```Metadata Migration``` > ```Deploy Package.zip``` in the main menu, input your zip file path, after that, you will see the effect.
 
 see [Deploy Package Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
 
-## Deploy Open Files
+### Deploy Files to Server
+Choose the files to deploy and click Click ```HaoIDE``` > ```Deploy File to Server``` in the context menu, you will see the effect
+
+### Deploy Open Files
 Sometimes, when you want to deploy class, page or somethings else, however, you didn't want to choose them in the sidebar when there are huge number of code files, you can open the files that you want to deploy to server and Click ```HaoIDE``` > ```Metadata Migration``` > ```Deploy Open Files``` in the main menu to deploy multiply files to target server. 
 
 Actually, you can even open code files in different orgs and deploy them to the same org, for example, there have three classes to be deployed, A and B are in UAT environment and they are newly developed feature, C in UAT environment is completely different with production environment and there is urgent bug needed to be fixed in production, so at this moment, you can open A and B classes in UAT and the fixed version of C class in production and click ```Deploy Open Files``` to deploy the three class from different orgs to production environment.
 
 This command is just enabled when any one of open files is salesforce code files.
 
-## Deploy Package Folder
+### Deploy Package Folder
 Choose a valid package folder, click right button, check if the ```Deploy to Server``` command is enabled, if yes, it means the package folder is valid, and then click the ```Deploy To Server`` command, you will see the effect.
 
 see [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
 
-## Export Workflow Rules
+## Export
+You can export somethings in your org to CSV by these features
+
+### Export CustomFields
+You can click ```HaoIDE``` > ```Export``` > ```Export CustomField``` to export all custom fields in your org to csv.
+
+### Export Workflow Rules
 After you downloaded all metadata by clicking ```HaoIDE``` > ```Metadata Migration``` > ```Retrieve Sobject And Workflow```, you can click ```HaoIDE``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.
 
 If you just want to export some attributes of workflows, you can remove some columns in the ```workflow_rule_columns```, ``workflow_field_update_columns``, ``workflow_email_alert_columns``, ``workflow_outbound_message_columns`` and ``workflow_task_columns`` settings and put it into your own user settings.
 
-## Export Validation Rules
+### Export Validation Rules
 After you downloaded all metadata by clicking ```HaoIDE``` > ```Migration``` > ```Retrieve Sobject And Workflow```, you can click ```HaoIDE``` > ```Export``` > ```Export Validation Rule``` to backup all validation rules in your org to CSV.
 
 If you just want to export some attributes of validation rules, you can remove some columns in the ```validation_rule_columns``` setting and put it into your own user settings
 
-## Export CustomFields
+### Export CustomFields
 You can click ```HaoIDE``` > ```Export``` > ```Export CustomFields``` to export all custom fields in your org to CSV.
 
-## Export Profile Workbook
+### Export Profile Workbook
 You can click ```HaoIDE``` > ```Export``` > ```Export Profile``` to export ```ObjectPermission```, ```TabVisibilities``` and ```UserPermissions``` of all profiles to three different CSV files, see [ObjectPermission CSV Picture](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Profile.png)
 
 Before execute this command, you should execute the ```Retrieve All``` command to download all related components.
 
-## Export Workbook of sobjects
+### Export Workbook of sobjects
 You can click ```HaoIDE``` > ```Export``` > ```Export Workbook``` to export all sObject workbooks or some sObject separated with semi-colon in your org to CSV.
 
 If you just want to export some attributes of sobject workbook, you can remove some columns in the ```workbook_field_describe_columns``` setting and put it into your own user settings
 
-## Convert 15Id to 18Id
+### Export Data Template
+Click ```HaoIDE``` > ```Export``` > ```Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported. From the row 1 to row 6, meaning is show as below,
+```
+[Field Label]...
+[Field API]...
+[Field Type]...
+[Layout Required]...
+[Picklist Label if has]...
+[Picklist Value if has]
+```
+
+## Utilities
+There are some utilities to keep your work efficient as below
+
+### Convert 15Id to 18Id
 You can click ```HaoIDE``` > ```Utilities``` > ```Convert 15Id to 18Id``` to convert your input 15Id to 18Id, if your input is not valid 15Id, it will be returned as original value
 
-## Convert JSON to Apex
+### Describe sObject
+Click ```HaoIDE``` > ```Utilities``` > ```Describe sObect```, and then choose a sObject in the selection panel and press <kbd>Enter</kbd>, the describe result will appear in the new view
+
+### Generate sObject SOQL
+Click ```HaoIDE``` > ```Utilities``` > ```Generate sObject SOQL```, and then choose a sObject in the selection panel and press <kbd>Enter</kbd>, the sObject SOQL will appear in the new view
+
+### Pretty JSON
+Click ```HaoIDE``` > ```Utilities``` > ```JSON Pretty```, and then input your JSON Body in the input panel and press <kbd>Enter</kbd>, the Prettied JSON will appear in the new view
+
+### Serialize JSON
+Click ```HaoIDE``` > ```Utilities``` > ```JSON Serialization```, and then input your JSON Body in the input panel and press <kbd>Enter</kbd>, the Serialized JSON will appear in the new view
+
+### Convert JSON to Apex
 You can click ```HaoIDE``` > ```Utilities``` > ```Convert JSON to Apex``` to convert your input json to Apex class.
 
 Default class name of main class is ```JSON2Apex```, after you input the JSON to be converted, plugin will ask you to input the class name, you can change the default name there.
 
 In order to keep the accuracy of converted result, you should predefine the every value of every key in the input JSON
 
-### Notes:
+#### Notes:
 + [x] If value is matched with ```\d{4}-\d{2}-\d{2}T[\d:Z.]+``` regress expression, data type will be thought as ```DateTime```
 + [x] If value is matched with ```\d{4}-\d{2}-\d{2}``` regress expression, data type will be thought as ```Date```
 + [x] If value is ```null```, data type will be thought as ```Object```
 
-### Example:
+#### Example:
 If the json string is as below,
 ```javascript
 {
@@ -544,18 +576,6 @@ for example,
         'url': '/services/data/v29.0/sobjects/Account/001O0000001OWv5IAG'
     }
 }]
-```
-
-
-## Export Data Template
-Click ```HaoIDE``` > ```Export``` > ```Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported. From the row 1 to row 6, meaning is show as below,
-```
-[Field Label]...
-[Field API]...
-[Field Type]...
-[Layout Required]...
-[Picklist Label if has]...
-[Picklist Value if has]
 ```
 
 ## Bulk Api

@@ -105,6 +105,10 @@ def get_settings():
     # Debug Mode
     settings["debug_mode"] = s.get("debug_mode", False)
 
+    # Indicate whether switch project back to original 
+    # after `deploy` or `retrieve from other server` is executed
+    settings["switch_back_after_migration"] = s.get("switch_back_after_migration", True)
+
     # Completions Part
     settings["disable_fields_completion"] = s.get("disable_fields_completion", False)
     settings["disable_keyword_completion"] = s.get("disable_keyword_completion", False)

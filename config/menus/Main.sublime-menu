@@ -237,6 +237,10 @@
                         "command": "generate_soql"
                     },
                     {
+                        "caption": "JSON Pretty",
+                        "command": "json_pretty"
+                    },
+                    {
                         "id": "convertjson2apex",
                         "caption": "JSON to Apex",
                         "command": "json_to_apex"

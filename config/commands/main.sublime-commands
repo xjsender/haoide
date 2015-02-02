@@ -154,11 +154,6 @@
     },
 
     {
-        "caption": "HaoIDE: Pretty JSON",
-        "command": "pretty_json"
-    },
-
-    {
         "caption": "HaoIDE: Retrieve Package.xml",
         "command": "retrieve_package"
     },
@@ -292,13 +287,18 @@
     },
 
     {
-        "caption": "HaoIDE: Convert JSON to Apex",
-        "command": "convert_json_to_apex"
+        "caption": "HaoIDE: JSON Pretty",
+        "command": "json_pretty"
     },
 
     {
-        "caption": "HaoIDE: Serialize JSON",
-        "command": "serialize_json"
+        "caption": "HaoIDE: JSON to Apex",
+        "command": "json_to_apex"
+    },
+
+    {
+        "caption": "HaoIDE: JSON Serialize",
+        "command": "json_serialization"
     },
 
     {

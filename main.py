@@ -23,6 +23,34 @@ from .salesforce import xmltodict
 from .salesforce import message
 
 
+class JsonPretty(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(JsonPretty, self).__init__(*args, **kwargs)
+
+    def run(self):
+        sublime.active_window().show_input_panel("Input JSON Body: ", "", 
+            self.on_input_json, None, None)
+
+    def on_input_json(self, data):
+        try:
+            pretty_json = json.dumps(json.loads(data), 
+                ensure_ascii=False, indent=4)
+        except ValueError as ve:
+            Printer.get('error').write(str(ve))
+            if not sublime.ok_cancel_dialog("Do you want to try again?", "Yes?"): return
+            sublime.active_window().show_input_panel("Input JSON Body: ", 
+                "", self.on_input_json, None, None)
+            return
+            
+        view = sublime.active_window().new_file()
+        view.run_command("new_view", {
+            "name": "PrettiedJSON",
+            "input": pretty_json
+        })
+
+        # If you have installed the htmljs plugin, below statement will work
+        view.run_command("htmlprettify")
+
 class JsonSerialization(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(JsonSerialization, self).__init__(*args, **kwargs)
@@ -78,31 +106,6 @@ class JsonToApex(sublime_plugin.WindowCommand):
             "name": "JSON2APEX",
             "input": snippet
         })
-
-class PrettyJson(sublime_plugin.TextCommand):
-    def run(self, view):
-        try:
-            pretty_json = json.dumps(json.loads(self.selection), 
-                ensure_ascii=False, indent=4)
-        except ValueError as ex:
-            Printer.get('error').write(str(ex))
-            return
-            
-        view = sublime.active_window().new_file()
-        view.run_command("new_view", {
-            "name": "PrettyJson",
-            "input": pretty_json
-        })
-
-        # If you have installed the htmljs plugin, below statement will work
-        view.run_command("htmlprettify")
-
-    def is_enabled(self):
-        # Enabled if has selection
-        self.selection = self.view.substr(self.view.sel()[0])
-        if not self.selection: return False
-
-        return True
 
 class DiffWithServerCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -638,6 +641,43 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
 
         return True
 
+class RetrieveFileFromOtherServer(sublime_plugin.TextCommand):
+    def run(self, edit):
+        # Keep the source org
+        self.source_org = self.settings["default_project_name"]
+
+        # Choose the target ORG to deploy
+        self.projects = self.settings["projects"]
+        self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
+            'Inactive') + ") " + p for p in self.projects]
+        self.projects = sorted(self.projects, reverse=False)
+        sublime.active_window().show_quick_panel(self.projects, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+        # Change the chosen project as default
+        # Split with ") " and get the second project name
+        default_project = self.projects[index].split(") ")[1]
+        util.switch_project(default_project)
+
+        types = {self.xmlName : [self._name]}
+        processor.handle_retrieve_package(types, self.extract_to, 
+            source_org=self.source_org, ignore_package_xml=True)
+
+    def is_enabled(self):
+        self.settings = context.get_settings()
+        base, name = os.path.split(self.view.file_name())
+        base, folder = os.path.split(base)
+        self.extract_to, src = os.path.split(base)
+        self._name, extension = name.split(".")
+
+        if folder not in self.settings["metadata_folders"]: 
+            return False
+
+        self.xmlName = self.settings[folder]["xmlName"]
+
+        return True
+
 class CancelDeployment(sublime_plugin.TextCommand):
     def run(self, edit):
         processor.handle_cancel_deployment_thread(self.sel_text)
@@ -741,8 +781,13 @@ class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
         super(DeployPackageToServerCommand, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        # Choose the target ORG to deploy
+        # Get settings
         settings = context.get_settings()
+
+        # Keep the source_org
+        self.source_org = settings["default_project_name"]
+
+        # Choose the target ORG to deploy
         self.projects = settings["projects"]
         self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
             'Inactive') + ") " + p for p in self.projects]
@@ -756,7 +801,8 @@ class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
         default_project = self.projects[index].split(") ")[1]
         util.switch_project(default_project)
 
-        processor.handle_deploy_thread(util.compress_package(self.package_dir));
+        processor.handle_deploy_thread(util.compress_package(self.package_dir), 
+            source_org=self.source_org);
 
     def is_visible(self, dirs):
         if not dirs: return False
@@ -800,9 +846,14 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
         # Get the package path to deploy
         self.files = files
 
+        # Get settings
+        self.settings = context.get_settings()
+
+        # Keep the source org
+        self.source_org = self.settings["default_project_name"]
+
         # Choose the target ORG to deploy
-        settings = context.get_settings()
-        self.projects = settings["projects"]
+        self.projects = self.settings["projects"]
         self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
             'Inactive') + ") " + p for p in self.projects]
         self.projects = sorted(self.projects, reverse=False)
@@ -816,7 +867,7 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
         util.switch_project(default_project)
 
         base64_encoded_zip = util.build_deploy_package(self.files)
-        processor.handle_deploy_thread(base64_encoded_zip)
+        processor.handle_deploy_thread(base64_encoded_zip, source_org=self.source_org)
 
     def is_visible(self, files):
         """
@@ -1281,9 +1332,9 @@ class ViewReleaseNotesCommand(sublime_plugin.ApplicationCommand):
         show_url = "https://github.com/xjsender/haoide/blob/master/HISTORY.rst"
         util.open_with_browser(show_url)
 
-class DeleteSelectedComponentsCommand(sublime_plugin.WindowCommand):
+class DeleteFilesFromServerCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(DeleteSelectedComponentsCommand, self).__init__(*args, **kwargs)
+        super(DeleteFilesFromServerCommand, self).__init__(*args, **kwargs)
 
     def run(self, files):
         delete_components(self._files)
@@ -1329,7 +1380,7 @@ class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
     def run(self):
         sobjects_describe = util.populate_sobjects_describe()
 
-        # Just for tracking issue # 28
+        # Just for tracking issue #28
         for name in sobjects_describe:
             if "triggerable" not in sobjects_describe[name]:
                 print ('Not triggerable sobject: ' + name)
@@ -1521,8 +1572,13 @@ class DeployLightingToServer(sublime_plugin.WindowCommand):
             processor.handle_deploy_thread(base64_package)
             return
 
-        # Choose the target ORG to deploy
+        # Get the settings
         self.settings = context.get_settings()
+
+        # Keep the source_org
+        self.source_org = self.settings["default_project_name"]
+
+        # Choose the target ORG to deploy
         self.projects = self.settings["projects"]
         self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
             'Inactive') + ") " + p for p in self.projects]
@@ -1537,7 +1593,7 @@ class DeployLightingToServer(sublime_plugin.WindowCommand):
         util.switch_project(default_project)
 
         base64_package = util.build_aura_package(self.dirs)
-        processor.handle_deploy_thread(base64_package)
+        processor.handle_deploy_thread(base64_package, self.source_org)
 
     def is_visible(self, dirs, switch_project=True):
         if not dirs or len(dirs) == 0: return False
@@ -1824,20 +1880,19 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
         super(SwitchProjectCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        global projects
         settings = context.get_settings()
         projects = settings["projects"]
-        projects = ["(" + ('Active' if projects[p]["default"] else 
+        self.projects = ["(" + ('Active' if projects[p]["default"] else 
             'Inactive') + ") " + p for p in projects]
-        projects = sorted(projects, reverse=False)
-        self.window.show_quick_panel(projects, self.on_done)
+        self.projects = sorted(self.projects, reverse=False)
+        self.window.show_quick_panel(self.projects, self.on_done)
 
     def on_done(self, index):
         if index == -1: return
 
         # Change the chosen project as default
         # Split with ") " and get the second project name
-        default_project = projects[index].split(") ")[1]
+        default_project = self.projects[index].split(") ")[1]
         util.switch_project(default_project)
 
         # After project is switch, login will be executed
@@ -1952,7 +2007,7 @@ class UpdateStaticResource(sublime_plugin.WindowCommand):
 
         return True
 
-class RefreshComponentCommand(sublime_plugin.TextCommand):
+class RefreshFileFromServer(sublime_plugin.TextCommand):
     def run(self, view):
         message = "Are you sure you want to continue?"
         if not sublime.ok_cancel_dialog(message, "Refresh This?"): return
@@ -1965,14 +2020,14 @@ class RefreshComponentCommand(sublime_plugin.TextCommand):
         if component_attribute["type"] == "StaticResource":
             processor.handle_refresh_static_resource(component_attribute, file_name)
         else:
-            processor.handle_refresh_component(component_attribute, file_name)
+            processor.handle_refresh_file_from_server(component_attribute, file_name)
 
     def is_enabled(self):
         return util.check_enabled(self.view.file_name())
 
-class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
+class RefreshFilesFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(RefreshSelectedComponentsCommand, self).__init__(*args, **kwargs)
+        super(RefreshFilesFromServer, self).__init__(*args, **kwargs)
 
     def run(self, files):
         message = "Are you sure you really want to continue?"
@@ -1986,7 +2041,7 @@ class RefreshSelectedComponentsCommand(sublime_plugin.WindowCommand):
             if component_attribute["type"] == "StaticResource":
                 processor.handle_refresh_static_resource(component_attribute, file_name)
             else:
-                processor.handle_refresh_component(component_attribute, file_name)
+                processor.handle_refresh_file_from_server(component_attribute, file_name)
 
     def is_visible(self, files):
         if len(files) == 0: return False

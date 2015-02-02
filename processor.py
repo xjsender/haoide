@@ -521,12 +521,22 @@ def handle_destructive_files(dirs_or_files, ignore_folder=True, timeout=120):
     ThreadProgress(api, thread, "Destructing Files", "Destructing Files Succeed")
     handle_thread(thread, timeout)
 
-def handle_deploy_thread(base64_encoded_zip, timeout=120):
+def handle_deploy_thread(base64_encoded_zip, source_org=None, timeout=120):
+    def handle_thread(thread, timeout=120):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+
+        # If source_org is not None, we need to switch project back
+        if settings["switch_back_after_migration"] and source_org:
+            util.switch_project(source_org)
+
     settings = context.get_settings()
     api = MetadataApi(settings)
     thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip, ))
     thread.start()
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
+    handle_thread(thread, timeout)
 
 def handle_cancel_deployment_thread(async_process_id, timeout=120):
     settings = context.get_settings()
@@ -1171,11 +1181,15 @@ def handle_rename_metadata(meta_type, old_name, new_name, timeout=120):
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Rename Metadata", "Rename Metadata Finished")
 
-def handle_retrieve_package(types, extract_to, ignore_package_xml=False, timeout=120):
+def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_xml=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
+
+        # If source_org is not None, we need to switch project back
+        if settings["switch_back_after_migration"] and source_org:
+            util.switch_project(source_org)
         
         # If not succeed, just stop
         if not api.result or not api.result["success"]: return
@@ -1481,7 +1495,7 @@ def handle_diff_with_server(component_attribute, file_name, timeout=120):
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, 'Diff With Server', 'Diff With Server Succeed')
 
-def handle_refresh_component(component_attribute, file_name, timeout=120):
+def handle_refresh_file_from_server(component_attribute, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)

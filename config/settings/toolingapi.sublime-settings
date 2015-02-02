@@ -147,6 +147,9 @@
     // Deprecated, because we want to reuse the cache, so we must keep it
     "keep_config_history" : true,
 
+    // Indicate whether switch project back to original after `deploy` or `retrieve from other server` is executed
+    "switch_back_after_migration": true,
+
     // Bulk API batch size and batch bytes
     // Maximum 10000 rows per batch
     // Maximum 1000000 bytes per batch

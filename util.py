@@ -2215,9 +2215,14 @@ def get_meta_folder(file_name):
     * metadata_folder -- the metadata folder
     """
 
+    return get_folder_and_name(file_name)[0]
+
+def get_folder_and_name(file_name):
     folder, name = os.path.split(file_name)
     src_folder, metadata_folder = os.path.split(folder)
-    return metadata_folder
+    name, extension = name.split(".")
+
+    return (metadata_folder, name)
 
 def get_component_attribute(file_name):
     """

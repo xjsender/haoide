@@ -49,7 +49,7 @@
     {"keys": ["super+alt+t"], "command": "run_test"},
 
     // Refresh current component in edit mode
-    {"keys": ["super+alt+r"], "command": "refresh_component"},
+    {"keys": ["super+alt+r"], "command": "refresh_file_from_server"},
 
     // Execute Rest Test
     {"keys": ["super+e"], "command": "execute_rest_test"},
