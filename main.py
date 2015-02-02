@@ -665,6 +665,9 @@ class RetrieveFileFromOtherServer(sublime_plugin.TextCommand):
             source_org=self.source_org, ignore_package_xml=True)
 
     def is_enabled(self):
+        if not self.view or not self.view.file_name():
+            return False
+            
         self.settings = context.get_settings()
         base, name = os.path.split(self.view.file_name())
         base, folder = os.path.split(base)
