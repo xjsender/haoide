@@ -1305,11 +1305,11 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
                 Printer.get("log").write(util.format_error_message(result))
                 return
 
-            message = "Compile Error for %s: %s at column %s line %s" % (
+            message = "Compile Error for %s: %s at line %s column %s" % (
                 file_base_name, 
                 result["problem"], 
-                result["columnNumber"], 
-                result["lineNumber"]
+                result["lineNumber"],
+                result["columnNumber"]
             )
             Printer.get('log').write(message)
 
@@ -1474,7 +1474,7 @@ def handle_refresh_static_resource(component_attribute, file_name, timeout=120):
     ThreadProgress(api, thread, 'Refresh StaticResource', 'Refresh StaticResource Succeed')
     handle_thread(thread, timeout)
 
-def handle_diff_with_server(component_attribute, file_name, timeout=120):
+def handle_diff_with_server(component_attribute, file_name, source_org=None, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -1487,6 +1487,10 @@ def handle_diff_with_server(component_attribute, file_name, timeout=120):
 
         # Diff Change Compare
         diff.diff_changes(file_name, result)
+
+        # If source_org is not None, we need to switch project back
+        if settings["switch_back_after_migration"] and source_org:
+            util.switch_project(source_org)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
