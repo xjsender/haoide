@@ -109,13 +109,40 @@ class JsonToApex(sublime_plugin.WindowCommand):
 
 class DiffWithServerCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        processor.handle_diff_with_server(self.component_attribute, self.file_name)
+        # Get settings
+        settings = context.get_settings()
+
+        # Keep the source org
+        self.source_org = settings["default_project_name"]
+
+        # Choose the target ORG to deploy
+        self.projects = settings["projects"]
+        self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
+            'Inactive') + ") " + p for p in self.projects]
+        self.projects = sorted(self.projects, reverse=False)
+        sublime.active_window().show_quick_panel(self.projects, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        # Change the chosen project as default
+        # Split with ") " and get the second project name
+        default_project = self.projects[index].split(") ")[1]
+        util.switch_project(default_project)
+
+        component_attribute = util.get_component_attribute(self.file_name)[0]
+
+        # If this component is not exist in chosen project, just stop
+        if not component_attribute:
+            Printer.get("error").write("This component is not exist in chosen project")
+            util.switch_project(self.source_org)
+            return
+
+        processor.handle_diff_with_server(component_attribute, self.file_name, self.source_org)
 
     def is_enabled(self):
         self.file_name = self.view.file_name()
         if not self.file_name: return False
-        self.component_attribute = util.get_component_attribute(self.file_name)[0]
-        if not self.component_attribute: return False
         return True
 
 class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
