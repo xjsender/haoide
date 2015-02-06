@@ -245,18 +245,14 @@ class MetadataApi():
 
         # Output the message if have
         if "messages" in result:
-            if isinstance(result["messages"], dict):
-                message = result["messages"]
+            messages = result["messages"]
+            if isinstance(messages, dict): 
+                messages = [messages]
+            for message in result["messages"]:
                 Printer.get('log').write("[sf:retrieve] %s - %s" % (
                     message["fileName"], 
                     message["problem"]
                 ))
-            elif isinstance(result["messages"], list):
-                for message in result["messages"]:
-                    Printer.get('log').write("[sf:retrieve] %s - %s" % (
-                        message["fileName"], 
-                        message["problem"]
-                    ))
 
         # [sf:retrieve]
         Printer.get('log').write("[sf:retrieve] Finished request %s successfully." % async_process_id)

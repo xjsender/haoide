@@ -5,6 +5,15 @@ Release History
 ---------------
 
 
+Release 2.7.9 (2015-02-06)
+++++++++++++++++++
+* Fix issue #4
+* Fix issue #7
+* Enhancement for ``diff_with_server``, allow diff compare with different project
+* Upgrade ``requests`` to v2.5.1 and disable the InsecureRequestWarning
+* Display line number before column number when ``save_component`` failed
+
+
 Release 2.7.8 (2015-02-02)
 ++++++++++++++++++
 * Rename ``refresh_component`` command to ``refresh_file_from_server``
