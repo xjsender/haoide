@@ -980,6 +980,15 @@ class ToolingApi():
                 return_result["columnNumber"] = 0
                 return_result["lineNumber"] = 0
 
+            # Fix issue github://haoide/issue#7
+            if "problem" in return_result:
+                return_result["problem"] = urllib.parse.unquote(
+                    unescape(return_result["problem"], {
+                        "&apos;": "'", 
+                        "&quot;": '"'
+                    })
+                )
+
             if "line" in return_result:
                 return_result["lineNumber"] = return_result["line"]
                 del return_result["line"]
