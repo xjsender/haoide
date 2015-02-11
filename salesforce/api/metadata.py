@@ -248,7 +248,8 @@ class MetadataApi():
             messages = result["messages"]
             if isinstance(messages, dict): 
                 messages = [messages]
-            for message in result["messages"]:
+
+            for message in messages:
                 Printer.get('log').write("[sf:retrieve] %s - %s" % (
                     message["fileName"], 
                     message["problem"]
