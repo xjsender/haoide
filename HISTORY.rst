@@ -5,6 +5,12 @@ Release History
 ---------------
 
 
+Release 2.8.0 (2015-02-11)
+++++++++++++++++++
+* Fix issue #11, #12
+* Add two commands ``Retrieve All`` and ``Retrieve sObject and Workflow`` in the command palette
+
+
 Release 2.7.9 (2015-02-06)
 ++++++++++++++++++
 * Fix issue #4

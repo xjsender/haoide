@@ -144,8 +144,19 @@
     },
 
     {
-        "caption": "HaoIDE: Retrieve Metadata",
-        "command": "retrieve_metadata"
+        "caption": "HaoIDE: Retrieve All",
+        "command": "retrieve_metadata",
+        "args": {
+            "retrieve_all": true
+        }
+    },
+
+    {
+        "caption": "HaoIDE: Retrieve sObject And Workflow",
+        "command": "retrieve_metadata",
+        "args": {
+            "retrieve_all": false
+        }
     },
 
     {

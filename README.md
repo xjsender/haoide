@@ -193,6 +193,8 @@ By default, the operation of ```Execute Query```, ```Describe sObject```, ```Ger
 + After code is updated, click ```HaoIDE``` > ```Save to Server``` in the context menu or press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>
 + If the saving process failed, the console will be open and automatically hidden in **10** seconds, if you think **10** seconds is not enough to check the error message, you add it up to more by setting ```delay_seconds_for_hidden_output_panel_when_failed```
 
+This command just supports ```ApexClass```, ```ApexPage```, ```ApexComponent``` and ```ApexTrigger```, not support ```StaticResource```, if you want to use it to update static resource, you should use ```Deploy to Server``` to see ```[Update StaticResource](#update-static-resource)``` Part in this page
+
 ## Save multiple components
 Select the files in the sidebar, click ``haoide`` > ``Deploy Files to Server`` in the sidebar menu.
 
@@ -301,7 +303,7 @@ see [Retrieve Package.xml Demo](https://raw.githubusercontent.com/xjsender/Subli
 Actually, you can open any package.xml file in the sublime and click ``haoide`` > ``Retrieve Package.xml`` command in the context menu to retrieve specified metadata from default project.
 
 ## Update Static Resource
-Choose the resource that you need to update in the side bar, firstly, you need to click ``haoide`` > ``Extract To Here`` to extract it to sub folder of ``staticresources``, after you made some change in the extracted folder, choose the extracted folder name and click ``haoide`` > ``Upload StaticResource`` to save it to server.
+Choose the resource that you need to update in the side bar, firstly, you need to click ``haoide`` > ``Extract To Here`` to extract it to sub folder of ``staticresources``, after you made some change in the extracted folder, choose the extracted folder name and click ``haoide`` > ``Update StaticResource`` in the context menu to save it to server.
 
 You can even use this command to extract any other zip file not limited to Salesforce StaticResource.
 
