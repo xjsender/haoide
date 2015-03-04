@@ -5,6 +5,12 @@ Release History
 ---------------
 
 
+Release 2.8.1 (2015-03-05)
+++++++++++++++++++
+* Fix issue #6
+* Enhancement for issue #13
+
+
 Release 2.8.0 (2015-02-11)
 ++++++++++++++++++
 * Fix issue #11, #12
