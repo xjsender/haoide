@@ -464,7 +464,7 @@ def handle_reload_sobjects_completions(timeout=120):
                 sobjects.append(sobject)
         
         maximum_concurrent_connections = settings["maximum_concurrent_connections"]
-        chunked_sobjects = list(util.chunks(sobjects, math.ceil(len(sobjects) / maximum_concurrent_connections)))
+        chunked_sobjects = util.list_chunks(sobjects, math.ceil(len(sobjects) / maximum_concurrent_connections))
 
         for sl in chunked_sobjects:
             api = ToolingApi(settings)
@@ -537,6 +537,26 @@ def handle_deploy_thread(base64_encoded_zip, source_org=None, timeout=120):
     thread.start()
     ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
     handle_thread(thread, timeout)
+
+def handle_track_all_debug_logs_thread(users, timeout=120):
+    settings = context.get_settings()
+    api = ToolingApi(settings)
+
+    # Divide users into pieces of dict
+    pieces = []
+    maximum_concurrent_connections = settings["maximum_concurrent_connections"]
+    split = math.ceil(len(users) / maximum_concurrent_connections)
+    for item in util.dict_chunks(users, split):
+        pieces.append(item)
+    
+    threads = []
+    for users in pieces:
+        api = ToolingApi(settings)
+        thread = threading.Thread(target=api.create_trace_flags, args=(users, ))
+        thread.start()
+        threads.append(thread)
+
+    ThreadsProgress(threads, "Creating Trace Flags", "Creating Trace Flags Finished")
 
 def handle_cancel_deployment_thread(async_process_id, timeout=120):
     settings = context.get_settings()

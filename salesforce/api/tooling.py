@@ -620,6 +620,28 @@ class ToolingApi():
         self.result = describe_result
         return self.result
 
+    def create_trace_flags(self, users):
+        """ Create Debug Log Trace by users
+
+        Arguments:
+        
+        * users -- Required; {
+            "User Name": "User Id",
+            ...
+        }
+        """
+        for user_name in users:
+            result = self.create_trace_flag(users[user_name])
+
+            user_name = user_name.split(" => ")[0]
+            message = '%s to create trace flag for "%s", due to "%s"' % (
+                "Succeed" if result["success"] else "Failed", 
+                user_name,
+                result["message"] if "message" in result else "Unknown Reason"
+            )
+
+            Printer.get("log").write(message)
+
     def create_trace_flag(self, traced_entity_id=None):
         """ Create Debug Log Trace by traced_entity_id
 

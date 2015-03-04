@@ -1194,9 +1194,19 @@ class RunTestCommand(sublime_plugin.TextCommand):
 
         return True
 
-class TrackDebugLogCommand(sublime_plugin.WindowCommand):
+class TrackAllDebugLogs(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(TrackDebugLogCommand, self).__init__(*args, **kwargs)
+        super(TrackAllDebugLogs, self).__init__(*args, **kwargs)
+
+    def run(self):
+        users = processor.populate_users()
+        if not users: return # Network Issue Cause
+
+        processor.handle_track_all_debug_logs_thread(users)
+
+class TrackDebugLog(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(TrackDebugLog, self).__init__(*args, **kwargs)
 
     def run(self, track_self=False):
         if track_self:

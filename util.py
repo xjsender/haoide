@@ -325,11 +325,11 @@ def convert_15_to_18(the15Id):
     }
 
     chars = [cmap["".join(["1" if c.isupper() else "0" for c in char[::-1]])] \
-        for char in list(chunks(the15Id, 5))]
+        for char in list_chunks(the15Id, 5)]
 
     return the15Id + "".join(chars)
 
-def chunks(l, n):
+def list_chunks(l, n):
     """ Yield successive n-sized chunks from l.
 
     Arguments:
@@ -340,7 +340,11 @@ def chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i+n]
 
-    return list(l)
+def dict_chunks(data, SIZE=10000):
+    from itertools import islice
+    it = iter(data)
+    for i in range(0, len(data), SIZE):
+        yield {k:data[k] for k in islice(it, SIZE)}
 
 def open_with_browser(show_url, use_default_chrome=True):
     """ Utility for open file in browser

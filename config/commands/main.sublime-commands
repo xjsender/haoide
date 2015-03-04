@@ -221,6 +221,11 @@
     },
 
     {
+        "caption": "HaoIDE: Track All Debug Logs",
+        "command": "track_all_debug_logs"
+    },
+
+    {
         "caption": "HaoIDE: Track Self Debug Log",
         "command": "track_debug_log",
         "args": {

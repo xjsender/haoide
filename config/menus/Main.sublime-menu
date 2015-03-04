@@ -182,6 +182,11 @@
                     },
 
                     {
+                        "caption": "Track All Debug Logs",
+                        "command": "track_all_debug_logs"
+                    },
+
+                    {
                         "id": "runonetest",
                         "caption": "Run Test",
                         "command": "run_one_test"
