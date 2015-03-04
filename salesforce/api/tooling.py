@@ -633,29 +633,13 @@ class ToolingApi():
             self.login()
             traced_entity_id = self.session["user_id"]
 
-        # Check whether traced user already has trace flag
-        # If not, just create it for him/her
-        query = "SELECT Id, ExpirationDate FROM TraceFlag " +\
-                "WHERE TracedEntityId = '%s'" % (traced_entity_id)
-        result = self.query(query, True)
-
-        # Exception Process
-        if not result["success"]:
-            self.result = result
-            return self.result
-
-        # If trace flag is exist, just delete it
-        if result["totalSize"] > 0:
-            self.delete("/tooling/sobjects/TraceFlag/" + result["records"][0]["Id"])
-            return self.create_trace_flag(traced_entity_id)
-
         # Create Trace Flag
         trace_flag = self.settings["trace_flag"]
         trace_flag["TracedEntityId"] = traced_entity_id
 
         # We must set the expiration date to next day, 
         # otherwise, the debug log record will not be created 
-        expiration_date = datetime.datetime.now() + datetime.timedelta(minutes=120)
+        expiration_date = datetime.datetime.now() + datetime.timedelta(minutes=30)
         trace_flag["ExpirationDate"] = expiration_date.isoformat()
         post_url = "/tooling/sobjects/TraceFlag"
         result = self.post(post_url, trace_flag)
