@@ -15,6 +15,6 @@ System.schedule(jobName, sch, schClass);$0
 ]]></content>
     Optional: Set a tabTrigger to define how to trigger the snippet
     <tabTrigger>ts</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>Test Schedule</description>
 </snippet>

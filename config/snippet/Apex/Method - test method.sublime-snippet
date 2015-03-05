@@ -5,6 +5,6 @@ public static testMethod void $1(){
 }
 ]]></content>
     <tabTrigger>tm</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>-->test method</description>
 </snippet>

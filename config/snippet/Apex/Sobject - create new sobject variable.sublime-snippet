@@ -4,7 +4,7 @@ $1 $2 = new $1();
 $0
 ]]></content>
     <tabTrigger>so</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>create sobject</description>
 </snippet>
 

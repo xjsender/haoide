@@ -4,7 +4,7 @@ $1 = [$2];
 $0
 ]]></content>
     <tabTrigger>sob</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>sobject bracket</description>
 </snippet>
 

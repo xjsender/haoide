@@ -5,6 +5,6 @@ if (trigger.isAfter && trigger.isUpdate) {
 }
 ]]></content>
     <tabTrigger>au</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>after update</description>
 </snippet>

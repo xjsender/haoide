@@ -9,6 +9,6 @@ else {
 $0
 ]]></content>
     <tabTrigger>ife</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>If Else</description>
 </snippet>

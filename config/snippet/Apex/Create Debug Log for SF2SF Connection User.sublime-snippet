@@ -4,6 +4,6 @@ https://XXX.salesforce.com/p/setup/layout/AddApexDebugLogUser?retURL=%2Fsetup%2F
 &UserLookupInput=Connection%20User
 ]]></content>
     <tabTrigger>sf2sf</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>Create Debug Log for SF2SF Connection User</description>
 </snippet>

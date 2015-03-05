@@ -2,12 +2,12 @@
     <content><![CDATA[
 /*
  * Name                 : Prepare Test Data
- * Object               : 
- * Requirement          : 
- * Refer classes        : 
- * Author               : 
- * Create Date          : 
- * Modify History       : 
+ * Object               :
+ * Requirement          :
+ * Refer classes        :
+ * Author               :
+ * Create Date          :
+ * Modify History       :
  */
 @isTest
 Public class UtilTestData {
@@ -16,7 +16,7 @@ Public class UtilTestData {
     private static Map<String, Id> profileMap;
 
     public final static Integer BATCH_SIZE = 101;
-    
+
     // Initiate recordTypeMap
     private static Map<String, Id> getRecordTypeMapInstance() {
         if (recordTypeMap == null) {
@@ -25,10 +25,10 @@ Public class UtilTestData {
                 recordTypeMap.put(rt.Name + rt.SobjectType, rt.Id);
             }
         }
-        
+
         return recordTypeMap;
     }
-    
+
     // Initiate roleMap
     private static Map<String, Id> getUserRoleMapInstance() {
         if (roleMap == null) {
@@ -37,10 +37,10 @@ Public class UtilTestData {
                 roleMap.put(role.Name, role.Id);
             }
         }
-        
+
         return roleMap;
     }
-    
+
     // Initiate profileMap
     private static Map<String, Id> getProfileMapInstance() {
         if (profileMap == null) {
@@ -49,20 +49,20 @@ Public class UtilTestData {
                 profileMap.put(prof.Name, prof.Id);
             }
         }
-        
+
         return profileMap;
     }
-    
+
     // Get UserRoleId by Role Name
     private static Id getUserRoleId(String roleName) {
         return getUserRoleMapInstance().get(roleName);
     }
-    
+
     // Get ProfileId by Profile Name
     private static Id getProfileId(String profileName) {
         return getProfileMapInstance().get(profileName);
     }
-    
+
     // Create Test User
     private static User createUser(Id userRoleId, Id profileId) {
         User usr = new User();
@@ -76,20 +76,20 @@ Public class UtilTestData {
         usr.EmailEncodingKey = 'UTF-8';
         usr.LanguageLocaleKey = 'en_US';
         usr.localesidkey='en_US';
-        
+
         insert usr;
         return usr;
     }
 
     // Create Test User by Role Name and Profile Name
     public static User createUser(String roleName, String profileName) {
-        return createUser(getUserRoleId(roleName), 
+        return createUser(getUserRoleId(roleName),
                           getProfileId(profileName));
     }
 
     public static Sobject createSobject(Sobject so, String recordTypeName) {
         so = initiateSobject(so, recordTypeName);
-        
+
         insert so;
         return so;
     }
@@ -100,7 +100,7 @@ Public class UtilTestData {
         insert sos;
         return sos;
     }
-    
+
     // Initiate sobjects which number is BATCH_SIZE
     public static List<Sobject> initiateSobjects(List<Sobject> sos, String recordTypeName) {
         for (Sobject so : sos) {
@@ -109,7 +109,7 @@ Public class UtilTestData {
 
         return sos;
     }
-    
+
     public static Sobject initiateSobject(Sobject so, String recordTypeName) {
         if (so instanceof Account) {
             so = initiateAccount((Account) acc);
@@ -117,16 +117,16 @@ Public class UtilTestData {
         else if (so instanceof Contact) {
             so = initiateContact((Contact) so);
         }
-        
+
         return so;
     }
-    
+
     // Create Unsaved Account
     private static Account initiateAccount(Account acc) {
         acc.Name = 'Test';
         acc.Type = acc.Type == null ? '0=Company' : acc.Type;
-        acc.Phone = acc.Phone == null ? '010-00000000' : acc.Phone; 
-        
+        acc.Phone = acc.Phone == null ? '010-00000000' : acc.Phone;
+
         return acc;
     }
 
@@ -134,12 +134,12 @@ Public class UtilTestData {
     private static Contact initiateContact(Contact con) {
         con.FirstName = 'Someone';
         con.LastName = 'Benz';
-        
+
         return con;
     }
 }
 ]]></content>
     <tabTrigger>td</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>test data utility</description>
 </snippet>

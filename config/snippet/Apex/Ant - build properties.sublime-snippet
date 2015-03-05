@@ -23,6 +23,6 @@ sf.target.serverurl = https://${6:test}.salesforce.com
 #
 ]]></content>
     <tabTrigger>bp</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>build.properties</description>
 </snippet>

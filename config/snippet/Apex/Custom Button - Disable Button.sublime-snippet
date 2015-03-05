@@ -4,5 +4,5 @@ this.disabled = true;
 this.className = "btnDisabled";
 ]]></content>
     <tabTrigger>disable button</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
 </snippet>

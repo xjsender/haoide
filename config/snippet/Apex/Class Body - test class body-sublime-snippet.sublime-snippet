@@ -3,11 +3,11 @@
 /*
  * Name                 : ${1:Class-Name-or-Trigger-Name}Test
  * Object               : ${2:Sobject-Name}
- * Requirement          : 
- * Refer classes        : 
- * Author               : 
- * Create Date          : 
- * Modify History       : 
+ * Requirement          :
+ * Refer classes        :
+ * Author               :
+ * Create Date          :
+ * Modify History       :
  *
  */
 @isTest
@@ -18,6 +18,6 @@ private class ${1:Class-Name-or-Trigger-Name}Test {
 }
 ]]></content>
     <tabTrigger>tc</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>test class</description>
 </snippet>
