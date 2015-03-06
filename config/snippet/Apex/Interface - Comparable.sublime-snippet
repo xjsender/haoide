@@ -3,16 +3,16 @@
 public class ${1} implements Comparable {
     ${0}
     public ${1}() {
-        
+
     }
 
     // Implement the compareTo() method
     global Integer compareTo(Object compareTo) {
-        
+
     }
 }
 ]]></content>
     <tabTrigger>ci</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>Comparable Interface</description>
 </snippet>

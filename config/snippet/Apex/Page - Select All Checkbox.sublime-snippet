@@ -2,9 +2,9 @@
     <content><![CDATA[
 <script>
     function checkAll(obj,receivedInputID){
-        var inputCheckBox = document.getElementsByTagName("input");                  
-        for (var i=0; i<inputCheckBox.length; i++) {          
-            if (inputCheckBox[i].id.indexOf(receivedInputID) != -1) {    
+        var inputCheckBox = document.getElementsByTagName("input");
+        for (var i=0; i<inputCheckBox.length; i++) {
+            if (inputCheckBox[i].id.indexOf(receivedInputID) != -1) {
                 if (!inputCheckBox[i].disabled) {
                     inputCheckBox[i].checked = obj.checked;
                 }
@@ -23,6 +23,6 @@
 </apex:pageBlockTable>
 ]]></content>
     <tabTrigger>jscheckallbox</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>Select All Checkbox</description>
 </snippet>

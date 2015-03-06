@@ -2,10 +2,10 @@
     <content><![CDATA[
 do {
    $1
-} 
+}
 while (${2:CONDITION});
 ]]></content>
     <tabTrigger>dw</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>do while</description>
 </snippet>

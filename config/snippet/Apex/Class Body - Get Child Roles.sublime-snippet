@@ -14,7 +14,7 @@ public class UserRoleUtils {
             FROM UserRole
             WHERE ParentRoleId IN :roles
         ];
-        
+
         childRoles.addAll(childs);
         if (childs.size() > 0) {
             populateChildRoles(childs);
@@ -23,6 +23,6 @@ public class UserRoleUtils {
 }
 ]]></content>
     <tabTrigger>childRoles</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>Get All Child Roles</description>
 </snippet>

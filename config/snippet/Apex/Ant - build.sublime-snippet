@@ -6,32 +6,32 @@
     <property name="mydir" value="\${orgNickName}-\${DSTAMP}"/>
     <property file="build.properties"/>
     <property environment="env"/>
-    
+
     <target name="retrieve">
         <echo> mydir = ${mydir}</echo>
         <mkdir dir="\${mydir}"/>
-        <sf:retrieve 
-            username="\${sf.source.username}" 
-            password="\${sf.source.password}" 
-            serverurl="\${sf.source.serverurl}" 
-            retrieveTarget="\${mydir}"  
-            unpackaged="package.xml" 
-            pollWaitMillis="10000" 
+        <sf:retrieve
+            username="\${sf.source.username}"
+            password="\${sf.source.password}"
+            serverurl="\${sf.source.serverurl}"
+            retrieveTarget="\${mydir}"
+            unpackaged="package.xml"
+            pollWaitMillis="10000"
             maxPoll="25"/>
     </target>
-    
+
     <target name="deploy" depends="retrieve">
-        <sf:deploy 
-            username="\${sf.target.username}" 
-            password="\${sf.target.password}" 
-            serverurl="\${sf.target.serverurl}" 
-            deployRoot="\${mydir}" 
-            checkOnly="true" 
+        <sf:deploy
+            username="\${sf.target.username}"
+            password="\${sf.target.password}"
+            serverurl="\${sf.target.serverurl}"
+            deployRoot="\${mydir}"
+            checkOnly="true"
             apiVersion="29.0"/>
     </target>
 </project>
 ]]></content>
     <tabTrigger>bu</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>build.xml</description>
 </snippet>

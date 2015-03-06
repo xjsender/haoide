@@ -10,6 +10,6 @@
 </script>
 ]]></content>
     <tabTrigger>rerender form</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>ReRender Form in JS</description>
 </snippet>
