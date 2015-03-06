@@ -2400,9 +2400,10 @@ def get_metadata_elements(metadata_dir):
     elements = []
     for parent, dirnames, filenames in os.walk(metadata_dir):
         for _file in filenames:
+            print (_file)
             if _file.endswith("-meta.xml"): continue
-            base, name = os.path.split(_file)
-            name, extension = name.split(".")
+            base, full_name = os.path.split(_file)
+            name = full_name[:full_name.rfind(".")]
             elements.append(name)
 
     return elements
