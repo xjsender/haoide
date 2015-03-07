@@ -5,6 +5,6 @@ for ($1 : $2) {
 }
 ]]></content>
     <tabTrigger>fe</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>For Iteration</description>
 </snippet>

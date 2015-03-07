@@ -5,6 +5,6 @@ if (trigger.isBefore && trigger.isDelete) {
 }
 ]]></content>
     <tabTrigger>bd</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>before delete</description>
 </snippet>

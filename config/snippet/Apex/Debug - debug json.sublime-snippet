@@ -3,6 +3,6 @@
 System.debug('*** $1: ' + JSON.serializePretty($1) + '');$0
 ]]></content>
     <tabTrigger>dbj</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>json debug</description>
 </snippet>

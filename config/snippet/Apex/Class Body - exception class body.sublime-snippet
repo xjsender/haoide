@@ -2,12 +2,12 @@
     <content><![CDATA[
 /*
  * Name                 : $1Exception
- * Object               : 
- * Requirement          : 
- * Refer classes        : 
- * Author               : 
- * Create Date          : 
- * Modify History       : 
+ * Object               :
+ * Requirement          :
+ * Refer classes        :
+ * Author               :
+ * Create Date          :
+ * Modify History       :
  *
  */
 public class $1Exception extends Exception {
@@ -15,6 +15,6 @@ public class $1Exception extends Exception {
 }
 ]]></content>
     <tabTrigger>exc</tabTrigger>
-    <scope>source.java</scope>
+    <scope>source.java, source.apex</scope>
     <description>exception class</description>
 </snippet>
