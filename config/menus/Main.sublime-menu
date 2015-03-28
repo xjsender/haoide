@@ -227,6 +227,11 @@
                 "caption": "Utilities",
                 "children": [
                     {
+                        "id": "heorku",
+                        "caption": "Heroku",
+                        "command": "heroku"
+                    },
+                    {
                         "id": "convert15idto18id",
                         "caption": "Convert 15 Id to 18 Id",
                         "command": "convert15_id218_id"
@@ -477,7 +482,7 @@
                 "caption": "Settings",
                 "children": [
                     {
-                        "caption": "Toggle Metdata Objects",
+                        "caption": "Toggle Metadata Objects",
                         "command": "toggle_metadata_objects"
                     },
 

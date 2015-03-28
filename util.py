@@ -2224,7 +2224,10 @@ def get_meta_folder(file_name):
 def get_folder_and_name(file_name):
     folder, name = os.path.split(file_name)
     src_folder, metadata_folder = os.path.split(folder)
-    name, extension = name.split(".")
+    try:
+        name, extension = name.split(".")
+    except:
+        name, extension = name, ""
 
     return (metadata_folder, name)
 
@@ -2400,7 +2403,6 @@ def get_metadata_elements(metadata_dir):
     elements = []
     for parent, dirnames, filenames in os.walk(metadata_dir):
         for _file in filenames:
-            print (_file)
             if _file.endswith("-meta.xml"): continue
             base, full_name = os.path.split(_file)
             name = full_name[:full_name.rfind(".")]

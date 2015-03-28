@@ -23,6 +23,22 @@ from .salesforce import xmltodict
 from .salesforce import message
 
 
+class Heroku(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(Heroku, self).__init__(*args, **kwargs)
+
+    def run(self):
+        settings = context.get_settings()
+        session = util.get_session_info(settings)
+        if not session:
+            Printer.get("error").write("Please Login Firstly")
+            return
+        heroku_host = "https://haoku.herokuapp.com"
+        util.open_with_browser("%s?accessToken=%s&instanceUrl=%s&userName=%s" % (
+            heroku_host, session["session_id"], 
+            session["instance_url"], settings["username"]
+        ))
+
 class JsonPretty(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(JsonPretty, self).__init__(*args, **kwargs)
@@ -2052,15 +2068,15 @@ class RefreshFileFromServer(sublime_plugin.TextCommand):
         message = "Are you sure you want to continue?"
         if not sublime.ok_cancel_dialog(message, "Refresh This?"): return
     
-        # Get file_name and component_attribute
-        file_name = self.view.file_name()
-        component_attribute = util.get_component_attribute(file_name)[0]
+        # Get file_full_name and component_attribute
+        file_full_name = self.view.file_name()
+        component_attribute = util.get_component_attribute(file_full_name)[0]
         
         # Handle Refresh Current Component
         if component_attribute["type"] == "StaticResource":
-            processor.handle_refresh_static_resource(component_attribute, file_name)
+            processor.handle_refresh_static_resource(component_attribute, file_full_name)
         else:
-            processor.handle_refresh_file_from_server(component_attribute, file_name)
+            processor.handle_refresh_file_from_server(component_attribute, file_full_name)
 
     def is_enabled(self):
         return util.check_enabled(self.view.file_name())

@@ -902,7 +902,7 @@ class ToolingApi():
             container_id = result.get("id")
         else:
             # If DUPLICATE Container Id, just delete it and restart this function
-            if result["errorCode"] == "DUPLICATE_VALUE":
+            if "errorCode" in result and result["errorCode"] == "DUPLICATE_VALUE":
                 Printer.get('log').write("Start to delete the duplicate MetadataContainerId")
                 error_message = result["message"]
                 container_id = error_message[error_message.rindex("1dc"): len(error_message)]
@@ -916,6 +916,9 @@ class ToolingApi():
                 # We can't reuse the container_id which caused error
                 # Post Request to get MetadataContainerId
                 return self.save_component(component_attribute, body, is_check_only)
+            else:
+                self.result = result
+                return self.result
 
         # Post ApexComponentMember
         data = {

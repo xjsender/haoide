@@ -1322,7 +1322,7 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
         elif "success" in result and not result["success"]:
             # Maybe network issue
             if "problem" not in result:
-                Printer.get("log").write(util.format_error_message(result))
+                Printer.get("error").write("Please check your network connection")
                 return
 
             message = "Compile Error for %s: %s at line %s column %s" % (

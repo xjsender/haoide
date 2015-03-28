@@ -1,9 +1,8 @@
 {
     "name": "haoide",
-    "version": "2.8.1",
+    "version": "2.8.2",
     "description": "haoide is a Sublime Text 3 plugin for Salesforce and used for swift development on Force.com",
     "author": "Hao Liu",
     "email": "mouse.mliu@gmail.com",
-    "homepage": "https://github.com/xjsender/haoide",
-    "last_modified_date": "2015-03-05"
+    "homepage": "https://github.com/xjsender/haoide"
 }
