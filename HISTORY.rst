@@ -5,6 +5,12 @@ Release History
 ---------------
 
 
+Release 2.8.3 (2015-04-02)
+++++++++++++++++++
+* If no CRUD privilege on profile object, just leave blank in the output csv
+* Add field FLS export feature, it's a wonderful feature for document
+
+
 Release 2.8.2 (2015-03-28)
 ++++++++++++++++++
 * Fix package.xml completion bug if file name contains multiple dot

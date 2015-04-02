@@ -2425,6 +2425,7 @@ def export_profile_settings():
     profile_settings = {}
     sobject_names = []
     tab_names = []
+    sobject_fields = {}
     permission_names = []
     for profile in profiles:
         # Escape profile name, for example, 
@@ -2458,6 +2459,29 @@ def export_profile_settings():
         # Parsing tabVisibilities as {}
         if "recordTypeVisibilities" in result:
             pass
+
+        # Parsing fieldPermission as {}
+        if "fieldPermissions" in result:
+            field_permissions = {}
+
+            fps = result["fieldPermissions"];
+            if isinstance(fps, dict): fps = [fps]
+
+            for fp in fps:
+                # Parse the field
+                sobject, field = fp["field"].split(".")
+
+                # Keep object => [fields] dict
+                if sobject in sobject_fields:
+                    if field not in sobject_fields[sobject]:
+                        sobject_fields[sobject].append(field)
+                else:
+                    sobject_fields[sobject] = [field]
+
+                # Parse fields to field_permissions
+                field_permissions[fp["field"]] = fp
+
+            profile_settings[unquoted_profile]["fieldPermissions"] = field_permissions
 
         # Parsing tabVisibilities as {"tabName1": "visibility", "tabName2": "Visibility"}
         if "tabVisibilities" in result:
@@ -2533,13 +2557,13 @@ def export_profile_settings():
                 if sobject in profile_settings[profile]["objectPermissions"]:
                     object_permission = profile_settings[profile]["objectPermissions"][sobject]
                     for crud in cruds:
-                        rows.append("√" if object_permission[crud] == "true" else "x")
+                        rows.append("√" if object_permission[crud] == "true" else "")
                 else:
                     for crud in cruds:
-                        rows.append("x")
+                        rows.append("")
             else:
                 for crud in cruds:
-                    rows.append("x")
+                    rows.append("")
 
         all_rows.append(",".join(rows))
 
@@ -2595,12 +2619,59 @@ def export_profile_settings():
                 if profile_settings[profile]["userPermissions"][permission_name] == "true":
                     rows.append("√")
                 else:
-                    rows.append("x")
+                    rows.append("")
             else:
-                rows.append("x")
+                rows.append("")
 
         all_rows.append(",".join(rows))
 
     Printer.get("log").write("Writing profile user permission to "+outputdir)
     with open(outputdir+"/UserPermissions.csv", "wb") as fp:
+        fp.write("\n".join(all_rows).encode("utf-8"))
+
+    #########################################
+    # 4. Export Field Level Security
+    #########################################
+    # Define object CRUD
+    rus = [
+        "readable", "editable"
+    ]
+
+    # Define the column that contains profile
+    Printer.get("log").write("Generating csv content for profile field level security")
+    profile_headers = ["Object", "Field"]
+    for profile in profiles:
+        profile_headers.append(profile)
+        for i in range(len(rus) - 1):
+            profile_headers.append("")
+
+    # Define the column
+    ru_headers = ["", ""]
+    for profile in profiles:
+        for ru in rus:
+            ru_headers.append(ru.capitalize())
+
+    all_rows = [",".join(profile_headers), ",".join(ru_headers)]
+    for sobject in sorted(sobject_fields.keys()):
+        for field in sobject_fields[sobject]:
+            rows = [sobject, field]
+            object_field = "%s.%s" % (sobject, field)
+            for profile in profiles:
+                if object_field in profile_settings[profile]["fieldPermissions"]:
+                    field_permission = profile_settings[profile]["fieldPermissions"][object_field]
+                    for ru in rus:
+                        rows.append("√" if field_permission[ru] == "true" else "")
+                else:
+                    for ru in rus:
+                        rows.append("")
+
+            # Every field is separated line
+            all_rows.append(",".join(rows))
+
+    outputdir = settings["workspace"]+ "/.export/profile"
+    if not os.path.exists(outputdir):
+        os.makedirs(outputdir)
+
+    Printer.get("log").write("Writing profile object security to "+outputdir)
+    with open(outputdir+"/FieldLevelSecurity.csv", "wb") as fp:
         fp.write("\n".join(all_rows).encode("utf-8"))
