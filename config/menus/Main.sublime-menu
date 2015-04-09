@@ -227,9 +227,18 @@
                 "caption": "Utilities",
                 "children": [
                     {
-                        "id": "heorku",
-                        "caption": "Heroku",
-                        "command": "heroku"
+                        "caption": "Haoku Query",
+                        "command": "haoku", 
+                        "args": {
+                            "router": "query"
+                        }
+                    },
+                    {
+                        "caption": "Haoku Rest",
+                        "command": "haoku", 
+                        "args": {
+                            "router": "rest"
+                        }
                     },
                     {
                         "id": "convert15idto18id",

@@ -116,6 +116,7 @@ def get_settings():
     settings["disable_relationship_completion"] = s.get("disable_relationship_completion", False)
     settings["disable_soql_field_completion"] = s.get("disable_soql_field_completion", False)
     settings["display_field_name_and_label"] = s.get("display_field_name_and_label", True)
+    settings["disable_html_completion"] = s.get("disable_html_completion", True)
     settings["allowed_sobjects"] = s.get("allowed_sobjects", [])
 
     # Bulk Api batch size and batch bytes

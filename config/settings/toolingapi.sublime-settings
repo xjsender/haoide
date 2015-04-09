@@ -140,6 +140,11 @@
     // If you change this setting, you need to reload active cache to ensure it work
     "display_field_name_and_label" : true,
 
+    // Indicate whether disable html completion, 
+    // Because sublime text has the default html completion code,
+    // so this feature is set to true by default
+    "disable_html_completion": true,
+
     // Indicate whether keep execute_anonymous, query and run test history to local
     "keep_operation_history" : true,
 
@@ -422,7 +427,7 @@
             "inFolder": "false",
             "metaFile": "false",
             "xmlName": "AuraDefinitionBundle",
-            "subscribe": true
+            "subscribe": false
         }, {
             "directoryName": "components",
             "inFolder": "false",

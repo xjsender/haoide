@@ -362,80 +362,6 @@ def open_with_browser(show_url, use_default_chrome=True):
         webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
         webbrowser.get('chrome').open_new_tab(show_url)
 
-def advance_to_first_non_white_space_on_line(view, pt):
-    while True:
-        c = view.substr(pt)
-        if c == " " or c == "\t":
-            pt += 1
-        else:
-            break
-
-    return pt
-
-def has_non_white_space_on_line(view, pt):
-    while True:
-        c = view.substr(pt)
-        if c == " " or c == "\t":
-            pt += 1
-        else:
-            return c != "\n"
-
-def build_comment_data(view, pt):
-    shell_vars = view.meta_info("shellVariables", pt)
-    if not shell_vars:
-        return ([], [])
-
-    # transform the list of dicts into a single dict
-    all_vars = {}
-    for v in shell_vars:
-        if 'name' in v and 'value' in v:
-            all_vars[v['name']] = v['value']
-
-    line_comments = []
-    block_comments = []
-
-    # transform the dict into a single array of valid comments
-    suffixes = [""] + ["_" + str(i) for i in range(1, 10)]
-    for suffix in suffixes:
-        start = all_vars.setdefault("TM_COMMENT_START" + suffix)
-        end = all_vars.setdefault("TM_COMMENT_END" + suffix)
-        mode = all_vars.setdefault("TM_COMMENT_MODE" + suffix)
-        disable_indent = all_vars.setdefault("TM_COMMENT_DISABLE_INDENT" + suffix)
-
-        if start and end:
-            block_comments.append((start, end, disable_indent == 'yes'))
-            block_comments.append((start.strip(), end.strip(), disable_indent == 'yes'))
-        elif start:
-            line_comments.append((start, disable_indent == 'yes'))
-            line_comments.append((start.strip(), disable_indent == 'yes'))
-
-    return (line_comments, block_comments)
-
-def is_entirely_line_commented(view, comment_data, region):
-    (line_comments, block_comments) = comment_data
-
-    start_positions = [advance_to_first_non_white_space_on_line(view, r.begin())
-        for r in view.lines(region)]
-
-    start_positions = list(filter(lambda p: has_non_white_space_on_line(view, p),
-        start_positions))
-
-    if len(start_positions) == 0:
-        return False
-
-    for pos in start_positions:
-        found_line_comment = False
-        for c in line_comments:
-            (start, disable_indent) = c
-            comment_region = sublime.Region(pos,
-                pos + len(start))
-            if view.substr(comment_region) == start:
-                found_line_comment = True
-        if not found_line_comment:
-            return False
-
-    return True
-
 def get_variable_type(view, pt, pattern):
     """Return the matched soql region
 
@@ -447,18 +373,33 @@ def get_variable_type(view, pt, pattern):
     """
     # Get the matched variable type
     matched_regions = view.find_all(pattern, sublime.IGNORECASE)
-    variable_type = ""
 
-    comment_data = build_comment_data(view, pt)
-    match_region = None
-    for match_region in matched_regions:
-        # Skip comment line
-        match_str = view.substr(match_region)
-        is_comment = is_entirely_line_commented(view, comment_data, match_region)
-        if not is_comment: break
+    # It must have lots of matched
+    row_region = {}
+    for mr in matched_regions:
+        row, col = view.rowcol(mr.begin())
+        row_region[row] = mr
 
-    if not match_region: return ""
-    matched_block = view.substr(match_region).strip()
+    # Get the row, col of cursor
+    cursor_row, cursor_col = view.rowcol(pt)
+
+    # Choose the nearest matched region
+    # For example, rows of matched regions are 1, 3, 14, 17
+    # cursor row is 15, so we choose the region of 14
+    rows = list(row_region.keys())
+    rows.append(cursor_row)
+    rows = sorted(rows)
+    cursor_index = rows.index(cursor_row)
+
+    # If no matched region, just set it as none
+    if cursor_index == 0:
+        matched_region = None
+    # If lots of matched regions, choose the previous one
+    else:
+        matched_region = matched_regions[cursor_index - 1]
+
+    if not matched_region: return ""
+    matched_block = view.substr(matched_region).strip()
     
     # If list, map, set
     if "<" in matched_block and ">" in matched_block:
@@ -949,12 +890,16 @@ def build_deploy_package(files):
     package_xml_content = format_xml(package_xml_content)
 
     # Write package content to .package path
-    package_xml_dir = settings["workspace"]+"/.deploy"
-    if not os.path.exists(package_xml_dir): os.makedirs(package_xml_dir)
-    time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
-    package_xml_dir = package_xml_dir + "/package-%s.xml" % time_stamp
-    open(package_xml_dir, "wb").write(package_xml_content)
-    zf.write(package_xml_dir, "package.xml")
+    try:
+        package_xml_dir = settings["workspace"]+"/.deploy"
+        if not os.path.exists(package_xml_dir): os.makedirs(package_xml_dir)
+        time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
+        package_xml_dir = package_xml_dir + "/package-%s.xml" % time_stamp
+        open(package_xml_dir, "wb").write(package_xml_content)
+        zf.write(package_xml_dir, "package.xml")
+    except Exception as ex:
+        if settings["debug_mode"]:
+            print ('When keep package.xml, encounter error: %s' % str(ex))
 
     # Close zip input stream
     zf.close()

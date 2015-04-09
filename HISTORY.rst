@@ -5,6 +5,21 @@ Release History
 ---------------
 
 
+Release 2.8.4 (2015-04-09)
+++++++++++++++++++
+* Add error popup display for latest version of sublime
+* Add a new settings ``disable_html_completion`` to disable html completion
+* Set default value of ``disable_html_completion`` as true because of conflict with sublime
+* Optimize component attribute completion to support current line and next line
+* Fix Bug: Wrong completion for Picklist2 when ``if (acc.Picklist1 == 'abc' && acc.Picklist2 == 'bcd')``
+* Fix Bug: Plugin found the wrong variable type in the commented code for variable completion
+* Ignore exception when keep package.xml for every deploy action
+* Rename Heroku to Haoku in the ``Main Menu > Utilities``
+* Remove useless ``.travis.yml``
+* Remove ugly code for check whether statement is comment for code
+* Update ``execute_soql`` command to execute query in heroku
+
+
 Release 2.8.3 (2015-04-02)
 ++++++++++++++++++
 * If no CRUD privilege on profile object, just leave blank in the output csv

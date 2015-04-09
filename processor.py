@@ -1353,6 +1353,32 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
             view.run_command("goto_line", {"line": line})
             view.run_command("expand_selection", {"to":"line"})
 
+            if hasattr(view, 'show_popup'):
+                error = """
+                    <div id="content">
+                        <div class="container">
+                            <h1 class="panel-title">Compile Error</h1>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">%s</h3>
+                                </div>
+
+                                <div class="panel-body">
+                                    <p style="color: red">
+                                        <b>%s</b> at line <b>%s</b> column <b>%s</b>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                """ % (
+                    file_base_name, 
+                    result["problem"], 
+                    result["lineNumber"],
+                    result["columnNumber"]
+                )
+                view.show_popup(error)
+
             # Add highlight for error line and remove the highlight after several seconds
             component_id = component_attribute["id"]
             view.run_command("set_check_point", {"mark":component_id+"build_error"})

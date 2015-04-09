@@ -23,21 +23,29 @@ from .salesforce import xmltodict
 from .salesforce import message
 
 
-class Heroku(sublime_plugin.WindowCommand):
+class Haoku(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(Heroku, self).__init__(*args, **kwargs)
+        super(Haoku, self).__init__(*args, **kwargs)
 
-    def run(self):
+    def run(self, router=""):
         settings = context.get_settings()
         session = util.get_session_info(settings)
         if not session:
             Printer.get("error").write("Please Login Firstly")
             return
+
         heroku_host = "https://haoku.herokuapp.com"
-        util.open_with_browser("%s?accessToken=%s&instanceUrl=%s&userName=%s" % (
-            heroku_host, session["session_id"], 
-            session["instance_url"], settings["username"]
-        ))
+        # heroku_host = "http://localhost:3000"
+        show_params = {
+            "accessToken": session["session_id"],
+            "instanceUrl": session["instance_url"],
+            "username": settings["username"],
+            "router": router
+        }
+
+        show_params = urllib.parse.urlencode(show_params)
+        open_url = heroku_host + '?%s' % show_params
+        util.open_with_browser(open_url)
 
 class JsonPretty(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1279,13 +1287,15 @@ class ViewDebugLogDetailCommand(sublime_plugin.TextCommand):
 
 class ExecuteSoqlCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        processor.handle_execute_query(self.view.substr(self.view.sel()[0]))
+        sublime.active_window().run_command("haoku", {
+            "router": "query?param=" + self.selection
+        })
 
     def is_enabled(self):
         # Selection must start SELECT, 
         # otherwise you can't see this command
-        self.selection = self.view.substr(self.view.sel()[0]).encode('utf-8')
-        if not self.selection or not self.selection.upper().startswith(b"SELECT"):
+        self.selection = self.view.substr(self.view.sel()[0])
+        if not self.selection or not self.selection.upper().startswith("SELECT"):
             return False
 
         return True

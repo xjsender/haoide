@@ -306,10 +306,21 @@ class ApexCompletions(sublime_plugin.EventListener):
         elif ch == "=":
             if not settings["disable_picklist_value_completion"]:
                 # Get the begin point of current line
-                begin = view.full_line(pt).begin()
+                cursor_row, cursor_col = view.rowcol(pt)
 
-                # Get Sobject Variable Name and Field Name
-                matched_region = view.find("[a-zA-Z_1-9]+\\.[a-zA-Z_1-9]+", begin)
+                # Get all matched regions
+                matched_regions = view.find_all("([a-zA-Z_1-9]+\\.[a-zA-Z_1-9]+)")
+
+                # Get the nearest matched region from start to end
+                # for example, matched regions by above pattern are : 
+                #       [(4, 24), (28, 57), (76, 96), (100, 129)]
+                # the second one has the same row with cursor point
+                matched_region = None
+                for mr in matched_regions:
+                    row, col = view.rowcol(mr.begin())
+                    if cursor_row == row:
+                        matched_region = mr
+
                 if not matched_region: return []
                 variable_name, field_name = view.substr(matched_region).split(".")
 
@@ -415,14 +426,26 @@ class PageCompletions(sublime_plugin.EventListener):
 
         elif ch == " ":
             # Get the begin point of current line
-            full_line_region = view.full_line(pt)
-            full_line_begin = full_line_region.begin()
+            cursor_row, cursor_col = view.rowcol(pt)
+
+            # Get all matched regions
+            matched_regions = view.find_all("<\\w+:\\w+")
+
+            # Get the nearest matched region from start to end
+            # for example, matched regions by above pattern are : 
+            #       [(4, 24), (28, 57), (76, 96), (100, 129)]
+            # the cursor point is int the next or same row 
+            # with the second one, so that one is the exact one
+            matched_region = None
+            for mr in matched_regions:
+                row, col = view.rowcol(mr.begin())
+                if cursor_row == row or cursor_row == row + 1:
+                    matched_region = mr
 
             ##########################################
             # Visualforce Attribute Completions
             ##########################################
-            matched_region = view.find("<\\w+:\\w+", full_line_begin)
-            if matched_region and full_line_region.contains(matched_region):
+            if matched_region:
                 matched_tag = view.substr(matched_region)[1:]
 
                 # Combine the attr of matched visualforce tag
@@ -440,28 +463,53 @@ class PageCompletions(sublime_plugin.EventListener):
             ##########################################
             # Custom Component Attribute Completions
             ##########################################
-            matched_region = view.find("<c:\\w+", full_line_begin)
-            if matched_region and full_line_region.contains(matched_region):
+            # Get all matched regions
+            matched_regions = view.find_all("<c:\\w+")
+
+            # Get the nearest matched region from start to end
+            # for example, matched regions by above pattern are : 
+            #       [(4, 24), (28, 57), (76, 96), (100, 129)]
+            # the cursor point is int the next or same row 
+            # with the second one, so that one is the exact one
+            matched_region = None
+            for mr in matched_regions:
+                row, col = view.rowcol(mr.begin())
+                if cursor_row == row or cursor_row == row + 1:
+                    matched_region = mr
+            
+            if matched_region:
                 matched_tag = view.substr(matched_region)[1:]
                 component_name = matched_tag.split(":")[1].strip()
-
 
             ##########################################
             # HTML Element Attribute Completions
             ##########################################
-            matched_region = view.find("<\\w+\\s+", full_line_begin)
+            if not settings["disable_html_completion"]:
+                # Get all matched regions
+                matched_regions = view.find_all("<\\w+\\s+")
 
-            # If matched region is found and matched block contains cursor point
-            if matched_region and full_line_region.contains(matched_region):
-                completion_list = []
-                matched_tag = view.substr(matched_region)[1:].strip()
-                if matched_tag in html.HTML_ELEMENTS_ATTRIBUTES:
-                    def_entry = html.HTML_ELEMENTS_ATTRIBUTES[matched_tag]
-                    for attr_name in sorted(def_entry):
-                        if attr_name in html.HTML_ATTRIBUTES_VALUES and html.HTML_ATTRIBUTES_VALUES[attr_name]:
-                            completion_list.append((attr_name + "\tattr", attr_name))
-                        else:
-                            completion_list.append((attr_name + "\tattr", attr_name+'="$1"$0'))
+                # Get the nearest matched region from start to end
+                # for example, matched regions by above pattern are : 
+                #       [(4, 24), (28, 57), (76, 96), (100, 129)]
+                # the cursor point is int the next or same row 
+                # with the second one, so that one is the exact one
+                matched_region = None
+                for mr in matched_regions:
+                    row, col = view.rowcol(mr.begin())
+                    if cursor_row == row or cursor_row == row + 1:
+                        matched_region = mr
+
+                # If matched region is found and matched block contains cursor point
+                if matched_region:
+                    completion_list = []
+                    matched_tag = view.substr(matched_region)[1:].strip()
+                    if matched_tag in html.HTML_ELEMENTS_ATTRIBUTES:
+                        def_entry = html.HTML_ELEMENTS_ATTRIBUTES[matched_tag]
+                        for attr_name in sorted(def_entry):
+                            if attr_name in html.HTML_ATTRIBUTES_VALUES and html.HTML_ATTRIBUTES_VALUES[attr_name]:
+                                completion_list.append((attr_name + "\tattr", attr_name))
+                            else:
+                                completion_list.append((attr_name + "\tattr", attr_name+'="$1"$0'))
 
             # Sort the completion_list by first element
             completion_list.sort(key=lambda tup:tup[1])
@@ -489,10 +537,12 @@ class PageCompletions(sublime_plugin.EventListener):
             ##########################################
             # HTML Element Attribute Values Completions
             ##########################################
-            matched_attr_name = view.substr(view.word(pt-1))
-            if matched_attr_name in html.HTML_ATTRIBUTES_VALUES:
-                for attr_value in html.HTML_ATTRIBUTES_VALUES[matched_attr_name]:
-                    completion_list.append((attr_value + "\t" + matched_attr_name, '"%s"' % attr_value))
+            if not settings["disable_html_completion"]:
+                matched_attr_name = view.substr(view.word(pt-1))
+                if matched_attr_name in html.HTML_ATTRIBUTES_VALUES:
+                    for attr_value in html.HTML_ATTRIBUTES_VALUES[matched_attr_name]:
+                        completion_list.append((attr_value + "\t" + 
+                            matched_attr_name, '"%s"' % attr_value))
 
             # Sort the completion_list by first element
             completion_list.sort(key=lambda tup:tup[1])
