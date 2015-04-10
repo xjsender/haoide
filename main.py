@@ -23,6 +23,13 @@ from .salesforce import xmltodict
 from .salesforce import message
 
 
+class RemoveComments(sublime_plugin.TextCommand):
+    def run(self, edit):
+        comments = self.view.find_by_selector('comment')
+        for region in reversed(comments):
+            region = self.view.full_line(region)
+            self.view.erase(edit, region)
+
 class Haoku(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(Haoku, self).__init__(*args, **kwargs)
@@ -2045,14 +2052,6 @@ class ExtractToHere(sublime_plugin.WindowCommand):
             return False
 
         self._file = files[0]
-        try:
-            base, name = os.path.split(self._file)
-            name, extension = name.split(".")
-            if extension not in ["zip", "resource"]:
-                return False
-        except:
-            return False
-
         return True
 
 class UpdateStaticResource(sublime_plugin.WindowCommand):

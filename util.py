@@ -362,6 +362,25 @@ def open_with_browser(show_url, use_default_chrome=True):
         webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
         webbrowser.get('chrome').open_new_tab(show_url)
 
+def remove_comments(view, regions):
+    # Get all comment regions
+    comment_regions = view.find_by_selector('comment')
+
+    matched_regions = []
+    for region in regions:
+        # check whether region is comment statement
+        is_comment_region = False
+        for comment_region in comment_regions:
+            if comment_region.contains(region):
+                is_comment_region = True
+                break
+
+        # If region is comment statement, just skip
+        if not is_comment_region:
+            matched_regions.append(region)
+
+    return matched_regions
+
 def get_variable_type(view, pt, pattern):
     """Return the matched soql region
 
@@ -373,43 +392,47 @@ def get_variable_type(view, pt, pattern):
     """
     # Get the matched variable type
     matched_regions = view.find_all(pattern, sublime.IGNORECASE)
-
-    # It must have lots of matched
-    row_region = {}
-    for mr in matched_regions:
-        row, col = view.rowcol(mr.begin())
-        row_region[row] = mr
-
-    # Get the row, col of cursor
-    cursor_row, cursor_col = view.rowcol(pt)
-
-    # Choose the nearest matched region
-    # For example, rows of matched regions are 1, 3, 14, 17
-    # cursor row is 15, so we choose the region of 14
-    rows = list(row_region.keys())
-    rows.append(cursor_row)
-    rows = sorted(rows)
-    cursor_index = rows.index(cursor_row)
-
-    # If no matched region, just set it as none
-    if cursor_index == 0:
-        matched_region = None
-    # If lots of matched regions, choose the previous one
+    uncomment_regions = remove_comments(view, matched_regions)
+    
+    # Three scenarios:
+    # 1. If no matched regions
+    # 2. Only one matched region
+    # 3. More than one matched region
+    if not uncomment_regions: 
+        return ""
+    elif len(uncomment_regions) == 1:
+        matched_region = uncomment_regions[0]
     else:
-        matched_region = matched_regions[cursor_index - 1]
+        row_region = {} # Row => Region
+        for mr in uncomment_regions:
+            row, col = view.rowcol(mr.begin())
+            row_region[row] = mr
 
-    if not matched_region: return ""
-    matched_block = view.substr(matched_region).strip()
+        # Get the cursor row
+        cursor_row = view.rowcol(pt)[0]
+
+        # Three steps:
+        # 1. Add the cursor row and matched rows together
+        # 2. Sort all rows by ASC
+        # 3. Get the previous row of cursor row
+        rows = list(row_region.keys())
+        rows.append(cursor_row)
+        rows = sorted(rows)
+        cursor_index = rows.index(cursor_row)
+        matched_region = row_region[rows[cursor_index - 1]]
+
+    # Get the content of matched region
+    matched_str = view.substr(matched_region).strip()
     
     # If list, map, set
-    if "<" in matched_block and ">" in matched_block:
-        variable_type = matched_block.split("<")[0].strip()
+    if "<" in matched_str and ">" in matched_str:
+        variable_type = matched_str.split("<")[0].strip()
     # String[] strs;
-    elif "[]" in matched_block:
+    elif "[]" in matched_str:
         variable_type = 'list'
     # String str;
     else:
-        variable_type = matched_block.split(" ")[0]
+        variable_type = matched_str.split(" ")[0]
 
     return variable_type
 

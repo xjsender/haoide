@@ -241,6 +241,10 @@
                         }
                     },
                     {
+                        "caption": "Remove Comments",
+                        "command": "remove_comments"
+                    },
+                    {
                         "id": "convert15idto18id",
                         "caption": "Convert 15 Id to 18 Id",
                         "command": "convert15_id218_id"

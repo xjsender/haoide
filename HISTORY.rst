@@ -5,6 +5,15 @@ Release History
 ---------------
 
 
+Release 2.8.5 (2015-04-10)
+++++++++++++++++++
+* Biggest optimization for variable completion:
+    - Exclude comment statement
+    - Choose the nearest matched one
+* Add a new ``remove_comments`` command in the ``Utilities``
+* Allow ``extract_to_here`` command to support all zip resources
+
+
 Release 2.8.4 (2015-04-09)
 ++++++++++++++++++
 * Add error popup display for latest version of sublime
