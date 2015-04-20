@@ -65,11 +65,9 @@ class ApexApi():
         try:
             response = requests.post(self.apex_url, soap_body, verify=False, 
                 headers=headers)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
-                "Operation": "Execute Anonymous",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result
@@ -134,11 +132,9 @@ class ApexApi():
         try:
             response = requests.post(self.apex_url, body, verify=False, 
                 headers=headers)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
-                "Operation": "Execute Anonymous",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result

@@ -57,11 +57,11 @@
     // Refresh current component in edit mode
     {"keys": ["ctrl+alt+r"], "command": "refresh_file_from_server"},
 
-    // Execute chosen valid SOQL
+    // Execute chosen valid uri
     {"keys": ["f9"], "command": "execute_rest_test"},
 
     // Execute chosen valid SOQL
-    {"keys": ["ctrl+alt+q"], "command": "execute_soql"},
+    {"keys": ["ctrl+alt+q"], "command": "execute_query"},
 
     // Delete the current Component
     {"keys": ["ctrl+alt+d"], "command": "delete_component"},

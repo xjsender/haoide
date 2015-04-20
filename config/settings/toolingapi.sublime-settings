@@ -11,7 +11,7 @@
     // 
     // Workspace in OSX is different with windows, 
     // workspace can be "/Users/<Your User>/salesforce/workspace"
-    "workspace" : "c:/salesforce/workspace",
+    "workspace" : "",
     "projects" : {
         "pro-test" : {
             /**
@@ -74,13 +74,22 @@
     "default_chrome_path" : "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
 
     // Indicate whether add time suffix for project name
-    // When this setting value is true, you create a new project at yestoday and
+    // When this setting value is true, you create a new project at yesterday and
     // you refresh it's code today, a new project folder will be created to keep the refreshed code
     // Two methods to fix this bug:
     //     1. Set this setting value to false,
     //     2. Create new project every day.
     // It depends on your choice.
     "keep_project_name_time_suffix" : true,
+
+    // Every time when you open a file, the project of this file is not the default project,
+    // if you set this settings to true, plugin will switch the default project to the project
+    // of the open file automatically when you open a file
+    "auto_switch_project_on_file_activated": false,
+
+    // Sync active file with sidebar, for example, if you set this value to true,
+    // every time when you open a file, plugin will reveal the file in the sidebar
+    "reveal_file_in_sidebar_on_file_activated": false,
 
     // Debug Mode
     "debug_mode": false,

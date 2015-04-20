@@ -716,6 +716,34 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
     ThreadProgress(api, thread, wait_message, "Outputdir: " + output_file_dir)
     handle_thread(thread, 120)
 
+def handle_export_query_to_csv(soql, csv_name, data=None, timeout=120):
+    def handle_new_view_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
+            return
+        
+        result = api.result
+        
+        if "success" in result and not result["success"]:
+            return
+
+        outputdir = os.path.join(settings["workspace"], ".export", "Query2CSV")
+        if not os.path.exists(outputdir): os.makedirs(outputdir)
+        time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
+        outputfile = os.path.join(outputdir, "%s.csv" % csv_name)
+        with open(outputfile, "wb") as fp:
+            fp.write(util.query_to_csv(result, soql))
+            
+        view = sublime.active_window().open_file(outputfile)
+
+    settings = context.get_settings()
+    api = ToolingApi(settings)
+    thread = threading.Thread(target=api.query_all, args=(soql,))
+    thread.start()
+    progress_message = "Export Query To %s.csv" % csv_name
+    ThreadProgress(api, thread, progress_message, progress_message + " Succeed")
+    handle_new_view_thread(thread, timeout)
+
 def handle_execute_rest_test(operation, url, data=None, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
@@ -847,6 +875,9 @@ def handle_fetch_debug_logs(user_full_name, user_id, timeout=120):
             return
 
         result = api.result
+        if not result or "records" not in result: 
+            return
+
         records = result["records"]
         debug_logs_table = util.format_debug_logs(settings, records)
         Printer.get("log").write_start().write(debug_logs_table)
@@ -1321,9 +1352,7 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
         # Because error line in page is always at the line 1, so just work in class or trigger
         elif "success" in result and not result["success"]:
             # Maybe network issue
-            if "problem" not in result:
-                Printer.get("error").write("Please check your network connection")
-                return
+            if "problem" not in result: return
 
             message = "Compile Error for %s: %s at line %s column %s" % (
                 file_base_name, 

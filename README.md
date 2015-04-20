@@ -1,5 +1,5 @@
 # Sublime IDE for Salesforce
-This plugin supports ```Sublime Text 3``` for windows and OSX (**MUST Change the default Workspace for OSX**, otherwise, the downloaded code will not appeared in the sidebar), not tested for Linux.
+This plugin supports ```Sublime Text 3``` for windows and OSX, not tested for Linux.
 **If you think this plugin is helpful, please star this plugin.**
 
 # Change Logs
@@ -33,7 +33,7 @@ This plugin is hosted on [package control](https://sublime.wbond.net/packages/ha
 
 # Project Configuration
 ## Worspace
-If your operation system is **OSX**, you must change the workspace in ```HaoIDE``` > ```Setting``` > ```Setting - User``` to override the default workspace.
+If your operation system is **OSX**, you should change the workspace in ```HaoIDE``` > ```Setting``` > ```Setting - User``` to your own, if you didn't do that, plugin will save the project to ```<packages_path>/User/HaoIDE```, 
 
 There are two tiers of workspace concept in this plugin, including plugin level workspace and project level workspace, the privilege level of project level is higher than the plugin level workspace, if you didn't define the workspace in the project property of ```projects``` setting, plugin will set your plugin level workspace to the default workspace, for example, if the settings is set as below:
 
@@ -339,7 +339,7 @@ You can export somethings in your org to CSV by these features
 You can click ```HaoIDE``` > ```Export``` > ```Export CustomField``` to export all custom fields in your org to csv.
 
 ### Export Workflow Rules
-After you downloaded all metadata by clicking ```HaoIDE``` > ```Metadata Migration``` > ```Retrieve Sobject And Workflow```, you can click ```HaoIDE``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.
+After you downloaded metadata of sObject and Workflow by clicking ```HaoIDE``` > ```Metadata Migration``` > ```Retrieve Sobject And Workflow```, you can click ```HaoIDE``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.
 
 If you just want to export some attributes of workflows, you can remove some columns in the ```workflow_rule_columns```, ``workflow_field_update_columns``, ``workflow_email_alert_columns``, ``workflow_outbound_message_columns`` and ``workflow_task_columns`` settings and put it into your own user settings.
 
@@ -351,15 +351,24 @@ If you just want to export some attributes of validation rules, you can remove s
 ### Export CustomFields
 You can click ```HaoIDE``` > ```Export``` > ```Export CustomFields``` to export all custom fields in your org to CSV.
 
-### Export Profile Workbook
-You can click ```HaoIDE``` > ```Export``` > ```Export Profile``` to export ```ObjectPermission```, ```TabVisibilities```, ```FieldLevelSecurity``` and ```UserPermissions``` of all profiles to three different CSV files, see [ObjectPermission CSV Picture](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Profile.png)
 
+### Export Profile Workbook
 Before execute this command, you should execute the ```Retrieve All``` command to download all related components.
+
+
+After you have retrieved all metadata, you can click ```HaoIDE``` > ```Export``` > ```Export Profile``` to export ```ObjectPermission```, ```TabVisibilities```, ```FieldLevelSecurity``` and ```UserPermissions``` of all profiles to four different CSV files, you can check below sample CSVs.
+
+#### Exported profile csv from sample org
+* [FieldLevelSecurity.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/FieldLevelSecurity.csv)
+* [ObjectPermissions.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/ObjectPermissions.csv)
+* [TabVisibilities.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/TabVisibilities.csv)
+* [UserPermissions.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/UserPermissions.csv)
 
 ### Export Workbook of sobjects
 You can click ```HaoIDE``` > ```Export``` > ```Export Workbook``` to export all sObject workbooks or some sObject separated with semi-colon in your org to CSV.
 
 If you just want to export some attributes of sobject workbook, you can remove some columns in the ```workbook_field_describe_columns``` setting and put it into your own user settings
+
 
 ### Export Data Template
 Click ```HaoIDE``` > ```Export``` > ```Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported. From the row 1 to row 6, meaning is show as below,
@@ -371,6 +380,7 @@ Click ```HaoIDE``` > ```Export``` > ```Export Data Template```, wait for a momen
 [Picklist Label if has]...
 [Picklist Value if has]
 ```
+
 
 ## Utilities
 There are some utilities to keep your work efficient as below

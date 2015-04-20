@@ -83,7 +83,7 @@ class ReloadDocument():
                     }
 
         # Build Successful
-        Printer.get("log").write("RELOADING SUCCESSFUL")
+        Printer.get("log").write("RELOADING FINISHED")
         
         # Total time
         total_seconds = (datetime.datetime.now() - start_time).seconds

@@ -18,16 +18,28 @@ class SFDCEventListener(sublime_plugin.EventListener):
         util.display_active_project(view)
 
     def on_load_async(self, view):
-        """
-        1. Set Status with current default project
+        """ Set Status with current default project
         """
 
         util.display_active_project(view)
 
     def on_activated(self, view):
+        """ 
+            1. Switch project to which view file is in
+            2. Sync sidebar with view file
+            3. Set Status with current default project
         """
-        Set Status with current default project
-        """
+
+        settings = context.get_settings()
+
+        file_name = view.file_name()
+        if settings["auto_switch_project_on_file_activated"] and file_name:
+            project_name = util.get_path_attr(file_name)[0]
+            if project_name in settings["projects"].keys():
+                util.switch_project(project_name)
+
+        if settings["reveal_file_in_sidebar_on_file_activated"]:
+            view.window().run_command("reveal_in_side_bar")
 
         util.display_active_project(view)
 

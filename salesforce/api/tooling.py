@@ -89,7 +89,7 @@ class ToolingApi():
                 if isinstance(response_result, list):
                     response_result = response_result[0]
             except:
-                response_result = {"errorMessage": res.text}
+                response_result = {"Error Message": res.text}
 
             response_result["url"] = res.url
             response_result["success"] = False
@@ -125,11 +125,9 @@ class ToolingApi():
         try:
             response = requests.head(url, verify=False, 
                 headers=self.headers, timeout=timeout)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
-                "Operation": "HEAD",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result
@@ -165,11 +163,9 @@ class ToolingApi():
         try:
             response = requests.get(url, data=None, verify=False, 
                 headers=self.headers, timeout=timeout)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
-                "Operation": "GET",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result
@@ -204,11 +200,9 @@ class ToolingApi():
         try:
             response = requests.put(url, data=json.dumps(data), verify=False, 
                 headers=self.headers, timeout=timeout)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
-                "Operation": "PUT",
+                "Error Message":  "Network Network connection timeout",
                 "success": False
             }
             return self.result
@@ -243,11 +237,9 @@ class ToolingApi():
         try:
             response = requests.patch(url, data=json.dumps(data), verify=False, 
                 headers=self.headers, timeout=timeout)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
-                "Operation": "PATCH",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result
@@ -282,11 +274,9 @@ class ToolingApi():
         try:
             response = requests.post(url, data=json.dumps(data), verify=False, 
                 headers=self.headers, timeout=timeout)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
-                "Operation": "POST",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result
@@ -320,11 +310,9 @@ class ToolingApi():
         try:
             response = requests.delete(url, data=None, verify=False, 
                 headers=self.headers, timeout=timeout)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
-                "Operation": "DELETE",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result
@@ -361,12 +349,9 @@ class ToolingApi():
         try:
             response = requests.get(url, headers=self.headers, verify=False, 
                 params=params, timeout=timeout)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
-                "SOSL": sosl,
-                "Operation": "SEARCH",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result
@@ -437,12 +422,9 @@ class ToolingApi():
         try:
             response = requests.get(url, data=None, verify=False, params=params,
                 headers=self.headers, timeout=timeout)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
-                "SOQL": soql,
-                "Operation": "QUERY",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result
@@ -650,10 +632,25 @@ class ToolingApi():
         * traced_entity_id -- Optional; Component Id or User Id
         """
 
-        # If traced_entity_id is none, just set it as current user
         if not traced_entity_id:
             self.login()
             traced_entity_id = self.session["user_id"]
+
+        # Check whether traced user already has trace flag
+        # If not, just create it for him/her
+        query = "SELECT Id, ExpirationDate FROM TraceFlag " +\
+                "WHERE TracedEntityId = '%s'" % (traced_entity_id)
+        result = self.query(query, True)
+
+        # Exception Process
+        if not result["success"]:
+            self.result = result
+            return self.result
+
+        # If trace flag is exist, just delete it
+        if result["totalSize"] > 0:
+            self.delete("/tooling/sobjects/TraceFlag/" + result["records"][0]["Id"])
+            return self.create_trace_flag(traced_entity_id)
 
         # Create Trace Flag
         trace_flag = self.settings["trace_flag"]
@@ -661,7 +658,7 @@ class ToolingApi():
 
         # We must set the expiration date to next day, 
         # otherwise, the debug log record will not be created 
-        expiration_date = datetime.datetime.now() + datetime.timedelta(minutes=30)
+        expiration_date = datetime.datetime.now() + datetime.timedelta(minutes=120)
         trace_flag["ExpirationDate"] = expiration_date.isoformat()
         post_url = "/tooling/sobjects/TraceFlag"
         result = self.post(post_url, trace_flag)
@@ -695,11 +692,9 @@ class ToolingApi():
         try:
             response = requests.get(url, verify=False, headers=headers, timeout=timeout)
             response.encoding = "UTF-8"
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": url,
-                "Operation": "RETRIEVE BODY",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result

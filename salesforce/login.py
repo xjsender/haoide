@@ -39,7 +39,7 @@ def soap_login(settings, session_id_expired=False, timeout=10):
     try:
         response = requests.post(settings["soap_login_url"], login_soap_request_body, 
             verify=False, headers=headers, timeout=timeout)
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         if "repeat_times" not in globals():
             globals()["repeat_times"] = 1
         else:
@@ -53,9 +53,7 @@ def soap_login(settings, session_id_expired=False, timeout=10):
             return soap_login(settings, True, timeout)
 
         result = {
-            "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-            "URL": settings["soap_login_url"],
-            "Operation": "LOGIN",
+            "Error Message":  "Network connection timeout",
             "success": False
         }
         return result
@@ -66,12 +64,8 @@ def soap_login(settings, session_id_expired=False, timeout=10):
 
     result = {}
     if response.status_code != 200:
-        except_code = util.getUniqueElementValueFromXmlString(response.content,
-                                                         'sf:exceptionCode')
-        except_msg = util.getUniqueElementValueFromXmlString(response.content,
-                                                        'sf:exceptionMessage')
-        result["errorCode"] = except_code
-        result["message"] = except_msg
+        except_msg = util.getUniqueElementValueFromXmlString(response.content, 'sf:exceptionMessage')
+        result["Error Message"] = except_msg
         result["success"] = False
         return result
 

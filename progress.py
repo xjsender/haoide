@@ -5,6 +5,7 @@ from . import util
 from . import context
 from .salesforce.lib.panel import Printer
 
+
 class ThreadProgress():
     """
     Stolen from Package Control Source Code, ni dong de
@@ -40,7 +41,9 @@ class ThreadProgress():
             # After thread is end, display feedback to end user
             # according to response
             result = self.api.result
-            if isinstance(result, dict) and "success" in result and not result["success"]:
+            if isinstance(result, dict) and "Error Message" in result:
+                Printer.get('error').write(result["Error Message"])
+            elif isinstance(result, dict) and "success" in result and not result["success"]:
                 if not self.show_error: return
                 Printer.get('error').write(message.SEPRATE.format(util.format_error_message(result)))
             else:

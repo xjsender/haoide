@@ -324,6 +324,31 @@ class GenerateSoqlCommand(sublime_plugin.WindowCommand):
         if index == -1: return
         processor.handle_generate_sobject_soql(self.sobjects[index])
 
+class ExportQueryToCsv(sublime_plugin.TextCommand):
+    def run(self, edit):
+        sublime.active_window().show_input_panel('Input CSV Name:', 
+            self.sobject, self.on_input_name, None, None)
+
+    def on_input_name(self, input):
+        if not input: return
+        processor.handle_export_query_to_csv(self.selection, input)
+
+    def is_enabled(self):
+        # Selection must start SELECT, otherwise you can't see this command
+        self.selection = self.view.substr(self.view.sel()[0])
+        if not self.selection: return False
+
+        # If () in match, it means there has parent-to-child query
+        match = re.match("SELECT\\s+[\\w\\n,.:_\\s()]*\\s+FROM\\s+\\w+", 
+            self.selection, re.IGNORECASE)
+        if not match or "(" in match.group(0): 
+            return False
+
+        matchstr = match.group(0)
+        self.sobject = matchstr[matchstr.rfind(" ")+1:]
+
+        return True
+
 class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ExportDataTemplateCommand, self).__init__(*args, **kwargs)
@@ -353,7 +378,8 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
 class ExecuteRestTest(sublime_plugin.TextCommand):
     def run(self, edit):
         self.items = ["Get", "Post", "Put", "Patch", "Delete", "Tooling Query",
-                      "Query", "Query All", "Search", "Quick Search", "Head", "Retrieve Body"]
+                      "Query", "Query All", "Search", "Quick Search", 
+                      "Head", "Retrieve Body"]
         self.view.show_popup_menu(self.items, self.on_choose_action),
 
     def on_choose_action(self, index):
@@ -1292,7 +1318,7 @@ class ViewDebugLogDetailCommand(sublime_plugin.TextCommand):
 
         return True
 
-class ExecuteSoqlCommand(sublime_plugin.TextCommand):
+class ExecuteQuery(sublime_plugin.TextCommand):
     def run(self, view):
         sublime.active_window().run_command("haoku", {
             "router": "query?param=" + self.selection
@@ -2022,13 +2048,6 @@ class CreateNewProjectCommand(sublime_plugin.WindowCommand):
     def run(self):
         # Get settings
         settings = context.get_settings()
-        if sublime.platform() == "osx" and "c:/salesforce/workspace" in settings["workspace"]:
-            sublime.active_window().open_file(sublime.packages_path()+"/User/toolingapi.sublime-settings")
-            message = "Do you want to take a look at how to config your workspace"
-            if not sublime.ok_cancel_dialog(message, "Go to Github"): return
-            util.open_with_browser("https://github.com/xjsender/haoide#worspace")
-            return
-
         dpn = settings["default_project"]["project_name"]
         message = "Are you sure you really want to create new project for %s?" % dpn
         if not sublime.ok_cancel_dialog(message, "Create New Project?"): return

@@ -257,8 +257,8 @@
     },
 
     {
-        "caption": "HaoIDE: Execute SOQL",
-        "command": "execute_soql"
+        "caption": "HaoIDE: Execute Query",
+        "command": "execute_query"
     },
 
     {

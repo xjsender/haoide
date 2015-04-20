@@ -44,8 +44,14 @@ def get_settings():
 
     # User Settings Part
     settings["projects"] = projects
+
+    # Workspace, if workspace is empty, set it as <package_path>/User/HaoIDE
     workspace = default_project["workspace"] if "workspace" in default_project else s.get("workspace")
+    if not workspace:
+        workspace = os.path.join(sublime.packages_path(), "User", "HaoIDE")
+
     project_name = default_project_name + ("-" + time.strftime('%Y%m%d') if s.get("keep_project_name_time_suffix") else "")
+    settings["keep_project_name_time_suffix"] = s.get("keep_project_name_time_suffix", True)
     settings["workspace"] = workspace + "/" + project_name
     settings["file_exclude_patterns"] = s.get("file_exclude_patterns", [])
     settings["folder_exclude_patterns"] = s.get("folder_exclude_patterns", [])
@@ -128,6 +134,10 @@ def get_settings():
 
     # Deploy Option
     settings["deploy_options"] = s.get("deploy_options")
+
+    # Settings for controlling action when file is activated
+    settings["auto_switch_project_on_file_activated"] = s.get("auto_switch_project_on_file_activated", True)
+    settings["reveal_file_in_sidebar_on_file_activated"] = s.get("reveal_file_in_sidebar_on_file_activated", True)
 
     # Workbook columns
     settings["workbook_field_describe_columns"] = s.get("workbook_field_describe_columns")

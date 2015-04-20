@@ -70,7 +70,7 @@ class MetadataApi():
         self.result["success"] = True
         return self.result
 
-    def check_status(self, async_process_id):
+    def check_status(self, async_process_id, timeout=120):
         """ Ensure the retrieve request is done and then we can 
             continue other work
 
@@ -88,7 +88,7 @@ class MetadataApi():
         })
 
         response = requests.post(self.metadata_url, soap_body, verify=False, 
-            headers=headers)
+            headers=headers, timeout=timeout)
 
         # If status_code is > 399, which means it has error
         if response.status_code > 399:
@@ -120,11 +120,9 @@ class MetadataApi():
         try:
             response = requests.post(self.metadata_url, soap_body, 
                 verify=False, headers=headers, timeout=120)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": self.metadata_url,
-                "Operation": "RETRIEVE",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result
@@ -174,11 +172,9 @@ class MetadataApi():
         try:
             response = requests.post(self.metadata_url, soap_body, verify=False, 
                 headers=headers, timeout=120)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": self.metadata_url,
-                "Operation": "RETRIEVE",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result
@@ -210,7 +206,7 @@ class MetadataApi():
         result = self.check_status(async_process_id)
 
         # Catch exception of status retrieving
-        if not result["success"]:
+        if not result or not result["success"]:
             self.result = result
             return self.result
         
@@ -389,11 +385,9 @@ class MetadataApi():
 
         try:
             response = requests.post(self.metadata_url, soap_body, verify=False, headers=headers)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Issue" if "Max retries exceeded" in str(e) else str(e),
-                "URL": self.metadata_url,
-                "Operation": "DEPLOY",
+                "Error Message":  "Network connection timeout",
                 "success": False
             }
             return self.result

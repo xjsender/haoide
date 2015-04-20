@@ -1830,6 +1830,50 @@ def parse_data_template(output_file_dir, result):
         fp.write(",".join(fields_picklist_labels).encode("utf-8") + b"\n")
         fp.write(",".join(fields_picklist_values).encode("utf-8") + b"\n")
 
+def get_soql_fields(soql):
+    """ Get the field list of soql
+
+        for example, soql is :
+            SELECT Id, Name, Owner.Name, Owner.FirstName FROM Account lIMIT 10
+
+        field list is : ['Id', 'Name', 'Owner.Name', 'Owner.FirstName']
+    """
+
+    match = re.match("SELECT\\s+[\\w\\n,.:_\\s]*\\s+FROM", soql, re.IGNORECASE)
+    fieldstr = match.group(0)[6:-4].replace(" ", "").replace("\n", "")
+
+    return fieldstr.split(",")
+
+def query_to_csv(result, soql):
+    records = result["records"]
+    headers = get_soql_fields(soql)
+
+    # Append columns part into rows
+    rows = ",".join(headers).encode("utf-8") + b"\n"
+    for record in records:
+        row = []
+        for header in headers:
+            row_value = record
+            for _header in header.split("."):
+                row_value = row_value[_header]
+                if not isinstance(row_value, dict):
+                    break
+
+            # Don't process parent to child
+            if isinstance(row_value, list): continue
+
+            if not row_value:
+                row_value = ""
+            elif isinstance(row_value, dict):
+                row_value = str(row_value)
+            else:
+                row_value = "%s" % row_value
+
+            row.append(row_value)
+        rows += ",".join(row).encode("utf-8") + b"\n"
+
+    return rows
+    
 def parse_execute_anonymous_xml(result):
     """Return the formatted anonymous execute result
 
@@ -2131,12 +2175,12 @@ def get_response_error(response):
         result["Error Message"] = getUniqueElementValueFromXmlString(content, "message")
     return result
 
-def get_path_attr(path_dir):
+def get_path_attr(path_or_file):
     """Return project name and component folder attribute
 
     Arguments:
 
-    * path_dir -- full path of specified file
+    * path_or_file -- file name or path
 
     Returns:
 
@@ -2144,24 +2188,18 @@ def get_path_attr(path_dir):
     * folder -- folder describe defined in settings, for example, ApexClass foder is 'src/classes'
     """
     # Get the Folder Name and Project Name
-    path, metadata_folder = os.path.split(path_dir)
+    if os.path.isfile(path_or_file):
+        path_or_file = os.path.split(path_or_file)[0]
+    path, metadata_folder = os.path.split(path_or_file)
     path, src = os.path.split(path)
     path, project_name = os.path.split(path)
 
     # Assume the project name has time suffix, 
-    year = get_current_year()
-    if year in project_name: project_name = project_name[:-9]
+    settings = context.get_settings()
+    if settings["keep_project_name_time_suffix"]:
+        project_name = project_name[:-9]
 
     return project_name, metadata_folder
-
-def get_current_year():
-    """Get the current year
-
-    Returns:
-
-    * year -- year literal in current time
-    """
-    return time.strftime("%Y", time.localtime())
 
 def get_file_attr(file_name):
     try:
@@ -2312,7 +2350,8 @@ def switch_project(chosen_project):
     # Set status of all views in all window with "default project"
     for window in sublime.windows():
         for view in window.views():
-            display_active_project(view)
+            view.set_status('default_project', 
+                "Default Project => %s" % chosen_project)
 
 def add_project_to_workspace(settings):
     """Add new project folder to workspace
@@ -2502,7 +2541,6 @@ def export_profile_settings():
     }
 
     # Define the column that contains profile
-    Printer.get("log").write("Generating csv content for profile object security")
     profile_headers = ["Object"]
     for profile in profiles:
         profile_headers.append(profile)
@@ -2606,7 +2644,6 @@ def export_profile_settings():
     ]
 
     # Define the column that contains profile
-    Printer.get("log").write("Generating csv content for profile field level security")
     profile_headers = ["Object", "Field"]
     for profile in profiles:
         profile_headers.append(profile)

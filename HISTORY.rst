@@ -4,6 +4,17 @@ Release History
 
 ---------------
 
+Release 2.8.6 (2015-04-20)
+++++++++++++++++++
+* Optimization for parsing project name by path or file
+* Change the default workspace of plugin level to empty
+* Change the workspace to optional, if workspace of plugin level and project level are both empty, plugin will save the project to ``<packages_path>/User/HaoIDE``, 
+* Change the name of ``execute_soql`` command to ``execute_query``
+* If there has network connection issue, just display ``Network connection timeout`` but no more detail again
+* Add a new command for export query to csv, you should be aware, query statement contains parent-to-child statement will not be enabled for this command
+* Add a new ``auto_switch_project_on_file_activated`` setting to control project switching when file of non-default project is open, this feature is disabled by default
+* Add a new ``reveal_file_in_sidebar_on_file_activated`` setting to control sidebar file revealing when the file is open, this feature is disabled by default
+
 
 Release 2.8.5 (2015-04-10)
 ++++++++++++++++++

@@ -55,7 +55,7 @@
     {"keys": ["super+e"], "command": "execute_rest_test"},
 
     // Execute chosen valid SOQL
-    {"keys": ["super+alt+q"], "command": "execute_soql"},
+    {"keys": ["super+alt+q"], "command": "execute_query"},
 
     // Delete the current Component
     {"keys": ["ctrl+alt+d"], "command": "delete_component"},

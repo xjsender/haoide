@@ -1,5 +1,4 @@
 [
-    { "caption": "-" },
     {
         "caption": "HaoIDE",
         "children":
@@ -47,7 +46,8 @@
             {"caption": "-"},
             {"caption": "Execute Rest Test","command": "execute_rest_test"},
             {"caption": "Execute Anonymous","command": "execute_anonymous"},
-            {"caption": "Execute SOQL","command": "execute_soql"},
+            {"caption": "Execute Query","command": "execute_query"},
+            {"caption": "Export Query to CSV","command": "export_query_to_csv"},
             {"caption": "Run Test Class","command": "run_test"},
             {"caption": "Preview Page in Server","command": "preview_page"},
 
@@ -57,6 +57,5 @@
             {"caption": "View Id in Salesforce Web","command": "view_id_in_sfdc_web"},
             {"caption": "Show in Salesforce Web","command": "show_in_sfdc_web"}
         ]
-    },
-    { "caption": "-" }
+    }
 ]
