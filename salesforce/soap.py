@@ -37,13 +37,6 @@ class SOAP():
 
         return session_id
 
-    # Dynamically invoke function by name
-    def create_request(self, request_type, options={}):
-        soap_body = getattr(self, "create_%s_request" % request_type)(options)
-        if self.settings["debug_mode"]:
-            print ("[Debug for %s]: \n%s" % (request_type, soap_body.decode("UTF-8")))
-        return soap_body
-
     # Format the request body
     def format_request_envelope(self, request_body):
         try:
@@ -55,6 +48,13 @@ class SOAP():
             formatted_body = request_body
 
         return formatted_body
+
+    # Dynamically invoke function by name
+    def create_request(self, request_type, options={}):
+        soap_body = getattr(self, "create_%s_request" % request_type)(options)
+        if self.settings["debug_mode"]:
+            print ("[Debug for %s]: \n%s" % (request_type, soap_body.decode("UTF-8")))
+        return soap_body
 
     ##############################################
     # Metadata API Request

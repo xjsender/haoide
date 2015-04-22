@@ -35,6 +35,11 @@
             },
 
             {
+                "caption": "Combine Package.xml", "command": "combine_package_xml",
+                "args": {"dirs": []}
+            },
+
+            {
                 "caption": "Create Package.xml", "command": "create_package_xml",
                 "args": {"dirs": []}
             },

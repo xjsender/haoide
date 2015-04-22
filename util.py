@@ -1358,16 +1358,18 @@ def format_xml(xml_string, indent="4"):
     try:
         formatter = xmlformatter.Formatter(indent=indent)
         content = formatter.format_string(xml_string)
-    except:
+    except xml.parsers.expat.ExpatError as e:
+        print (str(e))
         content = xml_string.encode("utf-8")
 
     return content
 
 def none_value(value):
-    """
-    If value is None, return "", if not, return value
+    """ If value is None, return "", if not, return string format of value
 
-    @value: value
+    Returns:
+
+    * value    -- converted value
     """
 
     if not value: return ""
@@ -1859,17 +1861,7 @@ def query_to_csv(result, soql):
                 if not isinstance(row_value, dict):
                     break
 
-            # Don't process parent to child
-            if isinstance(row_value, list): continue
-
-            if not row_value:
-                row_value = ""
-            elif isinstance(row_value, dict):
-                row_value = str(row_value)
-            else:
-                row_value = "%s" % row_value
-
-            row.append(row_value)
+            row.append(none_value(row_value))
         rows += ",".join(row).encode("utf-8") + b"\n"
 
     return rows
@@ -2325,6 +2317,7 @@ def display_active_project(view):
     """
 
     settings = context.get_settings()
+    if not settings: return # Fix plugin loading issue
     display_message = "Default Project => " + settings["default_project_name"]
     view.set_status('default_project', display_message)
 

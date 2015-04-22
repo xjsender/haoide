@@ -1,35 +1,14 @@
 # Sublime IDE for Salesforce
 This plugin supports ```Sublime Text 3``` for windows and OSX, not tested for Linux.
-**If you think this plugin is helpful, please star this plugin.**
 
 # Change Logs
-See [History](https://github.com/xjsender/haoide/blob/master/HISTORY.rst)
+    - See [History](https://github.com/xjsender/haoide/blob/master/HISTORY.rst)
 
 # Demo
-+ [Install Plugin](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/InstallPackage.gif) 
-+ [Create New Project](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/NewProject.gif)
-+ [Completions](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
-+ [Trigger](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Trigger.gif)
-+ [Visualforce Page](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/html.gif)
-+ [Execute Rest Test](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Execute%20Rest%20Test.gif)
-+ [Document Reference](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DocumentReference.gif)
-+ [Export Workbooks](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ExportWorkbooks.gif)
-+ [Export Workflow](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ExportWorkflow.gif)
-+ [Retrieve Package.xml](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
-+ [Deploy Package.zip](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
-+ [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
-+ [Deploy Files to Server](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployFilesToServer.gif)
-+ [Save Multiple Files to Server](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/SaveMultipleFilesToServer.gif)
-+ [Refresh Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RefreshFolders.gif)
-+ [Convert XML to JSON](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/ConvertXML2JSON.gif)
-+ [Build Package.xml](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/BuildPackageXML.gif)
-+ [Lighting Component Development](https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif)
-+ [More Demos](https://github.com/xjsender/SublimeApexScreenshot)
-
-**Please don't change the password and email in the build-in test org**
+    - [Demo is here](https://github.com/xjsender/SublimeApexScreenshot)
 
 # Installation
-This plugin is hosted on [package control](https://sublime.wbond.net/packages/haoide), after you [installed the package control](https://sublime.wbond.net/installation#st3), you can install this plugin by searching ```haoide``` in package control
+You can install this plugin by searching ```haoide``` in package control
 
 # Project Configuration
 ## Worspace
@@ -159,19 +138,7 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 You can click ```haoide > Update > Update Project``` in the main menu or press <kbd>Alt</kbd>+<kbd>R</kbd> to update your active project.
 
 ## Completions:
-+ [x] Standard Class Completion
-+ [x] sObject Fields Completion and sObject Relationship Completion
-+ [x] Relationship Fields Completion
-+ [x] Custom Class Completion
-+ [x] Input any Character, Show All Standard sObject, Custom sObject, Standard Class and Custom Class
-+ [x] After input ``Page.``, list all custom visualforce page
-+ [x] Picklist Value Completion
-+ [x] SOQL Fields Completion
-+ [x] Standard Visualforce Component and Custom Visualforce Component Completion
-+ [x] HTML Elements Completion
-+ [x] HTML and Visualforce Component Attribute Completion
-+ [x] HTML and Visualforce Component Attribute Value Completion
-See [Completions Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
+    - [Completions Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif)
 
 ## Execute Anonymous
 Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```HaoIDE``` > ```Execute Anonymous```, you will see the result, you should be aware, if anonymous code compile is failed, message will be shown in output panel, just after compile succeed, the executed result will be shown in the new view.
@@ -261,25 +228,7 @@ You can close this feature by change ```keep_local_history_change``` settings to
 Choose the folders in the side bar and refresh them by click ```haoide > Refresh Folder`` in the sidebar menu
 
 ## Salesforce Document Quick Reference
-I get the idea idea from [Salesforce Referencee](https://github.com/Oblongmana/sublime-salesforce-reference) and added some feature based on it.
-
-Click the ```HaoIDE``` > ```Document``` > ```Reload Salesforce Reference``` in the main menu, you need to confirm whether continue, after you confirmed it, then wait for a moment until the ```Open Document``` command is enabled, at this moment, you can press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd> or Click it to invoke the ```Open Document``` command, nearly all reference api will be shown in the list, you can try to choose any one and it will be opened in browser.
-
-There is default ```docs``` settings, if you want to add some other document reference to here, you can customize it yourself.
-```
-"docs": {
-    "apexcode": {
-       "catalog": "Apex",
-       "pattern": "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
-    },
-    ...
-},
-```
-+ **apexdoc**: the part in ```http://www.salesforce.com/us/developer/docs/apexdoc/Data/Toc.xml```, you can get the ```apexdoc``` from Salesforce documents link
-+ **Apex**: the document prefix in the quick search panel
-+ **pattern**: the XPath pattern for parse the content from the response
-
-**You should be aware that every reloading is time-consuming, generally, you should reload it in every salesforce release**
+    - See <a href="/documentreference.md" target="_blank">Document Quick Reference</a>
 
 ## Refresh Multiply Components
 Choose the components you want to refresh, and then Click ```HaoIDE``` > ```Refresh Selected Components``` in the Sidebar Menu
@@ -296,308 +245,150 @@ Click ```HaoIDE``` > ```Metadata Migration``` > ```Retrieve All``` in the main m
 **This feature is not good enough, because there is no listPackage feature supported, for example, report and dashboard can't be retrieve if no detail folder/report is specified in package.xml**
 
 ## Retrieve Package.xml
-Click ```HaoIDE``` > ```Metadata Migration``` > ```Retrieve Package.xml``` in the main menu, input your package file path, after that, you will see the effect.
+With this feature, plugin can retrieve the metadata by package.xml from the default project, if package.xml parse failed, error will be shown in the output panel.
 
-see [Retrieve Package.xml Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/RetrievePackage.gif)
+You can retrieve package.xml by below two ways,
 
-Actually, you can open any package.xml file in the sublime and click ``haoide`` > ``Retrieve Package.xml`` command in the context menu to retrieve specified metadata from default project.
+* By Sidebar Menu
+    - Choose a package file, which name should be end with ```.xml```
+    - Execute ```HaoIDE > Retrieve Package.xml``` command in the sidebar menu
+    - You will need to input the output path for retrieved result, which has a default value same with the path of current package.xml, after input the output path and click <kbd>Enter</kbd>, retrieve will start
+    - After retrieve is finished, you will see the retrieved package in your input path
+
+* By Context Menu
+    - Open a package file, which name should be end with ```.xml```
+    - Execute ```HaoIDE > Retrieve Package.xml``` command in the context menu
+    - You will need to input the output path for retrieved result, which has a default value same with the path of current package.xml, after input the output path and click <kbd>Enter</kbd>, retrieve will start
+    - After retrieve is finished, you will see the retrieved package in your input path
 
 ## Update Static Resource
-Choose the resource that you need to update in the side bar, firstly, you need to click ``haoide`` > ``Extract To Here`` to extract it to sub folder of ``staticresources``, after you made some change in the extracted folder, choose the extracted folder name and click ``haoide`` > ``Update StaticResource`` in the context menu to save it to server.
+With this feature, you can directly edit static zip resource, there are several steps to do it,
 
-You can even use this command to extract any other zip file not limited to Salesforce StaticResource.
+* Choose the static zip resource that you need to update in the ```staticresources``` folder
 
-see [UpdateStaticResource](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/UpdateStaticResource.gif)
+* Click ``HaoIDE`` > ``Extract To Here`` to extract it to ``sub folder`` of ``staticresources``, which name is same with the static resource.
+    - ``Extract To Here`` command can extract all kinds of zip resource, no matter what extension of the file.
+    - If file is not zip resource, error message will be shown in the output panel
+
+* After you made change on the file in the sub folder, choose the name of ``sub folder`` and click ``HaoIDE`` > ``Update StaticResource`` in the sidebar menu to save it to server.
+
+* [UpdateStaticResource Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/UpdateStaticResource.gif)
 
 ## Deploy
 There has a setting ``switch_back_after_migration`` to control whether switch back to original project after deploy is finished, default value is ``true``
 
-### Deploy Package Zip
-Click ```HaoIDE``` > ```Metadata Migration``` > ```Deploy Package.zip``` in the main menu, input your zip file path, after that, you will see the effect.
+* Deploy Package Zip, [demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif) is here
+    - Click ```HaoIDE``` > ```Metadata Migration``` > ```Deploy Package.zip``` in the main menu
+    - Input your zip file path and click <kbd>Enter</kbd>
+    - Waiting and checking the progress message in the output panel
+    - After operation is finished, you will see the deploy result
 
-see [Deploy Package Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif)
+* Deploy Files to Server
+    - Choose the file to deploy
+    - Click ```HaoIDE``` > ```Deploy File to Server``` in the context menu
+    - Waiting and checking the progress message in the output panel
+    - After operation is finished, you will see the deploy result
 
-### Deploy Files to Server
-Choose the files to deploy and click Click ```HaoIDE``` > ```Deploy File to Server``` in the context menu, you will see the effect
+* Deploy Open Files
+    - Sometimes, when you want to deploy class, page or somethings else, however, you didn't want to choose them in the sidebar when there are huge number of code files, you can open the files that you want to deploy to server and Click ```HaoIDE``` > ```Metadata Migration``` > ```Deploy Open Files``` in the main menu to deploy multiply files to target server. 
 
-### Deploy Open Files
-Sometimes, when you want to deploy class, page or somethings else, however, you didn't want to choose them in the sidebar when there are huge number of code files, you can open the files that you want to deploy to server and Click ```HaoIDE``` > ```Metadata Migration``` > ```Deploy Open Files``` in the main menu to deploy multiply files to target server. 
+    - Actually, you can even open code files in different orgs and deploy them to the same org, for example, there have three classes to be deployed, A and B are in UAT environment and they are newly developed feature, C in UAT environment is completely different with production environment and there is urgent bug needed to be fixed in production, so at this moment, you can open A and B classes in UAT and the fixed version of C class in production and click ```Deploy Open Files``` to deploy the three class from different orgs to production environment.
 
-Actually, you can even open code files in different orgs and deploy them to the same org, for example, there have three classes to be deployed, A and B are in UAT environment and they are newly developed feature, C in UAT environment is completely different with production environment and there is urgent bug needed to be fixed in production, so at this moment, you can open A and B classes in UAT and the fixed version of C class in production and click ```Deploy Open Files``` to deploy the three class from different orgs to production environment.
+    - This command is just enabled when any one of open files is salesforce code files.
 
-This command is just enabled when any one of open files is salesforce code files.
-
-### Deploy Package Folder
-Choose a valid package folder, click right button, check if the ```Deploy to Server``` command is enabled, if yes, it means the package folder is valid, and then click the ```Deploy To Server`` command, you will see the effect.
-
-see [Deploy Package Folder](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif)
+* Deploy Package Folder, [demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif) is here
+    - Choose a valid package folder, for example, ``src`` folder or ``Project/src``, plugin will check whether ``src`` folder contains ``package.xml`` file, if yes, you will ``Deploy To Server`` command in the sidebar menu, otherwise, ``Deploy To Server`` will be hidden
+    - Click the ```Deploy To Server`` command
+    - Waiting and checking the progress message in the output panel
+    - After operation is finished, you will see the deploy result
 
 ## Export
 You can export somethings in your org to CSV by these features
 
-### Export CustomFields
-You can click ```HaoIDE``` > ```Export``` > ```Export CustomField``` to export all custom fields in your org to csv.
+* Export CustomFields
+    - Click ```HaoIDE``` > ```Export``` > ```Export CustomField```
+    - ``CustomFields`` will be exported to ``Project/.export/CustomFields.csv``
 
-### Export Workflow Rules
-After you downloaded metadata of sObject and Workflow by clicking ```HaoIDE``` > ```Metadata Migration``` > ```Retrieve Sobject And Workflow```, you can click ```HaoIDE``` > ```Export``` > ```Export Workflow``` to backup all workflows in your org to csv.
+* Export Workflow Rules
+    - Download metadata of ``sObjects and Workflow`` by clicking ```Migration``` > ```Retrieve Sobject And Workflow``` in the main menu
+    - Click ```Export``` > ```Export Workflow``` in the main menu to backup all workflows in your org to csv
+    - ```workflow_rule_columns```, ``workflow_field_update_columns``, ``workflow_email_alert_columns``, ``workflow_outbound_message_columns`` and ``workflow_task_columns`` defines the columns of export CSV, you can adjust the sequence and columns by customizing your own value of this five settings
 
-If you just want to export some attributes of workflows, you can remove some columns in the ```workflow_rule_columns```, ``workflow_field_update_columns``, ``workflow_email_alert_columns``, ``workflow_outbound_message_columns`` and ``workflow_task_columns`` settings and put it into your own user settings.
+* Export Validation Rules
+    - Download metadata of ``sObjects and Workflow`` by clicking ```Migration``` > ```Retrieve Sobject And Workflow``` in the main menu
+    - Click ```Export``` > ```Export Validation Rule``` in the main menu
+    - All ValidationRules in your org will be exported to ``Project/.export/ValidationRules.csv``
+    - ```validation_rule_columns``` setting defines the columns of export CSV, you can adjust the sequence and columns by customizing your own value of this setting
 
-### Export Validation Rules
-After you downloaded all metadata by clicking ```HaoIDE``` > ```Migration``` > ```Retrieve Sobject And Workflow```, you can click ```HaoIDE``` > ```Export``` > ```Export Validation Rule``` to backup all validation rules in your org to CSV.
+* Export Profile Workbook
+    - Retrieve all metadata by clicking ``Metadata Migration`` > ``Retrieve All`` in the main menu to download all related components.
+    - Click ``HaoIDE`` > ``Export`` > ``Export Profile`` in the main menu to export ``ObjectPermission``, ``TabVisibilities``, ``FieldLevelSecurity`` and ``UserPermissions`` of all profiles to four different CSV files, you can check below sample CSVs.
+    - Exported profile csv from sample org
+        + [FieldLevelSecurity.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/FieldLevelSecurity.csv)
+        + [ObjectPermissions.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/ObjectPermissions.csv)
+        + [TabVisibilities.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/TabVisibilities.csv)
+        + [UserPermissions.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/UserPermissions.csv)
 
-If you just want to export some attributes of validation rules, you can remove some columns in the ```validation_rule_columns``` setting and put it into your own user settings
+* Export Workbook of sobjects
+    - Click ``Export`` > ``Export Workbook`` in the main menu
+    - Input * to export all sObject workbooks
+    - Input sObject Names separated with semi-colon to export some
+    - ``workbook_field_describe_columns`` setting define the columns
 
-### Export CustomFields
-You can click ```HaoIDE``` > ```Export``` > ```Export CustomFields``` to export all custom fields in your org to CSV.
-
-
-### Export Profile Workbook
-Before execute this command, you should execute the ```Retrieve All``` command to download all related components.
-
-
-After you have retrieved all metadata, you can click ```HaoIDE``` > ```Export``` > ```Export Profile``` to export ```ObjectPermission```, ```TabVisibilities```, ```FieldLevelSecurity``` and ```UserPermissions``` of all profiles to four different CSV files, you can check below sample CSVs.
-
-#### Exported profile csv from sample org
-* [FieldLevelSecurity.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/FieldLevelSecurity.csv)
-* [ObjectPermissions.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/ObjectPermissions.csv)
-* [TabVisibilities.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/TabVisibilities.csv)
-* [UserPermissions.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/UserPermissions.csv)
-
-### Export Workbook of sobjects
-You can click ```HaoIDE``` > ```Export``` > ```Export Workbook``` to export all sObject workbooks or some sObject separated with semi-colon in your org to CSV.
-
-If you just want to export some attributes of sobject workbook, you can remove some columns in the ```workbook_field_describe_columns``` setting and put it into your own user settings
-
-
-### Export Data Template
-Click ```HaoIDE``` > ```Export``` > ```Export Data Template```, wait for a moment, choose the record type of sobject, the sobject data template by record type will be exported. From the row 1 to row 6, meaning is show as below,
-```
-[Field Label]...
-[Field API]...
-[Field Type]...
-[Layout Required]...
-[Picklist Label if has]...
-[Picklist Value if has]
-```
+* Export Data Template
+    - Click ``Export`` > ``Export Data Template`` in the main menu
+    - Waiting until ``sObject => RecordType`` quick panel is open
+    - Choose one and press <kbd>Enter</kbd> and template will be exported
+    - From the row 1 to row 6, they are,
+        + [Field Label]...
+        + [Field API]...
+        + [Field Type]...
+        + [Layout Required]...
+        + [Picklist Label if has]...
+        + [Picklist Value if has]
 
 
 ## Utilities
 There are some utilities to keep your work efficient as below
 
-### Convert 15Id to 18Id
-You can click ```HaoIDE``` > ```Utilities``` > ```Convert 15Id to 18Id``` to convert your input 15Id to 18Id, if your input is not valid 15Id, it will be returned as original value
+* Convert 15Id to 18Id
+    - Click ```Utilities``` > ```Convert 15Id to 18Id``` in the main menu
+    - to convert your input 15Id to 18Id, if your input is not valid 15Id, it will be returned as original value
 
-### Describe sObject
-Click ```HaoIDE``` > ```Utilities``` > ```Describe sObect```, and then choose a sObject in the selection panel and press <kbd>Enter</kbd>, the describe result will appear in the new view
+* Describe sObject
+    - Click ```Utilities``` > ```Describe sObect``` in the main menu
+    - Choose a sObject in the quick panel and press <kbd>Enter</kbd>
+    - The describe result will appear in the new view
 
-### Generate sObject SOQL
-Click ```HaoIDE``` > ```Utilities``` > ```Generate sObject SOQL```, and then choose a sObject in the selection panel and press <kbd>Enter</kbd>, the sObject SOQL will appear in the new view
+* Generate sObject SOQL
+    - Click ```Utilities``` > ```Generate sObject SOQL``` in the main menu
+    - Choose a sObject in the quick panel and press <kbd>Enter</kbd>
+    - The sObject SOQL will appear in the new view
 
-### Pretty JSON
-Click ```HaoIDE``` > ```Utilities``` > ```JSON Pretty```, and then input your JSON Body in the input panel and press <kbd>Enter</kbd>, the Prettied JSON will appear in the new view
+* Pretty JSON
+    - Click ```Utilities``` > ```JSON Pretty``` in the main menu
+    - Input your JSON Body in the input panel and press <kbd>Enter</kbd>
+    - The Prettied JSON will appear in the new view
 
-### Serialize JSON
-Click ```HaoIDE``` > ```Utilities``` > ```JSON Serialization```, and then input your JSON Body in the input panel and press <kbd>Enter</kbd>, the Serialized JSON will appear in the new view
+* Serialize JSON
+    - Click ```Utilities``` > ```JSON Serialization``` in the main menu
+    - Input your JSON Body in the input panel and press <kbd>Enter</kbd>
+    - The Serialized JSON will appear in the new view
 
-### Convert JSON to Apex
-You can click ```HaoIDE``` > ```Utilities``` > ```Convert JSON to Apex``` to convert your input json to Apex class.
-
-Default class name of main class is ```JSON2Apex```, after you input the JSON to be converted, plugin will ask you to input the class name, you can change the default name there.
-
-In order to keep the accuracy of converted result, you should predefine the every value of every key in the input JSON
-
-#### Notes:
-+ [x] If value is matched with ```\d{4}-\d{2}-\d{2}T[\d:Z.]+``` regress expression, data type will be thought as ```DateTime```
-+ [x] If value is matched with ```\d{4}-\d{2}-\d{2}``` regress expression, data type will be thought as ```Date```
-+ [x] If value is ```null```, data type will be thought as ```Object```
-
-#### Example:
-If the json string is as below,
-```javascript
-{
-    "name": "test",
-    "birthday": "1982-01-19T09:58:13.190Z",
-    "age": 32, 
-    "money": 12321.5,
-    "createdDate": "2015-01-20",
-    "children": [
-        {
-            "name": "son",
-            "age": 2,
-            "birthday": "2013-01-19T09:58:13.190Z",
-            "money": 0, 
-            "toy": [{
-                "name": "toy1"
-            }]
-        },
-        {
-            "name": "daughter",
-            "age": 1,
-            "birthday": "2014-01-19T09:58:13.190Z",
-            "money": 0,
-            "toy": [{
-                "name": "toy2"
-            }]
-        }
-    ],
-    "father": {
-        "name": "father",
-        "age": 75,
-        "birthday": "1940-01-19T09:58:13.190Z",
-        "money": 0
-    }
-}
-```
-
-The converted apex will be as below:
-```java
-public class Toy {
-    public String name;
-}
-
-public class Children {
-    public String name;
-    public List<Toy> toy;
-    public Integer age;
-    public Integer money;
-    public DateTime birthday;
-}
-
-public class Father {
-    public String name;
-    public Integer age;
-    public Integer money;
-    public DateTime birthday;
-}
-
-public class JSON2Apex {
-    public List<Children> children;
-    public Date createdDate;
-    public Integer age;
-    public Decimal money;
-    public String name;
-    public Father father;
-    public DateTime birthday;
-}
-
-public static JSON2Apex parse(String jsonStr) {
-    return (JSON2Apex) JSON.deserialize(jsonStr, JSON2Apex.class);
-}
-
-static testMethod void testParse() {
-    String json = '{"children": [{"name": "son", "toy": [{"name": "toy1"}], "age": 2, "money": 0, "birthday": "2013-01-19T09:58:13.190Z"}, {"name": "daughter", "toy": [{"name": "toy2"}], "age": 1, "money": 0, "birthday": "2014-01-19T09:58:13.190Z"}], "createdDate": "2015-01-20", "age": 32, "money": 12321.5, "name": "test", "father": {"name": "father", "age": 75, "money": 0, "birthday": "1940-01-19T09:58:13.190Z"}, "birthday": "1982-01-19T09:58:13.190Z"}';
-    JSON2Apex obj = parse(json);
-    System.assert(obj != null);
-}
-```
+* Convert JSON to Apex
+    - See <a href="/json2apex.md" target="_blank">Convert JSON to Apex</a>
 
 ## Lighting Component Development
-Support kinds of lighting development, see [lighting component demo](https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif)
+    - [lighting component demo](https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif)
 
-## Exceute Rest Test
-Up to now, support ```Get```, ```Post```, ```Put```, ```Patch```, ```Delete```, ```Tooling Query```, ```Query```, ```Query All```, ```Head```, ```Retrieve Body```, ```Search``` and ```Quick Search``` methods.
-
-for example, 
-
-+ **Query Sample**, you can input ```SELECT Id, Name FROM Account LIMIT 1``` and choose it, choose the intput SOQL, and then click ```Execute Rest Test``` in the context menu, choose the ```Query``` in the popup menu, wait for a moment, the queried json result will be shown in the new view.
-```
-{
-    'done': True,
-    'records': [{
-        'Id': '001O000000M1mPwIAJ',
-        'Name': '周星驰',
-        'attributes': {
-            'type': 'Account',
-            'url': '/services/data/v30.0/sobjects/Account/001O000000M1mPwIAJ'
-        }
-    }],
-    'totalSize': 1
-}
-```
-
-+ **Query With Wildcard Character***, you can input ```SELECT * FROM Account LIMIT 1``` and choose it, choose the intput SOQL, and then click ```Execute Rest Test``` in the context menu, choose the ```Query``` in the popup menu, wait for a moment, the queried json result will be shown in the new view.
-```
-{
-    'done': True,
-    'records': [{
-        'Id': '001O000000M1mPwIAJ',
-        'Name': '周星驰',
-        ....
-        'attributes': {
-            'type': 'Account',
-            'url': '/services/data/v30.0/sobjects/Account/001O000000M1mPwIAJ'
-        }
-    }],
-    'totalSize': 1
-}
-```
-
-+ **Tooling Query Sample**, you can input ```SELECT Id, Name FROM ApexClass``` and choose it, choose the intput SOQL, and then click ```Execute Rest Test``` in the context menu, choose the ```Tooling Query``` in the popup menu, wait for a moment, the queried json result will be shown in the new view.
-
-+ **Post Sample**: you can input ```/sobjects/Account``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Post``` in the popup menu and input the json ```{"Name": "Test Rest Test"}``` in the input panel, wait for a moment, the inserted new account will be shown in the new view.
-```
-{
-    'errors': [],
-    'id': '001O000000MIiSXIA1'
-}
-```
-
-+ **Get Sample**: input ```/sobjects/Account/001O000000MIiSXIA1``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Get``` in the popup menu, wait for a moment, the detail information of the specified Id will be shown in the new view:
-```
-{
-    'BillingAddress': {
-        'city': None,
-        'country': 'United States',
-        ...
-    },
-    'BillingCity': None,
-    'BillingCountry': 'United States',
-    'BillingCountryCode': 'US',
-    ...
-}
-```
-
-+ **Delete Sample**: input ```/sobjects/Account/001O000000MIiSXIA1``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Delete``` in the popup menu, wait for a moment, the delete result will be shown in the new view:
-```
-{}
-```
-
-+ **Patch Sample**: Sometimes, you want to update some fields of record, you can input ```/sobjects/Account/001O000000MIiSXIA1``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Patch``` in the popup menu and input ```{"Name": "Test Path"}``` in the input panel, wait for a moment, the patch result will be shown in the new view:
-```
-{}
-```
-
-+ **Search Sample**: Sometimes, want to test search action, you can input ```FIND {test}``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Search``` in the popup menu, wait for a moment, the patch result will be shown in the new view:
-```
-[{
-    'Id': '001O0000001OWv5IAG',
-    'attributes': {
-        'type': 'Account',
-        'url': '/services/data/v29.0/sobjects/Account/001O0000001OWv5IAG'
-    }
-}]
-```
-
-+ **Quick Search Sample**: Sometimes, want to search something, you can input ```test``` and choose it, click ```Execute Rest Test``` in the context menu, choose the ```Quick Search``` in the popup menu, wait for a moment, the patch result will be shown in the new view:
-```
-[{
-    'Id': '001O0000001OWv5IAG',
-    'attributes': {
-        'type': 'Account',
-        'url': '/services/data/v29.0/sobjects/Account/001O0000001OWv5IAG'
-    }
-}]
-```
+## Exceute REST Test
+    - See <a href="/rest.md" target="_blank">REST Test</a>
 
 ## Bulk Api
-+ Up to now, support close jobs, export, insert, update and delete.
-+ You can set the batch size and batch bytes for every batch by put ```maximum_batch_size``` and ```maximum_batch_bytes``` in your user settings, you should be aware, maximum records of single batch is **10K** and maximum bytes of single batch is **1000K**
-+ This tool will get your CSV file encoding type by detecting the first **1000** bytes of the CSV file, as a best practice, you should prepare CSV file which encoding type is ```ANSI``` or ```UTF-8```.
-+ If you want to insert a CSV file, you'd better open the CSV file in sublime and copy the file path, after you choose the sobject that you want to insert records, this tool will automatically get the file path from the clipboard
+    - See <a href="/bulk.md" target="_blank">Bulk API</a>
 
 ## Proxy
-Refer to [Request Proxies](http://docs.python-requests.org/en/latest/user/advanced/#proxies)
+    - [Request Proxies](http://docs.python-requests.org/en/latest/user/advanced/#proxies)
 
 # Build-in Dependency Lib
 + [requests](https://github.com/kennethreitz/requests)

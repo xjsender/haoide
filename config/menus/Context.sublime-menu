@@ -7,7 +7,7 @@
 
             {"caption": "-"},
             
-            {"caption": "Retrieve Package.xml", "command": "retrieve_package_file"},
+            {"caption": "Retrieve Package.xml", "command": "retrieve_package_xml"},
 
             {"caption": "-"},
 

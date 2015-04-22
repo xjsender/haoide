@@ -559,6 +559,88 @@ class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
         types = util.build_folder_types(dirs)
         processor.handle_refresh_folder(types, not retrieve_all)
 
+class CombinePackageXml(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CombinePackageXml, self).__init__(*args, **kwargs)
+
+    def run(self, dirs):
+        settings = context.get_settings()
+
+        all_types = {}
+        for _dir in dirs:
+            for dirpath, dirnames, filenames in os.walk(_dir):
+                for filename in filenames:
+                    if filename.endswith("-meta.xml"): continue
+                    if not filename.endswith(".xml"): continue
+
+                    # Package file name
+                    package_xml = os.path.join(dirpath, filename)
+
+                    # Read package.xml content
+                    with open(package_xml, "rb") as fp:
+                        content = fp.read()
+
+                    """ Combine types sample: [
+                        {"ApexClass": ["test"]},
+                        {"ApexTrigger": ["test"]}
+                    ]
+                    """
+                    _types = util.build_package_types(content)
+                    for _type in _types:
+                        members = _types[_type]
+
+                        if _type in all_types:
+                            members.extend(all_types[_type])
+                            members = list(set(members))
+                        
+                        all_types[_type] = sorted(members)
+
+        # print (json.dumps(all_types, indent=4))
+        metadata_objects = []
+        for _type in all_types:
+            metadata_objects.append(
+                "<types>%s<name>%s</name></types>" % (
+                    "".join(["<members>%s</members>" % m for m in all_types[_type]]),
+                    _type
+                )
+            )
+
+        self.package_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
+            <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+                {metadata_objects}
+                <version>{api_version}.0</version>
+            </Package>
+        """.format(
+            metadata_objects="".join(metadata_objects),
+            api_version=settings["api_version"]
+        )
+
+        package_path = os.path.join(dirs[0], "combined package.xml")
+        sublime.active_window().show_input_panel("Input Package.xml Path", 
+            package_path, self.on_input_package_path, None, None)
+
+    def on_input_package_path(self, package_path):
+        # Check input
+        if not package_path:
+            message = 'Invalid path, do you want to try again?'
+            if not sublime.ok_cancel_dialog(message, "Try Again?"): return
+            self.window.show_input_panel("Please Input Name: ", "", 
+                self.on_input_extractto, None, None)
+            return
+
+        base = os.path.split(package_path)[0]
+        if not os.path.exists(base):
+            os.makedirs(base)
+
+        with open(package_path, "wb") as fp:
+            fp.write(util.format_xml(self.package_xml_content))
+
+        view = sublime.active_window().open_file(package_path)
+    
+    def is_visible(self, dirs):
+        if not dirs: return False
+        return True
+
 class CreatePackageXml(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreatePackageXml, self).__init__(*args, **kwargs)
@@ -596,59 +678,55 @@ class RetrievePackageXml(sublime_plugin.WindowCommand):
         super(RetrievePackageXml, self).__init__(*args, **kwargs)
 
     def run(self, files=None):
-        _file = files[0]
-
-        # Build types
-        try:
-            with open(_file, "rb") as fp:
-                content = fp.read()
-            types = util.build_package_types(content)
-        except Exception as ex:
-            Printer.get('error').write(str(ex))
-            return
-
-        # Initiate extract_to
-        path, name = os.path.split(_file)
-        time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
-        settings = context.get_settings()
-        project_name = settings["default_project_name"]
-        extract_to = os.path.join(path, project_name+"-"+time_stamp+"-"+name)
-
-        # Start retrieve
-        processor.handle_retrieve_package(types, extract_to)
-
-    def is_visible(self, files=None):
-        if not files: return False
-        if files and len(files) > 1: return False
-        if files and not files[0].endswith(".xml"): return False
-
-        return True
-
-class RetrievePackageFileCommand(sublime_plugin.TextCommand):
-    def run(self, edit):
         # Build types
         try:
             with open(self._file, "rb") as fp:
                 content = fp.read()
-            types = util.build_package_types(content)
+            self.types = util.build_package_types(content)
         except Exception as ex:
             Printer.get('error').write(str(ex))
             return
 
         # Initiate extract_to
         path, name = os.path.split(self._file)
+        name, ext = name.split(".")
         time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
         settings = context.get_settings()
         project_name = settings["default_project_name"]
-        extract_to = os.path.join(path, project_name+"-"+time_stamp+"-"+name)
+        extract_to = os.path.join(path, "%s-%s-%s" % (
+            project_name, name, time_stamp
+        ))
+
+        sublime.active_window().show_input_panel("Input ExtractedTo Path", 
+            extract_to, self.on_input_extractto, None, None)
+
+    def on_input_extractto(self, extract_to):
+        # Check input
+        if not extract_to or not os.path.isabs(extract_to):
+            message = 'Invalid path, do you want to try again?'
+            if not sublime.ok_cancel_dialog(message, "Try Again?"): return
+            self.window.show_input_panel("Please Input Name: ", "", 
+                self.on_input_extractto, None, None)
+            return
 
         # Start retrieve
-        processor.handle_retrieve_package(types, extract_to)
+        processor.handle_retrieve_package(self.types, extract_to)
 
-    def is_visible(self):
-        self._file = self.view.file_name()
-        if not self._file: return False
-        if not self._file.endswith(".xml"): return False
+    def is_visible(self, files=None):
+        self._file = None
+        
+        if files and len(files) > 1: 
+            return False
+        elif files and len(files) == 1:
+            # Invoked from sidebar menu
+            self._file = files[0]
+        else:
+            # Invoked from context menu
+            view = sublime.active_window().active_view()
+            self._file = view.file_name()
+
+        if not self._file or not self._file.endswith(".xml"):
+            return False
 
         return True
 
