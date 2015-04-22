@@ -13,7 +13,7 @@ You can install this plugin by searching ```haoide``` in package control
 + <a href="/docs/deploy.md" target="_blank">Deploy</a>
 + <a href="/docs/staticresource.md" target="_blank">Static Resource Bundle</a>
 + <a href="/docs/export.md" target="_blank">Export CSV</a>
-+ <a href="/docs/utilites.md" target="_blank">Salesforce Utilities</a>
++ <a href="/docs/utilities.md" target="_blank">Salesforce Utilities</a>
 + <a href="/docs/json2apex.md" target="_blank">Convert JSON to Apex</a>
 + <a href="/docs/rest.md" target="_blank">REST Test</a>
 + <a href="/docs/bulk.md" target="_blank">Bulk API</a>

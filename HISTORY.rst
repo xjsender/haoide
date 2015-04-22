@@ -4,12 +4,13 @@ Release History
 
 ---------------
 
-Release 2.8.7 (2015-04-20)
+Release 2.8.7 (2015-04-22)
 ++++++++++++++++++
 * Fix plugin loading NoneType issue
 * Combine ``retrieve_package_file`` and ``retrieve_package_xml`` command to only ``retrieve_package_xml``
 * Allow user to input extractTo path, enhancement for issue #19
-* Add a new command ``combine_package_xml`` to combine all package.xml in folders
+* Add a new command ``combine_package_xml`` to combine all package.xml in many folders, see ``Salesforce Utilites`` quick link
+* Update Documents
 
 
 Release 2.8.6 (2015-04-20)
