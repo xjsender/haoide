@@ -4,10 +4,16 @@ This plugin supports ```Sublime Text 3``` for windows and OSX, not tested for Li
 # Installation
 You can install this plugin by searching ```haoide``` in package control
 
-# Quick Link:
+# Quick Link
 + <a href="https://github.com/xjsender/haoide/blob/master/HISTORY.rst" target="_blank">Change Logs</a>
-+ <a href="https://github.com/xjsender/SublimeApexScreenshot">All Demos</a>
++ <a href="https://github.com/xjsender/SublimeApexScreenshot" target="_blank">All Demos</a>
 + <a href="/docs/project.md" target="_blank">Project Configuration</a>
++ <a href="/docs/retrieve.md" target="_blank">Retrieve</a>
++ <a href="/docs/deploy.md" target="_blank">Deploy</a>
++ <a href="/docs/staticresource.md" target="_blank">Static Resource Bundle</a>
++ <a href="/docs/export.md" target="_blank">Export CSV</a>
++ <a href="/docs/utilites.md" target="_blank">Salesforce Utilities</a>
++ <a href="/docs/json2apex.md" target="_blank">Convert JSON to Apex</a>
 + <a href="/docs/rest.md" target="_blank">REST Test</a>
 + <a href="/docs/bulk.md" target="_blank">Bulk API</a>
 + <a href="/docs/document.md" target="_blank">Document Quick Reference</a>
@@ -105,145 +111,6 @@ Choose the components you want to delete, and then Click ```HaoIDE``` > ```Delet
 
 ## Quick Goto Component
 Put the focus in the Class Name, and then, press <kbd>shift</kbd>,  and click ```button1``` for twice, the class file will be open in background if this class file is exist, however, if you want to open this class in the foreground, you should press <kbd>shift</kbd> and click ```button1``` for triple.
-
-## Retrieve All Metadata
-Click ```HaoIDE``` > ```Metadata Migration``` > ```Retrieve All``` in the main menu, you will see a new open view with message, this view will be refreshed every five seconds, after the retrieve status is completed, plug-in will download the base64 zipfile, after that, base64 zipfile will be decoded to zip file, at the last, this zip file will be extracted.
-
-**This feature is not good enough, because there is no listPackage feature supported, for example, report and dashboard can't be retrieve if no detail folder/report is specified in package.xml**
-
-## Retrieve Package.xml
-With this feature, plugin can retrieve the metadata by package.xml from the default project, if package.xml parse failed, error will be shown in the output panel.
-
-You can retrieve package.xml by below two ways,
-
-* By Sidebar Menu
-    - Choose a package file, which name should be end with ```.xml```
-    - Execute ```HaoIDE > Retrieve Package.xml``` command in the sidebar menu
-    - You will need to input the output path for retrieved result, which has a default value same with the path of current package.xml, after input the output path and click <kbd>Enter</kbd>, retrieve will start
-    - After retrieve is finished, you will see the retrieved package in your input path
-
-* By Context Menu
-    - Open a package file, which name should be end with ```.xml```
-    - Execute ```HaoIDE > Retrieve Package.xml``` command in the context menu
-    - You will need to input the output path for retrieved result, which has a default value same with the path of current package.xml, after input the output path and click <kbd>Enter</kbd>, retrieve will start
-    - After retrieve is finished, you will see the retrieved package in your input path
-
-## Update Static Resource
-With this feature, you can directly edit static zip resource, there are several steps to do it,
-
-* Choose the static zip resource that you need to update in the ```staticresources``` folder
-
-* Click ``HaoIDE`` > ``Extract To Here`` to extract it to ``sub folder`` of ``staticresources``, which name is same with the static resource.
-    - ``Extract To Here`` command can extract all kinds of zip resource, no matter what extension of the file.
-    - If file is not zip resource, error message will be shown in the output panel
-
-* After you made change on the file in the sub folder, choose the name of ``sub folder`` and click ``HaoIDE`` > ``Update StaticResource`` in the sidebar menu to save it to server.
-
-* [UpdateStaticResource Demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/UpdateStaticResource.gif)
-
-## Deploy
-There has a setting ``switch_back_after_migration`` to control whether switch back to original project after deploy is finished, default value is ``true``
-
-* Deploy Package Zip, [demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployZip.gif) is here
-    - Click ```HaoIDE``` > ```Metadata Migration``` > ```Deploy Package.zip``` in the main menu
-    - Input your zip file path and click <kbd>Enter</kbd>
-    - Waiting and checking the progress message in the output panel
-    - After operation is finished, you will see the deploy result
-
-* Deploy Files to Server
-    - Choose the file to deploy
-    - Click ```HaoIDE``` > ```Deploy File to Server``` in the context menu
-    - Waiting and checking the progress message in the output panel
-    - After operation is finished, you will see the deploy result
-
-* Deploy Open Files
-    - Sometimes, when you want to deploy class, page or somethings else, however, you didn't want to choose them in the sidebar when there are huge number of code files, you can open the files that you want to deploy to server and Click ```HaoIDE``` > ```Metadata Migration``` > ```Deploy Open Files``` in the main menu to deploy multiply files to target server. 
-
-    - Actually, you can even open code files in different orgs and deploy them to the same org, for example, there have three classes to be deployed, A and B are in UAT environment and they are newly developed feature, C in UAT environment is completely different with production environment and there is urgent bug needed to be fixed in production, so at this moment, you can open A and B classes in UAT and the fixed version of C class in production and click ```Deploy Open Files``` to deploy the three class from different orgs to production environment.
-
-    - This command is just enabled when any one of open files is salesforce code files.
-
-* Deploy Package Folder, [demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif) is here
-    - Choose a valid package folder, for example, ``src`` folder or ``Project/src``, plugin will check whether ``src`` folder contains ``package.xml`` file, if yes, you will ``Deploy To Server`` command in the sidebar menu, otherwise, ``Deploy To Server`` will be hidden
-    - Click the ```Deploy To Server`` command
-    - Waiting and checking the progress message in the output panel
-    - After operation is finished, you will see the deploy result
-
-## Export
-You can export somethings in your org to CSV by these features
-
-* Export CustomFields
-    - Click ```HaoIDE``` > ```Export``` > ```Export CustomField```
-    - ``CustomFields`` will be exported to ``Project/.export/CustomFields.csv``
-
-* Export Workflow Rules
-    - Download metadata of ``sObjects and Workflow`` by clicking ```Migration``` > ```Retrieve Sobject And Workflow``` in the main menu
-    - Click ```Export``` > ```Export Workflow``` in the main menu to backup all workflows in your org to csv
-    - ```workflow_rule_columns```, ``workflow_field_update_columns``, ``workflow_email_alert_columns``, ``workflow_outbound_message_columns`` and ``workflow_task_columns`` defines the columns of export CSV, you can adjust the sequence and columns by customizing your own value of this five settings
-
-* Export Validation Rules
-    - Download metadata of ``sObjects and Workflow`` by clicking ```Migration``` > ```Retrieve Sobject And Workflow``` in the main menu
-    - Click ```Export``` > ```Export Validation Rule``` in the main menu
-    - All ValidationRules in your org will be exported to ``Project/.export/ValidationRules.csv``
-    - ```validation_rule_columns``` setting defines the columns of export CSV, you can adjust the sequence and columns by customizing your own value of this setting
-
-* Export Profile Workbook
-    - Retrieve all metadata by clicking ``Metadata Migration`` > ``Retrieve All`` in the main menu to download all related components.
-    - Click ``HaoIDE`` > ``Export`` > ``Export Profile`` in the main menu to export ``ObjectPermission``, ``TabVisibilities``, ``FieldLevelSecurity`` and ``UserPermissions`` of all profiles to four different CSV files, you can check below sample CSVs.
-    - Exported profile csv from sample org
-        + [FieldLevelSecurity.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/FieldLevelSecurity.csv)
-        + [ObjectPermissions.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/ObjectPermissions.csv)
-        + [TabVisibilities.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/TabVisibilities.csv)
-        + [UserPermissions.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/UserPermissions.csv)
-
-* Export Workbook of sobjects
-    - Click ``Export`` > ``Export Workbook`` in the main menu
-    - Input * to export all sObject workbooks
-    - Input sObject Names separated with semi-colon to export some
-    - ``workbook_field_describe_columns`` setting define the columns
-
-* Export Data Template
-    - Click ``Export`` > ``Export Data Template`` in the main menu
-    - Waiting until ``sObject => RecordType`` quick panel is open
-    - Choose one and press <kbd>Enter</kbd> and template will be exported
-    - From the row 1 to row 6, they are,
-        + [Field Label]...
-        + [Field API]...
-        + [Field Type]...
-        + [Layout Required]...
-        + [Picklist Label if has]...
-        + [Picklist Value if has]
-
-
-## Utilities
-There are some utilities to keep your work efficient as below
-
-* Convert 15Id to 18Id
-    - Click ```Utilities``` > ```Convert 15Id to 18Id``` in the main menu
-    - to convert your input 15Id to 18Id, if your input is not valid 15Id, it will be returned as original value
-
-* Describe sObject
-    - Click ```Utilities``` > ```Describe sObect``` in the main menu
-    - Choose a sObject in the quick panel and press <kbd>Enter</kbd>
-    - The describe result will appear in the new view
-
-* Generate sObject SOQL
-    - Click ```Utilities``` > ```Generate sObject SOQL``` in the main menu
-    - Choose a sObject in the quick panel and press <kbd>Enter</kbd>
-    - The sObject SOQL will appear in the new view
-
-* Pretty JSON
-    - Click ```Utilities``` > ```JSON Pretty``` in the main menu
-    - Input your JSON Body in the input panel and press <kbd>Enter</kbd>
-    - The Prettied JSON will appear in the new view
-
-* Serialize JSON
-    - Click ```Utilities``` > ```JSON Serialization``` in the main menu
-    - Input your JSON Body in the input panel and press <kbd>Enter</kbd>
-    - The Serialized JSON will appear in the new view
-
-* Convert JSON to Apex
-    - See <a href="/json2apex.md" target="_blank">Convert JSON to Apex</a>
 
 # Build-in Dependency Lib
 + [requests](https://github.com/kennethreitz/requests)
