@@ -3,12 +3,12 @@
     - Default class name of main class is ```JSON2Apex```, after you input the JSON to be converted, plugin will ask you to input the class name, you can change the default name there.
     - In order to keep the accuracy of converted result, you should predefine the every value of every key in the input JSON
 
-#### Notes:
+## Notes:
 + [x] If value is matched with ```\d{4}-\d{2}-\d{2}T[\d:Z.]+``` regress expression, data type will be thought as ```DateTime```
 + [x] If value is matched with ```\d{4}-\d{2}-\d{2}``` regress expression, data type will be thought as ```Date```
 + [x] If value is ```null```, data type will be thought as ```Object```
 
-#### Example:
+## Example:
 If the json string is as below,
 ```javascript
 {

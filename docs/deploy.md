@@ -7,9 +7,15 @@ There has a setting ``switch_back_after_migration`` to control whether switch ba
     - Waiting and checking the progress message in the output panel
     - After operation is finished, you will see the deploy result
 
+* Refresh Folders
+    - Choose the folders to refresh in the side bar
+    - Click ```HaoIDE > Refresh Folder`` in the sidebar menu
+    - Waiting for operation is finished until retrieve is finished
+
 * Deploy Files to Server
-    - Choose the file to deploy
+    - Choose the files to deploy in the sidebar menu or context menu
     - Click ```HaoIDE``` > ```Deploy File to Server``` in the context menu
+    - Choose the target organization to deploy chosen files
     - Waiting and checking the progress message in the output panel
     - After operation is finished, you will see the deploy result
 
