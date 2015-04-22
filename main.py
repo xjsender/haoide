@@ -10,6 +10,7 @@ import zipfile
 import json
 import pprint
 import time
+import xml
 
 from . import requests
 from . import processor
@@ -564,7 +565,7 @@ class CombinePackageXml(sublime_plugin.WindowCommand):
         super(CombinePackageXml, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        settings = context.get_settings()
+        self.settings = context.get_settings()
 
         all_types = {}
         for _dir in dirs:
@@ -585,7 +586,18 @@ class CombinePackageXml(sublime_plugin.WindowCommand):
                         {"ApexTrigger": ["test"]}
                     ]
                     """
-                    _types = util.build_package_types(content)
+                    try:
+                        _types = util.build_package_types(content)
+                    except xml.parsers.expat.ExpatError as ee:
+                        message = "%s parse error: %s" % (package_xml, str(ee))
+                        Printer.get("error").write(message)
+                        if not sublime.ok_cancel_dialog(message, "Skip?"): return
+                        continue
+                    except KeyError as ex:
+                        if self.settings["debug_mode"]:
+                            print ("%s is not valid package.xml" % package_xml)
+                        continue
+
                     for _type in _types:
                         members = _types[_type]
 
@@ -612,7 +624,7 @@ class CombinePackageXml(sublime_plugin.WindowCommand):
             </Package>
         """.format(
             metadata_objects="".join(metadata_objects),
-            api_version=settings["api_version"]
+            api_version=self.settings["api_version"]
         )
 
         package_path = os.path.join(dirs[0], "combined package.xml")
