@@ -1,4 +1,4 @@
-# Update Static Resource
+# Update Static Resource Step by Step
 With this feature, you can directly edit static zip resource, there are several steps to do it,
 
 * Choose the static zip resource that you need to update in the ```staticresources``` folder

@@ -3,7 +3,7 @@
 ## Worspace
 If your operation system is **OSX**, you should change the workspace in ```HaoIDE``` > ```Setting``` > ```Setting - User``` to your own, if you didn't do that, plugin will save the project to ```<packages_path>/User/HaoIDE```, 
 
-There are two tiers of workspace concept in this plugin, including plugin level workspace and project level workspace, the privilege level of project level is higher than the plugin level workspace, if you didn't define the workspace in the project property of ```projects``` setting, plugin will set your plugin level workspace to the default workspace, for example, if the settings is set as below:
+There are two tiers of workspace concept in this plugin, including plugin level workspace and project level workspace, the privilege of project level is higher than the plugin level workspace, if you didn't define the workspace in the project property of ```projects``` setting, plugin will set your plugin level workspace to the default workspace, for example, if the settings is set as below:
 
 ```javascript
 {
