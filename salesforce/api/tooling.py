@@ -923,6 +923,21 @@ class ToolingApi():
         }
         url = "/tooling/sobjects/" + component_type + "Member"
         member_result = self.post(url, data)
+        
+        # Check whether user has privilege of `Author Apex`
+        if "errorCode" in member_result and member_result["errorCode"] == "NOT_FOUND":
+            # Before return error to console, we need to delete the container_id
+            # If delete failed, next saving operation will handle it
+            try:
+                self.delete(container_url + "/" + container_id)
+            except:
+                pass
+
+            self.result = {
+                "success": False,
+                "Error Message": "You don't have privilege on 'Author Apex'"
+            }
+            return self.result
 
         # Post ContainerAsyncRequest
         Printer.get('log').write("Start to post ContainerAsyncRequest Request")
