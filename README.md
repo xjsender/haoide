@@ -2,7 +2,7 @@
 This plugin supports ```Sublime Text 3``` for windows and OSX, not tested for Linux.
 
 # Installation
-You can install this plugin by searching ```haoide``` in package control
+You can install this plugin by searching ``haoide`` in package control, if you don't know how to use ``package control``, you can refer to [usage of package control](https://packagecontrol.io/docs/usage)
 
 # Quick Link
 + <a href="https://github.com/xjsender/haoide/blob/master/HISTORY.rst" target="_blank">Change Logs</a>
