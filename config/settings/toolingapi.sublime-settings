@@ -53,7 +53,8 @@
     "file_exclude_patterns": [
         // "*.md",
         // "*-history.*",
-        "*.*-meta.xml"
+        "*.*-meta.xml",
+        "*.sublime-project"
     ],
 
     // Folders not shown in the sidebar and Command Palette

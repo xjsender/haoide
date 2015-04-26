@@ -2368,9 +2368,9 @@ def add_project_to_workspace(settings):
                     folder_path = _folder["path"]
 
                     # Parse windows path to AS-UNIX
-                    if "\\" in folder_path : 
+                    if "\\" in folder_path: 
                         folder_path = folder_path.replace("\\", "/")
-                    if "\\" in workspace : 
+                    if "\\" in workspace:
                         workspace = workspace.replace("\\", "/")
 
                     if folder_path == workspace:
@@ -2400,7 +2400,25 @@ def add_project_to_workspace(settings):
         project_data = sublime.active_window().project_data()
         if not project_data: project_data = {}
         folders = project_data.get("folders", [])
-        folders.append(switch_to_folder)
+
+        # If the workspace is already exist in project data,
+        # just update the patters, if not, add the workspace to it
+        for folder in folders:
+            folder_path = folder["path"]
+
+            # Parse windows path to AS-UNIX
+            if "\\" in folder_path: 
+                folder_path = folder_path.replace("\\", "/")
+            if "\\" in workspace: 
+                workspace = workspace.replace("\\", "/")
+
+            if folder["path"] == workspace:
+                folder["file_exclude_patterns"] = file_exclude_patterns;
+                folder["folder_exclude_patterns"] = folder_exclude_patterns
+            else:
+                folders.append(switch_to_folder)
+        else:
+            folders.append(switch_to_folder)
         sublime.active_window().set_project_data({"folders": folders})
 
 def focus_view(view):
