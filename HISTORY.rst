@@ -9,6 +9,7 @@ Release 2.8.8 (2015-04-22)
 ++++++++++++++++++
 * Fix bug: If user don't have `Author Apex` privilege, plugin will give wrong information
 * Fix bug: Show alert message if no available package.xml to combine
+* Enhancement: Add scope control for ``JSON to Apex``
 * Enhancement: Set ``word_wrap`` of ``Test Run`` result to false
 * Enhancement: Simplify retrieve status check for API version 31 and later, check more detail at `here <https://www.salesforce.com/us/developer/docs/api_meta/Content/meta_retrieve.htm>`_
 * Update documents
