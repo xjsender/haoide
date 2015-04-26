@@ -67,7 +67,7 @@ class ApexApi():
                 headers=headers)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when issuing RUN ALL TEST request",
                 "success": False
             }
             return self.result
@@ -134,7 +134,7 @@ class ApexApi():
                 headers=headers)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when issuing EXECUTE ANONYMOUS request",
                 "success": False
             }
             return self.result

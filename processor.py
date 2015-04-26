@@ -964,6 +964,7 @@ def handle_run_test(class_name, class_id, timeout=120):
         # No error, just display log in a new view
         test_result = util.parse_test_result(result)
         view = sublime.active_window().new_file()
+        view.settings().set("word_wrap", "false")
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
             "view_name": "Test Result",
@@ -987,7 +988,11 @@ def handle_run_test(class_name, class_id, timeout=120):
             sublime.set_timeout(lambda: handle_code_coverage_thread(thread, view, timeout), timeout)
             return
 
-        code_coverage = util.parse_code_coverage(api.result)
+        # If error, just skip
+        result = api.result
+        if "success" in result and not result["success"]: return
+
+        code_coverage = util.parse_code_coverage(result)
         view.run_command("new_dynamic_view", {
             "view_id": view.id(),
             "view_name": "Test Result",

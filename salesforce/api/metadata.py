@@ -87,8 +87,15 @@ class MetadataApi():
             "async_process_id": async_process_id
         })
 
-        response = requests.post(self.metadata_url, soap_body, verify=False, 
-            headers=headers, timeout=timeout)
+        try:
+            response = requests.post(self.metadata_url, soap_body, verify=False, 
+                headers=headers, timeout=timeout)
+        except requests.exceptions.RequestException as e:
+            self.result = {
+                "Error Message":  "Network connection timeout when checking status for retrieve",
+                "success": False
+            }
+            return self.result
 
         # If status_code is > 399, which means it has error
         if response.status_code > 399:
@@ -122,7 +129,7 @@ class MetadataApi():
                 verify=False, headers=headers, timeout=120)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when checking retrieve status",
                 "success": False
             }
             return self.result
@@ -139,10 +146,8 @@ class MetadataApi():
 
     def retrieve(self, options, timeout=120):
         """ 1. Issue a retrieve request to start the asynchronous retrieval and asyncProcessId is returned
-            2. Thread sleep for a while and then issue a checkStatus request to check whether the async 
-               process job is completed.
-            3. After the job is completed, issue a checkRetrieveStatus request to obtain the zipFile(base64) 
-               in the retrieve result.
+            2. Issue a checkRetrieveStatus request to check whether the async process job is completed.
+            3. After the job is completed, you will get the zipFile(base64) 
             4. Use Python Lib base64 to convert the base64 string to zip file.
             5. Use Python Lib zipFile to unzip the zip file to path
 
@@ -174,7 +179,7 @@ class MetadataApi():
                 headers=headers, timeout=120)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when issuing retrieve request",
                 "success": False
             }
             return self.result
@@ -198,46 +203,48 @@ class MetadataApi():
 
         # [sf:retrieve]
         Printer.get('log').write("[sf:retrieve] Request ID for the current retrieve task: "+async_process_id)
-
-        # Issue request for retrieving status and waiting for response
         Printer.get('log').write("[sf:retrieve] Waiting for server to finish processing the request...")
-
-        # 2. issue a check status loop request to assure the async request is done
-        result = self.check_status(async_process_id)
-
-        # Catch exception of status retrieving
-        if not result or not result["success"]:
-            self.result = result
-            return self.result
-        
-        # Output retrieve status
-        Printer.get('log').write("[sf:retrieve] Request Status: %s" % result["state"])
         
         # Check status until retrieve request is finished
-        while result["done"] == "false":
-            sleep_seconds = 2 if result["state"] == "Queued" else 1
+        done = "false"
+        while done == "false":
+            # Issue a check_status request to retrieve retrieve result
+            # Since version 31 before, we need to invoke check_status before check_retrieve_status
+            if self.settings["api_version"] >= 31:
+                result = self.check_retrieve_status(async_process_id)
+            else:
+                result = self.check_status(async_process_id)
+
+            # Catch exception of status retrieving
+            if not result or not result["success"]:
+                self.result = result
+                return self.result
+
+            status = result["state"] if self.api_version < 31 else result["status"]
+            done = result["done"]
+
+            # Display retrieve status in the output panel
+            Printer.get('log').write("[sf:retrieve] Request Status: %s" % status)
+
+            # Defer to issue request according to status
+            sleep_seconds = 2 if status == "Queued" else 1
             time.sleep(sleep_seconds)
 
-            result = self.check_status(async_process_id)
-            Printer.get('log').write("[sf:retrieve] Request Status: %s" % result["state"])
-
         # If check status request failed, this will not be done
-        if result["state"] == "Failed":
+        if status == "Failed":
             Printer.get('log').write("[sf:retrieve] Request Failed") # [sf:retrieve]
             self.result = result
             return
 
-        # 3 Obtain zipFile(base64)
-        Printer.get('log').write("[sf:retrieve] Start to download package zipFile")
-        result = self.check_retrieve_status(async_process_id)
+        # Since version 31, checkRetrieveStatus request is not required
+        if self.api_version < 31:
+            Printer.get('log').write("[sf:retrieve] Obtaining ZipFile...")
+            result = self.check_retrieve_status(async_process_id)
 
-        # Catch exception of status retrieve
-        if not result["success"] or result["status"] == "Failed":
-            result["success"] = False
-            self.result = result
-            return self.result
-
-        Printer.get('log').write("[sf:retrieve] Finished zipFile downloading")
+            # Catch exception of status retrieve
+            if not result["success"]:
+                self.result = result
+                return self.result
 
         # Output the message if have
         if "messages" in result:
@@ -299,8 +306,7 @@ class MetadataApi():
             result["success"] = True
         except KeyError as ke:
             result = {
-                "Message": "Convert Xml to JSON Exception",
-                "Detail": 'body["checkDeployStatusResponse"]["result"] KeyError' + str(ke),
+                "Error Message": "Convert Xml to JSON Exception: " + str(ke),
                 "success": False
             }
 
@@ -345,8 +351,7 @@ class MetadataApi():
             }
         except KeyError as ke:
             result = {
-                "Message": "Convert Xml to JSON Exception",
-                "Detail": 'body["checkDeployStatusResponse"]["result"] KeyError' + str(ke),
+                "Message": "Convert Xml to JSON Exception: " + str(ke),
                 "success": False
             }
 
@@ -387,7 +392,7 @@ class MetadataApi():
             response = requests.post(self.metadata_url, soap_body, verify=False, headers=headers)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when issuing deploy request",
                 "success": False
             }
             return self.result

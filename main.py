@@ -132,7 +132,7 @@ class JsonToApex(sublime_plugin.WindowCommand):
         if not name: name = "JSON2Apex"
 
         # Start converting
-        snippet = JSONConverter().convert2apex(name, self.data).snippet
+        snippet = JSONConverter(scope="global").convert2apex(name, self.data).snippet
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "JSON2APEX",
@@ -606,6 +606,10 @@ class CombinePackageXml(sublime_plugin.WindowCommand):
                             members = list(set(members))
                         
                         all_types[_type] = sorted(members)
+
+        if not all_types:
+            Printer.get("error").write_start().write("No available package.xml to combine")
+            return
 
         # print (json.dumps(all_types, indent=4))
         metadata_objects = []

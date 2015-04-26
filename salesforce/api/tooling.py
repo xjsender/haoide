@@ -127,7 +127,7 @@ class ToolingApi():
                 headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when issue REST HEAD request",
                 "success": False
             }
             return self.result
@@ -165,7 +165,7 @@ class ToolingApi():
                 headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when issuing REST GET request",
                 "success": False
             }
             return self.result
@@ -202,7 +202,7 @@ class ToolingApi():
                 headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Network connection timeout",
+                "Error Message":  "Network Network connection timeout when issuing REST PUT request",
                 "success": False
             }
             return self.result
@@ -239,7 +239,7 @@ class ToolingApi():
                 headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when issuing REST PATCH request",
                 "success": False
             }
             return self.result
@@ -276,7 +276,7 @@ class ToolingApi():
                 headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when issuing REST POST request",
                 "success": False
             }
             return self.result
@@ -312,7 +312,7 @@ class ToolingApi():
                 headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when issuing REST DELETE request",
                 "success": False
             }
             return self.result
@@ -351,7 +351,7 @@ class ToolingApi():
                 params=params, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when issuing REST SEARCH request",
                 "success": False
             }
             return self.result
@@ -424,7 +424,7 @@ class ToolingApi():
                 headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when issuing QUICK SEARCH request",
                 "success": False
             }
             return self.result
@@ -694,7 +694,7 @@ class ToolingApi():
             response.encoding = "UTF-8"
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout",
+                "Error Message":  "Network connection timeout when issuing RETRIVING BODY request",
                 "success": False
             }
             return self.result
