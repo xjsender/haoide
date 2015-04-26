@@ -227,7 +227,7 @@ class MetadataApi():
             Printer.get('log').write("[sf:retrieve] Request Status: %s" % status)
 
             # Defer to issue request according to status
-            sleep_seconds = 2 if status == "Queued" else 1
+            sleep_seconds = 2 if status in ["Queued", "Pending"] else 1
             time.sleep(sleep_seconds)
 
         # If check status request failed, this will not be done
@@ -382,7 +382,7 @@ class MetadataApi():
             "SOAPAction": '""'
         }
 
-        # [sf:%s]
+        # [sf:deploy]
         Printer.get('log').write_start().write("[sf:%s] Start request for a deploy..." % deploy_or_validate)
         options = deploy_options
         options["zipfile"] = base64_zip
@@ -409,16 +409,16 @@ class MetadataApi():
             self.result = util.get_response_error(response)
             return self.result
 
-        # [sf:%s]
+        # [sf:deploy]
         Printer.get('log').write("[sf:%s] Request for a deploy submitted successfully." % deploy_or_validate)
 
         # Get async process id
         async_process_id = util.getUniqueElementValueFromXmlString(response.content, "id")
 
-        # [sf:%s]
+        # [sf:deploy]
         Printer.get('log').write("[sf:%s] Request ID for the current deploy task: %s" % (deploy_or_validate, async_process_id))
 
-        # [sf:%s]
+        # [sf:deploy]
         Printer.get('log').write("[sf:%s] Waiting for server to finish processing the request..." % deploy_or_validate)
 
         # 2. issue a check status loop request to assure the async

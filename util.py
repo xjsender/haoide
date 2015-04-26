@@ -12,6 +12,7 @@ import datetime
 import base64
 import zipfile
 import shutil
+import subprocess
 import webbrowser
 import xml.dom.minidom
 
@@ -594,7 +595,8 @@ def add_config_history(operation, content, ext="json"):
     fp.close()
 
     # After write the file to local, refresh sidebar
-    sublime.active_window().run_command("refresh_folder_list")
+    sublime.set_timeout(lambda:sublime.active_window().run_command('refresh_folder_list'), 200);
+    sublime.set_timeout(lambda:sublime.active_window().run_command('refresh_folder_list'), 1300);
 
 def export_report_api(rootdir):
     reports = []
@@ -2346,46 +2348,77 @@ def switch_project(chosen_project):
             view.set_status('default_project', 
                 "Default Project => %s" % chosen_project)
 
+    add_project_to_workspace(context.get_settings())
+
 def add_project_to_workspace(settings):
     """Add new project folder to workspace
        Just Sublime Text 3 can support this method
     """
 
-    # Just ST3 supports, ST2 is not
     workspace = settings["workspace"]
+    dpn = settings["default_project_name"]
     file_exclude_patterns = settings["file_exclude_patterns"]
     folder_exclude_patterns = settings["folder_exclude_patterns"]
-    project_data = sublime.active_window().project_data()
-    if not project_data: project_data = {}
-    folders = []
-    if "folders" in project_data:
-        folders = project_data["folders"]
 
-    # If the workspace is already exist in project data,
-    # just update the patters, if not, add the workspace to it
-    for folder in folders:
-        # Parse windows path to AS-UNIX
-        if "\\" in folder : folder = folder.replace("\\", "/")
-        if "\\" in workspace : workspace = workspace.replace("\\", "/")
+    if sublime.platform() == "windows":
+        switch_to_window = None
+        for win in sublime.windows():
+            if "folders" in win.project_data():
+                for _folder in win.project_data()["folders"]:
+                    folder_path = _folder["path"]
 
-        if folder["path"] == workspace:
-            folder["file_exclude_patterns"] = file_exclude_patterns;
-            folder["folder_exclude_patterns"] = folder_exclude_patterns
-        else:
-            folders.append({
-                "path": workspace,
-                "file_exclude_patterns": file_exclude_patterns,
-                "folder_exclude_patterns": folder_exclude_patterns
-            })
+                    # Parse windows path to AS-UNIX
+                    if "\\" in folder_path : 
+                        folder_path = folder_path.replace("\\", "/")
+                    if "\\" in workspace : 
+                        workspace = workspace.replace("\\", "/")
+
+                    if folder_path == workspace:
+                        switch_to_window = win
+                        break
+
+        if switch_to_window:
+            return focus_view(switch_to_window.active_view())
+
+    switch_to_folder = {
+        "path": workspace,
+        "file_exclude_patterns": file_exclude_patterns,
+        "folder_exclude_patterns": folder_exclude_patterns
+    }
+
+    # Store project data to file in current workspace
+    if not os.path.exists(workspace): os.makedirs(workspace)
+    project_file_path = os.path.join(workspace, "%s.sublime-project" % dpn)
+    with open(project_file_path, "wb") as fp:
+        fp.write(json.dumps({"folders":[switch_to_folder]}, indent=4).encode("utf-8"))
+
+    # If OS is windows, open <name>.sublime-project
+    if sublime.platform() == "windows":
+        subl([project_file_path])
+    # If others, add project to project data
     else:
-        folders.append({
-            "path": workspace,
-            "file_exclude_patterns": file_exclude_patterns,
-            "folder_exclude_patterns": folder_exclude_patterns
-        })
+        project_data = sublime.active_window().project_data()
+        if not project_data: project_data = {}
+        folders = project_data.get("folders", [])
+        folders.append(switch_to_folder)
+        sublime.active_window().set_project_data({"folders": folders})
 
-    project_data["folders"] = folders
-    sublime.active_window().set_project_data(project_data)
+def focus_view(view):
+    """ Focus window with view, however, just work on windows but not for OSX
+    """
+
+    window = view.window()
+    window.focus_view(view)
+    window.run_command('focus_neighboring_group')
+    window.focus_view(view)
+
+def subl(args=[]):
+    # Copy from SideBarEnhancements
+    executable_path = sublime.executable_path()
+    if sublime.platform() == 'osx':
+        app_path = executable_path[:executable_path.rfind(".app/") + 5]
+        executable_path = app_path + "Contents/SharedSupport/bin/subl"
+    subprocess.Popen([executable_path] + args)
 
 def get_metadata_elements(metadata_dir):
     """ Get the name list by specified metadataObject
