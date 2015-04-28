@@ -2360,9 +2360,10 @@ def add_project_to_workspace(settings):
     file_exclude_patterns = settings["file_exclude_patterns"]
     folder_exclude_patterns = settings["folder_exclude_patterns"]
 
-    if sublime.platform() == "windows":
+    if settings["link_project_with_sublime_project"] and sublime.platform() == "windows":
         switch_to_window = None
         for win in sublime.windows():
+            if not win.project_data(): continue
             if "folders" in win.project_data():
                 for _folder in win.project_data()["folders"]:
                     folder_path = _folder["path"]
@@ -2393,7 +2394,7 @@ def add_project_to_workspace(settings):
         fp.write(json.dumps({"folders":[switch_to_folder]}, indent=4).encode("utf-8"))
 
     # If OS is windows, open <name>.sublime-project
-    if sublime.platform() == "windows":
+    if settings["link_project_with_sublime_project"] and sublime.platform() == "windows":
         subl([project_file_path])
     # If others, add project to project data
     else:
@@ -2412,7 +2413,7 @@ def add_project_to_workspace(settings):
             if "\\" in workspace: 
                 workspace = workspace.replace("\\", "/")
 
-            if folder["path"] == workspace:
+            if folder_path == workspace:
                 folder["file_exclude_patterns"] = file_exclude_patterns;
                 folder["folder_exclude_patterns"] = folder_exclude_patterns
             else:
@@ -2457,6 +2458,14 @@ def get_metadata_elements(metadata_dir):
             if _file.endswith("-meta.xml"): continue
             base, full_name = os.path.split(_file)
             name = full_name[:full_name.rfind(".")]
+
+            # Some metadata type have folders, for example,
+            # Document, Email, Dashboard or Report
+            if parent != metadata_dir:
+                folder = os.path.split(parent)[1]
+                elements.append("%s/%s" % (folder, name))
+                continue
+
             elements.append(name)
 
     return elements

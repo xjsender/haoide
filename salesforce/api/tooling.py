@@ -691,7 +691,7 @@ class ToolingApi():
 
         try:
             response = requests.get(url, verify=False, headers=headers, timeout=timeout)
-            response.encoding = "UTF-8"
+            response.headers = "utf-8"
         except requests.exceptions.RequestException as e:
             self.result = {
                 "Error Message":  "Network connection timeout when issuing RETRIVING BODY request",
@@ -928,11 +928,8 @@ class ToolingApi():
         if "errorCode" in member_result and member_result["errorCode"] == "NOT_FOUND":
             # Before return error to console, we need to delete the container_id
             # If delete failed, next saving operation will handle it
-            try:
-                self.delete(container_url + "/" + container_id)
-            except:
-                pass
-
+            sublime.set_timeout_async(self.delete(container_url + "/" + container_id), 100)
+            
             self.result = {
                 "success": False,
                 "Error Message": "You don't have privilege on 'Author Apex'"
@@ -962,8 +959,8 @@ class ToolingApi():
             }
 
         while state == "Queued":
-            Printer.get('log').write("ContainerAsyncRequest is in Queued, Waiting...")
-            time.sleep(2)
+            Printer.get('log').write("ContainerAsyncRequest is in Queued, waiting...")
+            time.sleep(1)
 
             result = self.get(sync_request_url + "/" + request_id)
             state = result["State"]
@@ -1030,7 +1027,7 @@ class ToolingApi():
                 return_result["symbol_table"] = member["records"][0]["SymbolTable"]
 
         # Whatever succeed or failed, just delete MetadataContainerId
-        delete_result = self.delete(container_url + "/" + container_id)
+        sublime.set_timeout_async(self.delete(container_url + "/" + container_id), 100)
 
         # Result used in thread invoke
         self.result = return_result

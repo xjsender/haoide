@@ -219,6 +219,32 @@ class SOAP():
 
         return self.create_retrieve_request(types)
 
+    def create_list_package_request(self, options):
+        queries = []
+        types = options["types"]
+        for _type in types:
+            for folder in types[_type]:
+                queries.append(
+                    """
+                        <met:queries>
+                            <met:type>%s</met:type>
+                            <met:folder>%s</met:folder>
+                        </met:queries>
+                    """ % (_type, folder)
+                )
+
+        list_package_request_body = """
+            <met:listMetadata>
+                {queries}
+                <met:asOfVersion>{api_version}.0</met:asOfVersion>
+            </met:listMetadata>
+        """.format(
+            queries="".join(queries), 
+            api_version=self.settings["api_version"]
+        )
+
+        return self.create_metadata_envelope(list_package_request_body)
+
     def create_retrieve_request(self, options):
         packages = ""
         if "package_names" in options:

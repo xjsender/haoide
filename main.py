@@ -2086,7 +2086,6 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
         # Change the chosen project as default
         # Split with ") " and get the second project name
         default_project = self.projects[index].split(") ")[1]
-        util.switch_project(default_project)
 
         # After project is switch, login will be executed
         processor.handle_login_thread(default_project)

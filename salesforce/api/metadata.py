@@ -170,6 +170,11 @@ class MetadataApi():
         # [sf:retrieve]
         Printer.get('log').write_start().write("[sf:retrieve] Start request for a retrieve...")
 
+        # Before build soap_body, we need to check type supports *,
+        # if not, we need to list package for it
+        if "types" in options:
+            options["types"] = self.prepare_members(options["types"])
+
         # Build soap_body
         soap_body = self.soap.create_request('retrieve', options)
 
@@ -269,6 +274,117 @@ class MetadataApi():
         Printer.get('log').write("Total time: %s seconds" % total_seconds, False)
 
         self.result = result
+
+    def prepare_members(self, _types):
+        # DocumentFolder, DashboardFolder and ReportFolder
+        drd = ["Dashboard", "Report", "Document"]
+        
+        drd_folders = {}
+        email = {}
+        for _type in _types:
+            if _type in drd:
+                if "*" not in _types[_type]: continue
+                drd_folders["%sFolder" % _type] = [""]
+
+            if _type == "EmailTemplate":
+                if "*" not in _types[_type]: continue
+                email["EmailFolder"] = [""]
+
+        # Define records to contain all folders
+        records = []
+
+        # List package for DocumentFolder, DashboardFolder and ReportFolder
+        if drd_folders:
+            Printer.get("log").write("[sf:retrieve] List Folders for %s" % (
+                ", ".join(["%sFolder" % d for d in drd])
+            ))
+
+            records.extend(self.list_package(drd_folders))
+
+        # List package for Email Template
+        if email:
+            Printer.get("log").write("[sf:retrieve] List Folders for EmailFolder")
+            records.extend(self.list_package(email))
+
+        # If no need to list package, just return _types
+        if not records: return _types
+
+        """Example of type_with_folders: 
+        {
+            "EmailTemplate": ["test1", "test2"], 
+            "Dashboard": ["test1"]
+        }
+        """
+        type_with_folders = {}
+        for record in records:
+            print (json.dumps(record))
+            print (json.dumps(records))
+            if record["type"] == "EmailFolder":
+                _type = "EmailTemplate"
+            else:
+                _type = record["type"][:-6]
+
+            if _type in type_with_folders:
+                type_with_folders[_type].append(record["fullName"])
+            else:
+                type_with_folders[_type] = [record["fullName"]]
+
+        records = []
+        for _type in type_with_folders:
+            folders = type_with_folders[_type]
+            for _folders in util.list_chunks(folders, 3):
+                Printer.get("log").write("[sf:retrieve] List Metadata for %s Folder: %s" % (
+                    _type, ", ".join(_folders)
+                ))
+
+                records.extend(self.list_package({_type : _folders}))
+
+        types_with_elements = {}
+        for record in records:
+            _type = record["type"]
+
+            if _type in types_with_elements:
+                types_with_elements[_type].append(record["fullName"])
+            else:
+                types_with_elements[_type] = [record["fullName"]]
+
+        for _type in _types:
+            if _type in types_with_elements:
+                _types[_type] = types_with_elements[_type]
+
+        return _types
+
+    def list_package(self, _types):
+        # Define headers
+        headers = {
+            "Content-Type": "text/xml;charset=UTF-8",
+            "SOAPAction": '""'
+        }
+
+        # Build soap_body
+        soap_body = self.soap.create_request('list_package', {"types": _types})
+
+        try:
+            response = requests.post(self.metadata_url, soap_body, 
+                verify=False, headers=headers)
+        except requests.exceptions.RequestException as e:
+            if self.settings["debug_mode"]:
+                print ("Network connection timeout when issuing LIST PACKAGE request")
+            return []
+
+        # If status_code is > 399, which means it has error
+        if response.status_code > 399:
+            if self.settings["debug_mode"]:
+                print (json.dumps(util.get_response_error(response), indent=4))
+            return []
+
+        result = xmltodict.parse(response.content)
+        result = result["soapenv:Envelope"]["soapenv:Body"]["listMetadataResponse"]
+        if not result or "result" not in result: return []
+        result = result["result"]
+        if isinstance(result, dict): result = [result]
+        
+        return result
 
     def cancel_deployment(self, async_process_id): 
         """ After async process is done, post a checkDeployResult to 

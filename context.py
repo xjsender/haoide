@@ -79,6 +79,9 @@ def get_settings():
     settings["trace_flag"] = s.get("trace_flag")
     settings["last_n_logs"] = s.get("last_n_logs", 10)
 
+    # Just work for windows, see issue #15 for detail
+    settings["link_project_with_sublime_project"] = s.get("link_project_with_sublime_project", False)
+
     # User Language
     settings["user_language"] = s.get("user_language")
 

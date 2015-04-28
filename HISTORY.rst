@@ -4,8 +4,18 @@ Release History
 
 ---------------
 
+Release 2.8.9 (2015-04-28)
+++++++++++++++++++
+* Fix urgent bug for issue #22
+* Enhancement for speeding up ``Save To Server`` operation
+* Enhancement for supporting ``list_package`` when execute retrieve operation
+* Enhancement for package.xml completion for Document, EmailTemplate, Dashboard and Report
+* Enhancement for ``add_project_to_workspace`` just if login succeed
+* Add a new ``link_project_with_sublime_project`` setting to control linking, default is false
+* Update documents regarding to issue #18
 
-Release 2.8.8 (2015-04-22)
+
+Release 2.8.8 (2015-04-26)
 ++++++++++++++++++
 * Fix bug: If user don't have `Author Apex` privilege, plugin will give wrong information
 * Fix bug: Show alert message if no available package.xml to combine

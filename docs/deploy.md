@@ -31,3 +31,18 @@ There has a setting ``switch_back_after_migration`` to control whether switch ba
     - Click the ```Deploy To Server`` command
     - Waiting and checking the progress message in the output panel
     - After operation is finished, you will see the deploy result
+
+
+* Deploy and destruct files at same time
+    - There is a ``file_exclude_patterns`` in the default settings, which is used to hide file in the sidebar, remove the ``"*.*-meta.xml"`` from it and paste this setting to your ``User Settings``
+    - After ```file_exclude_patterns``` is changed, click ``HaoIDE > Update > Update Project Pattern``, and then you will see the ``*-meta.xml`` files in the sidebar.
+    - If you want to delete a class or trigger, you just need to update the ``*.-meta.xml`` file as below,
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ApexTrigger xmlns="http://soap.sforce.com/2006/04/metadata">
+        <apiVersion>32.0</apiVersion>
+        <status>deleted</status>
+    </ApexTrigger>
+    ```
+    - Choose the file to delete, update or created into other org and click ```HaoIDE > Deploy Files To Server```
+    - After deploy is finished, you will see the result.

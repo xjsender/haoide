@@ -150,6 +150,7 @@ def handle_login_thread(default_project, timeout=120):
 
         result = api.result
         if result and result["success"]:
+            util.switch_project(default_project)
             print (message.SEPRATE.format("Login Succeed"))
 
     settings = context.get_settings()
@@ -938,14 +939,6 @@ def handle_view_debug_log_detail(log_id, timeout=120):
         "Get Log Detail of " + log_id + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_run_all_test(timeout=120):
-    def handle_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-
-    pass
-
 def handle_run_test(class_name, class_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1538,13 +1531,9 @@ def handle_refresh_static_resource(component_attribute, file_name, timeout=120):
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
         
-        result = api.result
-
-        # If error, just skip, error is processed in ThreadProgress
-        if not result["success"]: return
-
-        fp = open(file_name, "wb")
-        fp.write(bytes(result["body"], "utf-8"))
+        if not api.result["success"]: return
+        with open (file_name, "wb") as fp:
+            fp.write(api.result["body"].encode("utf-8"))
 
     settings = context.get_settings()
     api = ToolingApi(settings)
