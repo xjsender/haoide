@@ -528,7 +528,7 @@ class ToolingApi():
         self.result = self.query(soql, is_toolingapi=True)
         return self.result
 
-    def combine_soql(self, sobject, contains_compound=True):
+    def combine_soql(self, sobject, action=None, contains_compound=True):
         """ Get the full field list soql by sobject
 
         * sobject -- sobject name, for example, Account, Contact
@@ -545,6 +545,7 @@ class ToolingApi():
         for field in fields:
             # http://www.salesforce.com/us/developer/docs/api/Content/compound_fields_address.htm
             if not contains_compound and field.get("queryByDistance"): continue
+            if not action or not field[action]: continue
             sobject_fields += field.get("name") + ", "
 
         self.result = {
@@ -691,7 +692,7 @@ class ToolingApi():
 
         try:
             response = requests.get(url, verify=False, headers=headers, timeout=timeout)
-            response.headers = "utf-8"
+            response.encoding = "UTF-8"
         except requests.exceptions.RequestException as e:
             self.result = {
                 "Error Message":  "Network connection timeout when issuing RETRIVING BODY request",

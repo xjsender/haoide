@@ -317,8 +317,6 @@ class MetadataApi():
         """
         type_with_folders = {}
         for record in records:
-            print (json.dumps(record))
-            print (json.dumps(records))
             if record["type"] == "EmailFolder":
                 _type = "EmailTemplate"
             else:
@@ -339,18 +337,33 @@ class MetadataApi():
 
                 records.extend(self.list_package({_type : _folders}))
 
-        types_with_elements = {}
+        """Example of types_with_elements: 
+        {
+            "EmailTemplate": ["test1/template1", "test2/template2"], 
+            "Dashboard": ["test1/dashboard1"]
+        }
+        """
+        type_with_files = {}
         for record in records:
             _type = record["type"]
 
-            if _type in types_with_elements:
-                types_with_elements[_type].append(record["fullName"])
+            # Add files to elements
+            if _type in type_with_files:
+                type_with_files[_type].append(record["fullName"])
             else:
-                types_with_elements[_type] = [record["fullName"]]
+                type_with_files[_type] = [record["fullName"]]
 
+        # Add folder and files in it to elements
         for _type in _types:
-            if _type in types_with_elements:
-                _types[_type] = types_with_elements[_type]
+            # Add file to related type
+            if _type in type_with_files:
+                _types[_type] = type_with_files[_type]
+
+            # Add folder to related type
+            if _type in type_with_folders:
+                files = _types[_type]
+                files.extend(type_with_folders[_type])
+                _types[_type] = files
 
         return _types
 

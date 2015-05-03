@@ -33,6 +33,11 @@ There are some utilities to keep your work efficient as below
 * Click ``HaoIDE > Create Package.xml`` in the sidebar menu
 * You will see the created package.xml in it
 
+## Toggle Metadata Objects
+* Open your command palette and input HaoIDE: ``Toggle Metadata Objects``
+* Subscribe the metadata object util all you want are finished, press ``ESC``
+* After that, you should execute ``update_project`` command to download subscribed metadata
+
 ## Combine Package.xml in folders to only one Step by Step
 If we have many ``package.xml`` files, for example, every developer will have his/her own ``package.xml`` to deploy, or every requirement will have one ``package.xml`` file, at the last stage of project implementation, only one deployment is required, so, how can we combine these package.xml files to only one.
 

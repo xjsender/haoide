@@ -4,6 +4,23 @@ Release History
 
 ---------------
 
+Release 2.9.0 (2015-05-03)
+++++++++++++++++++
+* Fix bug for messy code in debug log detail
+* Enhancement for not refreshing sidebar when ``retrieve_files_from_other_server``
+* Enhancement for adding folder name to retrieve request when ``list_package`` for folders
+* Enhancement for package.xml completion for folder name of Document, EmailTemplate, Dashboard and Report
+* Enhancement for package.xml completion for AuraDefinitionBundle
+* Enhancement for sobject completion, if there are two matched statements, ``insert prd`` and ``Product2 prd``, plugin will choose the second one as matched
+* Enhancement for ``toggle_metadata_objects``, you can toggle metadata objects continually util you press ``ESC`` to exit
+* Enhancement for ``generate_sobject_soql``, you can choose whether generate sobject SOQL of ``Custom``, ``Updateable`` or ``Createable``
+* Update workspace of default build-in project from ``C:/ForcedotcomWorkspace`` to empty
+* Update name of default build-in project from ``pro-test`` to ``pro-sublime``
+* Update for ``toggle_metadata_objects``, after subscribe a new metadata object, don't refresh its folder again, just after you finish all toggle, you will need to confirm whether use refresh all subscribed metadata together
+* Add ``toggle_metadata_objects`` document in ``docs/utilities.md``
+* Remove four deprecated settings, ``keep_config_history``, ``output_session_info``, ``delay_seconds_for_hidden_output_panel_when_failed`` and ``get_static_resource_body``
+
+
 Release 2.8.9 (2015-04-28)
 ++++++++++++++++++
 * Fix urgent bug for issue #22

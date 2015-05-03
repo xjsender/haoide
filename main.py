@@ -226,7 +226,9 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
         self.window.show_quick_panel(self.component_types, self.on_done)
 
     def on_done(self, index):
-        if index == -1: return
+        if index == -1:
+            self.window.run_command("update_project")
+            return
 
         chosen_type = self.component_types[index].split("=>")[1]
         subscribe_type, is_subscribe = None, False
@@ -241,11 +243,7 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
         sublime.status_message("%s is %s" % (subscribe_type, 
             "subscribed" if is_subscribe else "unsubscribed"))
 
-        if not is_subscribe: return
-        settings = context.get_settings()
-        _dir = os.path.join(settings["workspace"], "src", settings[chosen_type]["directoryName"])
-        types = util.build_folder_types([_dir])
-        processor.handle_refresh_folder(types)
+        sublime.set_timeout(lambda:sublime.active_window().run_command("toggle_metadata_objects"), 10)
 
 class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -323,7 +321,15 @@ class GenerateSoqlCommand(sublime_plugin.WindowCommand):
 
     def on_done(self, index):
         if index == -1: return
-        processor.handle_generate_sobject_soql(self.sobjects[index])
+        self.sobject = self.sobjects[index]
+
+        self.filters = ["all", "updateable", "createable", "custom"]
+        self.display_filters = [a.capitalize() for a in self.filters]
+        sublime.set_timeout(lambda:self.window.show_quick_panel(self.display_filters, self.on_choose_action), 10)
+
+    def on_choose_action(self, index):
+        if not index: return
+        processor.handle_generate_sobject_soql(self.sobject, self.filters[index])
 
 class ExportQueryToCsv(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -836,7 +842,7 @@ class RetrieveFileFromOtherServer(sublime_plugin.TextCommand):
         # Change the chosen project as default
         # Split with ") " and get the second project name
         default_project = self.projects[index].split(") ")[1]
-        util.switch_project(default_project)
+        util.switch_project(default_project, False)
 
         types = {self.xmlName : [self._name]}
         processor.handle_retrieve_package(types, self.extract_to, 

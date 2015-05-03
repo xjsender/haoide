@@ -168,6 +168,7 @@ def get_settings():
     settings["metadata_folders"] = [c["directoryName"] for c in components]
     settings["subscribed_metadata_objects"] = [c["xmlName"] for c in components if c["subscribe"]]
     settings["subscribed_metadata_folders"] = [c["directoryName"] for c in components if c["subscribe"]]
+    settings["metadata_objects_in_folder"] = [c["xmlName"] for c in components if c["inFolder"] == "true"]
     for component in components:
         settings[component["xmlName"]] = component
         settings[component["directoryName"]] = component

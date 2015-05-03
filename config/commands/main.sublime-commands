@@ -2,8 +2,8 @@
     {"caption": "HaoIDE: Switch Project", "command": "switch_project"},
 
     {
-        "caption": "HaoIDE: Toggle Metdata Types",
-        "command": "toggle_metadata_types"
+        "caption": "HaoIDE: Toggle Metdata Objects",
+        "command": "toggle_metadata_objects"
     },
 
     {

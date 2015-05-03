@@ -13,7 +13,7 @@
     // workspace can be "/Users/<Your User>/salesforce/workspace"
     "workspace" : "",
     "projects" : {
-        "pro-test" : {
+        "pro-sublime" : {
             /**
              * Below are Required Properties
              */
@@ -44,7 +44,7 @@
             "allowed_packages" : [],
 
             // Allow custom workspace for every single project
-            "workspace": "C:/ForcedotcomWorkspace"
+            "workspace": ""
         }
     },
 
@@ -98,10 +98,6 @@
     // Debug Mode
     "debug_mode": false,
 
-    // Indicate whether output session info in the console when you switch the project
-    // Deprecated, replace by `.config/session.json`
-    "output_session_info" : false,
-
     // Indicate whether keep local change history of code file after code is saved successfully
     "keep_local_change_history" : false,
 
@@ -116,22 +112,12 @@
     // whether the console will be hidden automatically
     "hidden_console_on_modify" : false,
 
-    // Every time when you save component and error happened, the console will be open.
-    // however, you want it to be hidden automatically after several seconds
-    // Deprecated Settings
-    "delay_seconds_for_hidden_output_panel_when_failed" : 9999,
-
     // Every time when you save component and succeed, the output panel will be open.
     // however, you want it to be hidden automatically after several seconds
     "delay_seconds_for_hidden_output_panel_when_succeed" : 1,
 
     // Indicate whether need to reload symbol tables when creating new project
     "reload_symbol_tables_when_create_project" : false,
-
-    // Indicate whether download StaticResource body
-    // This job is processed by Metadata API
-    // Deprecated, replaced by ``metadata api``
-    "get_static_resource_body" : false,
 
     // Indicate whether disable sobject fields completion
     "disable_fields_completion" : false,
@@ -160,10 +146,6 @@
 
     // Indicate whether keep execute_anonymous, query and run test history to local
     "keep_operation_history" : true,
-
-    // Indicate whether keep plugin settings, session, users and record types
-    // Deprecated, because we want to reuse the cache, so we must keep it
-    "keep_config_history" : true,
 
     // Indicate whether switch project back to original after `deploy` or `retrieve from other server` is executed
     "switch_back_after_migration": true,

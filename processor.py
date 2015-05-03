@@ -1041,7 +1041,7 @@ def handle_run_async_test_classes(class_ids, timeout=120):
     ThreadProgress(api, thread, wait_message, wait_message + ' Succeed')
     handle_new_view_thread(thread, timeout)
 
-def handle_generate_sobject_soql(sobject, timeout=120):
+def handle_generate_sobject_soql(sobject, filter, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
@@ -1065,7 +1065,11 @@ def handle_generate_sobject_soql(sobject, timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.combine_soql, args=(sobject, ))
+    if filter != "all":
+        args = (sobject, filter, )
+    else:
+        args = (sobject, )
+    thread = threading.Thread(target=api.combine_soql, args=args)
     thread.start()
     wait_message = 'Generate SOQL for ' + sobject
     ThreadProgress(api, thread, wait_message, wait_message + ' Succeed')

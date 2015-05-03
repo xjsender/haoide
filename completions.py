@@ -60,8 +60,7 @@ class PackageCompletions(sublime_plugin.EventListener):
             # File name completion
             if ch != ".":
                 # List File Names
-                for name in util.get_metadata_elements(_dir):
-                    completion_list.append((name+"\t"+_type, name))
+                completion_list = util.get_metadata_elements(_type, folder)
 
             # Child content of file name completion
             if ch == ".":

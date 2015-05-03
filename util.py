@@ -376,6 +376,13 @@ def remove_comments(view, regions):
                 is_comment_region = True
                 break
 
+        # Check whether DML statement, for example
+        # insert prd | update prd | delete prd
+        # insert is not the correct variable type
+        pattern = '(insert|update|upsert|delete|undelete)+\\s+'
+        if re.match(pattern, view.substr(region), re.IGNORECASE):
+            continue
+
         # If region is comment statement, just skip
         if not is_comment_region:
             matched_regions.append(region)
@@ -399,7 +406,7 @@ def get_variable_type(view, pt, pattern):
     # 1. If no matched regions
     # 2. Only one matched region
     # 3. More than one matched region
-    if not uncomment_regions: 
+    if not uncomment_regions:
         return ""
     elif len(uncomment_regions) == 1:
         matched_region = uncomment_regions[0]
@@ -2323,7 +2330,7 @@ def display_active_project(view):
     display_message = "Default Project => " + settings["default_project_name"]
     view.set_status('default_project', display_message)
 
-def switch_project(chosen_project):
+def switch_project(chosen_project, add_to_workspace=True):
     """ Set the default project to the chosen one
     """
 
@@ -2348,7 +2355,8 @@ def switch_project(chosen_project):
             view.set_status('default_project', 
                 "Default Project => %s" % chosen_project)
 
-    add_project_to_workspace(context.get_settings())
+    if add_to_workspace:
+        add_project_to_workspace(context.get_settings())
 
 def add_project_to_workspace(settings):
     """Add new project folder to workspace
@@ -2439,7 +2447,7 @@ def subl(args=[]):
         executable_path = app_path + "Contents/SharedSupport/bin/subl"
     subprocess.Popen([executable_path] + args)
 
-def get_metadata_elements(metadata_dir):
+def get_metadata_elements(meta_type, meta_folder):
     """ Get the name list by specified metadataObject
 
     Arguments:
@@ -2451,24 +2459,45 @@ def get_metadata_elements(metadata_dir):
     names -- elements in the specified metadataObject folder
     """
 
-    
+    settings = context.get_settings()
     elements = []
+    completion_list = []
+    metadata_dir = os.path.join(settings["workspace"], "src", meta_folder)
     for parent, dirnames, filenames in os.walk(metadata_dir):
         for _file in filenames:
             if _file.endswith("-meta.xml"): continue
             base, full_name = os.path.split(_file)
             name = full_name[:full_name.rfind(".")]
 
-            # Some metadata type have folders, for example,
-            # Document, Email, Dashboard or Report
+            # Some metadata type have folders
             if parent != metadata_dir:
                 folder = os.path.split(parent)[1]
-                elements.append("%s/%s" % (folder, name))
-                continue
 
-            elements.append(name)
+                # Document, Email, Dashboard or Report
+                print (meta_type, settings["metadata_objects_in_folder"])
+                if meta_type in settings["metadata_objects_in_folder"]:
+                    # Add folder to list
+                    if folder not in elements:
+                        elements.append(folder)
+                        completion_list.append(("%s\t%s Folder" % (folder, meta_type), folder))
 
-    return elements
+                    # Add files in folder to list
+                    element = "%s/%s" % (folder, name)
+                    elements.append(element)
+                    completion_list.append(("%s\t%s" % (element, meta_type), element))
+                    continue
+
+                # AuraDefinitionBundle
+                if meta_folder == "aura" and folder not in elements:
+                    elements.append(folder)
+                    completion_list.append(("%s\t%s" % (folder, meta_type), folder))
+                    continue
+            # Others
+            elif name not in elements:
+                elements.append(name)
+                completion_list.append(("%s\t%s" % (name, meta_type), name))
+
+    return completion_list
 
 def export_profile_settings():
     settings = context.get_settings()
