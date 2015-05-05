@@ -10,5 +10,6 @@
     "2.8.8": "config/messages/2.8.8.md",
     "2.8.9": "config/messages/2.8.9.md",
     "2.9.0": "config/messages/2.9.0.md",
+    "2.9.1": "config/messages/2.9.1.md",
     "install": "config/messages/install.txt"
 }

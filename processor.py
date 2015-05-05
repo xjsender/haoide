@@ -150,8 +150,7 @@ def handle_login_thread(default_project, timeout=120):
 
         result = api.result
         if result and result["success"]:
-            util.switch_project(default_project)
-            print (message.SEPRATE.format("Login Succeed"))
+            util.add_project_to_workspace(settings)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -444,9 +443,6 @@ def handle_reload_sobjects_completions(timeout=120):
         # Save settings
         sublime.save_settings("sobjects_completion.sublime-settings")
 
-        # Output message
-        print (message.SEPRATE.format('sObjects Cache are saved to Local'))
-
     def handle_thread(api, thread, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)
@@ -634,7 +630,6 @@ def handle_export_workflows(settings, timeout=120):
         sobjects_describe = api.result["sobjects"]
         util.parse_workflow_metadata(settings, sobjects_describe.keys())
         sublime.active_window().run_command("refresh_folder_list")
-        print (message.SEPRATE.format("Outputdir: " + outputdir))
 
     outputdir = settings["workspace"] + "/workflow/"
     api = ToolingApi(settings)
@@ -676,9 +671,6 @@ def handle_export_customfield(timeout=120):
         records = sorted(result["records"], key=lambda k : k['TableEnumOrId'])
         util.list2csv(outputdir + "/CustomField.csv", records)
         sublime.active_window().run_command("refresh_folder_list")
-
-        # Output log
-        print (message.SEPRATE.format(outputdir))
 
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -1261,7 +1253,7 @@ def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_x
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
 
-def handle_save_component(file_name, is_check_only=False, timeout=120):
+def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -1302,31 +1294,6 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
             if "symbol_table" in result and result["symbol_table"]:
                 # Append message to output panel
                 Printer.get('log').write("Start to write symbol table to local cache")
-
-                # Start to write
-                symbol_table = result["symbol_table"]
-
-                # Get symbolTable from component_metadata.sublime-settings
-                symbol_table_cache = sublime.load_settings("symbol_table.sublime-settings")
-                symboltable_dict = symbol_table_cache.get(username, {})
-
-                # Outer completions 
-                outer = util.parse_symbol_table(symbol_table)
-
-                symboltable_dict[symbol_table["name"].lower()] = {
-                    "outer" : outer,
-                    "name": symbol_table["name"]
-                }
-
-                # Inner completions
-                inners = {}
-                for inn in symbol_table["innerClasses"]:
-                    inner = util.parse_symbol_table(inn)
-                    inners[inn["name"].lower()] = inner
-                symboltable_dict[symbol_table["name"].lower()]["inners"] = inners
-
-                symbol_table_cache.set(settings["username"], symboltable_dict)
-                sublime.save_settings("symbol_table.sublime-settings")
 
             # Output succeed message in the console
             save_or_compile = "Compiled" if is_check_only else "Saved"
@@ -1438,7 +1405,7 @@ def handle_save_component(file_name, is_check_only=False, timeout=120):
     Printer.get('log').write_start().write("Start to %s %s" % (compile_or_save, file_base_name))
 
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.save_component,
+    thread = threading.Thread(target=api.save_to_server,
         args=(component_attribute, body, is_check_only, ))
     thread.start()
 
@@ -1513,12 +1480,6 @@ def handle_create_component(data, component_name, component_type, markup_or_body
         # Generate new meta.xml file
         with open(file_name+"-meta.xml", "w") as fp:
             fp.write(meta_file_content)
-
-        # Output succeed message in console
-        file_base_name = component_name + extension
-        print (message.SEPRATE.format(
-            "{0} is created successfully at {1}".format(file_base_name, 
-                time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))))
                 
     settings = context.get_settings()
     api = ToolingApi(settings)

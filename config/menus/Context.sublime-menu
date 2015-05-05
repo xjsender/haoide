@@ -31,12 +31,12 @@
             {"caption": "Refresh from Server", "command": "refresh_file_from_server"},
             
             // Save component
-            {"caption": "Save to Server", "command": "save_component"},
+            {"caption": "Save to Server", "command": "save_to_server"},
 
-            {"caption": "Delete from Server", "command": "delete_component"},
+            {"caption": "Delete from Server", "command": "delete_file_from_server"},
             
             // Compile component but not save
-            {"caption": "Compile Component", "command": "save_component", 
+            {"caption": "Compile Component", "command": "save_to_server", 
                 "args": {
                     "is_check_only": true
                 }

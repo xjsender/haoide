@@ -1,5 +1,8 @@
 [
-    {"caption": "HaoIDE: Switch Project", "command": "switch_project"},
+    {
+        "caption": "HaoIDE: Switch Project", 
+        "command": "switch_project"
+    },
 
     {
         "caption": "HaoIDE: Toggle Metdata Objects",
@@ -96,26 +99,22 @@
     },
 
     {
-        "caption": "HaoIDE: Save Component",
-        "command": "save_component"
+        "caption": "HaoIDE: Save To Server",
+        "command": "save_to_server"
     },
 
     {
         "caption": "HaoIDE: Deploy Auras to Server",
-        "command": "save_component"
+        "command": "deploy_lighting_to_server",
+        "args": {"dirs": []}
     },
 
     {
-        "caption": "HaoIDE: Compile Component",
-        "command": "save_component",
+        "caption": "HaoIDE: Compile File",
+        "command": "save_to_server",
         "args": {
             "is_check_only": true
         }
-    },
-
-    {
-        "caption": "HaoIDE: Compile Component",
-        "command": "compile_component",
     },
 
     {
@@ -139,8 +138,8 @@
     },
 
     {
-        "caption": "HaoIDE: Delete From Server",
-        "command": "delete_component"
+        "caption": "HaoIDE: Delete File From Server",
+        "command": "delete_file_from_server"
     },
 
     {

@@ -39,7 +39,7 @@
     {"keys": ["alt+r","alt+f"], "command": "refresh_folder"},
 
     // Save current component to server 
-    {"keys": ["ctrl+alt+s"], "command": "save_component"},
+    {"keys": ["ctrl+alt+s"], "command": "save_to_server"},
 
     // Choose a test class in the list and run test class
     {"keys": ["alt+r","alt+t"],"command": "run_one_test"},

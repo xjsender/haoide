@@ -215,6 +215,7 @@ class MetadataApi():
         while done == "false":
             # Issue a check_status request to retrieve retrieve result
             # Since version 31 before, we need to invoke check_status before check_retrieve_status
+            print (json.dumps(result))
             if self.settings["api_version"] >= 31:
                 result = self.check_retrieve_status(async_process_id)
             else:

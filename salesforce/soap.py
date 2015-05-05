@@ -28,6 +28,7 @@ class SOAP():
     def get_session_id(self):
         session = util.get_session_info(self.settings)
         if not session:
+            print (session)
             result = soap_login(self.settings, True)
             if not result["success"]:
                 Printer.get('error').write(result["message"])
@@ -188,7 +189,7 @@ class SOAP():
             <met:describeMetadata>
                 <met:asOfVersion>{api_version}</met:asOfVersion>
             </met:describeMetadata>
-        """.format(**options)
+        """.format(self.settings["api_version"])
 
         return self.create_metadata_envelope(describe_metadata_body)
 

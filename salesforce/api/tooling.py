@@ -817,7 +817,7 @@ class ToolingApi():
             self.settings.get("workbook_field_describe_columns"))+"/"+sobject+".csv"
         print (sobject + " workbook outputdir: " + outputdir)
 
-    def save_component(self, component_attribute, body, is_check_only):
+    def save_to_server(self, component_attribute, body, is_check_only):
         """ This method contains 5 steps:
             1. Post classid to get MetadataContainerId
             2. Post Component Member
@@ -911,7 +911,7 @@ class ToolingApi():
                 
                 # We can't reuse the container_id which caused error
                 # Post Request to get MetadataContainerId
-                return self.save_component(component_attribute, body, is_check_only)
+                return self.save_to_server(component_attribute, body, is_check_only)
             else:
                 self.result = result
                 return self.result
@@ -953,20 +953,15 @@ class ToolingApi():
         result = self.get(sync_request_url + "/" + request_id)
         state = result["State"]
 
-        return_result = {}
-        if state == "Completed":
-            return_result = {
-                "success": True
-            }
-
         while state == "Queued":
+            time.sleep(0.5)
             Printer.get('log').write("ContainerAsyncRequest is in Queued, waiting...")
-            time.sleep(1)
-
             result = self.get(sync_request_url + "/" + request_id)
             state = result["State"]
-            if state == "Completed":
-                return_result = {"success": True}
+        
+        return_result = {}
+        if state == "Completed":
+            return_result["success"] = True
 
         # Fix issue #74
         if state in ["Error", "Aborted", "Invalidated"]:
@@ -1020,15 +1015,42 @@ class ToolingApi():
             return_result["success"] =  False
         
         if return_result["success"] and component_type == "ApexClass":
-            Printer.get('log').write("Start to fetch symbol table")
-            query = "SELECT Id, SymbolTable " +\
-                    "FROM ApexClassMember WHERE Id ='%s'" % member_result["id"]
-            member = self.query(query, True)
-            if member["records"]:
-                return_result["symbol_table"] = member["records"][0]["SymbolTable"]
+            sublime.set_timeout_async(self.write_symbol_table_cache(member_result["id"]), 5)
 
         # Whatever succeed or failed, just delete MetadataContainerId
         sublime.set_timeout_async(self.delete(container_url + "/" + container_id), 100)
 
         # Result used in thread invoke
         self.result = return_result
+
+    def write_symbol_table_cache(self, member_id):
+        # Get the symbol table from ApexClassMember
+        query = "SELECT Id, SymbolTable " +\
+                "FROM ApexClassMember WHERE Id ='%s'" % member_id
+        member = self.query(query, True)
+
+        # Start to write symbol table to cache
+        if not member["records"]: return
+        symbol_table = member["records"][0]["SymbolTable"]
+
+        # Get symbolTable from component_metadata.sublime-settings
+        symbol_table_cache = sublime.load_settings("symbol_table.sublime-settings")
+        symboltable_dict = symbol_table_cache.get(self.settings["username"], {})
+
+        # Outer completions 
+        outer = util.parse_symbol_table(symbol_table)
+
+        symboltable_dict[symbol_table["name"].lower()] = {
+            "outer" : outer,
+            "name": symbol_table["name"]
+        }
+
+        # Inner completions
+        inners = {}
+        for inn in symbol_table["innerClasses"]:
+            inner = util.parse_symbol_table(inn)
+            inners[inn["name"].lower()] = inner
+        symboltable_dict[symbol_table["name"].lower()]["inners"] = inners
+
+        symbol_table_cache.set(self.settings["username"], symboltable_dict)
+        sublime.save_settings("symbol_table.sublime-settings")

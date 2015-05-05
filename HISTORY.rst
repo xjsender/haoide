@@ -4,6 +4,17 @@ Release History
 
 ---------------
 
+Release 2.9.1 (2015-05-05)
+++++++++++++++++++
+* Fix bug for ``switch_project``, see issue #24
+* Enhancement for speeding up ``Save To Server`` operation
+* Rename ``save_component`` command to ``save_to_server``
+* Rename ``delete_component`` command to ``delete_file_from_server``
+* Simplify ``delete_file_from_server`` and ``refresh_file_from_server``
+* Add two new value issue_url and history_url into package info
+* Update ``report_issue`` and ``view_release_notes`` command to read url from package info
+
+
 Release 2.9.0 (2015-05-03)
 ++++++++++++++++++
 * Fix bug for messy code in debug log detail

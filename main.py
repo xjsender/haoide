@@ -1225,7 +1225,9 @@ class PreviewPageCommand(sublime_plugin.TextCommand):
     def is_visible(self):
         if not self.view.file_name(): return False
         self.filename, self.extension = util.get_file_attr(self.view.file_name())
-        return self.extension == ".page"
+        if self.extension != ".page": return False
+
+        return util.check_enabled(self.view.file_name())
 
 class RunOneTestCommand(sublime_plugin.WindowCommand):
     """ List the test classes from local cache, after any one is chosen,
@@ -1523,20 +1525,24 @@ class AboutCommand(sublime_plugin.ApplicationCommand):
 
 class ReportIssueCommand(sublime_plugin.ApplicationCommand):
     def run(command):
-        show_url = "https://github.com/xjsender/haoide/issues"
-        util.open_with_browser(show_url)
+        package_info = sublime.load_settings("package.sublime-settings")
+        util.open_with_browser(package_info.get("issue_url"))
 
 class ViewReleaseNotesCommand(sublime_plugin.ApplicationCommand):
     def run(command):
-        show_url = "https://github.com/xjsender/haoide/blob/master/HISTORY.rst"
-        util.open_with_browser(show_url)
+        package_info = sublime.load_settings("package.sublime-settings")
+        util.open_with_browser(package_info.get("history_url"))
 
-class DeleteFilesFromServerCommand(sublime_plugin.WindowCommand):
+class DeleteFilesFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(DeleteFilesFromServerCommand, self).__init__(*args, **kwargs)
+        super(DeleteFilesFromServer, self).__init__(*args, **kwargs)
 
     def run(self, files):
-        delete_components(self._files)
+        # Confirm Delete Action
+        if sublime.ok_cancel_dialog("Confirm to delete?"):
+            for f in files:
+                component_attribute = util.get_component_attribute(f)[0]
+                processor.handle_delete_component(component_attribute["url"], f)
 
     def is_visible(self, files):
         """
@@ -1552,25 +1558,17 @@ class DeleteFilesFromServerCommand(sublime_plugin.WindowCommand):
 
         return True
 
-class DeleteComponentCommand(sublime_plugin.TextCommand):
+class DeleteFileFromServer(sublime_plugin.TextCommand):
     def run(self, view):
         files = [self.view.file_name()]
-        delete_components(files)
+        self.view.window().run_command("delete_files_from_server", {
+            "files" : [self.view.file_name()]
+        })
 
     def is_enabled(self):
         if not self.view.file_name(): return False
         if self.view.file_name().endswith("-meta.xml"): return False
         return util.check_enabled(self.view.file_name())
-
-def delete_components(files):
-    # Confirm Delete Action
-    confirm = sublime.ok_cancel_dialog("Are you sure you really want to delete this?")
-    if confirm == False: return
-    
-    # Handle Delete
-    for f in files:
-        component_attribute = util.get_component_attribute(f)[0]
-        processor.handle_delete_component(component_attribute["url"], f)
 
 class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1578,12 +1576,6 @@ class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         sobjects_describe = util.populate_sobjects_describe()
-
-        # Just for tracking issue #28
-        for name in sobjects_describe:
-            if "triggerable" not in sobjects_describe[name]:
-                print ('Not triggerable sobject: ' + name)
-
         self.sobjects = sorted([name for name in sobjects_describe\
             if "triggerable" in sobjects_describe[name] and sobjects_describe[name]["triggerable"]])
         self.window.show_quick_panel(self.sobjects, self.on_done)
@@ -2057,14 +2049,14 @@ class CreateLightingEvent(sublime_plugin.WindowCommand):
     def is_enabled(self):
         return util.check_new_component_enabled()
 
-class SaveComponentCommand(sublime_plugin.TextCommand):
+class SaveToServer(sublime_plugin.TextCommand):
     def run(self, edit, is_check_only=False):
         # Automatically save current file if dirty
         if self.view.is_dirty():
             self.view.run_command("save")
 
         # Handle Save Current Component
-        processor.handle_save_component(self.view.file_name(), is_check_only)
+        processor.handle_save_to_server(self.view.file_name(), is_check_only)
 
     def is_enabled(self):
         if not self.view or not self.view.file_name(): return False
@@ -2092,6 +2084,10 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
         # Change the chosen project as default
         # Split with ") " and get the second project name
         default_project = self.projects[index].split(") ")[1]
+
+        # Switch project but not add project to sidebar
+        # Just after login succeed, add it into sidebar
+        util.switch_project(default_project, False)
 
         # After project is switch, login will be executed
         processor.handle_login_thread(default_project)
@@ -2192,18 +2188,9 @@ class UpdateStaticResource(sublime_plugin.WindowCommand):
 
 class RefreshFileFromServer(sublime_plugin.TextCommand):
     def run(self, view):
-        message = "Are you sure you want to continue?"
-        if not sublime.ok_cancel_dialog(message, "Refresh This?"): return
-    
-        # Get file_full_name and component_attribute
-        file_full_name = self.view.file_name()
-        component_attribute = util.get_component_attribute(file_full_name)[0]
-        
-        # Handle Refresh Current Component
-        if component_attribute["type"] == "StaticResource":
-            processor.handle_refresh_static_resource(component_attribute, file_full_name)
-        else:
-            processor.handle_refresh_file_from_server(component_attribute, file_full_name)
+        self.view.window().run_command("refresh_files_from_server", {
+            "files": [self.view.file_name()]
+        })
 
     def is_enabled(self):
         return util.check_enabled(self.view.file_name())
@@ -2214,7 +2201,10 @@ class RefreshFilesFromServer(sublime_plugin.WindowCommand):
 
     def run(self, files):
         message = "Are you sure you really want to continue?"
-        if not sublime.ok_cancel_dialog(message, "Refresh Selected?"): return
+        if not sublime.ok_cancel_dialog(message, "Refresh Files?"): return
+
+        if not hasattr(self, "_files"): 
+            self._files = files
 
         for file_name in self._files:
             if file_name.endswith("-meta.xml"): continue # Ignore -meta.xml file
