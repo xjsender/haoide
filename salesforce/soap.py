@@ -187,9 +187,9 @@ class SOAP():
     def create_describe_metadata_request(self, options):
         describe_metadata_body = """
             <met:describeMetadata>
-                <met:asOfVersion>{api_version}</met:asOfVersion>
+                <met:asOfVersion>%s</met:asOfVersion>
             </met:describeMetadata>
-        """.format(self.settings["api_version"])
+        """ % self.settings["api_version"]
 
         return self.create_metadata_envelope(describe_metadata_body)
 
@@ -216,7 +216,7 @@ class SOAP():
     def create_sobjects_workflow_request(self, options):
         types = {} # Define types
         for xml_name in ["Workflow", "CustomObject"]:
-            types[xml_name] = util.make_types(self.settings, xml_name)
+            types[xml_name] = ["*"]
 
         return self.create_retrieve_request(types)
 

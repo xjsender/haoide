@@ -2,6 +2,7 @@ import sublime
 import sublime_plugin
 import os
 import re
+import json
 
 from . import context
 from . import util
@@ -25,15 +26,22 @@ class PackageCompletions(sublime_plugin.EventListener):
         variable_name = view.substr(view.word(pt-1))
 
         # Get plugin settings
-        s = sublime.load_settings("toolingapi.sublime-settings")
         settings = context.get_settings()
+        completion_list = []  
 
-        completion_list = []
+        cache = os.path.join(settings["workspace"], ".config", "metadata.json")
+        if not os.path.exists(cache):
+            if settings["debug_mode"]:
+                print ("You must execute describe_metadata command before have completion")
+            return completion_list
+
+        describe_metadata = json.loads(open(cache).read())
+        metadata_objects = describe_metadata["metadataObjects"]
 
         # <name></name> completion
         full_line = view.full_line(pt)
         if "<name>" in view.substr(full_line):
-            for component in s.get("metadataObjects"):
+            for component in metadata_objects:
                 display = "%s\t%s" % (component["xmlName"], "Metadata Type")
                 completion_list.append((display, component["xmlName"]))
 
@@ -60,7 +68,7 @@ class PackageCompletions(sublime_plugin.EventListener):
             # File name completion
             if ch != ".":
                 # List File Names
-                completion_list = util.get_metadata_elements(_type, folder)
+                completion_list = util.get_completion_list(_type, folder)
 
             # Child content of file name completion
             if ch == ".":

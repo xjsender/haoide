@@ -216,34 +216,52 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ToggleMetadataObjects, self).__init__(*args, **kwargs)
 
-    def run(self):
-        self.s = sublime.load_settings("toolingapi.sublime-settings")
-        self.components = self.s.get("metadataObjects")
-        self.components = sorted(self.components, key=lambda k : k['subscribe'])
-        self.component_types = ["%s=>%s" % ("Subscribed" if c["subscribe"] else "Unsubscribed", 
-            c["xmlName"]) for c in self.components]
-        self.component_types = sorted(self.component_types)
-        self.window.show_quick_panel(self.component_types, self.on_done)
-
-    def on_done(self, index):
-        if index == -1:
-            self.window.run_command("update_project")
+    def run(self, callback_command="update_project"):
+        self.settings = context.get_settings()
+        self.callback_command = callback_command
+        cache = os.path.join(self.settings["workspace"], ".config", "metadata.json")
+        if not os.path.exists(cache): 
+            self.window.run_command("describe_metadata")
             return
 
-        chosen_type = self.component_types[index].split("=>")[1]
-        subscribe_type, is_subscribe = None, False
-        for c in self.components:
-            if c["xmlName"] == chosen_type:
-                c["subscribe"] = is_subscribe = not c["subscribe"]
-                subscribe_type = c["xmlName"]
-                break
+        describe_metadata = json.loads(open(cache).read())
+        self.metadata_objects = describe_metadata["metadataObjects"]
+        smo = self.settings["subscribed_metadata_objects"]
+        self.xmlNames = ["%s=>%s" % ("Subscribed" if c["xmlName"] in smo else "Unsubscribed", 
+            c["xmlName"]) for c in self.metadata_objects]
+        self.xmlNames = sorted(self.xmlNames)
+        self.window.show_quick_panel(self.xmlNames, self.on_done)
 
-        self.s.set("metadataObjects", self.components)
-        sublime.save_settings("toolingapi.sublime-settings")
-        sublime.status_message("%s is %s" % (subscribe_type, 
-            "subscribed" if is_subscribe else "unsubscribed"))
+    def on_done(self, index):
+        if index == -1: 
+            self.window.run_command(self.callback_command)
+            return
 
-        sublime.set_timeout(lambda:sublime.active_window().run_command("toggle_metadata_objects"), 10)
+        # Get chosen type
+        chosen_type = self.xmlNames[index].split("=>")[1]
+
+        s = sublime.load_settings(context.TOOLING_API_SETTINGS)
+        projects = s.get("projects")
+
+        # Set the chosen project as default and others as not default
+        default_project = projects[self.settings["default_project_name"]]
+        if "subscribed_metadata_objects" in default_project:
+            if chosen_type in default_project["subscribed_metadata_objects"]:
+                default_project["subscribed_metadata_objects"].remove(chosen_type)
+            else:
+                default_project["subscribed_metadata_objects"].append(chosen_type)
+        else:
+            default_project["subscribed_metadata_objects"] = [chosen_type]
+
+        projects[self.settings["default_project_name"]] = default_project
+
+        # Save the updated settings
+        s.set("projects", projects)
+        sublime.save_settings(context.TOOLING_API_SETTINGS)
+
+        sublime.set_timeout(lambda:sublime.active_window().run_command("toggle_metadata_objects", {
+            "callback_command": self.callback_command
+        }), 10)
 
 class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -328,7 +346,7 @@ class GenerateSoqlCommand(sublime_plugin.WindowCommand):
         sublime.set_timeout(lambda:self.window.show_quick_panel(self.display_filters, self.on_choose_action), 10)
 
     def on_choose_action(self, index):
-        if not index: return
+        if index == -1: return
         processor.handle_generate_sobject_soql(self.sobject, self.filters[index])
 
 class ExportQueryToCsv(sublime_plugin.TextCommand):
@@ -380,7 +398,7 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
         processor.handle_export_data_template_thread(sobject, recordtype_name, recordtype_id)
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class ExecuteRestTest(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -550,207 +568,17 @@ class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
         message = "Are your sure you really want to continue?"
         if not sublime.ok_cancel_dialog(message, "Retrieve Metadata"): return
         settings = context.get_settings()
-        dirs = []
+        types = {}
         if not retrieve_all:
-            for c in ["CustomObject", "Workflow"]:
-                metadata_folder = settings[c]["directoryName"]
-                _dir = os.path.join(settings["workspace"], "src", metadata_folder)
-                dirs.append(_dir)
+            types = {
+                "CustomObject": ["*"],
+                "Workflow": ["*"]
+            }
         else:
-            for c in settings["metadata_objects"]:
-                metadata_folder = c["directoryName"]
-                _dir = os.path.join(settings["workspace"], "src", metadata_folder)
-                dirs.append(_dir)
+            for m in settings["all_metadata_objects"]:
+                types[m] = ["*"]
 
-        # Build folders_dict and Refresh these folder
-        types = util.build_folder_types(dirs)
         processor.handle_refresh_folder(types, not retrieve_all)
-
-class CombinePackageXml(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(CombinePackageXml, self).__init__(*args, **kwargs)
-
-    def run(self, dirs):
-        self.settings = context.get_settings()
-
-        all_types = {}
-        for _dir in dirs:
-            for dirpath, dirnames, filenames in os.walk(_dir):
-                for filename in filenames:
-                    if filename.endswith("-meta.xml"): continue
-                    if not filename.endswith(".xml"): continue
-
-                    # Package file name
-                    package_xml = os.path.join(dirpath, filename)
-
-                    # Read package.xml content
-                    with open(package_xml, "rb") as fp:
-                        content = fp.read()
-
-                    """ Combine types sample: [
-                        {"ApexClass": ["test"]},
-                        {"ApexTrigger": ["test"]}
-                    ]
-                    """
-                    try:
-                        _types = util.build_package_types(content)
-                    except xml.parsers.expat.ExpatError as ee:
-                        message = "%s parse error: %s" % (package_xml, str(ee))
-                        Printer.get("error").write(message)
-                        if not sublime.ok_cancel_dialog(message, "Skip?"): return
-                        continue
-                    except KeyError as ex:
-                        if self.settings["debug_mode"]:
-                            print ("%s is not valid package.xml" % package_xml)
-                        continue
-
-                    for _type in _types:
-                        members = _types[_type]
-
-                        if _type in all_types:
-                            members.extend(all_types[_type])
-                            members = list(set(members))
-                        
-                        all_types[_type] = sorted(members)
-
-        if not all_types:
-            Printer.get("error").write_start().write("No available package.xml to combine")
-            return
-
-        # print (json.dumps(all_types, indent=4))
-        metadata_objects = []
-        for _type in all_types:
-            metadata_objects.append(
-                "<types>%s<name>%s</name></types>" % (
-                    "".join(["<members>%s</members>" % m for m in all_types[_type]]),
-                    _type
-                )
-            )
-
-        self.package_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
-            <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-                {metadata_objects}
-                <version>{api_version}.0</version>
-            </Package>
-        """.format(
-            metadata_objects="".join(metadata_objects),
-            api_version=self.settings["api_version"]
-        )
-
-        package_path = os.path.join(dirs[0], "combined package.xml")
-        sublime.active_window().show_input_panel("Input Package.xml Path", 
-            package_path, self.on_input_package_path, None, None)
-
-    def on_input_package_path(self, package_path):
-        # Check input
-        if not package_path:
-            message = 'Invalid path, do you want to try again?'
-            if not sublime.ok_cancel_dialog(message, "Try Again?"): return
-            self.window.show_input_panel("Please Input Name: ", "", 
-                self.on_input_extractto, None, None)
-            return
-
-        base = os.path.split(package_path)[0]
-        if not os.path.exists(base):
-            os.makedirs(base)
-
-        with open(package_path, "wb") as fp:
-            fp.write(util.format_xml(self.package_xml_content))
-
-        view = sublime.active_window().open_file(package_path)
-    
-    def is_visible(self, dirs):
-        if not dirs: return False
-        return True
-
-class CreatePackageXml(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(CreatePackageXml, self).__init__(*args, **kwargs)
-
-    def run(self, dirs):
-        _dir = dirs[0]
-        settings = context.get_settings()
-        package_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
-            <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-                <types>
-                    <members>*</members>
-                    <name>ApexClass</name>
-                </types>
-                <version>{0}.0</version>
-            </Package>
-        """.format(settings["api_version"])
-        file_name = os.path.join(_dir, "package.xml")
-        if os.path.isfile(file_name):
-            message = "Package.xml is already exist, override?"
-            if not sublime.ok_cancel_dialog(message, "Override?"):
-                return
-
-        with open(file_name, "wb") as fp:
-            fp.write(util.format_xml(package_xml_content))
-
-        # If created succeed, just open it
-        sublime.active_window().open_file(file_name)
-
-    def is_visible(self, dirs):
-        if not dirs or len(dirs) > 1: return False
-        return True
-
-class RetrievePackageXml(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(RetrievePackageXml, self).__init__(*args, **kwargs)
-
-    def run(self, files=None):
-        # Build types
-        try:
-            with open(self._file, "rb") as fp:
-                content = fp.read()
-            self.types = util.build_package_types(content)
-        except Exception as ex:
-            Printer.get('error').write(str(ex))
-            return
-
-        # Initiate extract_to
-        path, name = os.path.split(self._file)
-        name, ext = name.split(".")
-        time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
-        settings = context.get_settings()
-        project_name = settings["default_project_name"]
-        extract_to = os.path.join(path, "%s-%s-%s" % (
-            project_name, name, time_stamp
-        ))
-
-        sublime.active_window().show_input_panel("Input ExtractedTo Path", 
-            extract_to, self.on_input_extractto, None, None)
-
-    def on_input_extractto(self, extract_to):
-        # Check input
-        if not extract_to or not os.path.isabs(extract_to):
-            message = 'Invalid path, do you want to try again?'
-            if not sublime.ok_cancel_dialog(message, "Try Again?"): return
-            self.window.show_input_panel("Please Input Name: ", "", 
-                self.on_input_extractto, None, None)
-            return
-
-        # Start retrieve
-        processor.handle_retrieve_package(self.types, extract_to)
-
-    def is_visible(self, files=None):
-        self._file = None
-        
-        if files and len(files) > 1: 
-            return False
-        elif files and len(files) == 1:
-            # Invoked from sidebar menu
-            self._file = files[0]
-        else:
-            # Invoked from context menu
-            view = sublime.active_window().active_view()
-            self._file = view.file_name()
-
-        if not self._file or not self._file.endswith(".xml"):
-            return False
-
-        return True
 
 class RenameMetadata(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -769,7 +597,7 @@ class RenameMetadata(sublime_plugin.TextCommand):
         self.settings = context.get_settings()
         base, filename = os.path.split(self.view.file_name())
         base, folder = os.path.split(base)
-        if folder not in self.settings["metadata_folders"]:return False
+        if folder not in self.settings["all_metadata_folders"]:return False
         if not util.check_enabled(self.view.file_name(), check_cache=False): 
             return False
 
@@ -787,7 +615,7 @@ class RetrieveFileFromServer(sublime_plugin.TextCommand):
         if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
         metadata_folder = util.get_meta_folder(self.view.file_name())
-        if metadata_folder not in self.settings["metadata_folders"]: return False
+        if metadata_folder not in self.settings["all_metadata_folders"]: return False
         if not util.check_enabled(self.view.file_name(), check_cache=False): 
             return False
 
@@ -819,7 +647,7 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
         for _file in files:
             if not os.path.isfile(_file): continue # Ignore folder
             metadata_folder = util.get_meta_folder(_file)
-            if metadata_folder not in settings["metadata_folders"]: return False
+            if metadata_folder not in settings["all_metadata_folders"]: return False
             if not util.check_enabled(_file, check_cache=False): 
                 return False
 
@@ -858,7 +686,7 @@ class RetrieveFileFromOtherServer(sublime_plugin.TextCommand):
         self.extract_to, src = os.path.split(base)
         self._name, extension = name.split(".")
 
-        if folder not in self.settings["metadata_folders"]: 
+        if folder not in self.settings["all_metadata_folders"]: 
             return False
 
         self.xmlName = self.settings[folder]["xmlName"]
@@ -883,7 +711,7 @@ class DestructFileFromServer(sublime_plugin.TextCommand):
         if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
         metadata_folder = util.get_meta_folder(self.view.file_name())
-        if metadata_folder not in self.settings["metadata_folders"]:return False
+        if metadata_folder not in self.settings["all_metadata_folders"]:return False
         if not util.check_enabled(self.view.file_name(), check_cache=False): 
             return False
 
@@ -904,7 +732,7 @@ class DestructFilesFromServer(sublime_plugin.WindowCommand):
         for _file in files:
             if not os.path.isfile(_file): continue # Ignore folder
             _folder = util.get_meta_folder(_file)
-            if _folder not in self.settings["metadata_folders"]: return False
+            if _folder not in self.settings["all_metadata_folders"]: return False
             if not util.check_enabled(_file, check_cache=False): 
                 return False
 
@@ -953,7 +781,7 @@ class DeployOpenFilesToServer(sublime_plugin.WindowCommand):
             _file = _view.file_name()
             if not _file or not os.path.isfile(_file): continue # Ignore folder
             _folder = util.get_meta_folder(_file) # Ignore non-sfdc files
-            if _folder not in self.settings["metadata_folders"]:
+            if _folder not in self.settings["all_metadata_folders"]:
                 continue
 
             self.files.append(_file)
@@ -1013,7 +841,7 @@ class DeployFileToServer(sublime_plugin.TextCommand):
         if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
         _folder = util.get_meta_folder(self.view.file_name())
-        if _folder not in self.settings["metadata_folders"]:
+        if _folder not in self.settings["all_metadata_folders"]:
             return False
 
         return True
@@ -1067,7 +895,7 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
         for _file in files:
             if not os.path.isfile(_file): continue # Ignore folder
             _folder = util.get_meta_folder(_file)
-            if _folder not in self.settings["metadata_folders"]:
+            if _folder not in self.settings["all_metadata_folders"]:
                 return False
 
         return True
@@ -1082,7 +910,7 @@ class ExportProfile(sublime_plugin.WindowCommand):
         thread.start()
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1098,7 +926,7 @@ class ExportValidationRulesCommand(sublime_plugin.WindowCommand):
         processor.handle_export_validation_rules(settings)
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class ExportCustomLablesCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1118,7 +946,7 @@ class ExportCustomLablesCommand(sublime_plugin.WindowCommand):
         util.list2csv(outputdir+"/Labels.csv", lables["CustomLabels"]["labels"])
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1135,7 +963,7 @@ class ExportWorkflowsCommand(sublime_plugin.WindowCommand):
         processor.handle_export_workflows(settings)
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class ExportCustomFieldCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1146,7 +974,7 @@ class ExportCustomFieldCommand(sublime_plugin.WindowCommand):
         processor.handle_export_customfield()
         
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class DescribeSobjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1196,7 +1024,7 @@ class ExportWorkbookCommand(sublime_plugin.WindowCommand):
             processor.handle_export_specified_workbooks(sobjects)
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class ViewComponentInSfdcCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1358,9 +1186,8 @@ class TrackAllDebugLogs(sublime_plugin.WindowCommand):
         super(TrackAllDebugLogs, self).__init__(*args, **kwargs)
 
     def run(self):
-        users = processor.populate_users()
-        if not users: return # Network Issue Cause
-
+        users = processor.handle_populate_users("track_all_debug_logs")
+        if not users: return
         processor.handle_track_all_debug_logs_thread(users)
 
 class TrackDebugLog(sublime_plugin.WindowCommand):
@@ -1372,8 +1199,8 @@ class TrackDebugLog(sublime_plugin.WindowCommand):
             processor.handle_create_debug_log('Me', None)
             return
             
-        self.users = processor.populate_users()
-        if not self.users: return # Network Issue Cause
+        self.users = processor.handle_populate_users("track_debug_log")
+        if not self.users: return
         self.users_name = sorted(self.users.keys(), reverse=False)
         self.window.show_quick_panel(self.users_name, self.on_done)
 
@@ -1393,7 +1220,7 @@ class FetchDebugLogCommand(sublime_plugin.WindowCommand):
             processor.handle_fetch_debug_logs('Me', None)
             return
 
-        self.users = processor.populate_users()
+        self.users = processor.handle_populate_users("fetch_debug_log")
         if not self.users: return # Network Issue Cause
         self.users_name = sorted(self.users.keys(), reverse=False)
         self.window.show_quick_panel(self.users_name, self.on_done)
@@ -1589,7 +1416,7 @@ class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
         })
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class CreateApexPageCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1602,7 +1429,7 @@ class CreateApexPageCommand(sublime_plugin.WindowCommand):
         })
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class CreateApexComponentCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1615,7 +1442,7 @@ class CreateApexComponentCommand(sublime_plugin.WindowCommand):
         })
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class CreateApexClassCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1628,7 +1455,7 @@ class CreateApexClassCommand(sublime_plugin.WindowCommand):
         })
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class CreateComponentCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1671,7 +1498,8 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         if self.component_name:
             self.create_component()
         else:
-            self.window.show_input_panel("Please Input Name: ", "", self.on_input, None, None)
+            message = "Please Input %s Name: " % self.component_type
+            self.window.show_input_panel(message, "", self.on_input, None, None)
 
     def on_input(self, input):
         # Create component to local according to user input
@@ -2011,7 +1839,7 @@ class CreateLightingApplication(sublime_plugin.WindowCommand):
         })
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class CreateLightingComponent(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -2023,7 +1851,7 @@ class CreateLightingComponent(sublime_plugin.WindowCommand):
         })
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class CreateLightingInterface(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -2035,7 +1863,7 @@ class CreateLightingInterface(sublime_plugin.WindowCommand):
         })
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class CreateLightingEvent(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -2047,7 +1875,7 @@ class CreateLightingEvent(sublime_plugin.WindowCommand):
         })
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class SaveToServer(sublime_plugin.TextCommand):
     def run(self, edit, is_check_only=False):
@@ -2109,7 +1937,7 @@ class UpdateUserLanguageCommand(sublime_plugin.WindowCommand):
         processor.handle_update_user_language(self.languages_settings[chosen_language])
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class UpdateProjectPatternsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -2120,7 +1948,7 @@ class UpdateProjectPatternsCommand(sublime_plugin.WindowCommand):
         util.add_project_to_workspace(settings)
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
 class UpdateProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -2129,26 +1957,46 @@ class UpdateProjectCommand(sublime_plugin.WindowCommand):
     def run(self):
         message = "Are you sure you really want to update this project?"
         if not sublime.ok_cancel_dialog(message, "Update Project?"): return
-        settings = context.get_settings()
-        util.add_project_to_workspace(settings)
-        processor.handle_new_project(settings, is_update=True)
+        processor.handle_new_project(is_update=True)
 
     def is_enabled(self):
-        return util.check_new_component_enabled()
+        return util.check_action_enabled()
 
-class CreateNewProjectCommand(sublime_plugin.WindowCommand):
+class CreateNewProject(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(CreateNewProjectCommand, self).__init__(*args, **kwargs)
+        super(CreateNewProject, self).__init__(*args, **kwargs)
 
     def run(self):
-        # Get settings
         settings = context.get_settings()
+
+        # Check describe_metadata is done
+        cache = os.path.join(settings["workspace"], ".config", "metadata.json")
+        if not os.path.isfile(cache):
+            return self.window.run_command("describe_metadata", {
+                "callback_command": "create_new_project"
+            })
+
+        # Check whether default project has subscribed_metadata_objects attribute
+        # Check whether default project has one subscribed_metadata_objects at least
+        if "subscribed_metadata_objects" not in settings["default_project"] or \
+                not settings["default_project"]["subscribed_metadata_objects"]:
+            return self.window.run_command("toggle_metadata_objects", {
+                "callback_command": "create_new_project"
+            })
+        
         dpn = settings["default_project"]["project_name"]
         message = "Are you sure you really want to create new project for %s?" % dpn
         if not sublime.ok_cancel_dialog(message, "Create New Project?"): return
         
         util.add_project_to_workspace(settings)
-        processor.handle_new_project(settings)
+        processor.handle_new_project()
+
+class DescribeMetadata(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DescribeMetadata, self).__init__(*args, **kwargs)
+
+    def run(self, callback_command=None):
+        processor.handle_describe_metadata(callback_command)
 
 class ExtractToHere(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

@@ -541,16 +541,20 @@ class ToolingApi():
             return self.result
 
         fields = sorted(result["fields"], key=lambda k : k['custom'])
-        sobject_fields = ""
+        field_list = []
         for field in fields:
             # http://www.salesforce.com/us/developer/docs/api/Content/compound_fields_address.htm
             if not contains_compound and field.get("queryByDistance"): continue
-            if not action or not field[action]: continue
-            sobject_fields += field.get("name") + ", "
+            if not action or field[action]: 
+                field_list.append(field.get("name"))
+
+        # Id must be included in the field list
+        if not field_list:
+            field_list.append("Id")
 
         self.result = {
             "success": result["success"],
-            "soql": 'SELECT ' + sobject_fields[ : -2] + ' FROM ' + sobject
+            "soql": 'SELECT %s FROM %s' % (", ".join(field_list), sobject)
         }
         return self.result
 

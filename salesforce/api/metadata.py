@@ -1,4 +1,3 @@
-
 import sublime
 import time
 import pprint
@@ -45,6 +44,33 @@ class MetadataApi():
 
         self.result = result
         return result
+
+    def describe_metadata(self):
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
+
+        headers = {
+            "Content-Type": "text/xml;charset=UTF-8",
+            "SOAPAction": '""'
+        }
+
+        # Build soap_body
+        soap_body = self.soap.create_request('describe_metadata')
+
+        response = requests.post(self.metadata_url, 
+            soap_body, verify=False, headers=headers)
+
+        # If status_code is > 399, which means it has error
+        if response.status_code > 399:
+            self.result = util.get_response_error(response)
+            return self.result
+
+        result = xmltodict.parse(response.content)
+        self.result = result["soapenv:Envelope"]["soapenv:Body"]["describeMetadataResponse"]["result"]
+        self.result["success"] = True
+        return self.result
     
     def rename_metadata(self, options):
         self.login()
@@ -167,13 +193,25 @@ class MetadataApi():
             "SOAPAction": '""'
         }
 
-        # [sf:retrieve]
-        Printer.get('log').write_start().write("[sf:retrieve] Start request for a retrieve...")
+        if "types" not in options:
+            self.result = {
+                "Error Message":  "types NOT FOUND in retrieve parameters",
+                "success": False
+            }
+            return self.result
+
+        # Write a separate line
+        Printer.get('log').write_start()
 
         # Before build soap_body, we need to check type supports *,
         # if not, we need to list package for it
-        if "types" in options:
-            options["types"] = self.prepare_members(options["types"])
+        list_package_for_all = False
+        if "list_package_for_all" in options and options["list_package_for_all"]:
+            list_package_for_all = True
+        options["types"] = self.prepare_members(options["types"], list_package_for_all)
+        
+        # [sf:retrieve]
+        Printer.get('log').write("[sf:retrieve] Start request for a retrieve...")
 
         # Build soap_body
         soap_body = self.soap.create_request('retrieve', options)
@@ -215,7 +253,6 @@ class MetadataApi():
         while done == "false":
             # Issue a check_status request to retrieve retrieve result
             # Since version 31 before, we need to invoke check_status before check_retrieve_status
-            print (json.dumps(result))
             if self.settings["api_version"] >= 31:
                 result = self.check_retrieve_status(async_process_id)
             else:
@@ -276,96 +313,111 @@ class MetadataApi():
 
         self.result = result
 
-    def prepare_members(self, _types):
-        # DocumentFolder, DashboardFolder and ReportFolder
-        drd = ["Dashboard", "Report", "Document"]
-        
-        drd_folders = {}
-        email = {}
-        for _type in _types:
-            if _type in drd:
-                if "*" not in _types[_type]: continue
-                drd_folders["%sFolder" % _type] = [""]
+    def prepare_members(self, _types, list_package_for_all=False):
+        self.login()
 
-            if _type == "EmailTemplate":
-                if "*" not in _types[_type]: continue
-                email["EmailFolder"] = [""]
+        if list_package_for_all:
+            Printer.get("log").write_start()
 
-        # Define records to contain all folders
+        # List package for metadata objects which 'inFolder' is true
+        # EmailFolder, DocumentFolder, DashboardFolder and ReportFolder
         records = []
+        for _type in _types:
+            if "*" not in _types[_type]: continue
+            if _type in self.settings["metadata_objects_in_folder"]:
+                # List package for ``suffix.capitalize() + 'Folder'``
+                folder = _type + "Folder" if _type != "EmailTemplate" else "EmailFolder"
 
-        # List package for DocumentFolder, DashboardFolder and ReportFolder
-        if drd_folders:
-            Printer.get("log").write("[sf:retrieve] List Folders for %s" % (
-                ", ".join(["%sFolder" % d for d in drd])
+                # Waiting message in output console
+                Printer.get("log").write("[sf:retrieve] List Folders for %s" % folder)
+
+                # Collect all folders into records
+                folders = []
+                elements = []
+                for record in self.list_package({folder : [""]}):
+                    _folder = record["fullName"]
+
+                    # Add folder into retrieve list
+                    if _type in elements:
+                        elements.append(_folder)
+                    else:
+                        elements = [_folder]
+
+                    folders.append(record["fullName"])
+
+                for _folders in util.list_chunks(folders, 3):
+                    Printer.get("log").write("[sf:retrieve] List Metadata for %s Folder: %s" % (
+                        _type, ", ".join(_folders)
+                    ))
+
+                    # Add file in folders into retrieve list
+                    for record in self.list_package({_type : _folders}):
+                        elements.append(record["fullName"])
+
+                elements = sorted(elements)
+                _types[_type] = elements
+
+        # In order to speed up retrieve request, we will not list package for them
+        # just when we want to get full copy or build package.xml, we will list_package for all
+        #       Note: CustomObject must be retrieved by ``list_package`` request
+        # list package for metadata object which supports wildcard retrieve
+        _types_list = []
+        if not list_package_for_all:
+            if "CustomObject" in _types and "*" in _types["CustomObject"]:
+                _types_list = ["CustomObject"]
+            if "InstalledPackage" in _types and "*" in _types["InstalledPackage"]:
+                _types_list = ["InstalledPackage"]
+        else:
+            for _type in _types:
+                if "*" not in _types[_type]: continue
+                if _type not in self.settings["metadata_objects_in_folder"]:
+                    print (_type)
+                    _types_list.append(_type)
+
+        # Maximum number of every list_package request is 3
+        # so we need to chunk list to little pieces
+        for _trunked_types_list in util.list_chunks(_types_list, 3):
+            _trunked_types = {}
+            for t in _trunked_types_list:
+                _trunked_types[t] = [""]
+
+            # Define type_with_elements for keeping files for _trunked_types
+            type_with_elements = {}
+
+            # list package for all non-folder metadata types
+            Printer.get("log").write("[sf:retrieve] List Metadata for %s" % (
+                ", ".join(_trunked_types)
             ))
+            for record in self.list_package(_trunked_types):
+                _type = record["type"]
+                fullName = record["fullName"]
+                if _type not in type_with_elements:
+                    type_with_elements[_type] = [fullName]
+                else:
+                    type_with_elements[_type].append(fullName)
 
-            records.extend(self.list_package(drd_folders))
+            # Order elements
+            for t in type_with_elements:
+                type_with_elements[t] = sorted(type_with_elements[t])
 
-        # List package for Email Template
-        if email:
-            Printer.get("log").write("[sf:retrieve] List Folders for EmailFolder")
-            records.extend(self.list_package(email))
+            # Update _types with result of list_package request
+            for _type in _trunked_types:
+                if _type in type_with_elements:
+                    _types[_type] = type_with_elements[_type]
+                else:
+                    _types[_type] = []
 
-        # If no need to list package, just return _types
-        if not records: return _types
+        # After reload is finished
+        if list_package_for_all:
+            Printer.get("log").write("Project cache is saved to local .config/package.json")
 
-        """Example of type_with_folders: 
-        {
-            "EmailTemplate": ["test1", "test2"], 
-            "Dashboard": ["test1"]
+        # Invoked by thread
+        self.result = {
+            "success": True,
+            "types": _types
         }
-        """
-        type_with_folders = {}
-        for record in records:
-            if record["type"] == "EmailFolder":
-                _type = "EmailTemplate"
-            else:
-                _type = record["type"][:-6]
 
-            if _type in type_with_folders:
-                type_with_folders[_type].append(record["fullName"])
-            else:
-                type_with_folders[_type] = [record["fullName"]]
-
-        records = []
-        for _type in type_with_folders:
-            folders = type_with_folders[_type]
-            for _folders in util.list_chunks(folders, 3):
-                Printer.get("log").write("[sf:retrieve] List Metadata for %s Folder: %s" % (
-                    _type, ", ".join(_folders)
-                ))
-
-                records.extend(self.list_package({_type : _folders}))
-
-        """Example of types_with_elements: 
-        {
-            "EmailTemplate": ["test1/template1", "test2/template2"], 
-            "Dashboard": ["test1/dashboard1"]
-        }
-        """
-        type_with_files = {}
-        for record in records:
-            _type = record["type"]
-
-            # Add files to elements
-            if _type in type_with_files:
-                type_with_files[_type].append(record["fullName"])
-            else:
-                type_with_files[_type] = [record["fullName"]]
-
-        # Add folder and files in it to elements
-        for _type in _types:
-            # Add file to related type
-            if _type in type_with_files:
-                _types[_type] = type_with_files[_type]
-
-            # Add folder to related type
-            if _type in type_with_folders:
-                files = _types[_type]
-                files.extend(type_with_folders[_type])
-                _types[_type] = files
-
+        # Invoked by retrieve request
         return _types
 
     def list_package(self, _types):
@@ -398,6 +450,7 @@ class MetadataApi():
         result = result["result"]
         if isinstance(result, dict): result = [result]
         
+        self.result = result
         return result
 
     def cancel_deployment(self, async_process_id): 
@@ -430,7 +483,6 @@ class MetadataApi():
             return self.result
 
         result = xmltodict.parse(response.content)
-        # print (json.dumps(result, indent=4))
         try:
             result = result["soapenv:Envelope"]["soapenv:Body"]["cancelDeployResponse"]["result"]
             result["success"] = True
@@ -638,8 +690,6 @@ class MetadataApi():
             Printer.get('log').write("[sf:%s] Request Failed\n\nBUILD FAILED" % deploy_or_validate)
             Printer.get('log').write("*********** DEPLOYMENT FAILED ***********", False)
             Printer.get('log').write("Request ID: %s" % async_process_id, False)
-
-            # print (json.dumps(body, indent=4))
 
             # Output Failure Details
             failures_messages = []

@@ -320,13 +320,6 @@
                         "caption": "Export Data Template",
                         "command": "export_data_template"
                     }
-                    // ,
-
-                    // {
-                    //     "id": "exportfielddependencies",
-                    //     "caption": "Export Field Dependency",
-                    //     "command": "export_field_dependency"
-                    // }
                 ]
             },
 
@@ -404,15 +397,14 @@
             { "caption": "-" },
 
             {
-                "caption": "Metadata Migration",
+                "caption": "Metadata",
                 "children": [
                     {
-                        "id": "retrieveall",
                         "caption": "Retrieve All",
                         "command": "retrieve_metadata"
                     },
+
                     {
-                        "id": "retrievesobjectmetadata",
                         "caption": "Retrieve Sobject And Workflow",
                         "command": "retrieve_metadata", 
                         "args": {
@@ -423,16 +415,31 @@
                     { "caption": "-" },
 
                     {
-                        "id": "deployzip",
                         "caption": "Deploy Package.zip",
                         "command": "deploy_zip"
                     },
 
                     {
-                        "id": "deployopenfiles",
                         "caption": "Deploy Open Files",
                         "command": "deploy_open_files_to_server"
-                    }
+                    },
+
+                    { "caption": "-" },
+
+                    {
+                        "caption": "Describe Metadata",
+                        "command": "describe_metadata"
+                    },
+
+                    {
+                        "caption": "Reload Project Cache",
+                        "command": "reload_project_cache"
+                    },
+
+                    {
+                        "caption": "Build Package.xml",
+                        "command": "build_package_xml"
+                    },
                 ]
             },
 

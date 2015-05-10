@@ -2,6 +2,7 @@ import sublime
 import sublime_plugin
 import os
 import time
+import json
 
 from .salesforce.lib.panel import Printer
 
@@ -161,20 +162,38 @@ def get_settings():
         allowed_packages = []
 
     settings["allowed_packages"] = allowed_packages
+    settings["all_metadata_folders"] = []
+    settings["all_metadata_objects"] = []
     
-    # Populate all global variables
-    components = s.get("metadataObjects")
-    settings["metadata_objects"] = components
-    settings["metadata_folders"] = [c["directoryName"] for c in components]
-    settings["subscribed_metadata_objects"] = [c["xmlName"] for c in components if c["subscribe"]]
-    settings["subscribed_metadata_folders"] = [c["directoryName"] for c in components if c["subscribe"]]
-    settings["metadata_objects_in_folder"] = [c["xmlName"] for c in components if c["inFolder"] == "true"]
-    for component in components:
-        settings[component["xmlName"]] = component
-        settings[component["directoryName"]] = component
+    # Populate all metadata_objects settings
+    # 1. Check `metadata_objects`` setting in project
+    if "subscribed_metadata_objects" in default_project:
+        settings["subscribed_metadata_objects"] = default_project["subscribed_metadata_objects"]
+    else:
+        settings["subscribed_metadata_objects"] = []
 
-        if "childXmlNames" in component:
-            for child in component["childXmlNames"]:
-                settings[child] = component
+    # 2. Check `.config/metadata_objects.json`, priority of 1 is higher than 2
+    metadata_objects_cache = os.path.join(settings["workspace"], ".config", "metadata.json")
+    if os.path.isfile(metadata_objects_cache):
+        describe_metadata = json.loads(open(metadata_objects_cache).read())
+        settings = build_metadata_objects_settings(settings, describe_metadata["metadataObjects"])
+        settings["organizationNamespace"] = describe_metadata["organizationNamespace"]
+
+    return settings
+
+def build_metadata_objects_settings(settings, metadata_objects):
+    settings["all_metadata_folders"] = [c["directoryName"] for c in metadata_objects]
+    settings["all_metadata_objects"] = [c["xmlName"] for c in metadata_objects]
+    settings["subscribed_metadata_folders"] = [c["directoryName"] for c in metadata_objects \
+        if c["xmlName"] in settings["subscribed_metadata_objects"]]
+    settings["metadata_objects_in_folder"] = [c["xmlName"] for c in metadata_objects \
+        if c["inFolder"] == "true"]
+    for mo in metadata_objects:
+        settings[mo["xmlName"]] = mo
+        settings[mo["directoryName"]] = mo
+
+        if "childXmlNames" in mo:
+            for child in mo["childXmlNames"]:
+                settings[child] = mo
 
     return settings

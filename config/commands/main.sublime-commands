@@ -10,6 +10,11 @@
     },
 
     {
+        "caption": "HaoIDE: Describe Metadata",
+        "command": "describe_metadata"
+    },
+
+    {
         "caption": "HaoIDE: New Project",
         "command": "create_new_project"
     },

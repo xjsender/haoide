@@ -40,6 +40,9 @@
 
     // Choose a test class in the list and run test class
     {"keys": ["alt+r","alt+t"],"command": "run_one_test"},
+    
+    // Build package.xml
+    {"keys": ["alt+b","alt+p"],"command": "build_package_xml"},
 
     // Execute chosen anonymous code snippet
     {"keys": ["ctrl+alt+e"], "command": "execute_anonymous"},

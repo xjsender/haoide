@@ -620,15 +620,20 @@ def export_report_api(rootdir):
 
     util.list2csv(rootdir + "/test.csv", reports)
 
-def check_new_component_enabled():
+def check_action_enabled():
     """If project in current date is not created, new component is not enabled
 
     Returns:
 
     * * -- whether project in current date is exist
     """
+    # Check project workspace is available
     settings = context.get_settings()
-    return os.path.exists(settings["workspace"])
+    if not os.path.exists(settings["workspace"]): return False
+
+    # Check whether describe_metadata request is finished
+    cache = os.path.join(settings["workspace"], ".config", "metadata.json")
+    return os.path.exists(cache)
     
 def check_workspace_available(settings=None):
     """Check workspace is available, if not make it
@@ -655,10 +660,11 @@ def get_view_by_name(view_name):
     * view -- sublime open tab
     """
     view = None
-    for v in sublime.active_window().views():
-        if not v.name(): continue
-        if v.name() == view_name:
-            view = v
+    for win in sublime.windows():
+        for v in win.views():
+            if not v.name(): continue
+            if v.name() == view_name:
+                view = v
 
     return view
 
@@ -739,26 +745,9 @@ def build_folder_types(dirs):
         if dname not in _dir: continue
 
         xml_name = settings[folder]["xmlName"]
-        types[xml_name] = make_types(settings, xml_name)
+        types[xml_name] = ["*"]
 
     return types
-
-def make_types(settings, xml_name):
-    if xml_name == "CustomObject":
-        sobjects = [
-            "Account", "AccountContactRole", "Activity", "Asset", 
-            "Campaign", "CampaignMember", "Case", "CaseComment", 
-            "CaseContactRole", "Contact", "ContentVersion", "Contract", 
-            "ContractContactRole", "Event", "ForecastingQuota", "Idea", 
-            "Lead", "Opportunity", "OpportunityCompetitor", "OpportunityContactRole", 
-            "OpportunityLineItem", "OpportunityTeamMember", "PartnerRole", 
-            "Pricebook2", "PricebookEntry", "Product2", 
-            "Quote", "QuoteLineItem", "Site", "Solution", "Task", "User"
-        ]
-        sobjects.append("*")
-        return sobjects
-    else:
-        return ["*"]
 
 def build_package_dict(files, ignore_folder=True):
     """ Build Package Dict as follow structure by files
@@ -1599,7 +1588,7 @@ def parse_validation_rule(settings, sobjects):
         ######################################
         try:
             rules = result["CustomObject"]["validationRules"]
-            fp = open(outputdir + "/Validation Rules.csv", "ab")
+            fp = open(outputdir + "/ValidationRules.csv", "ab")
             write_metadata_to_csv(fp, columns, rules, sobject)
         except KeyError:
             # If one sobject doesn't have vr, We don't need do anything
@@ -2266,7 +2255,7 @@ def get_component_attribute(file_name):
     folder, name = os.path.split(file_name)
     component_name = name.split(".")[0]
     src_folder, metadata_folder = os.path.split(folder)
-    if metadata_folder not in settings["metadata_folders"]:
+    if metadata_folder not in settings["all_metadata_folders"]:
         return None, None
 
     xml_name = settings[metadata_folder]["xmlName"]
@@ -2301,7 +2290,7 @@ def check_enabled(file_name, check_cache=True):
     # Check whether current file is subscribed component
     folder, name = os.path.split(file_name)
     src_folder, folder_name = os.path.split(folder)
-    if folder_name not in settings["metadata_folders"]: 
+    if folder_name not in settings["all_metadata_folders"]: 
         sublime.status_message("Not valid SFDC component")
         return False
 
@@ -2327,7 +2316,10 @@ def display_active_project(view):
 
     settings = context.get_settings()
     if not settings: return # Fix plugin loading issue
-    display_message = "Default Project => " + settings["default_project_name"]
+    display_message = "Default Project => %s (v%s.0)" % (
+        settings["default_project_name"],
+        settings["api_version"]
+    )
     view.set_status('default_project', display_message)
 
 def switch_project(chosen_project, add_to_workspace=True):
@@ -2447,7 +2439,7 @@ def subl(args=[]):
         executable_path = app_path + "Contents/SharedSupport/bin/subl"
     subprocess.Popen([executable_path] + args)
 
-def get_metadata_elements(meta_type, meta_folder):
+def get_completion_list(meta_type, meta_folder):
     """ Get the name list by specified metadataObject
 
     Arguments:
@@ -2498,6 +2490,26 @@ def get_metadata_elements(meta_type, meta_folder):
                 completion_list.append(("%s\t%s" % (name, meta_type), name))
 
     return completion_list
+
+def get_metadata_elements(metadata_dir):
+    """ Get the name list by specified metadataObject
+    
+    Arguments:
+    metadata_dir -- directory of metadataObject
+
+    Return:
+    names -- elements in the specified metadataObject folder
+    """
+    
+    elements = []
+    for parent, dirnames, filenames in os.walk(metadata_dir):
+        for _file in filenames:
+            if _file.endswith("-meta.xml"): continue
+            base, full_name = os.path.split(_file)
+            name = full_name[:full_name.rfind(".")]
+            elements.append(name)
+
+    return elements
 
 def export_profile_settings():
     settings = context.get_settings()

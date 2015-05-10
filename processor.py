@@ -27,61 +27,48 @@ from .progress import ThreadProgress, ThreadsProgress
 from .salesforce.lib import diff
 
 
-def populate_users():
-    """
-    Get dict (LastName + FirstName => UserId) in whole org
+def handle_populate_users(callback_command, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+        
+        if api.result or api.result["success"]:
+            records = api.result["records"]
+            users = {}
+            for record in records:
+                if not record["FirstName"]:
+                    name = "%s => %s" % (record["LastName"], record["Username"])
+                else:
+                    name = "%s => %s" % (
+                        "%s %s" % (record["LastName"], record["FirstName"]), 
+                        record["Username"]
+                    )
 
-    @return: {
-        username + users: {
-            LastName + FirstName => UserId
-        }
-        ...
-    }
-    """
+                users[name] = record["Id"]
 
-    # Get settings
-    settings = context.get_settings()
+            util.add_config_history("users", users)
+            sublime.active_window().run_command(callback_command)
 
     # If sobjects is exist in `/.config/users.json`, just return it
-    users_path = settings["workspace"]+"/.config/users.json"
-    if os.path.isfile(users_path):
-        users = json.loads(open(users_path).read())
-        return users
-        
-    # If sobjects is not exist in globals(), post request to pouplate it
+    settings = context.get_settings()
+    user_cache = os.path.join(settings["workspace"], ".config", "users.json")
+    if os.path.isfile(user_cache): return json.loads(open(user_cache).read())
+
+    # If not exist, we need to use callback function
     api = ToolingApi(settings)
-    query = """SELECT Id, FirstName, LastName, Username FROM User WHERE LastName != null 
-               AND IsActive = true"""
+    query = "SELECT Id, FirstName, LastName, Username FROM User WHERE IsActive = true"
     thread = threading.Thread(target=api.query_all, args=(query, ))
     thread.start()
-
-    while thread.is_alive() or not api.result:
-        time.sleep(1)
-
-    # Exception Process
-    if not api.result["success"]:
-        Printer.get('error').write(message.SEPRATE.format(util.format_error_message(api.result)))
-        return
-
-    records = api.result["records"]
-    users = {}
-    for user in records:
-        if not user["FirstName"]:
-            name = "%s => %s" % (user["LastName"], user["Username"])
-        else:
-            name = "%s => %s" % (user["LastName"] + " " + user["FirstName"], user["Username"])
-
-        users[name] = user["Id"]
-
-    util.add_config_history("users", users)
-    return users
+    handle_thread(thread, timeout)
+    ThreadProgress(api, thread, "Downloading Users List", "Succeed to download users list")
 
 def populate_sobject_recordtypes():
     """
     Get dict ([sobject, recordtype name] => recordtype id) in whole org
 
     @return: {
-        username + "sobject_recordtypes": {
+        username ,  "sobject_recordtypes": {
             sobject + rtname: rtid
         }
         ...
@@ -1132,7 +1119,7 @@ def handle_export_all_workbooks(timeout=120):
     ThreadProgress(api, thread, "Global Describe Common", "Global Describe Common Succeed")
     handle_thread(thread, timeout)
 
-def handle_new_project(settings, is_update=False, timeout=120):
+def handle_new_project(is_update=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -1172,16 +1159,15 @@ def handle_new_project(settings, is_update=False, timeout=120):
             if settings["debug_mode"]:
                 print ('[Debug] fileProperties:\n' + json.dumps(result, indent=4))
 
-
         # Hide panel
         sublime.set_timeout_async(Printer.get("log").hide_panel, 500)
 
         # Reload sObject Cache and SymbolTables
         if not is_update: 
-            handle_reload_sobjects_completions(120)
+            handle_reload_sobjects_completions()
             
             if settings["reload_symbol_tables_when_create_project"]:
-                handle_reload_symbol_tables(120)
+                handle_reload_symbol_tables()
 
         # Write the settings to local cache
         # Not keep the confidential info to .settings
@@ -1194,7 +1180,7 @@ def handle_new_project(settings, is_update=False, timeout=120):
     api = MetadataApi(settings)
     types = {}
     for xml_name in settings["subscribed_metadata_objects"]:
-        types[xml_name] = util.make_types(settings, xml_name)
+        types[xml_name] = ["*"]
 
     thread = threading.Thread(target=api.retrieve, args=({
         "types": types,
@@ -1204,6 +1190,48 @@ def handle_new_project(settings, is_update=False, timeout=120):
     wating_message = ("Creating New " if not is_update else "Updating ") + " Project"
     ThreadProgress(api, thread, wating_message, wating_message + " Finished")
     handle_thread(thread, timeout)
+
+def handle_describe_metadata(callback_command, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+
+        # Exception is processed in ThreadProgress
+        if not api.result or not api.result["success"]: return
+
+        settings = context.get_settings()
+        describe_metadata_cache = os.path.join(settings["workspace"], ".config")
+        if not os.path.exists(describe_metadata_cache):
+            os.makedirs(describe_metadata_cache)
+
+        result = api.result
+        with open(os.path.join(describe_metadata_cache, "metadata.json"), "w") as fp:
+            del result["success"]
+            fp.write(json.dumps(result, indent=4))
+        
+        if callback_command:
+            settings = context.get_settings()
+
+            # If project already have subscribed_metadata_objects, just stop
+            if "subscribed_metadata_objects" in settings["default_project"] and \
+                    settings["default_project"]["subscribed_metadata_objects"]:
+                return sublime.active_window().run_command(callback_command)
+
+            # If project doesn't have subscribed_metadata_objects, we need
+            # to choose which metadata_objects to subscribe, which will be saved
+            # into default project
+            sublime.active_window().run_command("toggle_metadata_objects", {
+                "callback_command": callback_command
+            })
+
+    # Start to request
+    settings = context.get_settings()
+    api = MetadataApi(settings)
+    thread = threading.Thread(target=api.describe_metadata)
+    thread.start()
+    handle_thread(thread, timeout)
+    ThreadProgress(api, thread, "Describe Metadata", "Describe Metadata Finished")
 
 def handle_rename_metadata(meta_type, old_name, new_name, timeout=120):
     def handle_thread(thread, timeout):
@@ -1225,6 +1253,33 @@ def handle_rename_metadata(meta_type, old_name, new_name, timeout=120):
     thread.start()
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Rename Metadata", "Rename Metadata Finished")
+
+def handle_reload_project_cache(types, callback_command, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+
+        if not api.result or not api.result["success"]: return
+
+        types = api.result["types"]
+        cache_dir = os.path.join(settings["workspace"], ".config")
+        if not os.path.exists(cache_dir):
+            os.makedirs(cache_dir)
+
+        with open(os.path.join(cache_dir, "package.json"), "w") as fp:
+            fp.write(json.dumps(types, indent=4))
+
+        if callback_command:
+            sublime.active_window().run_command(callback_command)
+
+    # Start to request
+    settings = context.get_settings()
+    api = MetadataApi(settings)
+    thread = threading.Thread(target=api.prepare_members, args=(types, True, ))
+    thread.start()
+    handle_thread(thread, timeout)
+    ThreadProgress(api, thread, "Reload Project Cache", "Reload Project Cache Succeed")
 
 def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_xml=False, timeout=120):
     def handle_thread(thread, timeout):
@@ -1308,7 +1363,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
             component_id = component_attribute["id"]
             view.run_command("remove_check_point", {"mark":component_id+"build_error"})
 
-            # If succeed, just hide it in two seconds later
+            # If succeed, just hide it in several seconds later
             delay_seconds = settings["delay_seconds_for_hidden_output_panel_when_succeed"]
             sublime.set_timeout_async(Printer.get("log").hide_panel, delay_seconds * 1000)
 
