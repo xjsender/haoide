@@ -152,7 +152,7 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         if not types: types = {}
 
         self.members = []
-        for metadata_object in self.package:
+        for metadata_object in sorted(self.package.keys()):
             if not self.package[metadata_object]: continue
             if metadata_object in types:
                 display = "[√]" + metadata_object
@@ -165,7 +165,7 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
                     mem = "[√]" + mem
                 else:
                     mem = "[x]" + mem
-                self.members.append("\t%s" % mem)
+                self.members.append("    %s" % mem)
 
         # Get the last subscribe index
         selected_index = view.settings().get("selected_index") if view else 0
@@ -176,10 +176,10 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
 
     def get_metadat_object(self, index):
         metadata_object = None
-        while self.members[index].startswith("\t"):
+        while self.members[index].startswith("    "):
             index -= 1
             metadata_object = self.members[index]
-            if not metadata_object.startswith("\t"):
+            if not metadata_object.startswith("    "):
                 break
 
         return metadata_object
@@ -188,8 +188,8 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         if index == -1: return
         chosen_element = self.members[index]
 
-        if "\t" in chosen_element:
-            base, chosen_member = chosen_element.split("\t")
+        if "    " in chosen_element:
+            base, chosen_member = chosen_element.split("    ")
             is_chosen = chosen_member[:3] == "[√]"
             chosen_member = chosen_member[3:]
             chosen_metadata_object = self.get_metadat_object(index)[3:]

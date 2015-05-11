@@ -326,24 +326,18 @@ class MetadataApi():
             if "*" not in _types[_type]: continue
             if _type in self.settings["metadata_objects_in_folder"]:
                 # List package for ``suffix.capitalize() + 'Folder'``
-                folder = _type + "Folder" if _type != "EmailTemplate" else "EmailFolder"
+                metadata_object = _type + "Folder" if _type != "EmailTemplate" else "EmailFolder"
 
                 # Waiting message in output console
-                Printer.get("log").write("[sf:retrieve] List Folders for %s" % folder)
+                Printer.get("log").write("[sf:retrieve] List Folders for %s" % metadata_object)
 
                 # Collect all folders into records
                 folders = []
                 elements = []
-                for record in self.list_package({folder : [""]}):
+                for record in self.list_package({metadata_object : [""]}):
                     _folder = record["fullName"]
-
-                    # Add folder into retrieve list
-                    if _type in elements:
-                        elements.append(_folder)
-                    else:
-                        elements = [_folder]
-
-                    folders.append(record["fullName"])
+                    elements.append(_folder)
+                    folders.append(_folder)
 
                 for _folders in util.list_chunks(folders, 3):
                     Printer.get("log").write("[sf:retrieve] List Metadata for %s Folder: %s" % (
@@ -373,6 +367,9 @@ class MetadataApi():
                 if _type not in self.settings["metadata_objects_in_folder"]:
                     print (_type)
                     _types_list.append(_type)
+
+        # Sort _types_list
+        _types_list = sorted(_types_list)
 
         # Maximum number of every list_package request is 3
         # so we need to chunk list to little pieces

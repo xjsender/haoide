@@ -45,6 +45,14 @@ def get_session_info(settings):
 
     return session
 
+def get_package_info(settings):
+    package = None
+    package_directory = os.path.join(settings["workspace"], ".config", "package.json")
+    if os.path.isfile(package_directory):
+        package = json.loads(open(package_directory).read())
+
+    return package
+
 def get_local_timezone_offset():
     """ Return the timezone offset of local time with GMT standard
 
@@ -2466,7 +2474,6 @@ def get_completion_list(meta_type, meta_folder):
                 folder = os.path.split(parent)[1]
 
                 # Document, Email, Dashboard or Report
-                print (meta_type, settings["metadata_objects_in_folder"])
                 if meta_type in settings["metadata_objects_in_folder"]:
                     # Add folder to list
                     if folder not in elements:

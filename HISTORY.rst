@@ -4,6 +4,19 @@ Release History
 
 ---------------
 
+
+Release 2.9.3 (2015-05-11)
+++++++++++++++++++
+* Enhancement:
+    - Package.xml completion read cache from ``.config/package.json``, no longer read cache from project file
+    - Sort for items in quick panel of package.xml building
+    - Add alert message for package.xml completion
+
+* Bug Fix:
+    - Add the folder into member when list_package for DocumentFolder, EmailFolder, ReportFolder and DashboardFolder
+    - No four spaces in the quick panel of package.xml building for windows
+
+
 Release 2.9.2 (2015-05-10)
 ++++++++++++++++++
 * Bug Fix:

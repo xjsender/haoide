@@ -11,6 +11,8 @@ from .salesforce.lib import apex
 from .salesforce.lib import vf
 from .salesforce.lib import html
 
+from .salesforce.lib.panel import Printer
+
 class PackageCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
         if not view.match_selector(locations[0], "text.xml"):
@@ -54,6 +56,13 @@ class PackageCompletions(sublime_plugin.EventListener):
 
         # <members></members> completion
         elif "<members>" in view.substr(full_line):
+            # Check whether package cache is exist in `.config/package.json`
+            package_cache = util.get_package_info(settings)
+            if not package_cache:
+                message = "No completion before reload_project_cache"
+                Printer.get("error").write(message)
+                return []
+
             matched_region = view.find("<name>\\w+</name>", full_line.begin())
             if not matched_region: return []
             matched_content = view.substr(matched_region)
@@ -65,32 +74,11 @@ class PackageCompletions(sublime_plugin.EventListener):
             _type = settings[meta_type]["xmlName"]
             _dir = os.path.join(settings["workspace"], "src", folder)
 
-            # File name completion
-            if ch != ".":
-                # List File Names
-                completion_list = util.get_completion_list(_type, folder)
-
-            # Child content of file name completion
-            if ch == ".":
-                # Object properties completion
-                parent = settings[meta_type]
-                parent_type = parent["xmlName"]
-                children = settings[meta_type]["childXmlNames"]
-                try:
-                    file_name = os.path.join(_dir, variable_name+"."+parent["suffix"])
-                    if os.path.isfile(file_name):
-                        result = xmltodict.parse(open(file_name, "rb"))
-                        if meta_type not in children: return
-                        key = children[meta_type]
-                        childs = result[parent_type][key]
-                        if isinstance(childs, dict): childs = [childs]
-                        for child in childs:
-                            if "fullName" in child:
-                                display = "%s\t%s" % (child["fullName"], meta_type)
-                                completion_list.append((display, child["fullName"]))
-                except KeyError as e:
-                    if settings["debug_mode"]:
-                        print ('[Debug] Completion KeyError: %s' % str(e))
+            # List all members in `.config/package.json`
+            if meta_type in package_cache:
+                for member in package_cache[meta_type]:
+                    completion_list.append(("%s\t%s" % (member, meta_type), member))
+                return completion_list
 
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
