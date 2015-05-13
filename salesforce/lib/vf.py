@@ -781,7 +781,7 @@ tag_defs = {
                 ]
             },
             "reRender": {
-                "type": "Object"
+                "type": "String"
             },
             "status": {
                 "type": "String"
@@ -824,7 +824,7 @@ tag_defs = {
                 ]
             },
             "reRender": {
-                "type": "Object"
+                "type": "String"
             },
             "status": {
                 "type": "String"
@@ -1006,7 +1006,7 @@ tag_defs = {
                 ]
             },
             "reRender": {
-                "type": "Object"
+                "type": "String"
             },
             "status": {
                 "type": "String"
@@ -1648,7 +1648,7 @@ tag_defs = {
                 ]
             },
             "reRender": {
-                "type": "Object"
+                "type": "String"
             },
             "status": {
                 "type": "String"
@@ -1669,7 +1669,7 @@ tag_defs = {
                 "type": "String"
             },
             "value": {
-                "type": "Object"
+                "type": "String"
             }
         }
     },
@@ -1757,7 +1757,7 @@ tag_defs = {
                 ]
             },
             "reRender": {
-                "type": "Object"
+                "type": "String"
             },
             "rev": {
                 "type": "String"
@@ -1790,7 +1790,7 @@ tag_defs = {
                 "type": "String"
             },
             "value": {
-                "type": "Object"
+                "type": "String"
             }
         }
     },
@@ -2070,7 +2070,7 @@ tag_defs = {
                 ]
             },
             "rerender": {
-                "type": "Object"
+                "type": "String"
             },
             "showChatter": {
                 "type": "Boolean",
@@ -2139,7 +2139,7 @@ tag_defs = {
                 ]
             },
             "reRender": {
-                "type": "Object"
+                "type": "String"
             },
             "rowsPerPage": {
                 "type": "Integer"
@@ -5540,7 +5540,7 @@ tag_defs = {
                 ]
             },
             "reRender": {
-                "type": "Object"
+                "type": "String"
             },
             "status": {
                 "type": "String"
@@ -5646,7 +5646,7 @@ tag_defs = {
                 ]
             },
             "reRender": {
-                "type": "Object"
+                "type": "String"
             },
             "selectedTab": {
                 "type": "Object"
@@ -5958,7 +5958,7 @@ tag_defs = {
                 ]
             },
             "reRender": {
-                "type": "Object"
+                "type": "String"
             },
             "showPublisher": {
                 "type": "Boolean",
@@ -5989,7 +5989,7 @@ tag_defs = {
                 ]
             },
             "reRender": {
-                "type": "Object"
+                "type": "String"
             },
             "showHeader": {
                 "type": "Boolean",
@@ -6020,7 +6020,7 @@ tag_defs = {
                 ]
             },
             "reRender": {
-                "type": "Object"
+                "type": "String"
             }
         }
     },
@@ -6059,7 +6059,7 @@ tag_defs = {
                 ]
             },
             "reRender": {
-                "type": "Object"
+                "type": "String"
             }
         }
     },
@@ -6119,7 +6119,7 @@ tag_defs = {
                 ]
             },
             "rerender": {
-                "type": "Object"
+                "type": "String"
             },
             "showHelp": {
                 "type": "Boolean",

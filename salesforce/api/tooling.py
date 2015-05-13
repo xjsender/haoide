@@ -473,35 +473,33 @@ class ToolingApi():
         # This result is used for invoker
         return all_result
 
-    def query_symbol_table(self, split=200):
+    def query_symbol_table(self, split=30):
         """ Some Tooling Sobject doesn't support query all, for example, ApexClass,
             If we query all ApexClasses, SymbolTable attribute will be null, however, 
             if we query for 200 records at once, SymbolTable will have value
         """
 
-        # GET the totalSize
-        result = self.query("SELECT COUNT() FROM ApexClass", is_toolingapi=True)
+        # Login firstly
+        result = self.login();
 
         # Exception Process
         if not result["success"]:
             self.result = result
             return self.result
-
-        totalSize = result["totalSize"]
         
         offset = 0
         result = {"totalSize": 0, "records": [], "success": result["success"]}
-        while totalSize >= offset:
-            soql = """SELECT NamespacePrefix, SymbolTable, Name 
-                      FROM ApexClass ORDER BY Name 
-                      LIMIT %s OFFSET %s""" % (split, offset)
+        soql = "SELECT NamespacePrefix, SymbolTable, Name FROM ApexClass "
+        while True:
+            query = soql + "LIMIT %s OFFSET %s""" % (split, offset)
             previous_result = self.query(soql, is_toolingapi=True)
-            if not previous_result["success"]: continue
+            if not previous_result["success"]: continue # Ignore exception
+            if previous_result["totalSize"] == 0: break # No result
             result['totalSize'] += previous_result['totalSize']
             previous_result['records'].extend(result['records'])
             result['records'] = previous_result['records']
             offset += split
-
+        
         # Invoke for thread
         self.result = result
 

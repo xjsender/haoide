@@ -41,6 +41,10 @@ class MetadataApi():
             return self.result
 
         self.metadata_url = result["instance_url"] + "/services/Soap/m/%s.0" % self.api_version
+        self.headers = {
+            "Content-Type": "text/xml;charset=UTF-8",
+            "SOAPAction": '""'
+        }
 
         self.result = result
         return result
@@ -51,16 +55,11 @@ class MetadataApi():
             self.result = result
             return self.result
 
-        headers = {
-            "Content-Type": "text/xml;charset=UTF-8",
-            "SOAPAction": '""'
-        }
-
         # Build soap_body
         soap_body = self.soap.create_request('describe_metadata')
 
         response = requests.post(self.metadata_url, 
-            soap_body, verify=False, headers=headers)
+            soap_body, verify=False, headers=self.headers)
 
         # If status_code is > 399, which means it has error
         if response.status_code > 399:
@@ -75,16 +74,11 @@ class MetadataApi():
     def rename_metadata(self, options):
         self.login()
 
-        headers = {
-            "Content-Type": "text/xml;charset=UTF-8",
-            "SOAPAction": '""'
-        }
-
         # Build soap_body
         soap_body = self.soap.create_request('rename_metadata', options)
 
         response = requests.post(self.metadata_url, 
-            soap_body, verify=False, headers=headers)
+            soap_body, verify=False, headers=self.headers)
 
         # If status_code is > 399, which means it has error
         if response.status_code > 399:
@@ -103,12 +97,9 @@ class MetadataApi():
         * async_process_id -- retrieve request asyncProcessId
         """
 
-        # Check the status of retrieve job
-        headers = {
-            "Content-Type": "text/xml;charset=UTF-8",
-            "Accept-Encoding": 'identity, deflate, compress, gzip',
-            "SOAPAction": '""'
-        }
+        # Headers and Body
+        headers = self.headers.copy()
+        headers["Accept-Encoding"] = "identity, deflate, compress, gzip"
         soap_body = self.soap.create_request('check_status', {
             "async_process_id": async_process_id
         })
@@ -141,11 +132,8 @@ class MetadataApi():
 
         * async_process_id -- asyncProcessId of retrieve request 
         """
-        headers = {
-            "Content-Type": "text/xml;charset=UTF-8",
-            "Accept-Encoding": 'identity, deflate, compress, gzip',
-            "SOAPAction": '""'
-        }
+        headers = self.headers.copy()
+        headers["Accept-Encoding"] = "identity, deflate, compress, gzip"
         soap_body = self.soap.create_request('check_retrieve_status', {
             "async_process_id": async_process_id
         })
@@ -187,19 +175,6 @@ class MetadataApi():
         # Log the StartTime
         start_time = datetime.datetime.now()
 
-        # 1. Issue a retrieve request to start the asynchronous retrieval
-        headers = {
-            "Content-Type": "text/xml;charset=UTF-8",
-            "SOAPAction": '""'
-        }
-
-        if "types" not in options:
-            self.result = {
-                "Error Message":  "types NOT FOUND in retrieve parameters",
-                "success": False
-            }
-            return self.result
-
         # Write a separate line
         Printer.get('log').write_start()
 
@@ -219,7 +194,7 @@ class MetadataApi():
         # Post retrieve request
         try:
             response = requests.post(self.metadata_url, soap_body, verify=False, 
-                headers=headers, timeout=120)
+                headers=self.headers, timeout=120)
         except requests.exceptions.RequestException as e:
             self.result = {
                 "Error Message":  "Network connection timeout when issuing retrieve request",
@@ -359,6 +334,7 @@ class MetadataApi():
         if not list_package_for_all:
             if "CustomObject" in _types and "*" in _types["CustomObject"]:
                 _types_list = ["CustomObject"]
+
             if "InstalledPackage" in _types and "*" in _types["InstalledPackage"]:
                 _types_list = ["InstalledPackage"]
         else:
@@ -418,18 +394,12 @@ class MetadataApi():
         return _types
 
     def list_package(self, _types):
-        # Define headers
-        headers = {
-            "Content-Type": "text/xml;charset=UTF-8",
-            "SOAPAction": '""'
-        }
-
         # Build soap_body
         soap_body = self.soap.create_request('list_package', {"types": _types})
 
         try:
             response = requests.post(self.metadata_url, soap_body, 
-                verify=False, headers=headers)
+                verify=False, headers=self.headers)
         except requests.exceptions.RequestException as e:
             if self.settings["debug_mode"]:
                 print ("Network connection timeout when issuing LIST PACKAGE request")
@@ -437,6 +407,12 @@ class MetadataApi():
 
         # If status_code is > 399, which means it has error
         if response.status_code > 399:
+            result = util.get_response_error(response)
+            Printer.get("log").write("Error happened when list package for %s, detail reason: %s" % (
+                ", ".join(list(_types.keys())), 
+                result["Error Message"] if "Error Message" in result else "Unknown Reason"
+            ))
+            
             if self.settings["debug_mode"]:
                 print (json.dumps(util.get_response_error(response), indent=4))
             return []
@@ -463,16 +439,12 @@ class MetadataApi():
             self.result = result
             return self.result
 
-        headers = {
-            "Content-Type": "text/xml;charset=UTF-8",
-            "SOAPAction": '""'
-        }
         body = self.soap.create_request('cancel_deployment', {
             "async_process_id": async_process_id
         })
 
-        response = requests.post(self.metadata_url, body, verify=False, 
-            headers=headers)
+        response = requests.post(self.metadata_url, body, 
+            headers=self.headers, verify=False)
 
         # If status_code is > 399, which means it has error
         if response.status_code > 399:
@@ -500,16 +472,12 @@ class MetadataApi():
 
         * async_process_id -- retrieve request asyncProcessId
         """
-        headers = {
-            "Content-Type": "text/xml;charset=UTF-8",
-            "SOAPAction": '""'
-        }
         soap_body = self.soap.create_request('check_deploy_status', {
             "async_process_id": async_process_id
         })
 
-        response = requests.post(self.metadata_url, soap_body, verify=False, 
-            headers=headers, timeout=120)
+        response = requests.post(self.metadata_url, soap_body,
+            headers=self.headers, verify=False, timeout=120)
 
         # If status_code is > 399, which means it has error
         if response.status_code > 399:
@@ -555,12 +523,6 @@ class MetadataApi():
         # If just checkOnly, output VALIDATE, otherwise, output DEPLOY
         deploy_or_validate = "validate" if deploy_options["checkOnly"] else "deploy"
 
-        # 1. Issue a deploy request to start the asynchronous retrieval
-        headers = {
-            "Content-Type": "text/xml;charset=UTF-8",
-            "SOAPAction": '""'
-        }
-
         # [sf:deploy]
         Printer.get('log').write_start().write("[sf:%s] Start request for a deploy..." % deploy_or_validate)
         options = deploy_options
@@ -568,7 +530,8 @@ class MetadataApi():
         soap_body = self.soap.create_request('deploy', options)
 
         try:
-            response = requests.post(self.metadata_url, soap_body, verify=False, headers=headers)
+            response = requests.post(self.metadata_url, soap_body, 
+                verify=False, headers=self.headers)
         except requests.exceptions.RequestException as e:
             self.result = {
                 "Error Message":  "Network connection timeout when issuing deploy request",
@@ -596,8 +559,6 @@ class MetadataApi():
 
         # [sf:deploy]
         Printer.get('log').write("[sf:%s] Request ID for the current deploy task: %s" % (deploy_or_validate, async_process_id))
-
-        # [sf:deploy]
         Printer.get('log').write("[sf:%s] Waiting for server to finish processing the request..." % deploy_or_validate)
 
         # 2. issue a check status loop request to assure the async

@@ -302,8 +302,9 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
         super(ClearCacheCommand, self).__init__(*args, **kwargs)
 
     def run(self, cache_name):
-        self.cache_name = cache_name+".sublime-settings"
-        self.caches = util.get_sobject_caches(self.cache_name)
+        self.cache_name = cache_name
+        self.cache_settings = self.cache_name+".sublime-settings"
+        self.caches = util.get_sobject_caches(self.cache_settings)
         if not self.caches:
             Printer.get('error').write("No cache already")
             return
@@ -314,7 +315,11 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
         if index == -1: return
         message = "Are you sure you really want to clear this cache?"
         if not sublime.ok_cancel_dialog(message, "Confirm Clear"): return
-        util.clear_cache(self.caches[index][1], self.cache_name)
+        util.clear_cache(self.caches[index][1], self.cache_settings)
+
+        sublime.set_timeout(lambda:sublime.active_window().run_command("clear_cache", {
+            "cache_name": self.cache_name
+        }), 10)
 
 class Convert15Id218IdCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -670,7 +675,7 @@ class RetrieveFileFromOtherServer(sublime_plugin.TextCommand):
         # Change the chosen project as default
         # Split with ") " and get the second project name
         default_project = self.projects[index].split(") ")[1]
-        util.switch_project(default_project, False)
+        util.switch_project(default_project)
 
         types = {self.xmlName : [self._name]}
         processor.handle_retrieve_package(types, self.extract_to, 
@@ -1320,21 +1325,21 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
         settings = context.get_settings()
         session = util.get_session_info(settings)
 
-        # If .config/session.json is exist, just use frontdoor method
-        if not session:
-            show_params = {
-                "un": settings["username"],
-                "pw": settings["password"],
-                "startURL": startURL
-            }
-            show_params = urllib.parse.urlencode(show_params)
-            show_url = settings["login_url"] + '?%s' % show_params
-
-        # If .config/session.json is not exist, use credentials to login
-        else:
-            show_url = "%s/secur/frontdoor.jsp?sid=%s&retURL=%s" % (
-                session["instance_url"], session["session_id"], startURL
+        # If .config/session.json is not exist, login firstly
+        if not session: 
+            return processor.handle_login_thread(settings["default_project_name"], 
+                callback_options= {
+                    "callback_command": "login_to_sfdc",
+                    "args": {
+                        "startURL": startURL
+                    }
+                }
             )
+
+        # If .config/session.json is exist, use frontdoor method
+        show_url = "%s/secur/frontdoor.jsp?sid=%s&retURL=%s" % (
+            session["instance_url"], session["session_id"], startURL
+        )
 
         util.open_with_browser(show_url)
 
@@ -1915,7 +1920,7 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
 
         # Switch project but not add project to sidebar
         # Just after login succeed, add it into sidebar
-        util.switch_project(default_project, False)
+        util.switch_project(default_project)
 
         # After project is switch, login will be executed
         processor.handle_login_thread(default_project)

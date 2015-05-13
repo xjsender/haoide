@@ -1857,7 +1857,7 @@ def query_to_csv(result, soql):
     headers = get_soql_fields(soql)
 
     # Append columns part into rows
-    rows = ",".join(headers).encode("utf-8") + b"\n"
+    rows = ",".join(['"%s"' % h for h in headers]).encode("utf-8") + b"\n"
     for record in records:
         row = []
         for header in headers:
@@ -1867,7 +1867,9 @@ def query_to_csv(result, soql):
                 if not isinstance(row_value, dict):
                     break
 
-            row.append(none_value(row_value))
+            value = none_value(row_value)
+            value = value.replace('"', '""')
+            row.append('"%s"' % value)
         rows += ",".join(row).encode("utf-8") + b"\n"
 
     return rows
@@ -2330,7 +2332,7 @@ def display_active_project(view):
     )
     view.set_status('default_project', display_message)
 
-def switch_project(chosen_project, add_to_workspace=True):
+def switch_project(chosen_project):
     """ Set the default project to the chosen one
     """
 
@@ -2355,9 +2357,6 @@ def switch_project(chosen_project, add_to_workspace=True):
             view.set_status('default_project', 
                 "Default Project => %s" % chosen_project)
 
-    if add_to_workspace:
-        add_project_to_workspace(context.get_settings())
-
 def add_project_to_workspace(settings):
     """Add new project folder to workspace
        Just Sublime Text 3 can support this method
@@ -2367,27 +2366,6 @@ def add_project_to_workspace(settings):
     dpn = settings["default_project_name"]
     file_exclude_patterns = settings["file_exclude_patterns"]
     folder_exclude_patterns = settings["folder_exclude_patterns"]
-
-    if settings["link_project_with_sublime_project"] and sublime.platform() == "windows":
-        switch_to_window = None
-        for win in sublime.windows():
-            if not win.project_data(): continue
-            if "folders" in win.project_data():
-                for _folder in win.project_data()["folders"]:
-                    folder_path = _folder["path"]
-
-                    # Parse windows path to AS-UNIX
-                    if "\\" in folder_path: 
-                        folder_path = folder_path.replace("\\", "/")
-                    if "\\" in workspace:
-                        workspace = workspace.replace("\\", "/")
-
-                    if folder_path == workspace:
-                        switch_to_window = win
-                        break
-
-        if switch_to_window:
-            return focus_view(switch_to_window.active_view())
 
     switch_to_folder = {
         "path": workspace,
@@ -2401,34 +2379,29 @@ def add_project_to_workspace(settings):
     with open(project_file_path, "wb") as fp:
         fp.write(json.dumps({"folders":[switch_to_folder]}, indent=4).encode("utf-8"))
 
-    # If OS is windows, open <name>.sublime-project
-    if settings["link_project_with_sublime_project"] and sublime.platform() == "windows":
-        subl([project_file_path])
-    # If others, add project to project data
-    else:
-        project_data = sublime.active_window().project_data()
-        if not project_data: project_data = {}
-        folders = project_data.get("folders", [])
+    project_data = sublime.active_window().project_data()
+    if not project_data: project_data = {}
+    folders = project_data.get("folders", [])
 
-        # If the workspace is already exist in project data,
-        # just update the patters, if not, add the workspace to it
-        for folder in folders:
-            folder_path = folder["path"]
+    # If the workspace is already exist in project data,
+    # just update the patters, if not, add the workspace to it
+    for folder in folders:
+        folder_path = folder["path"]
 
-            # Parse windows path to AS-UNIX
-            if "\\" in folder_path: 
-                folder_path = folder_path.replace("\\", "/")
-            if "\\" in workspace: 
-                workspace = workspace.replace("\\", "/")
+        # Parse windows path to AS-UNIX
+        if "\\" in folder_path: 
+            folder_path = folder_path.replace("\\", "/")
+        if "\\" in workspace: 
+            workspace = workspace.replace("\\", "/")
 
-            if folder_path == workspace:
-                folder["file_exclude_patterns"] = file_exclude_patterns;
-                folder["folder_exclude_patterns"] = folder_exclude_patterns
-            else:
-                folders.append(switch_to_folder)
+        if folder_path == workspace:
+            folder["file_exclude_patterns"] = file_exclude_patterns;
+            folder["folder_exclude_patterns"] = folder_exclude_patterns
         else:
             folders.append(switch_to_folder)
-        sublime.active_window().set_project_data({"folders": folders})
+    else:
+        folders.append(switch_to_folder)
+    sublime.active_window().set_project_data({"folders": folders})
 
 def focus_view(view):
     """ Focus window with view, however, just work on windows but not for OSX

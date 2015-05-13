@@ -38,7 +38,7 @@ class BulkApi():
             os.mkdir(os.path.dirname(outputfile))
 
         if isinstance(result, dict):
-            Printer.get("error").write(util.format_error_message(dict(result)))
+            Printer.get("error").write(result["stateMessage"])
         else:
             try:
                 fp = open(outputfile, "wb")

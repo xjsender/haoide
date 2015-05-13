@@ -129,7 +129,7 @@ def handle_update_user_language(language, timeout=120):
     thread.start()
     ThreadProgress(api, thread, "Updating User Language", "User language is updated to " + language)
 
-def handle_login_thread(default_project, timeout=120):
+def handle_login_thread(default_project, callback_options={}, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -137,14 +137,18 @@ def handle_login_thread(default_project, timeout=120):
 
         result = api.result
         if result and result["success"]:
-            util.add_project_to_workspace(settings)
+            if "callback_command" in callback_options:
+                callback_command = callback_options["callback_command"]
+                args = callback_options["args"] if "args" in callback_options else {}
+                sublime.active_window().run_command(callback_command, args)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
     thread = threading.Thread(target=api.login, args=(False, ))
     thread.start()
     handle_thread(thread, timeout)
-    ThreadProgress(api, thread, "Login to switched project", default_project + " Login Succeed")
+    ThreadProgress(api, thread, "Login to %s" % default_project, 
+        default_project + " Login Succeed")
 
 def handle_view_code_coverage(component_name, component_attribute, body, timeout=120):
     def handle_thread(thread, timeout):
@@ -1264,11 +1268,18 @@ def handle_reload_project_cache(types, callback_command, timeout=120):
 
         types = api.result["types"]
         cache_dir = os.path.join(settings["workspace"], ".config")
+        cache_file = os.path.join(cache_dir, "package.json")
+
+        cache = types
         if not os.path.exists(cache_dir):
             os.makedirs(cache_dir)
+        elif os.path.isfile(cache_file):
+            cache = json.loads(open(cache_file).read())
+            for _type in types:
+                cache[_type] = types[_type]
 
-        with open(os.path.join(cache_dir, "package.json"), "w") as fp:
-            fp.write(json.dumps(types, indent=4))
+        with open(cache_file, "w") as fp:
+            fp.write(json.dumps(cache, indent=4))
 
         if callback_command:
             sublime.active_window().run_command(callback_command)

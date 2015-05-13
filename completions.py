@@ -450,7 +450,7 @@ class PageCompletions(sublime_plugin.EventListener):
                         if "values" in value:
                             completion_list.append((key + '\t' + value['type'], key))
                         else:
-                            if value["type"] == "Object":
+                            if value["type"] in ["Object", "ApexPages.Action"]:
                                 completion_list.append((key + '\t' + value['type'], key+'="{!$1}"$0'))
                             else:
                                 completion_list.append((key + '\t' + value['type'], key+'="$1"$0'))

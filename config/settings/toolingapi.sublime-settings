@@ -89,9 +89,6 @@
     // It depends on your choice.
     "keep_project_name_time_suffix" : true,
 
-    // Just work for windows, see issue #15 for detail
-    "link_project_with_sublime_project": false,
-
     // Every time when you open a file, assume the project of this file is not the default project,
     // if you set this settings to true, plugin will switch the default project to the project
     // of the open file automatically when you open a file
@@ -326,7 +323,10 @@
         "GroupMember", "Group",
 
         // Apex Code
-        "ApexClass", "ApexComponent", "ApexTrigger", "ApexPage", "StaticResource", "AsyncApexJob"
+        "ApexClass", "ApexComponent", "ApexTrigger", "ApexPage", "StaticResource", "AsyncApexJob",
+
+        // Email
+        "EmailTemplate"
     ],
 
     // This setting is used to keep the default pattern of salesforce document TOC path

@@ -112,11 +112,12 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
         super(ReloadProjectCache, self).__init__(*args, **kwargs)
 
     def run(self, callback_command=None):
+        self.callback_command = callback_command
         self.settings = context.get_settings()
-        _types = {}
+        self.metadata_objects = []
         for m in self.settings["all_metadata_objects"]:
             # Add parent metadata object
-            _types[m] = ["*"]
+            self.metadata_objects.append(m)
 
             # Add child metadata object
             if "childXmlNames" in self.settings[m]:
@@ -125,9 +126,63 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
                     child_xml_names = [child_xml_names]
 
                 for c in child_xml_names:
-                    _types[c] = ["*"]
+                    self.metadata_objects.append(c)
 
-        processor.handle_reload_project_cache(_types, callback_command)
+        self.metadata_objects = sorted(self.metadata_objects)
+
+        self.selected_index = 0
+        self.chosen_metadata_objects = []
+        self.build_items();
+
+    def build_items(self):
+        self.items = []
+
+        if self.chosen_metadata_objects:
+            self.items.append("[√]All")
+        else:
+            self.items.append("[x]All")
+
+        for t in self.metadata_objects:
+            if t in self.chosen_metadata_objects:
+                self.items.append("    [√]%s" % t)
+            else:
+                self.items.append("    [x]%s" % t)
+
+        sublime.set_timeout(lambda:self.window.show_quick_panel(self.items, 
+            self.on_choose, sublime.MONOSPACE_FONT, self.selected_index), 10)
+
+    def on_choose(self, index):
+        if index == -1:
+            chosen_types = {}
+            for c in self.chosen_metadata_objects:
+                chosen_types[c] = ["*"]
+
+            message = "Confirm to reload selected cache?"
+            if sublime.ok_cancel_dialog(message, "Confirm Reload?"):
+                processor.handle_reload_project_cache(chosen_types, 
+                    self.callback_command)
+            return
+
+        # Store the index and chosen metadata
+        self.selected_index = index
+        selected_item = self.items[index]
+        if selected_item == "[x]All":
+            self.chosen_metadata_objects = self.metadata_objects[:]
+        elif selected_item == "[√]All":
+            if len(self.chosen_metadata_objects) == len(self.metadata_objects):
+                self.chosen_metadata_objects = []
+            else:
+                self.chosen_metadata_objects = self.metadata_objects[:]
+        else:
+            selected_metadata_object = selected_item[7:]
+
+            if "[x]" in selected_item:
+                if selected_metadata_object not in self.chosen_metadata_objects:
+                    self.chosen_metadata_objects.append(selected_metadata_object)
+            else:
+                self.chosen_metadata_objects.remove(selected_metadata_object)
+
+        self.build_items()
 
     def is_enabled(self):
         self.settings = context.get_settings()
@@ -162,9 +217,9 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
 
             for mem in self.package[metadata_object]:
                 if metadata_object in types and mem in types[metadata_object]:
-                    mem = "[√]" + mem
+                    mem = "[√]" + metadata_object + " => " + mem
                 else:
-                    mem = "[x]" + mem
+                    mem = "[x]" + metadata_object + " => " + mem
                 self.members.append("    %s" % mem)
 
         # Get the last subscribe index
@@ -174,28 +229,17 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         self.window.show_quick_panel(self.members, self.on_done, 
             sublime.MONOSPACE_FONT, selected_index)
 
-    def get_metadat_object(self, index):
-        metadata_object = None
-        while self.members[index].startswith("    "):
-            index -= 1
-            metadata_object = self.members[index]
-            if not metadata_object.startswith("    "):
-                break
-
-        return metadata_object
-
     def on_done(self, index):
         if index == -1: return
         chosen_element = self.members[index]
 
-        if "    " in chosen_element:
-            base, chosen_member = chosen_element.split("    ")
-            is_chosen = chosen_member[:3] == "[√]"
-            chosen_member = chosen_member[3:]
-            chosen_metadata_object = self.get_metadat_object(index)[3:]
+        if " => " in chosen_element:
+            chosen_metadata_object, chosen_member = chosen_element.split(" => ")
+            is_chosen = "[√]" in chosen_metadata_object
+            chosen_metadata_object = chosen_metadata_object[7:]
         else:
             chosen_metadata_object, chosen_member = chosen_element, None
-            is_chosen = chosen_metadata_object[:3] == "[√]"
+            is_chosen = "[√]" in chosen_metadata_object
             chosen_metadata_object = chosen_metadata_object[3:]
 
         view = util.get_view_by_name("package.xml")
@@ -225,7 +269,12 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
                 if chosen_member not in types[chosen_metadata_object]:
                     types[chosen_metadata_object].append(chosen_member)
             else:
-                types[chosen_metadata_object].remove(chosen_member)
+                if len(types[chosen_metadata_object]) > 1:
+                    # If there has more than one member, just remove the chosen member
+                    types[chosen_metadata_object].remove(chosen_member)
+                else:
+                    # If there is only one member, just remove the type
+                    del types[chosen_metadata_object]
         else:
             types[chosen_metadata_object] = [chosen_member]
 
