@@ -6,12 +6,12 @@ You can export somethings in your org to CSV by these features
     - ``CustomFields`` will be exported to ``Project/.export/CustomFields.csv``
 
 * Export Workflow Rules
-    - Download metadata of ``sObjects and Workflow`` by clicking ```Migration``` > ```Retrieve Sobject And Workflow``` in the main menu
+    - Download metadata of ``sObjects and Workflow`` by clicking ```Metadata``` > ```Retrieve Sobject And Workflow``` in the main menu
     - Click ```Export``` > ```Export Workflow``` in the main menu to backup all workflows in your org to csv
     - ```workflow_rule_columns```, ``workflow_field_update_columns``, ``workflow_email_alert_columns``, ``workflow_outbound_message_columns`` and ``workflow_task_columns`` defines the columns of export CSV, you can adjust the sequence and columns by customizing your own value of this five settings
 
 * Export Validation Rules
-    - Download metadata of ``sObjects and Workflow`` by clicking ```Migration``` > ```Retrieve Sobject And Workflow``` in the main menu
+    - Download metadata of ``sObjects and Workflow`` by clicking ```Metadata``` > ```Retrieve Sobject And Workflow``` in the main menu
     - Click ```Export``` > ```Export Validation Rule``` in the main menu
     - All ValidationRules in your org will be exported to ``Project/.export/ValidationRules.csv``
     - ```validation_rule_columns``` setting defines the columns of export CSV, you can adjust the sequence and columns by customizing your own value of this setting

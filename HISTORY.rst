@@ -5,6 +5,30 @@ Release History
 ---------------
 
 
+Release 2.9.5 (2015-05-16)
+++++++++++++++++++
+* Enhancement:
+    - Add callback for ``toggle_metadata_objects`` if ``.config/metadata.json`` is not exist
+    - Move ``export_query_to_csv`` command from context menu to ``Data Loader" in the main menu, add check logic for input soql and allow trying again.
+    - Add snippets, ``Class Body - Trigger Template Bind.sublime-snippet``, ``Class Body - Trigger Template.sublime-snippet`` and ``Class Body - Trigger Template Implement.sublime-snippet``
+    - Update content of snippet ``Class Body - Roll up summary utility.sublime-snippet`` to that written by me, see `more detail <https://gist.github.com/xjsender/1e40c274c07171531f0f>`_
+
+* Update:
+    - Rename ``View Release Notes`` command to ``Release Notes``
+    - Rename ``json_pretty`` command to ``json_format``
+    - Rename ``convert_xml_to_json`` command to ``xml_to_json``
+    - Move ``xml_to_json`` from context menu to ``Utilites`` in the main menu
+    - Add access to ``toggle_metadata_objects`` for both ``Settings`` and ``Metadata`` in the main menu
+    - Upgrade build-in ``xmltodict`` module to ``0.9.2``
+    - Update document for the change in this release
+
+* New Feature:
+    - New commands for ``HaoIDE > Utilities`` of the main menu:
+        - Add a new command ``haoide_help`` to view related document
+        - Add a new command ``json_to_xml`` to convert xml back to json, see issue #32
+        - Add a new command ``xml_format`` to format selected xml content or whole file content, see issue #32
+
+
 Release 2.9.4 (2015-05-13)
 ++++++++++++++++++
 * Bug Fix:

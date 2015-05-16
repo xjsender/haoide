@@ -161,11 +161,56 @@
         "args": {
             "retrieve_all": false
         }
+    },    
+
+    {
+        "caption": "HaoIDE: Utitlities > Convert 15 Digit Id to 18 Digit",
+        "command": "convert15_id218_id"
     },
 
     {
-        "caption": "HaoIDE: Convert XML to JSON",
-        "command": "convert_xml_to_dict"
+        "caption": "HaoIDE: Utitlities > Describe Sobject",
+        "command": "describe_sobject"
+    },
+
+    {
+        "caption": "HaoIDE: Utitlities > Generate sObject SOQL",
+        "command": "generate_soql"
+    },
+
+    {
+        "caption": "HaoIDE: Utitlities > Remove Comments",
+        "command": "remove_comments"
+    },
+
+    {
+        "caption": "HaoIDE: Utitlities > JSON Format",
+        "command": "json_format"
+    },
+
+    {
+        "caption": "HaoIDE: Utitlities > JSON Serialize",
+        "command": "json_serialization"
+    },
+
+    {
+        "caption": "HaoIDE: Utitlities > JSON to Apex",
+        "command": "json_to_apex"
+    },
+
+    {
+        "caption": "HaoIDE: Utitlities > JSON to XML",
+        "command": "json_to_xml"
+    },
+
+    {
+        "caption": "HaoIDE: Utitlities > XML to JSON",
+        "command": "xml_to_json"
+    },
+
+    {
+        "caption": "HaoIDE: Utitlities > XML Format",
+        "command": "xml_format"
     },
 
     {
@@ -289,36 +334,6 @@
         "args": {
             "cache_name": "symbol_table"
         }
-    },
-
-    {
-        "caption": "HaoIDE: Describe Global",
-        "command": "describe_global"
-    },
-
-    {
-        "caption": "HaoIDE: Describe Sobject",
-        "command": "describe_sobject"
-    },
-
-    {
-        "caption": "HaoIDE: Convert 15 Digit Id to 18 Digit",
-        "command": "convert15_id218_id"
-    },
-
-    {
-        "caption": "HaoIDE: JSON Pretty",
-        "command": "json_pretty"
-    },
-
-    {
-        "caption": "HaoIDE: JSON to Apex",
-        "command": "json_to_apex"
-    },
-
-    {
-        "caption": "HaoIDE: JSON Serialize",
-        "command": "json_serialization"
     },
 
     {

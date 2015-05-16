@@ -341,7 +341,6 @@ class MetadataApi():
             for _type in _types:
                 if "*" not in _types[_type]: continue
                 if _type not in self.settings["metadata_objects_in_folder"]:
-                    print (_type)
                     _types_list.append(_type)
 
         # Sort _types_list

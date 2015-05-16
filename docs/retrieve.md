@@ -1,12 +1,16 @@
 # Retrieve
+## Toggle Metadata Objects
+* Open your command palette and input HaoIDE: ``Toggle Metadata Objects``
+* Subscribe the metadata object util all you want are finished, press ``ESC``
+* After that, you will be asked to confirm whether execute ``update_project`` command to download all subscribed metadata
+
 ## Retrieve All Step by Step
 * Click ```Metadata Migration``` > ```Retrieve All``` in the main menu
 * After retrieve is finished, retrieved metadata will be extracted to ``Project/src``
 
-**This feature is not good enough, because there is no listPackage feature supported, for example, report and dashboard can't be retrieve if no detail folder/report is specified in package.xml**
-
-## Retrieve sObject And Workflow
-* Used for retrieving metadata of all sObjects and Workflows
+## Retrieve sObject And Workflow Step by Step
+* Click ```Metadata Migration``` > ```Retrieve sObject And Workflow``` in the main menu
+* After retrieve is finished, retrieved metadata will be extracted to ``Project/src``
 
 ## Retrieve Files From Server Step by Step
 You can retrieve files from server by below two ways,

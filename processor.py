@@ -1237,7 +1237,7 @@ def handle_describe_metadata(callback_command, timeout=120):
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Describe Metadata", "Describe Metadata Finished")
 
-def handle_rename_metadata(meta_type, old_name, new_name, timeout=120):
+def handle_rename_metadata(file_name, meta_type, old_name, new_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -1247,7 +1247,10 @@ def handle_rename_metadata(meta_type, old_name, new_name, timeout=120):
         if not api.result or not api.result["success"]: return
         result = api.result
 
-        pprint.pprint (result)
+        if "errors" in result:
+            return Printer.get("error").write(result["errors"]["message"])
+
+        os.rename(file_name, file_name.replace(old_name, new_name))
 
     # Start to request
     settings = context.get_settings()
@@ -1256,7 +1259,10 @@ def handle_rename_metadata(meta_type, old_name, new_name, timeout=120):
     thread = threading.Thread(target=api.rename_metadata, args=(options, ))
     thread.start()
     handle_thread(thread, timeout)
-    ThreadProgress(api, thread, "Rename Metadata", "Rename Metadata Finished")
+    message = "Renaming %s from %s to %s" % (
+        meta_type, old_name, new_name
+    )
+    ThreadProgress(api, thread, message, "Renaming Finished")
 
 def handle_reload_project_cache(types, callback_command, timeout=120):
     def handle_thread(thread, timeout):

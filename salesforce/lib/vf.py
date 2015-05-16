@@ -1556,7 +1556,7 @@ tag_defs = {
                 "type": "String"
             },
             "value": {
-                "type": "String"
+                "type": "Object"
             },
             "width": {
                 "type": "String"

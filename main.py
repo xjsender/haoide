@@ -55,9 +55,9 @@ class Haoku(sublime_plugin.WindowCommand):
         open_url = heroku_host + '?%s' % show_params
         util.open_with_browser(open_url)
 
-class JsonPretty(sublime_plugin.WindowCommand):
+class JsonFormat(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(JsonPretty, self).__init__(*args, **kwargs)
+        super(JsonFormat, self).__init__(*args, **kwargs)
 
     def run(self):
         sublime.active_window().show_input_panel("Input JSON Body: ", "", 
@@ -65,7 +65,7 @@ class JsonPretty(sublime_plugin.WindowCommand):
 
     def on_input_json(self, data):
         try:
-            pretty_json = json.dumps(json.loads(data), 
+            formatted_json = json.dumps(json.loads(data), 
                 ensure_ascii=False, indent=4)
         except ValueError as ve:
             Printer.get('error').write(str(ve))
@@ -76,8 +76,8 @@ class JsonPretty(sublime_plugin.WindowCommand):
             
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
-            "name": "PrettiedJSON",
-            "input": pretty_json
+            "name": "FormattedJSON",
+            "input": formatted_json
         })
 
         # If you have installed the htmljs plugin, below statement will work
@@ -139,6 +139,78 @@ class JsonToApex(sublime_plugin.WindowCommand):
             "input": snippet
         })
 
+class JsonToXml(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(JsonToXml, self).__init__(*args, **kwargs)
+
+    def run(self):
+        sublime.active_window().show_input_panel("Input JSON Body: ", "", 
+            self.on_input_json, None, None)
+
+    def on_input_json(self, data):
+        try:
+            jsons = json.loads(data)
+            result = xmltodict.unparse(jsons)
+        except ValueError as ve:
+            return Printer.get("error").write(str(ve))
+        except xml.parsers.expat.ExpatError as ex:
+            return Printer.get("error").write(str(ex))
+
+        new_view = sublime.active_window().new_file()
+        new_view.set_syntax_file("Packages/XML/XML.tmLanguage")
+        new_view.run_command("new_view", {
+            "name": "JSON2XML",
+            "input": util.format_xml(result).decode("UTF-8")
+        })
+
+class XmlToJson(sublime_plugin.TextCommand):
+    def run(self, edit):
+        try:
+            result = xmltodict.parse(self.selection)
+        except xml.parsers.expat.ExpatError as ex:
+            return Printer.get("error").write(str(ex))
+
+        new_view = sublime.active_window().new_file()
+        new_view.run_command("new_view", {
+            "name": "XML2JSON",
+            "input": json.dumps(result, indent=4)
+        })
+
+    def is_enabled(self):
+        # Visible if has selection
+        self.selection = self.view.substr(self.view.sel()[0])
+
+        # If not selection, just select all
+        if not self.selection:
+            self.selection = self.view.substr(sublime.Region(0, self.view.size()))
+
+        return True
+
+class XmlFormat(sublime_plugin.TextCommand):
+    def run(self, edit):
+        try:
+            formatter = xmlformatter.Formatter(indent=4)
+            formatted_xml = formatter.format_string(self.selection)
+        except xml.parsers.expat.ExpatError as ex:
+            return Printer.get("error").write(str(ex))
+
+        new_view = sublime.active_window().new_file()
+        new_view.set_syntax_file("Packages/XML/XML.tmLanguage")
+        new_view.run_command("new_view", {
+            "name": "XMLFormat",
+            "input": formatted_xml.decode("utf-8")
+        })
+
+    def is_enabled(self):
+        # Visible if has selection
+        self.selection = self.view.substr(self.view.sel()[0])
+
+        # If not selection, just select all
+        if not self.selection:
+            self.selection = self.view.substr(sublime.Region(0, self.view.size()))
+
+        return True
+
 class DiffWithServerCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         # Get settings
@@ -177,34 +249,6 @@ class DiffWithServerCommand(sublime_plugin.TextCommand):
         if not self.file_name: return False
         return True
 
-class ConvertXmlToDictCommand(sublime_plugin.TextCommand):
-    def run(self, edit):
-        jsonStr = json.dumps(self.result, indent=4)
-        new_view = sublime.active_window().new_file()
-        new_view.run_command("new_view", {
-            "name": "XML2JSON",
-            "input": jsonStr
-        })
-
-        # If you have installed the htmljs plugin, below statement will work
-        new_view.run_command("htmlprettify")
-
-    def is_visible(self):
-        # Visible if has selection
-        selection = self.view.substr(self.view.sel()[0])
-
-        # If not selection, just select all
-        if not selection:
-            selection = self.view.substr(sublime.Region(0, self.view.size()))
-
-        # Check whether selection is valid xml
-        try:
-            self.result = xmltodict.parse(selection)
-        except Exception as ex:
-            return False
-
-        return True
-
 class ShowMyPanel(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ShowMyPanel, self).__init__(*args, **kwargs)
@@ -221,8 +265,9 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
         self.callback_command = callback_command
         cache = os.path.join(self.settings["workspace"], ".config", "metadata.json")
         if not os.path.exists(cache): 
-            self.window.run_command("describe_metadata")
-            return
+            return self.window.run_command("describe_metadata", {
+                "callback_command": "toggle_metadata_objects"
+            })
 
         describe_metadata = json.loads(open(cache).read())
         self.metadata_objects = describe_metadata["metadataObjects"]
@@ -233,8 +278,9 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
         self.window.show_quick_panel(self.xmlNames, self.on_done)
 
     def on_done(self, index):
-        if index == -1: 
-            self.window.run_command(self.callback_command)
+        if index == -1:
+            if self.callback_command:
+                self.window.run_command(self.callback_command)
             return
 
         # Get chosen type
@@ -354,30 +400,45 @@ class GenerateSoqlCommand(sublime_plugin.WindowCommand):
         if index == -1: return
         processor.handle_generate_sobject_soql(self.sobject, self.filters[index])
 
-class ExportQueryToCsv(sublime_plugin.TextCommand):
-    def run(self, edit):
-        sublime.active_window().show_input_panel('Input CSV Name:', 
-            self.sobject, self.on_input_name, None, None)
+class ExportQueryToCsv(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ExportQueryToCsv, self).__init__(*args, **kwargs)
 
-    def on_input_name(self, input):
-        if not input: return
-        processor.handle_export_query_to_csv(self.selection, input)
+    def run(self):
+        sublime.active_window().show_input_panel('Input Your SOQL:', 
+            "", self.on_input_soql, None, None)
 
-    def is_enabled(self):
-        # Selection must start SELECT, otherwise you can't see this command
-        self.selection = self.view.substr(self.view.sel()[0])
-        if not self.selection: return False
+    def on_input_soql(self, soql):
+        self.soql = soql
+
+        # Check whether the soql is valid and not parent-to-child query
+        match = re.match("SELECT\\s+[\\w\\n,.:_\\s()]+\\s+FROM\\s+\\w+", 
+            self.soql, re.IGNORECASE)
+        if not match:
+            Printer.get("error").write("Your input SOQL is not valid")
+            if sublime.ok_cancel_dialog("Want to try again?"):
+                self.window.show_input_panel('Input Your SOQL:', 
+                    "", self.on_input_soql, None, None)
+            return 
 
         # If () in match, it means there has parent-to-child query
-        match = re.match("SELECT\\s+[\\w\\n,.:_\\s()]*\\s+FROM\\s+\\w+", 
-            self.selection, re.IGNORECASE)
-        if not match or "(" in match.group(0): 
-            return False
+        if "(" in match.group(0):
+            Printer.get("error").write("This feature doesn't support parent-to-child query")
+            if sublime.ok_cancel_dialog("Want to try again?"):
+                self.window.show_input_panel('Input Your SOQL:', 
+                    "", self.on_input_soql, None, None)
+            return 
 
+        # Parse the sObject Name for CSV name
         matchstr = match.group(0)
         self.sobject = matchstr[matchstr.rfind(" ")+1:]
 
-        return True
+        sublime.active_window().show_input_panel('Input CSV Name:', 
+            self.sobject, self.on_input_name, None, None)
+
+    def on_input_name(self, name):
+        if not name: return
+        processor.handle_export_query_to_csv(self.soql, name)
 
 class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -588,19 +649,20 @@ class RetrieveMetadataCommand(sublime_plugin.WindowCommand):
 class RenameMetadata(sublime_plugin.TextCommand):
     def run(self, edit):
         self.view.window().show_input_panel("Input New Name", 
-            "", self.on_input, None, None)
+            self.filename, self.on_input, None, None)
 
     def on_input(self, new_name):
         if not new_name or not re.match("\w+[a-zA-Z0-9]+", new_name):
             Printer.get('error').write("Input name is not valid")
             return
 
-        processor.handle_rename_metadata(self.xml_name, self.filename, new_name)
+        processor.handle_rename_metadata(self.file_name, self.xml_name, self.filename, new_name)
 
     def is_enabled(self):
         if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
-        base, filename = os.path.split(self.view.file_name())
+        self.file_name = self.view.file_name()
+        base, filename = os.path.split(self.file_name)
         base, folder = os.path.split(base)
         if folder not in self.settings["all_metadata_folders"]:return False
         if not util.check_enabled(self.view.file_name(), check_cache=False): 
@@ -1360,7 +1422,12 @@ class ReportIssueCommand(sublime_plugin.ApplicationCommand):
         package_info = sublime.load_settings("package.sublime-settings")
         util.open_with_browser(package_info.get("issue_url"))
 
-class ViewReleaseNotesCommand(sublime_plugin.ApplicationCommand):
+class HaoideHelp(sublime_plugin.ApplicationCommand):
+    def run(command, url=""):
+        package_info = sublime.load_settings("package.sublime-settings")
+        util.open_with_browser(package_info.get("homepage") + url)
+
+class ReleaseNotesCommand(sublime_plugin.ApplicationCommand):
     def run(command):
         package_info = sublime.load_settings("package.sublime-settings")
         util.open_with_browser(package_info.get("history_url"))

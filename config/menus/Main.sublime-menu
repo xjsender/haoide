@@ -5,7 +5,6 @@
         "children":
         [
             {
-                "id": "SwitchProject",
                 "caption": "Switch Project",
                 "command": "switch_project"
             },
@@ -16,7 +15,6 @@
                 "caption": "New",
                 "children": [
                     {
-                        "id": "CreateNewProject",
                         "caption": "New Project",
                         "command": "create_new_project"
                     },
@@ -24,25 +22,21 @@
                     {"caption": "-"},
                     
                     {
-                        "id": "createtrigger",
                         "caption": "New ApexTrigger",
                         "command": "create_apex_trigger"
                     },
 
                     {
-                        "id": "createclass",
                         "caption": "New ApexClass",
                         "command": "create_apex_class"
                     },
 
                     {
-                        "id": "createpage",
                         "caption": "New ApexPage",
                         "command": "create_apex_page"
                     },
 
                     {
-                        "id": "createcomponent",
                         "caption": "New ApexComponent",
                         "command": "create_apex_component"
                     },
@@ -75,17 +69,14 @@
                 "caption": "Update",
                 "children": [
                     {
-                        "id": "UpdateProject",
                         "caption": "Update Project",
                         "command": "update_project"
                     },
                     {
-                        "id": "UpdateProjectPatterns",
                         "caption": "Update Project Patterns",
                         "command": "update_project_patterns"
                     },
                     {
-                        "id": "UpdateUserLanguage",
                         "caption": "Update User Language",
                         "command": "update_user_language"
                     }
@@ -98,17 +89,14 @@
                 "caption": "Cache",
                 "children": [
                     {
-                        "id": "reloadsymboltablecache",
                         "caption": "Reload SymbolTable Cache",
                         "command": "reload_symbol_table_cache"
                     },
                     {
-                        "id": "reloadsobjectcache",
                         "caption": "Reload Sobject Cache",
                         "command": "reload_sobject_cache"
                     },
                     {
-                        "id": "clearsymboltablecache",
                         "caption": "Clear SymbolTable Cache",
                         "command": "clear_cache",
                         "args": {
@@ -116,7 +104,6 @@
                         }
                     },
                     {
-                        "id": "clearsobjectcache",
                         "caption": "Clear Sobject Cache",
                         "command": "clear_cache",
                         "args": {
@@ -124,7 +111,6 @@
                         }
                     },
                     {
-                        "id": "clearsession",
                         "caption": "Clear Session Cache",
                         "command": "clear_session_cache"
                     }
@@ -135,13 +121,11 @@
                 "caption": "Document",
                 "children": [
                     {
-                        "id": "reload_salesforce_document",
                         "caption": "Reload Salesforce Document",
                         "command": "reload_salesforce_document"
                     },
 
                     {
-                        "id": "opendocumentation",
                         "caption": "Open Documentation",
                         "command": "open_documentation"
                     }
@@ -152,19 +136,16 @@
                 "caption": "Debug",
                 "children": [
                     {
-                        "id": "createdebuglog",
                         "caption": "Track Debug Log",
                         "command": "track_debug_log"
                     },
 
                     {
-                        "id": "listdebuglogs",
                         "caption": "Fetch Debug Log",
                         "command": "fetch_debug_log"
                     },
 
                     {
-                        "id": "createselfdebuglog",
                         "caption": "Track Self Debug Log",
                         "command": "track_debug_log",
                         "args": {
@@ -173,7 +154,6 @@
                     },
 
                     {
-                        "id": "createselfdebuglog",
                         "caption": "Fetch Self Debug Log",
                         "command": "fetch_debug_log",
                         "args": {
@@ -187,7 +167,6 @@
                     },
 
                     {
-                        "id": "runonetest",
                         "caption": "Run Test",
                         "command": "run_one_test"
                     }
@@ -227,12 +206,23 @@
                 "caption": "Utilities",
                 "children": [
                     {
+                        "caption": "Guide",
+                        "command": "haoide_help",
+                        "args": {
+                            "url": "/blob/master/docs/utilities.md"
+                        }
+                    },
+
+                    { "caption": "-" },
+
+                    {
                         "caption": "Haoku Query",
                         "command": "haoku", 
                         "args": {
                             "router": "query"
                         }
                     },
+
                     {
                         "caption": "Haoku Rest",
                         "command": "haoku", 
@@ -240,38 +230,61 @@
                             "router": "rest"
                         }
                     },
+
+                    { "caption": "-" },
+
+                    {
+                        "caption": "Convert 15 Id to 18 Id",
+                        "command": "convert15_id218_id"
+                    },
+
+                    {
+                        "caption": "Describe sObject",
+                        "command": "describe_sobject"
+                    },
+
+                    {
+                        "caption": "Generate sObject SOQL",
+                        "command": "generate_soql"
+                    },
+
                     {
                         "caption": "Remove Comments",
                         "command": "remove_comments"
                     },
+
+                    { "caption": "-" },
+
                     {
-                        "id": "convert15idto18id",
-                        "caption": "Convert 15 Id to 18 Id",
-                        "command": "convert15_id218_id"
+                        "caption": "JSON Format",
+                        "command": "json_format"
                     },
+
                     {
-                        "id": "describesobject",
-                        "caption": "Describe sObject",
-                        "command": "describe_sobject"
+                        "caption": "JSON Serialization",
+                        "command": "json_serialization"
                     },
+
                     {
-                        "id": "generatesoql",
-                        "caption": "Generate sObject SOQL",
-                        "command": "generate_soql"
-                    },
-                    {
-                        "caption": "JSON Pretty",
-                        "command": "json_pretty"
-                    },
-                    {
-                        "id": "convertjson2apex",
                         "caption": "JSON to Apex",
                         "command": "json_to_apex"
                     },
+
                     {
-                        "id": "serializejson",
-                        "caption": "JSON Serialization",
-                        "command": "json_serialization"
+                        "caption": "JSON to XML",
+                        "command": "json_to_xml"
+                    },
+
+                    { "caption": "-" },
+
+                    {
+                        "caption": "XML to JSON",
+                        "command": "xml_to_json"
+                    },
+
+                    {
+                        "caption": "XML Format",
+                        "command": "xml_format"
                     }
                 ]
             },
@@ -280,43 +293,46 @@
                 "caption": "Export",
                 "children": [
                     {
-                        "id": "exportcustomfield",
+                        "caption": "Guide",
+                        "command": "haoide_help",
+                        "args": {
+                            "url": "/blob/master/docs/export.md"
+                        }
+                    },
+
+                    { "caption": "-" },
+
+                    {
                         "caption": "Export CustomField",
                         "command": "export_custom_field"
                     },
 
                     {
-                        "id": "exportworkflow",
                         "caption": "Export Workflow",
                         "command": "export_workflows"
                     },
 
                     {
-                        "id": "exportvalidationrules",
                         "caption": "Export Validation Rule",
                         "command": "export_validation_rules"
                     },
 
                     {
-                        "id": "exportcustomlables",
                         "caption": "Export Custom Labels",
                         "command": "export_custom_lables"
                     },
 
                     {
-                        "id": "exportprofile",
                         "caption": "Export Profile",
                         "command": "export_profile"
                     },
 
                     {
-                        "id": "exportworkbook",
                         "caption": "Export Workbook",
                         "command": "export_workbook"
                     },
 
                     {
-                        "id": "exportdatatemplate",
                         "caption": "Export Data Template",
                         "command": "export_data_template"
                     }
@@ -327,13 +343,11 @@
                 "caption": "LoginTo",
                 "children": [
                     {
-                        "id": "ViewComponentInSFDC",
                         "caption": "Apex Code",
                         "command": "view_component_in_sfdc"
                     },
 
                     {
-                        "id": "logintosfdc",
                         "caption": "Apex Job",
                         "command": "login_to_sfdc",
                         "args": {
@@ -342,7 +356,6 @@
                     },
 
                     {
-                        "id": "logintosfdc",
                         "caption": "Apex Test Execution",
                         "command": "login_to_sfdc",
                         "args": {
@@ -351,7 +364,6 @@
                     },
 
                     {
-                        "id": "logintosfdc",
                         "caption": "Create Object",
                         "command": "login_to_sfdc",
                         "args": {
@@ -360,7 +372,6 @@
                     },
 
                     {
-                        "id": "logintosfdc",
                         "caption": "Develop Console",
                         "command": "login_to_sfdc",
                         "args": {
@@ -369,7 +380,6 @@
                     },
 
                     {
-                        "id": "logintosfdc",
                         "caption": "Debug Log",
                         "command": "login_to_sfdc",
                         "args": {
@@ -378,13 +388,11 @@
                     },
                     
                     {
-                        "id": "logintosfdc",
                         "caption": "Home Page",
                         "command": "login_to_sfdc"
                     },
 
                     {
-                        "id": "logintosfdc",
                         "caption": "Workflow Rule",
                         "command": "login_to_sfdc",
                         "args": {
@@ -425,6 +433,13 @@
                     },
 
                     { "caption": "-" },
+                    
+                    {
+                        "caption": "Toggle Metadata Objects",
+                        "command": "toggle_metadata_objects"
+                    },
+
+                    { "caption": "-" },
 
                     {
                         "caption": "Describe Metadata",
@@ -446,9 +461,15 @@
             { "caption": "-" },
 
             {
-                "id": "BulkApiQuery",
                 "caption": "Data Loader",
                 "children": [
+                    {
+                        "caption": "Export Query to CSV",
+                        "command": "export_query_to_csv"
+                    },
+
+                    { "caption": "-" },
+
                     {
                         "command": "bulk_export_single", 
                         "caption": "Export Single"
@@ -500,14 +521,13 @@
             
             {
                 "caption": "Settings",
-                "children": [
-                    {
+                "children": [{
                         "caption": "Toggle Metadata Objects",
                         "command": "toggle_metadata_objects"
                     },
 
                     { "caption": "-" },
-
+                    
                     {
                         "command": "open_file", 
                         "args": {
@@ -556,19 +576,16 @@
             { "caption": "-" },
 
             {
-                "id": "viewreleasenotes",
-                "caption": "View Release Notes",
-                "command": "view_release_notes"
+                "caption": "Release Notes",
+                "command": "release_notes"
             },
 
             {
-                "id": "reportissue",
                 "caption": "Report Issue",
                 "command": "report_issue"
             },
 
             {
-                "id": "about",
                 "caption": "About",
                 "command": "about"
             }

@@ -1,0 +1,12 @@
+<snippet>
+    <content><![CDATA[
+public with sharing class $1 implements Triggers.Handler {
+    public void handle() {
+        $0
+    }
+}
+]]></content>
+    <tabTrigger>ti</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Trigger Template Implement Class</description>
+</snippet>

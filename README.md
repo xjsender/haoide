@@ -24,7 +24,7 @@ All of my motivation on this plugin come from your star, if you think this plugi
 + <a href="/docs/utilities.md" target="_blank">Salesforce Utilities</a>
 + <a href="/docs/json2apex.md" target="_blank">Convert JSON to Apex</a>
 + <a href="/docs/rest.md" target="_blank">REST Test</a>
-+ <a href="/docs/bulk.md" target="_blank">Bulk API</a>
++ <a href="/docs/dataloader.md" target="_blank">Data Loader</a>
 + <a href="/docs/document.md" target="_blank">Document Quick Reference</a>
 + <a href="/docs/plugin.md" target="_blank">Plugin Operation</a>
 + <a href="https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif" target="_blank">Lighting Development</a>

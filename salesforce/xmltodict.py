@@ -29,7 +29,7 @@ except NameError:  # pragma no cover
     _unicode = str
 
 __author__ = 'Martin Blech'
-__version__ = '0.8.6'
+__version__ = '0.9.2'
 __license__ = 'MIT'
 
 
@@ -94,7 +94,7 @@ class _DictSAXHandler(object):
             self.stack.append((self.item, self.data))
             if self.xml_attribs:
                 attrs = self.dict_constructor(
-                    (self.attr_prefix+key, value)
+                    (self.attr_prefix+self._build_name(key), value)
                     for (key, value) in attrs.items())
             else:
                 attrs = None
@@ -155,15 +155,11 @@ class _DictSAXHandler(object):
 def parse(xml_input, encoding=None, expat=expat, process_namespaces=False,
           namespace_separator=':', **kwargs):
     """Parse the given XML input and convert it into a dictionary.
-
     `xml_input` can either be a `string` or a file-like object.
-
     If `xml_attribs` is `True`, element attributes are put in the dictionary
     among regular child elements, using `@` as a prefix to avoid collisions. If
     set to `False`, they are just ignored.
-
     Simple example::
-
         >>> import xmltodict
         >>> doc = xmltodict.parse(\"\"\"
         ... <a prop="x">
@@ -175,19 +171,15 @@ def parse(xml_input, encoding=None, expat=expat, process_namespaces=False,
         u'x'
         >>> doc['a']['b']
         [u'1', u'2']
-
     If `item_depth` is `0`, the function returns a dictionary for the root
     element (default behavior). Otherwise, it calls `item_callback` every time
     an item at the specified depth is found and returns `None` in the end
     (streaming mode).
-
     The callback function receives two parameters: the `path` from the document
     root to the item (name-attribs pairs), and the `item` (dict). If the
     callback's return value is false-ish, parsing will be stopped with the
     :class:`ParsingInterrupted` exception.
-
     Streaming example::
-
         >>> def handle(path, item):
         ...     print 'path:%s item:%s' % (path, item)
         ...     return True
@@ -199,11 +191,9 @@ def parse(xml_input, encoding=None, expat=expat, process_namespaces=False,
         ... </a>\"\"\", item_depth=2, item_callback=handle)
         path:[(u'a', {u'prop': u'x'}), (u'b', None)] item:1
         path:[(u'a', {u'prop': u'x'}), (u'b', None)] item:2
-
     The optional argument `postprocessor` is a function that takes `path`,
     `key` and `value` as positional arguments and returns a new `(key, value)`
     pair where both `key` and `value` may have changed. Usage example::
-
         >>> def postprocessor(path, key, value):
         ...     try:
         ...         return key + ':int', int(value)
@@ -212,14 +202,11 @@ def parse(xml_input, encoding=None, expat=expat, process_namespaces=False,
         >>> xmltodict.parse('<a><b>1</b><b>2</b><b>x</b></a>',
         ...                 postprocessor=postprocessor)
         OrderedDict([(u'a', OrderedDict([(u'b:int', [1, 2]), (u'b', u'x')]))])
-
     You can pass an alternate version of `expat` (such as `defusedexpat`) by
     using the `expat` parameter. E.g:
-
         >>> import defusedexpat
         >>> xmltodict.parse('<a>hello</a>', expat=defusedexpat.pyexpat)
         OrderedDict([(u'a', u'hello')])
-
     """
     handler = _DictSAXHandler(namespace_separator=namespace_separator,
                               **kwargs)
@@ -227,9 +214,11 @@ def parse(xml_input, encoding=None, expat=expat, process_namespaces=False,
         if not encoding:
             encoding = 'utf-8'
         xml_input = xml_input.encode(encoding)
+    if not process_namespaces:
+        namespace_separator = None
     parser = expat.ParserCreate(
         encoding,
-        namespace_separator if process_namespaces else None
+        namespace_separator
     )
     try:
         parser.ordered_attributes = True
@@ -239,6 +228,7 @@ def parse(xml_input, encoding=None, expat=expat, process_namespaces=False,
     parser.StartElementHandler = handler.startElement
     parser.EndElementHandler = handler.endElement
     parser.CharacterDataHandler = handler.characters
+    parser.buffer_text = True
     try:
         parser.ParseFile(xml_input)
     except (TypeError, AttributeError):
@@ -253,17 +243,20 @@ def _emit(key, value, content_handler,
           preprocessor=None,
           pretty=False,
           newl='\n',
-          indent='\t'):
+          indent='\t',
+          full_document=True):
     if preprocessor is not None:
         result = preprocessor(key, value)
         if result is None:
             return
         key, value = result
-    if not isinstance(value, (list, tuple)):
+    if (not hasattr(value, '__iter__')
+            or isinstance(value, _basestring)
+            or isinstance(value, dict)):
         value = [value]
-    if depth == 0 and len(value) > 1:
-        raise ValueError('document with multiple roots')
-    for v in value:
+    for index, v in enumerate(value):
+        if full_document and depth == 0 and index > 0:
+            raise ValueError('document with multiple roots')
         if v is None:
             v = OrderedDict()
         elif not isinstance(v, dict):
@@ -299,30 +292,32 @@ def _emit(key, value, content_handler,
             content_handler.ignorableWhitespace(newl)
 
 
-def unparse(input_dict, output=None, encoding='utf-8', **kwargs):
+def unparse(input_dict, output=None, encoding='utf-8', full_document=True,
+            **kwargs):
     """Emit an XML document for the given `input_dict` (reverse of `parse`).
-
     The resulting XML document is returned as a string, but if `output` (a
     file-like object) is specified, it is written there instead.
-
     Dictionary keys prefixed with `attr_prefix` (default=`'@'`) are interpreted
     as XML node attributes, whereas keys equal to `cdata_key`
     (default=`'#text'`) are treated as character data.
-
     The `pretty` parameter (default=`False`) enables pretty-printing. In this
     mode, lines are terminated with `'\n'` and indented with `'\t'`, but this
     can be customized with the `newl` and `indent` parameters.
-
     """
-    ((key, value),) = input_dict.items()
+    if full_document and len(input_dict) != 1:
+        raise ValueError('Document must have exactly one root.')
     must_return = False
     if output is None:
         output = StringIO()
         must_return = True
     content_handler = XMLGenerator(output, encoding)
-    content_handler.startDocument()
-    _emit(key, value, content_handler, **kwargs)
-    content_handler.endDocument()
+    if full_document:
+        content_handler.startDocument()
+    for key, value in input_dict.items():
+        _emit(key, value, content_handler, full_document=full_document,
+              **kwargs)
+    if full_document:
+        content_handler.endDocument()
     if must_return:
         value = output.getvalue()
         try:  # pragma no cover

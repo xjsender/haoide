@@ -1,105 +1,93 @@
 <snippet>
     <content><![CDATA[
-/*
- * Name                 : RollUpSummaryUtility
- * Object               : ${1:Sobject-Name}
- * Requirement          :
- * Refer classes        :
- * Author               :
- * Create Date          :
- * Modify History       :
- *
- */
-// http://www.anthonyvictorio.com/salesforce/roll-up-summary-utility/
-public class RollUpSummaryUtility {
-
-    //the following class will be used to house the field names
-    //and desired operations
-    public class fieldDefinition {
-        public String operation {get;set;}
-        public String childField {get;set;}
-        public String parentField {get;set;}
-
-        public fieldDefinition (String o, String c, String p) {
-            operation = o;
-            childField = c;
-            parentField = p;
-        }
-    }
-
-    public static void rollUpTrigger (list<fieldDefinition> fieldDefinitions,
-    list<sObject> records, String childObject, String childParentLookupField,
-    String parentObject, String queryFilter) {
-
-        //Limit the size of list by using Sets which do not contain duplicate
-        //elements prevents hitting governor limits
-        set<Id> parentIds = new set<Id>();
-
-        for (sObject s : records) {
-            parentIds.add((Id)s.get(childParentLookupField));
-        }
-
-        //populate query text strings to be used in child aggregrator and
-        //parent value assignment
-        String fieldsToAggregate = '';
-        String parentFields = '';
-
-        for (fieldDefinition d : fieldDefinitions) {
-            fieldsToAggregate += d.operation + '(' + d.childField + ') ' +
-            ', ';
-            parentFields += d.parentField + ', ';
-        }
-
-        //Using dynamic SOQL with aggergate results to populate parentValueMap
-        String aggregateQuery = 'Select ' + fieldsToAggregate +
-        childParentLookupField + ' from ' + childObject + ' where  ' +
-        childParentLookupField + ' IN :parentIds ' + queryFilter + ' ' +
-        ' group by ' + childParentLookupField;
-
-        //Map will contain one parent record Id per one aggregate object
-        map<Id, AggregateResult> parentValueMap =
-        new map <Id, AggregateResult>();
-
-        for (AggregateResult q : Database.query(aggregateQuery)){
-            parentValueMap.put((Id)q.get(childParentLookupField), q);
-        }
-
-        //list of parent object records to update
-        list<sObject> parentsToUpdate = new list<sObject>();
-
-        String parentQuery = 'select ' + parentFields + ' Id ' +
-         ' from ' + parentObject + ' where Id IN :parentIds';
-
-        //for each affected parent object, retrieve aggregate results and
-        //for each field definition add aggregate value to parent field
-        for (sObject s : Database.query(parentQuery)) {
-
-            Integer row = 0; //row counter reset for every parent record
-            for (fieldDefinition d : fieldDefinitions) {
-                String field = 'expr' + row.format();
-                AggregateResult r = parentValueMap.get(s.Id);
-                //r will be null if no records exist
-                //(e.g. last record deleted)
-                if(r != null) {
-                    Decimal value = ((Decimal)r.get(field) == null ) ? 0 :
-                        (Decimal)r.get(field);
-                    s.put(d.parentField, value);
-                } else {
-                    s.put(d.parentField, 0);
-                }
-                row += 1; //plus 1 for every field definition after first
+public class RollupSummaryUtils {
+    public static void rollupSummary(List<Sobject> records, 
+        String parentLookupField, 
+        List<RollupSummaryUtils.FieldDefinition> fieldDefs,
+        String filter) {
+        
+        Set<Id> parentIds = new Set<Id>();
+        for (Sobject so : records) {
+            if (so.get(parentLookupField) != null) {
+                parentIds.add((Id)so.get(parentLookupField));
             }
-            parentsToUpdate.add(s);
         }
 
-        //if parent records exist, perform update of all parent records
-        //with a single DML statement
-        if(parentsToUpdate.Size() > 0) {
-            update parentsToUpdate;
+        // Combine Aggregate Fields
+        // If you want to summary record count child object, 
+        // you should use Name field but not Id field
+        List<String> aggregateFields = new List<String>();
+        for (FieldDefinition fd : fieldDefs) {
+            aggregateFields.add(String.format('{0}({1}) {1}', new List<String> {
+                fd.operation, fd.childField
+            }));
         }
 
+        // Build Aggregate Query
+        String query = String.format(
+            'SELECT {0}, {1} FROM {2} WHERE {1} IN :parentIds {3} GROUP BY {1}',
+            new List<String> {
+                String.join(aggregateFields, ', '),
+                parentLookupField, 
+                records.getSObjectType().getDescribe().getName(),
+                filter
+            }
+        );
+
+        Map<Id, AggregateResult> aggrResultsMap = new Map<Id, AggregateResult>();
+        for (AggregateResult aggr : Database.query(query)) {
+            Id parentId = (Id)aggr.get(parentLookupField);
+            aggrResultsMap.put(parentId, aggr);
+        }
+
+        // Assign summary value to parent records
+        List<Sobject> parentsNeedToUpdate = new List<Sobject>();
+        for (Id parentId : parentIds) {
+            // Initiate sobject
+            Sobject parent = parentId.getSObjectType().newSObject(parentId);
+
+            // Get the AggregateResult by ParentLookupId
+            AggregateResult aggrResult = aggrResultsMap.get(parent.Id);
+
+            // If no aggrResult, it means Parent doesn't have child records
+            // else, just assign the sum to the corresponding field
+            for (FieldDefinition fd : fieldDefs) {
+                String childField = fd.childField;
+                String parentField = fd.parentField;
+                Decimal summary = aggrResult == null ? 0 : (Decimal)aggrResult.get(childField);
+                parent.put(parentField, summary.setScale(2));
+            }
+
+            parentsNeedToUpdate.add(parent);
+        }
+
+        // Update Parent
+        try {
+            update parentsNeedToUpdate;
+        }
+        catch (DMLException e) {
+            for (Integer i = 0; i < e.getNumDml(); i++) {
+                if (trigger.isDelete) {
+                    trigger.old[0].addError(e.getDMLMessage(i));
+                }
+                else {
+                    trigger.new[0].addError(e.getDMLMessage(i));
+                }
+            }
+        }
     }
 
+    public class FieldDefinition {
+        public String childField;
+        public String parentField;
+        public String operation;
+
+        public FieldDefinition(String o, String c, String p) {
+            this.operation = o;
+            this.childField = c;
+            this.parentField = p;
+        }
+    }
 }
 ]]></content>
     <tabTrigger>rollu</tabTrigger>

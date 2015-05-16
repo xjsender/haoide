@@ -914,6 +914,8 @@ def build_deploy_package(files):
             if os.path.isfile(met_xml):
                 zf.write(met_xml, "%s/%s%s" % (f["folder"], f["name"], f["extension"]+"-meta.xml"))
 
+    print (package_dict)
+
     # Prepare package XML content
     package_xml_content = build_package_xml(settings, package_dict)
     package_xml_content = format_xml(package_xml_content)
@@ -1365,7 +1367,6 @@ def format_xml(xml_string, indent="4"):
         formatter = xmlformatter.Formatter(indent=indent)
         content = formatter.format_string(xml_string)
     except xml.parsers.expat.ExpatError as e:
-        print (str(e))
         content = xml_string.encode("utf-8")
 
     return content
@@ -2225,7 +2226,8 @@ def get_meta_folder(file_name):
     * metadata_folder -- the metadata folder
     """
 
-    return get_folder_and_name(file_name)[0]
+    metadata_folder, name, extension = get_folder_and_name(file_name)
+    return metadata_folder
 
 def get_folder_and_name(file_name):
     folder, name = os.path.split(file_name)
@@ -2235,7 +2237,7 @@ def get_folder_and_name(file_name):
     except:
         name, extension = name, ""
 
-    return (metadata_folder, name)
+    return (metadata_folder, name, extension)
 
 def get_component_attribute(file_name):
     """

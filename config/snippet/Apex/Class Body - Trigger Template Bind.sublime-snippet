@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+new Triggers()
+    .bind(Triggers.Evt.$1, new $2())$0
+    .manage();
+]]></content>
+    <tabTrigger>tb</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Trigger Template Bind</description>
+</snippet>
