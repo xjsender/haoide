@@ -153,14 +153,17 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
 
     def on_choose(self, index):
         if index == -1:
-            chosen_types = {}
-            for c in self.chosen_metadata_objects:
-                chosen_types[c] = ["*"]
+            # Just when you select one metadata_object at least,
+            # start to reload cache, otherwise, do nothing
+            if self.chosen_metadata_objects:
+                chosen_types = {}
+                for c in self.chosen_metadata_objects:
+                    chosen_types[c] = ["*"]
 
-            message = "Confirm to reload selected cache?"
-            if sublime.ok_cancel_dialog(message, "Confirm Reload?"):
-                processor.handle_reload_project_cache(chosen_types, 
-                    self.callback_command)
+                message = "Confirm to reload selected cache?"
+                if sublime.ok_cancel_dialog(message, "Confirm Reload?"):
+                    processor.handle_reload_project_cache(chosen_types, 
+                        self.callback_command)
             return
 
         # Store the index and chosen metadata
@@ -186,8 +189,8 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
 
     def is_enabled(self):
         self.settings = context.get_settings()
-        cache = os.path.join(self.settings["workspace"], ".config", "metadata.json")
-        return os.path.isfile(cache)
+        described_metadata = util.get_described_metadata(self.settings["username"])
+        return described_metadata is not None
 
 class BuildPackageXml(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -310,8 +313,8 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
 
     def is_enabled(self):
         self.settings = context.get_settings()
-        cache = os.path.join(self.settings["workspace"], ".config", "metadata.json")
-        return os.path.isfile(cache)
+        described_metadata = util.get_described_metadata(self.settings["username"])
+        return described_metadata is not None
 
 class CreatePackageXml(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

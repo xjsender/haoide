@@ -153,10 +153,9 @@ def get_settings():
     settings["docs"] = s.get("docs", {})
 
     # Parse the allowed packages SOQL expression
+    allowed_packages = []
     if "allowed_packages" in settings["default_project"]:
         allowed_packages = settings["default_project"]["allowed_packages"]
-    else:
-        allowed_packages = []
 
     settings["allowed_packages"] = allowed_packages
     settings["all_metadata_folders"] = []
@@ -170,11 +169,11 @@ def get_settings():
         settings["subscribed_metadata_objects"] = []
 
     # 2. Check `.config/metadata_objects.json`, priority of 1 is higher than 2
-    metadata_objects_cache = os.path.join(settings["workspace"], ".config", "metadata.json")
-    if os.path.isfile(metadata_objects_cache):
-        describe_metadata = json.loads(open(metadata_objects_cache).read())
-        settings = build_metadata_objects_settings(settings, describe_metadata["metadataObjects"])
-        settings["organizationNamespace"] = describe_metadata["organizationNamespace"]
+    st = sublime.load_settings("metadata.sublime-settings")
+    described_metadata = st.get(settings["username"])
+    if described_metadata and "metadataObjects" in described_metadata:
+        settings = build_metadata_objects_settings(settings, described_metadata["metadataObjects"])
+        settings["organizationNamespace"] = described_metadata["organizationNamespace"]
 
     return settings
 

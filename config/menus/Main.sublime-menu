@@ -6,7 +6,12 @@
         [
             {
                 "caption": "Switch Project",
-                "command": "switch_project"
+                "command": "switch_project", 
+                "args": {
+                    "callback_options": {
+                        "callback_command": "login"
+                    }
+                }
             },
             
             { "caption": "-" },
@@ -95,6 +100,13 @@
                     {
                         "caption": "Reload Sobject Cache",
                         "command": "reload_sobject_cache"
+                    },
+                    {
+                        "caption": "Reload Session Cache",
+                        "command": "login", 
+                        "args": {
+                            "force": true
+                        }
                     },
                     {
                         "caption": "Clear SymbolTable Cache",
@@ -436,7 +448,12 @@
                     
                     {
                         "caption": "Toggle Metadata Objects",
-                        "command": "toggle_metadata_objects"
+                        "command": "toggle_metadata_objects",
+                        "args": {
+                            "callback_options": {
+                                "callback_command": "update_project"
+                            }
+                        }
                     },
 
                     { "caption": "-" },
@@ -523,7 +540,12 @@
                 "caption": "Settings",
                 "children": [{
                         "caption": "Toggle Metadata Objects",
-                        "command": "toggle_metadata_objects"
+                        "command": "toggle_metadata_objects",
+                        "args": {
+                            "callback_options": {
+                                "callback_command": "update_project"
+                            }
+                        }
                     },
 
                     { "caption": "-" },

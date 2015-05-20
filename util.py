@@ -26,6 +26,10 @@ from . import context
 from xml.sax.saxutils import unescape
 
 
+def get_described_metadata(username):
+    st = sublime.load_settings("metadata.sublime-settings")
+    return st.get(username)
+
 def get_session_info(settings):
     """ Get Session Info
 
@@ -640,8 +644,8 @@ def check_action_enabled():
     if not os.path.exists(settings["workspace"]): return False
 
     # Check whether describe_metadata request is finished
-    cache = os.path.join(settings["workspace"], ".config", "metadata.json")
-    return os.path.exists(cache)
+    described_metadata = get_described_metadata(settings["username"])
+    return described_metadata is not None
     
 def check_workspace_available(settings=None):
     """Check workspace is available, if not make it

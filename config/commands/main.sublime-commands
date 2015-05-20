@@ -1,12 +1,22 @@
 [
     {
         "caption": "HaoIDE: Switch Project", 
-        "command": "switch_project"
+        "command": "switch_project",
+        "args": {
+            "callback_options": {
+                "callback_command": "login"
+            }
+        }
     },
 
     {
         "caption": "HaoIDE: Toggle Metdata Objects",
-        "command": "toggle_metadata_objects"
+        "command": "toggle_metadata_objects", 
+        "args": {
+            "callback_options": {
+                "callback_command": "update_project"
+            }
+        }
     },
 
     {
@@ -321,6 +331,19 @@
     },
 
     {
+        "caption": "HaoIDE: Reload Sobject Cache",
+        "command": "reload_sobject_cache"
+    },
+
+    {
+        "caption": "HaoIDE: Reload Session Cache",
+        "command": "login", 
+        "args": {
+            "force": true
+        }
+    },
+
+    {
         "caption": "HaoIDE: Clear Sobject Cache",
         "command": "clear_sobject_cache",
         "args": {
@@ -334,6 +357,11 @@
         "args": {
             "cache_name": "symbol_table"
         }
+    },
+
+    {
+        "caption": "HaoIDE: Clear Session Cache",
+        "command": "clear_session_cache"
     },
 
     {

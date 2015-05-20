@@ -64,6 +64,9 @@ class JsonFormat(sublime_plugin.WindowCommand):
             self.on_input_json, None, None)
 
     def on_input_json(self, data):
+        if not data:
+            return Printer.get('error').write("JSON body cannot be empty")
+
         try:
             formatted_json = json.dumps(json.loads(data), 
                 ensure_ascii=False, indent=4)
@@ -92,6 +95,9 @@ class JsonSerialization(sublime_plugin.WindowCommand):
             self.on_input_json, None, None)
 
     def on_input_json(self, data):
+        if not data:
+            return Printer.get('error').write("JSON body cannot be empty")
+
         try:
             self.data = json.loads(data) if data else None  
         except ValueError as ve:
@@ -116,8 +122,11 @@ class JsonToApex(sublime_plugin.WindowCommand):
             self.on_input_json, None, None)
 
     def on_input_json(self, data):
+        if not data:
+            return Printer.get('error').write("JSON body cannot be empty")
+
         try:
-            self.data = json.loads(data) if data else None
+            self.data = json.loads(data)
         except ValueError as ve:
             Printer.get('error').write(str(ve))
             if not sublime.ok_cancel_dialog("Do you want to try again?", "Yes?"): return
@@ -165,9 +174,15 @@ class JsonToXml(sublime_plugin.WindowCommand):
 
 class XmlToJson(sublime_plugin.TextCommand):
     def run(self, edit):
+        message = "You should open a XML file or choose any valid XML content"
+        if not self.selection:
+            return Printer.get("error").write(message)
+
         try:
             result = xmltodict.parse(self.selection)
         except xml.parsers.expat.ExpatError as ex:
+            if "line 1, column 0" in str(ex):
+                return Printer.get("error").write(message)
             return Printer.get("error").write(str(ex))
 
         new_view = sublime.active_window().new_file()
@@ -188,10 +203,16 @@ class XmlToJson(sublime_plugin.TextCommand):
 
 class XmlFormat(sublime_plugin.TextCommand):
     def run(self, edit):
+        message = "You should open a XML file or choose any valid XML content"
+        if not self.selection:
+            return Printer.get("error").write(message)
+            
         try:
             formatter = xmlformatter.Formatter(indent=4)
             formatted_xml = formatter.format_string(self.selection)
         except xml.parsers.expat.ExpatError as ex:
+            if "line 1, column 0" in str(ex):
+                return Printer.get("error").write(message)
             return Printer.get("error").write(str(ex))
 
         new_view = sublime.active_window().new_file()
@@ -211,38 +232,31 @@ class XmlFormat(sublime_plugin.TextCommand):
 
         return True
 
-class DiffWithServerCommand(sublime_plugin.TextCommand):
-    def run(self, edit):
-        # Get settings
+class DiffWithServer(sublime_plugin.TextCommand):
+    def run(self, edit, switch=True, source_org=None):
         settings = context.get_settings()
 
-        # Keep the source org
-        self.source_org = settings["default_project_name"]
+        if switch:
+            return self.view.window().run_command("switch_project", {
+                "callback_options": {
+                    "callback_command": "diff_with_server", 
+                    "args": {                        
+                        "switch": False,
+                        "source_org": settings["default_project_name"]
+                    }
+                }
+            })
 
-        # Choose the target ORG to deploy
-        self.projects = settings["projects"]
-        self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
-            'Inactive') + ") " + p for p in self.projects]
-        self.projects = sorted(self.projects, reverse=False)
-        sublime.active_window().show_quick_panel(self.projects, self.on_done)
-
-    def on_done(self, index):
-        if index == -1: return
-
-        # Change the chosen project as default
-        # Split with ") " and get the second project name
-        default_project = self.projects[index].split(") ")[1]
-        util.switch_project(default_project)
-
-        component_attribute = util.get_component_attribute(self.file_name)[0]
+        file_name = self.view.file_name()
+        component_attribute = util.get_component_attribute(file_name)[0]
 
         # If this component is not exist in chosen project, just stop
         if not component_attribute:
             Printer.get("error").write("This component is not exist in chosen project")
-            util.switch_project(self.source_org)
+            util.switch_project(source_org)
             return
 
-        processor.handle_diff_with_server(component_attribute, self.file_name, self.source_org)
+        processor.handle_diff_with_server(component_attribute, file_name, source_org)
 
     def is_enabled(self):
         self.file_name = self.view.file_name()
@@ -260,17 +274,18 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ToggleMetadataObjects, self).__init__(*args, **kwargs)
 
-    def run(self, callback_command="update_project"):
+    def run(self, callback_options={}):
         self.settings = context.get_settings()
-        self.callback_command = callback_command
-        cache = os.path.join(self.settings["workspace"], ".config", "metadata.json")
-        if not os.path.exists(cache): 
+        self.callback_options = callback_options
+        described_metadata = util.get_described_metadata(self.settings["username"])
+        if not described_metadata:
             return self.window.run_command("describe_metadata", {
-                "callback_command": "toggle_metadata_objects"
+                "callback_options": {
+                    "callback_command": "toggle_metadata_objects"
+                }
             })
 
-        describe_metadata = json.loads(open(cache).read())
-        self.metadata_objects = describe_metadata["metadataObjects"]
+        self.metadata_objects = described_metadata["metadataObjects"]
         smo = self.settings["subscribed_metadata_objects"]
         self.xmlNames = ["%s=>%s" % ("Subscribed" if c["xmlName"] in smo else "Unsubscribed", 
             c["xmlName"]) for c in self.metadata_objects]
@@ -279,8 +294,8 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
 
     def on_done(self, index):
         if index == -1:
-            if self.callback_command:
-                self.window.run_command(self.callback_command)
+            if "callback_command" in self.callback_options:
+                self.window.run_command(self.callback_options["callback_command"])
             return
 
         # Get chosen type
@@ -306,7 +321,7 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
         sublime.save_settings(context.TOOLING_API_SETTINGS)
 
         sublime.set_timeout(lambda:sublime.active_window().run_command("toggle_metadata_objects", {
-            "callback_command": self.callback_command
+            "callback_options": self.callback_options
         }), 10)
 
 class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
@@ -676,7 +691,9 @@ class RenameMetadata(sublime_plugin.TextCommand):
 class RetrieveFileFromServer(sublime_plugin.TextCommand):
     def run(self, edit):
         files = [self.view.file_name()]
-        sublime.active_window().run_command("retrieve_files_from_server", {"files": files})
+        sublime.active_window().run_command("retrieve_files_from_server", {
+            "files": files
+        })
 
     def is_enabled(self):
         if not self.view or not self.view.file_name(): return False
@@ -692,8 +709,21 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(RetrieveFilesFromServer, self).__init__(*args, **kwargs)
 
-    def run(self, files):
+    def run(self, files, switch=True, source_org=None):
         settings = context.get_settings()
+
+        if switch:
+            return self.window.run_command("switch_project", {
+                "callback_options": {
+                    "callback_command": "retrieve_files_from_server", 
+                    "args": {
+                        "files": files,
+                        "switch": False,
+                        "source_org": settings["default_project_name"]
+                    }
+                }
+            })
+
         types = {}
         for _file in files:
             base, filename = os.path.split(_file)
@@ -706,7 +736,8 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
             else:
                 types[xmlName] = [name]
 
-        processor.handle_retrieve_package(types, settings["workspace"], ignore_package_xml=True)
+        processor.handle_retrieve_package(types, settings["workspace"], 
+            source_org=source_org, ignore_package_xml=True)
 
     def is_visible(self, files):
         if not files: return False
@@ -717,46 +748,6 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
             if metadata_folder not in settings["all_metadata_folders"]: return False
             if not util.check_enabled(_file, check_cache=False): 
                 return False
-
-        return True
-
-class RetrieveFileFromOtherServer(sublime_plugin.TextCommand):
-    def run(self, edit):
-        # Keep the source org
-        self.source_org = self.settings["default_project_name"]
-
-        # Choose the target ORG to deploy
-        self.projects = self.settings["projects"]
-        self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
-            'Inactive') + ") " + p for p in self.projects]
-        self.projects = sorted(self.projects, reverse=False)
-        sublime.active_window().show_quick_panel(self.projects, self.on_done)
-
-    def on_done(self, index):
-        if index == -1: return
-        # Change the chosen project as default
-        # Split with ") " and get the second project name
-        default_project = self.projects[index].split(") ")[1]
-        util.switch_project(default_project)
-
-        types = {self.xmlName : [self._name]}
-        processor.handle_retrieve_package(types, self.extract_to, 
-            source_org=self.source_org, ignore_package_xml=True)
-
-    def is_enabled(self):
-        if not self.view or not self.view.file_name():
-            return False
-            
-        self.settings = context.get_settings()
-        base, name = os.path.split(self.view.file_name())
-        base, folder = os.path.split(base)
-        self.extract_to, src = os.path.split(base)
-        self._name, extension = name.split(".")
-
-        if folder not in self.settings["all_metadata_folders"]: 
-            return False
-
-        self.xmlName = self.settings[folder]["xmlName"]
 
         return True
 
@@ -862,29 +853,23 @@ class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployPackageToServerCommand, self).__init__(*args, **kwargs)
 
-    def run(self, dirs):
-        # Get settings
+    def run(self, dirs, switch=True, source_org=None):
         settings = context.get_settings()
 
-        # Keep the source_org
-        self.source_org = settings["default_project_name"]
-
-        # Choose the target ORG to deploy
-        self.projects = settings["projects"]
-        self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
-            'Inactive') + ") " + p for p in self.projects]
-        self.projects = sorted(self.projects, reverse=False)
-        self.window.show_quick_panel(self.projects, self.on_done)
-
-    def on_done(self, index):
-        if index == -1: return
-        # Change the chosen project as default
-        # Split with ") " and get the second project name
-        default_project = self.projects[index].split(") ")[1]
-        util.switch_project(default_project)
+        if switch:
+            return self.window.run_command("switch_project", {
+                "callback_options": {
+                    "callback_command": "deploy_package_to_server", 
+                    "args": {
+                        "dirs": dirs,
+                        "switch": False,
+                        "source_org": settings["default_project_name"]
+                    }
+                }
+            })
 
         processor.handle_deploy_thread(util.compress_package(self.package_dir), 
-            source_org=self.source_org);
+            source_org=source_org);
 
     def is_visible(self, dirs):
         if not dirs: return False
@@ -917,39 +902,31 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployFilesToServer, self).__init__(*args, **kwargs)
 
-    def run(self, files):
+    def run(self, files, switch=True, source_org=None):
+        settings = context.get_settings()
+
+        if switch:
+            return self.window.run_command("switch_project", {
+                "callback_options": {
+                    "callback_command": "deploy_files_to_server", 
+                    "args": {
+                        "files": files,
+                        "switch": False,
+                        "source_org": settings["default_project_name"]
+                    }
+                }
+            })
+
         # Before deploy, save files to local
-        # Enhancement for issue #67
+        # Enhancement for issue SublimeApex#67
         for _file in files:
             view = util.get_view_by_file_name(_file)
             if not view: continue
             view.run_command("save")
 
-        # Get the package path to deploy
-        self.files = files
-
-        # Get settings
-        self.settings = context.get_settings()
-
-        # Keep the source org
-        self.source_org = self.settings["default_project_name"]
-
-        # Choose the target ORG to deploy
-        self.projects = self.settings["projects"]
-        self.projects = ["(" + ('Active' if self.projects[p]["default"] else 
-            'Inactive') + ") " + p for p in self.projects]
-        self.projects = sorted(self.projects, reverse=False)
-        self.window.show_quick_panel(self.projects, self.on_done)
-
-    def on_done(self, index):
-        if index == -1: return
-        # Change the chosen project as default
-        # Split with ") " and get the second project name
-        default_project = self.projects[index].split(") ")[1]
-        util.switch_project(default_project)
-
-        base64_encoded_zip = util.build_deploy_package(self.files)
-        processor.handle_deploy_thread(base64_encoded_zip, source_org=self.source_org)
+        # Keep the files to deploy
+        base64_encoded_zip = util.build_deploy_package(files)
+        processor.handle_deploy_thread(base64_encoded_zip, source_org=source_org)
 
     def is_visible(self, files):
         """
@@ -957,7 +934,7 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
         2. All selected file should be in predefined meta folders
         """
 
-        if len(files) == 0: return False
+        if not files: return False
         self.settings = context.get_settings()
         for _file in files:
             if not os.path.isfile(_file): continue # Ignore folder
@@ -1389,11 +1366,12 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
 
         # If .config/session.json is not exist, login firstly
         if not session: 
-            return processor.handle_login_thread(settings["default_project_name"], 
-                callback_options= {
-                    "callback_command": "login_to_sfdc",
-                    "args": {
-                        "startURL": startURL
+            return self.window.run_command('login', {
+                    "callback_options": {
+                        "callback_command": "login_to_sfdc",
+                        "args": {
+                            "startURL": startURL
+                        }
                     }
                 }
             )
@@ -1970,7 +1948,8 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(SwitchProjectCommand, self).__init__(*args, **kwargs)
 
-    def run(self):
+    def run(self, callback_options={}):
+        self.callback_options = callback_options
         settings = context.get_settings()
         projects = settings["projects"]
         self.projects = ["(" + ('Active' if projects[p]["default"] else 
@@ -1981,16 +1960,29 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
     def on_done(self, index):
         if index == -1: return
 
-        # Change the chosen project as default
-        # Split with ") " and get the second project name
+        # Switch to chosen project
         default_project = self.projects[index].split(") ")[1]
-
-        # Switch project but not add project to sidebar
-        # Just after login succeed, add it into sidebar
         util.switch_project(default_project)
 
-        # After project is switch, login will be executed
-        processor.handle_login_thread(default_project)
+        settings = context.get_settings()
+        described_metadata = util.get_described_metadata(settings["username"])
+        if not described_metadata:
+            return self.window.run_command("describe_metadata", {
+                "callback_options": self.callback_options
+            })
+
+        # Execute callback command
+        if "callback_command" in self.callback_options:
+            callback_command = self.callback_options["callback_command"]
+            args = self.callback_options["args"] if "args" in self.callback_options else {}
+            self.window.run_command(callback_command, args)
+
+class Login(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(Login, self).__init__(*args, **kwargs)
+
+    def run(self, callback_options={}, force=False):
+        processor.handle_login_thread(callback_options, force=force)
 
 class UpdateUserLanguageCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -2040,12 +2032,12 @@ class CreateNewProject(sublime_plugin.WindowCommand):
 
     def run(self):
         settings = context.get_settings()
-
-        # Check describe_metadata is done
-        cache = os.path.join(settings["workspace"], ".config", "metadata.json")
-        if not os.path.isfile(cache):
+        described_metadata = util.get_described_metadata(settings["username"])
+        if not described_metadata:
             return self.window.run_command("describe_metadata", {
-                "callback_command": "create_new_project"
+                "callback_options": {
+                    "callback_command": "create_new_project"
+                }
             })
 
         # Check whether default project has subscribed_metadata_objects attribute
@@ -2053,7 +2045,9 @@ class CreateNewProject(sublime_plugin.WindowCommand):
         if "subscribed_metadata_objects" not in settings["default_project"] or \
                 not settings["default_project"]["subscribed_metadata_objects"]:
             return self.window.run_command("toggle_metadata_objects", {
-                "callback_command": "create_new_project"
+                "callback_options": {
+                    "callback_command": "create_new_project"
+                }
             })
         
         dpn = settings["default_project"]["project_name"]
@@ -2067,8 +2061,8 @@ class DescribeMetadata(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DescribeMetadata, self).__init__(*args, **kwargs)
 
-    def run(self, callback_command=None):
-        processor.handle_describe_metadata(callback_command)
+    def run(self, callback_options={}):
+        processor.handle_describe_metadata(callback_options)
 
 class ExtractToHere(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

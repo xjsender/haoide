@@ -5,11 +5,31 @@ Release History
 ---------------
 
 
+Release 2.9.6 (2015-05-20)
+++++++++++++++++++
+* Bug Fix:
+    - Fix issue #33
+
+* Enhancement:
+    - Add required check for XML utilities
+    - Add required check for JSON utilities
+    - Separate ``login`` feature from ``switch_project``
+    - Add callback for ``switch_project`` for operations need switching, such as, ``deploy to server``, ``diff with server`` or ``retrieve from server``
+    - Combine ``retrieve from server`` and ``retrieve from other server`` only one command, just like ``deploy to server``, you can switch project before retrieving
+    - When ``reload_project_cache``, just if you selected at least one metadata object, reload will start, otherwise, do nothing
+
+* New Feature
+    - Add a new ``reload session cache`` command in ``Cache`` of the main menu for forced login
+
+* Update
+    - Because metadata.json of every project is stable, so save it into ``metadata.sublime-settings`` but not ``.config/metdata.json`` again
+
+
 Release 2.9.5 (2015-05-16)
 ++++++++++++++++++
 * Enhancement:
     - Add callback for ``toggle_metadata_objects`` if ``.config/metadata.json`` is not exist
-    - Move ``export_query_to_csv`` command from context menu to ``Data Loader" in the main menu, add check logic for input soql and allow trying again.
+    - Move ``export_query_to_csv`` command from context menu to ``Data Loader`` in the main menu, add check logic for input soql and allow to try again.
     - Add snippets, ``Class Body - Trigger Template Bind.sublime-snippet``, ``Class Body - Trigger Template.sublime-snippet`` and ``Class Body - Trigger Template Implement.sublime-snippet``
     - Update content of snippet ``Class Body - Roll up summary utility.sublime-snippet`` to that written by me, see `more detail <https://gist.github.com/xjsender/1e40c274c07171531f0f>`_
 

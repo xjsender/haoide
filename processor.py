@@ -125,11 +125,13 @@ def handle_update_user_language(language, timeout=120):
         return
     
     patch_url = "/sobjects/User/%s" % session["user_id"]
-    thread = threading.Thread(target=api.patch, args=(patch_url, {"LanguageLocaleKey": language}, ))
+    thread = threading.Thread(target=api.patch, 
+        args=(patch_url, {"LanguageLocaleKey": language}, ))
     thread.start()
-    ThreadProgress(api, thread, "Updating User Language", "User language is updated to " + language)
+    ThreadProgress(api, thread, "Updating User Language to " + language,  
+        "User language is updated to " + language)
 
-def handle_login_thread(default_project, callback_options={}, timeout=120):
+def handle_login_thread(callback_options={}, force=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -144,11 +146,13 @@ def handle_login_thread(default_project, callback_options={}, timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.login, args=(False, ))
+    thread = threading.Thread(target=api.login, args=(force, ))
     thread.start()
     handle_thread(thread, timeout)
-    ThreadProgress(api, thread, "Login to %s" % default_project, 
-        default_project + " Login Succeed")
+
+    default_project_name = settings["default_project_name"]
+    ThreadProgress(api, thread, "Login to %s" % default_project_name, 
+        default_project_name + " Login Succeed")
 
 def handle_view_code_coverage(component_name, component_attribute, body, timeout=120):
     def handle_thread(thread, timeout):
@@ -339,6 +343,7 @@ def handle_reload_sobjects_completions(timeout=120):
                 precision = f["precision"]
                 scale = f["scale"]
                 field_type = f["type"]
+                referenceTo = f["referenceTo"] if "referenceTo" in f else []
 
                 if f["calculatedFormula"]:
                     capitalize_field = field_type.capitalize()
@@ -349,7 +354,7 @@ def handle_reload_sobjects_completions(timeout=120):
                         "datetime": "Formula(Datetime)",
                         "boolean": "Formula(Boolean)",
                         "int": "Formula(Integer)",
-                        "reference": "Reference",
+                        "reference": ("Reference(%s)" % ",".join(referenceTo)) if referenceTo else "Reference",
                         "other": "Formula(%s, %s)" % (capitalize_field, f["length"])
                     }
                 else:
@@ -359,7 +364,7 @@ def handle_reload_sobjects_completions(timeout=120):
                         "date": "Date",
                         "datetime": "Datetime",
                         "boolean": "Boolean",
-                        "reference": "Reference",
+                        "reference": ("Reference(%s)" % ",".join(referenceTo)) if referenceTo else "Reference",
                         "int": "Integer",
                         "other": "%s(%s)" % (field_type.capitalize(), f["length"])
                     }
@@ -523,7 +528,8 @@ def handle_deploy_thread(base64_encoded_zip, source_org=None, timeout=120):
     api = MetadataApi(settings)
     thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip, ))
     thread.start()
-    ThreadProgress(api, thread, "Deploy Metadata", "Deploy Metadata Succeed")
+    ThreadProgress(api, thread, "Deploy Metadata to %s" % settings["default_project_name"], 
+        "Metadata Deployment Finished")
     handle_thread(thread, timeout)
 
 def handle_track_all_debug_logs_thread(users, timeout=120):
@@ -1195,7 +1201,7 @@ def handle_new_project(is_update=False, timeout=120):
     ThreadProgress(api, thread, wating_message, wating_message + " Finished")
     handle_thread(thread, timeout)
 
-def handle_describe_metadata(callback_command, timeout=120):
+def handle_describe_metadata(callback_options, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -1203,30 +1209,29 @@ def handle_describe_metadata(callback_command, timeout=120):
 
         # Exception is processed in ThreadProgress
         if not api.result or not api.result["success"]: return
+        result = api.result
+        del result["success"]
 
         settings = context.get_settings()
-        describe_metadata_cache = os.path.join(settings["workspace"], ".config")
-        if not os.path.exists(describe_metadata_cache):
-            os.makedirs(describe_metadata_cache)
-
-        result = api.result
-        with open(os.path.join(describe_metadata_cache, "metadata.json"), "w") as fp:
-            del result["success"]
-            fp.write(json.dumps(result, indent=4))
+        st = sublime.load_settings("metadata.sublime-settings")
+        st.set(settings["username"], result)
+        sublime.save_settings("metadata.sublime-settings")
         
-        if callback_command:
+        if "callback_command" in callback_options:
             settings = context.get_settings()
+            callback_command = callback_options["callback_command"]
+            args = callback_options["args"] if "args" in callback_options else {}
 
             # If project already have subscribed_metadata_objects, just stop
             if "subscribed_metadata_objects" in settings["default_project"] and \
                     settings["default_project"]["subscribed_metadata_objects"]:
-                return sublime.active_window().run_command(callback_command)
+                return sublime.active_window().run_command(callback_command, args)
 
             # If project doesn't have subscribed_metadata_objects, we need
             # to choose which metadata_objects to subscribe, which will be saved
             # into default project
             sublime.active_window().run_command("toggle_metadata_objects", {
-                "callback_command": callback_command
+                "callback_options": callback_options
             })
 
     # Start to request
@@ -1235,7 +1240,8 @@ def handle_describe_metadata(callback_command, timeout=120):
     thread = threading.Thread(target=api.describe_metadata)
     thread.start()
     handle_thread(thread, timeout)
-    ThreadProgress(api, thread, "Describe Metadata", "Describe Metadata Finished")
+    ThreadProgress(api, thread, "Describe Metadata of v%s.0" % settings["api_version"], 
+        "Describe Metadata Finished")
 
 def handle_rename_metadata(file_name, meta_type, old_name, new_name, timeout=120):
     def handle_thread(thread, timeout):

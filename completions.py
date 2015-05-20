@@ -31,13 +31,11 @@ class PackageCompletions(sublime_plugin.EventListener):
         settings = context.get_settings()
         completion_list = []  
 
-        cache = os.path.join(settings["workspace"], ".config", "metadata.json")
-        if not os.path.exists(cache):
+        describe_metadata = util.get_described_metadata(settings["username"])
+        if not describe_metadata:
             if settings["debug_mode"]:
                 print ("You must execute describe_metadata command before have completion")
             return completion_list
-
-        describe_metadata = json.loads(open(cache).read())
         metadata_objects = describe_metadata["metadataObjects"]
 
         # <name></name> completion

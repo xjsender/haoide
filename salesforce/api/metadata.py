@@ -63,6 +63,11 @@ class MetadataApi():
 
         # If status_code is > 399, which means it has error
         if response.status_code > 399:
+            # If session is invalid, force to login and execute this again
+            if "INVALID_SESSION_ID" in response.text:
+                self.login(True)
+                return self.describe_metadata()
+
             self.result = util.get_response_error(response)
             return self.result
 
