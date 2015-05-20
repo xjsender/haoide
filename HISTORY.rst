@@ -9,6 +9,7 @@ Release 2.9.6 (2015-05-20)
 ++++++++++++++++++
 * Bug Fix:
     - Fix issue #33
+    - Fix issue #35
 
 * Enhancement:
     - Add required check for XML utilities
@@ -23,6 +24,7 @@ Release 2.9.6 (2015-05-20)
 
 * Update
     - Because metadata.json of every project is stable, so save it into ``metadata.sublime-settings`` but not ``.config/metdata.json`` again
+    - Remove ``check_workspace_available`` for export feature, because this check is useless
 
 
 Release 2.9.5 (2015-05-16)

@@ -21,7 +21,12 @@
                 "children": [
                     {
                         "caption": "New Project",
-                        "command": "create_new_project"
+                        "command": "describe_metadata",
+                        "args": {
+                            "callback_options": {
+                                "callback_command": "create_new_project"
+                            }
+                        }
                     },
 
                     {"caption": "-"},

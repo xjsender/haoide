@@ -14,7 +14,12 @@
     // Download all code and save them to new project
     {
         "keys": ["super+alt+n"], 
-        "command": "create_new_project"
+        "command": "describe_metadata",
+        "args": {
+            "callback_options": {
+                "callback_command": "create_new_project"
+            }
+        }
     },
 
     // Update the default project

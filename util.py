@@ -646,19 +646,6 @@ def check_action_enabled():
     # Check whether describe_metadata request is finished
     described_metadata = get_described_metadata(settings["username"])
     return described_metadata is not None
-    
-def check_workspace_available(settings=None):
-    """Check workspace is available, if not make it
-
-    Arguments:
-
-    * settings -- settings of this plugin
-    """
-    if not settings: settings = context.get_settings()
-    if not os.path.exists(settings["workspace"]):
-        sublime.active_window().run_command('create_new_project', {
-            "switch_project": False
-        })
 
 def get_view_by_name(view_name):
     """Get view by view name

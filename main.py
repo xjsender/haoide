@@ -475,7 +475,6 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
         recordtype_id = self.sobject_recordtypes_attr[sobject_recordtype]
 
         # handle this describe request
-        util.check_workspace_available()
         processor.handle_export_data_template_thread(sobject, recordtype_name, recordtype_id)
 
     def is_enabled(self):
@@ -1014,7 +1013,6 @@ class ExportCustomFieldCommand(sublime_plugin.WindowCommand):
         super(ExportCustomFieldCommand, self).__init__(*args, **kwargs)
 
     def run(self):
-        util.check_workspace_available()
         processor.handle_export_customfield()
         
     def is_enabled(self):
@@ -1045,7 +1043,6 @@ class ExportWorkbookCommand(sublime_plugin.WindowCommand):
         # Display the fields in a new view
         input = input.replace(" ", "")
 
-        util.check_workspace_available()
         if input == "*":
             processor.handle_export_all_workbooks(5)
         else:
