@@ -1854,8 +1854,15 @@ def query_to_csv(result, soql):
         row = []
         for header in headers:
             row_value = record
+
             for _header in header.split("."):
-                row_value = row_value[_header]
+                # Avoid KeyError when parsed the row value,
+                # Build mapping between lower case and normal 
+                field_case_mapping = {}
+                for k in row_value:
+                    field_case_mapping[k.lower()] = k
+
+                row_value = row_value[field_case_mapping[_header.lower()]]
                 if not isinstance(row_value, dict):
                     break
 
