@@ -50,8 +50,9 @@ class SFDCEventListener(sublime_plugin.EventListener):
         location = locations[0]
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
-    
-        if ch != "#": return
+        
+        # If char is not # or current view is not file, just skip
+        if ch != "#" or not view.file_name(): return
 
         begin = view.full_line(pt).begin()
         matched_region = view.find('(controller="\\w+#"|extensions="\\w+#")', begin)

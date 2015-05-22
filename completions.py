@@ -41,15 +41,20 @@ class PackageCompletions(sublime_plugin.EventListener):
         # <name></name> completion
         full_line = view.full_line(pt)
         if "<name>" in view.substr(full_line):
-            for component in metadata_objects:
-                display = "%s\t%s" % (component["xmlName"], "Metadata Type")
-                completion_list.append((display, component["xmlName"]))
+            for mo in metadata_objects:
+                display = "%s\t%s" % (mo["xmlName"], "Metadata Type")
+                completion_list.append((display, mo["xmlName"]))
 
                 # Component Child
-                if "childXmlNames" in component:
-                    for child in component["childXmlNames"]:
-                        display = "%s\t%s" % (child, component["xmlName"])
+                if "childXmlNames" in mo:
+                    childXmlNames = mo["childXmlNames"]
+                    if isinstance(childXmlNames, str):
+                        childXmlNames = [childXmlNames]
+                        
+                    for child in childXmlNames:
+                        display = "%s\t%s" % (child, mo["xmlName"])
                         completion_list.append((display, child))
+
             return completion_list
 
         # <members></members> completion
@@ -65,18 +70,11 @@ class PackageCompletions(sublime_plugin.EventListener):
             if not matched_region: return []
             matched_content = view.substr(matched_region)
             meta_type = matched_content[6:-7].strip()
-            
-            # Get the _dir, for example: <workspace>/src/classes
-            if meta_type not in settings: return []
-            folder = settings[meta_type]["directoryName"]
-            _type = settings[meta_type]["xmlName"]
-            _dir = os.path.join(settings["workspace"], "src", folder)
 
             # List all members in `.config/package.json`
             if meta_type in package_cache:
                 for member in package_cache[meta_type]:
                     completion_list.append(("%s\t%s" % (member, meta_type), member))
-                return completion_list
 
         return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
@@ -421,6 +419,11 @@ class PageCompletions(sublime_plugin.EventListener):
             # Get the begin point of current line
             cursor_row, cursor_col = view.rowcol(pt)
 
+            # Get the two chars after course point
+            # If these two chars is '="', it means attribute value is already exist
+            # we will not add ="{!}" or ="" for this attribute
+            forward_two_chars = view.substr(sublime.Region(pt + 2, pt + 4))
+
             # Get all matched regions
             matched_regions = view.find_all("<\\w+:\\w+")
 
@@ -445,7 +448,7 @@ class PageCompletions(sublime_plugin.EventListener):
                 if matched_tag in vf.tag_defs:
                     def_entry = vf.tag_defs[matched_tag]
                     for key, value in def_entry['attribs'].items():
-                        if "values" in value:
+                        if "values" in value or forward_two_chars == '="':
                             completion_list.append((key + '\t' + value['type'], key))
                         else:
                             if value["type"] in ["Object", "ApexPages.Action"]:
@@ -541,12 +544,25 @@ class PageCompletions(sublime_plugin.EventListener):
             completion_list.sort(key=lambda tup:tup[1])
 
         elif ch == '"':
+            # 1. sObject completion for standardController
             pattern = "<\\w+:\\w+\\s+standardController=\"\\w+\""
             matched_region = view.find(pattern, begin, sublime.IGNORECASE)
-            if not matched_region: return completion_list # If not match, just return
-            for key in sorted(sobjects_describe.keys()):
-                sobject_name = sobjects_describe[key]["name"]
-                completion_list.append((sobject_name + "\tSobject", sobject_name))
+            if matched_region and matched_region.contains(pt): 
+                for key in sorted(sobjects_describe.keys()):
+                    sobject_name = sobjects_describe[key]["name"]
+                    completion_list.append((sobject_name + "\tSobject", sobject_name))
+
+            # 2. Custom class completion for extension or controller
+            matched_region = view.find('(controller="\\w+"|extensions="\\w+")', begin)
+            if matched_region and matched_region.contains(pt): 
+                apex_class_completion = util.get_component_completion(username, "ApexClass")
+                completion_list.extend(apex_class_completion)
+
+            # 3. Add page completion
+            attr_name = variable_name
+            if attr_name in vf.page_reference_attrs:
+                apex_class_completion = util.get_component_completion(username, "ApexPage")
+                completion_list.extend(apex_class_completion)
 
         elif ch == ".":
             if not view.file_name(): return completion_list

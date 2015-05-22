@@ -20,11 +20,6 @@
     },
 
     {
-        "caption": "HaoIDE: Describe Metadata",
-        "command": "describe_metadata"
-    },
-
-    {
         "caption": "HaoIDE: New Project",
         "command": "describe_metadata",
         "args": {
@@ -176,7 +171,22 @@
         "args": {
             "retrieve_all": false
         }
-    },    
+    },
+
+    {
+        "caption": "HaoIDE: Describe Metadata",
+        "command": "describe_metadata"
+    },
+
+    {
+        "caption": "HaoIDE: Reload Project Cache",
+        "command": "reload_project_cache"
+    },
+
+    {
+        "caption": "HaoIDE: Build Package Xml",
+        "command": "build_package_xml"
+    },
 
     {
         "caption": "HaoIDE: Utitlities > Convert 15 Digit Id to 18 Digit",

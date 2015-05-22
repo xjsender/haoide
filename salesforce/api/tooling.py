@@ -424,7 +424,7 @@ class ToolingApi():
                 headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout when issuing QUICK SEARCH request",
+                "Error Message":  "Network connection timeout when issuing QUERY request",
                 "success": False
             }
             return self.result

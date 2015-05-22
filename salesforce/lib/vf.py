@@ -1,3 +1,11 @@
+# Attributes which type is ApexPages.PageReference
+page_reference_attrs = [
+    "page",
+    "template",
+    "pageName",
+    "finishLocation"
+]
+
 tag_defs = {
     "aura:application": {
         "simple": False,
@@ -974,7 +982,23 @@ tag_defs = {
                 ]
             },
             "event": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "onblur",
+                    "onchange",
+                    "onclick",
+                    "ondblclick",
+                    "onfocus",
+                    "onkeydown",
+                    "onkeypress",
+                    "onkeyup",
+                    "onmousedown",
+                    "onmousemove",
+                    "onmouseout",
+                    "onmouseover",
+                    "onmouseup",
+                    "onselect"
+                ]
             },
             "focus": {
                 "type": "String"
@@ -1156,7 +1180,13 @@ tag_defs = {
         "simple": False,
         "attribs": {
             "axis": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "left",
+                    "right",
+                    "top",
+                    "bottom"
+                ]
             },
             "colorSet": {
                 "type": "String"
@@ -1563,6 +1593,74 @@ tag_defs = {
             }
         }
     },
+    "apex:component": {
+        "simple": True,
+        "attribs": {
+            "access": {
+                "type": "String",
+                "values": [
+                    "public",
+                    "global"
+                ]
+            },
+            "allowDML": {
+                "type": "Boolean",
+                "values": [
+                    "true",
+                    "false"
+                ]
+            },
+            "controller": {
+                "type": "String"
+            },
+            "extensions": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "language": {
+                "type": "String"
+            },
+            "layout": {
+                "type": "Picklist",
+                "values": [
+                    "block",
+                    "inline",
+                    "none"
+                ]
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values": [
+                    "true",
+                    "false"
+                ]
+            },
+            "selfClosing": {
+                "type": "Boolean",
+                "values": [
+                    "true",
+                    "false"
+                ]
+            }
+        }
+    },
+    "apex:componentBody": {
+        "simple": True,
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values": [
+                    "true",
+                    "false"
+                ]
+            }
+        }
+    },
     "apex:commandButton": {
         "simple": True,
         "attribs": {
@@ -1763,7 +1861,13 @@ tag_defs = {
                 "type": "String"
             },
             "shape": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "default", 
+                    "circle", 
+                    "rect", 
+                    "poly"
+                ]
             },
             "status": {
                 "type": "String"
@@ -1778,7 +1882,13 @@ tag_defs = {
                 "type": "String"
             },
             "target": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "_blank",
+                    "_parent",
+                    "_self",
+                    "_top"
+                ]
             },
             "timeout": {
                 "type": "Integer"
@@ -3776,7 +3886,17 @@ tag_defs = {
                 "type": "ApexPages.Action"
             },
             "apiVersion": {
-                "type": "double"
+                "type": "Picklist",
+                "values": [
+                    "28.0",
+                    "29.0",
+                    "30.0",
+                    "31.0",
+                    "32.0",
+                    "33.0",
+                    "34.0",
+                    "100.0, really up to 100?"
+                ]
             },
             "applyBodyTag": {
                 "type": "Boolean",
@@ -3800,7 +3920,13 @@ tag_defs = {
                 ]
             },
             "contentType": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "application/pdf#${1:fileName}",
+                    "application/xml#${1:fileName}",
+                    "application/vnd.ms-excel#${1:fileName}",
+                    "application/json#${1:fileName}"
+                ]
             },
             "controller": {
                 "type": "String"
@@ -3850,7 +3976,10 @@ tag_defs = {
                 "type": "String"
             },
             "renderAs": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "pdf"
+                ]
             },
             "rendered": {
                 "type": "Boolean",
@@ -5368,7 +5497,11 @@ tag_defs = {
                 "type": "String"
             },
             "layout": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "lineDirection",
+                    "pageDirection"
+                ]
             },
             "onblur": {
                 "type": "String"

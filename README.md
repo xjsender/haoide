@@ -1,5 +1,5 @@
 # Sublime IDE for Salesforce
-This plugin supports ```Sublime Text 3``` for windows and OSX, not tested for Linux.
+This plugin supports [Sublime Text 3](http://www.sublimetext.com/3) for windows and OSX, not tested for Linux.
 
 # Installation
 You can install this plugin by searching ``haoide`` in package control, if you don't know how to use ``package control``, you can refer to [usage of package control](https://packagecontrol.io/docs/usage).
