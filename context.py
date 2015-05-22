@@ -189,6 +189,10 @@ def build_metadata_objects_settings(settings, metadata_objects):
         settings[mo["directoryName"]] = mo
 
         if "childXmlNames" in mo:
+            childXmlNames = mo["childXmlNames"]
+            if isinstance(childXmlNames, str):
+                childXmlNames = [childXmlNames]
+                
             for child in mo["childXmlNames"]:
                 settings[child] = mo
 
