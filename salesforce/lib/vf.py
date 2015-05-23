@@ -13,7 +13,8 @@ tag_defs = {
             "access": {
                 "type": "Picklist",
                 "values":[
-                    "PUBLIC", "GLOBAL"
+                    "public",
+                    "global"
                 ]
             },
             "controller": {
@@ -40,7 +41,8 @@ tag_defs = {
             "access": {
                 "type": "Picklist",
                 "values":[
-                    "PUBLIC", "GLOBAL"
+                    "public",
+                    "global"
                 ]
             },
             "controller": {
@@ -81,7 +83,8 @@ tag_defs = {
             "access": {
                 "type": "Picklist",
                 "values":[
-                    "PUBLIC", "GLOBAL"
+                    "public",
+                    "global"
                 ]
             },
             "description": {
@@ -123,7 +126,8 @@ tag_defs = {
             "access": {
                 "type": "Picklist",
                 "values":[
-                    "PUBLIC", "GLOBAL"
+                    "public",
+                    "global"
                 ]
             },
             "description": {
@@ -189,7 +193,8 @@ tag_defs = {
             "access": {
                 "type": "Picklist",
                 "values":[
-                    "PUBLIC", "GLOBAL", "PRIVATE"
+                    "public",
+                    "global", "PRIVATE"
                 ]
             },
             "name": {
@@ -227,7 +232,8 @@ tag_defs = {
             "access": {
                 "type": "Picklist",
                 "values":[
-                    "PUBLIC", "GLOBAL"
+                    "public",
+                    "global"
                 ]
             },
             "assignTo": {
@@ -647,6 +653,156 @@ tag_defs = {
             }
         }
     },
+    "apex:emailPublisher": {
+        "attribs": {
+            "autoCollapseBody": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "bccVisibility": {
+                "type": "Picklist",
+                "values": [
+                    "editable",
+                    "editableWithLookup",
+                    "readOnly",
+                    "hidden"
+                ]
+            },
+            "ccVisibility": {
+                "type": "Picklist",
+                "values": [
+                    "editable",
+                    "editableWithLookup",
+                    "readOnly",
+                    "hidden"
+                ]
+            },
+            "emailBody": {
+                "type": "String"
+            },
+            "emailBodyFormat": {
+                "type": "Picklist",
+                "values": [
+                    "text",
+                    "HTML",
+                    "textAndHTML"
+                ]
+            },
+            "emailBodyHeight": {
+                "type": "String"
+            },
+            "enableQuickText": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "entityId": {
+                "type": "id"
+            },
+            "expandableHeader": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "fromAddresses": {
+                "type": "String"
+            },
+            "fromVisibility": {
+                "type": "Picklist",
+                "values": [
+                    "selectable",
+                    "hidden"
+                ]
+            },
+            "id": {
+                "type": "String"
+            },
+            "onSubmitFailure": {
+                "type": "String"
+            },
+            "onSubmitSuccess": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "reRender": {
+                "type": "Object"
+            },
+            "sendButtonName": {
+                "type": "String"
+            },
+            "showAdditionalFields": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "showAttachments": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "showSendButton": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "showTemplates": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "subject": {
+                "type": "String"
+            },
+            "subjectVisibility": {
+                "type": "Picklist",
+                "values": [
+                    "editable",
+                    "readOnly",
+                    "hidden"
+                ]
+            },
+            "submitFunctionName": {
+                "type": "String"
+            },
+            "title": {
+                "type": "String"
+            },
+            "toAddresses": {
+                "type": "String"
+            },
+            "toVisibility": {
+                "type": "Picklist",
+                "values": [
+                    "editable",
+                    "editableWithLookup",
+                    "readOnly",
+                    "hidden"
+                ]
+            },
+            "verticalResize": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "width": {
+                "type": "String"
+            }
+        }
+    },
     "messaging:emailHeader": {
         "simple": False,
         "attribs": {
@@ -768,8 +924,7 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "name": {
@@ -784,8 +939,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "reRender": {
@@ -808,8 +962,7 @@ tag_defs = {
             "enabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -827,8 +980,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "reRender": {
@@ -851,22 +1003,19 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "renderRegionOnly": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -874,8 +1023,12 @@ tag_defs = {
     "apex:actionStatus": {
         "simple": False,
         "attribs": {
-            "dir": {
-                "type": "String"
+            "dirs": {
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "for": {
                 "type": "String"
@@ -887,7 +1040,11 @@ tag_defs = {
                 "type": "String"
             },
             "layout": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "lineDirection",
+                    "pageDirection"
+                ]
             },
             "onclick": {
                 "type": "String"
@@ -928,8 +1085,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "startStyle": {
@@ -970,15 +1126,13 @@ tag_defs = {
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "disableDefault": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "event": {
@@ -1009,8 +1163,7 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "onbeforedomupdate": {
@@ -1025,8 +1178,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "reRender": {
@@ -1044,7 +1196,13 @@ tag_defs = {
         "simple": False,
         "attribs": {
             "axis": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "bottom",
+                    "left",
+                    "right",
+                    "top"
+                ]
             },
             "colorSet": {
                 "type": "String"
@@ -1052,8 +1210,7 @@ tag_defs = {
             "highlight": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "highlightLineWidth": {
@@ -1074,8 +1231,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendererFn": {
@@ -1084,15 +1240,13 @@ tag_defs = {
             "showInLegend": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "tips": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "title": {
@@ -1118,15 +1272,13 @@ tag_defs = {
             "grid": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "gridFill": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -1155,8 +1307,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "steps": {
@@ -1194,8 +1345,7 @@ tag_defs = {
             "colorsProgressWithinSeries": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "groupGutter": {
@@ -1207,8 +1357,7 @@ tag_defs = {
             "highlight": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "highlightColor": {
@@ -1236,8 +1385,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendererFn": {
@@ -1246,22 +1394,19 @@ tag_defs = {
             "showInLegend": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "stacked": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "tips": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "title": {
@@ -1326,8 +1471,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "scrolling": {
@@ -1344,8 +1488,7 @@ tag_defs = {
             "animate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "background": {
@@ -1360,8 +1503,7 @@ tag_defs = {
             "floating": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "height": {
@@ -1370,8 +1512,7 @@ tag_defs = {
             "hidden": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -1380,8 +1521,7 @@ tag_defs = {
             "legend": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "name": {
@@ -1390,8 +1530,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "renderTo": {
@@ -1400,8 +1539,7 @@ tag_defs = {
             "resizable": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "theme": {
@@ -1453,8 +1591,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendererFn": {
@@ -1480,8 +1617,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendererFn": {
@@ -1490,8 +1626,7 @@ tag_defs = {
             "trackMouse": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "valueField": {
@@ -1508,15 +1643,18 @@ tag_defs = {
             "breakBefore": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "colspan": {
                 "type": "Integer"
             },
-            "dir": {
-                "type": "String"
+            "dirs": {
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "footerClass": {
                 "type": "String"
@@ -1569,8 +1707,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rowspan": {
@@ -1606,8 +1743,7 @@ tag_defs = {
             "allowDML": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "controller": {
@@ -1633,15 +1769,13 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "selfClosing": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -1655,8 +1789,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -1673,14 +1806,17 @@ tag_defs = {
             "alt": {
                 "type": "String"
             },
-            "dir": {
-                "type": "String"
+            "dirs": {
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -1692,8 +1828,7 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "lang": {
@@ -1741,8 +1876,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "reRender": {
@@ -1786,8 +1920,12 @@ tag_defs = {
             "coords": {
                 "type": "String"
             },
-            "dir": {
-                "type": "String"
+            "dirs": {
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "hreflang": {
                 "type": "String"
@@ -1798,8 +1936,7 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "lang": {
@@ -1850,8 +1987,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "reRender": {
@@ -1918,8 +2054,12 @@ tag_defs = {
     "apex:dataList": {
         "simple": False,
         "attribs": {
-            "dir": {
-                "type": "String"
+            "dirs": {
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "first": {
                 "type": "Integer"
@@ -1963,8 +2103,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rows": {
@@ -1994,7 +2133,12 @@ tag_defs = {
         "simple": False,
         "attribs": {
             "align": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "left", 
+                    "center", 
+                    "right"
+                ]
             },
             "bgcolor": {
                 "type": "String"
@@ -2023,8 +2167,12 @@ tag_defs = {
             "columnsWidth": {
                 "type": "String"
             },
-            "dir": {
-                "type": "String"
+            "dirs": {
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "first": {
                 "type": "Integer"
@@ -2033,7 +2181,18 @@ tag_defs = {
                 "type": "String"
             },
             "frame": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "none", 
+                    "above", 
+                    "below", 
+                    "hsides", 
+                    "vsides", 
+                    "lhs", 
+                    "rhs", 
+                    "box", 
+                    "border"
+                ]
             },
             "headerClass": {
                 "type": "String"
@@ -2098,8 +2257,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rowClasses": {
@@ -2109,7 +2267,14 @@ tag_defs = {
                 "type": "Integer"
             },
             "rules": {
-                "type": "String"
+                "type": "String",
+                "values": [
+                    "none", 
+                    "groups", 
+                    "rows", 
+                    "cols", 
+                    "all"
+                ]
             },
             "style": {
                 "type": "String"
@@ -2151,8 +2316,7 @@ tag_defs = {
             "inlineEdit": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "oncomplete": {
@@ -2161,22 +2325,19 @@ tag_defs = {
             "relatedList": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "relatedListHover": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rerender": {
@@ -2185,8 +2346,7 @@ tag_defs = {
             "showChatter": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "subject": {
@@ -2195,8 +2355,7 @@ tag_defs = {
             "title": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -2213,8 +2372,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -2225,8 +2383,7 @@ tag_defs = {
             "customizable": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "height": {
@@ -2244,18 +2401,24 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "reRender": {
                 "type": "String"
             },
             "rowsPerPage": {
-                "type": "Integer"
+                "type": "Picklist",
+                "values": [
+                    "10",
+                    "25",
+                    "50",
+                    "100",
+                    "200"
+                ]
             },
             "type": {
-                "type": "String"
+                "type": "SObject"
             },
             "width": {
                 "type": "Integer"
@@ -2285,22 +2448,19 @@ tag_defs = {
             "loop": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "play": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "src": {
@@ -2321,16 +2481,24 @@ tag_defs = {
                 "type": "String"
             },
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "enctype": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "application/x-www-form-urlencoded",
+                    "application/xml",
+                    "application/json"
+                ]
             },
             "forceSSL": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -2378,15 +2546,13 @@ tag_defs = {
             "prependId": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -2396,7 +2562,13 @@ tag_defs = {
                 "type": "String"
             },
             "target": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "_blank",
+                    "_parent",
+                    "_self",
+                    "_top"
+                ]
             },
             "title": {
                 "type": "String"
@@ -2418,8 +2590,7 @@ tag_defs = {
             "highlight": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -2431,15 +2602,13 @@ tag_defs = {
             "needle": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendererFn": {
@@ -2448,8 +2617,7 @@ tag_defs = {
             "tips": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -2460,8 +2628,7 @@ tag_defs = {
             "frameborder": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "height": {
@@ -2473,15 +2640,13 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "scrolling": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "src": {
@@ -2502,7 +2667,11 @@ tag_defs = {
                 "type": "String"
             },
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "height": {
                 "type": "String"
@@ -2513,8 +2682,7 @@ tag_defs = {
             "ismap": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "lang": {
@@ -2556,8 +2724,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -2595,8 +2762,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -2608,7 +2774,11 @@ tag_defs = {
                 "type": "String"
             },
             "value": {
-                "type": "Object"
+                "type": "Object",
+                "values": [
+                    "{!URLFOR($Resource.$1, '$2')}",
+                    "{!\$Resource.$1}"
+                ]
             }
         }
     },
@@ -2621,8 +2791,7 @@ tag_defs = {
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "event": {
@@ -2637,14 +2806,131 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "resetFunction": {
                 "type": "String"
             },
             "showOnEdit": {
+                "type": "Object"
+            }
+        }
+    },
+    "apex:input": {
+        "attribs": {
+            "accesskey": {
+                "type": "String"
+            },
+            "alt": {
+                "type": "String"
+            },
+            "dir": {
+                "type": "String"
+            },
+            "disabled": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "id": {
+                "type": "String"
+            },
+            "label": {
+                "type": "String"
+            },
+            "lang": {
+                "type": "String"
+            },
+            "list": {
+                "type": "Object"
+            },
+            "onblur": {
+                "type": "String"
+            },
+            "onchange": {
+                "type": "String"
+            },
+            "onclick": {
+                "type": "String"
+            },
+            "ondblclick": {
+                "type": "String"
+            },
+            "onfocus": {
+                "type": "String"
+            },
+            "onkeydown": {
+                "type": "String"
+            },
+            "onkeypress": {
+                "type": "String"
+            },
+            "onkeyup": {
+                "type": "String"
+            },
+            "onmousedown": {
+                "type": "String"
+            },
+            "onmousemove": {
+                "type": "String"
+            },
+            "onmouseout": {
+                "type": "String"
+            },
+            "onmouseover": {
+                "type": "String"
+            },
+            "onmouseup": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "required": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "size": {
+                "type": "Integer"
+            },
+            "style": {
+                "type": "String"
+            },
+            "styleClass": {
+                "type": "String"
+            },
+            "tabindex": {
+                "type": "String"
+            },
+            "title": {
+                "type": "String"
+            },
+            "type": {
+                "type": "Picklist",
+                "values": [
+                    "auto",
+                    "date",
+                    "datetime",
+                    "datetime-local",
+                    "month",
+                    "week",
+                    "time",
+                    "email",
+                    "number",
+                    "range",
+                    "search",
+                    "tel",
+                    "text"
+                ]
+            },
+            "value": {
                 "type": "Object"
             }
         }
@@ -2656,13 +2942,16 @@ tag_defs = {
                 "type": "String"
             },
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -2671,8 +2960,7 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "label": {
@@ -2726,22 +3014,19 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "required": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "selected": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -2815,15 +3100,40 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "required": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
+                ]
+            },
+            "list": {
+                "type": "Object"
+            },
+            "showDatePicker": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "type": {
+                "type": "Picklist",
+                "values": [
+                    "auto",
+                    "date",
+                    "datetime",
+                    "datetime-local",
+                    "month",
+                    "week",
+                    "time",
+                    "email",
+                    "number",
+                    "range",
+                    "search",
+                    "tel",
+                    "text"
                 ]
             },
             "style": {
@@ -2856,13 +3166,16 @@ tag_defs = {
                 "type": "String"
             },
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "fileName": {
@@ -2916,8 +3229,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "required": {
@@ -2952,22 +3264,19 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "required": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "value": {
@@ -2985,13 +3294,16 @@ tag_defs = {
                 "type": "String"
             },
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -3000,8 +3312,7 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "label": {
@@ -3058,29 +3369,25 @@ tag_defs = {
             "readonly": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "redisplay": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "required": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "size": {
@@ -3112,14 +3419,17 @@ tag_defs = {
             "alt": {
                 "type": "String"
             },
-            "dir": {
-                "type": "String"
+            "dirs": {
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -3127,6 +3437,9 @@ tag_defs = {
             },
             "label": {
                 "type": "String"
+            },
+            "list": {
+                "type": "Object"
             },
             "lang": {
                 "type": "String"
@@ -3176,15 +3489,13 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "required": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "size": {
@@ -3217,13 +3528,16 @@ tag_defs = {
                 "type": "Integer"
             },
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -3280,29 +3594,25 @@ tag_defs = {
             "readonly": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "required": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "richText": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rows": {
@@ -3357,8 +3667,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "spacing": {
@@ -3370,13 +3679,18 @@ tag_defs = {
         "simple": False,
         "attribs": {
             "axis": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "bottom",
+                    "left",
+                    "right",
+                    "top"
+                ]
             },
             "fill": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "fillColor": {
@@ -3385,8 +3699,7 @@ tag_defs = {
             "highlight": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "highlightStrokeWidth": {
@@ -3414,8 +3727,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendererFn": {
@@ -3424,8 +3736,7 @@ tag_defs = {
             "showInLegend": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "smooth": {
@@ -3440,8 +3751,7 @@ tag_defs = {
             "tips": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "title": {
@@ -3464,11 +3774,161 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "type": {
+                "type": "String"
+            }
+        }
+    },
+    "apex:logCallPublisher": {
+        "attribs": {
+            "autoCollapseBody": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "entityId": {
+                "type": "id"
+            },
+            "id": {
+                "type": "String"
+            },
+            "logCallBody": {
+                "type": "String"
+            },
+            "logCallBodyHeight": {
+                "type": "String"
+            },
+            "onSubmitFailure": {
+                "type": "String"
+            },
+            "onSubmitSuccess": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "reRender": {
+                "type": "Object"
+            },
+            "showAdditionalFields": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "showSubmitButton": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "submitButtonName": {
+                "type": "String"
+            },
+            "submitFunctionName": {
+                "type": "String"
+            },
+            "title": {
+                "type": "String"
+            },
+            "width": {
+                "type": "String"
+            }
+        }
+    },
+    "apex:map": {
+        "attribs": {
+            "center": {
+                "type": "Object",
+                "values": [
+                    "${1:1 Market Street, San Francisco, CA}",
+                    "${1:{latitude: 37.794, longitude: -122.395\}}",
+                    "${1:Map<String, Double>}"
+                ]
+            },
+            "height": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "mapType": {
+                "type": "Picklist",
+                "values": [
+                    "hybrid",
+                    "roadmap",
+                    "satellite"
+                ]
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "showOnlyActiveInfoWindow": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "width": {
+                "type": "String"
+            },
+            "zoomLevel": {
+                "type": "Integer"
+            }
+        }
+    },
+    "apex:mapInfoWindow": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "maxWidth": {
+                "type": "Integer"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            }
+        }
+    },
+    "apex:mapMarker": {
+        "attribs": {
+            "icon": {
+                "type": "String",
+                "values": [
+                    "{!URLFOR($Resource.$1, '$2')}"
+                ]
+            },
+            "id": {
+                "type": "String"
+            },
+            "position": {
+                "type": "Object",
+                "values": [
+                    "${1:1 Market Street, San Francisco, CA}",
+                    "${1:{latitude: 37.794, longitude: -122.395\}}",
+                    "${1:Map<String, Double>}"
+                ]
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "title": {
                 "type": "String"
             }
         }
@@ -3477,7 +3937,11 @@ tag_defs = {
         "simple": True,
         "attribs": {
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "for": {
                 "type": "String"
@@ -3491,8 +3955,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -3510,13 +3973,16 @@ tag_defs = {
         "simple": True,
         "attribs": {
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "globalOnly": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -3526,13 +3992,16 @@ tag_defs = {
                 "type": "String"
             },
             "layout": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "lineDirection",
+                    "pageDirection"
+                ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -3546,11 +4015,30 @@ tag_defs = {
             }
         }
     },
+    "apex:milestoneTracker": {
+        "entityId": {
+            "type": "String"
+        },
+        "id": {
+            "type": "String"
+        },
+        "rendered": {
+            "type": "Boolean",
+            "values": [
+                "true",
+                "false"
+            ]
+        }
+    },
     "apex:outputField": {
         "simple": True,
         "attribs": {
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "id": {
                 "type": "String"
@@ -3564,8 +4052,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -3589,13 +4076,16 @@ tag_defs = {
                 "type": "String"
             },
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "escape": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "for": {
@@ -3646,8 +4136,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -3680,13 +4169,16 @@ tag_defs = {
                 "type": "String"
             },
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "hreflang": {
@@ -3740,8 +4232,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rev": {
@@ -3760,7 +4251,13 @@ tag_defs = {
                 "type": "String"
             },
             "target": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "_blank",
+                    "_parent",
+                    "_self",
+                    "_top"
+                ]
             },
             "title": {
                 "type": "String"
@@ -3777,7 +4274,11 @@ tag_defs = {
         "simple": False,
         "attribs": {
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "id": {
                 "type": "String"
@@ -3786,7 +4287,11 @@ tag_defs = {
                 "type": "String"
             },
             "layout": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "lineDirection",
+                    "pageDirection"
+                ]
             },
             "onclick": {
                 "type": "String"
@@ -3821,8 +4326,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -3840,13 +4344,16 @@ tag_defs = {
         "simple": False,
         "attribs": {
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "escape": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -3861,8 +4368,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -3901,22 +4407,19 @@ tag_defs = {
             "applyBodyTag": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "applyHtmlTag": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "cache": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "contentType": {
@@ -3934,8 +4437,7 @@ tag_defs = {
             "deferLastCommandUntilReady": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "docType": {
@@ -3968,8 +4470,7 @@ tag_defs = {
             "readOnly": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "recordSetVar": {
@@ -3984,36 +4485,31 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "setup": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "showChat": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "showHeader": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "sidebar": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "standardController": {
@@ -4022,8 +4518,7 @@ tag_defs = {
             "standardStylesheets": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "tabStyle": {
@@ -4035,8 +4530,7 @@ tag_defs = {
             "wizard": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -4045,7 +4539,11 @@ tag_defs = {
         "simple": False,
         "attribs": {
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "helpTitle": {
                 "type": "String"
@@ -4060,7 +4558,13 @@ tag_defs = {
                 "type": "String"
             },
             "mode": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "detail",
+                    "maindetail",
+                    "edit",
+                    "inlineEdit"
+                ]
             },
             "onclick": {
                 "type": "String"
@@ -4095,8 +4599,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "tabStyle": {
@@ -4111,7 +4614,11 @@ tag_defs = {
         "simple": False,
         "attribs": {
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "id": {
                 "type": "String"
@@ -4160,8 +4667,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -4181,15 +4687,18 @@ tag_defs = {
             "collapsible": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "columns": {
                 "type": "Integer"
             },
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "id": {
                 "type": "String"
@@ -4230,15 +4739,13 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "showHeader": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "title": {
@@ -4259,7 +4766,11 @@ tag_defs = {
                 "type": "String"
             },
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "helpText": {
                 "type": "String"
@@ -4342,8 +4853,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -4352,7 +4862,12 @@ tag_defs = {
         "simple": False,
         "attribs": {
             "align": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "left",
+                    "center",
+                    "right"
+                ]
             },
             "border": {
                 "type": "String"
@@ -4379,7 +4894,11 @@ tag_defs = {
                 "type": "String"
             },
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "first": {
                 "type": "Integer"
@@ -4388,7 +4907,18 @@ tag_defs = {
                 "type": "String"
             },
             "frame": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "none", 
+                    "above", 
+                    "below", 
+                    "hsides", 
+                    "vsides", 
+                    "lhs", 
+                    "rhs", 
+                    "box", 
+                    "border"
+                ]
             },
             "headerClass": {
                 "type": "String"
@@ -4453,8 +4983,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rowClasses": {
@@ -4498,8 +5027,7 @@ tag_defs = {
             "escape": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -4508,18 +5036,26 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "severity": {
                 "type": "String",
                 "values": [
-                    'CONFIRM', 'INFO', 'WARNING', 'ERROR'
+                    "CONFIRM", 
+                    "INFO", 
+                    "WARNING", 
+                    "ERROR"
                 ]
             },
             "strength": {
-                "type": "Integer"
+                "type": "Picklist",
+                "values": [
+                    "0", 
+                    "1", 
+                    "2", 
+                    "3"
+                ]
             },
             "summary": {
                 "type": "String"
@@ -4535,8 +5071,7 @@ tag_defs = {
             "escape": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -4545,15 +5080,13 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "showDetail": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -4591,8 +5124,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -4602,7 +5134,12 @@ tag_defs = {
                 "type": "String"
             },
             "switchType": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "client",
+                    "server",
+                    "ajax"
+                ]
             },
             "value": {
                 "type": "Object"
@@ -4657,8 +5194,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -4691,13 +5227,28 @@ tag_defs = {
                 "type": "Integer"
             },
             "dir": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "footerClass": {
                 "type": "String"
             },
             "frame": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "none", 
+                    "above", 
+                    "below", 
+                    "hsides", 
+                    "vsides", 
+                    "lhs", 
+                    "rhs", 
+                    "box", 
+                    "border"
+                ]
             },
             "headerClass": {
                 "type": "String"
@@ -4741,8 +5292,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rowClasses": {
@@ -4775,13 +5325,16 @@ tag_defs = {
                 "type": "String"
             },
             "layout": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "lineDirection",
+                    "pageDirection"
+                ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -4824,8 +5377,7 @@ tag_defs = {
             "highlight": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -4837,8 +5389,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendererFn": {
@@ -4847,15 +5398,13 @@ tag_defs = {
             "showInLegend": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "tips": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -4869,8 +5418,7 @@ tag_defs = {
             "highlight": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -4895,15 +5443,13 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "showInLegend": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "strokeColor": {
@@ -4915,8 +5461,7 @@ tag_defs = {
             "tips": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "title": {
@@ -4937,7 +5482,7 @@ tag_defs = {
                 "type": "String"
             },
             "list": {
-                "type": "String"
+                "type": "Object"
             },
             "pageSize": {
                 "type": "Integer"
@@ -4945,14 +5490,95 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "subject": {
                 "type": "String"
             },
             "title": {
+                "type": "String"
+            }
+        }
+    },
+    "apex:remoteObjectField": {
+        "simple": False,
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "jsShorthand": {
+                "type": "String"
+            },
+            "name": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            }
+        }
+    },
+    "apex:remoteObjectModel": {
+        "attribs": {
+            "create": {
+                "type": "String"
+            },
+            "delete": {
+                "type": "String"
+            },
+            "fields": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "jsShorthand": {
+                "type": "String"
+            },
+            "name": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "retrieve": {
+                "type": "String"
+            },
+            "update": {
+                "type": "String"
+            }
+        }
+    },
+    "apex:remoteObjects": {
+        "attribs": {
+            "create": {
+                "type": "String"
+            },
+            "delete": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "jsNamespace": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "retrieve": {
+                "type": "String"
+            },
+            "update": {
                 "type": "String"
             }
         }
@@ -4969,8 +5595,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rows": {
@@ -4988,13 +5613,18 @@ tag_defs = {
         "simple": False,
         "attribs": {
             "axis": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "bottom",
+                    "left",
+                    "right",
+                    "top"
+                ]
             },
             "highlight": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "id": {
@@ -5016,8 +5646,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendererFn": {
@@ -5026,15 +5655,13 @@ tag_defs = {
             "showInLegend": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "tips": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "title": {
@@ -5063,15 +5690,13 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "scrollbars": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "subject": {
@@ -5100,8 +5725,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "subtitle": {
@@ -5121,14 +5745,23 @@ tag_defs = {
             "border": {
                 "type": "Integer"
             },
-            "dir": {
-                "type": "String"
+            "borderVisible": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "dirs": {
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "disabledClass": {
@@ -5143,8 +5776,7 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "label": {
@@ -5154,6 +5786,19 @@ tag_defs = {
                 "type": "String"
             },
             "layout": {
+                "type": "Picklist",
+                "values": [
+                    "lineDirection",
+                    "pageDirection"
+                ]
+            },
+            "legendInvisible": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "legendText": {
                 "type": "String"
             },
             "onblur": {
@@ -5201,22 +5846,19 @@ tag_defs = {
             "readonly": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "required": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -5242,14 +5884,17 @@ tag_defs = {
             "accesskey": {
                 "type": "String"
             },
-            "dir": {
-                "type": "String"
+            "dirs": {
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "disabledClass": {
@@ -5270,8 +5915,7 @@ tag_defs = {
             "multiselect": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "onblur": {
@@ -5319,22 +5963,19 @@ tag_defs = {
             "readonly": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "required": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "size": {
@@ -5360,8 +6001,12 @@ tag_defs = {
     "apex:selectOption": {
         "simple": False,
         "attribs": {
-            "dir": {
-                "type": "String"
+            "dirs": {
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "id": {
                 "type": "String"
@@ -5372,15 +6017,13 @@ tag_defs = {
             "itemDisabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "itemEscaped": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "itemLabel": {
@@ -5425,8 +6068,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "title": {
@@ -5446,8 +6088,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "value": {
@@ -5464,14 +6105,23 @@ tag_defs = {
             "border": {
                 "type": "Integer"
             },
-            "dir": {
-                "type": "String"
+            "borderVisible": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "dirs": {
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "disabledClass": {
@@ -5486,8 +6136,7 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "label": {
@@ -5502,6 +6151,15 @@ tag_defs = {
                     "lineDirection",
                     "pageDirection"
                 ]
+            },
+            "legendInvisible": {
+                "type": "Boolean",
+                "values": [
+                    "true", "false"
+                ]
+            },
+            "legendText": {
+                "type": "String"
             },
             "onblur": {
                 "type": "String"
@@ -5548,22 +6206,19 @@ tag_defs = {
             "readonly": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "required": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -5600,8 +6255,7 @@ tag_defs = {
             "disabled": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "focus": {
@@ -5613,8 +6267,7 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "label": {
@@ -5668,8 +6321,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "reRender": {
@@ -5685,7 +6337,12 @@ tag_defs = {
                 "type": "String"
             },
             "switchType": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "client",
+                    "server",
+                    "ajax"
+                ]
             },
             "timeout": {
                 "type": "Integer"
@@ -5707,8 +6364,12 @@ tag_defs = {
             "contentStyle": {
                 "type": "String"
             },
-            "dir": {
-                "type": "String"
+            "dirs": {
+                "type": "Picklist",
+                "values": [
+                    "RTL",
+                    "LTR"
+                ]
             },
             "disabledTabClass": {
                 "type": "String"
@@ -5731,8 +6392,7 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "inactiveTabClass": {
@@ -5774,8 +6434,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "reRender": {
@@ -5791,7 +6450,12 @@ tag_defs = {
                 "type": "String"
             },
             "switchType": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "client",
+                    "server",
+                    "ajax"
+                ]
             },
             "tabClass": {
                 "type": "String"
@@ -5823,7 +6487,14 @@ tag_defs = {
                 "type": "String"
             },
             "itemSeparator": {
-                "type": "String"
+                "type": "String",
+                "values": [
+                    "none",
+                    "line",
+                    "square",
+                    "disc",
+                    "grid"
+                ]
             },
             "onclick": {
                 "type": "String"
@@ -5888,8 +6559,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "separatorClass": {
@@ -5913,10 +6583,21 @@ tag_defs = {
                 "type": "String"
             },
             "itemSeparator": {
-                "type": "String"
+                "type": "String",
+                "values": [
+                    "none",
+                    "line",
+                    "square",
+                    "disc",
+                    "grid"
+                ]
             },
             "location": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "left",
+                    "right"
+                ]
             },
             "onclick": {
                 "type": "String"
@@ -5951,8 +6632,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "separatorClass": {
@@ -5975,8 +6655,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "value": {
@@ -5999,11 +6678,10 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
-            "rerender": {
+            "reRender": {
                 "type": "String"
             }
         }
@@ -6017,8 +6695,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -6032,8 +6709,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -6047,8 +6723,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -6062,8 +6737,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -6086,8 +6760,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "reRender": {
@@ -6096,8 +6769,7 @@ tag_defs = {
             "showPublisher": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -6117,8 +6789,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "reRender": {
@@ -6127,8 +6798,7 @@ tag_defs = {
             "showHeader": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -6148,8 +6818,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "reRender": {
@@ -6169,8 +6838,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -6187,8 +6855,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "reRender": {
@@ -6205,15 +6872,13 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "showOriginalPhoto": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -6247,8 +6912,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "rerender": {
@@ -6257,8 +6921,7 @@ tag_defs = {
             "showHelp": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -6284,8 +6947,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -6320,8 +6982,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "sort": {
@@ -6333,8 +6994,7 @@ tag_defs = {
             "stickyAttributes": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -6366,8 +7026,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "sort": {
@@ -6376,8 +7035,7 @@ tag_defs = {
             "stickyAttributes": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             },
             "style": {
@@ -6400,8 +7058,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -6415,8 +7072,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -6433,8 +7089,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }
@@ -6457,8 +7112,7 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean",
                 "values": [
-                    "true",
-                    "false"
+                    "true", "false"
                 ]
             }
         }

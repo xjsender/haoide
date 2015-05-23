@@ -7,6 +7,12 @@ Release History
 
 Release 2.9.7 (2015-05-22)
 ++++++++++++++++++
+* Update:
+    - Update the plugin install message for package control
+
+
+Release 2.9.7 (2015-05-22)
+++++++++++++++++++
 * Bug Fix:
     - Fix issue #36
     - Fix bug for ``childXmlNames`` parsing and ``childXmlNames`` completion for package.xml
