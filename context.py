@@ -70,6 +70,9 @@ def get_settings():
     # Indicate whether keep local change history
     settings["keep_local_change_history"] = s.get("keep_local_change_history", True)
 
+    # Automatically update change to server when save file
+    settings["auto_update_on_save"] = s.get("auto_update_on_save", False)
+
     # Check whether the LastModifiedById is current user
     settings["check_save_conflict"] = s.get("check_save_conflict", True)
 

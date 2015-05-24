@@ -23,6 +23,13 @@ class SFDCEventListener(sublime_plugin.EventListener):
 
         util.display_active_project(view)
 
+    def on_post_save_async(self, view):
+        settings = context.get_settings();
+        if not view.file_name(): return 
+        if settings["workspace"] not in view.file_name(): return
+        if settings.get('auto_update_on_save'):
+            view.run_command('save_to_server')
+
     def on_activated(self, view):
         """ 
             1. Switch project to which view file is in

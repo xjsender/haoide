@@ -5,10 +5,21 @@ Release History
 ---------------
 
 
-Release 2.9.7 (2015-05-22)
+Release 2.9.8 (2015-05-24)
 ++++++++++++++++++
 * Update:
     - Update the plugin install message for package control
+
+* Enhancement:
+    - Add the missed attributes for some standard components since v29.0
+    - Add attribute values for standard components if attribute value is picklist attribute
+
+* New:
+    - Add a new setting ``auto_update_on_save``, default value is false
+    - If ``auto_update_on_save`` is set to true, when you update the code file, ``save_to_server`` will be executed automatically
+
+* Note:
+    - From this version on, I will not keep frequently release on this plugin, I will move on to build Haoide plugin for brackets
 
 
 Release 2.9.7 (2015-05-22)
