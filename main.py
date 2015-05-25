@@ -295,8 +295,7 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
     def on_done(self, index):
         if index == -1:
             if "callback_command" in self.callback_options:
-                self.window.run_command(self.callback_options["callback_command"])
-            return
+                return self.window.run_command(self.callback_options["callback_command"])
 
         # Get chosen type
         chosen_type = self.xmlNames[index].split("=>")[1]

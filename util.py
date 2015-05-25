@@ -256,7 +256,12 @@ def get_sobject_metadata_and_symbol_tables(username):
 
     return sobjects_metadata, symbol_tables
 
-def get_sobject_completion_list(sobject_describe, prefix="", display_child_relationships=True):
+def get_sobject_completion_list(
+        sobject_describe, 
+        prefix="", 
+        display_fields=True,
+        display_parent_relationships=True,
+        display_child_relationships=True):
     """ Return the formatted completion list of sobject
 
     Arguments:
@@ -268,16 +273,19 @@ def get_sobject_completion_list(sobject_describe, prefix="", display_child_relat
     """
     # Fields Describe
     completion_list = []
-    fields = sobject_describe["fields"]
-    for field_name_desc in sorted(fields):
-        field_name = fields[field_name_desc]
-        completion = ("%s%s" % (prefix, field_name_desc), field_name)
-        completion_list.append(completion)
+
+    if display_fields:
+        fields = sobject_describe["fields"]
+        for field_name_desc in sorted(fields):
+            field_name = fields[field_name_desc]
+            completion = ("%s%s" % (prefix, field_name_desc), field_name)
+            completion_list.append(completion)
 
     # Parent Relationship Describe
-    for key in sorted(sobject_describe["parentRelationships"]):
-        parent_sobject = sobject_describe["parentRelationships"][key]
-        completion_list.append((prefix + key + "\t" + parent_sobject + "(c2p)", key)) 
+    if display_parent_relationships:
+        for key in sorted(sobject_describe["parentRelationships"]):
+            parent_sobject = sobject_describe["parentRelationships"][key]
+            completion_list.append((prefix + key + "\t" + parent_sobject + "(c2p)", key)) 
 
     # Child Relationship Describe
     if display_child_relationships:

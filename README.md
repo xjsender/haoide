@@ -10,6 +10,10 @@ This plugin is in improvement stage, many ideas are generated in daily work of m
 
 All of my motivation on this plugin come from your star, if you think this plugin is helpful in your daily work, please **star** this plugin.
 
+# Demos
+<img src="https://github.com/xjsender/SublimeApexScreenshot/raw/master/BuildSOQL.gif" />
+<img src="https://github.com/xjsender/SublimeApexScreenshot/raw/master/BuildDeployCheckList.gif" />
+
 # Change Logs
 + <a href="https://github.com/xjsender/haoide/blob/master/HISTORY.rst" target="_blank">Change Logs</a>
 

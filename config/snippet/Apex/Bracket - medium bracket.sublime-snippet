@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+[$1]$0
+]]></content>
+    <tabTrigger>mb</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Medium Bracket(中括号)</description>
+</snippet>

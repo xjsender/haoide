@@ -64,7 +64,7 @@ class PackageCompletions(sublime_plugin.EventListener):
             if not package_cache:
                 message = "No completion before reload_project_cache"
                 Printer.get("error").write(message)
-                return []
+                return completion_list
 
             matched_region = view.find("<name>\\w+</name>", full_line.begin())
             if not matched_region: return []
@@ -153,13 +153,74 @@ class ApexCompletions(sublime_plugin.EventListener):
             if not settings["disable_soql_field_completion"]:
                 matched_region, is_between_start_and_from, sobject_name = util.get_soql_match_region(view, pt)
                 if not is_between_start_and_from or not sobject_name: return []
+                matched_soql = view.substr(matched_region)
 
                 # Check whether there has fields completions
-                sobject_name = sobject_name.lower()
+                if sobject_name.lower() in sobjects_describe:
+                    sobject_describe = sobjects_describe.get(sobject_name.lower())
 
-                if sobject_name in sobjects_describe:
-                    sobject_describe = sobjects_describe.get(sobject_name)
-                    completion_list = util.get_sobject_completion_list(sobject_describe)
+                    # Find all matched parent-to-child query in this view
+                    matches = view.find_all("\(([\\s\\S]+?)\)", sublime.IGNORECASE)
+
+                    child_relationship_name = None
+                    is_cursor_in_child_query = False
+                    for m in matches:
+                        # This child query is not in the whole soql region
+                        if not matched_region.contains(m):
+                            continue
+
+                        # Cursor point is not located in this child soql region
+                        if not m.contains(pt):
+                            continue
+
+                        # Cursor point is in child query
+                        is_cursor_in_child_query = True
+
+                        # Cursor point is not located between select and from
+                        if variable_name.lower() == "from":
+                            continue
+                        
+                        ms = view.substr(m)
+                        from_pos = ms.lower().find("from")
+                        pos_of_space_after_from = ms.find(" ", from_pos+6)
+                        child_relationship_name = ms[from_pos+5:pos_of_space_after_from].strip()
+
+                    # There have three criteria when cursor point is different:
+                    #   1. SELECT (SELECT  FROM <CursorPoint> ORDER BY Name ASC) FROM Account
+                    #       - Just display parent to child relationship names
+                    #       
+                    #   2. SELECT (SELECT Id, <CursorPoint> FROM Opportunities) FROM Account
+                    #       - Display fields and parent relationship names for child sObject
+                    #       
+                    #   3. SELECT Id, <CursorPoint>, (SELECT Id FROM Opportunities), <CursorPoint> FROM Account
+                    #       - Display fields and parent relationship names for parent sObject
+                    # 
+                    if not child_relationship_name:
+                        if is_cursor_in_child_query:
+                            # Just display child relationship names
+                            completion_list = util.get_sobject_completion_list(
+                                sobject_describe,
+                                display_fields=False,
+                                display_parent_relationships=False
+                            )
+                        else:
+                            # Display all
+                            completion_list = util.get_sobject_completion_list(
+                                sobject_describe,
+                                display_child_relationships=False
+                            )
+                    else:
+                        if child_relationship_name in sobject_describe["childRelationships"]:
+                            child_sobject_name = sobject_describe["childRelationships"][child_relationship_name]
+                            if child_sobject_name.lower() in sobjects_describe:
+                                completion_list = util.get_sobject_completion_list(
+                                    sobjects_describe.get(child_sobject_name.lower()), 
+                                    prefix=child_sobject_name+".",
+                                    display_child_relationships=False
+                                )
+                                
+
+                    return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
         elif ch == ".":
             # Input Page., list all custom ApexPages
@@ -199,14 +260,17 @@ class ApexCompletions(sublime_plugin.EventListener):
                         if sobject_name in sobjects_describe:
                             completion_list = util.get_sobject_completion_list(
                                 sobjects_describe[sobject_name],
-                                display_child_relationships=False)
+                                display_child_relationships=False
+                            )
                     else:
                         for sobject in matched_sobjects:
-                            if sobject.lower() not in sobjects_describe: continue
+                            if sobject.lower() not in sobjects_describe: 
+                                continue
                             completion_list.extend(util.get_sobject_completion_list(
                                 sobjects_describe[sobject.lower()],
                                 prefix=sobject+".", 
-                                display_child_relationships=False))
+                                display_child_relationships=False)
+                            )
 
             # Add standard class in specified namespace to completions
             if variable_name in apex.apex_namespaces:
@@ -312,7 +376,8 @@ class ApexCompletions(sublime_plugin.EventListener):
                     if cursor_row == row:
                         matched_region = mr
 
-                if not matched_region: return []
+                if not matched_region: 
+                    return []
                 variable_name, field_name = view.substr(matched_region).split(".")
 
                 # Get Sobject Name
@@ -331,8 +396,10 @@ class ApexCompletions(sublime_plugin.EventListener):
                 sobject_describe = sobjects_describe.get(sobject_name)
 
                 # Get sobject picklist field describe
-                if not sobject_describe: return []
-                if field_name not in sobject_describe["picklist_fields"]: return []
+                if not sobject_describe: 
+                    return []
+                if field_name not in sobject_describe["picklist_fields"]: 
+                    return []
                 picklist_values = sobject_describe["picklist_fields"][field_name]
 
                 completion_list = []
@@ -409,7 +476,8 @@ class PageCompletions(sublime_plugin.EventListener):
                     tag_names[tag_prefix] = [tag_suffix]
 
             # If it's not valid tag prefix, just return
-            if not matched_tag_prefix in tag_names: return []
+            if not matched_tag_prefix in tag_names: 
+                return []
 
             # Populate completion list  
             for tag_name in tag_names[matched_tag_prefix]:
@@ -570,7 +638,8 @@ class PageCompletions(sublime_plugin.EventListener):
             # Get the name of controller or extension
             pattern = '\\s+(controller="\\w+"|extensions="\\w+")'
             matched_regions = view.find_all(pattern)
-            if not matched_regions: return completion_list
+            if not matched_regions: 
+                return completion_list
             controller_name = view.substr(matched_regions[0]).split('"')[1]
 
             # Get the classes path

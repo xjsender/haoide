@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+Release 2.9.9 (2015-05-25)
+++++++++++++++++++
+* Enhancement
+    - SOQL fields completion, see demo at plugin home page
+
+* New
+    - Add two demos at home page
+    
 
 Release 2.9.8 (2015-05-24)
 ++++++++++++++++++

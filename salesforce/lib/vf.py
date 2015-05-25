@@ -1734,7 +1734,7 @@ tag_defs = {
         "simple": True,
         "attribs": {
             "access": {
-                "type": "String",
+                "type": "Picklist",
                 "values": [
                     "public",
                     "global"
