@@ -4,6 +4,17 @@ Release History
 
 ---------------
 
+Release 3.0.0 (2015-05-26)
+++++++++++++++++++
+* Bug fix:
+    - Fix bug #38
+    - Fix bug for SOQL fields completion
+    - Fix bug for attributes completion for value of ``apex:includeScript``
+
+* New
+    - Add a new snippet named ``Page - field label.sublime-snippet``
+
+
 Release 2.9.9 (2015-05-25)
 ++++++++++++++++++
 * Enhancement

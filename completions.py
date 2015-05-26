@@ -194,7 +194,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                     #       
                     #   3. SELECT Id, <CursorPoint>, (SELECT Id FROM Opportunities), <CursorPoint> FROM Account
                     #       - Display fields and parent relationship names for parent sObject
-                    # 
+                    #
                     if not child_relationship_name:
                         if is_cursor_in_child_query:
                             # Just display child relationship names

@@ -465,7 +465,7 @@ def get_variable_type(view, pt, pattern):
     return variable_type
 
 def get_soql_match_region(view, pt):
-    """Return the matched soql region
+    """Return the mgatched soql region
 
     Arguments:
 
@@ -477,7 +477,7 @@ def get_soql_match_region(view, pt):
     * sobject_name -- Found Sobject Name in SOQL
     * is_between_start_and_from -- the cursor point is between start and the last from
     """
-    pattern = "SELECT\\s+[\\w\\n,.:_\\s()]*\\s+FROM\\s+\\w+"
+    pattern = "SELECT\\s+[^;]+FROM\\s+[1-9_a-zA-Z]+"
     matched_regions = view.find_all(pattern, sublime.IGNORECASE)
     matched_region = None
     is_between_start_and_from = False

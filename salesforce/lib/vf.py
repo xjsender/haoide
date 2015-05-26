@@ -2776,7 +2776,7 @@ tag_defs = {
             "value": {
                 "type": "Object",
                 "values": [
-                    "{!URLFOR($Resource.$1, '$2')}",
+                    "{!URLFOR(\$Resource.$1, '$2')}",
                     "{!\$Resource.$1}"
                 ]
             }

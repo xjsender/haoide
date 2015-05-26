@@ -1,7 +1,4 @@
 [
-    // Pretty JSON
-    {"keys": ["ctrl+shift+h"], "command": "pretty_json"},
-
     // Switch Project
     {"keys": ["alt+s"], "command": "switch_project", 
         "args": {
