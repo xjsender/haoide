@@ -364,7 +364,7 @@ class RetrievePackageXml(sublime_plugin.WindowCommand):
 
         # Initiate extract_to
         path, name = os.path.split(self._file)
-        name, ext = name.split(".")
+        name = name[:name.rfind(".")]
         time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
         settings = context.get_settings()
         project_name = settings["default_project_name"]
