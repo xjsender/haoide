@@ -58,8 +58,16 @@ class MetadataApi():
         # Build soap_body
         soap_body = self.soap.create_request('describe_metadata')
 
-        response = requests.post(self.metadata_url, 
-            soap_body, verify=False, headers=self.headers)
+        Printer.get("log").write_start().write("Start to describe metadata for v%s.0" % self.settings["api_version"])
+        try:
+            response = requests.post(self.metadata_url, 
+                soap_body, verify=False, headers=self.headers)
+        except requests.exceptions.RequestException as e:
+            self.result = {
+                "Error Message":  "Network connection timeout when describing metadata",
+                "success": False
+            }
+            return self.result
 
         # If status_code is > 399, which means it has error
         if response.status_code > 399:
@@ -76,14 +84,47 @@ class MetadataApi():
         self.result["success"] = True
         return self.result
     
+    def read_metadata(self, options):
+        self.login()
+
+        # Build soap_body
+        soap_body = self.soap.create_request('read_metadata', options)
+
+        try:
+            response = requests.post(self.metadata_url, 
+                soap_body, verify=False, headers=self.headers)
+        except requests.exceptions.RequestException as e:
+            self.result = {
+                "Error Message":  "Network connection timeout when reading metadata",
+                "success": False
+            }
+            return self.result
+
+        # If status_code is > 399, which means it has error
+        if response.status_code > 399:
+            self.result = util.get_response_error(response)
+            return self.result
+
+        result = xmltodict.parse(response.content)
+        self.result = result["soapenv:Envelope"]["soapenv:Body"]["readMetadataResponse"]["result"]
+        self.result["success"] = True
+        return self.result
+
     def rename_metadata(self, options):
         self.login()
 
         # Build soap_body
         soap_body = self.soap.create_request('rename_metadata', options)
 
-        response = requests.post(self.metadata_url, 
-            soap_body, verify=False, headers=self.headers)
+        try:
+            response = requests.post(self.metadata_url, 
+                soap_body, verify=False, headers=self.headers)
+        except requests.exceptions.RequestException as e:
+            self.result = {
+                "Error Message":  "Network connection timeout when renaming metadata",
+                "success": False
+            }
+            return self.result
 
         # If status_code is > 399, which means it has error
         if response.status_code > 399:
@@ -256,6 +297,7 @@ class MetadataApi():
         # If check status request failed, this will not be done
         if status == "Failed":
             Printer.get('log').write("[sf:retrieve] Request Failed") # [sf:retrieve]
+            print (json.dumps(result))
             self.result = result
             return
 

@@ -160,7 +160,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                     sobject_describe = sobjects_describe.get(sobject_name.lower())
 
                     # Find all matched parent-to-child query in this view
-                    matches = view.find_all("\(([\\s\\S]+?)\)", sublime.IGNORECASE)
+                    matches = view.find_all("\(([\\s\\S]*?)\)", sublime.IGNORECASE)
 
                     child_relationship_name = None
                     is_cursor_in_child_query = False
@@ -231,6 +231,7 @@ class ApexCompletions(sublime_plugin.EventListener):
             pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[^\\n^(][<,.\\s>a-zA-Z_1-9]*)\\s+%s[,;\\s:=){]" % variable_name
             variable_type = util.get_variable_type(view, pt, pattern)
             variable_type = variable_type.lower()
+            print (variable_type)
 
             if not settings["disable_fields_completion"]:
                 if variable_type.lower() in sobjects_describe:
@@ -592,11 +593,18 @@ class PageCompletions(sublime_plugin.EventListener):
                 matched_attr_name = view.substr(view.word(pt-1))
 
                 # Get the Attribute Values
-                if matched_tag in vf.tag_defs and\
-                        matched_attr_name in vf.tag_defs[matched_tag]["attribs"] and\
-                        "values" in vf.tag_defs[matched_tag]["attribs"][matched_attr_name]:
-                    for value in vf.tag_defs[matched_tag]["attribs"][matched_attr_name]["values"]:
-                        completion_list.append((value + "\t" + matched_attr_name, '"%s"' % value))
+                if matched_tag in vf.tag_defs and matched_attr_name in vf.tag_defs[matched_tag]["attribs"]:
+                    tag_attribute = vf.tag_defs[matched_tag]["attribs"][matched_attr_name]
+
+                    # If attr type boolean, add {!} to it
+                    if tag_attribute["type"] == "Boolean":
+                        completion_list.append(("{!}" + "\t" + matched_attr_name, '"{!$1}"$0'))
+
+                    if "values" in tag_attribute:
+                        for value in tag_attribute["values"]:
+                            completion_list.append((value + "\t" + matched_attr_name, '"%s"' % value))
+
+                    return completion_list
 
             ##########################################
             # HTML Element Attribute Values Completions

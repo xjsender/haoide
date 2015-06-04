@@ -1180,9 +1180,10 @@ def parse_package(package_content):
 
 def reload_apex_code_cache(file_properties, settings=None):
     # Get settings
-    if not settings: settings = context.get_settings()
+    if not settings: 
+        settings = context.get_settings()
 
-    component_body_or_markup = {
+    metadata_body_or_markup = {
         "ApexClass": "Body",
         "ApexTrigger": "Body",
         "StaticResource": "Body",
@@ -1192,52 +1193,58 @@ def reload_apex_code_cache(file_properties, settings=None):
     }
 
     # If the package only contains `package.xml`
-    if isinstance(file_properties, dict): file_properties = [file_properties]
-    component_attrs = {}
-    # print (json.dumps(file_properties))
+    if isinstance(file_properties, dict): 
+        file_properties = [file_properties]
+
+    all_components_attr = {}
+    print (json.dumps(file_properties))
     for filep in file_properties:
-        # No need to process package.xml
-        if filep["type"] not in component_body_or_markup: continue
+        metdata_object = filep["type"]
 
-        # Get component type
-        component_type = filep["type"]
+        # Ignore package.xml
+        if metdata_object == "Package":
+            continue
 
-        if component_type in component_attrs:
-            component_attr = component_attrs[component_type]
-        else:
-            component_attr = {}
+        components_attr = {}
+        if metdata_object in all_components_attr:
+            components_attr = all_components_attr[metdata_object]
 
-        component_name = filep['fullName']
-        component_id = filep["id"]
-        namespacePrefix = filep["namespacePrefix"] if "namespacePrefix" in filep else ""
-        component_url = "/services/data/v%s.0/sobjects/%s/%s" % (
-            settings["api_version"], component_type, component_id
-        )
-
-        component_attr[component_name.lower()] = {
-            "namespacePrefix": namespacePrefix,
-            "name": component_name,
-            "body": component_body_or_markup[component_type],
-            "extension": "."+(filep["fileName"].split(".")[1]),
-            "type": component_type,
-            "url": component_url,
-            "id": component_id
+        base_name = filep['fileName'][filep['fileName'].rfind("/")+1:]
+        last_point = base_name.rfind(".")
+        name = base_name[:last_point]
+        extension = ".%s" % base_name[last_point+1:]
+        
+        attrs = {
+            "namespacePrefix": filep["namespacePrefix"] if "namespacePrefix" in filep else "",
+            "name": name,
+            "fileName": filep['fileName'],
+            "fullName": filep["fullName"],
+            "extension": extension,
+            "type": metdata_object,
+            "id": filep["id"]
         }
 
-        # Check whether component is Test Class or not
-        if component_type == "ApexClass":
-            cl = component_name.lower()
-            component_attr[component_name.lower()]["is_test"] =\
-                cl.startswith("test") or cl.endswith("test")
+        if metdata_object in metadata_body_or_markup:
+            attrs["body"] = metadata_body_or_markup[metdata_object]
+            attrs["url"] = "/services/data/v%s.0/sobjects/%s/%s" % (
+                settings["api_version"], metdata_object, filep["id"]
+            )
 
-        component_attrs[component_type] = component_attr
+        # Check whether component is Test Class or not
+        if metdata_object == "ApexClass":
+            cl = name.lower()
+            attrs["is_test"] = cl.startswith("test") or cl.endswith("test")
+
+        components_attr[name.lower()] = attrs
+        all_components_attr[metdata_object] = components_attr
 
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
-    component_attributes = component_settings.get(settings["username"])
-    if not component_attributes: component_attributes = {}
-    for component_type in component_attrs:
-        component_attributes[component_type] = component_attrs[component_type]
-    component_settings.set(settings["username"], component_attributes)
+    csettings = component_settings.get(settings["username"])
+    if not csettings:
+        csettings = {}
+    for metadata_object, v in all_components_attr.items():
+        csettings[metadata_object] = v
+    component_settings.set(settings["username"], csettings)
     sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
 def format_debug_logs(settings, records):
@@ -2172,14 +2179,20 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
     return unescape(elementValue, {"&apos;": "'", "&quot;": '"'})
 
 def get_response_error(response):
+    # Debug Message
+    settings = context.get_settings()
+    if settings["debug_mode"]:
+        print (response.content)
+
     content = response.content
     result = {"success": False}
-    if response.status_code == 500:
-        result["Error Code"] = getUniqueElementValueFromXmlString(content, "faultcode")
-        result["Error Message"] = getUniqueElementValueFromXmlString(content, "faultstring")
-    else:
-        result["Error Code"] = getUniqueElementValueFromXmlString(content, "errorCode")
-        result["Error Message"] = getUniqueElementValueFromXmlString(content, "message")
+    try:
+        if response.status_code == 500:
+            result["Error Message"] = getUniqueElementValueFromXmlString(content, "faultstring")
+        else:
+            result["Error Message"] = getUniqueElementValueFromXmlString(content, "message")
+    except:
+        result["Error Message"] = response.content
     return result
 
 def get_path_attr(path_or_file):
@@ -2361,9 +2374,14 @@ def switch_project(chosen_project):
 
     # Set status of all views in all window with "default project"
     for window in sublime.windows():
-        for view in window.views():
+        if not window.views():
+            view = window.new_file()
             view.set_status('default_project', 
                 "Default Project => %s" % chosen_project)
+        else:
+            for view in window.views():
+                view.set_status('default_project', 
+                    "Default Project => %s" % chosen_project)
 
 def add_project_to_workspace(settings):
     """Add new project folder to workspace

@@ -4,6 +4,29 @@ Release History
 
 ---------------
 
+
+Release 3.0.1 (2015-06-04)
+++++++++++++++++++
+* Bug fix:
+    - Fix bug #39
+    - Fix bug #40
+    - Fix bug for SOQL completion
+
+* Enhancement:
+    - Enhancement for boolean attribute completion of standard visualforce component
+    - Set ``word_wrap`` setting of new view to false when describe sObject
+    - Keep attributes of all metadataObjects to local ``component_metadata.sublime-settings``
+    - Prevent potential issue caused by change of ``component_metadata.sublime-settings``
+
+* Update:
+    - Add output panel message for ``describe_metadata`` command
+    - Disable document reference reload feature
+    - Add a ``salesforce_reference.sublime-settings`` for ``Document > Open Document`` in the main menu
+
+* New API for metadata:
+    - Add a new ``read_metadata`` method for ``metadata.py``, which will be used for ``diff_with_server`` feature in the future
+
+
 Release 3.0.0 (2015-05-26)
 ++++++++++++++++++
 * Bug fix:

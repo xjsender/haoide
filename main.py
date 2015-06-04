@@ -248,15 +248,18 @@ class DiffWithServer(sublime_plugin.TextCommand):
             })
 
         file_name = self.view.file_name()
-        component_attribute = util.get_component_attribute(file_name)[0]
+        attr = util.get_component_attribute(file_name)[0]
 
         # If this component is not exist in chosen project, just stop
-        if not component_attribute:
+        if not attr:
             Printer.get("error").write("This component is not exist in chosen project")
-            util.switch_project(source_org)
-            return
+            return util.switch_project(source_org)
 
-        processor.handle_diff_with_server(component_attribute, file_name, source_org)
+        if "url" not in attr:
+            Printer.get("error").write("This feature does not support %s" % attr["type"])
+            return util.switch_project(source_org)
+
+        processor.handle_diff_with_server(attr, file_name, source_org)
 
     def is_enabled(self):
         self.file_name = self.view.file_name()
@@ -1427,7 +1430,9 @@ class DeleteFilesFromServer(sublime_plugin.WindowCommand):
         self._files = [f for f in files if not f.endswith("-meta.xml")]
         if len(self._files) == 0: return False
         for _file in self._files:
-            if not util.check_enabled(_file): return False
+            attr = util.get_component_attribute(_file)[0]
+            if not attr or "url" not in attr:
+                return False
 
         return True
 
@@ -1439,9 +1444,15 @@ class DeleteFileFromServer(sublime_plugin.TextCommand):
         })
 
     def is_enabled(self):
-        if not self.view.file_name(): return False
-        if self.view.file_name().endswith("-meta.xml"): return False
-        return util.check_enabled(self.view.file_name())
+        self.file_name = self.view.file_name()
+        if not self.file_name: return False
+        if self.file_name().endswith("-meta.xml"): return False
+
+        attr = util.get_component_attribute(self.file_name())[0]
+        if not attr or "url" not in attr:
+            return False
+        
+        return True
 
 class CreateApexTriggerCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -2103,7 +2114,11 @@ class RefreshFileFromServer(sublime_plugin.TextCommand):
         })
 
     def is_enabled(self):
-        return util.check_enabled(self.view.file_name())
+        attr = util.get_component_attribute(_file)[0]
+        if not attr or "url" not in attr: 
+            return False
+
+        return True
 
 class RefreshFilesFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -2118,19 +2133,21 @@ class RefreshFilesFromServer(sublime_plugin.WindowCommand):
 
         for file_name in self._files:
             if file_name.endswith("-meta.xml"): continue # Ignore -meta.xml file
-            component_attribute = util.get_component_attribute(file_name)[0]
+            attr = util.get_component_attribute(file_name)[0]
 
             # Handle Refresh Current Component
-            if component_attribute["type"] == "StaticResource":
-                processor.handle_refresh_static_resource(component_attribute, file_name)
+            if attr["type"] == "StaticResource":
+                processor.handle_refresh_static_resource(attr, file_name)
             else:
-                processor.handle_refresh_file_from_server(component_attribute, file_name)
+                processor.handle_refresh_file_from_server(attr, file_name)
 
     def is_visible(self, files):
         if len(files) == 0: return False
         self._files = [f for f in files if not f.endswith("-meta.xml")]
         if len(self._files) == 0: return False
         for _file in self._files:
-            if not util.check_enabled(_file): return False
+            attr = util.get_component_attribute(_file)[0]
+            if not attr or "url" not in attr:
+                return False
 
         return True

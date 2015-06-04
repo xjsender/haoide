@@ -38,6 +38,9 @@ class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
         salesforce_reference.set("salesforce_reference", result)
         sublime.save_settings("salesforce_reference.sublime-settings")
 
+    def is_enabled(self):
+        return False
+
 class ReloadDocument():
     def __init__(self, docs, **kwargs):
         self.docs = docs

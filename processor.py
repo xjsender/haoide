@@ -1078,6 +1078,7 @@ def handle_describe_sobject(sobject, timeout=120):
 
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
+        view.settings().set("word_wrap", False)
         describe_result = util.parse_sobject_field_result(result)
         view.run_command("new_view", {
             "name": sobject + " Describe Result",
@@ -1216,6 +1217,9 @@ def handle_describe_metadata(callback_options, timeout=120):
         st = sublime.load_settings("metadata.sublime-settings")
         st.set(settings["username"], result)
         sublime.save_settings("metadata.sublime-settings")
+
+        # Write message to console log
+        Printer.get("log").write("Metadata settings is written to metadata.sublime-settings")
         
         if "callback_command" in callback_options:
             settings = context.get_settings()
