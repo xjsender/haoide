@@ -318,10 +318,10 @@ def handle_reload_sobjects_completions(timeout=120):
 
         all_parent_relationship_dict = {}
         all_child_relationship_dict = {}
-        display_field_name_and_label = settings["display_field_name_and_label"]
         for sobject_describe in results:
             # Initiate Sobject completions
-            if "name" not in sobject_describe: continue
+            if "name" not in sobject_describe: 
+                continue
             sobject_name = sobject_describe["name"]
 
             # If sobject is excluded sobject, just continue
@@ -372,7 +372,7 @@ def handle_reload_sobjects_completions(timeout=120):
                 # If display_field_name_and_label setting is true, 
                 # display both field name and field label
                 field_name_desc = "%s(%s)" % (field_name, f["label"]) \
-                    if display_field_name_and_label else field_name
+                    if settings["display_field_name_and_label"] else field_name
 
                 # Display field type with specified format
                 field_type_desc = field_desc_dict[field_type] if field_type \
@@ -445,23 +445,27 @@ def handle_reload_sobjects_completions(timeout=120):
             return
 
         # Exception Process
-        if not api.result or not api.result["success"]: return
+        if not api.result or not api.result["success"]: 
+            return
 
+        # Get describe result of all sObjects
         sobjects_describe = api.result["sobjects"]
+
+        # Filter all allowed and custom sObjects
+        sobjects_to_describe = []
+        for sobject, sobject_describe in sobjects_describe.items():
+            if sobject in settings["allowed_sobjects"] or sobject_describe["custom"]:
+                sobjects_to_describe.append(sobject_describe)
+        
+        mcc = settings["maximum_concurrent_connections"]
+        chunked_sobjects_describe = util.list_chunks(sobjects_to_describe, 
+            math.ceil(len(sobjects_to_describe) / mcc))
+
         threads = []
         apis = []
-        sobjects = []
-        for sobject in sobjects_describe:
-            sobject_describe = sobjects_describe[sobject]
-            if sobject in settings["allowed_sobjects"] or sobject_describe["custom"]:
-                sobjects.append(sobject)
-        
-        maximum_concurrent_connections = settings["maximum_concurrent_connections"]
-        chunked_sobjects = util.list_chunks(sobjects, math.ceil(len(sobjects) / maximum_concurrent_connections))
-
-        for sl in chunked_sobjects:
+        for csd in chunked_sobjects_describe:
             api = ToolingApi(settings)
-            thread = threading.Thread(target=api.describe_sobjects, args=(sl, ))
+            thread = threading.Thread(target=api.describe_sobjects, args=(csd, ))
             thread.start()
             threads.append(thread)
             apis.append(api)
@@ -471,7 +475,7 @@ def handle_reload_sobjects_completions(timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.describe_global, args=())
+    thread = threading.Thread(target=api.get_sobjects, args=())
     thread.start()
     ThreadProgress(api, thread, "Global Describe", "Global Describe Succeed")
     handle_thread(api, thread, timeout)
@@ -706,14 +710,13 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
     ThreadProgress(api, thread, wait_message, "Outputdir: " + output_file_dir)
     handle_thread(thread, 120)
 
-def handle_export_query_to_csv(soql, csv_name, data=None, timeout=120):
+def handle_export_query_to_csv(tooling, soql, csv_name, data=None, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
         
         result = api.result
-        
         if "success" in result and not result["success"]:
             return
 
@@ -728,7 +731,7 @@ def handle_export_query_to_csv(soql, csv_name, data=None, timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.query_all, args=(soql,))
+    thread = threading.Thread(target=api.query_all, args=(soql, tooling, ))
     thread.start()
     progress_message = "Export Query To %s.csv" % csv_name
     ThreadProgress(api, thread, progress_message, progress_message + " Succeed")
@@ -1342,7 +1345,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
             return
 
         # Set Thread alive flag to False
-        globals()[username + component_name] = False
+        globals()[username + file_base_name] = False
 
         # Process request result
         result = api.result
@@ -1358,9 +1361,6 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
                 # Append message to output panel
                 Printer.get('log').write("Start to keep local change history")
 
-                # Get current file name and Read file content
-                view = sublime.active_window().active_view()
-
                 # Get Workspace, if not exist, make it
                 workspace = settings["workspace"]+"/.history/"+component_attribute["type"]
                 if not os.path.exists(workspace):
@@ -1371,11 +1371,6 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
                 outputdir = workspace+"/"+component_name+"-"+time_stamp+"-history"+extension
                 with open(outputdir, "wb") as fp:
                     fp.write(body.encode("utf-8"))
-
-            # 2. Write symbol table to local cache
-            if "symbol_table" in result and result["symbol_table"]:
-                # Append message to output panel
-                Printer.get('log').write("Start to write symbol table to local cache")
 
             # Output succeed message in the console
             save_or_compile = "Compiled" if is_check_only else "Saved"
@@ -1476,10 +1471,10 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     # If saving is in process, just skip
     settings = context.get_settings()
     username = settings["username"]
-    if username + component_name in globals():
-        is_thread_alive = globals()[username + component_name]
+    if username + file_base_name in globals():
+        is_thread_alive = globals()[username + file_base_name]
         if is_thread_alive:
-            print ('%s is in process' % component_name);
+            print ('%s is in process' % file_base_name);
             return
 
     # Open panel

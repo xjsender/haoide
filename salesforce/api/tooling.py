@@ -567,43 +567,67 @@ class ToolingApi():
         self.result = result
         return result
 
-    def describe_sobjects(self, sobjects):
+    def describe_sobjects(self, sobjects_describe):
         """ Sends get requests, return sObjects describe result
 
         * sobjects -- sObject collection
         """
 
         result = []
-        for sobject in sobjects:
-            result.append(self.describe_sobject(sobject))
+        for sd in sobjects_describe:
+            result.append(self.describe_sobject(sd["name"], sd["tooling"]))
 
         self.result = result
         return result
 
-    def describe_global(self):
-        """ Sends a GET request. Return global describe
+    def get_sobjects(self):
+        """ Sends a GET request to get sObjects to describe
 
         Returns:
 
         * * -- sobjects describe dict
         """
 
-        result = self.get("/sobjects")
+        # Describe global for tooling and none-tooling
+        result = self.describe_global()
+        tooling_result = self.describe_global(True)
 
-        # Exception Process
-        if not result["success"]:
-            self.result = result
-            return self.result
+        # sd is sObject describe
+        sobjects = {}
+        if "sobjects" in result:
+            for sd in result["sobjects"]:
+                if "name" in sd:
+                    sobjects[sd["name"]] = {
+                        "name": sd["name"],
+                        "custom": sd["custom"],
+                        "tooling": False
+                    }
 
-        describe_result = {
-            "sobjects": {},
+        if "sobjects" in tooling_result:
+            for sd in tooling_result["sobjects"]:
+                if "name" in sd:
+                    sobjects[sd["name"]] = {
+                        "name": sd["name"],
+                        "custom": sd["custom"],
+                        "tooling": True
+                    }
+
+        self.result = {
+            "sobjects": sobjects,
             "success": True
         }
-        for sobject_describe in result.get("sobjects"):
-            if "name" in sobject_describe:
-                describe_result["sobjects"][sobject_describe["name"]] = sobject_describe
-        self.result = describe_result
         return self.result
+
+    def describe_global(self, tooling=False):
+        """ Describe global for tooling or non-tooling
+
+        Arguments:
+        
+        * tooling -- indicate whether tooling operation;
+        """
+
+        url = "%s/sobjects" % ("/tooling" if tooling else "")
+        return self.get(url)
 
     def create_trace_flags(self, users):
         """ Create Debug Log Trace by users
@@ -619,11 +643,12 @@ class ToolingApi():
             result = self.create_trace_flag(users[user_name])
 
             user_name = user_name.split(" => ")[0]
-            message = '%s to create trace flag for "%s", due to "%s"' % (
-                "Succeed" if result["success"] else "Failed", 
-                user_name,
-                result["message"] if "message" in result else "Unknown Reason"
-            )
+            if result["success"]:
+                message = 'Succeed to create trace flag for %s' % user_name
+            else:
+                message = 'Failed to create trace flag for %s, due to %s' % (
+                    user_name, result.get("message", "Unknown Reason")
+                )
 
             Printer.get("log").write(message)
 
@@ -819,7 +844,7 @@ class ToolingApi():
             self.settings.get("workbook_field_describe_columns"))+"/"+sobject+".csv"
         print (sobject + " workbook outputdir: " + outputdir)
 
-    def save_to_server(self, component_attribute, body, is_check_only):
+    def save_to_server(self, component_attribute, body, is_check_only, check_save_conflict=True):
         """ This method contains 5 steps:
             1. Post classid to get MetadataContainerId
             2. Post Component Member
@@ -849,7 +874,7 @@ class ToolingApi():
         component_id = component_attribute["id"]
         component_body = component_attribute["body"]
 
-        if self.settings["check_save_conflict"] and not is_check_only:
+        if self.settings["check_save_conflict"] and not is_check_only and check_save_conflict:
             Printer.get('log').write("Start to check saving conflict")
             query = "SELECT Id, LastModifiedById, LastModifiedDate " +\
                     "FROM %s WHERE Id = '%s'" % (component_type, component_id)
@@ -870,7 +895,7 @@ class ToolingApi():
                 try:
                     soql = "SELECT Id, FirstName, LastName, TimeZoneSidKey " +\
                            "FROM User WHERE Id = '%s'" % last_modified_id
-                    user_details = self.query(soql)
+                    user_details = self.query(soql, False, 15)
                     user_detail = user_details["records"][0]
                     last_modified_name = "%s %s" % (user_detail["LastName"], user_detail["FirstName"])
                 except:
@@ -913,7 +938,7 @@ class ToolingApi():
                 
                 # We can't reuse the container_id which caused error
                 # Post Request to get MetadataContainerId
-                return self.save_to_server(component_attribute, body, is_check_only)
+                return self.save_to_server(component_attribute, body, is_check_only, False)
             else:
                 self.result = result
                 return self.result

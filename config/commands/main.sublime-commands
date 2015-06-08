@@ -285,22 +285,22 @@
     },
 
     {
-        "caption": "HaoIDE: Track Debug Log",
+        "caption": "HaoIDE: Track One",
         "command": "track_debug_log"
     },
 
     {
-        "caption": "HaoIDE: Fetch Debug Log",
+        "caption": "HaoIDE: Fetch One",
         "command": "fetch_debug_log"
     },
 
     {
-        "caption": "HaoIDE: Track All Debug Logs",
+        "caption": "HaoIDE: Track All",
         "command": "track_all_debug_logs"
     },
 
     {
-        "caption": "HaoIDE: Track Self Debug Log",
+        "caption": "HaoIDE: Track Self",
         "command": "track_debug_log",
         "args": {
             "track_self": true
@@ -308,7 +308,7 @@
     },
 
     {
-        "caption": "HaoIDE: Fetch Self Debug Log",
+        "caption": "HaoIDE: Fetch Self",
         "command": "fetch_debug_log", 
         "args": {
             "fetch_self": true

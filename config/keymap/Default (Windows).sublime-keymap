@@ -50,7 +50,7 @@
     {"keys": ["ctrl+alt+s"], "command": "save_to_server"},
 
     // Choose a test class in the list and run test class
-    {"keys": ["alt+r","alt+t"],"command": "run_one_test"},
+    {"keys": ["alt+t"],"command": "run_one_test"},
     
     // Build package.xml
     {"keys": ["alt+b","alt+p"],"command": "build_package_xml"},
@@ -133,7 +133,7 @@
     },
 
     // Login To Apex Test Execution
-    {"keys": ["alt+t", "alt+q"], "command": "login_to_sfdc",
+    {"keys": ["alt+j", "alt+p"], "command": "login_to_sfdc",
         "args": {
             "startURL": "/ui/setup/apex/ApexTestQueuePage"
         }

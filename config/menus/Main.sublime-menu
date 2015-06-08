@@ -153,17 +153,22 @@
                 "caption": "Debug",
                 "children": [
                     {
-                        "caption": "Track Debug Log",
+                        "caption": "Guide",
+                        "command": "haoide_help",
+                        "args": {
+                            "url": "/blob/master/docs/debug.md"
+                        }
+                    },
+
+                    {"caption": "-"},
+
+                    {
+                        "caption": "Track One",
                         "command": "track_debug_log"
                     },
 
                     {
-                        "caption": "Fetch Debug Log",
-                        "command": "fetch_debug_log"
-                    },
-
-                    {
-                        "caption": "Track Self Debug Log",
+                        "caption": "Track Self",
                         "command": "track_debug_log",
                         "args": {
                             "track_self": true
@@ -171,17 +176,26 @@
                     },
 
                     {
-                        "caption": "Fetch Self Debug Log",
+                        "caption": "Track All",
+                        "command": "track_all_debug_logs"
+                    },
+
+                    {"caption": "-"},
+
+                    {
+                        "caption": "Fetch One",
+                        "command": "fetch_debug_log"
+                    },
+
+                    {
+                        "caption": "Fetch Self",
                         "command": "fetch_debug_log",
                         "args": {
                             "fetch_self": true
                         }
                     },
 
-                    {
-                        "caption": "Track All Debug Logs",
-                        "command": "track_all_debug_logs"
-                    },
+                    {"caption": "-"},
 
                     {
                         "caption": "Run Test",
@@ -490,6 +504,14 @@
                         "command": "export_query_to_csv"
                     },
 
+                    {
+                        "caption": "Export Tooling Query to CSV",
+                        "command": "export_query_to_csv", 
+                        "args": {
+                            "tooling": true
+                        }
+                    },
+
                     { "caption": "-" },
 
                     {
@@ -543,7 +565,8 @@
             
             {
                 "caption": "Settings",
-                "children": [{
+                "children": [
+                    {
                         "caption": "Toggle Metadata Objects",
                         "command": "toggle_metadata_objects",
                         "args": {

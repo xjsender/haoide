@@ -1197,7 +1197,6 @@ def reload_apex_code_cache(file_properties, settings=None):
         file_properties = [file_properties]
 
     all_components_attr = {}
-    print (json.dumps(file_properties))
     for filep in file_properties:
         metdata_object = filep["type"]
 
@@ -1861,7 +1860,14 @@ def get_soql_fields(soql):
 
 def query_to_csv(result, soql):
     records = result["records"]
-    headers = get_soql_fields(soql)
+    if not records:
+        return "No matched rows"
+    
+    # Get CSV headers
+    if re.compile("select\s+\*\s+from[\s\t]+\w+", re.I).match(soql):
+        headers = sorted(list(records[0].keys()))
+    else:
+        headers = get_soql_fields(soql)
 
     # Append columns part into rows
     rows = ",".join(['"%s"' % h for h in headers]).encode("utf-8") + b"\n"

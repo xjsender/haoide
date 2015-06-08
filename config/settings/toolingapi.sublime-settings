@@ -309,7 +309,7 @@
         "ProcessInstance", "ProcessInstanceHistory", "ProcessInstanceStep", "ProcessInstanceWorkitem",
 
         // Stable Sobject
-        "Profile", "User", "UserRole", "BusinessProcess", "RecordType", "Period",
+        "Profile", "User", "UserRole", "BusinessProcess", "RecordType", "Period", "Layout",
 
         // Forecast
         "Forecast", "ForecastingQuota", "ForecastShare",
@@ -323,10 +323,12 @@
 
         // Team Member
         "AccountTeamMember", "OpportunityTeamMember", "CaseTeamMember", "UserTeamMember", 
-        "GroupMember", "Group",
+        "GroupMember", "Group", 
 
         // Apex Code
-        "ApexClass", "ApexComponent", "ApexTrigger", "ApexPage", "StaticResource", "AsyncApexJob",
+        "ApexClass", "ApexComponent", "ApexTrigger", "ApexPage", 
+        "StaticResource", "AsyncApexJob", "WorkflowRule", "ValidationRule",
+        "WorkflowFieldUpdate", "WorkflowOutboundMessage", "WorkflowAlert", "WorkflowTask",
 
         // Email
         "EmailTemplate"

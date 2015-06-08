@@ -231,7 +231,6 @@ class ApexCompletions(sublime_plugin.EventListener):
             pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[^\\n^(][<,.\\s>a-zA-Z_1-9]*)\\s+%s[,;\\s:=){]" % variable_name
             variable_type = util.get_variable_type(view, pt, pattern)
             variable_type = variable_type.lower()
-            print (variable_type)
 
             if not settings["disable_fields_completion"]:
                 if variable_type.lower() in sobjects_describe:
@@ -361,7 +360,7 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         elif ch == "=":
             if not settings["disable_picklist_value_completion"]:
-                # Get the begin point of current line
+                # Get the row and col of current point
                 cursor_row, cursor_col = view.rowcol(pt)
 
                 # Get all matched regions
@@ -370,7 +369,8 @@ class ApexCompletions(sublime_plugin.EventListener):
                 # Get the nearest matched region from start to end
                 # for example, matched regions by above pattern are : 
                 #       [(4, 24), (28, 57), (76, 96), (100, 129)]
-                # the second one has the same row with cursor point
+                # If the second one has the same row with cursor point, so it
+                # will be chosen as the right matched region
                 matched_region = None
                 for mr in matched_regions:
                     row, col = view.rowcol(mr.begin())
@@ -405,7 +405,10 @@ class ApexCompletions(sublime_plugin.EventListener):
 
                 completion_list = []
                 for pv in picklist_values:
-                    completion_list.append(("%s(%s)\t%s" % (pv["value"], pv["label"], field_name), " '%s'" % pv["value"]))
+                    completion_list.append(("%s(%s)\t%s" % (
+                            pv["value"], pv["label"], field_name
+                        ), " '%s'" % pv["value"]
+                    ))
 
         return completion_list
 

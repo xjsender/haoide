@@ -21,6 +21,7 @@ All of my motivation on this plugin come from your star, if you think this plugi
 + <a href="https://github.com/xjsender/SublimeApexScreenshot" target="_blank">All Demos</a>
 + <a href="/docs/project.md" target="_blank">Project Configuration</a>
 + <a href="/docs/tooling.md" target="_blank">Tooling Operation</a>
++ <a href="/docs/debug.md" target="_blank">Debug and Test</a>
 + <a href="/docs/retrieve.md" target="_blank">Retrieve</a>
 + <a href="/docs/deploy.md" target="_blank">Deploy</a>
 + <a href="/docs/staticresource.md" target="_blank">Static Resource Bundle</a>

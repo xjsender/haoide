@@ -136,7 +136,7 @@
     },
 
     // Login To Apex Test Execution
-    {"keys": ["alt+t", "alt+q"], "command": "login_to_sfdc",
+    {"keys": ["alt+j", "alt+p"], "command": "login_to_sfdc",
         "args": {
             "startURL": "/ui/setup/apex/ApexTestQueuePage"
         }

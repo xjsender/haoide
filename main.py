@@ -421,15 +421,16 @@ class ExportQueryToCsv(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ExportQueryToCsv, self).__init__(*args, **kwargs)
 
-    def run(self):
-        sublime.active_window().show_input_panel('Input Your SOQL:', 
-            "", self.on_input_soql, None, None)
+    def run(self, tooling=False):
+        self.tooling = tooling
+        sublime.active_window().show_input_panel('Input Your %s SOQL:' % 
+            ('Tooling' if tooling else ''), "", self.on_input_soql, None, None)
 
     def on_input_soql(self, soql):
         self.soql = soql
 
         # Check whether the soql is valid and not parent-to-child query
-        match = re.match("SELECT\\s+[\\w\\n,.:_\\s()]+\\s+FROM\\s+\\w+", 
+        match = re.match("SELECT\\s+[*\\w\\n,.:_\\s()]+\\s+FROM\\s+\\w+", 
             self.soql, re.IGNORECASE)
         if not match:
             Printer.get("error").write("Your input SOQL is not valid")
@@ -440,7 +441,7 @@ class ExportQueryToCsv(sublime_plugin.WindowCommand):
 
         # If () in match, it means there has parent-to-child query
         if "(" in match.group(0):
-            Printer.get("error").write("This feature doesn't support parent-to-child query")
+            Printer.get("error").write("This feature does not support parent-to-child query")
             if sublime.ok_cancel_dialog("Want to try again?"):
                 self.window.show_input_panel('Input Your SOQL:', 
                     "", self.on_input_soql, None, None)
@@ -455,7 +456,7 @@ class ExportQueryToCsv(sublime_plugin.WindowCommand):
 
     def on_input_name(self, name):
         if not name: return
-        processor.handle_export_query_to_csv(self.soql, name)
+        processor.handle_export_query_to_csv(self.tooling, self.soql, name)
 
 class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1231,7 +1232,8 @@ class TrackAllDebugLogs(sublime_plugin.WindowCommand):
     def run(self):
         users = processor.handle_populate_users("track_all_debug_logs")
         if not users: return
-        processor.handle_track_all_debug_logs_thread(users)
+        if sublime.ok_cancel_dialog("Confirm to track logs for all users?", "Continue"):
+            processor.handle_track_all_debug_logs_thread(users)
 
 class TrackDebugLog(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1446,9 +1448,9 @@ class DeleteFileFromServer(sublime_plugin.TextCommand):
     def is_enabled(self):
         self.file_name = self.view.file_name()
         if not self.file_name: return False
-        if self.file_name().endswith("-meta.xml"): return False
+        if self.file_name.endswith("-meta.xml"): return False
 
-        attr = util.get_component_attribute(self.file_name())[0]
+        attr = util.get_component_attribute(self.file_name)[0]
         if not attr or "url" not in attr:
             return False
         
@@ -2114,7 +2116,9 @@ class RefreshFileFromServer(sublime_plugin.TextCommand):
         })
 
     def is_enabled(self):
-        attr = util.get_component_attribute(_file)[0]
+        file_name = self.view.file_name()
+        if not file_name: return False
+        attr = util.get_component_attribute(file_name)[0]
         if not attr or "url" not in attr: 
             return False
 

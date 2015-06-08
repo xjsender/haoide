@@ -4,6 +4,28 @@ Release History
 
 ---------------
 
+Release 3.0.2 (2015-06-07)
+++++++++++++++++++
+* Bug fix:
+    - Fix NoneType exception in the console when open context menu, this is caused by release 3.0.1
+    - Fix bug for ``Debug > Track All Debug Logs`` in the main menu
+
+* Enhancement
+    - Duplicate save_to_server check logic change: use file name with extension but not only file name, as the original design, if the controller name is same with page name, if you are saving page, you can't save the related controller at the same time
+    - Add timeout for query of conflict checking when ``save_to_server``
+    - Prevent duplicate save conflict check when ``save_to_server``, as the original design, if you latest saving is interrupted, when you save it again, plugin will delete the metadata container Id for the saving file, at this time, save conflict checking will be executed again.
+
+* New:
+    - Add sObject completion for ``tooling sObjects``, for example, ``Validation Rule``, ``WorkflowRule``, ``ValidationRule``, ``WorkflowFieldUpdate``, ``WorkflowOutboundMessage``, ``WorkflowAlert`` or ``WorkflowTask``
+    - Add * support for ``export query to CSV`` or ``export tooling query to CSV``, if you use * in the query statement, plugin will get all fields of this object and set them as the column headers
+    - Add export command for tooling query into the ``Data Loader`` in the main menu, you can use this command to export records for tooling objects
+    - Add a new markdown document related to debug
+    - Add a menu item for quick accessing document related to debug
+
+* Update:
+    - Update the menu item names and location in command palette and the ``Debug`` of main menu
+    - Change the default key binding for ``Debug > Run Test`` in the main menu
+
 
 Release 3.0.1 (2015-06-04)
 ++++++++++++++++++

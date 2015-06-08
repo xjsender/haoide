@@ -4,7 +4,8 @@ There are some utilities to keep your work efficient as below
 ## Utilities in the main menu
 ### Convert 15Id to 18Id Step by Step
 * Click ```Utilities``` > ```Convert 15Id to 18Id``` in the main menu
-* to convert your input 15Id to 18Id, if your input is not valid 15Id, it will be returned as original value
+* Input your 15Id and then press <kbd>Enter</kbd>
+* f your input is valid 15Id, converted 18Id will appear in the output panel, otherwise, it will be returned as original value
 
 ### Describe sObject Step by Step
 * Click ```Utilities``` > ```Describe sObect``` in the main menu
