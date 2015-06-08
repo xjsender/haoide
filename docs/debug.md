@@ -1,32 +1,29 @@
 ## Track Debug Log
 ### Track Debug Log Step by Step
-* Click ``HaoIDE`` > ``Debug`` > ``Track Debug Log``
+* Click ``HaoIDE`` > ``Debug`` > ``Track One``
 * Choose the user that you want to track and press enter
 * Check the progress in the status bar until succeed message appeared
 
 ### Track Self Debug Log Step by Step
-* Click ``HaoIDE`` > ``Debug`` > ``Track Self Debug Log``
+* Click ``HaoIDE`` > ``Debug`` > ``Track Self``
 * Choose the user that you want to track and press enter
 * Check the progress in the status bar until succeed message appeared
 
 ### Track All Debug Logs Step by Step
-* Click ``HaoIDE`` > ``Debug`` > ``Track All Debug Logs``
+* Click ``HaoIDE`` > ``Debug`` > ``Track All``
 * After confirmed, plugin will start to track debug logs for all users
 * After track is finished, track result will be displayed in the output panel
 
 ## Fetch Debug Log
 ### Fetch Debug Log Step by Step
-* Click ``HaoIDE`` > ``Debug`` > ``Fetch Debug Log``
+* Click ``HaoIDE`` > ``Debug`` > ``Fetch One``
 * Choose the user that you want to fetch and press enter
 * After fetch is finished, debug log list will appear in the output panel
 
 ### Fetch Self Debug Log Step by Step
-* Click ``HaoIDE`` > ``Debug`` > ``Fetch Self Debug Log``
+* Click ``HaoIDE`` > ``Debug`` > ``Fetch Self``
 * Choose the user that you want to fetch and press enter
 * After fetch is finished, debug log list will appear in the output panel
-
-## View Debug Log Detail
-- Put the focus in the LogId got by fetch command, press <kbd>alt</kbd> and click left button, the debug log detail will be retrieved and displayed in the new view.
 
 ## Settings related to Debug Log
 <table>
@@ -62,6 +59,9 @@
     </tr>
   </tbody>
 </table>
+
+## View Debug Log Detail
+- Put the focus in the LogId got by fetch command, press <kbd>alt</kbd> and click left button, the debug log detail will be retrieved and displayed in the new view.
 
 ## Run Test
 * By Main Menu: click ``HaoIDE`` > ``Debug`` > ``Run Test``, choose the test class and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
