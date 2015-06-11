@@ -4,6 +4,21 @@ Release History
 
 ---------------
 
+
+Release 3.0.3 (2015-06-11)
+++++++++++++++++++
+* Bug Fix:
+    - Fix duplicate save check bug caused by release 3.0.2
+    - Fix fields completion bug for cross sObjects between tooling and non-tooling, for example ``User``, ``RecordType``
+
+* Enhancement:
+    - Add session expired message for ``describe_metadata``
+    - Enhancement for ``refresh_file_from_server``
+
+* Update
+    - Update pop-up compile message for ``save_to_server`` command
+
+
 Release 3.0.2 (2015-06-07)
 ++++++++++++++++++
 * Bug fix:

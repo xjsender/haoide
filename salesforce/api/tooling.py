@@ -592,17 +592,8 @@ class ToolingApi():
         result = self.describe_global()
         tooling_result = self.describe_global(True)
 
-        # sd is sObject describe
+        # Get all tooling sobjects
         sobjects = {}
-        if "sobjects" in result:
-            for sd in result["sobjects"]:
-                if "name" in sd:
-                    sobjects[sd["name"]] = {
-                        "name": sd["name"],
-                        "custom": sd["custom"],
-                        "tooling": False
-                    }
-
         if "sobjects" in tooling_result:
             for sd in tooling_result["sobjects"]:
                 if "name" in sd:
@@ -610,6 +601,20 @@ class ToolingApi():
                         "name": sd["name"],
                         "custom": sd["custom"],
                         "tooling": True
+                    }
+
+        # Get all none-tooling sobjects
+        # Note: 
+        #   because there are cross sObject between tooling and none-tooling,
+        #   for example, User, RecordType, etc., however, 
+        #   we just choose that non-tooling ones to override tooling sObjects
+        if "sobjects" in result:
+            for sd in result["sobjects"]:
+                if "name" in sd:
+                    sobjects[sd["name"]] = {
+                        "name": sd["name"],
+                        "custom": sd["custom"],
+                        "tooling": False
                     }
 
         self.result = {

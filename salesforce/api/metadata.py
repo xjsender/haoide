@@ -73,6 +73,7 @@ class MetadataApi():
         if response.status_code > 399:
             # If session is invalid, force to login and execute this again
             if "INVALID_SESSION_ID" in response.text:
+                Printer.get("log").write("Session is expired, need login again")
                 self.login(True)
                 return self.describe_metadata()
 

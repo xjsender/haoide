@@ -1430,21 +1430,11 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
 
             if hasattr(view, 'show_popup'):
                 error = """
-                    <div id="content">
-                        <div class="container">
-                            <h1 class="panel-title">Compile Error</h1>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">%s</h3>
-                                </div>
-
-                                <div class="panel-body">
-                                    <p style="color: red">
-                                        <b>%s</b> at line <b>%s</b> column <b>%s</b>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                    <div>
+                        <h3>Compile Error for %s</h3>
+                        <p style="color: red">
+                            <b>%s</b> at line <b>%s</b> column <b>%s</b>
+                        </p>
                     </div>
                 """ % (
                     file_base_name, 
@@ -1487,7 +1477,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     thread.start()
 
     # If saving thread is started, set the flag to True
-    globals()[username + component_name] = True
+    globals()[username + file_base_name] = True
 
     # Display thread progress
     wait_message = ("Compiling " if is_check_only else "Saving ") + component_name
@@ -1610,7 +1600,7 @@ def handle_diff_with_server(component_attribute, file_name, source_org=None, tim
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, 'Diff With Server', 'Diff With Server Succeed')
 
-def handle_refresh_file_from_server(component_attribute, file_name, timeout=120):
+def handle_refresh_file_from_server(attr, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -1623,19 +1613,17 @@ def handle_refresh_file_from_server(component_attribute, file_name, timeout=120)
 
         fp = open(file_name, "wb")
         try:
-            body = bytes(result[component_body], "UTF-8")
+            body = bytes(result[attr["body"]], "UTF-8")
         except:
-            body = result[component_body].encode("UTF-8")
+            body = result[attr["body"]].encode("UTF-8")
 
         fp.write(body)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    component_body = component_attribute["body"]
-    component_url = component_attribute["url"]
-    thread = threading.Thread(target=api.get, args=(component_url, ))
+    thread = threading.Thread(target=api.get, args=(attr["url"], ))
     thread.start()
-    ThreadProgress(api, thread, 'Refreshing Component', 'Refresh Succeed')
+    ThreadProgress(api, thread, 'Refreshing %s' % os.path.basename(file_name), 'Refresh Succeed')
     handle_thread(thread, timeout)
 
 def handle_delete_component(component_url, file_name, timeout=120):
