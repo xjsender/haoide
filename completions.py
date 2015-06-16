@@ -160,7 +160,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                     sobject_describe = sobjects_describe.get(sobject_name.lower())
 
                     # Find all matched parent-to-child query in this view
-                    matches = view.find_all("\(\s+SELECT([\s\S]+?)\)", sublime.IGNORECASE)
+                    matches = view.find_all("\(\s*SELECT([\s\S]+?)\)", sublime.IGNORECASE)
 
                     child_relationship_name = None
                     is_cursor_in_child_query = False
@@ -194,6 +194,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                     #       
                     #   3. SELECT Id, <CursorPoint>, (SELECT Id FROM Opportunities), <CursorPoint> FROM Account
                     #       - Display fields and parent relationship names for parent sObject
+                    print (child_relationship_name, is_cursor_in_child_query)
                     if not child_relationship_name:
                         if is_cursor_in_child_query:
                             # Just display child relationship names

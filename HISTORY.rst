@@ -5,6 +5,15 @@ Release History
 ---------------
 
 
+Release 3.0.5 (2015-06-15)
+++++++++++++++++++
+* Bug Fix:
+    - Custom component attributes completion bug when component file is not exist in the target path
+
+* Enhancement:
+    - Improve regular expression for SOQL fields completion
+
+
 Release 3.0.4 (2015-06-15)
 ++++++++++++++++++
 * Bug Fix:

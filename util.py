@@ -326,28 +326,29 @@ def get_component_attributes(settings, component_name):
     component_dir = os.path.join(settings["workspace"], "src", 
         "components", component_name+".component")
     completion_list = []
-    name, _type, description = "", "", ""
-    with open(component_dir) as fp:
-        content = fp.read()
+    if os.path.isfile(component_dir):
+        name, _type, description = "", "", ""
+        with open(component_dir) as fp:
+            content = fp.read()
 
-        pattern = "<apex:attribute[\\S\\s]*?>"
-        for match in re.findall(pattern, content, re.IGNORECASE):
-            pattern = '\\w+\\s*=\\s*"[\\s\\S]*?"'
-            for m in re.findall(pattern, match, re.IGNORECASE):
-                attr, value = m.split('=')
-                attr, value = attr.strip(), value.strip()
-                value = value[1:-1]
-                if attr.lower() == "name":
-                    name = value
-                if attr.lower() == "type":
-                    _type = value
-                if attr.lower() == "description":
-                    description = value
+            pattern = "<apex:attribute[\\S\\s]*?>"
+            for match in re.findall(pattern, content, re.IGNORECASE):
+                pattern = '\\w+\\s*=\\s*"[\\s\\S]*?"'
+                for m in re.findall(pattern, match, re.IGNORECASE):
+                    attr, value = m.split('=')
+                    attr, value = attr.strip(), value.strip()
+                    value = value[1:-1]
+                    if attr.lower() == "name":
+                        name = value
+                    if attr.lower() == "type":
+                        _type = value
+                    if attr.lower() == "description":
+                        description = value
 
-            if name and _type:
-                display = "%s\t%s(%s)" % (name, description, _type.capitalize())
-                value = '%s="$1"$0' % name
-                completion_list.append((display, value))
+                if name and _type:
+                    display = "%s\t%s(%s)" % (name, description, _type.capitalize())
+                    value = '%s="$1"$0' % name
+                    completion_list.append((display, value))
 
     return completion_list
 
