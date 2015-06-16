@@ -48,36 +48,36 @@ If the json string is as below,
 
 The converted apex will be as below:
 ```java
-public class Toy {
-    public String name;
+global class Toy {
+    global String name;
 }
 
-public class Children {
-    public String name;
-    public List<Toy> toy;
-    public Integer age;
-    public Integer money;
-    public DateTime birthday;
+global class Children {
+    global String name;
+    global List<Toy> toy;
+    global Integer age;
+    global Integer money;
+    global DateTime birthday;
 }
 
-public class Father {
-    public String name;
-    public Integer age;
-    public Integer money;
-    public DateTime birthday;
+global class Father {
+    global String name;
+    global Integer age;
+    global Integer money;
+    global DateTime birthday;
 }
 
-public class JSON2Apex {
-    public List<Children> children;
-    public Date createdDate;
-    public Integer age;
-    public Decimal money;
-    public String name;
-    public Father father;
-    public DateTime birthday;
+global class JSON2Apex {
+    global List<Children> children;
+    global Date createdDate;
+    global Integer age;
+    global Decimal money;
+    global String name;
+    global Father father;
+    global DateTime birthday;
 }
 
-public static JSON2Apex parse(String jsonStr) {
+global static JSON2Apex parse(String jsonStr) {
     return (JSON2Apex) JSON.deserialize(jsonStr, JSON2Apex.class);
 }
 

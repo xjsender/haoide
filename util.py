@@ -295,7 +295,7 @@ def get_sobject_completion_list(
 
     return completion_list
 
-def get_component_completion(username, component_type):
+def get_component_completion(username, component_type, tag_has_ending=False):
     """ Return the formatted completion list of component
 
     Return:
@@ -304,22 +304,52 @@ def get_component_completion(username, component_type):
 
     completion_list = []
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
-    if component_settings.has(username):
-        component_attrs = component_settings.get(username)
-        if component_type in component_attrs:
-            components = component_attrs[component_type]
-            for name in components:
-                if "name" not in components[name]: continue
-                component_name = components[name]["name"]
-                if component_type == "ApexComponent":
-                    completion_list.append(("c:"+component_name+"\t"+component_type, "c:"+component_name))
-                else:
-                    completion_list.append((component_name+"\t"+component_type, component_name))
+    if not component_settings.has(username): return completion_list
+    component_attrs = component_settings.get(username)
+    if component_type in component_attrs:
+        components = component_attrs[component_type]
+        for name in components:
+            if "name" not in components[name]: continue
+            component_name = components[name]["name"]
+            if component_type == "ApexComponent":
+                display = "c:%s\t%s" % (component_name, component_type)
+                value = "c:%s%s" % (
+                    component_name, "" if tag_has_ending else "$1>"
+                )
+                completion_list.append((display, value))
+            else:
+                completion_list.append((component_name+"\t"+component_type, component_name))
     
     return completion_list
 
-def get_component_attribute_completion(settings, component_name):
-    workspace = settings["workspace"]+""
+def get_component_attributes(settings, component_name):
+    component_dir = os.path.join(settings["workspace"], "src", 
+        "components", component_name+".component")
+    completion_list = []
+    name, _type, description = "", "", ""
+    with open(component_dir) as fp:
+        content = fp.read()
+
+        pattern = "<apex:attribute[\\S\\s]*?>"
+        for match in re.findall(pattern, content, re.IGNORECASE):
+            pattern = '\\w+\\s*=\\s*"[\\s\\S]*?"'
+            for m in re.findall(pattern, match, re.IGNORECASE):
+                attr, value = m.split('=')
+                attr, value = attr.strip(), value.strip()
+                value = value[1:-1]
+                if attr.lower() == "name":
+                    name = value
+                if attr.lower() == "type":
+                    _type = value
+                if attr.lower() == "description":
+                    description = value
+
+            if name and _type:
+                display = "%s\t%s(%s)" % (name, description, _type.capitalize())
+                value = '%s="$1"$0' % name
+                completion_list.append((display, value))
+
+    return completion_list
 
 def convert_15_to_18(the15Id):
     """ Convert Salesforce 15 Id to 18 Id

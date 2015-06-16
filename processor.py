@@ -1607,17 +1607,11 @@ def handle_refresh_file_from_server(attr, file_name, timeout=120):
             return
         
         result = api.result
+        if not result["success"]: 
+            return
         
-        # If error, just skip, error is processed in ThreadProgress
-        if not result["success"]: return
-
-        fp = open(file_name, "wb")
-        try:
-            body = bytes(result[attr["body"]], "UTF-8")
-        except:
-            body = result[attr["body"]].encode("UTF-8")
-
-        fp.write(body)
+        with open(file_name, "wb") as fp:
+            fp.write(result[attr["body"]].encode("utf-8"))
 
     settings = context.get_settings()
     api = ToolingApi(settings)

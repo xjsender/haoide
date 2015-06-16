@@ -25,8 +25,10 @@ class SFDCEventListener(sublime_plugin.EventListener):
 
     def on_post_save_async(self, view):
         settings = context.get_settings();
-        if not view.file_name(): return 
-        if settings["workspace"] not in view.file_name(): return
+        if not view.file_name(): return
+        file_name = view.file_name().replace("\\", "/")
+        workspace = settings["workspace"].replace("\\", "/")
+        if workspace not in file_name: return
         if settings.get('auto_update_on_save'):
             view.run_command('save_to_server')
 

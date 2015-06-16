@@ -40,8 +40,45 @@
                 }
             },
 
-            // {"caption": "-"},
             {"caption": "-"},
+
+            {
+                "caption": "JSON/XML",
+                "children": [
+                    {
+                        "caption": "JSON Format",
+                        "command": "json_format"
+                    },
+
+                    {
+                        "caption": "JSON Serialization",
+                        "command": "json_serialization"
+                    },
+
+                    {
+                        "caption": "JSON to Apex",
+                        "command": "json_to_apex"
+                    },
+
+                    {
+                        "caption": "JSON to XML",
+                        "command": "json_to_xml"
+                    },
+
+                    {
+                        "caption": "XML to JSON",
+                        "command": "xml_to_json"
+                    },
+
+                    {
+                        "caption": "XML Format",
+                        "command": "xml_format"
+                    }
+                ]
+            },
+
+            {"caption": "-"},
+
             {"caption": "Execute Rest Test","command": "execute_rest_test"},
             {"caption": "Execute Anonymous","command": "execute_anonymous"},
             {"caption": "Execute Query","command": "execute_query"},

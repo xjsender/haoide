@@ -1,48 +1,77 @@
 # Utilities
 There are some utilities to keep your work efficient as below
 
-## Utilities in the main menu
+## Utilities in the main menu or context menu
 ### Convert 15Id to 18Id Step by Step
-* Click ```Utilities``` > ```Convert 15Id to 18Id``` in the main menu
+* Click ``Utilities`` > ``Convert 15Id to 18Id`` in the main menu
 * Input your 15Id and then press <kbd>Enter</kbd>
 * f your input is valid 15Id, converted 18Id will appear in the output panel, otherwise, it will be returned as original value
 
 ### Describe sObject Step by Step
-* Click ```Utilities``` > ```Describe sObect``` in the main menu
+* Click ``Utilities`` > ``Describe sObect`` in the main menu
 * Choose a sObject in the quick panel and press <kbd>Enter</kbd>
 * The describe result will appear in the new view
 
 ### Generate sObject SOQL Step by Step
-* Click ```Utilities``` > ```Generate sObject SOQL``` in the main menu
+* Click ``Utilities`` > ``Generate sObject SOQL`` in the main menu
 * Choose a sObject in the quick panel and press <kbd>Enter</kbd>
 * The sObject SOQL will appear in the new view
 
 ### JSON Serialization Step by Step
-* Click ```Utilities``` > ```JSON Serialization``` in the main menu
-* Input your JSON Body in the input panel and press <kdb>Enter</kdb>
+* Open any JSON file or choose any valid JSON content
+* Click ``Utilities`` > ``JSON Serialization`` in the main menu
 * The Serialized JSON will appear in the new view
 
 ### JSON Format Step by Step
-* Click ```Utilities``` > ```JSON Pretty``` in the main menu
-* Input your JSON Body in the input panel and press <kdb>Enter</kdb>
+* Open any JSON file or choose any valid JSON content
+* Click ``Utilities`` > ``JSON Pretty`` in the main menu
 * The Prettied JSON will appear in the new view
 
 ### JSON to XML Step by Step
-* Click ```Utilities``` > ```JSON to XML``` in the main menu
-* Input your JSON Body in the input panel and press <kdb>Enter</kdb>
+* Open any JSON file or choose any valid JSON content
+* Click ``Utilities`` > ``JSON to XML`` in the main menu
 * The converted JSON will appear in the new view
 
 ### JSON to Apex Step by Step
 * See <a href="json2apex.md" target="_blank">Convert JSON to Apex</a>
 
 ### XML to JSON Step by Step
-* Open the XML file or choose any valid XML content
-* Click ```Utilities``` > ```XML to JSON``` in the main menu
+* Open any XML file or choose any valid XML content
+* Click ``Utilities`` > ``XML to JSON`` in the main menu
 * The converted JSON will appear in the new view
 
 ### XML Format Step by Step
-* Open the XML file or choose any valid XML content
-* Click ```Utilities``` > ```XML Format``` in the main menu
+* Open any XML file or choose any valid XML content
+* Click ``Utilities`` > ``XML Format`` in the main menu
+* The formatted XML will appear in the new view
+
+## JSON/XML in the context menu
+### JSON Serialization Step by Step
+* Open any JSON file or choose any valid JSON content
+* Click ``JSON/XML`` > ``JSON Serialization`` in the main menu
+* The Serialized JSON will appear in the new view
+
+### JSON Format Step by Step
+* Open any JSON file or choose any valid JSON content
+* Click ``JSON/XML`` > ``JSON Pretty`` in the main menu
+* The Prettied JSON will appear in the new view
+
+### JSON to XML Step by Step
+* Open any JSON file or choose any valid JSON content
+* Click ``JSON/XML`` > ``JSON to XML`` in the main menu
+* The converted JSON will appear in the new view
+
+### JSON to Apex Step by Step
+* See <a href="json2apex.md" target="_blank">Convert JSON to Apex</a>
+
+### XML to JSON Step by Step
+* Open any XML file or choose any valid XML content
+* Click ``JSON/XML`` > ``XML to JSON`` in the main menu
+* The converted JSON will appear in the new view
+
+### XML Format Step by Step
+* Open any XML file or choose any valid XML content
+* Click ``JSON/XML`` > ``XML Format`` in the main menu
 * The formatted XML will appear in the new view
 
 ## Utilities in the sidebar menu

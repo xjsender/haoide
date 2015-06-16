@@ -55,27 +55,21 @@ class Haoku(sublime_plugin.WindowCommand):
         open_url = heroku_host + '?%s' % show_params
         util.open_with_browser(open_url)
 
-class JsonFormat(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(JsonFormat, self).__init__(*args, **kwargs)
+class BaseSelection(object):
+    def is_enabled(self):
+        self.selection = self.view.substr(self.view.sel()[0])
+        if not self.view.size(): return False
+        self.selection = self.view.substr(sublime.Region(0, self.view.size()))
 
-    def run(self):
-        sublime.active_window().show_input_panel("Input JSON Body: ", "", 
-            self.on_input_json, None, None)
+        return True
 
-    def on_input_json(self, data):
-        if not data:
-            return Printer.get('error').write("JSON body cannot be empty")
-
+class JsonFormat(BaseSelection, sublime_plugin.TextCommand):
+    def run(self, edit):
         try:
-            formatted_json = json.dumps(json.loads(data), 
+            formatted_json = json.dumps(json.loads(self.selection), 
                 ensure_ascii=False, indent=4)
         except ValueError as ve:
-            Printer.get('error').write(str(ve))
-            if not sublime.ok_cancel_dialog("Do you want to try again?", "Yes?"): return
-            sublime.active_window().show_input_panel("Input JSON Body: ", 
-                "", self.on_input_json, None, None)
-            return
+            return Printer.get('error').write(str(ve))
             
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
@@ -86,26 +80,12 @@ class JsonFormat(sublime_plugin.WindowCommand):
         # If you have installed the htmljs plugin, below statement will work
         view.run_command("htmlprettify")
 
-class JsonSerialization(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(JsonSerialization, self).__init__(*args, **kwargs)
-
-    def run(self):
-        sublime.active_window().show_input_panel("Input JSON Body: ", "", 
-            self.on_input_json, None, None)
-
-    def on_input_json(self, data):
-        if not data:
-            return Printer.get('error').write("JSON body cannot be empty")
-
+class JsonSerialization(BaseSelection, sublime_plugin.TextCommand):
+    def run(self, edit):
         try:
-            self.data = json.loads(data) if data else None  
+            self.data = json.loads(self.selection)
         except ValueError as ve:
-            Printer.get('error').write(str(ve))
-            if not sublime.ok_cancel_dialog("Do you want to try again?", "Yes?"): return
-            sublime.active_window().show_input_panel("Input JSON Body: ", 
-                "", self.on_input_json, None, None)
-            return
+            return Printer.get('error').write(str(ve))
 
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
@@ -113,26 +93,12 @@ class JsonSerialization(sublime_plugin.WindowCommand):
             "input": json.dumps(self.data)
         })
 
-class JsonToApex(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(JsonToApex, self).__init__(*args, **kwargs)
-
-    def run(self):
-        sublime.active_window().show_input_panel("Input JSON Body: ", "", 
-            self.on_input_json, None, None)
-
-    def on_input_json(self, data):
-        if not data:
-            return Printer.get('error').write("JSON body cannot be empty")
-
+class JsonToApex(BaseSelection, sublime_plugin.TextCommand):
+    def run(self, edit):
         try:
-            self.data = json.loads(data)
+            self.data = json.loads(self.selection)
         except ValueError as ve:
-            Printer.get('error').write(str(ve))
-            if not sublime.ok_cancel_dialog("Do you want to try again?", "Yes?"): return
-            sublime.active_window().show_input_panel("Input JSON Body: ", 
-                "", self.on_input_json, None, None)
-            return
+            return Printer.get('error').write(str(ve))
 
         sublime.active_window().show_input_panel("Input Class Name: ", 
             "JSON2Apex", self.on_input_name, None, None)
@@ -148,18 +114,11 @@ class JsonToApex(sublime_plugin.WindowCommand):
             "input": snippet
         })
 
-class JsonToXml(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(JsonToXml, self).__init__(*args, **kwargs)
-
-    def run(self):
-        sublime.active_window().show_input_panel("Input JSON Body: ", "", 
-            self.on_input_json, None, None)
-
-    def on_input_json(self, data):
+class JsonToXml(BaseSelection, sublime_plugin.TextCommand):
+    def run(self, edit):
         try:
-            jsons = json.loads(data)
-            result = xmltodict.unparse(jsons)
+            data = json.loads(self.selection)
+            result = xmltodict.unparse(data)
         except ValueError as ve:
             return Printer.get("error").write(str(ve))
         except xml.parsers.expat.ExpatError as ex:
@@ -172,15 +131,12 @@ class JsonToXml(sublime_plugin.WindowCommand):
             "input": util.format_xml(result).decode("UTF-8")
         })
 
-class XmlToJson(sublime_plugin.TextCommand):
+class XmlToJson(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
-        message = "You should open a XML file or choose any valid XML content"
-        if not self.selection:
-            return Printer.get("error").write(message)
-
         try:
             result = xmltodict.parse(self.selection)
         except xml.parsers.expat.ExpatError as ex:
+            message = "You should open a XML file or choose any valid XML content"
             if "line 1, column 0" in str(ex):
                 return Printer.get("error").write(message)
             return Printer.get("error").write(str(ex))
@@ -191,26 +147,13 @@ class XmlToJson(sublime_plugin.TextCommand):
             "input": json.dumps(result, indent=4)
         })
 
-    def is_enabled(self):
-        # Visible if has selection
-        self.selection = self.view.substr(self.view.sel()[0])
-
-        # If not selection, just select all
-        if not self.selection:
-            self.selection = self.view.substr(sublime.Region(0, self.view.size()))
-
-        return True
-
-class XmlFormat(sublime_plugin.TextCommand):
+class XmlFormat(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
-        message = "You should open a XML file or choose any valid XML content"
-        if not self.selection:
-            return Printer.get("error").write(message)
-            
         try:
             formatter = xmlformatter.Formatter(indent=4)
             formatted_xml = formatter.format_string(self.selection)
         except xml.parsers.expat.ExpatError as ex:
+            message = "You should open a XML file or choose any valid XML content"
             if "line 1, column 0" in str(ex):
                 return Printer.get("error").write(message)
             return Printer.get("error").write(str(ex))
@@ -221,16 +164,6 @@ class XmlFormat(sublime_plugin.TextCommand):
             "name": "XMLFormat",
             "input": formatted_xml.decode("utf-8")
         })
-
-    def is_enabled(self):
-        # Visible if has selection
-        self.selection = self.view.substr(self.view.sel()[0])
-
-        # If not selection, just select all
-        if not self.selection:
-            self.selection = self.view.substr(sublime.Region(0, self.view.size()))
-
-        return True
 
 class DiffWithServer(sublime_plugin.TextCommand):
     def run(self, edit, switch=True, source_org=None):
@@ -2132,10 +2065,7 @@ class RefreshFilesFromServer(sublime_plugin.WindowCommand):
         message = "Are you sure you really want to continue?"
         if not sublime.ok_cancel_dialog(message, "Refresh Files?"): return
 
-        if not hasattr(self, "_files"): 
-            self._files = files
-
-        for file_name in self._files:
+        for file_name in files:
             if file_name.endswith("-meta.xml"): continue # Ignore -meta.xml file
             attr = util.get_component_attribute(file_name)[0]
 

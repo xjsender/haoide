@@ -6,7 +6,7 @@ You can install this plugin by searching ``haoide`` in package control, if you d
 
 If you are still using ``SublimeApex``, please remove it and install ``haoide``, because ``SublimeApex`` is no longer supported.
 
-This plugin is in improvement stage, many ideas are generated in daily work of mine or my friends, if you have any idea or find any issue, please log issue by clicking ``Report Issue`` in the main menu, thanks for you help on improving this plugin.
+This plugin is in improvement stage, many ideas are generated in daily work of mine or my friends, if you have any idea or find any issue, please log issue by clicking ``Report Issue`` in the main menu, thanks for your help on improving this plugin.
 
 All of my motivation on this plugin come from your star, if you think this plugin is helpful in your daily work, please **star** this plugin.
 
@@ -20,6 +20,7 @@ All of my motivation on this plugin come from your star, if you think this plugi
 # Quick Link
 + <a href="https://github.com/xjsender/SublimeApexScreenshot" target="_blank">All Demos</a>
 + <a href="/docs/project.md" target="_blank">Project Configuration</a>
++ <a href="/docs/completion.md" target="_blank">Code AutoComplete</a>
 + <a href="/docs/tooling.md" target="_blank">Tooling Operation</a>
 + <a href="/docs/debug.md" target="_blank">Debug and Test</a>
 + <a href="/docs/retrieve.md" target="_blank">Retrieve</a>

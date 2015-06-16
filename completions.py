@@ -160,7 +160,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                     sobject_describe = sobjects_describe.get(sobject_name.lower())
 
                     # Find all matched parent-to-child query in this view
-                    matches = view.find_all("\(([\\s\\S]*?)\)", sublime.IGNORECASE)
+                    matches = view.find_all("\(\s+SELECT([\s\S]+?)\)", sublime.IGNORECASE)
 
                     child_relationship_name = None
                     is_cursor_in_child_query = False
@@ -194,7 +194,6 @@ class ApexCompletions(sublime_plugin.EventListener):
                     #       
                     #   3. SELECT Id, <CursorPoint>, (SELECT Id FROM Opportunities), <CursorPoint> FROM Account
                     #       - Display fields and parent relationship names for parent sObject
-                    #
                     if not child_relationship_name:
                         if is_cursor_in_child_query:
                             # Just display child relationship names
@@ -228,7 +227,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                 return util.get_component_completion(settings["username"], "ApexPage")
 
             # Get the variable type by variable name
-            pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[^\\n^(][<,.\\s>a-zA-Z_1-9]*)\\s+%s[,;\\s:=){]" % variable_name
+            pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[^\\n^(][<,.\\s>a-zA-Z_1-9]+)\\s+%s[,;\\s:=){]" % variable_name
             variable_type = util.get_variable_type(view, pt, pattern)
             variable_type = variable_type.lower()
 
@@ -382,7 +381,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                 variable_name, field_name = view.substr(matched_region).split(".")
 
                 # Get Sobject Name
-                pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[<,.\\s>a-zA-Z_1-9]*)\\s+%s[,;\\s:=){]" % variable_name
+                pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[^\\n^(][<,.\\s>a-zA-Z_1-9]+)\\s+%s[,;\\s:=){]" % variable_name
                 variable_type = util.get_variable_type(view, pt, pattern)
                 variable_type = variable_type.lower()
 
@@ -430,6 +429,7 @@ class PageCompletions(sublime_plugin.EventListener):
 
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
+        next_char = view.substr(sublime.Region(pt + 2, pt + 3))
         variable_name = view.substr(view.word(pt-1))
         begin = view.full_line(pt).begin()
 
@@ -446,46 +446,56 @@ class PageCompletions(sublime_plugin.EventListener):
             sobjects_describe = metadata["sobjects"]
 
         completion_list = []
-        if ch == "<":
-            # Visualforce Standard Components
-            for tag in sorted(vf.tag_defs):
-                completion_list.append((tag + "\tvf", tag))
+        if ch in ["<", ":"]:
+            # Check whether tag has ending, for example,
+            # `<apex:page />` has ending, `<apex:page` doesn't have
+            tag_has_ending = False
+            for mr in view.find_all("<\w[\s\S]+?>"):
+                if mr.contains(pt):
+                    tag_has_ending = True
 
-            # Custom Component
-            component_completion_list = util.get_component_completion(username, "ApexComponent")
-            completion_list.extend(component_completion_list)
+            if ch == "<":
+                # Visualforce Standard Components
+                for tag in sorted(vf.tag_defs):
+                    completion_list.append((tag + "\tvf", 
+                        tag if tag_has_ending else (tag + "$1>")))
 
-            # Html Elements
-            for tag in sorted(html.HTML_ELEMENTS_ATTRIBUTES):
-                completion_list.append((tag + "\thtml", tag))
+                # Custom Component
+                completion_list.extend(util.get_component_completion(username, "ApexComponent"))
 
-            completion_list.sort(key=lambda tup:tup[1])
+                # Html Elements
+                for tag in sorted(html.HTML_ELEMENTS_ATTRIBUTES):
+                    completion_list.append((tag + "\thtml", 
+                        tag if tag_has_ending else (tag + "$1>")))
+
+                completion_list.sort(key=lambda tup:tup[1])
                 
-        elif ch == ":":
-            # Just Visualforce Component contains :
-            matched_tag_prefix = view.substr(view.word(pt))
+            elif ch == ":":
+                # Just Visualforce Component contains :
+                matched_tag_prefix = view.substr(view.word(pt))
 
-            # If tag prefix 'c', list all custom components
-            if matched_tag_prefix == "c":
-                return util.get_component_completion(username, "ApexComponent")
+                # If tag prefix 'c', list all custom components
+                if matched_tag_prefix == "c":
+                    return util.get_component_completion(username, "ApexComponent")
 
-            # Combine components
-            tag_names = {}
-            for tag_name in vf.tag_defs:
-                tag_prefix, tag_suffix = tuple(tag_name.split(':'))
+                # Combine components
+                tag_names = {}
+                for tag_name in vf.tag_defs:
+                    tag_prefix, tag_suffix = tuple(tag_name.split(':'))
 
-                if tag_prefix in tag_names:
-                    tag_names[tag_prefix].append(tag_suffix)
-                else:
-                    tag_names[tag_prefix] = [tag_suffix]
+                    if tag_prefix in tag_names:
+                        tag_names[tag_prefix].append(tag_suffix)
+                    else:
+                        tag_names[tag_prefix] = [tag_suffix]
 
-            # If it's not valid tag prefix, just return
-            if not matched_tag_prefix in tag_names: 
-                return []
+                # If it's not valid tag prefix, just return
+                if not matched_tag_prefix in tag_names: 
+                    return []
 
-            # Populate completion list  
-            for tag_name in tag_names[matched_tag_prefix]:
-                completion_list.append((tag_name + "\t" + matched_tag_prefix, tag_name))
+                # Populate completion list
+                for tag_name in tag_names[matched_tag_prefix]:
+                    completion_list.append((tag_name + "\t" + matched_tag_prefix, 
+                        tag_name if tag_has_ending else (tag_name + "$1>")))
 
         elif ch == " ":
             # Get the begin point of current line
@@ -497,24 +507,19 @@ class PageCompletions(sublime_plugin.EventListener):
             forward_two_chars = view.substr(sublime.Region(pt + 2, pt + 4))
 
             # Get all matched regions
-            matched_regions = view.find_all("<\\w+:\\w+")
+            matched_regions = view.find_all("<\w+:\w+[\s\S]*?>")
 
-            # Get the nearest matched region from start to end
-            # for example, matched regions by above pattern are : 
-            #       [(4, 24), (28, 57), (76, 96), (100, 129)]
-            # the cursor point is int the next or same row 
-            # with the second one, so that one is the exact one
+            # Choose the matched one that contains cursor point
             matched_region = None
             for mr in matched_regions:
-                row, col = view.rowcol(mr.begin())
-                if cursor_row == row or cursor_row == row + 1:
+                if mr.contains(pt):
                     matched_region = mr
 
             ##########################################
             # Visualforce Attribute Completions
             ##########################################
             if matched_region:
-                matched_tag = view.substr(matched_region)[1:]
+                matched_tag = view.substr(matched_region).split(" ")[0][1:].strip()
 
                 # Combine the attr of matched visualforce tag
                 if matched_tag in vf.tag_defs:
@@ -547,14 +552,15 @@ class PageCompletions(sublime_plugin.EventListener):
             
             if matched_region:
                 matched_tag = view.substr(matched_region)[1:]
-                component_name = matched_tag.split(":")[1].strip()
+                tag_name = matched_tag.split(":")[1].strip()
+                return util.get_component_attributes(settings, tag_name)
 
             ##########################################
             # HTML Element Attribute Completions
             ##########################################
             if not settings["disable_html_completion"]:
                 # Get all matched regions
-                matched_regions = view.find_all("<\\w+\\s+")
+                matched_regions = view.find_all("<\w+\s+[\s\S]*?>")
 
                 # Get the nearest matched region from start to end
                 # for example, matched regions by above pattern are : 
@@ -563,14 +569,12 @@ class PageCompletions(sublime_plugin.EventListener):
                 # with the second one, so that one is the exact one
                 matched_region = None
                 for mr in matched_regions:
-                    row, col = view.rowcol(mr.begin())
-                    if cursor_row == row or cursor_row == row + 1:
+                    if mr.contains(pt):
                         matched_region = mr
 
                 # If matched region is found and matched block contains cursor point
                 if matched_region:
-                    completion_list = []
-                    matched_tag = view.substr(matched_region)[1:].strip()
+                    matched_tag = view.substr(matched_region)[1:].split(" ")[0].strip()
                     if matched_tag in html.HTML_ELEMENTS_ATTRIBUTES:
                         def_entry = html.HTML_ELEMENTS_ATTRIBUTES[matched_tag]
                         for attr_name in sorted(def_entry):
@@ -583,16 +587,20 @@ class PageCompletions(sublime_plugin.EventListener):
             completion_list.sort(key=lambda tup:tup[1])
 
         elif ch == "=":
-            # Get the begin point of current line
-            begin = view.full_line(pt).begin()
-
             ##########################################
             # Visualforce Attribute Values Completions
             ##########################################
-            matched_region = view.find("<\\w+:\\w+", begin)
+            matched_regions = view.find_all("<\w+:\w+[\s\S]*?>")
+
+            matched_region = None
+            for mr in matched_regions:
+                if mr.contains(pt):
+                    matched_region = mr
+
             if matched_region:
                 # Get the Tag Name and Tag Attribute Name
                 matched_tag = view.substr(matched_region)[1:]
+                matched_tag = matched_tag.split(" ")[0].strip()
                 matched_attr_name = view.substr(view.word(pt-1))
 
                 # Get the Attribute Values

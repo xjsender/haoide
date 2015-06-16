@@ -5,6 +5,28 @@ Release History
 ---------------
 
 
+Release 3.0.4 (2015-06-15)
+++++++++++++++++++
+* Bug Fix:
+    - Fix bug for issue #41
+    - Fix bug for ``delete_file_from_server`` keybinding for windows
+    - Fix bug for ``auto_update_on_save`` feature in windows
+    - Fix ``KeyError: '\n\n'`` for converting complex JSON to Apex
+
+* Enhancement:
+    - Improve the regular expression for SOQL fields completion
+    - Improve the regular expression for Apex class method completion
+    - Improve the regular expression for visualforce component attribute completion
+    - Improve the visualforce tag name completion, add ``>`` for tag name automatically
+    - As the original design, you need to input your JSON when you execute JSON related commands, since this version, you just need to open any JSON file or select valid JSON content
+    - Add ``JSON/XML Tool`` into context menu, which is same with ``Utilities`` in main menu
+    - Update content for some docs
+
+* New Feature:
+    - Add attribute completion for custom component
+    - Add document for all code completion, you can see the link in the plugin home page
+
+
 Release 3.0.3 (2015-06-11)
 ++++++++++++++++++
 * Bug Fix:

@@ -45,7 +45,7 @@ class JSONConverter():
     def convert2apex(self, name, dict_obj, level=0):
         if isinstance(dict_obj, list):
             if len(dict_obj) == 0:
-                self.classes.append("%s class %s {\n\n}\n" % (
+                self.classes.append("%s class %s {{\n\n}}\n" % (
                     self.scope, name
                 ))
                 self.snippet = "\n".join(self.classes)[:-1]
@@ -80,7 +80,7 @@ class JSONConverter():
                     ))
 
                     if not dict_obj[key]:
-                        self.classes.append("{scope} class {name} {\n\n}\n".format(
+                        self.classes.append("{scope} class {name} {{\n\n}}\n".format(
                             scope=self.scope, 
                             name=self.upcase_first_letter(key)
                         ))

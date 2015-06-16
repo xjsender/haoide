@@ -75,7 +75,7 @@
     {"keys": ["ctrl+alt+q"], "command": "execute_query"},
 
     // Delete the current Component
-    {"keys": ["ctrl+alt+d"], "command": "delete_component"},
+    {"keys": ["ctrl+alt+d"], "command": "delete_file_from_server"},
 
     // View Code Coverage
     {"keys": ["ctrl+alt+c"], "command": "view_code_coverage"},

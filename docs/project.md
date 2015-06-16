@@ -98,9 +98,9 @@ After your project configuration is finished, you can click ```HaoIDE``` > ```Ne
 
 
 ## New Project
-+ This command is used to create new project
++ This command is located in the ``New > New Project`` of the main menu
 + Once you click this command, a new project will be downloaded and appeared in the sidebar
-+ Just after new project is finished, sobject completions will work
++ Just after new project is finished, sObject completions will work
 + Project Folder Name Convention: the project name set in user settings append with date literal of today, for example,
 if today is ```2013/07/30``` and user settings is 
 
@@ -119,7 +119,7 @@ if today is ```2013/07/30``` and user settings is
     }
 }
 ```
-your project folder name should be ```Exercise-Pro-20130730```, you can close this time suffix feature by setting ```keep_project_name_time_suffix``` to false
+your project folder name should be ```Exercise-Pro-20130730```, you can close this time suffix feature by setting ```keep_project_name_time_suffix``` to ``false``
 
 **If you are developing a package, you need to add your package namespace to settings ``allowed_packages``, more detail to check the ``allowed_packages`` in the default settings**
 
@@ -127,6 +127,6 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 You can click ```haoide > Update > Update Project``` in the main menu or press <kbd>Alt</kbd>+<kbd>R</kbd> to update your active project.
 
 ## Execute Anonymous
-Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```HaoIDE``` > ```Execute Anonymous```, you will see the result, you should be aware, if anonymous code compile is failed, message will be shown in output panel, just after compile succeed, the executed result will be shown in the new view.
+Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```HaoIDE``` > ```Execute Anonymous``` in the context menu, you will see the result, you should be aware, if anonymous code compile is failed, message will be shown in output panel, just after compile succeed, the executed result will be shown in the new view.
 
-There has a ```log_levels``` setting in the default setting, If you want to change anonymous log levels, you can put your log levels settings into your user setting.
+There has a ```log_levels``` setting in the default settings to control the anonymous log level , If you want to change anonymous log levels, you can override it in your user settings.
