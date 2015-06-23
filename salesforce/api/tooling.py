@@ -691,7 +691,7 @@ class ToolingApi():
 
         # We must set the expiration date to next day, 
         # otherwise, the debug log record will not be created 
-        expiration_date = datetime.datetime.now() + datetime.timedelta(minutes=120)
+        expiration_date = datetime.datetime.utcnow() + datetime.timedelta(minutes=120)
         trace_flag["ExpirationDate"] = expiration_date.isoformat()
         post_url = "/tooling/sobjects/TraceFlag"
         result = self.post(post_url, trace_flag)
