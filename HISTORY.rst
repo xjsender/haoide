@@ -5,6 +5,14 @@ Release History
 ---------------
 
 
+Release 3.0.6 (2015-06-23)
+++++++++++++++++++
+* Bug Fix:
+    - Merge pull request #42 by @pgAdmin(https://github.com/pgAdmin)
+    - Merge pull request #43 by @reyesml(https://github.com/reyesml), fixed issue #6
+    - Fix bug for ``export_workbook`` feature
+
+
 Release 3.0.5 (2015-06-15)
 ++++++++++++++++++
 * Bug Fix:

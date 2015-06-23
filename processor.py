@@ -1122,15 +1122,16 @@ def handle_export_all_workbooks(timeout=120):
 
         # If succeed
         sobjects_describe = api.result["sobjects"]
-        for sobject in sobjects_describe:
-            thread = threading.Thread(target=api.generate_workbook, args=(sobject, ))
+        for sd in sobjects_describe:
+            if "name" not in sd: continue
+            thread = threading.Thread(target=api.generate_workbook, args=(sd["name"], ))
             thread.start()
 
     settings = context.get_settings()
     api = ToolingApi(settings)
     thread = threading.Thread(target=api.describe_global, args=())
     thread.start()
-    ThreadProgress(api, thread, "Global Describe Common", "Global Describe Common Succeed")
+    ThreadProgress(api, thread, "Describe Global", "Describe Global Succeed")
     handle_thread(thread, timeout)
 
 def handle_new_project(is_update=False, timeout=120):
