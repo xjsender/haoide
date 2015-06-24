@@ -316,6 +316,55 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         described_metadata = util.get_described_metadata(self.settings["username"])
         return described_metadata is not None
 
+class BuildOrganizationPackageXml(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(BuildOrganizationPackageXml, self).__init__(*args, **kwargs)
+
+    def run(self):
+        settings = context.get_settings()
+        package_cache = os.path.join(settings["workspace"], ".config", "package.json")
+        if not os.path.exists(package_cache):
+            return self.window.run_command("reload_project_cache", {
+                "callback_command": "build_organization_package_xml"
+            })
+
+        # Get package cache in JSON format
+        package = json.loads(open(package_cache).read())
+
+        # Build package.xml content
+        metadata_objects = []
+        for metadata_object, members in package.items():
+            metadata_objects.append(
+                "<types>%s<name>%s</name></types>" % (
+                    "".join(["<members>%s</members>" % m for m in members]),
+                    metadata_object
+                )
+            )
+
+        package_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
+            <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+                {metadata_objects}
+                <version>{api_version}.0</version>
+            </Package>
+        """.format(
+            metadata_objects="".join(metadata_objects),
+            api_version=settings["api_version"]
+        )
+
+        import threading
+        thread = threading.Thread(target=self.write_package_xml, 
+            args=(package_xml_content, ))
+        thread.start()
+
+    def write_package_xml(self, content):
+        settings = context.get_settings()
+        package_xml_dir = os.path.join(settings["workspace"], ".config", "package.xml")
+        Printer.get("log").write("Start to write content to package.xml file, after that, it will be open as a new view")
+        with open(package_xml_dir, "wb") as fp:
+            fp.write(util.format_xml(content))
+
+        self.window.open_file(package_xml_dir)
+
 class CreatePackageXml(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreatePackageXml, self).__init__(*args, **kwargs)

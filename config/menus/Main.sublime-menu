@@ -491,6 +491,12 @@
                         "caption": "Build Package.xml",
                         "command": "build_package_xml"
                     },
+
+
+                    {
+                        "caption": "Build Orgnization Package.xml",
+                        "command": "build_organization_package_xml"
+                    },
                 ]
             },
 
