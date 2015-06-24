@@ -292,7 +292,7 @@ class MetadataApi():
             Printer.get('log').write("[sf:retrieve] Request Status: %s" % status)
 
             # Defer to issue request according to status
-            sleep_seconds = 2 if status in ["Queued", "Pending"] else self.settings["metadataPollingFrequency"]
+            sleep_seconds = 2 if status in ["Queued", "Pending", "Succeeded"] else self.settings["metadataPollingFrequency"]
             time.sleep(sleep_seconds)
 
         # If check status request failed, this will not be done
