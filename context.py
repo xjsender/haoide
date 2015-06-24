@@ -179,7 +179,7 @@ def get_settings():
         settings["organizationNamespace"] = described_metadata["organizationNamespace"]
 
     # Set the polling interval for checking metadata job status
-    settings["metadataPollingFrequency"] = s.get("metadata_polling_frequency", 1)
+    settings["metadata_polling_frequency"] = s.get("metadata_polling_frequency", 1)
 
     return settings
 
