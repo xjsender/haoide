@@ -603,10 +603,10 @@ def handle_backup_all_sobjects_thread(timeout=120):
         result = api.result
         if not result or not result["success"]: return
         
-        sobjects_describe = api.result["sobjects"]
         threads = []
-        for sobject in sobjects_describe:
-            bulkapi = BulkApi(settings, sobject)
+        for sobject_describe in api.result["sobjects"]:
+            if "name" not in sobject_describe: continue
+            bulkapi = BulkApi(settings, sobject_describe["name"])
             thread = threading.Thread(target=bulkapi.query, args=())
             thread.start()
             threads.append(thread)
@@ -628,8 +628,12 @@ def handle_export_workflows(settings, timeout=120):
             return
         
         # If succeed
-        sobjects_describe = api.result["sobjects"]
-        util.parse_workflow_metadata(settings, sobjects_describe.keys())
+        sObjects = []
+        for sd in api.result["sobjects"]:
+            if "name" not in sd: continue
+            sObjects.append(sd["name"])
+
+        util.parse_workflow_metadata(settings, sObjects)
         sublime.active_window().run_command("refresh_folder_list")
 
     outputdir = settings["workspace"] + "/workflow/"
@@ -646,8 +650,12 @@ def handle_export_validation_rules(settings, timeout=120):
             return
 
         # If succeed
-        sobjects_describe = api.result["sobjects"]
-        util.parse_validation_rule(settings, sobjects_describe.keys())
+        sObjects = []
+        for sd in api.result["sobjects"]:
+            if "name" not in sd: continue
+            sObjects.append(sd["name"])
+
+        util.parse_validation_rule(settings, sObjects)
         sublime.active_window().run_command("refresh_folder_list")
 
     api = ToolingApi(settings)
