@@ -4,6 +4,20 @@ Release History
 
 ---------------
 
+Release 3.0.7 (2015-06-26)
+++++++++++++++++++
+* Bug Fix:
+    - Fix issue #46
+    - Fix bugs caused by ``describe_global`` change in the ``tooling.py``
+
+* Enhancement
+    - Merge pull request #45 by @reyesml(https://github.com/reyesml)
+
+* New
+    - Add a snippets: ``Page Variable - get and set in one line.sublime-snippet``
+    - Add a snippets: ``Page Variable - get and set in multiply line.sublime-snippet``
+    - Add a new command for building package.xml for whole org
+
 
 Release 3.0.6 (2015-06-23)
 ++++++++++++++++++

@@ -104,6 +104,9 @@
     // Debug Mode
     "debug_mode": false,
 
+    // Metadata polling frequency
+    "metadata_polling_frequency": 2,
+
     // Indicate whether keep local change history of code file after code is saved successfully
     "keep_local_change_history" : false,
 

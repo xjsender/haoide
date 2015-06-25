@@ -1,0 +1,13 @@
+<snippet>
+    <content><![CDATA[
+public $1 {
+    get {
+        $2
+    }
+    private set;
+}
+]]></content>
+    <tabTrigger>gsm</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>public variable {get; set;}</description>
+</snippet>
