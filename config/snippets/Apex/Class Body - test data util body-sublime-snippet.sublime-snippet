@@ -1,0 +1,136 @@
+<snippet>
+    <content><![CDATA[
+@isTest
+Public class UtilTestData {
+    private static Map<String, Id> recordTypeMap;
+    private static Map<String, Id> roleMap;
+    private static Map<String, Id> profileMap;
+
+    public final static Integer BATCH_SIZE = 101;
+
+    // Initiate recordTypeMap
+    private static Map<String, Id> getRecordTypeMapInstance() {
+        if (recordTypeMap == null) {
+            recordTypeMap = new Map<String, Id>();
+            for (RecordType rt : [SELECT Id, Name, SobjectType FROM RecordType LIMIT 1000]) {
+                recordTypeMap.put(rt.Name + rt.SobjectType, rt.Id);
+            }
+        }
+
+        return recordTypeMap;
+    }
+
+    // Initiate roleMap
+    private static Map<String, Id> getUserRoleMapInstance() {
+        if (roleMap == null) {
+            roleMap = new Map<String, Id>();
+            for (UserRole role : [SELECT Id, Name FROM UserRole LIMIT 1000]) {
+                roleMap.put(role.Name, role.Id);
+            }
+        }
+
+        return roleMap;
+    }
+
+    // Initiate profileMap
+    private static Map<String, Id> getProfileMapInstance() {
+        if (profileMap == null) {
+            profileMap = new Map<String, Id>();
+            for (Profile prof : [SELECT Id, Name FROM Profile LIMIT 1000]) {
+                profileMap.put(prof.Name, prof.Id);
+            }
+        }
+
+        return profileMap;
+    }
+
+    // Get UserRoleId by Role Name
+    private static Id getUserRoleId(String roleName) {
+        return getUserRoleMapInstance().get(roleName);
+    }
+
+    // Get ProfileId by Profile Name
+    private static Id getProfileId(String profileName) {
+        return getProfileMapInstance().get(profileName);
+    }
+
+    // Create Test User
+    private static User createUser(Id userRoleId, Id profileId) {
+        User usr = new User();
+        usr.UserName = 'test' + Math.rint(Math.random() * 100000) + '@company.com';
+        usr.UserRoleId = userRoleId;
+        usr.ProfileId = profileId;
+        usr.LastName = 'Test User';
+        usr.Email = 'test001@company.com.full';
+        usr.Alias = 'test';
+        usr.TimeZoneSidKey = 'Asia/Shanghai';
+        usr.EmailEncodingKey = 'UTF-8';
+        usr.LanguageLocaleKey = 'en_US';
+        usr.localesidkey='en_US';
+
+        insert usr;
+        return usr;
+    }
+
+    // Create Test User by Role Name and Profile Name
+    public static User createUser(String roleName, String profileName) {
+        return createUser(getUserRoleId(roleName),
+                          getProfileId(profileName));
+    }
+
+    public static Sobject createSobject(Sobject so, String recordTypeName) {
+        so = initiateSobject(so, recordTypeName);
+
+        insert so;
+        return so;
+    }
+
+    public static List<Sobject> createSobjects(List<Sobject> sos, String recordTypeName) {
+        sos = initiateSobjects(sos, recordTypeName);
+
+        insert sos;
+        return sos;
+    }
+
+    // Initiate sobjects which number is BATCH_SIZE
+    public static List<Sobject> initiateSobjects(List<Sobject> sos, String recordTypeName) {
+        for (Sobject so : sos) {
+            so = initiateSobject(so, recordTypeName);
+        }
+
+        return sos;
+    }
+
+    public static Sobject initiateSobject(Sobject so, String recordTypeName) {
+        if (so instanceof Account) {
+            so = initiateAccount((Account) acc);
+        }
+        else if (so instanceof Contact) {
+            so = initiateContact((Contact) so);
+        }
+
+        return so;
+    }
+
+    // Create Unsaved Account
+    private static Account initiateAccount(Account acc) {
+        acc.Name = 'Test';
+        acc.Type = acc.Type == null ? '0=Company' : acc.Type;
+        acc.Phone = acc.Phone == null ? '010-00000000' : acc.Phone;
+
+        return acc;
+    }
+
+    // Create Unsaved Contact
+    private static Contact initiateContact(Contact con) {
+        con.FirstName = 'Someone';
+        con.LastName = 'Benz';
+
+        return con;
+    }
+}
+]]></content>
+    <tabTrigger>td</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Prepare Test Data</description>
+</snippet>

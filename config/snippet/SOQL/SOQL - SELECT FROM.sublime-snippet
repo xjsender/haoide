@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[
-SELECT $2 FROM $1$0
-]]></content>
-    <tabTrigger>se</tabTrigger>
-    <scope>source.java, source.apex</scope>
-    <description>SELECT * FROM Sobject</description>
-</snippet>

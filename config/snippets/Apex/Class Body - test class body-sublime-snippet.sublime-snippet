@@ -1,0 +1,13 @@
+<snippet>
+    <content><![CDATA[
+@isTest
+private class ${1:Class-Name-or-Trigger-Name}Test {
+    public static testMethod void test${3:Method-Name}() {
+        $0
+    }
+}
+]]></content>
+    <tabTrigger>tc</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Test Class</description>
+</snippet>

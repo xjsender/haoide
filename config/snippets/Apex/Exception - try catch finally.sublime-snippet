@@ -1,0 +1,17 @@
+<snippet>
+    <content><![CDATA[
+try {
+    $1
+}
+catch ($2 e) {
+    $3
+}
+finally {
+    $4
+}
+$0
+]]></content>
+    <tabTrigger>tryf</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Try Catch Finally</description>
+</snippet>

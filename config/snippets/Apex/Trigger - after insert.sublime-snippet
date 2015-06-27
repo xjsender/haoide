@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+if (trigger.isAfter && trigger.isInsert) {
+    $0
+}
+]]></content>
+    <tabTrigger>ai</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>After Insert</description>
+</snippet>

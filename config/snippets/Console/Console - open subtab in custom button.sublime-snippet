@@ -1,0 +1,20 @@
+<snippet>
+    <content><![CDATA[
+{!REQUIRESCRIPT("/support/console/33.0/integration.js")}
+ 
+var redirectUrl = '/{sobject.Id}';
+if (sforce.console.isInConsole()) {
+    sforce.console.getEnclosingTabId(function(enclosingResult){
+        sforce.console.getEnclosingPrimaryTabId(function(primaryResult){
+            sforce.console.openSubtab(primaryResult.id, redirectUrl, true, '', null);
+        });
+    });
+}
+else {
+    window.location.href = redirectUrl;
+}
+]]></content>
+    <tabTrigger>scb</tabTrigger>
+    <scope>source.java, source.apex, text.html</scope>
+    <description>Open Subtab in Custom Button</description>
+</snippet>

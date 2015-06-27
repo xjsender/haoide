@@ -334,6 +334,9 @@ class BuildOrganizationPackageXml(sublime_plugin.WindowCommand):
         # Build package.xml content
         metadata_objects = []
         for metadata_object, members in package.items():
+            # If there is no members, just skip
+            if not members: continue
+            
             metadata_objects.append(
                 "<types>%s<name>%s</name></types>" % (
                     "".join(["<members>%s</members>" % m for m in members]),

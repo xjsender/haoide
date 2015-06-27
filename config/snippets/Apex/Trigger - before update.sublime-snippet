@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+if (trigger.isBefore && trigger.isUpdate) {
+    $0
+}
+]]></content>
+    <tabTrigger>bu</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Before Update</description>
+</snippet>

@@ -1,0 +1,15 @@
+<snippet>
+    <content><![CDATA[
+<apex:includeScript value="/support/console/33.0/integration.js"/>
+<script>
+    // After this page is loaded, change the tab title and tab icon
+    sforce.console.getFocusedPrimaryTabId(function(result){
+        sforce.console.setTabTitle('name', result.id);
+        sforce.console.setTabIcon("/img/icon/custom51_100/apple32.png", result.id);
+    });
+</script>
+]]></content>
+    <tabTrigger>pti</tabTrigger>
+    <scope>source.java, source.apex, text.html</scope>
+    <description>Set Primary Tab Title and Icon</description>
+</snippet>

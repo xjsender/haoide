@@ -1,0 +1,17 @@
+<snippet>
+    <content><![CDATA[
+/*
+ * Name                 : 
+ * Object               : 
+ * Requirement          :
+ * Refer classes        :
+ * Author               :
+ * Create Date          :
+ * Modify History       :
+ *
+ */
+]]></content>
+    <tabTrigger>class comments</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Class Comments</description>
+</snippet>

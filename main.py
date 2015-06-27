@@ -1490,7 +1490,10 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         if self.component_name:
             self.create_component()
         else:
-            message = "Please Input %s Name: " % self.component_type
+            message = "Please Input %s Name %s: " % (
+                self.component_type,
+                "for %s" % self.sobject_name if self.component_type == "ApexTrigger" else ""
+            )
             self.window.show_input_panel(message, "", self.on_input, None, None)
 
     def on_input(self, input):

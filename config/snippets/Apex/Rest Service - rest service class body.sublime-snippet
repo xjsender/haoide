@@ -1,0 +1,14 @@
+<snippet>
+    <content><![CDATA[
+@RestResource(urlMapping='/$1/*')
+global with sharing class $2 {
+    ${3:@HttpGet - @HttpPost - @HttpDelete}
+    webservice static $4() {
+        
+    }
+}
+]]></content>
+    <tabTrigger>rc</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>REST Class</description>
+</snippet>

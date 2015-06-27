@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[
-String $1 = ApexPages.currentPage().getParameters().get('${2:Parameter-Name}');
-]]></content>
-    <tabTrigger>gp</tabTrigger>
-    <scope>source.java, source.apex</scope>
-    <description>get parameter</description>
-</snippet>

@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+ApexPages.currentPage().getParameters().get('$1');
+]]></content>
+    <tabTrigger>gp</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Get Visualforce Parameter</description>
+</snippet>

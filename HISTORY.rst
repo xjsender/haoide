@@ -4,6 +4,21 @@ Release History
 
 ---------------
 
+
+Release 3.0.8 (2015-06-27)
+++++++++++++++++++
+* Bug Fix:
+    - Fix bug when build package.xml for whole org.
+
+* Enhancement:
+    - Display chosen sObject Name when input trigger name
+    - Update all snippets
+
+* New:
+    - Add a quick link to view all snippets, see it in plugin home page
+    - Add command to access all snippets in ``Utilities`` of main menu
+
+
 Release 3.0.7 (2015-06-26)
 ++++++++++++++++++
 * Bug Fix:

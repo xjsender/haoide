@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+this.disabled = true;
+this.className = "btnDisabled";
+this.value = '$1';
+]]></content>
+    <tabTrigger>disable button</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Disable Custom Button</description>
+</snippet>

@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+System.debug('*** $1: ' + JSON.serializePretty($1) + '');$0
+]]></content>
+    <tabTrigger>dbj</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Variable Debug in JSON Format</description>
+</snippet>

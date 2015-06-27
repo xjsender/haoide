@@ -1,0 +1,28 @@
+<snippet>
+    <content><![CDATA[
+<script>
+    function checkAll(obj,receivedInputID){
+        var inputCheckBox = document.getElementsByTagName("input");
+        for (var i=0; i<inputCheckBox.length; i++) {
+            if (inputCheckBox[i].id.indexOf(receivedInputID) != -1) {
+                if (!inputCheckBox[i].disabled) {
+                    inputCheckBox[i].checked = obj.checked;
+                }
+            }
+        }
+    }
+</script>
+
+<apex:pageBlockTable rendered="{!wrappers.size > 0}" value="{!wrappers}" var="wrap" >
+    <apex:column >
+        <apex:facet name="header">
+            <input type="checkbox" onClick="checkAll(this,'inputId');" />
+        </apex:facet>
+        <apex:inputCheckbox value="{!wrap.isSelected}" id="inputId" />
+    </apex:column>
+</apex:pageBlockTable>
+]]></content>
+    <tabTrigger>selectAllCheckbox</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Select All Checkbox</description>
+</snippet>

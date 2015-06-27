@@ -326,7 +326,7 @@
 
         // Team Member
         "AccountTeamMember", "OpportunityTeamMember", "CaseTeamMember", "UserTeamMember", 
-        "GroupMember", "Group", 
+        "GroupMember", "Group",
 
         // Apex Code
         "ApexClass", "ApexComponent", "ApexTrigger", "ApexPage", 

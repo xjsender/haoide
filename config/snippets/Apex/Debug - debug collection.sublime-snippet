@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+for (${1:DATA-TYPE} variable : ${2:COLLECTOIN}) {
+    System.debug('***Debug Output ' + variable + '');
+}
+]]></content>
+    <tabTrigger>dbc</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Collection Debug in Loop</description>
+</snippet>

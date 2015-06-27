@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+<members>$1</members>$0
+]]></content>
+    <tabTrigger>mem</tabTrigger>
+    <scope>text.xml</scope>
+    <description>members pair</description>
+</snippet>

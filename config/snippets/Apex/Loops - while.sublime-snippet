@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+while (${1:CONDITION}) {
+    ${2:WHILE-BODY}
+}
+]]></content>
+    <tabTrigger>wh</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>While Loop</description>
+</snippet>

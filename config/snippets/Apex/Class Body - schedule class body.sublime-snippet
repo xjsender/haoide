@@ -1,0 +1,12 @@
+<snippet>
+    <content><![CDATA[
+global class $1 implements Schedulable {
+    global void execute(SchedulableContext sc) {
+        $0
+    }
+}
+]]></content>
+    <tabTrigger>sc</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Schedule Class</description>
+</snippet>

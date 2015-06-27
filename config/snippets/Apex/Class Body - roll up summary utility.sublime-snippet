@@ -1,0 +1,96 @@
+<snippet>
+    <content><![CDATA[
+public class RollupSummaryUtils {
+    public static void rollupSummary(List<Sobject> records, 
+        String parentLookupField, 
+        List<RollupSummaryUtils.FieldDefinition> fieldDefs,
+        String filter) {
+        
+        Set<Id> parentIds = new Set<Id>();
+        for (Sobject so : records) {
+            if (so.get(parentLookupField) != null) {
+                parentIds.add((Id)so.get(parentLookupField));
+            }
+        }
+
+        // Combine Aggregate Fields
+        // If you want to summary record count child object, 
+        // you should use Name field but not Id field
+        List<String> aggregateFields = new List<String>();
+        for (FieldDefinition fd : fieldDefs) {
+            aggregateFields.add(String.format('{0}({1}) {1}', new List<String> {
+                fd.operation, fd.childField
+            }));
+        }
+
+        // Build Aggregate Query
+        String query = String.format(
+            'SELECT {0}, {1} FROM {2} WHERE {1} IN :parentIds {3} GROUP BY {1}',
+            new List<String> {
+                String.join(aggregateFields, ', '),
+                parentLookupField, 
+                records.getSObjectType().getDescribe().getName(),
+                filter
+            }
+        );
+
+        Map<Id, AggregateResult> aggrResultsMap = new Map<Id, AggregateResult>();
+        for (AggregateResult aggr : Database.query(query)) {
+            Id parentId = (Id)aggr.get(parentLookupField);
+            aggrResultsMap.put(parentId, aggr);
+        }
+
+        // Assign summary value to parent records
+        List<Sobject> parentsNeedToUpdate = new List<Sobject>();
+        for (Id parentId : parentIds) {
+            // Initiate sobject
+            Sobject parent = parentId.getSObjectType().newSObject(parentId);
+
+            // Get the AggregateResult by ParentLookupId
+            AggregateResult aggrResult = aggrResultsMap.get(parent.Id);
+
+            // If no aggrResult, it means Parent doesn't have child records
+            // else, just assign the sum to the corresponding field
+            for (FieldDefinition fd : fieldDefs) {
+                String childField = fd.childField;
+                String parentField = fd.parentField;
+                Decimal summary = aggrResult == null ? 0 : (Decimal)aggrResult.get(childField);
+                parent.put(parentField, summary.setScale(2));
+            }
+
+            parentsNeedToUpdate.add(parent);
+        }
+
+        // Update Parent
+        try {
+            update parentsNeedToUpdate;
+        }
+        catch (DMLException e) {
+            for (Integer i = 0; i < e.getNumDml(); i++) {
+                if (trigger.isDelete) {
+                    trigger.old[0].addError(e.getDMLMessage(i));
+                }
+                else {
+                    trigger.new[0].addError(e.getDMLMessage(i));
+                }
+            }
+        }
+    }
+
+    public class FieldDefinition {
+        public String childField;
+        public String parentField;
+        public String operation;
+
+        public FieldDefinition(String o, String c, String p) {
+            this.operation = o;
+            this.childField = c;
+            this.parentField = p;
+        }
+    }
+}
+]]></content>
+    <tabTrigger>rollu</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Rollup Summary Utility</description>
+</snippet>

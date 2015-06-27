@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[
-Set<$1> $2 = new Set<$1>();
-]]></content>
-    <tabTrigger>set</tabTrigger>
-    <scope>source.java, source.apex</scope>
-    <description>set variable</description>
-</snippet>

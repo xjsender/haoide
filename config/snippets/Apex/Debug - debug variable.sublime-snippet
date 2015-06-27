@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+System.debug('*** $1: ' + $1 + '');$0
+]]></content>
+    <tabTrigger>dbi</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Variable Debug</description>
+</snippet>

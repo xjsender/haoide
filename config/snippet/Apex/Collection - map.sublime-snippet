@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[
-Map<$1> $2 = new Map<$1>();
-]]></content>
-    <tabTrigger>map</tabTrigger>
-    <scope>source.java, source.apex</scope>
-    <description>map variable</description>
-</snippet>

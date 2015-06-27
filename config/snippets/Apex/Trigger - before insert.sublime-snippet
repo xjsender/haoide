@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+if (trigger.isBefore && trigger.isInsert) {
+    $0
+}
+]]></content>
+    <tabTrigger>bi</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Before Insert</description>
+</snippet>

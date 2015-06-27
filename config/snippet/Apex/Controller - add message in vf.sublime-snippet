@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[
-ApexPages.addMessage(new ApexPages.Message(ApexPages.severity.${1:INFO-ERROR-CONFIRM-WARNING-FATAL}, ${2:MESSAGE}));
-]]></content>
-    <tabTrigger>pm</tabTrigger>
-    <scope>source.java, source.apex</scope>
-    <description>page message</description>
-</snippet>

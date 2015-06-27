@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+${3:private | public | global} ${4:[virtual | abstract | with sharing | without sharing | (none)]} class ${1:Class-Name}${5:[implements InterfaceNameList | (none)]}${6:[extends ClassName | (none)]} {
+    $0
+}
+]]></content>
+    <tabTrigger>class</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Class Template</description>
+</snippet>

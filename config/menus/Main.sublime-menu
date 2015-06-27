@@ -316,6 +316,16 @@
                     {
                         "caption": "XML Format",
                         "command": "xml_format"
+                    },
+
+                    { "caption": "-" },
+
+                    {
+                        "caption": "Snippets",
+                        "command": "haoide_help",
+                        "args": {
+                            "url": "/blob/master/docs/snippets.md"
+                        }
                     }
                 ]
             },

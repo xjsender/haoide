@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+public class $1Exception extends Exception {}
+]]></content>
+    <tabTrigger>exc</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Exception Class</description>
+</snippet>

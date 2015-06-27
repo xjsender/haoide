@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[
-\$ObjectType.${1:sObjectName}.fields.${2:FieldName}.Label$0
-]]></content>
-    <tabTrigger>fl</tabTrigger>
-    <scope>text.html</scope>
-    <description>Object Field Label</description>
-</snippet>

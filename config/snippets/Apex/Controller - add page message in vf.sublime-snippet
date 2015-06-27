@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+ApexPages.addMessage(new ApexPages.Message(ApexPages.severity.$1, $2));
+]]></content>
+    <tabTrigger>pm</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Add PageMessages</description>
+</snippet>
