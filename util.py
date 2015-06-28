@@ -2415,6 +2415,8 @@ def switch_project(chosen_project):
             view = window.new_file()
             view.set_status('default_project', 
                 "Default Project => %s" % chosen_project)
+            window.focus_view(view)
+            window.run_command("close")
         else:
             for view in window.views():
                 view.set_status('default_project', 
