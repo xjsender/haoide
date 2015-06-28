@@ -2019,6 +2019,7 @@ class ExtractToHere(sublime_plugin.WindowCommand):
 
         extract_to = os.path.join(extract_to, name)
         util.extract_zipfile(self._file, extract_to)
+        Printer.get("log").write_start().write("Extracted to " + extract_to)
 
     def is_visible(self, files):
         if not files or len(files) > 1: 

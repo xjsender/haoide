@@ -5,13 +5,15 @@ Release History
 ---------------
 
 
-Release 3.0.8 (2015-06-27)
+Release 3.0.8 (2015-06-28)
 ++++++++++++++++++
 * Bug Fix:
-    - Fix bug when build package.xml for whole org.
+    - Fix bug when build package.xml for whole org
 
 * Enhancement:
     - Display chosen sObject Name when input trigger name
+    - Enhancement for #39, open a new view, set status bar and close the new view
+    - Add success message for ``extract_to_here`` command
     - Update all snippets
 
 * New:
