@@ -152,7 +152,10 @@ class MetadataApi():
         })
 
         try:
-            response = requests.post(self.metadata_url, soap_body, verify=False, 
+            session = requests.Session()
+            adapter = requests.adapters.HTTPAdapter(max_retries=10)
+            session.mount(self.metadata_url, adapter)
+            response = session.post(self.metadata_url, soap_body, verify=False, 
                 headers=headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
@@ -186,7 +189,10 @@ class MetadataApi():
         })
 
         try:
-            response = requests.post(self.metadata_url, soap_body, 
+            session = requests.Session()
+            adapter = requests.adapters.HTTPAdapter(max_retries=10)
+            session.mount(self.metadata_url, adapter)
+            response = session.post(self.metadata_url, soap_body, 
                 verify=False, headers=headers, timeout=120)
         except requests.exceptions.RequestException as e:
             self.result = {

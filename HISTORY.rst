@@ -5,6 +5,17 @@ Release History
 ---------------
 
 
+Release 3.0.9 (2015-07-01)
+++++++++++++++++++
+* Bug Fix:
+    - Fix bug for snippet ``SOQL - SELECT * FROM.sublime-snippet``
+    - Fix bug for ``extract_to_here`` command
+
+* Enhancement:
+    - Don't need confirmation to reload project cache after choose metadata objects
+    - In order to avoid timeout exception, increase max_retries from 5 to 10 for retrieve zipFile request
+
+
 Release 3.0.8 (2015-06-28)
 ++++++++++++++++++
 * Bug Fix:

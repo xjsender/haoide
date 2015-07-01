@@ -1102,7 +1102,7 @@ def extract_zipfile(zipfile_path, extract_to):
     try:
         zfile = zipfile.ZipFile(zipfile_path, 'r')
     except zipfile.BadZipFile as ex:
-        Printer.get('error').write(str(ex))
+        raise BaseException(str(ex))
         return
 
     if not os.path.exists(extract_to): 

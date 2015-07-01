@@ -2018,7 +2018,11 @@ class ExtractToHere(sublime_plugin.WindowCommand):
         name, extension = name.split(".")
 
         extract_to = os.path.join(extract_to, name)
-        util.extract_zipfile(self._file, extract_to)
+        try:
+            util.extract_zipfile(self._file, extract_to)
+        except BaseException as ex:
+            return Printer.get("error").write(ex)
+
         Printer.get("log").write_start().write("Extracted to " + extract_to)
 
     def is_visible(self, files):

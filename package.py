@@ -160,10 +160,8 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
                 for c in self.chosen_metadata_objects:
                     chosen_types[c] = ["*"]
 
-                message = "Confirm to reload selected cache?"
-                if sublime.ok_cancel_dialog(message, "Confirm Reload?"):
-                    processor.handle_reload_project_cache(chosen_types, 
-                        self.callback_command)
+                processor.handle_reload_project_cache(chosen_types, 
+                    self.callback_command)
             return
 
         # Store the index and chosen metadata
