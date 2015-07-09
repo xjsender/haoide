@@ -125,8 +125,3 @@ your project folder name should be ```Exercise-Pro-20130730```, you can close th
 
 ## Update Project
 You can click ```haoide > Update > Update Project``` in the main menu or press <kbd>Alt</kbd>+<kbd>R</kbd> to update your active project.
-
-## Execute Anonymous
-Choose any apex code snippet, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd> or click ```HaoIDE``` > ```Execute Anonymous``` in the context menu, you will see the result, you should be aware, if anonymous code compile is failed, message will be shown in output panel, just after compile succeed, the executed result will be shown in the new view.
-
-There has a ```log_levels``` setting in the default settings to control the anonymous log level , If you want to change anonymous log levels, you can override it in your user settings.

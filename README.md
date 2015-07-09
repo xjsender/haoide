@@ -20,6 +20,7 @@ All of my motivation on this plugin come from your star, if you think this plugi
 # Quick Link
 + <a href="https://github.com/xjsender/SublimeApexScreenshot" target="_blank">All Demos</a>
 + <a href="/docs/project.md" target="_blank">Project Configuration</a>
++ <a href="/docs/executeAnonymous.md" target="_blank">Execute Anonymous</a>
 + <a href="/docs/completion.md" target="_blank">Code AutoComplete</a>
 + <a href="/docs/snippets.md" target="_blank">Snippets</a>
 + <a href="/docs/tooling.md" target="_blank">Tooling Operation</a>

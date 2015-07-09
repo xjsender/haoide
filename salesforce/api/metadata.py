@@ -223,7 +223,9 @@ class MetadataApi():
         * options -- {"types" : types, "package_names": package_names}
         """
         result = self.login()
-        if not result or not result["success"]: return
+        if not result or not result["success"]: 
+            self.result = result
+            return self.result
 
         # Log the StartTime
         start_time = datetime.datetime.now()
@@ -258,7 +260,11 @@ class MetadataApi():
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             Printer.get('log').write("[sf:retrieve] Session expired, need login again")
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
+                
             return self.retrieve(options)
 
         # If status_code is > 399, which means it has error
@@ -304,9 +310,11 @@ class MetadataApi():
         # If check status request failed, this will not be done
         if status == "Failed":
             Printer.get('log').write("[sf:retrieve] Request Failed") # [sf:retrieve]
-            print (json.dumps(result))
-            self.result = result
-            return
+            self.result = {
+                "success": False,
+                "Error Message": result["errorMessage"]
+            }
+            return self.result
 
         # Since version 31, checkRetrieveStatus request is not required
         if self.api_version < 31:
@@ -471,10 +479,13 @@ class MetadataApi():
             return []
 
         result = xmltodict.parse(response.content)
+        pprint.pprint(result)
         result = result["soapenv:Envelope"]["soapenv:Body"]["listMetadataResponse"]
-        if not result or "result" not in result: return []
+        if not result or "result" not in result: 
+            return []
         result = result["result"]
-        if isinstance(result, dict): result = [result]
+        if isinstance(result, dict): 
+            result = [result]
         
         self.result = result
         return result
@@ -595,7 +606,10 @@ class MetadataApi():
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             Printer.get('log').write("[sf:%s] Session expired, need login again" % deploy_or_validate)
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
             return self.deploy(base64_zip)
 
         # If status_code is > 399, which means it has error

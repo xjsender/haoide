@@ -5,6 +5,26 @@ Release History
 ---------------
 
 
+Release 3.1.0 (2015-07-09)
+++++++++++++++++++
+* Enhancement:
+    - Sometimes, the inner class name is same with standard class or sObject, if this inner class is matched, ignore the standard completion
+    - Add Notation [EU] for external or unique field in field completion, ``E`` means External, ``U`` means Unique
+    - Add a new setting named ``disable_visualforce_completion`` to control visualforce completion
+
+* Bug Fix:
+    - Fix issue #49
+    - Fix issue #50
+    - Catch exception for ``check retrieve status`` request when retrieve
+
+* New
+    - Add a new snippet ``Bracket - sobject parenthesis.sublime-snippet``, see ``/docs/snippets.md`` for more detail
+
+* Update
+    - Change default ``api_version`` from 33 to 34
+    - Move document for ``execute anonymous`` from ``project.md`` to ``debug.md``
+
+
 Release 3.0.9 (2015-07-01)
 ++++++++++++++++++
 * Bug Fix:

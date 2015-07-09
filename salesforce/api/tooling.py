@@ -134,7 +134,10 @@ class ToolingApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
             return self.head(component_url)
         
         result = self.parse_response(response)
@@ -172,7 +175,10 @@ class ToolingApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
             return self.get(component_url)
         
         result = self.parse_response(response)
@@ -209,7 +215,10 @@ class ToolingApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
             return self.put(put_url, data)
         
         result = self.parse_response(response)
@@ -246,7 +255,10 @@ class ToolingApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
             return self.patch(patch_url, data)
         
         result = self.parse_response(response)
@@ -283,7 +295,10 @@ class ToolingApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
             return self.post(post_url, data)
         
         result = self.parse_response(response)
@@ -319,7 +334,10 @@ class ToolingApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
             return self.delete(component_url)
 
         result = self.parse_response(response)
@@ -358,7 +376,10 @@ class ToolingApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
             return self.search(sosl)
 
         result = self.parse_response(response)
@@ -431,7 +452,10 @@ class ToolingApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
             return self.query(soql, is_toolingapi)
 
         result = self.parse_response(response)
@@ -734,7 +758,10 @@ class ToolingApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
             return self.retrieve_body(retrieve_url)
 
         result = {
@@ -952,6 +979,15 @@ class ToolingApi():
         data = {
             "ContentEntityId": component_id,
             "MetadataContainerId": container_id,
+            # "Metadata": {
+            #     "apiVersion": 34,
+            #     "status": "Active",
+            #     "packageVersions": [{
+            #         "majorNumber": 1,
+            #         "minorNumber": 2,
+            #         "namespace": "haoliu"
+            #     }]
+            # },
             "Body": body
         }
         url = "/tooling/sobjects/" + component_type + "Member"
@@ -973,8 +1009,8 @@ class ToolingApi():
         Printer.get('log').write("Start to post ContainerAsyncRequest Request")
         data = {
             "MetadataContainerId": container_id,
-            "IsCheckOnly": is_check_only,
-            "IsRunTests": False
+            # "MetadataContainerMemberId": member_result["id"],
+            "IsCheckOnly": is_check_only
         }
         sync_request_url = '/tooling/sobjects/ContainerAsyncRequest'
         result = self.post(sync_request_url, data)

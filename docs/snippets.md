@@ -36,13 +36,19 @@
             <td>Apex</td>
             <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/Apex/Bracket - medium bracket.sublime-snippet" target="_blank">mb</a></td>
             <td>source.java, source.apex</td>
-            <td>Medium Bracket(中括号)</td>
+            <td>Bracket(中括号)</td>
         </tr>
         <tr>
             <td>Apex</td>
             <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/Apex/Bracket - small bracket.sublime-snippet" target="_blank">sp</a></td>
             <td>source.java, source.apex</td>
-            <td>Small Parentheses(小括号)</td>
+            <td>Parenthesis(小括号)</td>
+        </tr>
+        <tr>
+            <td>Apex</td>
+            <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/Apex/Bracket - sobject parenthesis.sublime-snippet" target="_blank">si</a></td>
+            <td>source.java, source.apex</td>
+            <td>sObject so = new sObject(\n);</td>
         </tr>
         <tr>
             <td>Apex</td>
@@ -407,7 +413,7 @@
         <tr>
             <td>SOQL</td>
             <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/SOQL/SOQL - SELECT * FROM.sublime-snippet" target="_blank">se</a></td>
-            <td>source.java, source.apex, text.html</td>
+            <td>source.java, source.apex</td>
             <td>SELECT * FROM Sobject</td>
         </tr>
         <tr>

@@ -74,7 +74,10 @@ class ApexApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
             return self.run_all_test()
 
         # If status_code is > 399, which means it has error
@@ -141,7 +144,10 @@ class ApexApi():
 
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
-            self.login(True)
+            result = self.login(True)
+            if not result["success"]:
+                self.result = result
+                return self.result
             return self.execute_anonymous(apex_string)
 
         # If status_code is > 399, which means it has error

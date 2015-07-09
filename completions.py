@@ -326,7 +326,11 @@ class ApexCompletions(sublime_plugin.EventListener):
                         namespace, innerclass = matched_str[:matched_str.find(" ")].split(".")
                         if namespace.lower() in symbol_tables:
                             inners = symbol_tables[namespace.lower()]["inners"]
+
+                            # Sometimes, the inner class name is same with standard class or sObject
+                            # if this inner class is matched, ignore the standard completion
                             if innerclass.lower() in inners:
+                                completion_list = []
                                 for key in inners[innerclass.lower()]:
                                     completion_list.append((key, inners[innerclass.lower()][key]))
 
@@ -425,17 +429,22 @@ class PageCompletions(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
         # Only trigger within HTML
-        if not view.match_selector(locations[0], "text.html - source"): return []
+        if not view.match_selector(locations[0], "text.html - source"): 
+            return []
+
+        # Get plugin settings
+        settings = context.get_settings()
+        username = settings["username"]
+
+        # If visualforce completion is disabled, just return
+        if settings["disable_visualforce_completion"]:
+            return []
 
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
         next_char = view.substr(sublime.Region(pt + 2, pt + 3))
         variable_name = view.substr(view.word(pt-1))
         begin = view.full_line(pt).begin()
-
-        # Get plugin settings
-        settings = context.get_settings()
-        username = settings["username"]
 
         # Get sobjects metadata and symbol tables
         metadata = util.get_sobject_metadata_and_symbol_tables(username)[0]

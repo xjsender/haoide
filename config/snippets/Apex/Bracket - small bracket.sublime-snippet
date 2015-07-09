@@ -4,5 +4,5 @@
 ]]></content>
     <tabTrigger>sp</tabTrigger>
     <scope>source.java, source.apex</scope>
-    <description>Small Parentheses(小括号)</description>
+    <description>Parenthesis(小括号)</description>
 </snippet>

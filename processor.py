@@ -369,6 +369,14 @@ def handle_reload_sobjects_completions(timeout=120):
                         "other": "%s(%s)" % (field_type.capitalize(), f["length"])
                     }
 
+                # External Or not
+                externalUniqueNotation = ""
+                if f["externalId"] or f["unique"]:
+                    externalUniqueNotation = "[%s%s] " % (
+                        "E" if f["externalId"] else "",
+                        "U" if f["unique"] else ""
+                    )
+
                 # If display_field_name_and_label setting is true, 
                 # display both field name and field label
                 field_name_desc = "%s(%s)" % (field_name, f["label"]) \
@@ -378,7 +386,7 @@ def handle_reload_sobjects_completions(timeout=120):
                 field_type_desc = field_desc_dict[field_type] if field_type \
                     in field_desc_dict else field_desc_dict["other"]
 
-                fd = "%s\t%s" % (field_name_desc, field_type_desc)
+                fd = "%s%s\t%s" % (externalUniqueNotation, field_name_desc, field_type_desc)
                 fields_dict[fd] = field_name
 
                 # Picklist Dcit

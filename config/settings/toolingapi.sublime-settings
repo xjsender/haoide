@@ -73,7 +73,7 @@
     "maximum_concurrent_connections": 30,
 
     // API version
-    "api_version" : 33,
+    "api_version" : 34,
 
     // Browser Path Setting,
     // You should set a valid browser path, otherwise, it will have problem.
@@ -147,6 +147,9 @@
     // If set false, it means just display field name
     // If you change this setting, you need to reload sobject cache to ensure it work
     "display_field_name_and_label" : true,
+
+    // Disable completion in visualforce page
+    "disable_visualforce_completion": false,
 
     // Indicate whether disable html completion, 
     // Because sublime text has the default html completion code,

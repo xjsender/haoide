@@ -4,5 +4,5 @@
 ]]></content>
     <tabTrigger>mb</tabTrigger>
     <scope>source.java, source.apex</scope>
-    <description>Medium Bracket(中括号)</description>
+    <description>Bracket(中括号)</description>
 </snippet>

@@ -225,14 +225,23 @@ class SOAP():
         types = options["types"]
         for _type in types:
             for folder in types[_type]:
-                queries.append(
-                    """
-                        <met:queries>
-                            <met:type>%s</met:type>
-                            <met:folder>%s</met:folder>
-                        </met:queries>
-                    """ % (_type, folder)
-                )
+                if not folder:
+                    queries.append(
+                        """
+                            <met:queries>
+                                <met:type>%s</met:type>
+                            </met:queries>
+                        """ % _type
+                    )
+                else:
+                    queries.append(
+                        """
+                            <met:queries>
+                                <met:type>%s</met:type>
+                                <met:folder>%s</met:folder>
+                            </met:queries>
+                        """ % (_type, folder)
+                    )
 
         list_package_request_body = """
             <met:listMetadata>
