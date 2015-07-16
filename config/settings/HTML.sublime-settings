@@ -2,6 +2,7 @@
     "extensions": [
         "page",
         "component",
+        "email",
         "auradoc",
         "cmp",
         "app",

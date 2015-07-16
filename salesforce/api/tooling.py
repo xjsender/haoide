@@ -980,7 +980,7 @@ class ToolingApi():
             "ContentEntityId": component_id,
             "MetadataContainerId": container_id,
             # "Metadata": {
-            #     "apiVersion": 34,
+            #     "apiVersion": 34.0,
             #     "status": "Active",
             #     "packageVersions": [{
             #         "majorNumber": 1,
@@ -1062,8 +1062,11 @@ class ToolingApi():
 
             # Fix issue github://haoide/issue#7
             if "problem" in return_result:
+                problem = return_result["problem"]
+                if isinstance(problem, list):
+                    problem = "\n".join(problem)
                 return_result["problem"] = urllib.parse.unquote(
-                    unescape(return_result["problem"], {
+                    unescape(problem, {
                         "&apos;": "'", 
                         "&quot;": '"'
                     })

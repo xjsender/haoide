@@ -223,10 +223,33 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
 
         self.metadata_objects = described_metadata["metadataObjects"]
         smo = self.settings["subscribed_metadata_objects"]
-        self.xmlNames = ["%s=>%s" % ("Subscribed" if c["xmlName"] in smo else "Unsubscribed", 
-            c["xmlName"]) for c in self.metadata_objects]
-        self.xmlNames = sorted(self.xmlNames)
-        self.window.show_quick_panel(self.xmlNames, self.on_done)
+
+        # Key pair between item and metdataObjects
+        self.item_property = {}
+
+        # Add all metadata objects to list
+        has_subscribed = False
+        subscribed_items = []
+        unsubscripted_items = []
+        for mo in self.metadata_objects:
+            if mo["xmlName"] in smo:
+                item = "%s[√] %s" % (" " * 8, mo["xmlName"])
+                subscribed_items.append(item)
+                has_subscribed = True
+            else:
+                item = "%s[x] %s" % (" " * 8, mo["xmlName"])
+                unsubscripted_items.append(item)
+            self.item_property[item] = mo["xmlName"]
+
+        # Add item `Select All` to list
+        item_all = "[%s] All" % ("√" if has_subscribed else "x")
+        self.items = [item_all]
+        self.item_property[item_all] = [m["xmlName"] for m in self.metadata_objects]
+
+        # Add subscribed ones and unsubscribed ones to list
+        self.items.extend(sorted(subscribed_items))
+        self.items.extend(sorted(unsubscripted_items))
+        self.window.show_quick_panel(self.items, self.on_done)
 
     def on_done(self, index):
         if index == -1:
@@ -234,21 +257,33 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
                 return self.window.run_command(self.callback_options["callback_command"])
 
         # Get chosen type
-        chosen_type = self.xmlNames[index].split("=>")[1]
+        chosen_item = self.items[index]
+        chosen_metadata_objects = self.item_property[chosen_item]
 
+        # Get already subscribed metadata objects
         s = sublime.load_settings(context.TOOLING_API_SETTINGS)
         projects = s.get("projects")
-
-        # Set the chosen project as default and others as not default
         default_project = projects[self.settings["default_project_name"]]
         if "subscribed_metadata_objects" in default_project:
-            if chosen_type in default_project["subscribed_metadata_objects"]:
-                default_project["subscribed_metadata_objects"].remove(chosen_type)
-            else:
-                default_project["subscribed_metadata_objects"].append(chosen_type)
+            subscribed_metadata_objects = default_project["subscribed_metadata_objects"]
         else:
-            default_project["subscribed_metadata_objects"] = [chosen_type]
+            subscribed_metadata_objects = []
 
+        # Assign new subscribed metadata objects to subscribed list
+        if isinstance(chosen_metadata_objects, list):
+            # If already subscribed all, and we click choose all item,
+            # all subscribed ones will be unsubscripted
+            if len(subscribed_metadata_objects) == len(self.metadata_objects):
+                subscribed_metadata_objects = []
+            else:
+                subscribed_metadata_objects = chosen_metadata_objects
+        elif isinstance(chosen_metadata_objects, str):
+            if chosen_metadata_objects in subscribed_metadata_objects:
+                subscribed_metadata_objects.remove(chosen_metadata_objects)
+            else:
+                subscribed_metadata_objects.append(chosen_metadata_objects)
+
+        default_project["subscribed_metadata_objects"] = subscribed_metadata_objects
         projects[self.settings["default_project_name"]] = default_project
 
         # Save the updated settings
@@ -496,8 +531,9 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         if not is_enabled: return False
 
         # Must be class or trigger
-        name, extension = util.get_file_attr(self.view.file_name())
-        if extension not in [".cls", ".trigger"]: return False
+        attributes = util.get_file_attributes(self.view.file_name())
+        if not attributes["extension"]: return False
+        if attributes["extension"] not in [".cls", ".trigger"]: return False
 
         # Can't be Test Class
         self.body = open(self.view.file_name(), encoding="utf-8").read()
@@ -633,7 +669,7 @@ class RetrieveFileFromServer(sublime_plugin.TextCommand):
     def is_enabled(self):
         if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
-        metadata_folder = util.get_meta_folder(self.view.file_name())
+        metadata_folder = util.get_metadata_folder(self.view.file_name())
         if metadata_folder not in self.settings["all_metadata_folders"]: return False
         if not util.check_enabled(self.view.file_name(), check_cache=False): 
             return False
@@ -661,15 +697,21 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
 
         types = {}
         for _file in files:
-            base, filename = os.path.split(_file)
-            base, folder = os.path.split(base)
+            attributes = util.get_file_attributes(_file)
+            name = attributes["name"]
+            metadata_folder = attributes["metadata_folder"]
 
-            name = filename.split(".")[0]
-            xmlName = settings[folder]["xmlName"]
-            if xmlName in types:
-                types[xmlName].append(name)
+            metadata_object_attr = settings[metadata_folder]
+            metadata_object = metadata_object_attr["xmlName"]
+
+            # If file is in folder, we need to add folder/
+            if metadata_object_attr["inFolder"] == "true":
+                name = "%s/%s" % (attributes["folder"], attributes["name"])
+
+            if metadata_object in types:
+                types[metadata_object].append(name)
             else:
-                types[xmlName] = [name]
+                types[metadata_object] = [name]
 
         processor.handle_retrieve_package(types, settings["workspace"], 
             source_org=source_org, ignore_package_xml=True)
@@ -679,7 +721,7 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
         settings = context.get_settings()
         for _file in files:
             if not os.path.isfile(_file): continue # Ignore folder
-            metadata_folder = util.get_meta_folder(_file)
+            metadata_folder = util.get_metadata_folder(_file)
             if metadata_folder not in settings["all_metadata_folders"]: return False
             if not util.check_enabled(_file, check_cache=False): 
                 return False
@@ -703,7 +745,7 @@ class DestructFileFromServer(sublime_plugin.TextCommand):
     def is_enabled(self):
         if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
-        metadata_folder = util.get_meta_folder(self.view.file_name())
+        metadata_folder = util.get_metadata_folder(self.view.file_name())
         if metadata_folder not in self.settings["all_metadata_folders"]:return False
         if not util.check_enabled(self.view.file_name(), check_cache=False): 
             return False
@@ -724,7 +766,7 @@ class DestructFilesFromServer(sublime_plugin.WindowCommand):
         self.settings = context.get_settings()
         for _file in files:
             if not os.path.isfile(_file): continue # Ignore folder
-            _folder = util.get_meta_folder(_file)
+            _folder = util.get_metadata_folder(_file)
             if _folder not in self.settings["all_metadata_folders"]: return False
             if not util.check_enabled(_file, check_cache=False): 
                 return False
@@ -773,7 +815,7 @@ class DeployOpenFilesToServer(sublime_plugin.WindowCommand):
         for _view in views:
             _file = _view.file_name()
             if not _file or not os.path.isfile(_file): continue # Ignore folder
-            _folder = util.get_meta_folder(_file) # Ignore non-sfdc files
+            _folder = util.get_metadata_folder(_file) # Ignore non-sfdc files
             if _folder not in self.settings["all_metadata_folders"]:
                 continue
 
@@ -820,14 +862,16 @@ class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
         return True
 
 class DeployFileToServer(sublime_plugin.TextCommand):
-    def run(self, edit):
+    def run(self, edit, switch=True):
         files = [self.view.file_name()]
-        sublime.active_window().run_command("deploy_files_to_server", {"files": files})
+        sublime.active_window().run_command("deploy_files_to_server", {
+            "files": files, "switch": switch
+        })
 
     def is_enabled(self):
         if not self.view or not self.view.file_name(): return False
         self.settings = context.get_settings()
-        _folder = util.get_meta_folder(self.view.file_name())
+        _folder = util.get_metadata_folder(self.view.file_name())
         if _folder not in self.settings["all_metadata_folders"]:
             return False
 
@@ -873,7 +917,7 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
         self.settings = context.get_settings()
         for _file in files:
             if not os.path.isfile(_file): continue # Ignore folder
-            _folder = util.get_meta_folder(_file)
+            _folder = util.get_metadata_folder(_file)
             if _folder not in self.settings["all_metadata_folders"]:
                 return False
 
@@ -1024,13 +1068,14 @@ class ViewComponentInSfdcCommand(sublime_plugin.WindowCommand):
 
 class PreviewPageCommand(sublime_plugin.TextCommand):
     def run(self, view):
-        startURL = "/apex/" + self.filename
+        startURL = "/apex/" + self.attributes["name"]
         self.view.window().run_command("login_to_sfdc", {"startURL": startURL})
 
     def is_visible(self):
         if not self.view.file_name(): return False
-        self.filename, self.extension = util.get_file_attr(self.view.file_name())
-        if self.extension != ".page": return False
+        self.attributes = util.get_file_attributes(self.view.file_name())
+        if not self.attributes["extension"]: return False
+        if self.attributes["extension"] != "page": return False
 
         return util.check_enabled(self.view.file_name())
 
@@ -1136,11 +1181,11 @@ class RunAsyncTestClassesCommand(sublime_plugin.WindowCommand):
 class RunTestCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Get component_attribute by file_name
-        name, extension = util.get_file_attr(self.view.file_name())
+        attributes = util.get_file_attributes(view.file_name())
         component_attribute = util.get_component_attribute(self.view.file_name())[0]
 
         # Process run test
-        processor.handle_run_test(name, component_attribute["id"])
+        processor.handle_run_test(attributes["name"], component_attribute["id"])
 
     def is_enabled(self):
         # Get current file name and Read file content
@@ -1883,7 +1928,7 @@ class SaveToServer(sublime_plugin.TextCommand):
 
     def is_enabled(self):
         if not self.view or not self.view.file_name(): return False
-        _folder = util.get_meta_folder(self.view.file_name())
+        _folder = util.get_metadata_folder(self.view.file_name())
         if _folder not in ["classes", "components", "pages", "triggers"]:
             return False
             

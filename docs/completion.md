@@ -37,6 +37,26 @@
     - Input ``space`` after HTML tag name, for example, ``<a``, you will see all the attributes of this tags
     - Input ``=`` after the HTML tag attribute, if this attributes has fixed values, plugin will list all available values for this tag attribute
 
+### Settings for Visualforce and HTML completion
+```json
+    // Indicate whether disable attribute completion
+    "disable_component_attribute_completion": false,
+
+    // Flag to disable attribute value completion
+    "disable_component_attribute_value_completion": false,
+
+    // Flag to disable custom component attributes completion in visualforce page
+    "disable_custom_component_completion": false,
+
+    // Flag to disable apex variable completion in visualforce page
+    "disable_apex_completion_in_visualforce": false,
+
+    // Indicate whether disable html completion, 
+    // Because sublime text has the default html completion code,
+    // so this feature is disabled by default
+    "disable_html_completion": true
+```
+
 ### Apex Code Completion
 * Keyword completion
 * Stand Class Completion

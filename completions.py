@@ -350,7 +350,8 @@ class ApexCompletions(sublime_plugin.EventListener):
 
                         # Call Inner Class in the same class
                         elif view.file_name():
-                            namespace, extension = util.get_file_attr(view.file_name())
+                            attributes = util.get_file_attributes(view.file_name())
+                            namespace = attributes["name"]
                             if namespace and namespace.lower() in symbol_tables:
                                 inners = symbol_tables[namespace.lower()]["inners"]
 
@@ -436,10 +437,6 @@ class PageCompletions(sublime_plugin.EventListener):
         settings = context.get_settings()
         username = settings["username"]
 
-        # If visualforce completion is disabled, just return
-        if settings["disable_visualforce_completion"]:
-            return []
-
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
         next_char = view.substr(sublime.Region(pt + 2, pt + 3))
@@ -510,33 +507,37 @@ class PageCompletions(sublime_plugin.EventListener):
             # Get the begin point of current line
             cursor_row, cursor_col = view.rowcol(pt)
 
-            # Get the two chars after course point
-            # If these two chars is '="', it means attribute value is already exist
-            # we will not add ="{!}" or ="" for this attribute
-            forward_two_chars = view.substr(sublime.Region(pt + 2, pt + 4))
-
-            # Get all matched regions
-            matched_regions = view.find_all("<\w+:\w+[\s\S]*?>")
-
-            # Choose the matched one that contains cursor point
-            matched_region = None
-            for mr in matched_regions:
-                if mr.contains(pt):
-                    matched_region = mr
-
             ##########################################
             # Visualforce Attribute Completions
             ##########################################
-            if matched_region:
-                matched_tag = view.substr(matched_region).split(" ")[0][1:].strip()
+            if not settings["disable_component_attribute_completion"]:
+                # Get the two chars after course point
+                # If these two chars is '="', it means attribute value is already exist
+                # we will not add ="{!}" or ="" for this attribute
+                forward_two_chars = view.substr(sublime.Region(pt + 2, pt + 4))
 
-                # Combine the attr of matched visualforce tag
-                if matched_tag in vf.tag_defs:
-                    def_entry = vf.tag_defs[matched_tag]
-                    for key, value in def_entry['attribs'].items():
-                        if "values" in value or forward_two_chars == '="':
-                            completion_list.append((key + '\t' + value['type'], key))
-                        else:
+                # Get all matched regions
+                matched_regions = view.find_all("<\w+:\w+[\s\S]*?>")
+
+                # Choose the matched one that contains cursor point
+                matched_region = None
+                for mr in matched_regions:
+                    if mr.contains(pt):
+                        matched_region = mr
+                        break
+
+                if matched_region:
+                    matched_tag = view.substr(matched_region).split(" ")[0][1:].strip()
+
+                    # Combine the attr of matched visualforce tag
+                    if matched_tag in vf.tag_defs:
+                        def_entry = vf.tag_defs[matched_tag]
+                        for key, value in def_entry['attribs'].items():
+                            # Has value completion
+                            if "values" in value or forward_two_chars == '="':
+                                completion_list.append((key + '\t' + value['type'], key))
+                                continue
+                            
                             if value["type"] in ["Object", "ApexPages.Action"]:
                                 completion_list.append((key + '\t' + value['type'], key+'="{!$1}"$0'))
                             else:
@@ -546,23 +547,24 @@ class PageCompletions(sublime_plugin.EventListener):
             # Custom Component Attribute Completions
             ##########################################
             # Get all matched regions
-            matched_regions = view.find_all("<c:\\w+")
+            if not settings["disable_custom_component_completion"]:
+                matched_regions = view.find_all("<c:\\w+")
 
-            # Get the nearest matched region from start to end
-            # for example, matched regions by above pattern are : 
-            #       [(4, 24), (28, 57), (76, 96), (100, 129)]
-            # the cursor point is int the next or same row 
-            # with the second one, so that one is the exact one
-            matched_region = None
-            for mr in matched_regions:
-                row, col = view.rowcol(mr.begin())
-                if cursor_row == row or cursor_row == row + 1:
-                    matched_region = mr
-            
-            if matched_region:
-                matched_tag = view.substr(matched_region)[1:]
-                tag_name = matched_tag.split(":")[1].strip()
-                return util.get_component_attributes(settings, tag_name)
+                # Get the nearest matched region from start to end
+                # for example, matched regions by above pattern are : 
+                #       [(4, 24), (28, 57), (76, 96), (100, 129)]
+                # the cursor point is int the next or same row 
+                # with the second one, so that one is the exact one
+                matched_region = None
+                for mr in matched_regions:
+                    row, col = view.rowcol(mr.begin())
+                    if cursor_row == row or cursor_row == row + 1:
+                        matched_region = mr
+                
+                if matched_region:
+                    matched_tag = view.substr(matched_region)[1:]
+                    tag_name = matched_tag.split(":")[1].strip()
+                    return util.get_component_attributes(settings, tag_name)
 
             ##########################################
             # HTML Element Attribute Completions
@@ -599,32 +601,33 @@ class PageCompletions(sublime_plugin.EventListener):
             ##########################################
             # Visualforce Attribute Values Completions
             ##########################################
-            matched_regions = view.find_all("<\w+:\w+[\s\S]*?>")
+            if not settings["disable_component_attribute_value_completion"]:
+                matched_regions = view.find_all("<\w+:\w+[\s\S]*?>")
 
-            matched_region = None
-            for mr in matched_regions:
-                if mr.contains(pt):
-                    matched_region = mr
+                matched_region = None
+                for mr in matched_regions:
+                    if mr.contains(pt):
+                        matched_region = mr
 
-            if matched_region:
-                # Get the Tag Name and Tag Attribute Name
-                matched_tag = view.substr(matched_region)[1:]
-                matched_tag = matched_tag.split(" ")[0].strip()
-                matched_attr_name = view.substr(view.word(pt-1))
+                if matched_region:
+                    # Get the Tag Name and Tag Attribute Name
+                    matched_tag = view.substr(matched_region)[1:]
+                    matched_tag = matched_tag.split(" ")[0].strip()
+                    matched_attr_name = view.substr(view.word(pt-1))
 
-                # Get the Attribute Values
-                if matched_tag in vf.tag_defs and matched_attr_name in vf.tag_defs[matched_tag]["attribs"]:
-                    tag_attribute = vf.tag_defs[matched_tag]["attribs"][matched_attr_name]
+                    # Get the Attribute Values
+                    if matched_tag in vf.tag_defs and matched_attr_name in vf.tag_defs[matched_tag]["attribs"]:
+                        tag_attribute = vf.tag_defs[matched_tag]["attribs"][matched_attr_name]
 
-                    # If attr type boolean, add {!} to it
-                    if tag_attribute["type"] == "Boolean":
-                        completion_list.append(("{!}" + "\t" + matched_attr_name, '"{!$1}"$0'))
+                        # If attr type boolean, add {!} to it
+                        if tag_attribute["type"] == "Boolean":
+                            completion_list.append(("{!}" + "\t" + matched_attr_name, '"{!$1}"$0'))
 
-                    if "values" in tag_attribute:
-                        for value in tag_attribute["values"]:
-                            completion_list.append((value + "\t" + matched_attr_name, '"%s"' % value))
+                        if "values" in tag_attribute:
+                            for value in tag_attribute["values"]:
+                                completion_list.append((value + "\t" + matched_attr_name, '"%s"' % value))
 
-                    return completion_list
+                        return completion_list
 
             ##########################################
             # HTML Element Attribute Values Completions
@@ -661,7 +664,8 @@ class PageCompletions(sublime_plugin.EventListener):
                 completion_list.extend(apex_class_completion)
 
         elif ch == ".":
-            if not view.file_name(): return completion_list
+            if not view.file_name(): 
+                return completion_list
 
             # Get the name of controller or extension
             pattern = '\\s+(controller="\\w+"|extensions="\\w+")'

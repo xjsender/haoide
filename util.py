@@ -141,7 +141,8 @@ def populate_components(_type):
     # If sobjects is exist in local cache, just return it
     component_metadata = sublime.load_settings("component_metadata.sublime-settings")
     if not component_metadata.has(username):
-        Printer.get("error").write("No cache, please create new project firstly")
+        message = "Please execute `Cache > Reload Sobject Cache` command before execute this command"
+        Printer.get("error").write(message)
         return {}
 
     return component_metadata.get(username).get(_type)
@@ -176,7 +177,8 @@ def populate_sobjects_describe():
     # If sobjects is exist in sobjects_completion.sublime-settings, just return it
     sobjects_completions = sublime.load_settings("sobjects_completion.sublime-settings")
     if not sobjects_completions.has(username):
-        Printer.get('error').write("No Cache, Please New Project Firstly.")
+        message = "Please execute `Cache > Reload Sobject Cache` command before execute this command"
+        Printer.get('error').write(message)
         return
 
     sobjects_describe = {}
@@ -808,39 +810,45 @@ def build_package_dict(files, ignore_folder=True):
     package_dict = {}
     for f in files:
         # Ignore folder
-        if ignore_folder and not os.path.isfile(f): continue
+        if ignore_folder and not os.path.isfile(f): 
+            continue
 
         # Ignore "-meta.xml"
-        if f.endswith("-meta.xml"): continue
+        if f.endswith("-meta.xml"): 
+            continue
 
         # Get xml_name and code name
         if ignore_folder:
-            base, name = os.path.split(f)
-            name, extension = name.split(".")
-            base, folder = os.path.split(base)
-            xml_name = settings[folder]["xmlName"]
+            attributes = get_file_attributes(f)
+            print (attributes)
+            mo = settings[attributes["metadata_folder"]]
+            metadata_object = mo["xmlName"]
             file_dict = {
-                "name": name,
+                "name": attributes["name"],
                 "dir": f,
-                "folder": folder,
-                "extension": "."+extension
+                "folder": attributes["metadata_folder"],
+                "extension": "."+attributes["extension"]
             }
+
+            if mo["inFolder"] == "true":
+                file_dict["name"] = "%s/%s" % (
+                    attributes["folder"], attributes["name"]
+                )
         else:
-            base, name = os.path.split(f)
-            base, folder = os.path.split(base)
-            xml_name = settings[folder]["xmlName"]
+            attributes = get_file_attributes(f)
+            mo = settings[attributes["metadata_folder"]]
             file_dict = {
-                "name": name,
+                "name": attributes["name"],
                 "dir": f,
-                "folder": folder,
-                "extension": ""
+                "folder": attributes["metadata_folder"],
+                "extension": "."+attributes["extension"]
             }
 
         # Build dict
-        if xml_name in package_dict:
-            package_dict[xml_name].append(file_dict)
+        if metadata_object in package_dict:
+            package_dict[metadata_object].append(file_dict)
         else:
-            package_dict[xml_name] = [file_dict]
+            package_dict[metadata_object] = [file_dict]
 
     return package_dict
 
@@ -943,8 +951,6 @@ def build_deploy_package(files):
             met_xml = f["dir"] + "-meta.xml"
             if os.path.isfile(met_xml):
                 zf.write(met_xml, "%s/%s%s" % (f["folder"], f["name"], f["extension"]+"-meta.xml"))
-
-    print (package_dict)
 
     # Prepare package XML content
     package_xml_content = build_package_xml(settings, package_dict)
@@ -2258,42 +2264,41 @@ def get_path_attr(path_or_file):
 
     return project_name, metadata_folder
 
-def get_file_attr(file_name):
-    try:
-        folder, extension = os.path.splitext(file_name)
-        name = ""
-        if "\\" in folder:
-            name = folder[folder.rfind("\\")+1:]
-        elif "/" in folder:
-            name = folder[folder.rfind("/")+1:]
-        return name, extension
-    except:
-        pass
+def get_file_attributes(file_name):
+    attributes = {}
+    base, fullName = os.path.split(file_name)
+    if "." in fullName:
+        name, extension = fullName.split(".")
+    else:
+        name, extension = fullName, ""
+    attributes["name"] = name
+    attributes["extension"] = extension
+        
+    base, folder = os.path.split(base)
+    base, metafolder_or_src = os.path.split(base)
 
-def get_meta_folder(file_name):
-    """ Get the meta_folder by file_name
+    if metafolder_or_src == "src":
+        attributes["metadata_folder"] = folder
+    else:
+        attributes["folder"] = folder
+        attributes["metadata_folder"] = metafolder_or_src
+
+    return attributes
+
+def get_metadata_folder(file_name):
+    """ Get the metadata_folder by file_name
 
     * file_name -- Local component full file name, for example:
         if file name is "/pro-exercise-20130625/src/classes/AccountChartController.cls",
-        the meta_folder is "classes"
+        the metadata_folder is "classes"
 
     Returns: 
 
     * metadata_folder -- the metadata folder
     """
 
-    metadata_folder, name, extension = get_folder_and_name(file_name)
-    return metadata_folder
-
-def get_folder_and_name(file_name):
-    folder, name = os.path.split(file_name)
-    src_folder, metadata_folder = os.path.split(folder)
-    try:
-        name, extension = name.split(".")
-    except:
-        name, extension = name, ""
-
-    return (metadata_folder, name, extension)
+    attributes = get_file_attributes(file_name)
+    return attributes["metadata_folder"]
 
 def get_component_attribute(file_name):
     """
@@ -2320,18 +2325,17 @@ def get_component_attribute(file_name):
     settings = context.get_settings()
 
     # Check whether current file is subscribed component
-    folder, name = os.path.split(file_name)
-    component_name = name.split(".")[0]
-    src_folder, metadata_folder = os.path.split(folder)
+    attributes = get_file_attributes(file_name)
+    metadata_folder = attributes["metadata_folder"]
+    component_name = attributes["name"]
     if metadata_folder not in settings["all_metadata_folders"]:
         return None, None
 
     xml_name = settings[metadata_folder]["xmlName"]
     username = settings["username"]
-    component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
-
+    components = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
     try:
-        component_attribute = component_settings.get(username)[xml_name][component_name.lower()]
+        component_attribute = components.get(username)[xml_name][component_name.lower()]
     except:
         component_attribute, component_name = None, None
 
@@ -2356,9 +2360,9 @@ def check_enabled(file_name, check_cache=True):
     settings = context.get_settings()
 
     # Check whether current file is subscribed component
-    folder, name = os.path.split(file_name)
-    src_folder, folder_name = os.path.split(folder)
-    if folder_name not in settings["all_metadata_folders"]: 
+    attributes = get_file_attributes(file_name)
+    metadata_folder = attributes["metadata_folder"]
+    if metadata_folder not in settings["all_metadata_folders"]: 
         sublime.status_message("Not valid SFDC component")
         return False
 

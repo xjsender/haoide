@@ -148,8 +148,17 @@
     // If you change this setting, you need to reload sobject cache to ensure it work
     "display_field_name_and_label" : true,
 
-    // Disable completion in visualforce page
-    "disable_visualforce_completion": false,
+    // Indicate whether disable attribute completion
+    "disable_component_attribute_completion": false,
+
+    // Flag to disable attribute value completion
+    "disable_component_attribute_value_completion": false,
+
+    // Flag to disable custom component attributes completion in visualforce page
+    "disable_custom_component_completion": false,
+
+    // Flag to disable apex variable completion in visualforce page
+    "disable_apex_completion_in_visualforce": false,
 
     // Indicate whether disable html completion, 
     // Because sublime text has the default html completion code,
@@ -329,7 +338,7 @@
 
         // Team Member
         "AccountTeamMember", "OpportunityTeamMember", "CaseTeamMember", "UserTeamMember", 
-        "GroupMember", "Group",
+        "GroupMember", "Group", "Territory2",
 
         // Apex Code
         "ApexClass", "ApexComponent", "ApexTrigger", "ApexPage", 

@@ -103,7 +103,7 @@ Public class UtilTestData {
 
     public static Sobject initiateSobject(Sobject so, String recordTypeName) {
         if (so instanceof Account) {
-            so = initiateAccount((Account) acc);
+            so = initiateAccount((Account) so);
         }
         else if (so instanceof Contact) {
             so = initiateContact((Contact) so);
