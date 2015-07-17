@@ -1181,7 +1181,7 @@ class RunAsyncTestClassesCommand(sublime_plugin.WindowCommand):
 class RunTestCommand(sublime_plugin.TextCommand):
     def run(self, view):
         # Get component_attribute by file_name
-        attributes = util.get_file_attributes(view.file_name())
+        attributes = util.get_file_attributes(self.view.file_name())
         component_attribute = util.get_component_attribute(self.view.file_name())[0]
 
         # Process run test
