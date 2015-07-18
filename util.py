@@ -2368,7 +2368,7 @@ def check_enabled(file_name, check_cache=True):
 
     # Check whether project of current file is active project
     default_project_name = settings["default_project_name"]
-    if not default_project_name.lower() in file_name.lower(): 
+    if default_project_name.lower() not in file_name.lower(): 
         sublime.status_message('This project is not active project');
         return False
 

@@ -148,6 +148,11 @@
     },
 
     {
+        "caption": "HaoIDE: Deploy to This Server", 
+        "command": "deploy_file_to_this_server"
+    },
+
+    {
         "caption": "HaoIDE: Destruct from Server", 
         "command": "destruct_file_from_server"
     },

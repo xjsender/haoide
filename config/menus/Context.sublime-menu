@@ -15,11 +15,7 @@
             // {"caption": "Rename from Server", "command": "rename_metadata"},
             
             {"caption": "Deploy to Server", "command": "deploy_file_to_server"},
-            {"caption": "Deploy to This Server", "command": "deploy_file_to_server", 
-                "args": {
-                    "switch": false
-                }
-            },
+            {"caption": "Deploy to This Server", "command": "deploy_file_to_this_server"},
 
             {"caption": "Deploy Lighting Element to Server", "command": "deploy_lighting_element_to_server"},
 

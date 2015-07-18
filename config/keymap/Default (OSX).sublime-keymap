@@ -20,11 +20,7 @@
     },
 
     // Deploy to this server
-    {"keys": ["shift+command+s"], "command": "deploy_file_to_server", 
-        "args": {
-            "switch": false
-        }
-    },
+    {"keys": ["shift+command+s"], "command": "deploy_file_to_this_server"},
 
     // Update the default project
     {"keys": ["alt+r"], "command": "update_project"},

@@ -533,7 +533,7 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         # Must be class or trigger
         attributes = util.get_file_attributes(self.view.file_name())
         if not attributes["extension"]: return False
-        if attributes["extension"] not in [".cls", ".trigger"]: return False
+        if attributes["extension"] not in ["cls", "trigger"]: return False
 
         # Can't be Test Class
         self.body = open(self.view.file_name(), encoding="utf-8").read()
@@ -876,6 +876,16 @@ class DeployFileToServer(sublime_plugin.TextCommand):
             return False
 
         return True
+
+class DeployFileToThisServer(sublime_plugin.TextCommand):
+    def run(self, edit):
+        files = [self.view.file_name()]
+        sublime.active_window().run_command("deploy_files_to_server", {
+            "files": files, "switch": False
+        })
+
+    def is_enabled(self):
+        return util.check_enabled(self.view.file_name(), check_cache=False)
 
 class DeployFilesToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
