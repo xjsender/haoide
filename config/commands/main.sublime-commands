@@ -104,13 +104,13 @@
     },
 
     {
-        "caption": "HaoIDE: Deploy Lighting Element to Server",
-        "command": "deploy_lighting_element_to_server"
+        "caption": "HaoIDE: Preview Lighting App In Server",
+        "command": "preview_lighting_app_in_server"
     },
 
     {
-        "caption": "HaoIDE: Preview Lighting App In Server",
-        "command": "preview_lighting_app_in_server"
+        "caption": "HaoIDE: Preview This Lighting App In Server",
+        "command": "preview_this_app_in_server"
     },
 
     {

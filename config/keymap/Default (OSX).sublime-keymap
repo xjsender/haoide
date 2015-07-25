@@ -19,7 +19,19 @@
         }
     },
 
-    // Deploy to this server
+    // Diff file with this server, which means not switch project  
+    {"keys": ["alt+shift+d"], "command": "diff_with_server",
+        "args": {
+            "switch": false
+        }
+    },
+    // Retrieve file from this server, which means not switch project
+    {"keys": ["command+shift+r"], "command": "retrieve_file_from_server",
+        "args": {
+            "switch": false
+        }
+    },
+    // Deploy file to this server, which means not switch project
     {"keys": ["shift+command+s"], "command": "deploy_file_to_this_server"},
 
     // Update the default project
@@ -49,6 +61,13 @@
     // Save current component to server 
     {"keys": ["super+alt+s"], "command": "save_to_server"},
 
+    // Compile file
+    {"keys": ["command+shift+c"], "command": "save_to_server", 
+        "args": {
+            "is_check_only": true
+        }
+    },
+
     // Choose a test class in the list and run test class
     {"keys": ["alt+t"],"command": "run_one_test"},
 
@@ -61,6 +80,9 @@
     // Run current Test Class in edit mode, it's Context Menu Item
     // Problem here, don't know why?
     {"keys": ["super+alt+t"], "command": "run_test"},
+
+    // Run sync test
+    {"keys": ["command+shift+u"], "command": "run_sync_test"},
 
     // Refresh current component in edit mode
     {"keys": ["super+alt+r"], "command": "refresh_file_from_server"},

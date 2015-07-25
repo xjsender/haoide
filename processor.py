@@ -154,17 +154,18 @@ def handle_login_thread(callback_options={}, force=False, timeout=120):
     ThreadProgress(api, thread, "Login to %s" % default_project_name, 
         default_project_name + " Login Succeed")
 
-def handle_view_code_coverage(component_name, component_attribute, body, timeout=120):
+def handle_view_code_coverage(component_name, component_id, body, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
 
         result = api.result
-        if not result["success"]: return
+        if not result["success"]: 
+            return
 
         if result["totalSize"] == 0:
-            Printer.get("log").write("No code coverage")
+            Printer.get("log").write("There is no available code coverage")
             return
 
         # Populate the coverage info from server
@@ -174,7 +175,7 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
         uncovered_lines_count = len(uncovered_lines)
         total_lines_count = covered_lines_count + uncovered_lines_count
         if total_lines_count == 0:
-            Printer.get("log").write("No Code Coverage")
+            Printer.get("log").write("There is no available code coverage")
             return
         coverage_percent = covered_lines_count / total_lines_count * 100
 
@@ -207,7 +208,7 @@ def handle_view_code_coverage(component_name, component_attribute, body, timeout
     settings = context.get_settings()
     api = ToolingApi(settings)
     query = "SELECT Coverage FROM ApexCodeCoverageAggregate " +\
-        "WHERE ApexClassOrTriggerId = '{0}'".format(component_attribute["id"])
+        "WHERE ApexClassOrTriggerId = '{0}'".format(component_id)
     thread = threading.Thread(target=api.query, args=(query, True, ))
     thread.start()
     ThreadProgress(api, thread, "View Code Coverage of " + component_name,
@@ -960,7 +961,7 @@ def handle_run_test(class_name, class_id, timeout=120):
         if "success" in result and not result["success"]: return
 
         if not result:
-            Printer.get("error").write("%s is not a test class" % class_name)
+            return Printer.get("error").write("%s is not a test class" % class_name)
 
         # No error, just display log in a new view
         test_result = util.parse_test_result(result)
@@ -1008,46 +1009,59 @@ def handle_run_test(class_name, class_id, timeout=120):
     ThreadProgress(api, thread, "Run Test Class " + class_name, "Run Test for " + class_name + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_run_sync_test_classes(class_names, timeout=120):
-    def handle_new_view_thread(thread, timeout):
+def handle_run_sync_test(class_names, timeout=120):
+    def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
-            return
-        elif not api.result:
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
 
         # If succeed
         result = api.result
-        pprint.pprint(result)
-        pprint.pprint(util.parse_code_coverage(result))
+        if "success" in result and not result["success"]:
+            return
+
+        if result["numTestsRun"] == 0:
+            return Printer.get("error").write("There is no available test to run")
+
+        view = sublime.active_window().new_file()
+        view.run_command("new_view", {
+            "name": ",".join(class_names) + " Coverage",
+            "input": util.parse_sync_test_coverage(result)
+        })
+
+        if settings["debug_mode"]:
+            view = sublime.active_window().new_file()
+            view.run_command("new_view", {
+                "name": ",".join(class_names) + " Debug Mode",
+                "input": json.dumps(result, indent=4)
+            })
+
+        # Keep the coverage to local cache
+        codeCoverages = result["codeCoverage"]
+        cache_dir = os.path.join(settings["workspace"], ".config")
+        cache_file = os.path.join(cache_dir, "coverage.json")
+
+        coverages = {}
+        if not os.path.exists(cache_dir):
+            os.makedirs(cache_dir)
+        elif os.path.isfile(cache_file):
+            coverages = json.loads(open(cache_file).read())
+
+        # Upsert exist code coverage info
+        for codeCoverage in codeCoverages:
+            lowerName = codeCoverage["name"].lower()
+            coverages[lowerName] = codeCoverage
+
+        with open(cache_file, "w") as fp:
+            fp.write(json.dumps(coverages, indent=4))
 
     settings = context.get_settings()
     api = ToolingApi(settings)
     thread = threading.Thread(target=api.run_tests_synchronous, args=(class_names, ))
     thread.start()
-    wait_message = 'Run Sync Test Classes for Specified Test Class'
+    wait_message = 'Running Sync Test for %s' % ",".join(class_names)
     ThreadProgress(api, thread, wait_message, wait_message + ' Succeed')
-    handle_new_view_thread(thread, timeout)
-
-def handle_run_async_test_classes(class_ids, timeout=120):
-    def handle_new_view_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
-            return
-        elif not api.result:
-            return
-
-        # If succeed
-        result = api.result
-        pprint.pprint(result)
-
-    settings = context.get_settings()
-    api = ToolingApi(settings)
-    thread = threading.Thread(target=api.run_tests_asynchronous, args=(class_ids, ))
-    thread.start()
-    wait_message = 'Run Sync Test Classes for Specified Test Class'
-    ThreadProgress(api, thread, wait_message, wait_message + ' Succeed')
-    handle_new_view_thread(thread, timeout)
+    handle_thread(thread, timeout)
 
 def handle_generate_sobject_soql(sobject, filter, timeout=120):
     def handle_new_view_thread(thread, timeout):
@@ -1116,6 +1130,18 @@ def handle_describe_sobject(sobject, timeout=120):
     handle_new_view_thread(thread, timeout)
 
 def handle_export_specified_workbooks(sobjects, timeout=120):
+    # settings = context.get_settings()
+    # api = ToolingApi(settings)
+    # threads = []
+
+    # mcc = settings["maximum_concurrent_connections"]
+    # chunked_sobjects = util.list_chunks(sobjects, math.ceil(len(sobjects) / mcc))
+
+    # for cs in chunked_sobjects:
+    #     thread = threading.Thread(target=api.generate_workbook, args=(cs, ))
+    #     threads.append(thread)
+    #     thread.start()
+
     settings = context.get_settings()
     api = ToolingApi(settings)
     threads = []
@@ -1137,10 +1163,16 @@ def handle_export_all_workbooks(timeout=120):
         if not api.result["success"]: return
 
         # If succeed
-        sobjects_describe = api.result["sobjects"]
-        for sd in sobjects_describe:
+        sobjects = []
+        for sd in api.result["sobjects"]:
             if "name" not in sd: continue
-            thread = threading.Thread(target=api.generate_workbook, args=(sd["name"], ))
+            sobjects.append(sd["name"])
+
+        mcc = settings["maximum_concurrent_connections"]
+        chunked_sobjects = util.list_chunks(sobjects, math.ceil(len(sobjects) / mcc))
+
+        for sobjects in chunked_sobjects:
+            thread = threading.Thread(target=api.generate_workbook, args=(sobjects, ))
             thread.start()
 
     settings = context.get_settings()
@@ -1180,7 +1212,7 @@ def handle_new_project(is_update=False, timeout=120):
 
         # Extract the zipFile to extract_to
         thread = threading.Thread(target=util.extract_encoded_zipfile, 
-            args=(result["zipFile"], extract_to, ))
+            args=(result["zipFile"], extract_to,))
         thread.start()
 
         # Apex Code Cache
@@ -1326,7 +1358,7 @@ def handle_reload_project_cache(types, callback_command, timeout=120):
     thread = threading.Thread(target=api.prepare_members, args=(types, True, ))
     thread.start()
     handle_thread(thread, timeout)
-    ThreadProgress(api, thread, "Reload Project Cache", "Reload Project Cache Succeed")
+    ThreadProgress(api, thread, "Reloading Project Cache", "Reload Project Cache Succeed")
 
 def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_xml=False, timeout=120):
     def handle_thread(thread, timeout):
@@ -1353,7 +1385,8 @@ def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_x
     thread = threading.Thread(target=api.retrieve, args=({"types": types}, ))
     thread.start()
     handle_thread(thread, timeout)
-    ThreadProgress(api, thread, "Retrieve Metadata", "Retrieve Metadata Succeed")
+    ThreadProgress(api, thread, "Retrieve File From Server", 
+        "Retrieve File From Server Succeed")
 
 def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     def handle_thread(thread, timeout):
@@ -1525,21 +1558,22 @@ def handle_create_component(data, component_name, component_type, markup_or_body
         # Save it to component.sublime-settings
         s = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
         username = settings["username"]
-        components_dict = s.get(username)
+        components_dict = s.get(username, {})
 
         # Prevent exception for creating component if no component in org
         if component_type not in components_dict: 
             components_dict = {component_type : {}}
 
         # Build components dict
-        components_dict[component_type][component_name.lower()] = {
+        lower_name = component_name.lower()
+        components_dict[component_type][fullName.lower()] = {
             "id": component_id,
             "name": component_name,
             "url": post_url + "/" + component_id,
             "body": markup_or_body,
             "extension": extension,
             "type": component_type,
-            "is_test": False
+            "is_test": lower_name.startswith("test") or lower_name.endswith("test")
         }
         s.set(username, components_dict)
 
@@ -1564,14 +1598,15 @@ def handle_create_component(data, component_name, component_type, markup_or_body
         # Generate new meta.xml file
         with open(file_name+"-meta.xml", "w") as fp:
             fp.write(meta_file_content)
-                
+    
     settings = context.get_settings()
     api = ToolingApi(settings)
     post_url = "/sobjects/" + component_type
     thread = threading.Thread(target=api.post, args=(post_url, data, ))
     thread.start()
-    ThreadProgress(api, thread, "Creating Component " + component_name, 
-        "Creating Component " + component_name + " Succeed")
+    fullName = os.path.basename(file_name)
+    ThreadProgress(api, thread, "Creating Component %s" % fullName, 
+        "Creating Component %s Succeed" % fullName)
     handle_thread(thread, timeout)
 
 def handle_refresh_static_resource(component_attribute, file_name, timeout=120):

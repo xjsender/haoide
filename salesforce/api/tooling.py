@@ -857,24 +857,26 @@ class ToolingApi():
         # Combine these two result
         self.result = result
 
-    def generate_workbook(self, sobject):
+    def generate_workbook(self, sobjects):
         """ Generate CSV for Sobject Workbook
 
         Arguments:
 
         * sobject -- sobject name
         """
-        result = self.describe_sobject(sobject)
 
-        # Exception Process
-        if not result["success"]:
-            self.result = result
-            return result
+        for sobject in sobjects:
+            result = self.describe_sobject(sobject)
 
-        workspace = self.settings.get("workspace")
-        outputdir = util.generate_workbook(result, workspace, 
-            self.settings.get("workbook_field_describe_columns"))+"/"+sobject+".csv"
-        print (sobject + " workbook outputdir: " + outputdir)
+            # Exception Process
+            if not result["success"]:
+                self.result = result
+                return result
+
+            workspace = self.settings.get("workspace")
+            outputdir = util.generate_workbook(result, workspace, 
+                self.settings.get("workbook_field_describe_columns"))+"/"+sobject+".csv"
+            print (sobject + " workbook outputdir: " + outputdir)
 
     def save_to_server(self, component_attribute, body, is_check_only, check_save_conflict=True):
         """ This method contains 5 steps:
@@ -1063,6 +1065,8 @@ class ToolingApi():
             # Fix issue github://haoide/issue#7
             if "problem" in return_result:
                 problem = return_result["problem"]
+                if not problem:
+                    problem = "Unknown problem, please try to use `Deploy To This Server` command"
                 if isinstance(problem, list):
                     problem = "\n".join(problem)
                 return_result["problem"] = urllib.parse.unquote(

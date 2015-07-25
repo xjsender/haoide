@@ -195,6 +195,17 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         super(BuildPackageXml, self).__init__(*args, **kwargs)
 
     def run(self):
+        if not hasattr(self, "filters"):
+            sublime.active_window().show_input_panel(
+                "Input filters for members separated with comma: ", 
+                "", self.on_input_filters, None, None
+            )
+        else:
+            self.on_input_filters(",".join(self.filters))
+        
+    def on_input_filters(self, filters):
+        self.filters = filters.split(",") if filters else []
+
         package_cache = os.path.join(self.settings["workspace"], ".config", "package.json")
         if not os.path.exists(package_cache):
             return self.window.run_command("reload_project_cache", {
@@ -203,11 +214,11 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
 
         self.package = json.loads(open(package_cache).read())
 
-        view = util.get_view_by_name("package.xml")
-        types = view.settings().get("types") if view else {}
-        if not types: types = {}
-
+        view = self.window.active_view()
+        types = view.settings().get("types", {}) if view else {}
+        
         self.members = []
+        self.matched_package = {}
         for metadata_object in sorted(self.package.keys()):
             if not self.package[metadata_object]: continue
             if metadata_object in types:
@@ -216,12 +227,33 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
                 display = "[x]" + metadata_object
             self.members.append(display)
 
+            matched_members = []
             for mem in self.package[metadata_object]:
-                if metadata_object in types and mem in types[metadata_object]:
+                if self.filters and not self.is_filter_match(mem):
+                    continue
+                matched_members.append(mem)
+
+                if mem in types.get(metadata_object, []):
                     mem = "[√]" + metadata_object + " => " + mem
                 else:
                     mem = "[x]" + metadata_object + " => " + mem
                 self.members.append("    %s" % mem)
+
+             # If no matched member, just skip
+            if not matched_members:
+                self.members.remove(display)
+                continue
+
+            self.matched_package[metadata_object] = matched_members
+
+        if not self.members:
+            message = "No matched member found by filters('%s'), do you want to retry" % ",".join(self.filters)
+            if sublime.ok_cancel_dialog(message, "Retry"):
+                return sublime.active_window().show_input_panel(
+                    "Input filters for members separated with comma: ", 
+                    "", self.on_input_filters, None, None
+                )
+            return
 
         # Get the last subscribe index
         selected_index = view.settings().get("selected_index") if view else 0
@@ -230,8 +262,21 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         self.window.show_quick_panel(self.members, self.on_done, 
             sublime.MONOSPACE_FONT, selected_index)
 
+    def is_filter_match(self, member):
+        isFilterMatch = False
+        for _filter in self.filters:
+            _filter = _filter.strip()
+            if _filter.lower() in member.lower():
+                isFilterMatch = True
+                break
+
+        return isFilterMatch
+
     def on_done(self, index):
-        if index == -1: return
+        if index == -1:
+            del self.filters
+            return
+
         chosen_element = self.members[index]
 
         if " => " in chosen_element:
@@ -243,8 +288,8 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
             is_chosen = "[√]" in chosen_metadata_object
             chosen_metadata_object = chosen_metadata_object[3:]
 
-        view = util.get_view_by_name("package.xml")
-        if not view: 
+        view = self.window.active_view()
+        if not view or not view.settings().has("types"): 
             view = self.window.new_file()
             view.set_syntax_file("Packages/XML/xml.tmLanguage")
             view.run_command("new_view", {
@@ -253,16 +298,14 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
             })
         view.settings().set("selected_index", index)
         self.window.focus_view(view)
-
-        types = view.settings().get("types")
-        if not types: types = {}
+        types = view.settings().get("types", {})
 
         if not chosen_member:
             if not is_chosen:
-                types[chosen_metadata_object] = self.package[chosen_metadata_object]
+                types[chosen_metadata_object] = self.matched_package[chosen_metadata_object]
             else:
-                if len(types[chosen_metadata_object]) != len(self.package[chosen_metadata_object]):
-                    types[chosen_metadata_object] = self.package[chosen_metadata_object]
+                if len(types[chosen_metadata_object]) != len(self.matched_package[chosen_metadata_object]):
+                    types[chosen_metadata_object] = self.matched_package[chosen_metadata_object]
                 else:
                     del types[chosen_metadata_object]
         elif chosen_metadata_object in types:
@@ -307,7 +350,7 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
             "input": util.format_xml(self.package_xml_content).decode("UTF-8")
         })
 
-        sublime.set_timeout(lambda:self.window.run_command("build_package_xml"), 10)
+        sublime.set_timeout(lambda:self.on_input_filters(",".join(self.filters)), 10)
 
     def is_enabled(self):
         self.settings = context.get_settings()

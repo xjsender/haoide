@@ -1,7 +1,7 @@
 <snippet>
     <content><![CDATA[
-public static testMethod void $1(){
-    $0
+static testMethod void $1() {
+    $2
 }
 ]]></content>
     <tabTrigger>tm</tabTrigger>

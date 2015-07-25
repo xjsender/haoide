@@ -479,7 +479,6 @@ class MetadataApi():
             return []
 
         result = xmltodict.parse(response.content)
-        pprint.pprint(result)
         result = result["soapenv:Envelope"]["soapenv:Body"]["listMetadataResponse"]
         if not result or "result" not in result: 
             return []

@@ -37,7 +37,7 @@ There has a ```log_levels``` setting in the default settings to control the anon
     <th>Default Value</th>
     <th>Description</th>
   </thead>
-  
+
   <tbody>
     <tr>
       <td>trace_flag</td>
@@ -69,8 +69,11 @@ There has a ```log_levels``` setting in the default settings to control the anon
 - Put the focus in the LogId got by fetch command, press <kbd>alt</kbd> and click left button, the debug log detail will be retrieved and displayed in the new view.
 
 ## Run Test
-* By Main Menu: click ``HaoIDE`` > ``Debug`` > ``Run Test``, choose the test class and press <kbd>enter</kbd>, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
-* By Context Menu: in the context of opened class, click ``HaoIDE`` > ``Run Test Class``, check the progress in the status bar until succeed message appeared, and then a new view with the test result will be open.
+* This feature will be deprecated in the release v3.1.5, because this feature is executed in async way, it's very slow.
+
+## Run Sync Test
+* Click ``HaoIDE > Run Sync Test`` in the context menu or press <kbd>alt/command + shift + u</kbd>, you can get the test run result and related coverage report
+* The coverage information will be kept in ``.config/coverages.json`` cache file, when you execute ``view_code_coverage`` command next time, plugin will read code coverage information from here
 
 ## View Code Coverage
 * This feature just works when api version is >= 29.0

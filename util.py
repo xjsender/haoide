@@ -30,6 +30,24 @@ def get_described_metadata(username):
     st = sublime.load_settings("metadata.sublime-settings")
     return st.get(username)
 
+def get_instance(settings):
+    """ Get instance by instance_url
+
+    Return:
+    * instance -- instance of active project, for example, 
+            if instance_url is https://ap1.salesforce.com,
+                instance will be `ap1`, 
+            if instance_url is https://company-name.cs18.my.salesforce.com
+                instance will be `company-name.cs18.my`
+    """
+
+    session = get_session_info(settings)
+    instance_url = session["instance_url"]
+    base_url = re.compile("//[\s\S]+?.salesforce.com").search(instance_url).group()
+    instance = base_url[2:base_url.find(".salesforce.com")]
+
+    return instance
+
 def get_session_info(settings):
     """ Get Session Info
 
@@ -56,6 +74,57 @@ def get_package_info(settings):
         package = json.loads(open(package_directory).read())
 
     return package
+
+def view_coverage(name, file_name, body):
+    settings = context.get_settings()
+    cache_file = os.path.join(settings["workspace"], ".config", "coverage.json")
+    coverages = {}
+    if os.path.isfile(cache_file):
+        coverages = json.loads(open(cache_file).read())
+    coverage = coverages.get(name.lower(), {})
+
+    if not coverage:
+        return Printer.get("error").write("No code coverage cache, " +\
+            "please execute `Run Sync Test` on related test class before view code coverage")
+
+    numLocationsNotCovered = coverage["numLocationsNotCovered"]
+    numLocations = coverage["numLocations"]
+    numLocationsCovered = numLocations - numLocationsNotCovered
+    linesNotCovered = [l["line"] for l in coverage["locationsNotCovered"]]
+    if numLocations == 0:
+        return Printer.get("error").write("There is no code coverage")
+
+    # Append coverage statistic info
+    coverage_statistic = "%s Coverage: %.2f%%(%s/%s)" % (
+        name, numLocationsCovered / numLocations * 100, 
+        numLocationsCovered, numLocations
+    )
+    
+    # If has coverage, just add coverage info to new view
+    view = sublime.active_window().new_file()
+    view.run_command("new_view", {
+        "name": coverage_statistic,
+        "input": body
+    })
+    
+    # Calculate line coverage
+    split_lines = view.lines(sublime.Region(0, view.size()))
+    uncovered_region = []
+    covered_region = []
+    for region in split_lines:
+        # The first four Lines are the coverage info
+        line = view.rowcol(region.begin() + 1)[0] + 1
+        if line in linesNotCovered:
+            uncovered_region.append(region)
+        else:
+            covered_region.append(region)
+
+    # Append body with uncovered line
+    view.add_regions("numLocationsNotCovered", uncovered_region, "invalid", "dot",
+        sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
+
+    view.add_regions("numLocationsCovered", covered_region, "comment", "cross",
+        sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
 
 def get_local_timezone_offset():
     """ Return the timezone offset of local time with GMT standard
@@ -159,7 +228,7 @@ def populate_lighting_applications():
     aura_attributes = {}
     aura_cache = component_settings.get(username).get("AuraDefinitionBundle")
     for name in aura_cache:
-        aura_name, element_name = aura_cache[name]["name"].split("/")
+        aura_name, element_name = aura_cache[name]["fullName"].split("/")
         if element_name.endswith(".app"):
             aura_attributes[aura_name] = aura_cache[name]
 
@@ -702,7 +771,6 @@ def get_view_by_name(view_name):
     view = None
     for win in sublime.windows():
         for v in win.views():
-            if not v.name(): continue
             if v.name() == view_name:
                 view = v
 
@@ -817,32 +885,27 @@ def build_package_dict(files, ignore_folder=True):
         if f.endswith("-meta.xml"): 
             continue
 
-        # Get xml_name and code name
-        if ignore_folder:
-            attributes = get_file_attributes(f)
-            print (attributes)
-            mo = settings[attributes["metadata_folder"]]
-            metadata_object = mo["xmlName"]
-            file_dict = {
-                "name": attributes["name"],
-                "dir": f,
-                "folder": attributes["metadata_folder"],
-                "extension": "."+attributes["extension"]
-            }
+        # If ignore_folder is true and f is folder
+        attributes = get_file_attributes(f)
+        metadata_folder = attributes["metadata_folder"]
+        mo = settings[metadata_folder]
+        metadata_object = mo["xmlName"]
+        file_dict = {
+            "name": attributes["name"],
+            "metadata_name": attributes["name"],
+            "dir": f,
+            "folder": attributes["folder"] if "folder" in attributes else "",
+            "metadata_folder": attributes["metadata_folder"],
+            "extension": attributes["extension"]
+        }
 
-            if mo["inFolder"] == "true":
-                file_dict["name"] = "%s/%s" % (
-                    attributes["folder"], attributes["name"]
-                )
-        else:
-            attributes = get_file_attributes(f)
-            mo = settings[attributes["metadata_folder"]]
-            file_dict = {
-                "name": attributes["name"],
-                "dir": f,
-                "folder": attributes["metadata_folder"],
-                "extension": "."+attributes["extension"]
-            }
+        if mo["inFolder"] == "true":
+            file_dict["metadata_name"] = "%s/%s" % (
+                attributes["folder"], attributes["name"]
+            )
+
+        if metadata_folder == "aura":
+            file_dict["metadata_name"] = "%s" % attributes["folder"]
 
         # Build dict
         if metadata_object in package_dict:
@@ -870,7 +933,7 @@ def build_package_xml(settings, package_dict):
     for meta_type in package_dict:
         members = []
         for f in package_dict[meta_type]:
-            members.append("<members>%s</members>" % f["name"])
+            members.append("<members>%s</members>" % f["metadata_name"])
 
         types.append("""
         <types>
@@ -901,12 +964,14 @@ def build_destructive_package(files, ignore_folder=True):
     # Build destructiveChanges.xml
     destructive_xml_content = build_package_xml(settings, package_dict)
     destructive_xml_path = workspace+"/destructiveChanges.xml"
-    open(destructive_xml_path, "wb").write(destructive_xml_content.encode("utf-8"))
+    with open(destructive_xml_path, "wb") as fp:
+        fp.write(destructive_xml_content.encode("utf-8"))
 
     # Build package.xml
     package_xml_content = build_package_xml(settings, {})
     package_xml_path = workspace+"/package.xml"
-    open(package_xml_path, "wb").write(package_xml_content.encode("utf-8"))
+    with open(package_xml_path, "wb") as fp:
+        fp.write(package_xml_content.encode("utf-8"))
 
     # Create temp zipFile
     zipfile_path = workspace + "/test.zip"
@@ -945,12 +1010,18 @@ def build_deploy_package(files):
     # Add files to zip
     for meta_type in package_dict:
         for f in package_dict[meta_type]:
-            zf.write(f["dir"], "%s/%s%s" % (f["folder"], f["name"], f["extension"]))
+            write_to = (
+                f["metadata_folder"], 
+                ("/" + f["folder"]) if f["folder"] else "", 
+                f["name"], 
+                f["extension"]
+            )
+            zf.write(f["dir"], "%s%s/%s.%s" % write_to)
 
             # If -meta.xml is exist, add it to folder
             met_xml = f["dir"] + "-meta.xml"
             if os.path.isfile(met_xml):
-                zf.write(met_xml, "%s/%s%s" % (f["folder"], f["name"], f["extension"]+"-meta.xml"))
+                zf.write(met_xml, "%s%s/%s.%s-meta.xml" % write_to)
 
     # Prepare package XML content
     package_xml_content = build_package_xml(settings, package_dict)
@@ -962,7 +1033,8 @@ def build_deploy_package(files):
         if not os.path.exists(package_xml_dir): os.makedirs(package_xml_dir)
         time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
         package_xml_dir = package_xml_dir + "/package-%s.xml" % time_stamp
-        open(package_xml_dir, "wb").write(package_xml_content)
+        with open(package_xml_dir, "wb") as fp:
+            fp.write(package_xml_content)
         zf.write(package_xml_dir, "package.xml")
     except Exception as ex:
         if settings["debug_mode"]:
@@ -1129,8 +1201,12 @@ def extract_zipfile(zipfile_path, extract_to):
 def extract_file(zipfile_path, extract_to, ignore_package_xml=False):
     zfile = zipfile.ZipFile(zipfile_path, 'r')
     for filename in zfile.namelist():
-        if filename.endswith('/'): continue
-        if ignore_package_xml and filename == "unpackaged/package.xml": continue
+        if filename.endswith('/'): 
+            continue
+
+        if ignore_package_xml and filename == "unpackaged/package.xml": 
+            continue
+
         if filename.startswith("unpackaged"):
             f = os.path.join(extract_to, filename.replace("unpackaged", "src"))
         else:
@@ -1225,8 +1301,7 @@ def reload_apex_code_cache(file_properties, settings=None):
         "ApexTrigger": "Body",
         "StaticResource": "Body",
         "ApexPage": "Markup",
-        "ApexComponent": "Markup",
-        "AuraDefinitionBundle": ""
+        "ApexComponent": "Markup"
     }
 
     # If the package only contains `package.xml`
@@ -1271,7 +1346,7 @@ def reload_apex_code_cache(file_properties, settings=None):
             cl = name.lower()
             attrs["is_test"] = cl.startswith("test") or cl.endswith("test")
 
-        components_attr[name.lower()] = attrs
+        components_attr[base_name.lower()] = attrs
         all_components_attr[metdata_object] = components_attr
 
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
@@ -1565,6 +1640,80 @@ def parse_code_coverage(result):
 
     return message.SEPRATE.format(code_coverage_desc + columns + "\n"*2 + code_coverage)
 
+def parse_sync_test_coverage(result):
+    successes = result["successes"]
+    failures = result["failures"]
+    codeCoverage = result["codeCoverage"]
+
+    allrows = []
+    if result["successes"]:
+        for success in result["successes"]:
+            allrows.append("~" * 80)
+            success_row = []
+            success_row.append("% 30s    %-30s    " % ("ClassName: ", success["name"]))
+            success_row.append("% 30s    %-30s    " % ("MethodName: ", success["methodName"]))
+            success_row.append("% 30s    %-30s    " % ("SeeAllData: ", success["seeAllData"]))
+            success_row.append("% 30s    %-30s    " % ("Pass/Fail: ", "Pass"))
+            success_row.append("% 30s    %-30s    " % ("Time: ", success["time"]))
+            allrows.append("\n".join(success_row))
+
+    if result["failures"]:
+        for failure in result["failures"]:
+            allrows.append("~" * 80)
+            failure_row = []
+            failure_row.append("% 30s    %-30s    " % ("ClassName: ", failure["name"]))
+            failure_row.append("% 30s    %-30s    " % ("MethodName: ", failure["methodName"]))
+            failure_row.append("% 30s    %-30s    " % ("SeeAllData: ", failure["seeAllData"]))
+            failure_row.append("% 30s    %-30s    " % ("Pass/Fail: ", "Fail"))
+            failure_row.append("% 30s    %-30s    " % ("StackTrace: ", failure["stackTrace"]))
+            failure_row.append("% 30s    %-30s    " % ("Message: ", failure["message"]))
+            failure_row.append("% 30s    %-30s    " % ("Time: ", failure["time"]))
+            allrows.append("\n".join(failure_row))
+
+    allrows.append("~" * 80)
+    allrows.append("Follow the instruction as below, you can quickly view code coverage,")
+    allrows.append("    * Put focus on code name, hold down 'alt' and triple-click the 'Left Mouse'")
+
+    header_width = {
+        "Type": 15, "Name": 50, "Percent": 10, "Lines": 10
+    }
+    columns = []
+    for column in ["Type", "Name", "Percent", "Lines"]:
+        columns.append("%-*s" % (header_width[column], column))
+
+    coverageRows = []
+    coverageRows.append("~" * 80)
+    coverageRows.append("".join(columns))
+    coverageRows.append("~" * 80)
+    codeCoverage = sorted(result["codeCoverage"], reverse=True,
+        key=lambda k : (k["numLocations"] - k['numLocationsNotCovered']) / k["numLocations"])
+    for coverage in codeCoverage:
+        coverageRow = []
+        coverageRow.append("%-*s" % (header_width["Type"], coverage["type"]))
+        coverageRow.append("%-*s" % (header_width["Name"], coverage["name"]))
+
+        # Calculate coverage percent
+        numLocationsNotCovered = coverage["numLocationsNotCovered"]
+        numLocations = coverage["numLocations"]
+        numLocationsCovered = numLocations - numLocationsNotCovered
+        percent = numLocationsCovered / numLocations * 100 if numLocations != 0 else 0
+        coverageRow.append("%-*s" % (
+            header_width["Percent"], 
+            "%.2f%%" % percent
+        ))
+        coverageRow.append("%-*s" % (
+            header_width["Lines"], "%s/%s" % (
+                numLocationsCovered, 
+                numLocations
+            )
+        ))
+
+        coverageRows.append("".join(coverageRow))
+
+    allrows.append("\n".join(coverageRows))
+
+    return "\n".join(allrows)
+
 def parse_test_result(test_result):
     """
     format test result as specified format
@@ -1578,7 +1727,7 @@ def parse_test_result(test_result):
     test_result_content = ""
     class_name = ""
     for record in test_result:
-        test_result_content += "-" * 100 + "\n"
+        test_result_content += "-" * 80 + "\n"
         test_result_content += "% 30s    " % "MethodName: "
         test_result_content += "%-30s" % none_value(record["MethodName"]) + "\n"
         test_result_content += "% 30s    " % "TestTimestamp: "
@@ -1596,7 +1745,9 @@ def parse_test_result(test_result):
     return_result = class_name + test_result_desc + test_result_content[:-1]
 
     # Parse Debug Log Part
-    debug_log_desc = message.SEPRATE.format("You can choose the LogId and view log detail in Sublime or Salesforce by context menu")
+    info = "You can choose the LogId and view log detail " +\
+        "in Sublime or Salesforce by context menu"
+    debug_log_desc = message.SEPRATE.format(info)
     debug_log_content = "LogId: "
     if len(test_result) > 0 and test_result[0]["ApexLogId"] != None:
         debug_log_content += test_result[0]["ApexLogId"]
@@ -2271,6 +2422,7 @@ def get_file_attributes(file_name):
         name, extension = fullName.split(".")
     else:
         name, extension = fullName, ""
+    attributes["fullName"] = fullName
     attributes["name"] = name
     attributes["extension"] = extension
         
@@ -2279,6 +2431,10 @@ def get_file_attributes(file_name):
 
     if metafolder_or_src == "src":
         attributes["metadata_folder"] = folder
+        # If we choose folder name of an aura element
+        # actually, its name is also its folder name
+        if not os.path.isfile(file_name):
+            attributes["folder"] = name
     else:
         attributes["folder"] = folder
         attributes["metadata_folder"] = metafolder_or_src
@@ -2327,20 +2483,26 @@ def get_component_attribute(file_name):
     # Check whether current file is subscribed component
     attributes = get_file_attributes(file_name)
     metadata_folder = attributes["metadata_folder"]
-    component_name = attributes["name"]
+    name = attributes["name"]
+    fullName = attributes["fullName"]
     if metadata_folder not in settings["all_metadata_folders"]:
+        return None, None
+
+    # Check whether project of current file is active project
+    default_project_name = settings["default_project_name"]
+    if default_project_name.lower() not in file_name.lower(): 
         return None, None
 
     xml_name = settings[metadata_folder]["xmlName"]
     username = settings["username"]
     components = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
     try:
-        component_attribute = components.get(username)[xml_name][component_name.lower()]
+        component_attribute = components.get(username)[xml_name][fullName.lower()]
     except:
-        component_attribute, component_name = None, None
+        component_attribute, name = None, None
 
     # Return tuple
-    return (component_attribute, component_name)
+    return (component_attribute, name)
 
 def check_enabled(file_name, check_cache=True):
     """
@@ -2377,7 +2539,7 @@ def check_enabled(file_name, check_cache=True):
         username = settings["username"]
         component_attribute, component_name = get_component_attribute(file_name)
         if not component_attribute: 
-            sublime.status_message("This component is not active component")
+            sublime.status_message("This component is not in active project")
             return False
     
     return True
@@ -2394,9 +2556,14 @@ def display_active_project(view):
     )
     view.set_status('default_project', display_message)
 
-def switch_project(chosen_project):
+def switch_project(target):
     """ Set the default project to the chosen one
     """
+
+    # If target is same with current, just skip
+    settings = context.get_settings()
+    if target == settings["default_project_name"]:
+        return
 
     s = sublime.load_settings(context.TOOLING_API_SETTINGS)
     projects = s.get("projects")
@@ -2404,7 +2571,7 @@ def switch_project(chosen_project):
     # Set the chosen project as default and others as not default
     for project in projects:
         project_attr = projects[project]
-        if chosen_project == project:
+        if target == project:
             project_attr["default"] = True
         else:
             project_attr["default"] = False
@@ -2417,14 +2584,12 @@ def switch_project(chosen_project):
     for window in sublime.windows():
         if not window.views():
             view = window.new_file()
-            view.set_status('default_project', 
-                "Default Project => %s" % chosen_project)
+            view.set_status('default_project', "Default Project => %s" % target)
             window.focus_view(view)
             window.run_command("close")
         else:
             for view in window.views():
-                view.set_status('default_project', 
-                    "Default Project => %s" % chosen_project)
+                view.set_status('default_project', "Default Project => %s" % target)
 
 def add_project_to_workspace(settings):
     """Add new project folder to workspace

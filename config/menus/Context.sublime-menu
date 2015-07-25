@@ -11,19 +11,27 @@
 
             // {"caption": "Rename Metadata", "command": "rename_metadata"},
             {"caption": "Retrieve from Server", "command": "retrieve_file_from_server"},
-
             // {"caption": "Rename from Server", "command": "rename_metadata"},
-            
             {"caption": "Deploy to Server", "command": "deploy_file_to_server"},
-            {"caption": "Deploy to This Server", "command": "deploy_file_to_this_server"},
-
-            {"caption": "Deploy Lighting Element to Server", "command": "deploy_lighting_element_to_server"},
-
             {"caption": "Destruct from Server", "command": "destruct_file_from_server"},
+
+            {"caption": "Diff With Server", "command": "diff_with_server"},
 
             {"caption": "-"},
 
-            {"caption": "Diff With Server", "command": "diff_with_server"},
+            // Lighting App preview command
+            {"caption": "Preview This App In Server", "command": "preview_this_app_in_server"},
+            {"caption": "Diff With This Server", "command": "diff_with_server", 
+                "args": {
+                    "switch": false
+                }
+            },
+            {"caption": "Retrieve from This Server", "command": "retrieve_file_from_server",
+                "args": {
+                    "switch": false
+                }
+            },
+            {"caption": "Deploy to This Server", "command": "deploy_file_to_this_server"},
 
             {"caption": "-"},
             
@@ -84,9 +92,11 @@
             {"caption": "Execute Anonymous","command": "execute_anonymous"},
             {"caption": "Execute Query","command": "execute_query"},
             {"caption": "Run Test Class","command": "run_test"},
+            {"caption": "Run Sync Test","command": "run_sync_test"},
             {"caption": "Preview Page in Server","command": "preview_page"},
 
             {"caption": "-"},
+            {"caption": "View File Attributes","command": "view_file_attributes"},
             {"caption": "View Code Coverage","command": "view_code_coverage"},
             {"caption": "View Debug Log Detail","command": "view_debug_log_detail"},
             {"caption": "View Id in Salesforce Web","command": "view_id_in_sfdc_web"},

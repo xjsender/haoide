@@ -1,14 +1,14 @@
 [
-    // Press shift and Click Left Mouse for twice will open class file in the background
-    {
-        "button": "button1", "count": 3, "modifiers": ["shift"],
-        "press_command": "goto_component", 
-        "press_args": {"is_background": true}
-    },
-
+    // Button 1 is the left mouse
     // Press shift and Click Left Mouse for twice will open class file in the foreground
     {
         "button": "button1", "count": 2, "modifiers": ["shift"],
+        "press_command": "context_goto_definition"
+    },
+
+    // Press shift and Click Left Mouse for triple will open class file in the background
+    {
+        "button": "button1", "count": 3, "modifiers": ["shift"],
         "press_command": "goto_component", 
         "press_args": {"is_background": false}
     },

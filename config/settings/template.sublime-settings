@@ -92,7 +92,7 @@
             "Test Class": {
                 "extension": ".cls",
                 "description": "Exception Class",
-                "body": "@isTest\nprivate class class_name {\n\t\n}"
+                "body": "@isTest\nprivate class class_name {\n    \n}"
             }
         },
 
