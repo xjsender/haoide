@@ -488,11 +488,6 @@
                     { "caption": "-" },
 
                     {
-                        "caption": "Describe Metadata",
-                        "command": "describe_metadata"
-                    },
-
-                    {
                         "caption": "Reload Project Cache",
                         "command": "reload_project_cache"
                     },

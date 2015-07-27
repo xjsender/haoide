@@ -10,6 +10,7 @@ from .salesforce import xmltodict
 from .salesforce.lib import apex
 from .salesforce.lib import vf
 from .salesforce.lib import html
+from .salesforce.lib import bootstrap
 
 from .salesforce.lib.panel import Printer
 
@@ -594,6 +595,19 @@ class PageCompletions(sublime_plugin.EventListener):
                             else:
                                 completion_list.append((attr_name + "\tattr", attr_name+'="$1"$0'))
 
+            # ##########################################
+            # Bootstrap3 class name completions
+            ##########################################
+            if not settings["disable_bootstrap_completion"]:
+                matched_attribute_regions = view.find_all('\w+="[\w\s]*"')
+                for mr in matched_attribute_regions:
+                    if not mr.contains(pt): break
+                    className = view.substr(mr).split("=")[0]
+                    if className.lower() == "class":
+                        for className in bootstrap.classes:
+                            completion_list.append(("%s\tBootstrap3" % className, className))
+                        break
+
             # Sort the completion_list by first element
             completion_list.sort(key=lambda tup:tup[1])
 
@@ -662,6 +676,17 @@ class PageCompletions(sublime_plugin.EventListener):
             if attr_name in vf.page_reference_attrs:
                 apex_class_completion = util.get_component_completion(username, "ApexPage")
                 completion_list.extend(apex_class_completion)
+
+            # 4. Bootstrap3 class name completions
+            if not settings["disable_bootstrap_completion"]:
+                matched_attribute_regions = view.find_all('\w+="[\w\s]*"')
+                for mr in matched_attribute_regions:
+                    if not mr.contains(pt): break
+                    className = view.substr(mr).split("=")[0]
+                    if className.lower() == "class":
+                        for className in bootstrap.classes:
+                            completion_list.append(("%s\tBootstrap3" % className, className))
+                        break
 
         elif ch == ".":
             if not view.file_name(): 

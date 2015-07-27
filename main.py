@@ -77,9 +77,6 @@ class JsonFormat(BaseSelection, sublime_plugin.TextCommand):
             "input": formatted_json
         })
 
-        # If you have installed the htmljs plugin, below statement will work
-        view.run_command("htmlprettify")
-
 class JsonSerialization(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
         try:
@@ -1209,8 +1206,9 @@ class RunSyncTest(sublime_plugin.TextCommand):
                 not self.component_attribute["is_test"]:
             return False
 
-        if "namespacePrefix" in self.component_attribute:
-            self.cname = "%s.%s" % (
+        if "namespacePrefix" in self.component_attribute and \
+                self.component_attribute["namespacePrefix"]:
+            self.cname = "%s%s" % (
                 self.component_attribute["namespacePrefix"],
                 self.cname
             )

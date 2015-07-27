@@ -2419,7 +2419,8 @@ def get_file_attributes(file_name):
     attributes = {}
     base, fullName = os.path.split(file_name)
     if "." in fullName:
-        name, extension = fullName.split(".")
+        name = fullName[:fullName.rfind(".")]
+        extension = fullName[fullName.rfind(".")+1:]
     else:
         name, extension = fullName, ""
     attributes["fullName"] = fullName

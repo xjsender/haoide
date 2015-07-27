@@ -127,6 +127,7 @@ def get_settings():
     settings["disable_soql_field_completion"] = s.get("disable_soql_field_completion", False)
     settings["display_field_name_and_label"] = s.get("display_field_name_and_label", True)
     settings["disable_html_completion"] = s.get("disable_html_completion", True)
+    settings["disable_bootstrap_completion"] = s.get("disable_bootstrap_completion", False)
     settings["disable_custom_component_completion"] = s.get("disable_custom_component_completion", False)
     settings["disable_component_attribute_completion"] = s.get("disable_component_attribute_completion", False)
     settings["disable_component_attribute_value_completion"] = s.get("disable_component_attribute_value_completion", False)

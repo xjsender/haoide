@@ -4,6 +4,20 @@ Release History
 
 ---------------
 
+Release 3.1.5 (2015-07-27)
+++++++++++++++++++
+* New Feature:
+    - Add bootstrap3 support for html class completion
+    - Add a new setting ``disable_bootstrap_completion`` to control bootstrap completion
+
+* Update:
+    - Remove ``Metadata > Describe Metadata`` menu item in the main menu
+
+* Fix Bug:
+    - Fix bug for running sync test for class with namespace or not
+    - Fix bug for ``get_file_attributes`` method
+
+
 Release 3.1.4 (2015-07-25)
 ++++++++++++++++++
 * Bug Fix:
