@@ -1208,7 +1208,7 @@ class RunSyncTest(sublime_plugin.TextCommand):
 
         if "namespacePrefix" in self.component_attribute and \
                 self.component_attribute["namespacePrefix"]:
-            self.cname = "%s%s" % (
+            self.cname = "%s.%s" % (
                 self.component_attribute["namespacePrefix"],
                 self.cname
             )
