@@ -24,9 +24,9 @@ class SFDCEventListener(sublime_plugin.EventListener):
         util.display_active_project(view)
 
         # Add types settings for build_package_xml command
-        if view.file_name():
+        if view.file_name() != None:
             cname = os.path.basename(view.file_name())
-            if "package.xml" in cname.lower():
+            if cname and "package.xml" in cname.lower():
                 with open(view.file_name(), "rb") as fp:
                     content = fp.read()
                 types = util.build_package_types(content)

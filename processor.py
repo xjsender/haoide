@@ -131,6 +131,17 @@ def handle_update_user_language(language, timeout=120):
     ThreadProgress(api, thread, "Updating User Language to " + language,  
         "User language is updated to " + language)
 
+def handle_update_user_password(user_id, new_password, timeout=120):
+    settings = context.get_settings()
+    api = ToolingApi(settings)
+    thread = threading.Thread(target=api.manage_password, args=(
+        user_id, {"NewPassword": new_password}, 
+    ))
+    thread.start()
+    masked_password = new_password[:5] + "*" * len(new_password[3:])
+    ThreadProgress(api, thread, "Updating User Password to " + masked_password,  
+        "Succeed to update user password to " + masked_password)
+
 def handle_login_thread(callback_options={}, force=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1025,14 +1036,14 @@ def handle_run_sync_test(class_names, timeout=120):
 
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
-            "name": ",".join(class_names) + " Coverage",
+            "name": "Sync Test Coverage Report",
             "input": util.parse_sync_test_coverage(result)
         })
 
         if settings["debug_mode"]:
             view = sublime.active_window().new_file()
             view.run_command("new_view", {
-                "name": ",".join(class_names) + " Debug Mode",
+                "name": "Sync Test Raw Response",
                 "input": json.dumps(result, indent=4)
             })
 
@@ -1059,8 +1070,10 @@ def handle_run_sync_test(class_names, timeout=120):
     api = ToolingApi(settings)
     thread = threading.Thread(target=api.run_tests_synchronous, args=(class_names, ))
     thread.start()
-    wait_message = 'Running Sync Test for %s' % ",".join(class_names)
-    ThreadProgress(api, thread, wait_message, wait_message + ' Succeed')
+    wait_message = "Running Sync Test Classes%s" % (
+        " for %s" % class_names[0] if len(class_names) == 1 else ""
+    )
+    ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
     handle_thread(thread, timeout)
 
 def handle_generate_sobject_soql(sobject, filter, timeout=120):
@@ -1431,9 +1444,10 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
             Printer.get('log').write("\nTotal time: %s seconds" % total_seconds, False)
 
             # Remove highlight
-            view = sublime.active_window().active_view()
-            component_id = component_attribute["id"]
-            view.run_command("remove_check_point", {"mark":component_id+"build_error"})
+            view = util.get_view_by_file_name(file_name)
+            if view:
+                component_id = component_attribute["id"]
+                view.run_command("remove_check_point", {"mark":component_id+"build_error"})
 
             # If succeed, just hide it in several seconds later
             delay_seconds = settings["delay_seconds_for_hidden_output_panel_when_succeed"]
@@ -1459,10 +1473,10 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
             Printer.get('log').write(message)
 
             # Get the active view
-            view = sublime.active_window().active_view()
+            view = util.get_view_by_file_name(file_name)
 
             # Check current view the saving code file
-            if not view.file_name(): return
+            if not view or not view.file_name(): return
             if not file_base_name in view.file_name(): return
             if not extension in [".trigger", ".cls", ".page"]: return
 

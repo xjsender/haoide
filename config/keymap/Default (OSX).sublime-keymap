@@ -81,6 +81,9 @@
     // Problem here, don't know why?
     {"keys": ["super+alt+t"], "command": "run_test"},
 
+    // Run sync tests
+    {"keys": ["command+shift+y"], "command": "run_sync_tests"},
+
     // Run sync test
     {"keys": ["command+shift+u"], "command": "run_sync_test"},
 

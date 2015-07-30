@@ -1029,16 +1029,22 @@ def build_deploy_package(files):
 
     # Write package content to .package path
     try:
-        package_xml_dir = settings["workspace"]+"/.deploy"
-        if not os.path.exists(package_xml_dir): os.makedirs(package_xml_dir)
         time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
-        package_xml_dir = package_xml_dir + "/package-%s.xml" % time_stamp
-        with open(package_xml_dir, "wb") as fp:
+        xml_dir = os.path.join(settings["workspace"], ".deploy")
+        if not os.path.exists(xml_dir): 
+            os.mkdir(xml_dir)
+        
+        # http://stackoverflow.com/questions/1627198/python-mkdir-giving-me-wrong-permissions
+        if not os.access(xml_dir, os.W_OK):
+            os.chmod(xml_dir, 0o755)
+            
+        xml_dir = os.path.join(xml_dir, "package-%s.xml" % time_stamp)
+        with open(xml_dir, "wb") as fp:
             fp.write(package_xml_content)
-        zf.write(package_xml_dir, "package.xml")
+        zf.write(xml_dir, "package.xml")
     except Exception as ex:
         if settings["debug_mode"]:
-            print ('When keep package.xml, encounter error: %s' % str(ex))
+            print ('When save package.xml, encounter error: %s' % str(ex))
 
     # Close zip input stream
     zf.close()
@@ -1646,19 +1652,9 @@ def parse_sync_test_coverage(result):
     codeCoverage = result["codeCoverage"]
 
     allrows = []
-    if result["successes"]:
-        for success in result["successes"]:
-            allrows.append("~" * 80)
-            success_row = []
-            success_row.append("% 30s    %-30s    " % ("ClassName: ", success["name"]))
-            success_row.append("% 30s    %-30s    " % ("MethodName: ", success["methodName"]))
-            success_row.append("% 30s    %-30s    " % ("SeeAllData: ", success["seeAllData"]))
-            success_row.append("% 30s    %-30s    " % ("Pass/Fail: ", "Pass"))
-            success_row.append("% 30s    %-30s    " % ("Time: ", success["time"]))
-            allrows.append("\n".join(success_row))
-
     if result["failures"]:
-        for failure in result["failures"]:
+        allrows.append("Failed Test Methods:")
+        for failure in sorted(result["failures"], key=lambda k : k["name"]):
             allrows.append("~" * 80)
             failure_row = []
             failure_row.append("% 30s    %-30s    " % ("ClassName: ", failure["name"]))
@@ -1669,6 +1665,19 @@ def parse_sync_test_coverage(result):
             failure_row.append("% 30s    %-30s    " % ("Message: ", failure["message"]))
             failure_row.append("% 30s    %-30s    " % ("Time: ", failure["time"]))
             allrows.append("\n".join(failure_row))
+
+    if result["successes"]:
+        allrows.append("~" * 80)
+        allrows.append("Succeed Test Methods:")
+        for success in sorted(result["successes"], key=lambda k : k["name"]):
+            allrows.append("~" * 80)
+            success_row = []
+            success_row.append("% 30s    %-30s    " % ("ClassName: ", success["name"]))
+            success_row.append("% 30s    %-30s    " % ("MethodName: ", success["methodName"]))
+            success_row.append("% 30s    %-30s    " % ("SeeAllData: ", success["seeAllData"]))
+            success_row.append("% 30s    %-30s    " % ("Pass/Fail: ", "Pass"))
+            success_row.append("% 30s    %-30s    " % ("Time: ", success["time"]))
+            allrows.append("\n".join(success_row))
 
     allrows.append("~" * 80)
     allrows.append("Follow the instruction as below, you can quickly view code coverage,")
@@ -1686,7 +1695,7 @@ def parse_sync_test_coverage(result):
     coverageRows.append("".join(columns))
     coverageRows.append("~" * 80)
     codeCoverage = sorted(result["codeCoverage"], reverse=True,
-        key=lambda k : (k["numLocations"] - k['numLocationsNotCovered']) / k["numLocations"])
+        key=lambda k : 0 if k["numLocations"] == 0 else (k["numLocations"] - k['numLocationsNotCovered']) / k["numLocations"])
     for coverage in codeCoverage:
         coverageRow = []
         coverageRow.append("%-*s" % (header_width["Type"], coverage["type"]))

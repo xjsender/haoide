@@ -4,6 +4,21 @@ Release History
 
 ---------------
 
+
+Release 3.1.6 (2015-07-29)
+++++++++++++++++++
+* Bug fix:
+    - If controller name is same with page name, there will have problem when view code coverage
+    - Fix bug when file is loaded
+    - Fix issue #62
+    - Fix issue #63
+
+* Enhancement:
+    - Deliver enhancement #64
+    - Deliver enhancement #65
+    - Deliver enhancement #66
+
+
 Release 3.1.5 (2015-07-27)
 ++++++++++++++++++
 * New Feature:

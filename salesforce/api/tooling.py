@@ -658,6 +658,19 @@ class ToolingApi():
         url = "%s/sobjects" % ("/tooling" if tooling else "")
         return self.get(url)
 
+    def manage_password(self, user_id, data):
+        """ Change password for user
+
+        Arguments:
+        
+        * url -- url include userId to change password
+        * new_password -- new password to be changed
+        """
+
+        url = "/sobjects/User/%s/password" % user_id
+        self.result = self.post(url, data)
+        return self.result
+
     def create_trace_flags(self, users):
         """ Create Debug Log Trace by users
 

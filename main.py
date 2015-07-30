@@ -241,11 +241,11 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
         unsubscripted_items = []
         for mo in self.metadata_objects:
             if mo["xmlName"] in smo:
-                item = "%s[√] %s" % (" " * 8, mo["xmlName"])
+                item = "%s[√] %s" % (" " * 4, mo["xmlName"])
                 subscribed_items.append(item)
                 has_subscribed = True
             else:
-                item = "%s[x] %s" % (" " * 8, mo["xmlName"])
+                item = "%s[x] %s" % (" " * 4, mo["xmlName"])
                 unsubscripted_items.append(item)
             self.item_property[item] = mo["xmlName"]
 
@@ -257,7 +257,8 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
         # Add subscribed ones and unsubscribed ones to list
         self.items.extend(sorted(subscribed_items))
         self.items.extend(sorted(unsubscripted_items))
-        self.window.show_quick_panel(self.items, self.on_done)
+        self.window.show_quick_panel(self.items, self.on_done, 
+            sublime.MONOSPACE_FONT)
 
     def on_done(self, index):
         if index == -1:
@@ -496,18 +497,25 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
     the class file will be open, you can custom the bind key in mousemap path
     """
 
-    def run(self, edit, is_background=False):
+    def run(self, edit, is_background=False, allowed_folders=None):
         sel = self.view.sel()[0]
         sel_text = self.view.substr(self.view.word(sel.begin()))
         
         settings = context.get_settings()
         for ct in settings["subscribed_metadata_objects"]:
-            if "suffix" not in settings[ct]: continue
+            if "suffix" not in settings[ct]: 
+                continue
             suffix = settings[ct]["suffix"]
             folder = settings[ct]["directoryName"]
-            target_file = settings["workspace"] + "/src/%s/%s.%s" % (folder, sel_text, suffix)
+            target_file = os.path.join(settings["workspace"] + \
+                "/src/%s/%s.%s" % (folder, sel_text, suffix)
+            )
             if os.path.isfile(target_file):
-                self.view.window().open_file(target_file)
+                if allowed_folders:
+                    if folder in allowed_folders:
+                        self.view.window().open_file(target_file)
+                else:
+                    self.view.window().open_file(target_file)
 
         if is_background: self.view.window().focus_view(self.view)
 
@@ -542,8 +550,11 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         if self.attributes["metadata_folder"] not in ["classes", "triggers"]: 
             return False
 
+
         # Can't be Test Class
-        self.body = open(self.file_name, encoding="utf-8").read()
+        with open(self.file_name, encoding="utf-8") as fp:
+            self.body = fp.read()
+
         if "@istest" in self.body.lower(): 
             return False
 
@@ -556,7 +567,8 @@ class ViewSelectedCodeCoverageCommand(sublime_plugin.TextCommand):
 
         # Open the related code file
         self.view.run_command("goto_component", {
-            "is_background": False
+            "is_background": False,
+            "allowed_folders": ["classes", "triggers"]
         })
 
         # Get the view of open code file
@@ -1190,6 +1202,91 @@ class FetchOrgWideCoverageCommand(sublime_plugin.WindowCommand):
     def run(self):
         pass
 
+class RunSyncTests(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RunSyncTests, self).__init__(*args, **kwargs)
+
+    def run(self):
+        if not hasattr(self, "chosen_classes"):
+            self.chosen_classes = []
+
+        # Get all classes
+        self.classes_attr = util.populate_components("ApexClass")
+
+        selected_items = []
+        unselected_items = []
+        self.classmap = {}
+        for key, item in self.classes_attr.items():
+            if not item["is_test"]:
+                continue
+            if "namespacePrefix" in item and item["namespacePrefix"]:
+                cname = "%s.%s" % (
+                    item["namespacePrefix"], item["name"]
+                )
+            else:
+                cname = item["name"]
+
+            classItem = "%s[%s] %s" % (
+                " " * 4, 
+                "√" if cname in self.chosen_classes else "x", 
+                cname
+            )
+            if cname in self.chosen_classes:
+                selected_items.append(classItem)
+            else:
+                unselected_items.append(classItem)
+            self.classmap[classItem] = cname
+
+        if not self.classmap:
+            return Printer.get('error').write("There is no available test class");
+        
+        # Add `All` Item
+        allItem = "[%s] All" % (
+            "√" if self.chosen_classes else "x"
+        )
+        self.classmap[allItem] = "*"
+        self.items = [allItem]
+
+        # Add class items
+        selected_items = sorted(selected_items)
+        unselected_items = sorted(unselected_items)
+        self.items.extend(selected_items)
+        self.items.extend(unselected_items)
+
+        selected_index = 0
+        if hasattr(self, "index"):
+            selected_index = self.index
+
+        self.window.show_quick_panel(self.items, self.on_done, 
+            sublime.MONOSPACE_FONT, selected_index)
+
+    def on_done(self, index):
+        if index == -1:
+            if self.chosen_classes:
+                processor.handle_run_sync_test(self.chosen_classes)
+                delattr(self, "chosen_classes")
+            return
+
+        self.index = index
+        chosen_item = self.items[index]
+        class_attr = self.classmap[chosen_item]
+
+        if class_attr == "*":
+            if len(self.chosen_classes) == len(self.items) - 1:
+                self.chosen_classes = []
+            else:
+                self.chosen_classes = []
+                for k, v in self.classmap.items():
+                    self.chosen_classes.append(v)
+        else:
+            class_name = class_attr
+            if class_name in self.chosen_classes:
+                self.chosen_classes.remove(class_name)
+            else:
+                self.chosen_classes.append(class_name)
+
+        sublime.set_timeout_async(self.run, 10)
+
 class RunSyncTest(sublime_plugin.TextCommand):
     def run(self, edit):
         processor.handle_run_sync_test([self.cname])
@@ -1764,6 +1861,37 @@ class UpdateUserLanguageCommand(sublime_plugin.WindowCommand):
 
         chosen_language = self.languages[index]
         processor.handle_update_user_language(self.languages_settings[chosen_language])
+
+    def is_enabled(self):
+        return util.check_action_enabled()
+
+class UpdateUserPassword(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(UpdateUserPassword, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.users = processor.handle_populate_users("update_user_password")
+        if not self.users: return # Network Issue Cause
+        self.users_name = sorted(self.users.keys(), reverse=False)
+        self.window.show_quick_panel(self.users_name, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        user_name = self.users_name[index]
+        self.user_id = self.users[user_name]
+
+        sublime.active_window().show_input_panel("Input New Password: ", 
+            "", self.on_input, None, None)
+
+    def on_input(self, password):
+        if not re.match('[\s\S]{5,22}', password):
+            message = 'Invalid password, do you want to try again?'
+            if not sublime.ok_cancel_dialog(message, "Try Again?"): return
+            return sublime.active_window().show_input_panel("Input New Password: ", 
+                "", self.on_input, None, None)
+
+        processor.handle_update_user_password(self.user_id, password)
 
     def is_enabled(self):
         return util.check_action_enabled()

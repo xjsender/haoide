@@ -86,9 +86,14 @@
                         "caption": "Update Project Patterns",
                         "command": "update_project_patterns"
                     },
+                    {"caption": "-"},
                     {
                         "caption": "Update User Language",
                         "command": "update_user_language"
+                    },
+                    {
+                        "caption": "Update User Password",
+                        "command": "update_user_password"
                     }
                 ]
             },
@@ -196,6 +201,11 @@
                     },
 
                     {"caption": "-"},
+
+                    {
+                        "caption": "Run Tests",
+                        "command": "run_sync_tests"
+                    },
 
                     {
                         "caption": "Run Test",
