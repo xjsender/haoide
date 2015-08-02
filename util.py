@@ -2489,18 +2489,12 @@ def get_component_attribute(file_name):
     """
     # Get toolingapi settings
     settings = context.get_settings()
-
     # Check whether current file is subscribed component
     attributes = get_file_attributes(file_name)
     metadata_folder = attributes["metadata_folder"]
     name = attributes["name"]
     fullName = attributes["fullName"]
     if metadata_folder not in settings["all_metadata_folders"]:
-        return None, None
-
-    # Check whether project of current file is active project
-    default_project_name = settings["default_project_name"]
-    if default_project_name.lower() not in file_name.lower(): 
         return None, None
 
     xml_name = settings[metadata_folder]["xmlName"]
