@@ -26,9 +26,19 @@ from . import context
 from xml.sax.saxutils import unescape
 
 
-def get_described_metadata(username):
-    st = sublime.load_settings("metadata.sublime-settings")
-    return st.get(username)
+def get_described_metadata(settings):
+    cache_file = os.path.join(
+        settings["workspace"], 
+        ".config", 
+        "metadata.json"
+    )
+
+    described_metadata = None
+    if os.path.isfile(cache_file):
+        with open(cache_file) as fp:
+            described_metadata = json.loads(fp.read())
+
+    return described_metadata
 
 def get_instance(settings):
     """ Get instance by instance_url
@@ -63,7 +73,8 @@ def get_session_info(settings):
     session = None
     session_directory = os.path.join(settings["workspace"], ".config", "session.json")
     if os.path.isfile(session_directory):
-        session = json.loads(open(session_directory).read())
+        with open(session_directory) as fp:
+            session = json.loads(fp.read())
 
     return session
 
@@ -71,7 +82,8 @@ def get_package_info(settings):
     package = None
     package_directory = os.path.join(settings["workspace"], ".config", "package.json")
     if os.path.isfile(package_directory):
-        package = json.loads(open(package_directory).read())
+        with open(package_directory) as fp:
+            package = json.loads(fp.read())
 
     return package
 
@@ -719,9 +731,8 @@ def add_config_history(operation, content, ext="json"):
     if not os.path.exists(outputdir): 
         os.makedirs(outputdir)
 
-    fp = open(outputdir + "/%s.%s" % (operation, ext), "w")
-    fp.write(json.dumps(content, indent=4))
-    fp.close()
+    with open(outputdir + "/%s.%s" % (operation, ext), "w") as fp:
+        fp.write(json.dumps(content, indent=4))
 
     # After write the file to local, refresh sidebar
     sublime.set_timeout(lambda:sublime.active_window().run_command('refresh_folder_list'), 200);
@@ -754,7 +765,7 @@ def check_action_enabled():
     if not os.path.exists(settings["workspace"]): return False
 
     # Check whether describe_metadata request is finished
-    described_metadata = get_described_metadata(settings["username"])
+    described_metadata = get_described_metadata(settings)
     return described_metadata is not None
 
 def get_view_by_name(view_name):
@@ -864,12 +875,14 @@ def build_package_dict(files, ignore_folder=True):
                 'dir': <file path>,
                 'folder': 'classes',
                 'name': 'AccountController',
+                'metadata_name': 'AccountController',
                 'extension': '.cls'
             }],
             'ApexComponent': [{
                 'dir': <file path>,
                 'folder': 'components',
                 'name': 'SiteFooter',
+                'metadata_name': 'SiteFooter',
                 'extension': '.component'
             }]
         }
@@ -930,10 +943,11 @@ def build_package_xml(settings, package_dict):
 
     # Build types for package.xml
     types = []
-    for meta_type in package_dict:
-        members = []
-        for f in package_dict[meta_type]:
-            members.append("<members>%s</members>" % f["metadata_name"])
+    for meta_type, values in package_dict.items():
+        if values and "metadata_name" in values[0]:
+            members = ["<members>%s</members>" % v["metadata_name"] for v in values]
+        else:
+            members = ["<members>%s</members>" % v for v in values]
 
         types.append("""
         <types>
@@ -952,7 +966,7 @@ def build_package_xml(settings, package_dict):
 
     return package_xml_content
 
-def build_destructive_package(files, ignore_folder=True):
+def build_destructive_package_by_files(files, ignore_folder=True):
     settings = context.get_settings()
     workspace = settings["workspace"]
     if not os.path.exists(workspace): 
@@ -963,6 +977,59 @@ def build_destructive_package(files, ignore_folder=True):
 
     # Build destructiveChanges.xml
     destructive_xml_content = build_package_xml(settings, package_dict)
+    destructive_xml_path = workspace+"/destructiveChanges.xml"
+    with open(destructive_xml_path, "wb") as fp:
+        fp.write(destructive_xml_content.encode("utf-8"))
+
+    # Build package.xml
+    package_xml_content = build_package_xml(settings, {})
+    package_xml_path = workspace+"/package.xml"
+    with open(package_xml_path, "wb") as fp:
+        fp.write(package_xml_content.encode("utf-8"))
+
+    # Create temp zipFile
+    zipfile_path = workspace + "/test.zip"
+    zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
+
+    # Compress destructive_xml and package_xml into temp zipFile
+    # After that, close the input stream
+    zf.write(package_xml_path, "package.xml")
+    zf.write(destructive_xml_path, "destructiveChanges.xml")
+    zf.close()
+
+    # Remove temp files
+    os.remove(package_xml_path)
+    os.remove(destructive_xml_path)
+
+    # base64 encode zip package
+    base64_package = base64_encode(zipfile_path)
+
+    # Remove temporary `test.zip`
+    os.remove(zipfile_path)
+
+    return base64_package
+
+def build_destructive_package_by_package_xml(types):
+    """ Build destructive package,
+    
+    Arguments:
+        * types -- see below json:
+            {
+                "ApexClass": ["AClass", "BClass"],
+                "ApexTrigger": ["ATrigger", "BTrigger"],
+                ...
+            }
+
+    Return:
+        * base64_encode -- base64 encode zip file, 
+            which contains destructiveChanges.xml and package.xml    
+
+    """
+    settings = context.get_settings()
+    workspace = settings["workspace"]
+
+    # Build destructiveChanges.xml
+    destructive_xml_content = build_package_xml(settings, types)
     destructive_xml_path = workspace+"/destructiveChanges.xml"
     with open(destructive_xml_path, "wb") as fp:
         fp.write(destructive_xml_content.encode("utf-8"))
@@ -2466,7 +2533,7 @@ def get_metadata_folder(file_name):
     attributes = get_file_attributes(file_name)
     return attributes["metadata_folder"]
 
-def get_component_attribute(file_name):
+def get_component_attribute(file_name, switch=True):
     """
     get the component name by file_name, and then get the component_url and component_id
     by component name and local settings
@@ -2500,7 +2567,7 @@ def get_component_attribute(file_name):
 
     # Check whether project of current file is active project
     default_project_name = settings["default_project_name"]
-    if default_project_name.lower() not in file_name.lower(): 
+    if switch and default_project_name.lower() not in file_name.lower(): 
         return None, None
 
     xml_name = settings[metadata_folder]["xmlName"]

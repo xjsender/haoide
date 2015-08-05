@@ -923,7 +923,7 @@ class ToolingApi():
 
         if self.settings["check_save_conflict"] and not is_check_only and check_save_conflict:
             Printer.get('log').write("Start to check saving conflict")
-            query = "SELECT Id, LastModifiedById, LastModifiedDate " +\
+            query = "SELECT Id, LastModifiedBy.Id, LastModifiedBy.Name, LastModifiedDate " +\
                     "FROM %s WHERE Id = '%s'" % (component_type, component_id)
             result = self.query(query, True)
 
@@ -935,20 +935,13 @@ class ToolingApi():
             # Get modified user name by Id
             # C2P relationship query is not available, it's a bug?
             class_attr = result["records"][0]
-            last_modified_id = class_attr["LastModifiedById"]
+            lastModifiedBy = class_attr["LastModifiedBy"]
             lmdate_str = util.local_datetime(class_attr["LastModifiedDate"])
             
-            if not class_attr["LastModifiedById"] == self.session["user_id"]:
-                try:
-                    soql = "SELECT Id, FirstName, LastName, TimeZoneSidKey " +\
-                           "FROM User WHERE Id = '%s'" % last_modified_id
-                    user_details = self.query(soql, False, 15)
-                    user_detail = user_details["records"][0]
-                    last_modified_name = "%s %s" % (user_detail["LastName"], user_detail["FirstName"])
-                except:
-                    last_modified_name = last_modified_id
-
-                message = "Modified by %s at %s, continue?" % (last_modified_name, lmdate_str)
+            if not lastModifiedBy["Id"] == self.session["user_id"]:
+                message = "Modified by %s at %s, continue?" % (
+                    lastModifiedBy["Name"], lmdate_str
+                )
                 if not sublime.ok_cancel_dialog(message, "Ignore Conflict?"):
                     Printer.get('log').write("Has conflict, comparing with server...")
                     self.result = {

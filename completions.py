@@ -32,7 +32,7 @@ class PackageCompletions(sublime_plugin.EventListener):
         settings = context.get_settings()
         completion_list = []  
 
-        describe_metadata = util.get_described_metadata(settings["username"])
+        describe_metadata = util.get_described_metadata(settings)
         if not describe_metadata:
             if settings["debug_mode"]:
                 print ("You must execute describe_metadata command before have completion")

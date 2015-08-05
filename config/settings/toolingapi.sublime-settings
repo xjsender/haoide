@@ -32,7 +32,7 @@
             "username" : "apex.sublime@dev.com",
 
             /**
-             * Below are not required properties
+             * Below are optional properties
              */
             
             // If you don't need security token,
@@ -69,6 +69,7 @@
     ],
 
     // Solution for issue #49
+    // It works when reload sObjects cache or export workbooks
     // Setting for controlling maximum concurrent connections with salesforce
     "maximum_concurrent_connections": 30,
 
@@ -101,10 +102,11 @@
     // every time when you open a file, plugin will reveal the file in the sidebar
     "reveal_file_in_sidebar_on_file_activated": false,
 
-    // Debug Mode
+    // Debug Mode, after switch this settings to true, 
+    // you can see some debug logs in the console
     "debug_mode": false,
 
-    // Metadata polling frequency
+    // Metadata polling frequency, it works when retrieve files from server
     "metadata_polling_frequency": 2,
 
     // Indicate whether keep local change history of code file after code is saved successfully
@@ -202,7 +204,8 @@
         }
     ],
 
-    // Deploy Options
+    // Deploy Options, if you just want to valid a deployment,
+    // you can copy this setting to user settings and set checkOnly to true
     "deploy_options" : {
         "allowMissingFiles" : false,
         "autoUpdatePackage" : false,

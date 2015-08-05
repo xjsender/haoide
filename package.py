@@ -187,7 +187,7 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
 
     def is_enabled(self):
         self.settings = context.get_settings()
-        described_metadata = util.get_described_metadata(self.settings["username"])
+        described_metadata = util.get_described_metadata(self.settings)
         return described_metadata is not None
 
 class BuildPackageXml(sublime_plugin.WindowCommand):
@@ -354,7 +354,7 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
 
     def is_enabled(self):
         self.settings = context.get_settings()
-        described_metadata = util.get_described_metadata(self.settings["username"])
+        described_metadata = util.get_described_metadata(self.settings)
         return described_metadata is not None
 
 class BuildOrganizationPackageXml(sublime_plugin.WindowCommand):
@@ -439,6 +439,40 @@ class CreatePackageXml(sublime_plugin.WindowCommand):
 
     def is_visible(self, dirs):
         if not dirs or len(dirs) > 1: return False
+        return True
+
+class DestructPackageXml(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DestructPackageXml, self).__init__(*args, **kwargs)
+
+    def run(self, files=None):
+        # Build types
+        try:
+            with open(self._file, "rb") as fp:
+                content = fp.read()
+            self.types = util.build_package_types(content)
+        except Exception as ex:
+            Printer.get('error').write(str(ex))
+            return
+
+        processor.handle_destructive_package_xml(self.types)
+
+    def is_visible(self, files=None):
+        self._file = None
+        
+        if files and len(files) > 1: 
+            return False
+        elif files and len(files) == 1:
+            # Invoked from sidebar menu
+            self._file = files[0]
+        else:
+            # Invoked from context menu
+            view = sublime.active_window().active_view()
+            self._file = view.file_name()
+
+        if not self._file or not self._file.endswith(".xml"):
+            return False
+
         return True
 
 class RetrievePackageXml(sublime_plugin.WindowCommand):

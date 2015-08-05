@@ -5,6 +5,7 @@
         [
             {"caption": "-"},
             
+            {"caption": "Destruct Package.xml", "command": "destruct_package_xml"},
             {"caption": "Retrieve Package.xml", "command": "retrieve_package_xml"},
 
             {"caption": "-"},

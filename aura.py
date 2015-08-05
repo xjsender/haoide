@@ -15,7 +15,7 @@ class DeployLightingToServer(sublime_plugin.WindowCommand):
             return self.window.run_command("switch_project", {
                 "callback_options": {
                     "callback_command": "deploy_lighting_to_server", 
-                    "args": {                        
+                    "args": {
                         "switch_project": False,
                         "source_org": self.settings["default_project_name"],
                         "dirs": dirs
@@ -78,7 +78,7 @@ class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
 
     def is_enabled(self):
         self.settings = context.get_settings()
-        metadata = util.get_described_metadata(self.settings["username"])
+        metadata = util.get_described_metadata(self.settings)
         self.namespace = metadata["organizationNamespace"]
         if not self.namespace:
             return False

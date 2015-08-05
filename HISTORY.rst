@@ -5,6 +5,27 @@ Release History
 ---------------
 
 
+Release 3.1.7 (2015-07-29)
+++++++++++++++++++
+* Enhancement:
+    - Add `with sharing` for `Utility Class` in template
+    - When you want to view code coverage, if you didn't download code, you can't view code coverage and you will get the reminder message in the status bar
+    - Before v33.0, tooling API doesn't support relationship query just like ``ApexClass.LastModifiedBy.Name``, when you save code to server, plugin will check your code has conflict with server and tell you ``who change the code at when?``, because relationship query is not supported, plugin will need to issue a query request to fetch the LastModifiedBy Name by the LastModifiedById, from this version, it will not necessary.
+    - Add comments for some settings
+    - Move metadata.json from ``metadata.sublime-settings`` to ``.config/metadata.json``, when you create new project, if the ``metadata.json`` is exist in the ``.config`` path, plugin will skip the describe process, however, if you want to refresh the cache, you can execute ``Metadata > Describe Metadata`` to refresh the ``metadata.json`` cache file
+
+* Bug Fix:
+    - After you select all test class, you can't deselect all when you run tests
+    - Problem when ``diff with other server``, see detail in issue #61
+
+* New Feature:
+    - Add a new command named ``destruct_package_xml`` in the context menu, which is used for destructing members defined in ``package.xml`` from current server, so if you want to remove some components from production, you can get the package.xml by ``Metadata > Build Package.xml``, and then execute ``destruct_package_xml`` to remove them from production
+
+* Update:
+    - Update keymap of ``retrieve from this server`` from ``super+shift+r`` to ``alt+shift+r``, fix issue #68
+    - Update keymap of ``deploy to this server`` from ``super+shift+s`` to ``alt+shift+s``
+
+
 Release 3.1.6 (2015-07-29)
 ++++++++++++++++++
 * Bug fix:

@@ -532,10 +532,24 @@ def handle_destructive_files(dirs_or_files, ignore_folder=True, timeout=120):
 
     settings = context.get_settings()
     api = MetadataApi(settings)
-    base64_encoded_zip = util.build_destructive_package(dirs_or_files, ignore_folder)
+    base64_encoded_zip = util.build_destructive_package_by_files(dirs_or_files, ignore_folder)
     thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip, ))
     thread.start()
     ThreadProgress(api, thread, "Destructing Files", "Destructing Files Succeed")
+    handle_thread(thread, timeout)
+
+def handle_destructive_package_xml(types, timeout=120):
+    def handle_thread(thread, timeout=120):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+
+    settings = context.get_settings()
+    api = MetadataApi(settings)
+    base64_encoded_zip = util.build_destructive_package_by_package_xml(types)
+    thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip, ))
+    thread.start()
+    ThreadProgress(api, thread, "Destructing Package.xml", "Destructing Package.xml Succeed")
     handle_thread(thread, timeout)
 
 def handle_deploy_thread(base64_encoded_zip, source_org=None, timeout=120):
@@ -1279,12 +1293,15 @@ def handle_describe_metadata(callback_options, timeout=120):
         del result["success"]
 
         settings = context.get_settings()
-        st = sublime.load_settings("metadata.sublime-settings")
-        st.set(settings["username"], result)
-        sublime.save_settings("metadata.sublime-settings")
+        cache_dir = os.path.join(settings["workspace"], ".config")
+        if not os.path.exists(cache_dir):
+            os.makedirs(cache_dir)
+        cache_file = os.path.join(cache_dir, "metadata.json")
+        with open(cache_file, "w") as fp:
+            fp.write(json.dumps(result, indent=4))
 
         # Write message to console log
-        Printer.get("log").write("Metadata settings is written to metadata.sublime-settings")
+        Printer.get("log").write("Metadata settings is written to .config/metadata.json")
         
         if "callback_command" in callback_options:
             settings = context.get_settings()

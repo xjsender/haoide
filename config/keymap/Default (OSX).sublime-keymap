@@ -26,13 +26,13 @@
         }
     },
     // Retrieve file from this server, which means not switch project
-    {"keys": ["command+shift+r"], "command": "retrieve_file_from_server",
+    {"keys": ["alt+shift+r"], "command": "retrieve_file_from_server",
         "args": {
             "switch": false
         }
     },
     // Deploy file to this server, which means not switch project
-    {"keys": ["shift+command+s"], "command": "deploy_file_to_this_server"},
+    {"keys": ["alt+shift+s"], "command": "deploy_file_to_this_server"},
 
     // Update the default project
     {"keys": ["alt+r"], "command": "update_project"},

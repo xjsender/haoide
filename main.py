@@ -179,15 +179,11 @@ class DiffWithServer(sublime_plugin.TextCommand):
             source_org = self.settings["default_project_name"]
         
         file_name = self.view.file_name()
-        attr = util.get_component_attribute(file_name)[0]
+        attr = util.get_component_attribute(file_name, switch)[0]
 
         # If this component is not exist in chosen project, just stop
         if not attr:
             Printer.get("error").write("This component is not exist in chosen project")
-            return util.switch_project(source_org)
-
-        if "url" not in attr:
-            Printer.get("error").write("This feature does not support %s" % attr["type"])
             return util.switch_project(source_org)
 
         processor.handle_diff_with_server(attr, file_name, source_org)
@@ -221,7 +217,7 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
     def run(self, callback_options={}):
         self.settings = context.get_settings()
         self.callback_options = callback_options
-        described_metadata = util.get_described_metadata(self.settings["username"])
+        described_metadata = util.get_described_metadata(self.settings)
         if not described_metadata:
             return self.window.run_command("describe_metadata", {
                 "callback_options": {
@@ -516,6 +512,8 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
                         self.view.window().open_file(target_file)
                 else:
                     self.view.window().open_file(target_file)
+            else:
+                sublime.status_message("You may forget to download the code")
 
         if is_background: self.view.window().focus_view(self.view)
 
@@ -1277,6 +1275,7 @@ class RunSyncTests(sublime_plugin.WindowCommand):
             else:
                 self.chosen_classes = []
                 for k, v in self.classmap.items():
+                    if v == "*": continue
                     self.chosen_classes.append(v)
         else:
             class_name = class_attr
@@ -1827,7 +1826,7 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
         util.switch_project(default_project)
 
         settings = context.get_settings()
-        described_metadata = util.get_described_metadata(settings["username"])
+        described_metadata = util.get_described_metadata(settings)
         if not described_metadata:
             return self.window.run_command("describe_metadata", {
                 "callback_options": self.callback_options
@@ -1925,7 +1924,7 @@ class CreateNewProject(sublime_plugin.WindowCommand):
 
     def run(self):
         settings = context.get_settings()
-        described_metadata = util.get_described_metadata(settings["username"])
+        described_metadata = util.get_described_metadata(settings)
         if not described_metadata:
             return self.window.run_command("describe_metadata", {
                 "callback_options": {

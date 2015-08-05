@@ -9,13 +9,13 @@
 
             "Component": {
                 "extension": ".cmp",
-                "body": "<aura:component>\n\t\n</aura:component>",
+                "body": "<aura:component>\n    \n</aura:component>",
                 "children": ["Controller", "Helper", "Style", "Documentation", "Renderer"]
             },
 
             "Interface": {
                 "extension": ".intf",
-                "body": "<aura:interface description=\"Interface template\">\n\t<aura:attribute name=\"example\" type=\"String\" default=\"\" description=\"An example attribute.\"/>\n</aura:interface>",
+                "body": "<aura:interface description=\"Interface template\">\n    <aura:attribute name=\"example\" type=\"String\" default=\"\" description=\"An example attribute.\"/>\n</aura:interface>",
                 "children": []
             },
 
@@ -29,12 +29,12 @@
         "AuraEelement": {
             "Controller": {
                 "extension": ".js",
-                "body": "({\n\tmyAction : function(component, event, helper) {\n\t\t\n\t}\n})"
+                "body": "({\n    myAction : function(component, event, helper) {\n    \n    }\n})"
             },
 
             "Helper": {
                 "extension": ".js",
-                "body": "({\n\thelperMethod : function() {\n\t\t\n\t}\n})"
+                "body": "({\n    helperMethod : function() {\n    \n    }\n})"
             },
 
             "Style": {
@@ -44,12 +44,12 @@
 
             "Documentation": {
                 "extension": ".auradoc",
-                "body": "<aura:documentation>\n\t<aura:description>Documentation</aura:description>\n\t<aura:example name=\"ExampleName\" ref=\"exampleComponentName\" label=\"Label\">\n\t\tExample Description\n\t</aura:example>\n</aura:documentation>"
+                "body": "<aura:documentation>\n    <aura:description>Documentation</aura:description>\n    <aura:example name=\"ExampleName\" ref=\"exampleComponentName\" label=\"Label\">\n    Example Description\n    </aura:example>\n</aura:documentation>"
             },
 
             "Renderer": {
                 "extension": ".js",
-                "body": "({\n\t// Your renderer method overrides go here\n})"
+                "body": "({\n    // Your renderer method overrides go here\n})"
             },
         },
 
@@ -57,12 +57,12 @@
             "Utility Class": {
                 "extension": ".cls",
                 "description": "Utilities for invoker",
-                "body": "public class class_name {\n    \n}"
+                "body": "public with sharing class class_name {\n    \n}"
             },
             "Batch Class": {
                 "extension": ".cls",
                 "description": "Batch Class Template",
-                "body": "global class class_name implements Database.Batchable<sObject> {\n    public String query;\n    \n    global class_name() {\n        this.query = query;\n    }\n    \n    global Database.QueryLocator start(Database.BatchableContext bc) {\n        return Database.getQueryLocator(query);\n    }\n    \n    global void execute(Database.BatchableContext BC, list<Sobject> scope) {}\n\n    global void finish(Database.BatchableContext BC) {}\n}"
+                "body": "global class class_name implements Database.Batchable<sObject> {\n    public String query;\n    \n    global class_name() {\n    this.query = query;\n    }\n    \n    global Database.QueryLocator start(Database.BatchableContext bc) {\n    return Database.getQueryLocator(query);\n    }\n    \n    global void execute(Database.BatchableContext BC, list<Sobject> scope) {}\n\n    global void finish(Database.BatchableContext BC) {}\n}"
             },
             "Controller": {
                 "extension": ".cls",

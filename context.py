@@ -156,6 +156,9 @@ def get_settings():
     settings["workflow_task_columns"] = s.get("workflow_task_columns")
     settings["workflow_outbound_message_columns"] = s.get("workflow_outbound_message_columns")
     settings["validation_rule_columns"] = s.get("validation_rule_columns")
+
+    # Set the polling interval for checking metadata job status
+    settings["metadata_polling_frequency"] = s.get("metadata_polling_frequency", 1)
     
     # Document Reference Attrs
     settings["docs"] = s.get("docs", {})
@@ -177,14 +180,16 @@ def get_settings():
         settings["subscribed_metadata_objects"] = []
 
     # 2. Check `.config/metadata_objects.json`, priority of 1 is higher than 2
-    st = sublime.load_settings("metadata.sublime-settings")
-    described_metadata = st.get(settings["username"])
+    cache_file = os.path.join(
+        settings["workspace"], ".config", "metadata.json"
+    )
+    described_metadata = None
+    if os.path.isfile(cache_file):
+        with open(cache_file) as fp:
+            described_metadata = json.loads(fp.read())
     if described_metadata and "metadataObjects" in described_metadata:
         settings = build_metadata_objects_settings(settings, described_metadata["metadataObjects"])
         settings["organizationNamespace"] = described_metadata["organizationNamespace"]
-
-    # Set the polling interval for checking metadata job status
-    settings["metadata_polling_frequency"] = s.get("metadata_polling_frequency", 1)
 
     return settings
 
