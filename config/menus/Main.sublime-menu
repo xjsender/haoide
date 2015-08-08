@@ -89,6 +89,10 @@
                     {
                         "caption": "Update User Password",
                         "command": "update_user_password"
+                    },
+                    {
+                        "caption": "Enable User Development Mode",
+                        "command": "enable_development_mode"
                     }
                 ]
             },

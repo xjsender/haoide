@@ -679,7 +679,7 @@ class PageCompletions(sublime_plugin.EventListener):
 
             # 4. Bootstrap3 class name completions
             if not settings["disable_bootstrap_completion"]:
-                matched_attribute_regions = view.find_all('\w+="[\w\s]*"')
+                matched_attribute_regions = view.find_all('\w+="[\w\s\-]*"')
                 for mr in matched_attribute_regions:
                     if not mr.contains(pt): continue
                     className = view.substr(mr).split("=")[0]

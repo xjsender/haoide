@@ -4,8 +4,31 @@ Release History
 
 ---------------
 
+Release 3.1.8 (2015-08-08)
+++++++++++++++++++
+* Bug Fix:
+    - Fix bug for bootstrap3 completion
+    - Fix bug for ``toggle_metadata_objects`` command if project is not initiated
+    - Fix bug for ``SOQL - SELECT FROM.sublime.snippet`` in windows
 
-Release 3.1.7 (2015-07-29)
+* Enhancement:
+    - Add confirm request for ``retrieve files from server`` and ``retrieve files from this server``
+    - Add confirm request for ``destruct package.xml from server`` and ``retrieve files from this server``
+    - Identify ``this file`` or ``these files`` in confirm request message according to number of chosen files
+
+* Update:
+    - Add project name and remove [LOG] or [ERROR] notation in log or error panel
+    - Rename ``destruct package.xml`` command to ``destruct package.xml from server``
+    - Rename ``retrieve package.xml`` command to ``retrieve package.xml from server``
+    - Update ``to`` or ``from`` in context menu item name to ``To`` or ``From``
+    - Update confirm request message for ``destruct files from server``
+
+* New:
+    - Add a new command ``Enable Development Mode`` to quickly enable visualforce page development mode
+    - Add bootstrap3 completion document
+
+
+Release 3.1.7 (2015-08-05)
 ++++++++++++++++++
 * Enhancement:
     - Add `with sharing` for `Utility Class` in template

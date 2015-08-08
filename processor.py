@@ -121,15 +121,25 @@ def handle_update_user_language(language, timeout=120):
     api = ToolingApi(settings)
     session = util.get_session_info(settings)
     if not session:
-        Printer.get('error').write("Please Login Firstly")
-        return
-    
+        return Printer.get('error').write("Login is required before this action")
+
     patch_url = "/sobjects/User/%s" % session["user_id"]
     thread = threading.Thread(target=api.patch, 
         args=(patch_url, {"LanguageLocaleKey": language}, ))
     thread.start()
     ThreadProgress(api, thread, "Updating User Language to " + language,  
         "User language is updated to " + language)
+
+def handle_enable_development_mode(user_id, timeout=120):
+    settings = context.get_settings()
+    api = ToolingApi(settings)
+
+    patch_url = "/sobjects/User/%s" % user_id
+    thread = threading.Thread(target=api.patch, 
+        args=(patch_url, {"UserPreferencesApexPagesDeveloperMode": True}, ))
+    thread.start()
+    ThreadProgress(api, thread, "Enabling User Development Mode",
+        "Succeed to Enabling User Development Mode")
 
 def handle_update_user_password(user_id, new_password, timeout=120):
     settings = context.get_settings()

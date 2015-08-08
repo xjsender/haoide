@@ -441,12 +441,14 @@ class CreatePackageXml(sublime_plugin.WindowCommand):
         if not dirs or len(dirs) > 1: return False
         return True
 
-class DestructPackageXml(sublime_plugin.WindowCommand):
+class DestructPackageXmlFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(DestructPackageXml, self).__init__(*args, **kwargs)
+        super(DestructPackageXmlFromServer, self).__init__(*args, **kwargs)
 
     def run(self, files=None):
-        # Build types
+        message = "Confirm to destruct elements in this package.xml from server?"
+        if not sublime.ok_cancel_dialog(message, "Confirm?"): return
+
         try:
             with open(self._file, "rb") as fp:
                 content = fp.read()
@@ -475,9 +477,9 @@ class DestructPackageXml(sublime_plugin.WindowCommand):
 
         return True
 
-class RetrievePackageXml(sublime_plugin.WindowCommand):
+class RetrievePackageXmlFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(RetrievePackageXml, self).__init__(*args, **kwargs)
+        super(RetrievePackageXmlFromServer, self).__init__(*args, **kwargs)
 
     def run(self, files=None):
         # Build types

@@ -193,6 +193,18 @@ def get_settings():
 
     return settings
 
+def get_default_project_name():
+    s = sublime.load_settings("toolingapi.sublime-settings")
+    projects = s.get("projects")
+
+    default_project_name = None
+    for project_name in projects.keys():
+        if projects[project_name]["default"]: 
+            default_project_name = project_name
+            break
+
+    return default_project_name
+
 def build_metadata_objects_settings(settings, metadata_objects):
     settings["all_metadata_folders"] = [c["directoryName"] for c in metadata_objects]
     settings["all_metadata_objects"] = [c["xmlName"] for c in metadata_objects]

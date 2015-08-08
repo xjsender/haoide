@@ -5,16 +5,16 @@
         [
             {"caption": "-"},
             
-            {"caption": "Destruct Package.xml", "command": "destruct_package_xml"},
-            {"caption": "Retrieve Package.xml", "command": "retrieve_package_xml"},
+            {"caption": "Destruct Package.xml From Server", "command": "destruct_package_xml_from_server"},
+            {"caption": "Retrieve Package.xml From Server", "command": "retrieve_package_xml_from_server"},
 
             {"caption": "-"},
 
             // {"caption": "Rename Metadata", "command": "rename_metadata"},
-            {"caption": "Retrieve from Server", "command": "retrieve_file_from_server"},
-            // {"caption": "Rename from Server", "command": "rename_metadata"},
-            {"caption": "Deploy to Server", "command": "deploy_file_to_server"},
-            {"caption": "Destruct from Server", "command": "destruct_file_from_server"},
+            {"caption": "Retrieve From Server", "command": "retrieve_file_from_server"},
+            // {"caption": "Rename From Server", "command": "rename_metadata"},
+            {"caption": "Deploy To Server", "command": "deploy_file_to_server"},
+            {"caption": "Destruct From Server", "command": "destruct_file_from_server"},
 
             {"caption": "Diff With Server", "command": "diff_with_server"},
 
@@ -27,21 +27,21 @@
                     "switch": false
                 }
             },
-            {"caption": "Retrieve from This Server", "command": "retrieve_file_from_server",
+            {"caption": "Retrieve From This Server", "command": "retrieve_file_from_server",
                 "args": {
                     "switch": false
                 }
             },
-            {"caption": "Deploy to This Server", "command": "deploy_file_to_this_server"},
+            {"caption": "Deploy To This Server", "command": "deploy_file_to_this_server"},
 
             {"caption": "-"},
             
-            {"caption": "Refresh from Server", "command": "refresh_file_from_server"},
+            {"caption": "Refresh From Server", "command": "refresh_file_from_server"},
             
             // Save component
-            {"caption": "Save to Server", "command": "save_to_server"},
+            {"caption": "Save To Server", "command": "save_to_server"},
 
-            {"caption": "Delete from Server", "command": "delete_file_from_server"},
+            {"caption": "Delete From Server", "command": "delete_file_from_server"},
             
             // Compile component but not save
             {"caption": "Compile Component", "command": "save_to_server", 
@@ -66,17 +66,17 @@
                     },
 
                     {
-                        "caption": "JSON to Apex",
+                        "caption": "JSON To Apex",
                         "command": "json_to_apex"
                     },
 
                     {
-                        "caption": "JSON to XML",
+                        "caption": "JSON To XML",
                         "command": "json_to_xml"
                     },
 
                     {
-                        "caption": "XML to JSON",
+                        "caption": "XML To JSON",
                         "command": "xml_to_json"
                     },
 

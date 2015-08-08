@@ -259,7 +259,8 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
     def on_done(self, index):
         if index == -1:
             if "callback_command" in self.callback_options:
-                return self.window.run_command(self.callback_options["callback_command"])
+                self.window.run_command(self.callback_options["callback_command"])
+            return
 
         # Get chosen type
         chosen_item = self.items[index]
@@ -723,6 +724,12 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
         super(RetrieveFilesFromServer, self).__init__(*args, **kwargs)
 
     def run(self, files, switch=True, source_org=None):
+        message = "Confirm retrieving %s from server?" % (
+            "these files" if len(files) > 1 else "this file"
+        )
+        if not sublime.ok_cancel_dialog(message, "Confirm?"): 
+            return
+
         settings = context.get_settings()
 
         if switch:
@@ -786,7 +793,9 @@ class CancelDeployment(sublime_plugin.TextCommand):
 class DestructFileFromServer(sublime_plugin.TextCommand):
     def run(self, edit):
         files = [self.view.file_name()]
-        sublime.active_window().run_command("destruct_files_from_server", {"files": files})
+        sublime.active_window().run_command("destruct_files_from_server", {
+            "files": files
+        })
 
     def is_enabled(self):
         if not self.view or not self.view.file_name(): return False
@@ -806,9 +815,11 @@ class DestructFilesFromServer(sublime_plugin.WindowCommand):
         super(DestructFilesFromServer, self).__init__(*args, **kwargs)
 
     def run(self, files):
-        message = "Are you sure you really want to destruct these files?"
-        if not sublime.ok_cancel_dialog(message, "Destruct Files From Server"): return
-        processor.handle_destructive_files(files)
+        message = "Confirm destructing %s from server?" % (
+            "these files" if len(files) > 1 else "this file"
+        )
+        if sublime.ok_cancel_dialog(message, "Confirm"):
+            processor.handle_destructive_files(files)
 
     def is_visible(self, files):
         if len(files) == 0: return False
@@ -1845,9 +1856,9 @@ class Login(sublime_plugin.WindowCommand):
     def run(self, callback_options={}, force=False):
         processor.handle_login_thread(callback_options, force=force)
 
-class UpdateUserLanguageCommand(sublime_plugin.WindowCommand):
+class UpdateUserLanguage(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(UpdateUserLanguageCommand, self).__init__(*args, **kwargs)
+        super(UpdateUserLanguage, self).__init__(*args, **kwargs)
 
     def run(self):
         settings = context.get_settings()
@@ -1860,6 +1871,26 @@ class UpdateUserLanguageCommand(sublime_plugin.WindowCommand):
 
         chosen_language = self.languages[index]
         processor.handle_update_user_language(self.languages_settings[chosen_language])
+
+    def is_enabled(self):
+        return util.check_action_enabled()
+
+class EnableDevelopmentMode(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(EnableDevelopmentMode, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.users = processor.handle_populate_users("enable_development_mode")
+        if not self.users: return # Network Issue Cause
+        self.users_name = sorted(self.users.keys(), reverse=False)
+        self.window.show_quick_panel(self.users_name, self.on_done)
+
+    def on_done(self, index):
+        if index == -1: return
+
+        user_name = self.users_name[index]
+        user_id = self.users[user_name]
+        processor.handle_enable_development_mode(user_id)
 
     def is_enabled(self):
         return util.check_action_enabled()

@@ -1,7 +1,6 @@
 import sublime
 import time
 
-
 class Printer(object):
     """ Based on printer of Mavensmate
     """
@@ -58,17 +57,18 @@ class Printer(object):
         size = self.panel.size()
         sublime.set_timeout(lambda : self.panel.show(size, True), 2)
 
-    def write_start(self, message="-"*100):
+    def write_start(self, message="~"*100):
         return self.write(message, False)
 
     def write(self, message, prefix=True):
         # Show Panel
-        self.show_panel() 
+        self.show_panel()
         
         # Append message to panel
+        from ...context import get_default_project_name
         panel_message = message + "\n" if not prefix else "[%s] [%s] %s\n" % (
             time.strftime("%Y.%m.%d %H:%M:%S", time.localtime(time.time())), 
-            self.name.upper(),
+            get_default_project_name(),
             message
         )
 

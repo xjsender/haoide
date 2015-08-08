@@ -37,6 +37,10 @@
     - Input ``space`` after HTML tag name, for example, ``<a``, you will see all the attributes of this tags
     - Input ``=`` after the HTML tag attribute, if this attributes has fixed values, plugin will list all available values for this tag attribute
 
+### Bootstrap3 completion
+    * When you input any characters in the class attribute, plugin will list all available bootstrap3 classes, for example, if you have input ``class="<Focus Here>"``, when you input any characters at the focus place, you will see the completion
+    * When you input any characters after space in the class attribute, plugin will list all available bootstrap3 classes, for example, if you have input ``class="btn <Focus Here>"``, when you input any characters at the focus place, you will see the completion
+
 ### Settings for Visualforce and HTML completion
 ```json
     // Indicate whether disable attribute completion

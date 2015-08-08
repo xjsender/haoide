@@ -4,13 +4,15 @@
 {
     // In order to prevent plugin update override your toolingapi settings,
     // you should save the workspace, login_url, username and password to user settings.
-    // If you want to do this, you should click [Sublime > Settings > Setting - User], and copy these settings into it
+    // If you want to do this, you should click [HaoIDE > Settings > Setting - User], and copy these settings into it
     // User Settings is prior to Default Settings, it's very important.
     // You should have more than one project in "projects", however, only one project can be default
     // Every time you switch the project, the update projects settings will be saved to user settings.
     // 
     // Workspace in OSX is different with windows, 
     // workspace can be "/Users/<Your User>/salesforce/workspace"
+    // If you don't set your own workspace, plugin will save your project to 
+    // `/Data/Packages/User/HaoIDE/<Project_Name>`
     "workspace" : "",
     "projects" : {
         "pro-sublime" : {
@@ -94,7 +96,7 @@
     "auto_update_on_save": false,
 
     // Every time when you open a file, assume the project of this file is not the default project,
-    // if you set this settings to true, plugin will switch the default project to the project
+    // if you set this setting to true, plugin will switch the default project to the project
     // of the open file automatically when you open a file
     "auto_switch_project_on_file_activated": false,
 
@@ -102,7 +104,7 @@
     // every time when you open a file, plugin will reveal the file in the sidebar
     "reveal_file_in_sidebar_on_file_activated": false,
 
-    // Debug Mode, after switch this settings to true, 
+    // Debug Mode, after switch this setting to true, 
     // you can see some debug logs in the console
     "debug_mode": false,
 
