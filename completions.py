@@ -451,7 +451,7 @@ class PageCompletions(sublime_plugin.EventListener):
         sobjects_describe = {}
         if metadata and "sobjects" in metadata: 
             sobjects_describe = metadata["sobjects"]
-
+            
         completion_list = []
         if ch in ["<", ":"]:
             # Check whether tag has ending, for example,
@@ -603,7 +603,7 @@ class PageCompletions(sublime_plugin.EventListener):
                 for mr in matched_attribute_regions:
                     if not mr.contains(pt): continue
                     className = view.substr(mr).split("=")[0]
-                    if className.lower() == "class":
+                    if className.lower() in ["styleclass", "class"]:
                         for className in bootstrap.classes:
                             completion_list.append(("%s\tBootstrap3" % className, className))
                         break

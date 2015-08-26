@@ -79,6 +79,9 @@ class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
     def is_enabled(self):
         self.settings = context.get_settings()
         metadata = util.get_described_metadata(self.settings)
+        if not metadata: 
+            return False
+        
         self.namespace = metadata["organizationNamespace"]
         if not self.namespace:
             return False

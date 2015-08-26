@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 3.1.9 (2015-08-26)
+++++++++++++++++++
+* Fix issue #71, export workbooks by user input
+* Fix bug for visibility problem of ``Retrieve Package.xml``
+* Add bootstrap3 support for styleClass attribute of salesforce standard components
+
+
 Release 3.1.8 (2015-08-08)
 ++++++++++++++++++
 * Bug Fix:

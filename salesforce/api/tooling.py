@@ -877,7 +877,6 @@ class ToolingApi():
 
         * sobject -- sobject name
         """
-
         for sobject in sobjects:
             result = self.describe_sobject(sobject)
 

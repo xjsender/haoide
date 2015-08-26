@@ -30,7 +30,7 @@
             {"caption": "-"},
 
             {
-                "caption": "Retrieve Package.xml", "command": "retrieve_package_xml",
+                "caption": "Retrieve Package.xml", "command": "retrieve_package_xml_from_server",
                 "args": {"files": []}
             },
 

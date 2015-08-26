@@ -1167,23 +1167,15 @@ def handle_describe_sobject(sobject, timeout=120):
     handle_new_view_thread(thread, timeout)
 
 def handle_export_specified_workbooks(sobjects, timeout=120):
-    # settings = context.get_settings()
-    # api = ToolingApi(settings)
-    # threads = []
-
-    # mcc = settings["maximum_concurrent_connections"]
-    # chunked_sobjects = util.list_chunks(sobjects, math.ceil(len(sobjects) / mcc))
-
-    # for cs in chunked_sobjects:
-    #     thread = threading.Thread(target=api.generate_workbook, args=(cs, ))
-    #     threads.append(thread)
-    #     thread.start()
-
     settings = context.get_settings()
     api = ToolingApi(settings)
     threads = []
-    for sobject in sobjects:
-        thread = threading.Thread(target=api.generate_workbook, args=(sobject, ))
+
+    mcc = settings["maximum_concurrent_connections"]
+    chunked_sobjects = util.list_chunks(sobjects, math.ceil(len(sobjects) / mcc))
+
+    for cs in chunked_sobjects:
+        thread = threading.Thread(target=api.generate_workbook, args=(cs, ))
         threads.append(thread)
         thread.start()
 

@@ -19,7 +19,7 @@
         "press_command": "view_debug_log_detail"
     },
 
-    // Press alt and Click Left Mouse for twice will quick view the code coverage
+    // Press alt and Click Left Mouse for twice will quickly view the code coverage
     {
         "button": "button1", "count": 3, "modifiers": ["alt"],
         "press_command": "view_selected_code_coverage"
