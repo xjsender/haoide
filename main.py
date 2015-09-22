@@ -1273,7 +1273,6 @@ class RunSyncTests(sublime_plugin.WindowCommand):
         if index == -1:
             if self.chosen_classes:
                 processor.handle_run_sync_test(self.chosen_classes)
-                delattr(self, "chosen_classes")
             return
 
         self.index = index
