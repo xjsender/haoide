@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+Release 3.2.0 (2015-10-07)
+++++++++++++++++++
+* Deliver enhancement #73
+* Deliver enhancement #77
+
+
 Release 3.1.9 (2015-08-26)
 ++++++++++++++++++
 * Fix issue #71, export workbooks by user input

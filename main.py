@@ -855,10 +855,47 @@ class DeployOpenFilesToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployOpenFilesToServer, self).__init__(*args, **kwargs)
 
-    def run(self):
-        # Get the package path to deploy
-        sublime.active_window().run_command("deploy_files_to_server", 
-            {"files": self.files})
+    def run(self, select_all=True):
+        # If deploy all open files
+        if select_all:
+            return sublime.active_window().run_command("deploy_files_to_server", 
+                {"files": list(self.file_attributes.values())})
+        
+        # If just deploy some files
+        if not hasattr(self, "chosen_files"):
+            self.chosen_files = []
+
+        self.populate_items()
+        self.window.show_quick_panel(self.items, self.on_choose)
+
+    def populate_items(self):
+        self.items = []
+        for fileName in list(self.file_attributes.keys()):
+            if fileName in self.chosen_files:
+                self.items.append("[√] %s" % fileName)
+            else:
+                self.items.append("[x] %s" % fileName)
+
+    def on_choose(self, index):
+        if index == -1:
+            return sublime.active_window().run_command("deploy_files_to_server", 
+                {"files": list(self.file_attributes.values())}
+            )
+
+        # Get chosen file name
+        chosen_item = self.items[index]
+        chosen_file_name = chosen_item[4:]
+
+        # Add or remove chosen file from list
+        if chosen_file_name in self.chosen_files:
+            self.chosen_files.remove(chosen_file_name)
+        else:
+            self.chosen_files.append(chosen_file_name)
+
+        # Start next round
+        self.populate_items()
+        sublime.set_timeout(lambda:self.window.show_quick_panel(self.items, 
+            self.on_choose, sublime.MONOSPACE_FONT), 10)
 
     def is_enabled(self):
         """
@@ -871,18 +908,21 @@ class DeployOpenFilesToServer(sublime_plugin.WindowCommand):
         if not views or len(views) == 0: return False
 
         self.settings = context.get_settings()
-        self.files = [];
+        self.file_attributes = {};
         for _view in views:
             _file = _view.file_name()
-            if not _file or not os.path.isfile(_file): continue # Ignore folder
-            _folder = util.get_metadata_folder(_file) # Ignore non-sfdc files
-            if _folder not in self.settings["all_metadata_folders"]:
+            # Ignore folder
+            if not _file or not os.path.isfile(_file): 
+                continue
+            attributes = util.get_file_attributes(_file)
+            # Ignore non-sfdc files
+            if attributes["metadata_folder"] not in self.settings["all_metadata_folders"]:
                 continue
 
-            self.files.append(_file)
+            self.file_attributes[attributes["fullName"]] = _file
 
         # If there is no sfdc code file, just disable this command
-        if not self.files: 
+        if not self.file_attributes: 
             return False
 
         return True

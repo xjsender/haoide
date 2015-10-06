@@ -482,6 +482,14 @@
                         "command": "deploy_open_files_to_server"
                     },
 
+                    {
+                        "caption": "Deploy Selected Open Files",
+                        "command": "deploy_open_files_to_server", 
+                        "args": {
+                            "select_all": false
+                        }
+                    },
+
                     { "caption": "-" },
                     
                     {

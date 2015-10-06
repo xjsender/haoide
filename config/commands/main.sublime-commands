@@ -284,6 +284,14 @@
     },
 
     {
+        "caption": "HaoIDE: Deploy Selected Open Files",
+        "command": "deploy_open_files_to_server", 
+        "args": {
+            "select_all": false
+        }
+    },
+
+    {
         "caption": "HaoIDE: Open Log Panel",
         "command": "show_panel",
         "args": {
