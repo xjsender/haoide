@@ -718,7 +718,7 @@ def add_operation_history(operation, history_content):
     fp.write(history.encode("utf-8"))
     fp.close()
 
-def add_config_history(operation, content, ext="json"):
+def add_config_history(operation, content, settings, ext="json"):
     """Keep the history in the local history
 
     Arguments:
@@ -726,8 +726,7 @@ def add_config_history(operation, content, ext="json"):
     * operation -- the operation source
     * history_content -- the content needed to keep
     """
-    settings = context.get_settings()
-    outputdir = settings["workspace"]+"/.config"
+    outputdir = os.path.join(settings["workspace"], ".config")
     if not os.path.exists(outputdir): 
         os.makedirs(outputdir)
 

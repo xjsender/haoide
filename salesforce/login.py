@@ -96,6 +96,6 @@ def soap_login(settings, session_id_expired=False, timeout=10):
 
     # If session is expired, just write session 
     # to .config/session.json
-    util.add_config_history('session', result)
+    util.add_config_history('session', result, settings)
 
     return result

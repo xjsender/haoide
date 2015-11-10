@@ -47,7 +47,7 @@ def handle_populate_users(callback_command, timeout=120):
 
                 users[name] = record["Id"]
 
-            util.add_config_history("users", users)
+            util.add_config_history("users", users, settings)
             sublime.active_window().run_command(callback_command)
 
     # If sobjects is exist in `/.config/users.json`, just return it
@@ -113,7 +113,7 @@ def populate_sobject_recordtypes():
         if not sobject_describe["layoutable"]: continue
         sobject_recordtypes[sobject_type + ", Master"] = "012000000000000AAA"
 
-    util.add_config_history("recordtype", sobject_recordtypes)
+    util.add_config_history("recordtype", sobject_recordtypes, settings)
     return sobject_recordtypes
 
 def handle_update_user_language(language, timeout=120):
@@ -1217,7 +1217,7 @@ def handle_new_project(is_update=False, timeout=120):
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
         
-        # If succeed, something may happen,
+        # If failed, but something may happen,
         # for example, user password is expired
         result = api.result
         if not result or not result["success"]: return
@@ -1266,7 +1266,7 @@ def handle_new_project(is_update=False, timeout=120):
         del settings["projects"]
         del settings["password"]
         del settings["default_project"]
-        util.add_config_history('settings', settings)
+        util.add_config_history('settings', settings, settings)
 
     settings = context.get_settings()
     api = MetadataApi(settings)

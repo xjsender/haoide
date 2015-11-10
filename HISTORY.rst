@@ -4,6 +4,12 @@ Release History
 
 ---------------
 
+
+Release 3.2.1 (2015-11-10)
+++++++++++++++++++
+* Fix issue #81
+
+
 Release 3.2.0 (2015-10-07)
 ++++++++++++++++++
 * Deliver enhancement #73
