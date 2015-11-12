@@ -1734,7 +1734,7 @@ def parse_sync_test_coverage(result):
 
     if result["successes"]:
         allrows.append("~" * 80)
-        allrows.append("Succeed Test Methods:")
+        allrows.append("Successful Test Methods:")
         for success in sorted(result["successes"], key=lambda k : k["name"]):
             allrows.append("~" * 80)
             success_row = []
@@ -2124,7 +2124,7 @@ def get_soql_fields(soql):
 def query_to_csv(result, soql):
     records = result["records"]
     if not records:
-        return "No matched rows"
+        return b"No matched rows"
     
     # Get CSV headers
     if re.compile("select\s+\*\s+from[\s\t]+\w+", re.I).match(soql):
