@@ -6,6 +6,30 @@ from . import context
 from . import util
 from . import processor
 
+
+class OpenAuraDocumentReference(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(OpenAuraDocumentReference, self).__init__(*args, **kwargs)
+
+    def run(self):
+        instance = util.get_instance(self.settings)
+        if instance == "emea": instance = "eu0"
+        start_url = "https://%s.lightning.force.com/auradocs/reference.app" % instance
+        self.window.run_command("login_to_sfdc", {"startURL": start_url})
+
+    def is_enabled(self):
+        self.settings = context.get_settings()
+        metadata = util.get_described_metadata(self.settings)
+        if not metadata: 
+            return False
+        
+        self.namespace = metadata["organizationNamespace"]
+        if not self.namespace:
+            return False
+
+        return True
+
+
 class DeployLightingToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployLightingToServer, self).__init__(*args, **kwargs)

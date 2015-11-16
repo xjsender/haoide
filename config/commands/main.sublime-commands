@@ -77,6 +77,11 @@
     {"caption": "-"},
 
     {
+        "caption": "HaoIDE: Open Aura Document Reference",
+        "command": "open_aura_document_reference"
+    },
+
+    {
         "caption": "HaoIDE: New Lighting Application",
         "command": "create_lighting_definition", 
         "args": {
