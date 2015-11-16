@@ -395,10 +395,10 @@ class MetadataApi():
         _types_list = []
         if not list_package_for_all:
             if "CustomObject" in _types and "*" in _types["CustomObject"]:
-                _types_list = ["CustomObject"]
+                _types_list.append("CustomObject")
 
             if "InstalledPackage" in _types and "*" in _types["InstalledPackage"]:
-                _types_list = ["InstalledPackage"]
+                _types_list.append("InstalledPackage")
         else:
             for _type in _types:
                 if "*" not in _types[_type]: continue
