@@ -878,9 +878,16 @@ class DeployOpenFilesToServer(sublime_plugin.WindowCommand):
 
     def on_choose(self, index):
         if index == -1:
-            return sublime.active_window().run_command("deploy_files_to_server", 
-                {"files": list(self.file_attributes.values())}
-            )
+            chosen_files = []
+            for item in self.items:
+                if item.startswith("[√] "):
+                    chosen_files.append(self.file_attributes[item[4:]])
+
+            if chosen_files:
+                sublime.active_window().run_command("deploy_files_to_server", 
+                    {"files": chosen_files}
+                )
+            return
 
         # Get chosen file name
         chosen_item = self.items[index]
