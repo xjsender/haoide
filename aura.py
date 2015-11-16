@@ -67,6 +67,7 @@ class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
     def on_chosen(self, index):
         if index == -1: return
         self.app_name = self.app_names[index]
+        self.preview_app()
 
     def preview_app(self):
         instance = util.get_instance(self.settings)
