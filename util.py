@@ -1084,6 +1084,19 @@ def build_deploy_package(files):
             )
             zf.write(f["dir"], "%s%s/%s.%s" % write_to)
 
+            # If lighting component, if cmp or app is exist,
+            # add it to zipfile
+            if f["metadata_folder"] == "aura":
+                base = os.path.split(f["dir"])[0]
+                for extension in ["cmp", "app"]:
+                    aura_file = os.path.join(base, "%s.%s" % (f["name"], extension))
+                    if os.path.isfile(aura_file):
+                        zf.write(aura_file, "%s%s/%s.%s" % (
+                            f["metadata_folder"], 
+                            ("/" + f["folder"]) if f["folder"] else "", 
+                            f["name"], extension
+                        ))
+
             # If -meta.xml is exist, add it to folder
             met_xml = f["dir"] + "-meta.xml"
             if os.path.isfile(met_xml):
@@ -1125,7 +1138,8 @@ def build_deploy_package(files):
     base64_package = base64_encode(zipfile_path)
 
     # Remove temporary `test.zip`
-    os.remove(zipfile_path)
+    if not settings["debug_mode"]:
+        os.remove(zipfile_path)
 
     return base64_package
 
