@@ -1093,6 +1093,12 @@ def build_deploy_package(files):
     package_xml_content = build_package_xml(settings, package_dict)
     package_xml_content = format_xml(package_xml_content)
 
+    if settings["debug_mode"]:
+        print ("{seprate}\n[Package.xml for Deployment]: \n{seprate}\n{content}\n{seprate}".format(
+            seprate="~" * 100,
+            content=package_xml_content.decode("UTF-8")
+        ))
+
     # Write package content to .package path
     try:
         time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))

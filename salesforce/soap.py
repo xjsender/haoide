@@ -54,7 +54,11 @@ class SOAP():
     def create_request(self, request_type, options={}):
         soap_body = getattr(self, "create_%s_request" % request_type)(options)
         if self.settings["debug_mode"]:
-            print ("[Debug for %s]: \n%s" % (request_type, soap_body.decode("UTF-8")))
+            print ("[Debug for {request_type}]: \n{seprate}\n{content}\n{seprate}".format(
+                seprate="~" * 100,
+                request_type=request_type,
+                content=soap_body.decode("UTF-8")
+            ))
         return soap_body
 
     ##############################################
