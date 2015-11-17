@@ -2,13 +2,19 @@
 This plugin supports [Sublime Text 3](http://www.sublimetext.com/3) for windows and OSX, not tested for Linux.
 
 # Installation
-You can install this plugin by searching ``haoide`` in package control, if you don't know how to use ``package control``, you can refer to [usage of package control](https://packagecontrol.io/docs/usage).
+
+> Before install this plugin, you must install [Sublime Text 3](http://www.sublimetext.com/3) and then [Package Control](https://packagecontrol.io/installation).
+
+After you have installed ``package control`` in your sublime, you can install this plugin by searching ``haoide`` in package control, if you don't know how to use ``package control``, you can refer to [usage of package control](https://packagecontrol.io/docs/usage).
 
 If you are still using ``SublimeApex``, please remove it and install ``haoide``, because ``SublimeApex`` is no longer supported.
 
 This plugin is in improvement stage, many ideas are generated in daily work of mine or my friends, if you have any idea or find any issue, please log issue by clicking ``Report Issue`` in the main menu, thanks for your help on improving this plugin.
 
 All of my motivation on this plugin come from your star, if you think this plugin is helpful in your daily work, please **star** this plugin.
+
+# Project Configuration
+After you have installed this plugin successfully, you can follow <a href="/docs/project.md" target="_blank">Project Configuration</a> to configure your own project.
 
 # Demos
 <img src="https://github.com/xjsender/SublimeApexScreenshot/raw/master/BuildSOQL.gif" />
@@ -19,7 +25,7 @@ All of my motivation on this plugin come from your star, if you think this plugi
 
 # Quick Link
 + <a href="https://github.com/xjsender/SublimeApexScreenshot" target="_blank">All Demos</a>
-+ <a href="/docs/project.md" target="_blank">Project Configuration</a>
+
 + <a href="/docs/debug.md" target="_blank">Execute Anonymous</a>
 + <a href="/docs/completion.md" target="_blank">Code AutoComplete</a>
 + <a href="/docs/snippets.md" target="_blank">Snippets</a>

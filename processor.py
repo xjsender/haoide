@@ -312,7 +312,7 @@ def handle_reload_symbol_tables(timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.query_symbol_table, args=(50, ))
+    thread = threading.Thread(target=api.query_symbol_table, args=(20, ))
     thread.start()
     wating_message = "Reloading Symbol Tables"
     ThreadProgress(api, thread, wating_message, wating_message + " Succeed")
