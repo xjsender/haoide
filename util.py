@@ -53,8 +53,8 @@ def get_instance(settings):
 
     session = get_session_info(settings)
     instance_url = session["instance_url"]
-    base_url = re.compile("//[\s\S]+?.salesforce.com").search(instance_url).group()
-    instance = base_url[2:base_url.find(".salesforce.com")]
+    base_url = re.compile("//[\s\S]+?\.").search(instance_url).group()
+    instance = base_url[2:-1]
 
     return instance
 
