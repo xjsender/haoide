@@ -5,6 +5,24 @@ Release History
 ---------------
 
 
+Release 3.2.2 (2015-11-19)
+++++++++++++++++++
+* Bug Fix:
+    - Fix TypeError when export soql to csv
+    - Fix aura app preview problem
+    - Fix bug for missing standard Objects when retrieve all
+    - Fix bug for `deploy selected open files` fetaure
+    - Fix instance parse problem for lighting app preview
+    - Fix bug of aura helperjs or controoler deploy
+
+* New Feature:
+    - Add new command to open aura document reference in the command palette
+
+* Enhancement:
+    - Improve output message of debug mode
+    - Update README.MD
+
+
 Release 3.2.1 (2015-11-10)
 ++++++++++++++++++
 * Fix issue #81
