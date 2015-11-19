@@ -1076,26 +1076,23 @@ def build_deploy_package(files):
     # Add files to zip
     for meta_type in package_dict:
         for f in package_dict[meta_type]:
-            write_to = (
-                f["metadata_folder"], 
-                ("/" + f["folder"]) if f["folder"] else "", 
-                f["name"], 
-                f["extension"]
-            )
-            zf.write(f["dir"], "%s%s/%s.%s" % write_to)
-
-            # If lighting component, if cmp or app is exist,
-            # add it to zipfile
+            # If lighting component, add other files to zip too
             if f["metadata_folder"] == "aura":
                 base = os.path.split(f["dir"])[0]
-                for extension in ["cmp", "app"]:
-                    aura_file = os.path.join(base, "%s.%s" % (f["name"], extension))
-                    if os.path.isfile(aura_file):
-                        zf.write(aura_file, "%s%s/%s.%s" % (
-                            f["metadata_folder"], 
-                            ("/" + f["folder"]) if f["folder"] else "", 
-                            f["name"], extension
+                for parent, dirnames, filenames in os.walk(base):
+                    for filename in filenames:
+                        aura_file = os.path.join(parent, filename)
+                        zf.write(aura_file, "aura/%s/%s" % (
+                            f["folder"], filename
                         ))
+            else:   
+                write_to = (
+                    f["metadata_folder"], 
+                    ("/" + f["folder"]) if f["folder"] else "", 
+                    f["name"], 
+                    f["extension"]
+                )
+                zf.write(f["dir"], "%s%s/%s.%s" % write_to)
 
             # If -meta.xml is exist, add it to folder
             met_xml = f["dir"] + "-meta.xml"
