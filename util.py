@@ -1076,7 +1076,15 @@ def build_deploy_package(files):
     # Add files to zip
     for meta_type in package_dict:
         for f in package_dict[meta_type]:
-            # If lighting component, add other files to zip too
+            # Define write_to
+            write_to = (
+                f["metadata_folder"], 
+                ("/" + f["folder"]) if f["folder"] else "", 
+                f["name"], 
+                f["extension"]
+            )
+
+            # If lighting component, add all realted file to zip too
             if f["metadata_folder"] == "aura":
                 base = os.path.split(f["dir"])[0]
                 for parent, dirnames, filenames in os.walk(base):
@@ -1085,13 +1093,7 @@ def build_deploy_package(files):
                         zf.write(aura_file, "aura/%s/%s" % (
                             f["folder"], filename
                         ))
-            else:   
-                write_to = (
-                    f["metadata_folder"], 
-                    ("/" + f["folder"]) if f["folder"] else "", 
-                    f["name"], 
-                    f["extension"]
-                )
+            else:
                 zf.write(f["dir"], "%s%s/%s.%s" % write_to)
 
             # If -meta.xml is exist, add it to folder
