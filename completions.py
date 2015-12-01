@@ -464,7 +464,9 @@ class PageCompletions(sublime_plugin.EventListener):
             if ch == "<":
                 # Visualforce Standard Components
                 for tag in sorted(vf.tag_defs):
-                    completion_list.append((tag + "\tvf", 
+                    attr = vf.tag_defs[tag]
+                    print (tag, attr)
+                    completion_list.append((tag + "\t%s" % attr["type"], 
                         tag if tag_has_ending else (tag + "$1>")))
 
                 # Custom Component
@@ -534,15 +536,17 @@ class PageCompletions(sublime_plugin.EventListener):
                     if matched_tag in vf.tag_defs:
                         def_entry = vf.tag_defs[matched_tag]
                         for key, value in def_entry['attribs'].items():
+                            display = "%s\t%s" % (key, value['type'])
+
                             # Has value completion
-                            if "values" in value or forward_two_chars == '="':
-                                completion_list.append((key + '\t' + value['type'], key))
+                            if "values" in value or value["type"] == "Boolean" or forward_two_chars == '="':
+                                completion_list.append((display, key))
                                 continue
                             
                             if value["type"] in ["Object", "ApexPages.Action"]:
-                                completion_list.append((key + '\t' + value['type'], key+'="{!$1}"$0'))
+                                completion_list.append((display, key+'="{!$1}"$0'))
                             else:
-                                completion_list.append((key + '\t' + value['type'], key+'="$1"$0'))
+                                completion_list.append((display, key+'="$1"$0'))
 
             ##########################################
             # Custom Component Attribute Completions
@@ -636,6 +640,8 @@ class PageCompletions(sublime_plugin.EventListener):
                         # If attr type boolean, add {!} to it
                         if tag_attribute["type"] == "Boolean":
                             completion_list.append(("{!}" + "\t" + matched_attr_name, '"{!$1}"$0'))
+                            completion_list.append(("true" + "\t" + matched_attr_name, '"true"$0'))
+                            completion_list.append(("false" + "\t" + matched_attr_name, '"false"$0'))
 
                         if "values" in tag_attribute:
                             for value in tag_attribute["values"]:

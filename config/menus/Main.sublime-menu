@@ -50,22 +50,34 @@
 
                     {
                         "caption": "New Lighting Application",
-                        "command": "create_lighting_application"
+                        "command": "create_lighting_definition",
+                        "args": {
+                            "_type": "Application"
+                        }
                     },
 
                     {
                         "caption": "New Lighting Component",
-                        "command": "create_lighting_component"
+                        "command": "create_lighting_definition",
+                        "args": {
+                            "_type": "Component"
+                        }
                     },
 
                     {
                         "caption": "New Lighting Interface",
-                        "command": "create_lighting_interface"
+                        "command": "create_lighting_definition",
+                        "args": {
+                            "_type": "Interface"
+                        }
                     },
 
                     {
                         "caption": "New Lighting Event",
-                        "command": "create_lighting_event"
+                        "command": "create_lighting_definition",
+                        "args": {
+                            "_type": "Event"
+                        }
                     }
                 ]
             },

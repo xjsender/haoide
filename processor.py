@@ -1263,10 +1263,11 @@ def handle_new_project(is_update=False, timeout=120):
 
         # Write the settings to local cache
         # Not keep the confidential info to .settings
-        del settings["projects"]
-        del settings["password"]
-        del settings["default_project"]
-        util.add_config_history('settings', settings, settings)
+        # Since 2015.11.26, stop to keep settings.json
+        # del settings["projects"]
+        # del settings["password"]
+        # del settings["default_project"]
+        # util.add_config_history('settings', settings, settings)
 
     settings = context.get_settings()
     api = MetadataApi(settings)

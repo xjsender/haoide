@@ -5,6 +5,21 @@ Release History
 ---------------
 
 
+Release 3.2.3 (2015-12-01)
+++++++++++++++++++
+* Bug Fix:
+    Fix bug for lighting development when deploying cmp or app
+
+* Enhancement:
+    - Display the lighting type in the input panel when creating lighting components
+    - Change ``No change`` to ``no difference`` in non-difference message when executing ``diff_with_server`` command
+
+* Update:
+    - Remove four commands ``create_lighting_application``, ``create_lighting_component``, ``create_lighting_interface``, ``create_lighting_event``, bind the four features to ``create_lighting_definition`` by difference ``_type``
+    - Optimize completion for Boolean attribute in the html related page
+    - Stop keeping useless ``settings.json`` to ``.config`` folder
+
+
 Release 3.2.2 (2015-11-19)
 ++++++++++++++++++
 * Bug Fix:

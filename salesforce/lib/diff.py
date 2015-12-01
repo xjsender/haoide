@@ -26,7 +26,7 @@ def diff_changes(file_name, result):
     difftxt = u"\n".join(line for line in diff)
 
     if difftxt == "":
-        show_diff_panel("There is no change between %s and server" % os.path.basename(file_name))
+        show_diff_panel("There is no difference between %s and server" % os.path.basename(file_name))
         return
 
     show_diff_panel(difftxt)

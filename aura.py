@@ -95,7 +95,6 @@ class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
 
     def preview_app(self):
         instance = util.get_instance(self.settings)
-        if instance == "emea": instance = "eu0"
         start_url = "https://%s.lightning.force.com/%s/%s.app" % (
             instance, self.namespace, self.app_name
         )
@@ -268,7 +267,7 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
 
     def run(self, _type=""):
         self._type = _type
-        self.window.show_input_panel("Please Input Lighting Name: ", 
+        self.window.show_input_panel("Please Input %s Name: " % _type, 
             "", self.on_input, None, None)
 
     def on_input(self, lighting_name):
@@ -276,7 +275,7 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
         if not re.match('^[a-zA-Z]+\\w+$', lighting_name):
             message = 'Invalid format, do you want to try again?'
             if not sublime.ok_cancel_dialog(message): return
-            self.window.show_input_panel("Please Input Lighting Name: ", 
+            self.window.show_input_panel("Please Input %s Name: " % self._type, 
                 "", self.on_input, None, None)
             return
 
@@ -311,51 +310,6 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
         self.window.run_command("deploy_lighting_to_server", {
             "dirs": [component_dir],
             "switch_project": False
-        })
-
-class CreateLightingApplication(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(CreateLightingApplication, self).__init__(*args, **kwargs)
-
-    def run(self):
-        self.window.run_command("create_lighting_definition", {
-            "_type": "Application"
-        })
-
-    def is_enabled(self):
-        return util.check_action_enabled()
-
-class CreateLightingComponent(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(CreateLightingComponent, self).__init__(*args, **kwargs)
-
-    def run(self):
-        self.window.run_command("create_lighting_definition", {
-            "_type": "Component"
-        })
-
-    def is_enabled(self):
-        return util.check_action_enabled()
-
-class CreateLightingInterface(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(CreateLightingInterface, self).__init__(*args, **kwargs)
-
-    def run(self):
-        self.window.run_command("create_lighting_definition", {
-            "_type": "Interface"
-        })
-
-    def is_enabled(self):
-        return util.check_action_enabled()
-
-class CreateLightingEvent(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(CreateLightingEvent, self).__init__(*args, **kwargs)
-
-    def run(self):
-        self.window.run_command("create_lighting_definition", {
-            "_type": "Event"
         })
 
     def is_enabled(self):

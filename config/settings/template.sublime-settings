@@ -3,7 +3,7 @@
         "Aura": {
             "Application": {
                 "extension": ".app",
-                "body": "<aura:application></aura:application>",
+                "body": "<aura:application>\n    \n</aura:application>",
                 "children": ["Controller", "Helper", "Style", "Documentation", "Renderer"]
             },
 
@@ -44,7 +44,7 @@
 
             "Documentation": {
                 "extension": ".auradoc",
-                "body": "<aura:documentation>\n    <aura:description>Documentation</aura:description>\n    <aura:example name=\"ExampleName\" ref=\"exampleComponentName\" label=\"Label\">\n    Example Description\n    </aura:example>\n</aura:documentation>"
+                "body": "<aura:documentation>\n    <aura:description>Documentation</aura:description>\n    <aura:example name=\"ExampleName\" ref=\"exampleComponentName\" label=\"Label\">\n        Example Description\n    </aura:example>\n</aura:documentation>"
             },
 
             "Renderer": {

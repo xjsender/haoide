@@ -17,6 +17,7 @@ from . import processor
 from . import context
 from . import util
 
+
 from .salesforce.lib import xmlformatter
 from .salesforce.lib.jsontoapex import JSONConverter
 from .salesforce.lib.panel import Printer
@@ -558,6 +559,9 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
             return False
 
         return True
+
+    def is_visible(self):
+        return self.is_enabled()
 
 class ViewSelectedCodeCoverageCommand(sublime_plugin.TextCommand):
     def run(self, edit):
