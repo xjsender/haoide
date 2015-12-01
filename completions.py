@@ -465,7 +465,6 @@ class PageCompletions(sublime_plugin.EventListener):
                 # Visualforce Standard Components
                 for tag in sorted(vf.tag_defs):
                     attr = vf.tag_defs[tag]
-                    print (tag, attr)
                     completion_list.append((tag + "\t%s" % attr["type"], 
                         tag if tag_has_ending else (tag + "$1>")))
 
