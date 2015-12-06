@@ -11,6 +11,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "access": {
                 "type": "Picklist",
                 "values":[
@@ -37,6 +40,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "access": {
                 "type": "Picklist",
                 "values":[
@@ -70,6 +76,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "access": {
                 "type": "Picklist",
                 "values":[
@@ -85,6 +94,15 @@ tag_defs = {
             },
             "implements": {
                 "type": "String"
+            },
+            "body": {
+                "type": "String"
+            },
+            "isTemplate": {
+                "type": "Boolean"
+            },
+            "template": {
+                "type": "Component"
             }
         }
     },
@@ -93,6 +111,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "name": {
                 "type": "String",
                 "description": "The method name. Use the method name to call the method in JavaScript code"
@@ -121,6 +142,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "resource": {
                 "type": "String",
                 "values": [
@@ -142,6 +166,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "access": {
                 "type": "Picklist",
                 "values":[
@@ -171,6 +198,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "event": {
                 "type": "Picklist",
                 "values": [
@@ -196,6 +226,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "else": {
                 "type": "ComponentDefRef[]"
             },
@@ -209,6 +242,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -228,6 +264,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "value": {
                 "type": "String",
                 "description": "The expression to evaluate and render."
@@ -239,6 +278,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "access": {
                 "type": "Picklist",
                 "values":[
@@ -262,6 +304,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "ComponentDefRef[]"
             },
@@ -281,6 +326,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "else": {
                 "type": "ComponentDefRef[]"
             },
@@ -294,6 +342,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "attribute": {
                 "type": "String"
             },
@@ -307,6 +358,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "value": {
                 "type": "String",
                 "description": "The String to be rendered."
@@ -318,6 +372,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of <aura:unescapedHtml> is ignored and won't be rendered."
@@ -333,6 +390,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
            "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -372,6 +432,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "displayLocation": {
                 "description": "The location in the application where the canvas app is currently being called from.", 
                 "type": "String"
@@ -463,6 +526,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -490,6 +556,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -509,6 +578,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -532,6 +604,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -555,6 +630,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -574,6 +652,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -597,6 +678,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "mouseup": {
                 "description": "Indicates that the user has released the mouse button.", 
                 "type": "COMPONENT"
@@ -684,6 +768,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "label": {
                 "type": "String", 
                 "description": "The text displayed on the button. Corresponds to the value attribute of the rendered HTML input element."
@@ -727,6 +814,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "label": {
                 "type": "String", 
                 "description": "The text displayed on the component."
@@ -814,6 +904,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "name": {
                 "description": "The name of the component.", 
                 "type": "String"
@@ -941,6 +1034,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -1106,6 +1202,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -1267,6 +1366,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -1428,6 +1530,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]", 
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -1484,6 +1589,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -1645,6 +1753,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -1811,6 +1922,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -1972,6 +2086,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -2128,6 +2245,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -2314,6 +2434,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -2475,6 +2598,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -2631,6 +2757,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -2737,6 +2866,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -2898,6 +3030,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -3074,6 +3209,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -3235,6 +3373,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -3286,6 +3427,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -3395,6 +3539,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -3446,6 +3593,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "autoPosition": {
                 "type": "Boolean",
                 "description": "Move the popup target up when there is not enough space at the bottom to display. Note: even if autoPosition is set to false, popup will still position the menu relative to the trigger. To override default positioning, use manualPosition attribute."
@@ -3547,6 +3697,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -3643,6 +3796,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]", 
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -3744,6 +3900,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -3810,6 +3969,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "altChecked": {
                 "type": "String",
                 "description": "The alternate text description when the checkbox is checked. Default value is 'True'."
@@ -3876,6 +4038,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "type": "The body of the component. In markup, this is everything in the body of the tag."
@@ -3943,10 +4108,13 @@ tag_defs = {
         }
     },
 
-    "ui:outputData": {
+    "ui:outputDate": {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]", 
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -4013,6 +4181,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]", 
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -4084,6 +4255,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -4140,6 +4314,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -4201,6 +4378,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -4257,6 +4437,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -4313,6 +4496,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -4369,6 +4555,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -4425,6 +4614,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "alt": {
                 "type": "String",
                 "description": "The alternate text description for image (used when there is no label)"
@@ -4514,6 +4706,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -4624,6 +4819,9 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "aura:id": {
+                "type": "String"
+            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
