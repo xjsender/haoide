@@ -11,9 +11,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "access": {
                 "type": "Picklist",
                 "values":[
@@ -40,9 +37,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "access": {
                 "type": "Picklist",
                 "values":[
@@ -76,9 +70,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "access": {
                 "type": "Picklist",
                 "values":[
@@ -111,9 +102,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "name": {
                 "type": "String",
                 "description": "The method name. Use the method name to call the method in JavaScript code"
@@ -142,9 +130,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "resource": {
                 "type": "String",
                 "values": [
@@ -166,9 +151,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "access": {
                 "type": "Picklist",
                 "values":[
@@ -198,9 +180,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "event": {
                 "type": "Picklist",
                 "values": [
@@ -226,9 +205,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "else": {
                 "type": "ComponentDefRef[]"
             },
@@ -242,9 +218,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -264,9 +237,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "value": {
                 "type": "String",
                 "description": "The expression to evaluate and render."
@@ -278,9 +248,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "access": {
                 "type": "Picklist",
                 "values":[
@@ -304,9 +271,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "body": {
                 "type": "ComponentDefRef[]"
             },
@@ -326,9 +290,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "else": {
                 "type": "ComponentDefRef[]"
             },
@@ -342,9 +303,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "attribute": {
                 "type": "String"
             },
@@ -354,27 +312,10 @@ tag_defs = {
         }
     },
 
-    "aura:set": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "value": {
-                "type": "String",
-                "description": "The String to be rendered."
-            }
-        }
-    },
-
     "aura:unescapedHtml": {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of <aura:unescapedHtml> is ignored and won't be rendered."
@@ -390,10 +331,7 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-           "body": {
+            "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
             },
@@ -432,9 +370,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "displayLocation": {
                 "description": "The location in the application where the canvas app is currently being called from.", 
                 "type": "String"
@@ -526,9 +461,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -556,9 +488,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -578,9 +507,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -604,9 +530,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -630,9 +553,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -652,9 +572,6 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -4205,7 +4122,31 @@ tag_defs = {
             },
 
             "timezone": {
-                "type": "String", 
+                "type": "Picklist",
+                "values": [
+                    "Pacific/Chatham", "Pacific/Auckland", "Pacific/Enderbury", "Pacific/Fiji", 
+                    "Pacific/Tongatapu", "Asia/Kamchatka", "Australia/Lord_Howe", "Australia/Sydney", 
+                    "Pacific/Guadalcanal", "Pacific/Norfolk", "Australia/Adelaide", "Australia/Brisbane", 
+                    "Australia/Darwin", "Asia/Seoul", "Asia/Tokyo", "Asia/Hong_Kong", "Asia/Kuala_Lumpur", 
+                    "Asia/Manila", "Asia/Shanghai", "Asia/Singapore", "Asia/Taipei", "Australia/Perth", 
+                    "Asia/Bangkok", "Asia/Ho_Chi_Minh", "Asia/Jakarta", "Asia/Rangoon", "Asia/Dhaka", 
+                    "Asia/Kathmandu", "Asia/Colombo", "Asia/Kolkata", "Asia/Karachi", "Asia/Tashkent", 
+                    "Asia/Yekaterinburg", "Asia/Kabul", "Asia/Baku", "Asia/Dubai", "Asia/Tbilisi", 
+                    "Asia/Yerevan", "Asia/Tehran", "Africa/Nairobi", "Asia/Baghdad", "Asia/Kuwait", 
+                    "Asia/Riyadh", "Europe/Minsk", "Europe/Moscow", "Africa/Cairo", "Africa/Johannesburg", 
+                    "Asia/Beirut", "Asia/Jerusalem", "Europe/Athens", "Europe/Bucharest", "Europe/Helsinki", 
+                    "Europe/Istanbul", "Africa/Algiers", "Europe/Amsterdam", "Europe/Berlin", "Europe/Brussels", 
+                    "Europe/Paris", "Europe/Prague", "Europe/Rome", "Africa/Casablanca", "Europe/Dublin", 
+                    "Europe/Lisbon", "Europe/London", "America/Scoresbysund", "Atlantic/Azores", 
+                    "Atlantic/Cape_Verde", "America/Sao_Paulo", "Atlantic/South_Georgia", 
+                    "America/Argentina/Buenos_Aires", "America/Santiago", "America/St_Johns", "America/Halifax", 
+                    "America/Puerto_Rico", "Atlantic/Bermuda", "America/Caracas", "America/Bogota", 
+                    "America/Indiana/Indianapolis", "America/Lima", "America/New_York", "America/Panama", 
+                    "America/Chicago", "America/El_Salvador", "America/Mexico_City", "America/Denver", 
+                    "America/Mazatlan", "America/Phoenix", "America/Los_Angeles", "America/Tijuana", "Pacific/Pitcairn", 
+                    "America/Anchorage", "Pacific/Gambier", "Pacific/Marquesas", "America/Adak", "Pacific/Honolulu", 
+                    "Pacific/Niue", "Pacific/Pago_Pago" 
+                ],
                 "description": "The timezone ID, for example, America/Los_Angeles."
             },
 
