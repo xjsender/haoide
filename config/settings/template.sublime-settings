@@ -4,13 +4,13 @@
             "Application": {
                 "extension": ".app",
                 "body": "<aura:application>\n    \n</aura:application>",
-                "children": ["Controller", "Helper", "Style", "Documentation", "Renderer"]
+                "children": ["Controller", "Helper", "Style", "Documentation", "Renderer", "Design", "SVG"]
             },
 
             "Component": {
                 "extension": ".cmp",
                 "body": "<aura:component>\n    \n</aura:component>",
-                "children": ["Controller", "Helper", "Style", "Documentation", "Renderer"]
+                "children": ["Controller", "Helper", "Style", "Documentation", "Renderer", "Design", "SVG"]
             },
 
             "Interface": {
@@ -26,7 +26,7 @@
             }
         },
 
-        "AuraEelement": {
+        "AuraElement": {
             "Controller": {
                 "extension": ".js",
                 "body": "({\n    myAction : function(component, event, helper) {\n    \n    }\n})"

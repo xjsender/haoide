@@ -201,7 +201,7 @@ class CreateLightingElement(sublime_plugin.WindowCommand):
 
         # Get template attribute
         template_settings = sublime.load_settings("template.sublime-settings")
-        template = template_settings.get("template").get("AuraEelement").get(element)
+        template = template_settings.get("template").get("AuraElement").get(element)
         extension = template["extension"]
         body = template["body"]
 
