@@ -115,6 +115,18 @@
                 "args": {"dirs": [], "element": "Renderer"}
             },
 
+            {
+                "caption": "Create Lighting Design", 
+                "command": "create_lighting_element",
+                "args": {"dirs": [], "element": "Design"}
+            },
+
+            {
+                "caption": "Create Lighting SVG", 
+                "command": "create_lighting_element",
+                "args": {"dirs": [], "element": "SVG"}
+            },
+
             {"caption": "-"},
 
             {
