@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 3.2.4 (2015-12-09)
+++++++++++++++++++
+* Enhancement for lighting development
+* Add new command for creating ``SVG`` and ``design``
+* Update lighting related library
+* Change default ``api_version`` from ``34`` to ``35``
+
 
 Release 3.2.3 (2015-12-01)
 ++++++++++++++++++
