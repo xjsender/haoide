@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 3.2.5 (2015-12-15)
+++++++++++++++++++
+* Fix urgent bug issue #83
+* Fix urgent bug for sobject cache reloading
+* Remove ``allowed_sobjects`` setting
+
+
 Release 3.2.4 (2015-12-09)
 ++++++++++++++++++
 * Enhancement for lighting development

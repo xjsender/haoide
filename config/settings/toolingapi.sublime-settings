@@ -309,54 +309,6 @@
         "errorDisplayField", "active", "description"
     ],
 
-    // Allowed Standard Sobjects for kind of use, including describe, trigger, code completion
-    "allowed_sobjects" : [
-        // Sales Sobject
-        "Account", "Partner", "PartnerRole", "Contact", "Asset",
-        "Opportunity", "OpportunityLineItem", "OpportunityStage", "OpportunityCompetitor",
-        "Product2", "Pricebook2", "PricebookEntry", "Quote", "QuoteLineItem", "Order",
-        "Lead", "LeadStatus", "Campaign", "CampaignMember", "CampaignMemberStatus",
-        "Case", "CaseStatus", "CaseComment", "Contract", "Solution",
-        "OpportunityContactRole", "ContractContactRole", "AccountContactRole",
-
-        // History Objects
-        "OpportunityHistory", "OpportunityFieldHistory", "AccountHistory",
-
-        // Task and Event Sobjects
-        "Event", "EventRelation", "Task", "TaskStatus", "TaskPriority",
-
-        // Content
-        "Attachment", "Content", "ContentVersion", "Note", "Document", "Folder",
-
-        // Process
-        "ProcessInstance", "ProcessInstanceHistory", "ProcessInstanceStep", "ProcessInstanceWorkitem",
-
-        // Stable Sobject
-        "Profile", "User", "UserRole", "BusinessProcess", "RecordType", "Period", "Layout",
-
-        // Forecast
-        "Forecast", "ForecastingQuota", "ForecastShare",
-
-        // Feed
-        "FeedItem", "FeedLike", "FeedComment", "AccountFeed", "OpportunityFeed",
-        "CaseFeed", "ContactFeed", "LeadFeed", "CampaignFeed",
-
-        // Share
-        "AccountShare", "ContactShare", "OpportunityShare", "LeadShare", "CampaignShare", "UserShare",
-
-        // Team Member
-        "AccountTeamMember", "OpportunityTeamMember", "CaseTeamMember", "UserTeamMember", 
-        "GroupMember", "Group", "Territory2",
-
-        // Apex Code
-        "ApexClass", "ApexComponent", "ApexTrigger", "ApexPage", 
-        "StaticResource", "AsyncApexJob", "WorkflowRule", "ValidationRule",
-        "WorkflowFieldUpdate", "WorkflowOutboundMessage", "WorkflowAlert", "WorkflowTask",
-
-        // Email
-        "EmailTemplate"
-    ],
-
     // This setting is used to keep the default pattern of salesforce document TOC path
     "docs" : {
         "Apex" : {

@@ -132,7 +132,6 @@ def get_settings():
     settings["disable_component_attribute_completion"] = s.get("disable_component_attribute_completion", False)
     settings["disable_component_attribute_value_completion"] = s.get("disable_component_attribute_value_completion", False)
     settings["disable_apex_completion_in_visualforce"] = s.get("disable_apex_completion_in_visualforce", False)
-    settings["allowed_sobjects"] = s.get("allowed_sobjects", [])
 
     # Bulk Api batch size and batch bytes
     settings["maximum_batch_size"] = s.get("maximum_batch_size", 10000)
