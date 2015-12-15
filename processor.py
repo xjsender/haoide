@@ -480,22 +480,16 @@ def handle_reload_sobjects_completions(timeout=120):
 
         # Get describe result of all sObjects
         sobjects_describe = api.result["sobjects"]
-
-        # Filter all allowed and custom sObjects
-        sobjects_to_describe = []
-        for sobject, sobject_describe in sobjects_describe.items():
-            if sobject in settings["allowed_sobjects"] or sobject_describe["custom"]:
-                sobjects_to_describe.append(sobject_describe)
+        sobjects = list(sobjects_describe.keys())
         
         mcc = settings["maximum_concurrent_connections"]
-        chunked_sobjects_describe = util.list_chunks(sobjects_to_describe, 
-            math.ceil(len(sobjects_to_describe) / mcc))
+        chunked_sobjects = util.list_chunks(sobjects, math.ceil(len(sobjects) / mcc))
 
         threads = []
         apis = []
-        for csd in chunked_sobjects_describe:
+        for sobjects in chunked_sobjects:
             api = ToolingApi(settings)
-            thread = threading.Thread(target=api.describe_sobjects, args=(csd, ))
+            thread = threading.Thread(target=api.describe_sobjects, args=(sobjects, ))
             thread.start()
             threads.append(thread)
             apis.append(api)

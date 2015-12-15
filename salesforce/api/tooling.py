@@ -87,7 +87,7 @@ class ToolingApi():
             try:
                 response_result = res.json()
                 if isinstance(response_result, list):
-                    response_result = response_result[0]
+                    response_result = response_result[0]                    
             except:
                 response_result = {"Error Message": res.text}
 
@@ -591,15 +591,15 @@ class ToolingApi():
         self.result = result
         return result
 
-    def describe_sobjects(self, sobjects_describe):
+    def describe_sobjects(self, sobjects):
         """ Sends get requests, return sObjects describe result
 
         * sobjects -- sObject collection
         """
 
         result = []
-        for sd in sobjects_describe:
-            result.append(self.describe_sobject(sd["name"], sd["tooling"]))
+        for sobject in sobjects:
+            result.append(self.describe_sobject(sobject))
 
         self.result = result
         return result
@@ -620,7 +620,7 @@ class ToolingApi():
         sobjects = {}
         if "sobjects" in tooling_result:
             for sd in tooling_result["sobjects"]:
-                if "name" in sd:
+                if "name" in sd and sd["queryable"]:
                     sobjects[sd["name"]] = {
                         "name": sd["name"],
                         "custom": sd["custom"],
@@ -634,7 +634,7 @@ class ToolingApi():
         #   we just choose that non-tooling ones to override tooling sObjects
         if "sobjects" in result:
             for sd in result["sobjects"]:
-                if "name" in sd:
+                if "name" in sd and sd["queryable"]:
                     sobjects[sd["name"]] = {
                         "name": sd["name"],
                         "custom": sd["custom"],
@@ -726,6 +726,16 @@ class ToolingApi():
         trace_flag = self.settings["trace_flag"]
         trace_flag["TracedEntityId"] = traced_entity_id
 
+        # Create debug level, since 34, new DebugLevelId field is required
+        if self.settings["api_version"] > 34:
+            debug_level = self.get_debug_level()
+            if not debug_level["success"]:
+                self.result = debug_level
+                return self.result
+            
+            trace_flag["LogType"] = "USER_DEBUG"
+            trace_flag["DebugLevelId"] = debug_level["id"]
+
         # We must set the expiration date to next day, 
         # otherwise, the debug log record will not be created 
         expiration_date = datetime.datetime.utcnow() + datetime.timedelta(minutes=120)
@@ -739,6 +749,23 @@ class ToolingApi():
             return self.result
 
         self.result = result
+        return result
+
+    def get_debug_level(self, name="haoide"):
+        debug_levels = self.query(
+            "SELECT Id FROM DebugLevel WHERE DeveloperName = '%s'" % name, 
+            is_toolingapi=True
+        )
+        if debug_levels["success"] and debug_levels["totalSize"] > 0:
+            debug_level = debug_levels["records"][0]
+            debug_level["id"] = debug_level["Id"] # Prevent keyError problem
+            return debug_level
+
+        debug_level = self.settings["trace_flag"]
+        debug_level["MasterLabel"] = name;
+        debug_level["DeveloperName"] = name;
+
+        result = self.post("/tooling/sobjects/DebugLevel", debug_level)
         return result
 
     def retrieve_body(self, retrieve_url, timeout=120):
