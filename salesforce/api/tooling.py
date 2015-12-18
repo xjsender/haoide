@@ -706,6 +706,10 @@ class ToolingApi():
             self.login()
             traced_entity_id = self.session["user_id"]
 
+        # Create Trace Flag
+        trace_flag = self.settings["trace_flag"]
+        trace_flag["TracedEntityId"] = traced_entity_id
+
         # Check whether traced user already has trace flag
         # If not, just create it for him/her
         query = "SELECT Id, ExpirationDate FROM TraceFlag " +\
@@ -721,11 +725,7 @@ class ToolingApi():
         if result["totalSize"] > 0:
             self.delete("/tooling/sobjects/TraceFlag/" + result["records"][0]["Id"])
             return self.create_trace_flag(traced_entity_id)
-
-        # Create Trace Flag
-        trace_flag = self.settings["trace_flag"]
-        trace_flag["TracedEntityId"] = traced_entity_id
-
+            
         # Create debug level, since 34, new DebugLevelId field is required
         if self.settings["api_version"] > 34:
             debug_level = self.get_debug_level()
@@ -756,9 +756,13 @@ class ToolingApi():
             "SELECT Id FROM DebugLevel WHERE DeveloperName = '%s'" % name, 
             is_toolingapi=True
         )
-        if debug_levels["success"] and debug_levels["totalSize"] > 0:
-            debug_level = debug_levels["records"][0]
-            debug_level["id"] = debug_level["Id"] # Prevent keyError problem
+        if debug_levels["success"]:
+            if debug_levels["totalSize"] > 0:
+                debug_level = debug_levels["records"][0]
+                debug_level["id"] = debug_level["Id"] # Prevent keyError problem
+                debug_level["success"] = True
+                return debug_level
+        else:
             return debug_level
 
         debug_level = self.settings["trace_flag"]
