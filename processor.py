@@ -1417,19 +1417,16 @@ def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_x
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
             return
-
+        
         # If source_org is not None, we need to switch project back
         if settings["switch_back_after_migration"] and source_org:
             util.switch_project(source_org)
         
-        # If not succeed, just stop
-        if not api.result or not api.result["success"]: return
-        result = api.result
-
         # Extract the zipFile to extract_to
-        thread = threading.Thread(target=util.extract_encoded_zipfile, 
-            args=(result["zipFile"], extract_to, ignore_package_xml, ))
-        thread.start()
+        if api.result and api.result["success"]:
+            thread = threading.Thread(target=util.extract_encoded_zipfile, 
+                args=(api.result["zipFile"], extract_to, ignore_package_xml, ))
+            thread.start()
 
     # Start to request
     settings = context.get_settings()

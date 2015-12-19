@@ -727,14 +727,18 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(RetrieveFilesFromServer, self).__init__(*args, **kwargs)
 
-    def run(self, files, switch=True, source_org=None):
-        message = "Confirm retrieving %s from server?" % (
-            "these files" if len(files) > 1 else "this file"
-        )
-        if not sublime.ok_cancel_dialog(message, "Confirm?"): 
-            return
+    def run(self, files, switch=True, source_org=None, confirmed=False, extract_to=None):
+        # Prevent duplicate confirmation
+        if not confirmed:
+            message = "Confirm retrieving %s from server?" % (
+                "these files" if len(files) > 1 else "this file"
+            )
+            if not sublime.ok_cancel_dialog(message, "Confirm?"): 
+                return
 
         settings = context.get_settings()
+        if not extract_to:
+            extract_to = settings["workspace"]
 
         if switch:
             return self.window.run_command("switch_project", {
@@ -743,7 +747,9 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
                     "args": {
                         "files": files,
                         "switch": False,
-                        "source_org": settings["default_project_name"]
+                        "source_org": settings["default_project_name"],
+                        "confirmed": True,
+                        "extract_to": extract_to
                     }
                 }
             })
@@ -770,7 +776,7 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
             else:
                 types[metadata_object] = [name]
 
-        processor.handle_retrieve_package(types, settings["workspace"], 
+        processor.handle_retrieve_package(types, extract_to, 
             source_org=source_org, ignore_package_xml=True)
 
     def is_visible(self, files):
