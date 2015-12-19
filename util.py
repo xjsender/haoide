@@ -2820,6 +2820,46 @@ def get_metadata_elements(metadata_dir):
 
     return elements
 
+def export_role_hierarchy(roles):
+    records = roles["records"]
+    
+    top_roles = [] # Role hierarchy
+    rolemap = {} # Define roleId => role
+    for r in records:
+        # Build map
+        rolemap[r["Id"]] = r
+
+        if not r["ParentRoleId"]:
+            top_roles.append(r)
+
+    # Start to write role name to csv
+    rows = []
+    for role in sorted(top_roles, key=lambda k : k['Name']):
+        rows.append(role["Name"])
+        append_child_roles(rolemap, role["Id"], rows, 1)
+
+    settings = context.get_settings()
+    outputdir = settings["workspace"]+ "/.export/Role"
+    if not os.path.exists(outputdir):
+        os.makedirs(outputdir)
+
+    outputfile = outputdir+"/hierarchy.csv"
+    with open(outputfile, "wb") as fp:
+        fp.write("\n".join(rows).encode("utf-8"))
+
+    return outputfile
+
+def append_child_roles(rolemap, role_id, rows, level):
+    child_roles = []
+    for role in rolemap.values():
+        if role["ParentRoleId"] == role_id:
+            child_roles.append(role)
+
+    for role in sorted(child_roles, key=lambda k : k['Name']):
+        rows.append(level * "," + role["Name"])
+        append_child_roles(rolemap, role["Id"], rows, level + 1)
+
+
 def export_profile_settings():
     settings = context.get_settings()
 

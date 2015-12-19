@@ -432,6 +432,10 @@
         "command": "export_profile"
     },
     {
+        "caption": "HaoIDE: Export Role Hierarchy",
+        "command": "export_role_hierarchy"
+    },
+    {
         "caption": "HaoIDE: Export Workbook",
         "command": "export_workbook"
     },

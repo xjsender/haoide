@@ -1126,6 +1126,16 @@ class ExportCustomFieldCommand(sublime_plugin.WindowCommand):
     def is_enabled(self):
         return util.check_action_enabled()
 
+class ExportRoleHierarchyCommand(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ExportRoleHierarchyCommand, self).__init__(*args, **kwargs)
+
+    def run(self):
+        processor.handle_export_role_hierarchy()
+        
+    def is_enabled(self):
+        return util.check_action_enabled()
+
 class DescribeSobjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DescribeSobjectCommand, self).__init__(*args, **kwargs)

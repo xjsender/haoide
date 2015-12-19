@@ -724,8 +724,33 @@ def handle_export_customfield(timeout=120):
     query = "SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName FROM CustomField"
     thread = threading.Thread(target=api.query, args=(query, True,))
     thread.start()
-    ThreadProgress(api, thread, 'Export CustomFields', "Export CustomFields Succeed")
+    ThreadProgress(api, thread, 'Exporting CustomFields', "Exporting CustomFields Succeed")
     handle_thread(thread, 10)
+
+def handle_export_role_hierarchy(timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            return
+        
+        # If succeed
+        result = api.result
+        if not result or not result["success"]: return
+
+        outputfile = util.export_role_hierarchy(result)
+        sublime.active_window().run_command("refresh_folder_list")
+
+        # Open file
+        view = sublime.active_window().open_file(outputfile)
+
+    settings = context.get_settings()
+    api = ToolingApi(settings)
+    soql = "SELECT Id, ParentRoleId, Name FROM UserRole"
+    thread = threading.Thread(target=api.query_all, args=(soql,))
+    thread.start()
+    ThreadProgress(api, thread, 'Exporting Role Hierarchy', "Role Hierarchy Exporting Succeed")
+    handle_thread(thread, 10)
+
 
 def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, timeout=120):
     def handle_thread(thread, timeout):

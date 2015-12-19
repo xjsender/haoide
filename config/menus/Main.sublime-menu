@@ -390,6 +390,11 @@
                     },
 
                     {
+                        "caption": "Export Role Hierachy",
+                        "command": "export_role_hierarchy"
+                    },
+
+                    {
                         "caption": "Export Workbook",
                         "command": "export_workbook"
                     },

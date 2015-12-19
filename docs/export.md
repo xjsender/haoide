@@ -25,6 +25,10 @@ You can export somethings in your org to CSV by these features
         + [TabVisibilities.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/TabVisibilities.csv)
         + [UserPermissions.csv](https://github.com/xjsender/SublimeApexScreenshot/blob/master/CSV/Profile/UserPermissions.csv)
 
+* Export Role Hierarchy
+    - Click ```HaoIDE``` > ```Export``` > ```Export Role Hierarchy```
+    - ``Role Hierarchy`` will be exported to ``Project/.export/Role/hierarchy.csv``
+
 * Export Workbook of sobjects
     - Click ``Export`` > ``Export Workbook`` in the main menu
     - Input * to export all sObject workbooks
