@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 3.2.6 (2015-12-20)
+++++++++++++++++++
+* Fix issue #84
+* Fix issue #85
+* New ``Export > Export Role Hierarchy`` command
+
+
 Release 3.2.5 (2015-12-15)
 ++++++++++++++++++
 * Fix urgent bug issue #83
