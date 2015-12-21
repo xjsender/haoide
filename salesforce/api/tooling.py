@@ -706,10 +706,6 @@ class ToolingApi():
             self.login()
             traced_entity_id = self.session["user_id"]
 
-        # Create Trace Flag
-        trace_flag = self.settings["trace_flag"]
-        trace_flag["TracedEntityId"] = traced_entity_id
-
         # Check whether traced user already has trace flag
         # If not, just create it for him/her
         query = "SELECT Id, ExpirationDate FROM TraceFlag " +\
@@ -725,8 +721,11 @@ class ToolingApi():
         if result["totalSize"] > 0:
             self.delete("/tooling/sobjects/TraceFlag/" + result["records"][0]["Id"])
             return self.create_trace_flag(traced_entity_id)
-            
-        # Create debug level, since 34, new DebugLevelId field is required
+        
+        # Start to create Trace Flag
+        trace_flag = self.settings["trace_flag"]
+
+        # Create debug level, since 35, new DebugLevelId field is required
         if self.settings["api_version"] > 34:
             debug_level = self.get_debug_level()
             if not debug_level["success"]:
@@ -740,6 +739,7 @@ class ToolingApi():
         # otherwise, the debug log record will not be created 
         expiration_date = datetime.datetime.utcnow() + datetime.timedelta(minutes=120)
         trace_flag["ExpirationDate"] = expiration_date.isoformat()
+        trace_flag["TracedEntityId"] = traced_entity_id
         post_url = "/tooling/sobjects/TraceFlag"
         result = self.post(post_url, trace_flag)
 
@@ -765,7 +765,7 @@ class ToolingApi():
         else:
             return debug_level
 
-        debug_level = self.settings["trace_flag"]
+        debug_level = self.settings["trace_flag"].copy()
         debug_level["MasterLabel"] = name;
         debug_level["DeveloperName"] = name;
 
