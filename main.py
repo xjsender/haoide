@@ -437,13 +437,14 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ExportDataTemplateCommand, self).__init__(*args, **kwargs)
 
-    def run(self):
+    def run(self, vertical=True):
+        self.vertical = vertical
         self.sobject_recordtypes_attr = processor.populate_sobject_recordtypes()
         if not self.sobject_recordtypes_attr: return # Network Issue Cause
         self.sobject_recordtypes = sorted(list(self.sobject_recordtypes_attr.keys()))
-        self.window.show_quick_panel(self.sobject_recordtypes, self.on_done)
+        self.window.show_quick_panel(self.sobject_recordtypes, self.on_choose_recordtype)
 
-    def on_done(self, index):
+    def on_choose_recordtype(self, index):
         if index == -1: return
 
         # Get chosen item, sobject name and recordtype id
@@ -453,7 +454,8 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
         recordtype_id = self.sobject_recordtypes_attr[sobject_recordtype]
 
         # handle this describe request
-        processor.handle_export_data_template_thread(sobject, recordtype_name, recordtype_id)
+        processor.handle_export_data_template_thread(sobject, 
+            recordtype_name, recordtype_id, self.vertical)
 
     def is_enabled(self):
         return util.check_action_enabled()
@@ -1368,21 +1370,26 @@ class RunSyncTest(sublime_plugin.TextCommand):
         processor.handle_run_sync_test([self.cname])
 
     def is_enabled(self):
-        if not self.view or not self.view.file_name(): return False
-        self.file_name = self.view.file_name()
-        self.settings = context.get_settings()
-        self.component_attribute, self.cname = util.get_component_attribute(self.file_name)
-        if not self.component_attribute:
-            return False 
-
-        if "is_test" not in self.component_attribute or \
-                not self.component_attribute["is_test"]:
+        # Get current file name and Read file content
+        file_name = self.view.file_name()
+        if not file_name or not file_name.endswith(".cls"): 
+            return False
+        if not util.check_enabled(file_name): 
             return False
 
-        if "namespacePrefix" in self.component_attribute and \
-                self.component_attribute["namespacePrefix"]:
+        # Test class must be class firstly
+        body = open(file_name, "rb").read()
+
+        # Test class must contains "testMethod" or @isTest notation
+        lower_body = body.lower()
+        if b"testmethod" not in lower_body and b"@istest" not in lower_body:
+            return False
+
+        component_attribute, self.cname = util.get_component_attribute(file_name)
+        if "namespacePrefix" in component_attribute and \
+                component_attribute["namespacePrefix"]:
             self.cname = "%s.%s" % (
-                self.component_attribute["namespacePrefix"],
+                component_attribute["namespacePrefix"],
                 self.cname
             )
             
@@ -1428,8 +1435,10 @@ class RunTestCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         # Get current file name and Read file content
         file_name = self.view.file_name()
-        if not file_name or not file_name.endswith(".cls"): return False
-        if not util.check_enabled(file_name): return False
+        if not file_name or not file_name.endswith(".cls"): 
+            return False
+        if not util.check_enabled(file_name): 
+            return False
 
         # Test class must be class firstly
         body = open(file_name, "rb").read()
@@ -1607,7 +1616,7 @@ class AboutCommand(sublime_plugin.ApplicationCommand):
     def run(command):
         package_info = sublime.load_settings("package.sublime-settings")
 
-        version_info = "\n%s\n\n%s\n\nCopyright © 2013-2015 By %s\n\tDev Channel, Build v%s" % (
+        version_info = "\n%s\n\n%s\n\nCopyright © 2013-2016 By %s\n\tDev Channel, Build v%s" % (
             package_info.get("description"),
             package_info.get("homepage"),
             package_info.get("author"),
@@ -1734,6 +1743,64 @@ class CreateApexClassCommand(sublime_plugin.WindowCommand):
             "component_type": "ApexClass",
             "markup_or_body": "Body"
         })
+
+    def is_enabled(self):
+        return util.check_action_enabled()
+
+class CreateStaticResource(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateStaticResource, self).__init__(*args, **kwargs)
+
+    def run(self):
+        settings = context.get_settings()
+        self.content_types = settings["content_types"]
+        self.window.show_quick_panel(self.content_types, self.on_choose)
+
+    def on_choose(self, index):
+        if index == -1: return
+
+        self.content_type = self.content_types[index]
+        
+        self.input_name_message = "Please Input StaticResource Name: "
+        self.window.show_input_panel(self.input_name_message, 
+            "", self.on_input_name, None, None)
+
+    def on_input_name(self, input):
+        # Create component to local according to user input
+        if not re.match('^[a-zA-Z]+\\w+$', input):
+            message = 'Invalid name, do you want to try again?'
+            if not sublime.ok_cancel_dialog(message, "Try Again?"): return
+            self.window.show_input_panel(self.input_name_message, 
+                "", self.on_input_name, None, None)
+            return
+        
+        self.resource_name = input
+
+        # Input file location
+        self.input_location_message = "Please Input File or Path for StaticResource: "
+        self.window.show_input_panel(self.input_location_message, 
+            "", self.on_input_location, None, None)
+
+    def on_input_location(self, location):
+        # Get file or path from user input, allow trying agin
+        if not os.path.exists(location) and not os.path.isfile(location):
+            if not sublime.ok_cancel_dialog("Invalid file or path", "Try Again?"):
+                return
+            self.window.show_input_panel(self.input_location_message, 
+                "", self.on_input_location, None, None)
+            return
+        
+        if os.path.isfile(location):
+            body = open(location, "r").read()
+
+        data = {
+            "Name": self.resource_name,
+            "ContentType": self.content_type,
+            "CacheControl": "Private",
+            "Body": body
+        }
+
+        processor.handle_create_static_resource(data)
 
     def is_enabled(self):
         return util.check_action_enabled()

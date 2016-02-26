@@ -5,6 +5,14 @@ Release History
 ---------------
 
 
+Release 3.2.8 (2016-02-26)
+++++++++++++++++++
+* Fix issue #88
+* Fix bug for ``export workflow rules`` feature
+* Add parameter ``vertical`` for ``export_data_template`` command for exporting Layout Workbook
+* Update version and copyright information
+
+
 Release 3.2.7 (2015-12-21)
 ++++++++++++++++++
 * Fix issue #86

@@ -752,7 +752,7 @@ def handle_export_role_hierarchy(timeout=120):
     handle_thread(thread, 10)
 
 
-def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, timeout=120):
+def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, vertical, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -766,13 +766,18 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
         if not os.path.exists(outputdir): os.makedirs(outputdir)
 
         # Write parsed result to csv
-        util.parse_data_template(output_file_dir, result)
+        if vertical:
+            util.parse_data_template_vertical(output_file_dir, result)
+        else:
+            util.parse_data_template_horizontal(output_file_dir, result)
         sublime.active_window().run_command("refresh_folder_list")
         Printer.get("log").write("Data Template for %s: %s" % (sobject, output_file_dir))
 
     settings = context.get_settings()
-    outputdir = settings["workspace"] + "/.export/templates"
-    output_file_dir = outputdir + "/" + sobject + "-" + recordtype_name + ".csv"
+    outputdir = settings["workspace"] + "/.export/layoutWorkbooks"
+    output_file_dir = "%s/%s-%s.csv" % (
+        outputdir, sobject, recordtype_name
+    )
     api = ToolingApi(settings)
     url = "/sobjects/%s/describe/layouts/%s" % (sobject, recordtype_id)
     thread = threading.Thread(target=api.get, args=(url, ))
@@ -1675,6 +1680,25 @@ def handle_refresh_static_resource(component_attribute, file_name, timeout=120):
     thread = threading.Thread(target=api.retrieve_body, args=(url, ))
     thread.start()
     ThreadProgress(api, thread, 'Refresh StaticResource', 'Refresh StaticResource Succeed')
+    handle_thread(thread, timeout)
+    
+def handle_create_static_resource(data, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+        
+        if not api.result["success"]: 
+            return
+        print (api.result)
+
+    settings = context.get_settings()
+    api = ToolingApi(settings)
+    url = "/tooling/sobjects/StaticResource"
+    print (data)
+    thread = threading.Thread(target=api.post, args=(url, data, ))
+    thread.start()
+    ThreadProgress(api, thread, 'Creating StaticResource', 'Creating StaticResource Succeed')
     handle_thread(thread, timeout)
 
 def handle_diff_with_server(component_attribute, file_name, source_org=None, timeout=120):

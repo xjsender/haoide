@@ -1938,7 +1938,7 @@ def parse_workflow_metadata(settings, sobjects):
         # Write Header
         with open(rule_outputdir, "wb") as fp:
             fp.write(u'\ufeff'.encode('utf8')) # Write BOM Header
-            fp.write(",".join(columns).encode("utf-8") + b"\n") # Write Header
+            fp.write(",".join([(c[0].upper() + c[1:]) for c in columns]).encode("utf-8") + b"\n") # Write Header
 
         # Append Body
         rule_path = settings["workspace"] + "/src/workflows"
@@ -1986,17 +1986,23 @@ def write_metadata_to_csv(fp, columns, metadata, sobject):
                 continue
 
             cell_value = rule[key]
+            if isinstance(cell_value, dict):
+                cell_value = [cell_value]
+
             if isinstance(cell_value, list):
                 value = ''
                 if len(cell_value) > 0:
                     if isinstance(cell_value[0], dict):
-                        values = []
                         for cell_dict in cell_value:
+                            values = []
                             for cell_dict_key in cell_dict.keys():
                                 if not cell_dict[cell_dict_key]:
                                     values.append("")
                                 else:
-                                    values.append(cell_dict[cell_dict_key])
+                                    if cell_dict_key == "operation":
+                                        values.append("<%s>" % cell_dict[cell_dict_key])
+                                    else:
+                                        values.append(cell_dict[cell_dict_key])
                             value += " ".join(values) + "\n"
                     else:
                         value = " ".join(cell_value) + "\n"
@@ -2004,17 +2010,6 @@ def write_metadata_to_csv(fp, columns, metadata, sobject):
                     cell_value = value[ : -1]
                 else:
                     cell_value = ""
-
-            elif isinstance(cell_value, dict):
-                value = ''
-                for cell_key in cell_value.keys():
-                    if not cell_value[cell_key]:
-                        value += cell_key + ": ' '" + "\n"
-                    else:
-                        value += cell_key + ": " + cell_value[cell_key] + "\n"
-
-                cell_value = value[ : -1]
-
             elif not cell_value:
                 cell_value = ""
             else:
@@ -2062,7 +2057,7 @@ def list2csv(file_path, records):
                     values.append(('"%s"' % none_value(record[strk])).encode("utf-8"))
             fp.write(b",".join(values) + b"\n")
 
-def parse_data_template(output_file_dir, result):
+def parse_data_template_vertical(output_file_dir, result):
     """Parse the data template to csv by page layout
 
     Arguments:
@@ -2125,6 +2120,61 @@ def parse_data_template(output_file_dir, result):
         fp.write(",".join(fields_required).encode("utf-8") + b"\n")
         fp.write(",".join(fields_picklist_labels).encode("utf-8") + b"\n")
         fp.write(",".join(fields_picklist_values).encode("utf-8") + b"\n")
+
+def parse_data_template_horizontal(output_file_dir, result):
+    """Parse the data template to csv by page layout
+
+    Arguments:
+    
+    * output_file_dir -- output dir for parsed result
+    * result -- page layout describe result
+    """
+
+    rows = ["Label,Name,Required?,Type,Picklist Label,Picklist Value"]
+    for edit_layout_section in result["editLayoutSections"]:
+        if isinstance(edit_layout_section["layoutRows"], list):
+            layout_rows = edit_layout_section["layoutRows"]
+        elif isinstance(edit_layout_section["layoutRows"], dict):
+            layout_rows = [edit_layout_section["layoutRows"]]
+
+        for layout_row in layout_rows:
+            if isinstance(layout_row["layoutItems"], list):
+                layout_items = layout_row["layoutItems"]
+            elif isinstance(layout_row["layoutItems"], dict):
+                layout_items = [layout_row["layoutItems"]]
+
+            for layout_item in layout_items:
+                if not layout_item["label"]: continue
+                for layout_component in layout_item["layoutComponents"]:
+                    # Some layout_component is blank
+                    if "details" not in layout_component: continue
+
+                    # Get field describe
+                    details = layout_component["details"]
+
+                    # If field type is AutoNumber, just skip
+                    if details["autoNumber"]: continue
+
+                    picklist_labels = []
+                    picklist_values = []
+                    for picklist in details["picklistValues"]:
+                        picklist_labels.append(picklist["label"])
+                        picklist_values.append(picklist["value"])
+                    
+                    row = []
+                    row.append(details["label"])
+                    row.append(details["name"])
+                    row.append("Required" if layout_item["required"] else "")
+                    row.append(details["type"].capitalize())
+                    row.append('"%s"' % "\n".join(picklist_labels))
+                    row.append('"%s"' % "\n".join(picklist_values))
+                    rows.append(",".join(row))
+
+    # Write field_lables and field apis
+    # Create new csv
+    with open(output_file_dir, "wb") as fp:
+        fp.write(u'\ufeff'.encode('utf8'))
+        fp.write("\n".join(rows).encode("utf-8"))
 
 def get_soql_fields(soql):
     """ Get the field list of soql

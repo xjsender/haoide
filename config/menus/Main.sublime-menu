@@ -402,6 +402,14 @@
                     {
                         "caption": "Export Data Template",
                         "command": "export_data_template"
+                    },
+
+                    {
+                        "caption": "Export Layout Workbook",
+                        "command": "export_data_template",
+                        "args": {
+                            "vertical": false
+                        }
                     }
                 ]
             },

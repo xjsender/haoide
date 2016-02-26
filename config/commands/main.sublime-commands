@@ -428,6 +428,13 @@
         "command": "export_data_template"
     },
     {
+        "caption": "HaoIDE: Export Layout Workbook",
+        "command": "export_data_template",
+        "args": {
+            "vertical": false
+        }
+    },
+    {
         "caption": "HaoIDE: Export Profile",
         "command": "export_profile"
     },
