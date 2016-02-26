@@ -10,6 +10,7 @@ Release 3.2.8 (2016-02-26)
 * Fix issue #88
 * Fix bug for ``export workflow rules`` feature
 * Add parameter ``vertical`` for ``export_data_template`` command for exporting Layout Workbook
+* Add a command for copying login url, which can be used for login with different browser
 * Update version and copyright information
 
 

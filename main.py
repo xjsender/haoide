@@ -1588,14 +1588,15 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(LoginToSfdcCommand, self).__init__(*args, **kwargs)
 
-    def run(self, startURL=""):
+    def run(self, startURL="", copy_url=False):
         # Get toolingapi settings
         settings = context.get_settings()
         session = util.get_session_info(settings)
 
         # If .config/session.json is not exist, login firstly
         if not session: 
-            return self.window.run_command('login', {
+            return self.window.run_command('login', 
+                {
                     "callback_options": {
                         "callback_command": "login_to_sfdc",
                         "args": {
@@ -1610,7 +1611,10 @@ class LoginToSfdcCommand(sublime_plugin.WindowCommand):
             session["instance_url"], session["session_id"], startURL
         )
 
-        util.open_with_browser(show_url)
+        if not copy_url:
+            return util.open_with_browser(show_url)
+
+        sublime.set_clipboard(show_url)
 
 class AboutCommand(sublime_plugin.ApplicationCommand):
     def run(command):

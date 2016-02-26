@@ -451,6 +451,13 @@
         "command": "view_component_in_sfdc"
     },
     {
+        "caption": "HaoIDE: Copy Login URL",
+        "command": "login_to_sfdc", 
+        "args": {
+            "copy_url": true
+        }
+    },
+    {
         "caption": "HaoIDE: Login To Home Page",
         "command": "login_to_sfdc"
     },
