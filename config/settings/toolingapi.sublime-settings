@@ -309,6 +309,9 @@
         "errorDisplayField", "active", "description"
     ],
 
+    // Indicate whether include users in role when export role hierarchy
+    "include_users_in_role_hierarchy": true,
+
     "content_types": [
         "application/fractals",
         "application/futuresplash",

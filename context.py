@@ -159,6 +159,9 @@ def get_settings():
     settings["workflow_outbound_message_columns"] = s.get("workflow_outbound_message_columns")
     settings["validation_rule_columns"] = s.get("validation_rule_columns")
 
+    # Indicate whether include users in role when export role hierarchy
+    settings["include_users_in_role_hierarchy"] = s.get("include_users_in_role_hierarchy", True)
+
     # Set the polling interval for checking metadata job status
     settings["metadata_polling_frequency"] = s.get("metadata_polling_frequency", 1)
     

@@ -66,7 +66,10 @@
 * Stand Class Completion
 * Custom Class Completion
 * Sobject fields completion
-    - [EU] notation for field, ``E`` means External, ``U`` means Unique
+    - [EUR] notation for field, 
+    - ``E`` means External
+    - ``U`` means Unique
+    - ``R`` means Required
 * Sobject relationship name completion
 * Sobject relationship fields completion
 * Picklist value completion after input ``Account.Type =``
