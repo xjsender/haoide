@@ -377,7 +377,7 @@ class MetadataApi():
                     folders.append(_folder)
 
                 for _folders in util.list_chunks(folders, 3):
-                    Printer.get("log").write("[sf:retrieve] List Metadata for %s Folder: %s" % (
+                    Printer.get("log").write("[sf:retrieve] Fetching component metadata for %s Folder: %s" % (
                         _type, ", ".join(_folders)
                     ))
 
@@ -419,7 +419,7 @@ class MetadataApi():
             type_with_elements = {}
 
             # list package for all non-folder metadata types
-            Printer.get("log").write("[sf:retrieve] List Metadata for %s" % (
+            Printer.get("log").write("[sf:retrieve] Fetching component metadata for %s" % (
                 ", ".join(_trunked_types)
             ))
             for record in self.list_package(_trunked_types):
