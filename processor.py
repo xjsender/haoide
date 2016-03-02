@@ -394,9 +394,10 @@ def handle_reload_sobjects_completions(timeout=120):
                 # External Or not
                 externalUniqueNotation = ""
                 if f["externalId"] or f["unique"]:
-                    externalUniqueNotation = "[%s%s] " % (
+                    externalUniqueNotation = "[%s%s%s] " % (
                         "E" if f["externalId"] else "",
-                        "U" if f["unique"] else ""
+                        "U" if f["unique"] else "",
+                        "R" if not f["nillable"] else ""
                     )
 
                 # If display_field_name_and_label setting is true, 
@@ -737,7 +738,8 @@ def handle_export_role_hierarchy(timeout=120):
         result = api.result
         if not result or not result["success"]: return
 
-        outputfile = util.export_role_hierarchy(result)
+        records = result["records"]
+        outputfile = util.export_role_hierarchy(records)
         sublime.active_window().run_command("refresh_folder_list")
 
         # Open file
@@ -745,12 +747,14 @@ def handle_export_role_hierarchy(timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    soql = "SELECT Id, ParentRoleId, Name FROM UserRole"
+    soql = "SELECT Id, ParentRoleId, Name, " +\
+        "(SELECT Id, FirstName, LastName, Username FROM Users " +\
+        " WHERE IsActive = true AND Profile.UserLicense.Name = 'Salesforce') " +\
+        "FROM UserRole WHERE PortalType = 'None'"
     thread = threading.Thread(target=api.query_all, args=(soql,))
     thread.start()
     ThreadProgress(api, thread, 'Exporting Role Hierarchy', "Role Hierarchy Exporting Succeed")
     handle_thread(thread, 10)
-
 
 def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, vertical, timeout=120):
     def handle_thread(thread, timeout):

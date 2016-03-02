@@ -2870,9 +2870,9 @@ def get_metadata_elements(metadata_dir):
 
     return elements
 
-def export_role_hierarchy(roles):
-    records = roles["records"]
-    
+def export_role_hierarchy(records):
+    settings = context.get_settings()
+
     top_roles = [] # Role hierarchy
     rolemap = {} # Define roleId => role
     for r in records:
@@ -2886,9 +2886,9 @@ def export_role_hierarchy(roles):
     rows = []
     for role in sorted(top_roles, key=lambda k : k['Name']):
         rows.append(role["Name"])
-        append_child_roles(rolemap, role["Id"], rows, 1)
+        append_child_roles(rolemap, role["Id"], rows, 1, 
+            settings["include_users_in_role_hierarchy"])
 
-    settings = context.get_settings()
     outputdir = settings["workspace"]+ "/.export/Role"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
@@ -2899,16 +2899,34 @@ def export_role_hierarchy(roles):
 
     return outputfile
 
-def append_child_roles(rolemap, role_id, rows, level):
+def append_child_roles(rolemap, role_id, rows, level, include_users):
     child_roles = []
     for role in rolemap.values():
         if role["ParentRoleId"] == role_id:
             child_roles.append(role)
 
     for role in sorted(child_roles, key=lambda k : k['Name']):
-        rows.append(level * "," + role["Name"])
-        append_child_roles(rolemap, role["Id"], rows, level + 1)
+        row = level * "," + role["Name"]
 
+        # If include_users is true, Include active user list after role name
+        if include_users:
+            if role["Users"]:
+                users = role["Users"]
+
+                usernames = []
+                for record in users["records"]:
+                    full_name = "%s %s(%s)" % (
+                        record["LastName"],
+                        record["FirstName"] if record["FirstName"] else "",
+                        record["Username"]
+                    )
+                    usernames.append(full_name)
+                row += ',"%s"' % "\n".join(usernames)
+            else:
+                row += ', No Active Users'
+        rows.append(row)
+
+        append_child_roles(rolemap, role["Id"], rows, level + 1, include_users)
 
 def export_profile_settings():
     settings = context.get_settings()
