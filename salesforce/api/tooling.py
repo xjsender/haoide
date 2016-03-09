@@ -953,8 +953,8 @@ class ToolingApi():
 
         if self.settings["check_save_conflict"] and not is_check_only and check_save_conflict:
             Printer.get('log').write("Start to check saving conflict")
-            query = "SELECT Id, LastModifiedBy.Id, LastModifiedBy.Name, LastModifiedDate " +\
-                    "FROM %s WHERE Id = '%s'" % (component_type, component_id)
+            query = "SELECT Id, LastModifiedBy.Id, LastModifiedBy.Name, LastModifiedDate, " +\
+                    "SystemModstamp FROM %s WHERE Id = '%s'" % (component_type, component_id)
             result = self.query(query, True)
 
             # Exception Process
@@ -962,15 +962,25 @@ class ToolingApi():
                 self.result = result
                 return result
 
-            # Get modified user name by Id
-            # C2P relationship query is not available, it's a bug?
+            # Why do the three date value has minor difference?
+            # LastModifiedDate                : 2016-03-09T06:52:12.000+0000
+            # SystemModstamp                  : 2016-03-09T06:52:13.000+0000
+            # LastModifiedDate in local cache : 2016-03-09T06:52:13.000+0000
+            # 
             class_attr = result["records"][0]
             lastModifiedBy = class_attr["LastModifiedBy"]
-            lmdate_str = util.local_datetime(class_attr["LastModifiedDate"])
-            
-            if not lastModifiedBy["Id"] == self.session["user_id"]:
+            serverLastModifiedDate = class_attr["SystemModstamp"]
+            serverLastModifiedDateZone = util.local_datetime(serverLastModifiedDate)
+
+            # Get local lastModifiedDate
+            localLastModifiedDate = component_attribute["lastModifiedDate"]
+
+            # Check lastModifiedDate
+            # lastModifiedDate in server      : 2016-03-09T06:37:36.000+0000
+            # lastModifiedDate in local cache : 2016-03-09T06:37:36.000Z
+            if serverLastModifiedDate[:19] != localLastModifiedDate[:19]:
                 message = "Modified by %s at %s, continue?" % (
-                    lastModifiedBy["Name"], lmdate_str
+                    lastModifiedBy["Name"], serverLastModifiedDateZone
                 )
                 if not sublime.ok_cancel_dialog(message, "Ignore Conflict?"):
                     Printer.get('log').write("Has conflict, comparing with server...")
@@ -979,8 +989,9 @@ class ToolingApi():
                         "Message": "Save operation is cancelled by you due to the conflict"
                     }
                     return self.result
-            else:
-                Printer.get('log').write("No conflict, last modified by you at %s" % lmdate_str)
+
+            # If no conflict, just outout the lastModified information
+            Printer.get('log').write("No conflict, last modified by you at %s" % serverLastModifiedDateZone)
 
         # Get MetadataContainerId
         Printer.get('log').write("Start to fetch MetadataContainerId")
@@ -1065,7 +1076,9 @@ class ToolingApi():
             result = self.get(sync_request_url + "/" + request_id)
             state = result["State"]
         
-        return_result = {}
+        return_result = {
+            "lastModifiedDate": result["LastModifiedDate"]
+        }
         if state == "Completed":
             return_result["success"] = True
 

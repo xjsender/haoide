@@ -1503,6 +1503,10 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
                 thread = threading.Thread(target=api.create_trace_flag)
                 thread.start()
 
+            # If succeed, keep the lastModifiedDate in the cache
+            threading.Thread(target=util.set_component_attribute, 
+                args=(component_attribute, result["lastModifiedDate"], )).start()
+
         # If not succeed, just go to the error line
         # Because error line in page is always at the line 1, so just work in class or trigger
         elif "success" in result and not result["success"]:
