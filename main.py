@@ -1939,7 +1939,7 @@ class ViewFileAttributes(sublime_plugin.TextCommand):
     def run(self, edit):
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
-            "name": self.cname,
+            "name": self.cname + " Attributes",
             "input": json.dumps(self.component_attribute, indent=4)
         })
 

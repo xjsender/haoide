@@ -963,22 +963,22 @@ class ToolingApi():
                 return result
 
             # Why do the three date value has minor difference?
-            # LastModifiedDate                : 2016-03-09T06:52:12.000+0000
-            # SystemModstamp                  : 2016-03-09T06:52:13.000+0000
-            # LastModifiedDate in local cache : 2016-03-09T06:52:13.000+0000
-            # 
+            # Server LastModifiedDate : 2016-03-09T06:52:12.000+0000
+            # Server SystemModstamp   : 2016-03-09T06:52:13.000+0000
+            # Local LastModifiedDate  : 2016-03-09T06:52:13.000+0000
+            
+            # Get Server Date and LastModifiedBy
             class_attr = result["records"][0]
             lastModifiedBy = class_attr["LastModifiedBy"]
-            serverLastModifiedDate = class_attr["SystemModstamp"]
-            serverLastModifiedDateZone = util.local_datetime(serverLastModifiedDate)
+            serverDateLiteral = class_attr["LastModifiedDate"]
+            serverLastModifiedDateZone = util.local_datetime(serverDateLiteral)
 
             # Get local lastModifiedDate
-            localLastModifiedDate = component_attribute["lastModifiedDate"]
+            localDateLiteral = component_attribute.get("lastModifiedDate", None)
 
-            # Check lastModifiedDate
-            # lastModifiedDate in server      : 2016-03-09T06:37:36.000+0000
-            # lastModifiedDate in local cache : 2016-03-09T06:37:36.000Z
-            if serverLastModifiedDate[:19] != localLastModifiedDate[:19]:
+            # If local date is different with server date,
+            # it means there has conflict
+            if serverDateLiteral[:19] != localDateLiteral[:19]:
                 message = "Modified by %s at %s, continue?" % (
                     lastModifiedBy["Name"], serverLastModifiedDateZone
                 )
@@ -1141,6 +1141,9 @@ class ToolingApi():
         if return_result["success"] and component_type == "ApexClass":
             sublime.set_timeout_async(self.write_symbol_table_cache(member_result["id"]), 5)
 
+        if return_result["success"]:
+            sublime.set_timeout_async(self.set_component_attribute(component_attribute), 5)
+
         # Whatever succeed or failed, just delete MetadataContainerId
         sublime.set_timeout_async(self.delete(container_url + "/" + container_id), 100)
 
@@ -1178,3 +1181,43 @@ class ToolingApi():
 
         symbol_table_cache.set(self.settings["username"], symboltable_dict)
         sublime.save_settings("symbol_table.sublime-settings")
+
+    def set_component_attribute(self, attributes):
+        """ Set the LastModifiedDate for specified component
+        
+        Params:
+            * attributes -- component attributes
+        """
+        # Get the LastModifiedDate by attributes
+        query = "SELECT LastModifiedDate FROM %s WHERE Id ='%s'" % (
+                    attributes["type"],
+                    attributes["id"]
+                )
+        component = self.query(query, True)
+
+        # Start to write symbol table to cache
+        if not component or not component["records"]: return
+        lastModifiedDate = component["records"][0]["LastModifiedDate"]
+        
+        # If sobjects is exist in local cache, just return it
+        username = self.settings["username"]
+        s = sublime.load_settings("component_metadata.sublime-settings")
+        if not s.has(username):
+            return
+
+        _type = attributes["type"]
+        fullName = attributes["name"] + attributes["extension"]
+        components_dict = s.get(username, {})
+
+        # Prevent exception if no component in org
+        if _type not in components_dict: 
+            components_dict = {_type : {}}
+
+        # Build components dict
+        attr = components_dict[_type][fullName.lower()] 
+        attr["lastModifiedDate"] = lastModifiedDate
+        components_dict[_type][fullName.lower()] = attr
+
+        # Save settings and show success message
+        s.set(username, components_dict)
+        sublime.save_settings("component_metadata.sublime-settings")

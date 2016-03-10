@@ -496,5 +496,7 @@
         "args": {
             "operation": "delete"
         }
-    }
+    },
+    {"caption": "HaoIDE: View Id in Salesforce Web","command": "view_id_in_sfdc_web"},
+    {"caption": "HaoIDE: View in Salesforce Web","command": "show_in_sfdc_web"}
 ]

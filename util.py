@@ -246,44 +246,6 @@ def populate_lighting_applications():
 
     return aura_attributes
 
-def set_component_attribute(attributes, lastModifiedDate):
-    """ Set the LastModifiedDate for specified component
-    
-    Params:
-        * attributes -- component attributes, such as 
-        {
-            "name": "AccountFactory", 
-            "url": "/services/data/v35.0/sobjects/ApexClass/01p90000006QGc6AAG", 
-            "is_test": false, 
-            "id": "01p90000006QGc6AAG", 
-            ...
-        }
-    """
-    settings = context.get_settings()
-    username = settings["username"]
-
-    # If sobjects is exist in local cache, just return it
-    s = sublime.load_settings("component_metadata.sublime-settings")
-    if not s.has(username):
-        return
-
-    _type = attributes["type"]
-    fullName = attributes["name"] + attributes["extension"]
-    components_dict = s.get(username, {})
-
-    # Prevent exception if no component in org
-    if _type not in components_dict: 
-        components_dict = {_type : {}}
-
-    # Build components dict
-    attr = components_dict[_type][fullName.lower()] 
-    attr["lastModifiedDate"] = lastModifiedDate
-    components_dict[_type][fullName.lower()] = attr
-
-    # Save settings and show success message
-    s.set(username, components_dict)
-    sublime.save_settings("component_metadata.sublime-settings")
-
 def populate_sobjects_describe():
     """
     Get the sobjects list in org.

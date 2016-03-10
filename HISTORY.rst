@@ -5,6 +5,15 @@ Release History
 ---------------
 
 
+Release 3.2.9 (2016-03-10)
+++++++++++++++++++
+* Enhancement for ``role hierarchy exporting``
+* Add new settings ``include_users_in_role_hierarchy`` to control whether including user in the CSV
+* Deliver new feature, see issue #89
+* upgrade build-in requests lib to 2.9.1
+* change display message for list metadata in the output panel
+
+
 Release 3.2.8 (2016-02-26)
 ++++++++++++++++++
 * Fix issue #88
