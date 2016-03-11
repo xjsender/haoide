@@ -942,7 +942,6 @@ class ToolingApi():
         # Firstly Login
         result = self.login()
         if not result["success"]:
-            Printer.get('log').write("Login failed")
             self.result = result
             return self.result
 
@@ -953,8 +952,9 @@ class ToolingApi():
 
         if self.settings["check_save_conflict"] and not is_check_only and check_save_conflict:
             Printer.get('log').write("Start to check saving conflict")
-            query = "SELECT Id, LastModifiedBy.Id, LastModifiedBy.Name, LastModifiedDate, " +\
-                    "SystemModstamp FROM %s WHERE Id = '%s'" % (component_type, component_id)
+            query = "SELECT Id, LastModifiedById, LastModifiedBy.Id, " +\
+                    "LastModifiedBy.Name, LastModifiedDate, SystemModstamp " +\
+                    "FROM %s WHERE Id = '%s'" % (component_type, component_id)
             result = self.query(query, True)
 
             # Exception Process
@@ -962,11 +962,6 @@ class ToolingApi():
                 self.result = result
                 return result
 
-            # Why do the three date value has minor difference?
-            # Server LastModifiedDate : 2016-03-09T06:52:12.000+0000
-            # Server SystemModstamp   : 2016-03-09T06:52:13.000+0000
-            # Local LastModifiedDate  : 2016-03-09T06:52:13.000+0000
-            
             # Get Server Date and LastModifiedBy
             class_attr = result["records"][0]
             lastModifiedBy = class_attr["LastModifiedBy"]
@@ -974,11 +969,18 @@ class ToolingApi():
             serverLastModifiedDateZone = util.local_datetime(serverDateLiteral)
 
             # Get local lastModifiedDate
-            localDateLiteral = component_attribute.get("lastModifiedDate", None)
+            localDateLiteral = component_attribute.get("lastModifiedDate", '')
 
-            # If local date is different with server date,
+            # If local date is different with server date or lastModifiedBy is not you,
             # it means there has conflict
-            if localDateLiteral and serverDateLiteral[:19] != localDateLiteral[:19]:
+            lastModifiedByYou = class_attr["LastModifiedById"] == self.session["user_id"]
+            timeStampMatch = serverDateLiteral[:19] != localDateLiteral[:19]
+            if not lastModifiedByYou or not timeStampMatch:
+                # Used for debug
+                if settings["debug_mode"]:
+                    print ("localDateLiteral: " + localDateLiteral)
+                    print ("serverDateLiteral: " + serverDateLiteral)
+
                 message = "Modified by %s at %s, continue?" % (
                     lastModifiedBy["Name"], serverLastModifiedDateZone
                 )
