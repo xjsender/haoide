@@ -4,7 +4,6 @@
         "caption": "HaoIDE",
         "children":
         [
-
             {
                 "caption": "Refresh Folder", "command": "refresh_folder",
                 "args": {"dirs": []}
@@ -47,7 +46,12 @@
             {"caption": "-"},
 
             {
-                "caption": "Deploy Package To Server", "command": "deploy_package_to_server",
+                "caption": "Refresh Package", "command": "refresh_package",
+                "args": {"dirs": []}
+            },
+
+            {
+                "caption": "Deploy Package", "command": "deploy_package",
                 "args": {"dirs": []}
             },
 

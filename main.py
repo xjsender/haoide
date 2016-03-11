@@ -946,41 +946,6 @@ class DeployOpenFilesToServer(sublime_plugin.WindowCommand):
 
         return True
 
-class DeployPackageToServerCommand(sublime_plugin.WindowCommand):
-    def __init__(self, *args, **kwargs):
-        super(DeployPackageToServerCommand, self).__init__(*args, **kwargs)
-
-    def run(self, dirs, switch=True, source_org=None):
-        settings = context.get_settings()
-
-        if switch:
-            return self.window.run_command("switch_project", {
-                "callback_options": {
-                    "callback_command": "deploy_package_to_server", 
-                    "args": {
-                        "dirs": dirs,
-                        "switch": False,
-                        "source_org": settings["default_project_name"]
-                    }
-                }
-            })
-
-        processor.handle_deploy_thread(util.compress_package(self.package_dir), 
-            source_org=source_org);
-
-    def is_visible(self, dirs):
-        if not dirs: return False
-        if len(dirs) > 1: return False
-
-        if os.path.exists(dirs[0]+"/package.xml"):
-            self.package_dir = dirs[0]
-        elif os.path.exists(dirs[0]+"/src/package.xml"):
-            self.package_dir = dirs[0] + "/src"
-        else:
-            return False
-
-        return True
-
 class DeployFileToServer(sublime_plugin.TextCommand):
     def run(self, edit, switch=True):
         files = [self.view.file_name()]

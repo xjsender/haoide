@@ -1268,9 +1268,8 @@ def handle_new_project(is_update=False, timeout=120):
             if not os.path.exists(outputdir): os.makedirs(outputdir)
 
         # Extract the zipFile to extract_to
-        ignore_package_xml = settings["ignore_project_package_xml"]
         thread = threading.Thread(target=util.extract_encoded_zipfile, 
-            args=(result["zipFile"], extract_to, ignore_package_xml, ))
+            args=(result["zipFile"], extract_to, ))
         thread.start()
 
         # Apex Code Cache
@@ -1686,6 +1685,8 @@ def handle_set_component_attribute(attributes, timeout=120):
         if result["success"] and result["records"]:
             lastModifiedDate = result["records"][0]["LastModifiedDate"]
             util.set_component_attribute(attributes, lastModifiedDate)
+        elif settings["debug_mode"]:
+            pprint.pprint(result)
 
     settings = context.get_settings()
     api = ToolingApi(settings)

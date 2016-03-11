@@ -164,10 +164,6 @@ def get_settings():
 
     # Set the polling interval for checking metadata job status
     settings["metadata_polling_frequency"] = s.get("metadata_polling_frequency", 1)
-
-    # When create new project or update project,
-    # if true, keep the original package.xml unchange
-    settings["ignore_project_package_xml"] = s.get("ignore_project_package_xml", False)
     
     # Document Reference Attrs
     settings["docs"] = s.get("docs", {})

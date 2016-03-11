@@ -477,11 +477,85 @@ class DestructPackageXmlFromServer(sublime_plugin.WindowCommand):
 
         return True
 
+class DeployPackage(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DeployPackage, self).__init__(*args, **kwargs)
+
+    def run(self, dirs, switch=True, source_org=None):
+        settings = context.get_settings()
+
+        if switch:
+            return self.window.run_command("switch_project", {
+                "callback_options": {
+                    "callback_command": "deploy_package_to_server", 
+                    "args": {
+                        "dirs": dirs,
+                        "switch": False,
+                        "source_org": settings["default_project_name"]
+                    }
+                }
+            })
+
+        processor.handle_deploy_thread(util.compress_package(self.package_dir), 
+            source_org=source_org);
+
+    def is_visible(self, dirs):
+        if not dirs: return False
+        if len(dirs) > 1: return False
+
+        if os.path.exists(dirs[0]+"/package.xml"):
+            self.package_dir = dirs[0]
+        elif os.path.exists(dirs[0]+"/src/package.xml"):
+            self.package_dir = dirs[0] + "/src"
+        else:
+            return False
+
+        return True
+
+class RefreshPackage(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RefreshPackage, self).__init__(*args, **kwargs)
+
+    def run(self, dirs):
+        try:
+            with open(self.package_xml, "rb") as fp:
+                content = fp.read()
+            types = util.build_package_types(content)
+        except Exception as ex:
+            Printer.get('error').write(str(ex))
+            return
+
+        processor.handle_retrieve_package(types, self.extract_to)
+
+    def is_enabled(self, dirs):
+        if not dirs or len(dirs) > 1:
+            return False
+
+        settings = context.get_settings()
+        self._dir = dirs[0]
+        pname = settings["default_project_name"]
+        if pname.lower() not in self._dir.lower(): 
+            return False
+
+        if os.path.exists(self._dir + "/package.xml"):
+            self.package_xml = self._dir + "/package.xml"
+            self.extract_to = os.path.split(self._dir)[0]
+        elif os.path.exists(self._dir + "/src/package.xml"):
+            self.package_xml = self._dir + "/src/package.xml"
+            self.extract_to = self._dir
+        else:
+            return False
+
+        return True
+
+    def is_visible(self, dirs):
+        return self.is_enabled(dirs)
+
 class RetrievePackageXmlFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(RetrievePackageXmlFromServer, self).__init__(*args, **kwargs)
 
-    def run(self, files=None):
+    def run(self, files=None, extract_to=None):
         # Build types
         try:
             with open(self._file, "rb") as fp:
@@ -497,12 +571,12 @@ class RetrievePackageXmlFromServer(sublime_plugin.WindowCommand):
         time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
         settings = context.get_settings()
         project_name = settings["default_project_name"]
-        extract_to = os.path.join(path, "%s-%s-%s" % (
+        self.extract_to = os.path.join(path, "%s-%s-%s" % (
             project_name, name, time_stamp
         ))
 
         sublime.active_window().show_input_panel("Input ExtractedTo Path", 
-            extract_to, self.on_input_extractto, None, None)
+            self.extract_to, self.on_input_extractto, None, None)
 
     def on_input_extractto(self, extract_to):
         # Check input
@@ -516,7 +590,7 @@ class RetrievePackageXmlFromServer(sublime_plugin.WindowCommand):
         # Start retrieve
         processor.handle_retrieve_package(self.types, extract_to)
 
-    def is_visible(self, files=None):
+    def is_enabled(self, files=None):
         self._file = None
         
         if files and len(files) > 1: 
@@ -533,3 +607,6 @@ class RetrievePackageXmlFromServer(sublime_plugin.WindowCommand):
             return False
 
         return True
+
+    def is_visible(self, files=None):
+        return self.is_enabled(files)
