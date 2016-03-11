@@ -555,7 +555,7 @@ class RetrievePackageXmlFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(RetrievePackageXmlFromServer, self).__init__(*args, **kwargs)
 
-    def run(self, files=None, extract_to=None):
+    def run(self, files=None):
         # Build types
         try:
             with open(self._file, "rb") as fp:

@@ -974,10 +974,10 @@ class ToolingApi():
             # If local date is different with server date or lastModifiedBy is not you,
             # it means there has conflict
             lastModifiedByYou = class_attr["LastModifiedById"] == self.session["user_id"]
-            timeStampMatch = serverDateLiteral[:19] != localDateLiteral[:19]
+            timeStampMatch = serverDateLiteral[:19] == localDateLiteral[:19]
             if not lastModifiedByYou or not timeStampMatch:
                 # Used for debug
-                if settings["debug_mode"]:
+                if self.settings["debug_mode"]:
                     print ("localDateLiteral: " + localDateLiteral)
                     print ("serverDateLiteral: " + serverDateLiteral)
 
@@ -1142,9 +1142,6 @@ class ToolingApi():
         
         if return_result["success"] and component_type == "ApexClass":
             sublime.set_timeout_async(self.write_symbol_table_cache(member_result["id"]), 5)
-
-        if return_result["success"]:
-            sublime.set_timeout_async(self.set_component_attribute(component_attribute), 5)
 
         # Whatever succeed or failed, just delete MetadataContainerId
         sublime.set_timeout_async(self.delete(container_url + "/" + container_id), 100)

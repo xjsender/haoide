@@ -1504,7 +1504,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
                 thread.start()
 
             # After all are finished, keep the LastModifiedDate
-            handle_set_component_attribute(attributes)
+            handle_set_component_attribute(component_attribute)
 
         # If not succeed, just go to the error line
         # Because error line in page is always at the line 1, so just work in class or trigger
