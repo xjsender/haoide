@@ -5,6 +5,14 @@ Release History
 ---------------
 
 
+Release 3.3.1 (2016-03-11)
+++++++++++++++++++
+* Rename ``deploy_package_to_server`` command to ``deploy_package``
+* Add new command ``refresh_package``, see issue #91 for detail
+* Add LastModifiedBy check for conflict check logic, see issue #89
+* Remove setting ``ignore_project_package_xml`` and related logic
+
+
 Release 3.3.0 (2016-03-11)
 ++++++++++++++++++
 * Deliver enhancement #91
