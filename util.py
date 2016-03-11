@@ -286,6 +286,38 @@ def populate_all_test_classes():
         test_class_ids.append(class_attr["id"])
 
     return test_class_ids
+
+def set_component_attribute(attributes, lastModifiedDate):
+    """ Set the LastModifiedDate for specified component
+    
+    Params:
+        * attributes -- component attributes
+        * lastModifiedDate -- LastModifiedDate of component
+    """
+    
+    # If sobjects is exist in local cache, just return it
+    settings = context.get_settings()
+    username = settings["username"]
+    s = sublime.load_settings("component_metadata.sublime-settings")
+    if not s.has(username):
+        return
+
+    _type = attributes["type"]
+    fullName = attributes["name"] + attributes["extension"]
+    components_dict = s.get(username, {})
+
+    # Prevent exception if no component in org
+    if _type not in components_dict: 
+        components_dict = {_type : {}}
+
+    # Build components dict
+    attr = components_dict[_type][fullName.lower()] 
+    attr["lastModifiedDate"] = lastModifiedDate
+    components_dict[_type][fullName.lower()] = attr
+
+    # Save settings and show success message
+    s.set(username, components_dict)
+    sublime.save_settings("component_metadata.sublime-settings")
     
 def get_sobject_caches(setting_name):
     """ Return the specified local cache of default project

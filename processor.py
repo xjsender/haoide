@@ -1503,6 +1503,9 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
                 thread = threading.Thread(target=api.create_trace_flag)
                 thread.start()
 
+            # After all are finished, keep the LastModifiedDate
+            handle_set_component_attribute(attributes)
+
         # If not succeed, just go to the error line
         # Because error line in page is always at the line 1, so just work in class or trigger
         elif "success" in result and not result["success"]:
@@ -1625,7 +1628,7 @@ def handle_create_component(data, component_name, component_type, markup_or_body
 
         # Build components dict
         lower_name = component_name.lower()
-        components_dict[component_type][fullName.lower()] = {
+        attributes = {
             "id": component_id,
             "name": component_name,
             "url": post_url + "/" + component_id,
@@ -1634,6 +1637,7 @@ def handle_create_component(data, component_name, component_type, markup_or_body
             "type": component_type,
             "is_test": lower_name.startswith("test") or lower_name.endswith("test")
         }
+        components_dict[component_type][fullName.lower()] = attributes
         s.set(username, components_dict)
 
         # Save settings and show success message
@@ -1657,6 +1661,9 @@ def handle_create_component(data, component_name, component_type, markup_or_body
         # Generate new meta.xml file
         with open(file_name+"-meta.xml", "w") as fp:
             fp.write(meta_file_content)
+
+        # After all are finished, we need to keep the lastModifiedDate
+        handle_set_component_attribute(attributes)
     
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -1666,6 +1673,26 @@ def handle_create_component(data, component_name, component_type, markup_or_body
     fullName = os.path.basename(file_name)
     ThreadProgress(api, thread, "Creating Component %s" % fullName, 
         "Creating Component %s Succeed" % fullName)
+    handle_thread(thread, timeout)
+
+def handle_set_component_attribute(attributes, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            return
+        
+        result = api.result
+        if result["success"] and result["records"]:
+            lastModifiedDate = result["records"][0]["LastModifiedDate"]
+            util.set_component_attribute(attributes, lastModifiedDate)
+
+    settings = context.get_settings()
+    api = ToolingApi(settings)
+    soql = "SELECT LastModifiedDate FROM %s WHERE Id = '%s'" % (
+        attributes["type"], attributes["id"]
+    )
+    thread = threading.Thread(target=api.query, args=(soql, True, ))
+    thread.start()
     handle_thread(thread, timeout)
 
 def handle_refresh_static_resource(component_attribute, file_name, timeout=120):
@@ -1699,7 +1726,6 @@ def handle_create_static_resource(data, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
     url = "/tooling/sobjects/StaticResource"
-    print (data)
     thread = threading.Thread(target=api.post, args=(url, data, ))
     thread.start()
     ThreadProgress(api, thread, 'Creating StaticResource', 'Creating StaticResource Succeed')
