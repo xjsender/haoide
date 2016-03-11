@@ -29,8 +29,11 @@ class SFDCEventListener(sublime_plugin.EventListener):
             if cname and "package.xml" in cname.lower():
                 with open(view.file_name(), "rb") as fp:
                     content = fp.read()
-                types = util.build_package_types(content)
-                view.settings().set("types", types)
+                try:
+                    types = util.build_package_types(content)
+                    view.settings().set("types", types)
+                except:
+                    pass
 
     def on_post_save_async(self, view):
         settings = context.get_settings();
