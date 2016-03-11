@@ -5,6 +5,13 @@ Release History
 ---------------
 
 
+Release 3.3.0 (2016-03-11)
+++++++++++++++++++
+* Deliver enhancement #91
+* Fix bug issue #92
+* Fix package.xml onload XML parse exception
+
+
 Release 3.2.9 (2016-03-10)
 ++++++++++++++++++
 * Enhancement for ``role hierarchy exporting``

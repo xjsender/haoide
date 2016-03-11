@@ -978,7 +978,7 @@ class ToolingApi():
 
             # If local date is different with server date,
             # it means there has conflict
-            if serverDateLiteral[:19] != localDateLiteral[:19]:
+            if localDateLiteral and serverDateLiteral[:19] != localDateLiteral[:19]:
                 message = "Modified by %s at %s, continue?" % (
                     lastModifiedBy["Name"], serverLastModifiedDateZone
                 )
