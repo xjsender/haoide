@@ -92,6 +92,10 @@
     // It depends on your choice.
     "keep_project_name_time_suffix" : true,
 
+    // When create new project or update project,
+    // if true, keep the original package.xml unchange
+    "ignore_project_package_xml": false,
+
     // Automatically update change to server when save file
     "auto_update_on_save": false,
 

@@ -1268,8 +1268,9 @@ def handle_new_project(is_update=False, timeout=120):
             if not os.path.exists(outputdir): os.makedirs(outputdir)
 
         # Extract the zipFile to extract_to
+        ignore_package_xml = settings["ignore_project_package_xml"]
         thread = threading.Thread(target=util.extract_encoded_zipfile, 
-            args=(result["zipFile"], extract_to,))
+            args=(result["zipFile"], extract_to, ignore_package_xml, ))
         thread.start()
 
         # Apex Code Cache
