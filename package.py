@@ -214,8 +214,31 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
 
         self.package = json.loads(open(package_cache).read())
 
+        # Get types from settings of current view,
+        # if current view doesn't have the `types` setting,
+        # try to build the types from content of current file
+        """ types format: {
+                "ApexClass": [
+                    "AClass", 
+                    "BClass",
+                    ...
+                ],
+                "ApexTrigger": [
+                    "ATrigger", 
+                    "BTrigger",
+                    ...
+                ]
+            }
+        """
         view = self.window.active_view()
-        types = view.settings().get("types", {}) if view else {}
+        types = view.settings().get("types") if view else {}
+        if view and not types:
+            try:
+                with open(view.file_name(), "rb") as fp:
+                    content = fp.read()
+                types = util.build_package_types(content)
+            except Exception as ex:
+                types = {}
         
         self.members = []
         self.matched_package = {}
