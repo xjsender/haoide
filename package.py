@@ -555,17 +555,21 @@ class RefreshPackage(sublime_plugin.WindowCommand):
             return False
 
         settings = context.get_settings()
-        self._dir = dirs[0]
+        _dir = dirs[0]
         pname = settings["default_project_name"]
-        if pname.lower() not in self._dir.lower(): 
+        if pname.lower() not in _dir.lower(): 
             return False
 
-        if os.path.exists(self._dir + "/package.xml"):
-            self.package_xml = self._dir + "/package.xml"
-            self.extract_to = os.path.split(self._dir)[0]
-        elif os.path.exists(self._dir + "/src/package.xml"):
-            self.package_xml = self._dir + "/src/package.xml"
-            self.extract_to = self._dir
+        if os.path.exists(_dir + "/src/package.xml"):
+            self.package_xml = _dir + "/src/package.xml"
+            self.extract_to = _dir
+        elif os.path.exists(_dir + "/package.xml"):
+            self.package_xml = _dir + "/package.xml"
+            # <base_path>/<project_name>/src/package.xml
+            # <base_path>/<project_name>/package.xml
+            self.extract_to = _dir
+            if _dir.endswith("src"):
+                self.extract_to = os.path.split(_dir)[0] 
         else:
             return False
 
