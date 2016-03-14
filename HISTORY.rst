@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 3.3.3 (2016-03-14)
+++++++++++++++++++
+* Fix issue #94
+* Enhance ``refresh package`` command
+* Add package.xml update support for command ``build_package_xml``
+
+
 Release 3.3.2 (2016-03-12)
 ++++++++++++++++++
 * Fix issue #92

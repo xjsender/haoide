@@ -8517,6 +8517,8 @@ tag_defs = {
                     "application/pdf#${1:fileName}",
                     "application/xml#${1:fileName}",
                     "application/vnd.ms-excel#${1:fileName}",
+                    "application/vnd.ms-doc#${1:fileName}",
+                    "application/vnd.ms-ppt#${1:fileName}",
                     "application/json#${1:fileName}"
                 ]
             },

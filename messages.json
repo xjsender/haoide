@@ -1,16 +1,7 @@
 {
-    "3.2.0": "config/messages/3.2.0.md",
-    "3.2.1": "config/messages/3.2.1.md",
-    "3.2.2": "config/messages/3.2.2.md",
-    "3.2.3": "config/messages/3.2.3.md",
-    "3.2.4": "config/messages/3.2.4.md",
-    "3.2.5": "config/messages/3.2.5.md",
-    "3.2.6": "config/messages/3.2.6.md",
-    "3.2.7": "config/messages/3.2.7.md",
-    "3.2.8": "config/messages/3.2.8.md",
-    "3.2.9": "config/messages/3.2.9.md",
     "3.3.0": "config/messages/3.3.0.md",
     "3.3.1": "config/messages/3.3.1.md",
     "3.3.2": "config/messages/3.3.2.md",
+    "3.3.3": "config/messages/3.3.3.md",
     "install": "config/messages/install.txt"
 }
