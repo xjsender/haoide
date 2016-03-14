@@ -510,7 +510,7 @@ class DeployPackage(sublime_plugin.WindowCommand):
         if switch:
             return self.window.run_command("switch_project", {
                 "callback_options": {
-                    "callback_command": "deploy_package_to_server", 
+                    "callback_command": "deploy_package", 
                     "args": {
                         "dirs": dirs,
                         "switch": False,
