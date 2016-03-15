@@ -58,9 +58,11 @@ class Haoku(sublime_plugin.WindowCommand):
 
 class BaseSelection(object):
     def is_enabled(self):
-        self.selection = self.view.substr(self.view.sel()[0])
         if not self.view.size(): return False
-        self.selection = self.view.substr(sublime.Region(0, self.view.size()))
+        self.selection = self.view.substr(self.view.sel()[0])
+        if not self.selection:
+            self.selection = self.view.substr(sublime.Region(0, 
+                self.view.size()))
 
         return True
 
