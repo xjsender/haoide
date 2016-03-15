@@ -1,15 +1,15 @@
 # Sublime IDE for Salesforce
 This plugin supports [Sublime Text 3](http://www.sublimetext.com/3) for windows and OSX, not tested for Linux.
 
+All of my motivation on this plugin come from your star, if you think this plugin is helpful in your daily work, please **star** this plugin.
+
 # Installation
 
 > Before install this plugin, you must install [Sublime Text 3](http://www.sublimetext.com/3) and then [Package Control](https://packagecontrol.io/installation).
 
 After you have installed ``package control`` in your sublime, you can install this plugin by searching ``haoide`` in package control, if you don't know how to use ``package control``, you can refer to [usage of package control](https://packagecontrol.io/docs/usage).
 
-This plugin is in improvement stage, many ideas are generated in daily work of mine or my friends, if you have any idea or find any issue, please log issue by clicking ``Report Issue`` in the main menu, thanks for your help on improving this plugin.
-
-All of my motivation on this plugin come from your star, if you think this plugin is helpful in your daily work, please **star** this plugin.
+Or, You can follow the step-by-step [instruction](https://meighanrockssf.wordpress.com/portfolio/install-haoide/) by [Meighan Brodkey](https://twitter.com/meighansf)
 
 # Project Configuration
 After you have installed this plugin successfully, you can follow <a href="/docs/project.md" target="_blank">Project Configuration</a> to configure your own project.
@@ -38,10 +38,10 @@ After you have installed this plugin successfully, you can follow <a href="/docs
 * <a href="http://docs.python-requests.org/en/latest/user/advanced/#proxies" target="_blank">Request Proxies</a>
 
 # Build-in Dependency Lib
-    * [requests](https://github.com/kennethreitz/requests)
-    * [xmltodict](https://github.com/martinblech/xmltodict)
-    * [dateutil](http://labix.org/python-dateutil/)
-    * [xmlformatter](https://pypi.python.org/pypi/xmlformatter/)
+  > - [requests](https://github.com/kennethreitz/requests)
+  > - [xmltodict](https://github.com/martinblech/xmltodict)
+  > - [dateutil](http://labix.org/python-dateutil/)
+  > - [xmlformatter](https://pypi.python.org/pypi/xmlformatter/)
 
 # Q&A
 + ``Refresh Package`` vs ``Update Project``
