@@ -112,13 +112,6 @@
             { "caption": "-" },
 
             {
-                "caption": "Import Eclipse Project",
-                "command": "import_eclipse_project"
-            },
-
-            { "caption": "-" },
-
-            {
                 "caption": "Cache",
                 "children": [
                     {

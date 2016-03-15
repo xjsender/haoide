@@ -1239,38 +1239,6 @@ def handle_export_all_workbooks(timeout=120):
     ThreadProgress(api, thread, "Describe Global", "Describe Global Succeed")
     handle_thread(thread, timeout)
 
-def handle_import_eclipse_project(types, timeout=120):
-    def handle_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
-            return
-        
-        # If failed, but something may happen,
-        # for example, user password is expired
-        result = api.result
-        if not result or not result["success"]: 
-            return
-
-        # Apex Code Cache
-        if "fileProperties" in result and isinstance(result["fileProperties"], list):
-            util.reload_apex_code_cache(result["fileProperties"], settings)
-
-        # Hide panel
-        sublime.set_timeout_async(Printer.get("log").hide_panel, 500)
-        handle_reload_sobjects_completions()
-        if settings["reload_symbol_tables_when_create_project"]:
-            handle_reload_symbol_tables()     
-
-    settings = context.get_settings()
-    api = MetadataApi(settings)
-    thread = threading.Thread(target=api.retrieve, args=({
-        "types": types
-    }, ))
-    thread.start()
-    wating_message = "Importing eclipse project"
-    ThreadProgress(api, thread, wating_message, wating_message + " Finished")
-    handle_thread(thread, timeout)
-
 def handle_new_project(is_update=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
