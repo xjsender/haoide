@@ -637,3 +637,30 @@ class RetrievePackageXmlFromServer(sublime_plugin.WindowCommand):
 
     def is_visible(self, files=None):
         return self.is_enabled(files)
+
+class ImportEclipseProject(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(ImportEclipseProject, self).__init__(*args, **kwargs)
+
+    def run(self):
+        sublime.active_window().show_input_panel("Input eclipse project path", 
+            '', self.on_input_path, None, None)
+
+    def on_input_path(self, project_path):
+        package_xml_path = project_path + "/src/package.xml"
+        if not os.path.exists(package_xml_path):
+            if sublime.ok_cancel_dialog("Invalid eclipse project path", "Try Again"):
+                sublime.active_window().show_input_panel("Input eclipse project path", 
+                    '', self.on_input_path, None, None)
+            return
+
+        # Build types
+        try:
+            with open(package_xml_path, "rb") as fp:
+                content = fp.read()
+            types = util.build_package_types(content)
+        except Exception as ex:
+            Printer.get('error').write(str(ex))
+            return
+
+        processor.handle_import_eclipse_project(types)

@@ -109,7 +109,14 @@
                 ]
             },
 
-            {"caption": "-"},
+            { "caption": "-" },
+
+            {
+                "caption": "Import Eclipse Project",
+                "command": "import_eclipse_project"
+            },
+
+            { "caption": "-" },
 
             {
                 "caption": "Cache",
@@ -512,18 +519,6 @@
                         "command": "deploy_open_files_to_server", 
                         "args": {
                             "select_all": false
-                        }
-                    },
-
-                    { "caption": "-" },
-                    
-                    {
-                        "caption": "Toggle Metadata Objects",
-                        "command": "toggle_metadata_objects",
-                        "args": {
-                            "callback_options": {
-                                "callback_command": "update_project"
-                            }
                         }
                     },
 
