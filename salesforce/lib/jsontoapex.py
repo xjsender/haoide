@@ -105,7 +105,6 @@ class JSONConverter():
 
             if level == 0:
                 self.add_parser(name)
-                self.add_testmethod(json.dumps(dict_obj))
                 self.snippet = "\n".join(self.classes)[:-1]
 
         return self
