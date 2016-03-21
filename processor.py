@@ -598,9 +598,13 @@ def handle_track_all_debug_logs_thread(users, timeout=120):
 def handle_cancel_deployment_thread(async_process_id, timeout=120):
     settings = context.get_settings()
     api = MetadataApi(settings)
-    thread = threading.Thread(target=api.cancel_deployment, args=(async_process_id, ))
+    thread = threading.Thread(target=api._invoke_method, args=(
+        "cancelDeploy", {
+            "async_process_id": async_process_id, 
+        }
+    ))
     thread.start()
-    ThreadProgress(api, thread, "Canceling Deployment", "Canceling Deployment Succeed")
+    ThreadProgress(api, thread, "Canceling Deploy", "Canceling Deploy Succeed")
 
 def handle_close_jobs_thread(job_ids, timeout=120):
     settings = context.get_settings()
@@ -1331,9 +1335,6 @@ def handle_describe_metadata(callback_options, timeout=120):
         with open(cache_file, "w") as fp:
             fp.write(json.dumps(result, indent=4))
 
-        # Write message to console log
-        Printer.get("log").write("Metadata settings is written to .config/metadata.json")
-        
         if "callback_command" in callback_options:
             settings = context.get_settings()
             callback_command = callback_options["callback_command"]
@@ -1354,7 +1355,7 @@ def handle_describe_metadata(callback_options, timeout=120):
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
-    thread = threading.Thread(target=api.describe_metadata)
+    thread = threading.Thread(target=api._invoke_method, args=("describeMetadata", ))
     thread.start()
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Describe Metadata of v%s.0" % settings["api_version"], 
@@ -1379,7 +1380,7 @@ def handle_rename_metadata(file_name, meta_type, old_name, new_name, timeout=120
     settings = context.get_settings()
     api = MetadataApi(settings)
     options = {"type": meta_type, "old_name": old_name, "new_name": new_name}
-    thread = threading.Thread(target=api.rename_metadata, args=(options, ))
+    thread = threading.Thread(target=api._invoke_method, args=("renameMetadata", options, ))
     thread.start()
     handle_thread(thread, timeout)
     message = "Renaming %s from %s to %s" % (

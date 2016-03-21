@@ -49,22 +49,28 @@ class MetadataApi():
         self.result = result
         return result
 
-    def describe_metadata(self):
+    def _invoke_method(self, _method, options={}):
+        """ Support below methods:
+            * describe_metadata
+            * read_metadata
+            * rename_metadata
+            * delete_metadata
+            * cancel_deployment
+        """
+
         result = self.login()
         if not result["success"]:
             self.result = result
             return self.result
 
         # Build soap_body
-        soap_body = self.soap.create_request('describe_metadata')
-
-        Printer.get("log").write_start().write("Start to describe metadata for v%s.0" % self.settings["api_version"])
+        body = self.soap.create_request(_method, options)
         try:
             response = requests.post(self.metadata_url, 
-                soap_body, verify=False, headers=self.headers)
+                body, verify=False, headers=self.headers)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout when describing metadata",
+                "Error Message":  "Connection Timeout",
                 "success": False
             }
             return self.result
@@ -75,66 +81,15 @@ class MetadataApi():
             if "INVALID_SESSION_ID" in response.text:
                 Printer.get("log").write("Session is expired, need login again")
                 self.login(True)
-                return self.describe_metadata()
+                return self._invoke_method(_method, options)
 
             self.result = util.get_response_error(response)
             return self.result
 
         result = xmltodict.parse(response.content)
-        self.result = result["soapenv:Envelope"]["soapenv:Body"]["describeMetadataResponse"]["result"]
+        self.result = result["soapenv:Envelope"]["soapenv:Body"][_method + "Response"]["result"]
         self.result["success"] = True
-        return self.result
-    
-    def read_metadata(self, options):
-        self.login()
 
-        # Build soap_body
-        soap_body = self.soap.create_request('read_metadata', options)
-
-        try:
-            response = requests.post(self.metadata_url, 
-                soap_body, verify=False, headers=self.headers)
-        except requests.exceptions.RequestException as e:
-            self.result = {
-                "Error Message":  "Network connection timeout when reading metadata",
-                "success": False
-            }
-            return self.result
-
-        # If status_code is > 399, which means it has error
-        if response.status_code > 399:
-            self.result = util.get_response_error(response)
-            return self.result
-
-        result = xmltodict.parse(response.content)
-        self.result = result["soapenv:Envelope"]["soapenv:Body"]["readMetadataResponse"]["result"]
-        self.result["success"] = True
-        return self.result
-
-    def rename_metadata(self, options):
-        self.login()
-
-        # Build soap_body
-        soap_body = self.soap.create_request('rename_metadata', options)
-
-        try:
-            response = requests.post(self.metadata_url, 
-                soap_body, verify=False, headers=self.headers)
-        except requests.exceptions.RequestException as e:
-            self.result = {
-                "Error Message":  "Network connection timeout when renaming metadata",
-                "success": False
-            }
-            return self.result
-
-        # If status_code is > 399, which means it has error
-        if response.status_code > 399:
-            self.result = util.get_response_error(response)
-            return self.result
-
-        result = xmltodict.parse(response.content)
-        self.result = result["soapenv:Envelope"]["soapenv:Body"]["renameMetadataResponse"]["result"]
-        self.result["success"] = True
         return self.result
 
     def check_status(self, async_process_id, timeout=120):
@@ -486,44 +441,6 @@ class MetadataApi():
         if isinstance(result, dict): 
             result = [result]
         
-        self.result = result
-        return result
-
-    def cancel_deployment(self, async_process_id): 
-        """ After async process is done, post a checkDeployResult to 
-            get the deploy result
-
-        Arguments:
-
-        * async_process_id -- retrieve request asyncProcessId
-        """
-        result = self.login()
-        if not result["success"]:
-            self.result = result
-            return self.result
-
-        body = self.soap.create_request('cancel_deployment', {
-            "async_process_id": async_process_id
-        })
-
-        response = requests.post(self.metadata_url, body, 
-            headers=self.headers, verify=False)
-
-        # If status_code is > 399, which means it has error
-        if response.status_code > 399:
-            self.result = util.get_response_error(response)
-            return self.result
-
-        result = xmltodict.parse(response.content)
-        try:
-            result = result["soapenv:Envelope"]["soapenv:Body"]["cancelDeployResponse"]["result"]
-            result["success"] = True
-        except KeyError as ke:
-            result = {
-                "Error Message": "Convert Xml to JSON Exception: " + str(ke),
-                "success": False
-            }
-
         self.result = result
         return result
 

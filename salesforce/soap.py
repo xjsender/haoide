@@ -13,7 +13,7 @@ from . import context
 
 settings = context.get_settings()
 soap = SOAP(settings)
-soap.create_request('read_metadata', {
+soap.create_request('readMetadata', {
     "types": {
         "CustomObject": ["haoliu__Expense__c"]
     }
@@ -99,7 +99,7 @@ class SOAP():
 
         return self.create_metadata_envelope(check_retrieve_status_request_body)
 
-    def create_cancel_deployment_request(self, options):
+    def create_cancelDeploy_request(self, options):
         cancel_deploy_request_body = """
             <met:cancelDeploy>
                 <met:String>{async_process_id}</met:String>
@@ -118,7 +118,7 @@ class SOAP():
 
         return self.create_metadata_envelope(check_deploy_status_request_body)
 
-    def create_delete_metadata_request(self, options):
+    def create_deleteMetadata_request(self, options):
         """ Just support deletion of components of one type, for example,
 
             {
@@ -142,7 +142,7 @@ class SOAP():
 
         return self.create_metadata_envelope(delete_metadata_body)
 
-    def create_read_metadata_request(self, options):
+    def create_readMetadata_request(self, options):
         """ Just support deletion of components of one type, for example,
 
             {
@@ -166,7 +166,7 @@ class SOAP():
 
         return self.create_metadata_envelope(read_metadata_body)
 
-    def create_rename_metadata_request(self, options):
+    def create_renameMetadata_request(self, options):
         """ Just support deletion of components of one type, for example,
 
             {
@@ -188,7 +188,7 @@ class SOAP():
 
         return self.create_metadata_envelope(rename_metadata_body)
 
-    def create_describe_metadata_request(self, options):
+    def create_describeMetadata_request(self, options):
         describe_metadata_body = """
             <met:describeMetadata>
                 <met:asOfVersion>%s</met:asOfVersion>
