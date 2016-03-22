@@ -1438,6 +1438,10 @@ def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_x
                 args=(api.result["zipFile"], extract_to, ignore_package_xml, ))
             thread.start()
 
+            # Apex Code Cache
+            if isinstance(api.result.get("fileProperties", None), list):
+                util.reload_apex_code_cache(api.result["fileProperties"], settings)
+
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
