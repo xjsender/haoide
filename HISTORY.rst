@@ -4,6 +4,15 @@ Release History
 
 ---------------
 
+
+Release 3.3.4 (2016-03-23)
+++++++++++++++++++
+* Fix issue #93
+* Fix issue #97
+* Optimize for methods in ``metadata.py``
+* Update README.md
+
+
 Release 3.3.3 (2016-03-14)
 ++++++++++++++++++
 * Fix issue #94
