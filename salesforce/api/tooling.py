@@ -501,6 +501,8 @@ class ToolingApi():
         """ Some Tooling Sobject doesn't support query all, for example, ApexClass,
             If we query all ApexClasses, SymbolTable attribute will be null, however, 
             if we query for 200 records at once, SymbolTable will have value
+
+            ** Just query classes in unmanaged package since 2016.3.23
         """
 
         # Login firstly
@@ -513,12 +515,19 @@ class ToolingApi():
         
         offset = 0
         result = {"totalSize": 0, "records": [], "success": result["success"]}
-        soql = "SELECT NamespacePrefix, SymbolTable, Name FROM ApexClass "
+        describe_metadata = util.get_described_metadata(self.settings)
+        namespacePrefix = describe_metadata.get("organizationNamespace", '')
+        soql =  "SELECT NamespacePrefix, SymbolTable, Name FROM ApexClass " +\
+                "WHERE NamespacePrefix = %s " % (
+                   "'%s'" % namespacePrefix if namespacePrefix else 'null'
+                )
         while True:
             query = soql + "LIMIT %s OFFSET %s""" % (split, offset)
-            previous_result = self.query(soql, is_toolingapi=True)
+            previous_result = self.query(query, is_toolingapi=True)
             if not previous_result["success"]: continue # Ignore exception
-            if previous_result["totalSize"] == 0: break # No result
+            if previous_result["size"] == 0: break # No result
+            if self.settings["debug_mode"]:
+                print ('SOQL: %s, ' % query, 'totalSize: %s' % previous_result["size"])
             result['totalSize'] += previous_result['totalSize']
             previous_result['records'].extend(result['records'])
             result['records'] = previous_result['records']
