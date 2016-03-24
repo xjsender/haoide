@@ -470,6 +470,10 @@ def handle_reload_sobjects_completions(timeout=120):
         # Save settings
         sublime.save_settings("sobjects_completion.sublime-settings")
 
+        # Reload cache for completions
+        from . import completions
+        completions.reload_globals(username)
+
     def handle_thread(api, thread, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)

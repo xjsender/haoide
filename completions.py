@@ -14,6 +14,16 @@ from .salesforce.lib import bootstrap
 
 from .salesforce.lib.panel import Printer
 
+
+def reload_globals(username):
+    """ Reload sObject cache in globals()
+
+    Return:
+        username -- username of default project
+    """
+    metadata = util.get_sobject_metadata(username)
+    globals()["metadata"] = metadata
+
 class PackageCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
         if not view.match_selector(locations[0], "text.xml"):
@@ -101,16 +111,20 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         # Get plugin settings
         settings = context.get_settings()
+        username = settings["username"]
+        
+        # In order to speed up code completion,
+        # store the "metadata" into globals()
+        if "metadata" not in globals():
+            metadata = util.get_sobject_metadata(username)
+            globals()["metadata"] = metadata
+        else:
+            metadata = globals()["metadata"]
 
-        # Get sobjects metadata and symbol tables
-        metadata, symbol_tables = util.get_sobject_metadata_and_symbol_tables(settings["username"])
-
-        # Get Sobjects Describe and ParentRelationships Describe
-        sobjects_describe = {}
-        parentRelationships = {}
-        if metadata and "sobjects" in metadata: 
-            sobjects_describe = metadata["sobjects"]
-            parentRelationships = metadata.get("parentRelationships")
+        # Get sobjects describe and symbol tables
+        sobjects_describe = metadata.get("sobjects", {})
+        parentRelationships = metadata.get("parentRelationships", {})
+        symbol_tables = util.get_symbol_tables(username)
 
         completion_list = []
         if ch not in [".", "="]:
@@ -143,7 +157,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                                     class_attr["namespace"]), class_attr["name"]))
 
                     # Add all custom class to keyword completions
-                    apex_class_completion = util.get_component_completion(settings["username"], "ApexClass")
+                    apex_class_completion = util.get_component_completion(username, "ApexClass")
                     if apex_class_completion: 
                         completion_list.extend(apex_class_completion)
 
@@ -210,8 +224,9 @@ class ApexCompletions(sublime_plugin.EventListener):
                                 display_child_relationships=False
                             )
                     else:
-                        if child_relationship_name in sobject_describe["childRelationships"]:
-                            child_sobject_name = sobject_describe["childRelationships"][child_relationship_name]
+                        childRelationships = sobject_describe.get("childRelationships")
+                        if child_relationship_name in childRelationships:
+                            child_sobject_name = childRelationships[child_relationship_name]
                             if child_sobject_name.lower() in sobjects_describe:
                                 completion_list = util.get_sobject_completion_list(
                                     sobjects_describe.get(child_sobject_name.lower()), 
@@ -225,7 +240,7 @@ class ApexCompletions(sublime_plugin.EventListener):
         elif ch == ".":
             # Input Page., list all custom ApexPages
             if variable_name.lower() == 'page': 
-                return util.get_component_completion(settings["username"], "ApexPage")
+                return util.get_component_completion(username, "ApexPage")
 
             # Get the variable type by variable name
             pattern = "([a-zA-Z_1-9]+[\\[\\]]*|(map+|list|set)[^\\n^(][<,.\\s>a-zA-Z_1-9]+)\\s+%s[,;\\s:=){]" % variable_name
@@ -250,27 +265,25 @@ class ApexCompletions(sublime_plugin.EventListener):
                         for key in sorted(methods.keys()):
                             completion_list.append(("Sobject." + key, methods[key]))
 
-            if not completion_list and not settings["disable_relationship_completion"] and parentRelationships:
-                # Parent sobject Field completions
-                if variable_name in parentRelationships:
-                    # Because relationship name is not unique, so we need to display sobject name prefix
-                    matched_sobjects = parentRelationships[variable_name]
-                    if len(matched_sobjects) == 1:
-                        sobject_name = matched_sobjects[0].lower()
-                        if sobject_name in sobjects_describe:
-                            completion_list = util.get_sobject_completion_list(
-                                sobjects_describe[sobject_name],
-                                display_child_relationships=False
-                            )
-                    else:
-                        for sobject in matched_sobjects:
-                            if sobject.lower() not in sobjects_describe: 
-                                continue
-                            completion_list.extend(util.get_sobject_completion_list(
-                                sobjects_describe[sobject.lower()],
-                                prefix=sobject+".", 
-                                display_child_relationships=False)
-                            )
+            if not completion_list and not settings["disable_relationship_completion"]:
+                # Because relationship name is not unique, so we need to display sobject name prefix
+                matched_sobjects = parentRelationships.get(variable_name, [])
+                if len(matched_sobjects) == 1:
+                    sobject_name = matched_sobjects[0].lower()
+                    if sobject_name in sobjects_describe:
+                        completion_list = util.get_sobject_completion_list(
+                            sobjects_describe[sobject_name],
+                            display_child_relationships=False
+                        )
+                else:
+                    for sobject in matched_sobjects:
+                        if sobject.lower() not in sobjects_describe: 
+                            continue
+                        completion_list.extend(util.get_sobject_completion_list(
+                            sobjects_describe[sobject.lower()],
+                            prefix=sobject+".", 
+                            display_child_relationships=False)
+                        )
 
             # Add standard class in specified namespace to completions
             if variable_name in apex.apex_namespaces:
@@ -444,13 +457,14 @@ class PageCompletions(sublime_plugin.EventListener):
         variable_name = view.substr(view.word(pt-1))
         begin = view.full_line(pt).begin()
 
-        # Get sobjects metadata and symbol tables
-        metadata = util.get_sobject_metadata_and_symbol_tables(username)[0]
-
-        # Get Sobjects Describe and ParentRelationships Describe
-        sobjects_describe = {}
-        if metadata and "sobjects" in metadata: 
-            sobjects_describe = metadata["sobjects"]
+        # In order to speed up code completion,
+        # store the "metadata" into globals()
+        if "metadata" not in globals():
+            metadata = util.get_sobject_metadata(username)
+            globals()["metadata"] = metadata
+        else:
+            metadata = globals()["metadata"]
+        sobjects_describe = metadata.get("sobjects", {})
             
         completion_list = []
         if ch in ["<", ":"]:

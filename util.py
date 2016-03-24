@@ -349,7 +349,7 @@ def clear_cache(username, setting_name):
     sublime.save_settings(setting_name)
     sublime.status_message(username + " cache is cleared")
 
-def get_sobject_metadata_and_symbol_tables(username):
+def get_sobject_metadata(username):
     """ Return the sobject cache of default project
 
     Arguments:
@@ -358,18 +358,29 @@ def get_sobject_metadata_and_symbol_tables(username):
     Returns:
     * sobject metadata -- the sobject metadata of default project
     """
-    sobjects_metadata = {}
-    symbol_tables = {}
 
     sobjects_settings = sublime.load_settings("sobjects_completion.sublime-settings")
-    symbol_tables_settings = sublime.load_settings("symbol_table.sublime-settings")
+    sobjects_metadata = {}
     if sobjects_settings.has(username):
-        sobjects_metadata = sobjects_settings.get(username)
+        sobjects_metadata = sobjects_settings.get(username, {})
 
+    return sobjects_metadata
+
+def get_symbol_tables(username):
+    """ Return the sobject cache of default project
+
+    Arguments:
+    * username -- username of current default project
+
+    Returns:
+    * sobject metadata -- the sobject metadata of default project
+    """
+    symbol_tables = {}
+    symbol_tables_settings = sublime.load_settings("symbol_table.sublime-settings")
     if symbol_tables_settings.has(username):
-        symbol_tables = symbol_tables_settings.get(username)
+        symbol_tables = symbol_tables_settings.get(username, {})
 
-    return sobjects_metadata, symbol_tables
+    return symbol_tables
 
 def get_sobject_completion_list(
         sobject_describe, 
@@ -2768,6 +2779,11 @@ def switch_project(target):
         else:
             for view in window.views():
                 view.set_status('default_project', "Default Project => %s" % target)
+
+    # Reload cache for completions
+    from . import completions
+    settings = context.get_settings()
+    completions.reload_globals(settings["username"])
 
 def add_project_to_workspace(settings):
     """Add new project folder to workspace
