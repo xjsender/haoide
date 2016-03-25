@@ -664,74 +664,78 @@ def parse_symbol_table(symbol_table):
 
     Arguments:
 
-    * symbol_table -- ApexClass Symbol Table
+        * symbol_table -- ApexClass Symbol Table
     """
+
     completions = {}
-    if not symbol_table: return completions;
-    if 'constructors' in symbol_table:
-        for c in symbol_table['constructors']:
-            params = []
-            visibility = c["visibility"].capitalize() if "visibility" in c else "Public"
+    if not symbol_table: 
+        return completions;
 
-            if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
-                for p in c['parameters']:
-                    params.append(p["type"].capitalize() + " " + p["name"])
-                paramStrings = []
-                for i, p in enumerate(params):
-                    paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
-                paramString = ", ".join(paramStrings)
-                completions[visibility+" "+c["name"]+"("+", ".join(params)+")"] =\
-                    c["name"]+"("+paramString+")"
-            else:
-                completions[visibility+" "+c["name"]+"()"] = c["name"]+"()${1:}"
+    for c in symbol_table.get('constructors', []):
+        params = []
+        modifiers = " ".join(c.get("modifiers", []))
+        if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
+            for p in c['parameters']:
+                params.append(p["type"].capitalize() + " " + p["name"])
+            paramStrings = []
+            for i, p in enumerate(params):
+                paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
+            paramString = ", ".join(paramStrings)
+            completions[modifiers+" "+c["name"]+"("+", ".join(params)+")"] =\
+                "%s(%s)" % (c["name"], paramString)
+        else:
+            completions[modifiers+" "+c["name"]+"()"] = c["name"]+"()${1:}"
 
-    if 'properties' in symbol_table:
-        for c in symbol_table['properties']:
-            visibility = c["visibility"].capitalize() if "visibility" in c else "Public"
-            property_type = c["type"].capitalize() if "type" in c and c["type"] else ""
-            completions[visibility+" "+c["name"]+"\t"+property_type] = c["name"]
+    for c in symbol_table.get('properties', []):
+        modifiers = " ".join(c.get("modifiers", []))
+        property_type = c["type"].capitalize() if "type" in c and c["type"] else ""
+        completions[modifiers+" "+c["name"]+"\t"+property_type] = c["name"]
 
-    if 'methods' in symbol_table:
-        for c in symbol_table['methods']:
-            params = []
-            visibility = c["visibility"].capitalize() if "visibility" in c else "Public"
-            if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
-                for p in c['parameters']:
-                    params.append(p["type"]+" "+p["name"])
-            if len(params) == 1:
-                completions[visibility+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
-                    c["name"]+"(${1:"+", ".join(params)+"})"
-            elif len(params) > 1:
-                paramStrings = []
-                for i, p in enumerate(params):
-                    paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
-                paramString = ", ".join(paramStrings)
-                completions[visibility+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
-                    c["name"]+"("+paramString+")"
-            else:
-                completions[visibility+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
-                    c["name"]+"()${1:}"
+    for c in symbol_table.get('methods', []):
+        params = []
+        modifiers = " ".join(c.get("modifiers", []))
+        if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
+            for p in c['parameters']:
+                params.append(p["type"]+" "+p["name"])
+        if len(params) == 1:
+            completions[modifiers+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
+                "%s({1:%s})" % (c["name"], ", ".join(params))
+        elif len(params) > 1:
+            paramStrings = []
+            for i, p in enumerate(params):
+                paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
+            paramString = ", ".join(paramStrings)
+            completions[modifiers+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
+                c["name"]+"("+paramString+")"
+        else:
+            completions[modifiers+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
+                c["name"]+"()${1:}"
 
-    if 'innerClasses' in symbol_table:
-        for c in symbol_table["innerClasses"]:
-            if 'constructors' in c and len(c['constructors']) > 0:
-                for con in c['constructors']:
-                    visibility = con["visibility"].capitalize() if "visibility" in con else "Public"
-                    params = []
-                    if 'parameters' in con and type(con['parameters']) is list and len(con['parameters']) > 0:
-                        for p in con['parameters']:
-                            params.append(p["type"].capitalize()+" "+p["name"])
-                        paramStrings = []
-                        for i, p in enumerate(params):
-                            paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
-                        paramString = ", ".join(paramStrings)
-                        completions[visibility+" "+con["name"]+"("+", ".join(params)+")"] =\
-                            c["name"]+"("+paramString+")"
-                    else:
-                        completions[visibility+" "+con["name"]+"()"] =\
-                            c["name"]+"()${1:}"
-            else:
-                completions["Inner Class "+c["name"]+"\t"+"Inner Class"] = c["name"]+"$1"
+    for c in symbol_table.get("innerClasses", []):
+        tableDeclaration = c.get("tableDeclaration")
+        modifiers = " ".join(tableDeclaration.get("modifiers", []))
+        modifiers = modifiers + " " if modifiers else ""
+
+        # Add inner class completion without parameters
+        completions["%s%s\tInner Class" % (modifiers, c["name"])] = "%s$1" % c["name"]
+
+        # Add inner class constructor completion
+        if 'constructors' in c and len(c['constructors']) > 0:
+            for con in c['constructors']:
+                modifiers = " ".join(con.get("modifiers", []))
+                params = []
+                if 'parameters' in con and type(con['parameters']) is list and len(con['parameters']) > 0:
+                    for p in con['parameters']:
+                        params.append(p["type"].capitalize()+" "+p["name"])
+                    paramStrings = []
+                    for i, p in enumerate(params):
+                        paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
+                    paramString = ", ".join(paramStrings)
+                    completions[modifiers+" "+con["name"]+"("+", ".join(params)+")"] =\
+                        c["name"]+"("+paramString+")"
+                else:
+                    completions[modifiers+" "+con["name"]+"()"] =\
+                        c["name"]+"()${1:}"
 
     return completions
 
