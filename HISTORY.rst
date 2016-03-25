@@ -5,6 +5,14 @@ Release History
 ---------------
 
 
+Release 3.3.5 (2016-03-26)
+++++++++++++++++++
+* Greatly improve performance of code completion
+* Fix invalid scope problem for custom class completion
+* Enhancement for document reference
+* Change panel message format
+
+
 Release 3.3.4 (2016-03-23)
 ++++++++++++++++++
 * Fix issue #93
