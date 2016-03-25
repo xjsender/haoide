@@ -161,6 +161,14 @@
                     {
                         "caption": "Open Documentation",
                         "command": "open_documentation"
+                    },
+
+                    {
+                        "caption": "Open Documentation By Type",
+                        "command": "open_documentation",
+                        "args": {
+                            "show_all": false
+                        }
                     }
                 ]
             },

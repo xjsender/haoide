@@ -313,6 +313,19 @@
     },
 
     {
+        "caption": "HaoIDE: Open Salesforce Document",
+        "command": "open_documentation"
+    },
+
+    {
+        "caption": "HaoIDE: Open Salesforce Document By Type",
+        "command": "open_documentation",
+        "args": {
+            "show_all": false
+        }
+    },
+
+    {
         "caption": "HaoIDE: Track One",
         "command": "track_debug_log"
     },

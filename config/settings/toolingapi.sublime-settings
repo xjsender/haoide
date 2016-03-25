@@ -455,75 +455,31 @@
         "video/x-ms-wmv"
     ],
 
-    // This setting is used to keep the default pattern of salesforce document TOC path
     "docs" : {
-        "Apex" : {
-            "keyword" : "apexcode",
-            "pattern" : "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
-        },
-        "Ajax" : {
-            "keyword" : "ajax",
-            "pattern" : "*.//TocEntry[@DescendantCount='0'].."
-        },
-        "Analytic Api" : {
-            "keyword" : "api_analytics",
-            "pattern" : "*.//TocEntry[@DescendantCount='0'].."
-        },
-        "Analytics Cloud Dashboard JSON": {
-            "keyword" : "bi_dev_guide_json",
-            "pattern" : "*.//TocEntry[@DescendantCount='0'].."
-        },
-        "Visualforce" : {
-            "keyword" : "pages",
-            "pattern" : "*.//TocEntry[@DescendantCount='0'].."
-        },
-        "Chatter Api" : {
-            "keyword" : "chatterapi",
-            "pattern" : ".//TocEntry[@DescendantCount='0']"
-        },
-        "Streaming Api" : {
-            "keyword" : "api_streaming",
-            "pattern" : ".//TocEntry[@DescendantCount='0']"
-        },
-        "Security Implementation" : {
-            "keyword" : "securityImplGuide",
-            "pattern" : ".//TocEntry[@DescendantCount='0']"
-        },
-        "Bulk Api" : {
-            "keyword" : "api_asynch",
-            "pattern" : "*[@Link].//TocEntry[@DescendantCount='0'].."
-        },
-        "Rest Api" : {
-            "keyword" : "api_rest",
-            "pattern" : ".//TocEntry[@DescendantCount='0']"
-        },
-        "OpenCTI Api": {
-            "keyword" : "api_cti",
-            "pattern" : ".//TocEntry[@DescendantCount='0']"
-        },
-        "Tooling Api" : {
-            "keyword" : "api_tooling",
-            "pattern" : ".//TocEntry[@DescendantCount='0']"
-        },
-        "Console Toolkit" : {
-            "keyword" : "api_console",
-            "pattern" : ".//TocEntry[@DescendantCount='0']"
-        },
-        "Standard Objects" : {
-            "keyword" : "object_reference",
-            "pattern" : "*.//TocEntry[@DescendantCount='0'].."
-        },
-        "SOQL & SOSL" : {
-            "keyword" : "soql_sosl",
-            "pattern" : "*.//TocEntry[@DescendantCount='0'].."
-        },
-        "Metadata Api" : {
-            "keyword" : "api_meta",
-            "pattern" : "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
-        },
-        "Lighting Component" : {
-            "keyword" : "lightning",
-            "pattern" : "*[@Title='Reference'].//TocEntry[@DescendantCount='0'].."
-        }
+        "Apex Developer Guide": "apexcode",
+        "AJAX Toolkit Developer Guide": "ajax",
+        "Salesforce Reports and Dashboards REST API Developer Guide": "api_analytics",
+        "Analytics Cloud Dashboard JSON": "bi_dev_guide_json",
+        "Visualforce Developer Guide": "pages",
+        "Streaming API Developer Guide": "api_streaming",
+        "Salesforce Security Guide": "securityImplGuide",
+        "Bulk API Developer Guide": "api_asynch",
+        "REST API Developer Guide": "api_rest",
+        "Open CTI Developer Guide": "api_cti",
+        "Tooling API Developer Guide": "api_tooling",
+        "SOAP API Developer Guide": "api",
+        "Industries REST API Developer Guide": "api_rest_industries",
+        "Chatter REST API Developer Guide": "chatterapi",
+        "Metadata API Developer Guide": "api_meta",
+        "Console Integration Toolkit Developer Guide": "api_console",
+        "Object Reference": "object_reference",
+        "SOQL and SOSL Reference": "soql_sosl",
+        "Lightning Components Developer Guide": "lightning",
+        "Development Lifecycle Guide": "dev_lifecycle",
+        "Migration Tool Guide": "daas",
+        "Force.com Workbook": "workbook",
+        "Integration Workbook": "integration_workbook",
+        "Identity Implementation Guide": "identityImplGuide",
+        "Formulas Quick Reference": "salesforce_formulas_cheatsheet"
     }
 }

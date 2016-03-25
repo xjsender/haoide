@@ -56,7 +56,9 @@
     }},
 
     // Open Document
-    {"keys": ["ctrl+alt+o"], "command": "open_documentation"},
+    {"keys": ["ctrl+alt+o"], "command": "open_documentation", "args": {
+        "show_all": false
+    }},
 
     // Execute Rest Test
     {"keys": ["ctrl+e"], "command": "execute_rest_test"},

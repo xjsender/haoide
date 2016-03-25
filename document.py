@@ -15,13 +15,14 @@ class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
     def run(self):
         message = "Generally, you should reload it every salesforce release, " +\
                   "do you really want to continue?"
-        if not sublime.ok_cancel_dialog(message, "Continue Reloading?"): return
+        if not sublime.ok_cancel_dialog(message, "Continue Reloading?"): 
+            return
 
         settings = context.get_settings()
         self.rd = ReloadDocument(settings["docs"])
         thread = threading.Thread(target=self.rd.reload_document)
         thread.start()
-        message = "Reloading Salesforce Document Reference"
+        message = "Reloading SFDC Document Reference"
         ThreadProgress(self.rd, thread, message, message + " Succeed")
         self.handle_thread(thread)
 
@@ -34,57 +35,65 @@ class ReloadSalesforceDocumentCommand(sublime_plugin.WindowCommand):
         if not self.rd.result: return
 
         result = self.rd.result
-        salesforce_reference = sublime.load_settings("salesforce_reference.sublime-settings")
-        salesforce_reference.set("salesforce_reference", result)
-        sublime.save_settings("salesforce_reference.sublime-settings")
-
-    def is_enabled(self):
-        return False
+        references = sublime.load_settings("references.sublime-settings")
+        references.set("references", result)
+        sublime.save_settings("references.sublime-settings")
 
 class ReloadDocument():
     def __init__(self, docs, **kwargs):
         self.docs = docs
+        self.url = "https://developer.salesforce.com/docs"
+        self.toc_url = "%s/get_document/atlas.en-us.{toc_type}.meta" % self.url
+        self.base_url = "%s/atlas.en-us.{toc_type}.meta/{toc_type}/" % self.url
         self.result = None
 
     def reload_document(self):
         # Log the StartTime
         start_time = datetime.datetime.now()
 
-        # Start retriving docs
-        Printer.get("log").write_start().write("Start to reload document reference")
-
-        title_link = {}
-        for prefix in self.docs:
-            doc_attr = self.docs[prefix]
-            Printer.get("log").write("Reloading %s" % prefix)
-            xml_url = 'http://www.salesforce.com/us/developer/docs/%s/Data/Toc.xml' % doc_attr["keyword"]
+        references = {}
+        for toc_label, toc_type in self.docs.items():
+            Printer.get("log").write("Reloading %s" % toc_label)
+            toc_url = self.toc_url.format(toc_type=toc_type)
             try: 
-                res = requests.get(xml_url, headers={"Accept": "application/xml"})
+                res = requests.get(toc_url)
+                result = res.json()
             except Exception as e: 
-                Printer.get("log").write("Reloading %s Failed" % prefix)
+                Printer.get("log").write("Reloading %s Failed" % toc_label)
                 continue
 
-            tree = ElementTree.fromstring(res.content)
-            leaf_parents = tree.findall(doc_attr["pattern"])
-            for parent in leaf_parents:
-                parent_title = parent.attrib["Title"]
-                if "Link" not in parent.attrib: continue
-                title_link[prefix + "=>" + parent_title] = {
-                    "url": parent.attrib["Link"],
-                    "attr": doc_attr["keyword"]
-                }
-                
-                if " Methods" in parent_title:
-                    parent_title = parent_title.replace(" Methods", ".")
-                else:
-                    parent_title = parent_title + " "
-                    
-                for child in parent.getchildren():
-                    title_link[prefix + "=>" + parent_title + child.attrib["Title"]] = {
-                        "url": child.attrib["Link"],
-                        "attr": doc_attr["keyword"]
-                    }
+            doc_references = [] # Define list for this toc
 
+            # Add home page
+            base_url = self.base_url.format(toc_type=toc_type)
+            doc_references.append({
+                "title": result["doc_title"],
+                "href": base_url
+            })
+
+            # Add PDF page
+            doc_references.append({
+                "title": "PDF Url",
+                "href": result["pdf_url"]
+            })
+
+            # Add children
+            for toc in result["toc"]:
+                # Add root path
+                href = ""
+                if "a_attr" in toc:
+                    href = base_url + toc["a_attr"]["href"]
+                doc_references.append({
+                    "title": toc["text"],
+                    "href": href
+                })
+
+                # Add children
+                if "children" in toc:
+                    self.add_children(doc_references, toc["children"], base_url)
+
+            references[toc_label] = doc_references
+    
         # Build Successful
         Printer.get("log").write("RELOADING FINISHED")
         
@@ -95,25 +104,72 @@ class ReloadDocument():
         # Hide panel
         sublime.set_timeout_async(Printer.get("log").hide_panel, 500)
 
-        self.result = title_link
+        self.result = references
 
-class OpenDocumentationCommand(sublime_plugin.WindowCommand):
+    def add_children(self, doc_references, children, base_url, level=1, prefix=""):
+        for child in children:
+            href = ""
+            if "a_attr" in child:
+                href = base_url + child["a_attr"]["href"]
+            title = child["text"]
+            doc_references.append({
+                "title": "%s%s%s" % (level * "\t", prefix, title),
+                "href": href
+            })
+
+            # Prefix is used for class methods
+            if title.endswith(" Methods"):
+                prefix = title.replace(" Methods", ".")
+
+            if "children" in child:
+                self.add_children(doc_references, child["children"], 
+                    base_url, level + 1, prefix)
+
+class OpenDocumentation(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(OpenDocumentationCommand, self).__init__(*args, **kwargs)
+        super(OpenDocumentation, self).__init__(*args, **kwargs)
 
-    def run(self):
-        reference_settings = sublime.load_settings("salesforce_reference.sublime-settings")
-        self.title_link = reference_settings.get("salesforce_reference")
-        self.titles = sorted(self.title_link.keys())
-        self.window.show_quick_panel(self.titles, self.open_documentation)
+    def run(self, show_all=True):
+        self.references = self.reference_settings.get("references")
+        self.titles = []; self.title_link = {}
 
-    def open_documentation(self, index):
-        if index == -1: return
+        if not show_all:
+            # Open document reference of chosen toc type
+            self.toc_lables = sorted(list(self.references.keys()))
+            self.window.show_quick_panel(self.toc_lables, 
+                self.on_choose_toc_type, sublime.MONOSPACE_FONT)
+        else:
+            # Open all document reference
+            for toc_label, values in self.references.items():
+                for v in values:
+                    self.titles.append(v["title"])
+                    self.title_link[v["title"]] = v["href"]
+            self.window.show_quick_panel(self.titles, 
+                self.on_open_document, sublime.MONOSPACE_FONT)
 
-        link = self.title_link[self.titles[index]]
-        show_url= 'http://www.salesforce.com/us/developer/docs/%s%s' % (link["attr"], link["url"])
-        util.open_with_browser(show_url)
+    def on_choose_toc_type(self, index):
+        if index == -1:
+            return
+
+        self.toc_label = self.toc_lables[index]
+        for v in self.references.get(self.toc_label, []):
+            self.titles.append(v["title"])
+            self.title_link[v["title"]] = v["href"]
+
+        sublime.set_timeout(lambda:self.window.show_quick_panel(self.titles, 
+            self.on_open_document, sublime.MONOSPACE_FONT), 10)
+
+    def on_open_document(self, index):
+        if index == -1: 
+            return
+
+        href = self.title_link[self.titles[index]]
+        if not href:
+            sublime.set_timeout(lambda:self.window.show_quick_panel(self.titles, 
+                self.on_open_document, sublime.MONOSPACE_FONT, index), 10)
+            return
+        util.open_with_browser(href)
 
     def is_enabled(self):
-        reference_settings = sublime.load_settings("salesforce_reference.sublime-settings")
-        return reference_settings.has("salesforce_reference")
+        self.reference_settings = sublime.load_settings("references.sublime-settings")
+        return self.reference_settings.has("references")

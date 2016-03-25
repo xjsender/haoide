@@ -59,7 +59,9 @@
     {"keys": ["ctrl+e"], "command": "execute_rest_test"},
 
     // Open Document
-    {"keys": ["ctrl+alt+o"], "command": "open_documentation"},
+    {"keys": ["ctrl+alt+o"], "command": "open_documentation", "args": {
+        "show_all": false
+    }},
 
     // Refresh Folder
     {"keys": ["alt+r","alt+f"], "command": "refresh_folder"},

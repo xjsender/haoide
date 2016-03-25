@@ -56,7 +56,9 @@
     }},
     
     // Open Document
-    {"keys": ["super+alt+o"], "command": "open_documentation"},
+    {"keys": ["super+alt+o"], "command": "open_documentation", "args": {
+        "show_all": false
+    }},
 
     // Save current component to server 
     {"keys": ["super+alt+s"], "command": "save_to_server"},
