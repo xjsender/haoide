@@ -66,9 +66,9 @@ class Printer(object):
         
         # Append message to panel
         from ...context import get_default_project_name
-        panel_message = message + "\n" if not prefix else "[%s] [%s] %s\n" % (
-            time.strftime("%Y.%m.%d %H:%M:%S", time.localtime(time.time())), 
+        panel_message = message + "\n" if not prefix else "%s: %s: %s\n" % (
             get_default_project_name(),
+            time.strftime("%Y.%m.%d %H:%M:%S", time.localtime(time.time())), 
             message
         )
 
