@@ -59,7 +59,9 @@ class ReloadDocument():
                 res = requests.get(toc_url)
                 result = res.json()
             except Exception as e: 
-                Printer.get("log").write("Reloading %s Failed" % toc_label)
+                Printer.get("log").write("Reloading %s Failed, Reason: " % (
+                    toc_label, str(e)
+                ))
                 continue
 
             doc_references = [] # Define list for this toc
@@ -113,7 +115,7 @@ class ReloadDocument():
                 href = base_url + child["a_attr"]["href"]
             title = child["text"]
             doc_references.append({
-                "title": "%s%s%s" % (level * "\t", prefix, title),
+                "title": "%s%s%s" % (level * "  ", prefix, title),
                 "href": href
             })
 
@@ -130,6 +132,7 @@ class OpenDocumentation(sublime_plugin.WindowCommand):
         super(OpenDocumentation, self).__init__(*args, **kwargs)
 
     def run(self, show_all=True):
+        self.show_all = show_all
         self.references = self.reference_settings.get("references")
         self.titles = []; self.title_link = {}
 
@@ -151,7 +154,10 @@ class OpenDocumentation(sublime_plugin.WindowCommand):
         if index == -1:
             return
 
+         # Get chosen document type
         self.toc_label = self.toc_lables[index]
+
+        self.titles.append("Return to First Step")
         for v in self.references.get(self.toc_label, []):
             self.titles.append(v["title"])
             self.title_link[v["title"]] = v["href"]
@@ -160,8 +166,15 @@ class OpenDocumentation(sublime_plugin.WindowCommand):
             self.on_open_document, sublime.MONOSPACE_FONT), 10)
 
     def on_open_document(self, index):
-        if index == -1: 
+        if index == -1:
             return
+
+        if self.titles[index] == "Return to First Step":
+            return sublime.active_window().run_command(
+                "open_documentation", {
+                    "show_all": False
+                }
+            )
 
         href = self.title_link[self.titles[index]]
         if not href:
