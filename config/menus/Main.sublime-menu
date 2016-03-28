@@ -530,6 +530,8 @@
                         "command": "reload_project_cache"
                     },
 
+                    { "caption": "-" },
+
                     {
                         "caption": "Build Package.xml",
                         "command": "build_package_xml"

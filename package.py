@@ -120,15 +120,8 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
             self.metadata_objects.append(m)
 
             # Add child metadata object
-            if "childXmlNames" in self.settings[m]:
-                child_xml_names = self.settings[m]["childXmlNames"]
-                if isinstance(child_xml_names, str):
-                    child_xml_names = [child_xml_names]
-
-                for c in child_xml_names:
-                    self.metadata_objects.append(c)
-
-        self.metadata_objects = sorted(self.metadata_objects)
+            child_types = util.get_child_types(m)
+            self.metadata_objects.extend(child_types)
 
         self.selected_index = 0
         self.chosen_metadata_objects = []
@@ -142,11 +135,20 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
         else:
             self.items.append("[x]All")
 
-        for t in self.metadata_objects:
-            if t in self.chosen_metadata_objects:
-                self.items.append("    [√]%s" % t)
+        for m in sorted(self.settings["all_metadata_objects"]):
+            # Add parent to items
+            if m in self.chosen_metadata_objects:
+                self.items.append("    [%s]%s" % ("√", m))
             else:
-                self.items.append("    [x]%s" % t)
+                self.items.append("    [%s]%s" % ("x", m))
+
+            # Add children to items
+            child_types = util.get_child_types(m)
+            for c in child_types:
+                if c in self.chosen_metadata_objects:
+                    self.items.append("        [%s]%s" % ("√", c))
+                else:
+                    self.items.append("        [%s]%s" % ("x", c))
 
         sublime.set_timeout(lambda:self.window.show_quick_panel(self.items, 
             self.on_choose, sublime.MONOSPACE_FONT, self.selected_index), 10)
@@ -175,13 +177,57 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
             else:
                 self.chosen_metadata_objects = self.metadata_objects[:]
         else:
-            selected_metadata_object = selected_item[7:]
+            chosen_type = selected_item.strip()[3:]
+
+            # Get all children for chosen_type
+            # If chosen_type is child, child can't have children
+            attr = self.settings[chosen_type]
+            parent_type = attr["xmlName"]
+            child_types = util.get_child_types(parent_type)
 
             if "[x]" in selected_item:
-                if selected_metadata_object not in self.chosen_metadata_objects:
-                    self.chosen_metadata_objects.append(selected_metadata_object)
+                if chosen_type == parent_type:
+                    if chosen_type not in self.chosen_metadata_objects:
+                        self.chosen_metadata_objects.append(chosen_type)
+                    for c in child_types:
+                        self.chosen_metadata_objects.append(c)
+                else:
+                    # Add chosen selected child metadata object
+                    if chosen_type not in self.chosen_metadata_objects:
+                        self.chosen_metadata_objects.append(chosen_type)
+
+                    # Add parent metadata object of selected child
+                    if parent_type not in self.chosen_metadata_objects:
+                        self.chosen_metadata_objects.append(parent_type)
             else:
-                self.chosen_metadata_objects.remove(selected_metadata_object)
+                # Get all chosen child xml names
+                parent_type = parent_type
+                child_types = util.get_child_types(parent_type)
+
+                chosen_child_types = []
+                for c in child_types:
+                    if c in self.chosen_metadata_objects:
+                        chosen_child_types.append(c)
+
+                if parent_type == chosen_type:
+                    if len(child_types) == len(chosen_child_types):
+                        self.chosen_metadata_objects.remove(chosen_type)
+
+                        for c in child_types:
+                            if c in self.chosen_metadata_objects:
+                                self.chosen_metadata_objects.remove(c)
+                    else:
+                        for c in child_types:
+                            if c not in self.chosen_metadata_objects:
+                                self.chosen_metadata_objects.append(c)
+                else:
+                    # Remove child
+                    self.chosen_metadata_objects.remove(chosen_type)
+
+                    # If all siblings are also not exist in selected list,
+                    # parent should also be removed from selected list
+                    if len(chosen_child_types) == 1:
+                        self.chosen_metadata_objects.remove(parent_type)
 
         self.build_items()
 

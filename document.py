@@ -59,7 +59,7 @@ class ReloadDocument():
                 res = requests.get(toc_url)
                 result = res.json()
             except Exception as e: 
-                Printer.get("log").write("Reloading %s Failed, Reason: " % (
+                Printer.get("log").write("----->Failed to reload %s, reason: %s" % (
                     toc_label, str(e)
                 ))
                 continue
@@ -115,7 +115,7 @@ class ReloadDocument():
                 href = base_url + child["a_attr"]["href"]
             title = child["text"]
             doc_references.append({
-                "title": "%s%s%s" % (level * "  ", prefix, title),
+                "title": "%s%s%s" % (level * "   ", prefix, title),
                 "href": href
             })
 

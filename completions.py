@@ -56,15 +56,14 @@ class PackageCompletions(sublime_plugin.EventListener):
                 display = "%s\t%s" % (mo["xmlName"], "Metadata Type")
                 completion_list.append((display, mo["xmlName"]))
 
-                # Component Child
-                if "childXmlNames" in mo:
-                    childXmlNames = mo["childXmlNames"]
-                    if isinstance(childXmlNames, str):
-                        childXmlNames = [childXmlNames]
-                        
-                    for child in childXmlNames:
-                        display = "%s\t%s" % (child, mo["xmlName"])
-                        completion_list.append((display, child))
+                # Get all Children
+                childXmlNames = mo.get("childXmlNames", [])
+                if isinstance(childXmlNames, str):
+                    childXmlNames = [childXmlNames]
+                    
+                for child in childXmlNames:
+                    display = "%s\t%s" % (child, mo["xmlName"])
+                    completion_list.append((display, child))
 
             return completion_list
 

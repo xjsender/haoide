@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+Release 3.3.6 (2016-03-28)
+++++++++++++++++++
+* Fix issue #98
+* Add ``Return to First Step`` feature when open documentation by type
+* Remove build-in reference settings which is replaced ``Reload Salesforce Document``
+* Enhancement for ``Open Documentation`` feature
+* Enhancement for ``Reload Project Cache`` feature
+
 
 Release 3.3.5 (2016-03-26)
 ++++++++++++++++++

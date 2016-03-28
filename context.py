@@ -225,8 +225,9 @@ def build_metadata_objects_settings(settings, metadata_objects):
             childXmlNames = mo["childXmlNames"]
             if isinstance(childXmlNames, str):
                 childXmlNames = [childXmlNames]
-                
+            
+            mcopy = mo.copy(); del mcopy["childXmlNames"]
             for child in childXmlNames:
-                settings[child] = mo
+                settings[child] = mcopy
 
     return settings

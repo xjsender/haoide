@@ -870,6 +870,101 @@ def get_view_by_id(view_id):
 
     return view
 
+def get_child_types(parent_type):
+    """ Get child types by parent type
+
+    Parameter:
+        * parent_type -- Parent Metadata Object
+
+    Return:
+        * child_types -- Child Metadata Objects of parent
+    """
+
+    settings = context.get_settings()
+    child_types = settings[parent_type].get("childXmlNames", [])
+    if isinstance(child_types, str):
+        child_types = [child_types]
+
+    return child_types
+
+def parse_package_types(_types):
+    """ Build structure
+        From: {
+            "CustomObject": ["A__c", "B__c"],
+            "CustomField": ["A__c.A__c", "A__c.A1__c", "B__c.B__c"],
+            "ValidationRule": ["A__c.VR1", "B__c.BR2"]
+            "ApexClass": ["AClass", "BClass", "CClass"]
+        }
+
+        To: {
+            "CustomObject": {
+                "A__c": {
+                    "CustomField": ["A.A__c", "A.B__c"],
+                    "ValidationRule": ["A.VR1"]
+                },
+                "B__c": {
+                    "CustomField": ["B__c.B__c"],
+                    "ValidationRule": ["B__c.BR2"]
+                }
+            },
+            "ApexClass": ["A", "B", "C"]
+        }
+    """
+    settings = context.get_settings()
+    package_types = {}
+    for _type, elements in _types.items():
+        attr = settings[_type]
+        _child_types = attr.get("childXmlNames", [])
+
+        # If _type is child type, for example,
+        # CustomField, ListView
+        if _type != attr["xmlName"]:
+            continue
+
+        # If no child XML
+        if not _child_types:
+            # If no elements, don't keep it
+            if not elements:
+                continue
+            
+            # inFolder is false
+            if attr["inFolder"] == "false":
+                package_types[_type] = elements
+            else:
+                # Build structure as {folder: [elements]}
+                folder_elements = {}
+                for folder in [e for e in elements if "/" not in e]:
+                    folder_elements[folder] = [
+                        e for e in elements if e.startswith(folder) \
+                            and "/" in e
+                    ]
+                package_types[_type] = folder_elements
+            continue
+
+        if isinstance(_child_types, str):
+            _child_types = [_child_types]
+
+        child_cache = {}
+        for _child_type in _child_types:
+            if _child_type not in _types:
+                continue
+
+            parent_to_children = {}
+            for parent in elements:
+                children = []
+                for _child_element in _types[_child_type]:
+                    if _child_element.startswith(parent):
+                        children.append(_child_element)
+
+                if children:
+                    parent_to_children[parent] = children
+
+            child_cache[_child_type] = parent_to_children
+
+        package_types[_type] = child_cache
+
+    return package_types
+
 def build_package_types(package_xml_content):
     result = xmltodict.parse(package_xml_content)
 
