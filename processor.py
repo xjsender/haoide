@@ -725,8 +725,11 @@ def handle_export_customfield(timeout=120):
         outputdir = os.path.join(settings["workspace"], ".export")
         if not os.path.exists(outputdir): os.makedirs(outputdir)
         records = sorted(result["records"], key=lambda k : k['TableEnumOrId'])
-        util.list2csv(outputdir + "/CustomField.csv", records)
-        sublime.active_window().run_command("refresh_folder_list")
+        outputfile = os.path.join(outputdir, "CustomField.csv")
+        util.list2csv(outputfile, records)
+
+        # Open the csv file
+        view = sublime.active_window().open_file(outputfile)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
