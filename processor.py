@@ -730,7 +730,7 @@ def handle_export_customfield(timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    query = "SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix,FullName FROM CustomField"
+    query = "SELECT Id,TableEnumOrId,DeveloperName,NamespacePrefix FROM CustomField"
     thread = threading.Thread(target=api.query, args=(query, True,))
     thread.start()
     ThreadProgress(api, thread, 'Exporting CustomFields', "Exporting CustomFields Succeed")
