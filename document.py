@@ -56,7 +56,7 @@ class ReloadDocument():
             Printer.get("log").write("Reloading %s" % toc_label)
             toc_url = self.toc_url.format(toc_type=toc_type)
             try: 
-                res = requests.get(toc_url)
+                res = requests.get(toc_url, verify=False)
                 result = res.json()
             except Exception as e: 
                 Printer.get("log").write("----->Failed to reload %s, reason: %s" % (
