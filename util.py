@@ -1524,7 +1524,16 @@ def parse_package(package_content):
 
     return "".join(elements) + "<met:version>%s</met:version>" % result["Package"]["version"]
 
-def reload_apex_code_cache(file_properties, settings=None):
+def reload_file_attributes(file_properties, settings=None, append=False):
+    """ Keep the file attribute to local cache
+
+    Paramter:
+        * file_properties -- file attributes returned from server
+        * settings -- whole plugin settings
+        * append -- default is False, if append is false, it means local cache
+                    of default project are reloaded by file properties, otherwise,
+                    file properties will be appended to local cache
+    """
     # Get settings
     if not settings: 
         settings = context.get_settings()
@@ -1541,7 +1550,10 @@ def reload_apex_code_cache(file_properties, settings=None):
     if isinstance(file_properties, dict): 
         file_properties = [file_properties]
 
-    all_components_attr = {}
+    component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
+    csettings = component_settings.get(settings["username"], {})
+
+    all_components_attr = csettings if append else {}
     for filep in file_properties:
         metdata_object = filep["type"]
 
@@ -1559,7 +1571,7 @@ def reload_apex_code_cache(file_properties, settings=None):
         extension = ".%s" % base_name[last_point+1:]
         
         attrs = {
-            "namespacePrefix": filep["namespacePrefix"] if "namespacePrefix" in filep else "",
+            "namespacePrefix": filep.get("namespacePrefix", None),
             "name": name,
             "fileName": filep['fileName'],
             "fullName": filep["fullName"],
@@ -1583,10 +1595,6 @@ def reload_apex_code_cache(file_properties, settings=None):
         components_attr[base_name.lower()] = attrs
         all_components_attr[metdata_object] = components_attr
 
-    component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
-    csettings = component_settings.get(settings["username"])
-    if not csettings:
-        csettings = {}
     for metadata_object, v in all_components_attr.items():
         csettings[metadata_object] = v
     component_settings.set(settings["username"], csettings)
