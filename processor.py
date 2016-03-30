@@ -256,7 +256,7 @@ def handle_refresh_folder(types, ignore_package_xml=True, timeout=120):
             args=(result["zipFile"], extract_to, ignore_package_xml, ))
         thread.start()
 
-        util.reload_apex_code_cache(result["fileProperties"], settings)
+        util.reload_file_attributes(result["fileProperties"], settings)
 
         # Hide panel 0.5 seconds later
         sublime.set_timeout_async(Printer.get("log").hide_panel, 500)
@@ -561,7 +561,8 @@ def handle_destructive_package_xml(types, timeout=120):
     ThreadProgress(api, thread, "Destructing Package.xml", "Destructing Package.xml Succeed")
     handle_thread(thread, timeout)
 
-def handle_deploy_thread(base64_encoded_zip, source_org=None, timeout=120):
+def handle_deploy_thread(base64_encoded_zip, 
+        source_org=None, chosen_classes=[], timeout=120):
     def handle_thread(thread, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -573,7 +574,10 @@ def handle_deploy_thread(base64_encoded_zip, source_org=None, timeout=120):
 
     settings = context.get_settings()
     api = MetadataApi(settings)
-    thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip, ))
+    thread = threading.Thread(target=api.deploy, args=(
+        base64_encoded_zip, 
+        chosen_classes, 
+    ))
     thread.start()
     ThreadProgress(api, thread, "Deploy Metadata to %s" % settings["default_project_name"], 
         "Metadata Deployment Finished")
@@ -1285,7 +1289,7 @@ def handle_new_project(is_update=False, timeout=120):
 
         # Apex Code Cache
         if "fileProperties" in result and isinstance(result["fileProperties"], list):
-            util.reload_apex_code_cache(result["fileProperties"], settings)
+            util.reload_file_attributes(result["fileProperties"], settings)
         else:
             if settings["debug_mode"]:
                 print ('[Debug] fileProperties:\n' + json.dumps(result, indent=4))
@@ -1447,7 +1451,10 @@ def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_x
 
             # Apex Code Cache
             if isinstance(api.result.get("fileProperties", None), list):
-                util.reload_apex_code_cache(api.result["fileProperties"], settings)
+                util.reload_file_attributes(
+                    api.result["fileProperties"], 
+                    settings, append=True
+                )
 
     # Start to request
     settings = context.get_settings()

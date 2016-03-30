@@ -1247,20 +1247,21 @@ class FetchOrgWideCoverageCommand(sublime_plugin.WindowCommand):
     def run(self):
         pass
 
-class RunSyncTests(sublime_plugin.WindowCommand):
+class ChooseTestClasses(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(RunSyncTests, self).__init__(*args, **kwargs)
+        super(ChooseTestClasses, self).__init__(*args, **kwargs)
 
-    def run(self):
+    def run(self, callback_options={}):
+        self.callback_options = callback_options
+
         if not hasattr(self, "chosen_classes"):
             self.chosen_classes = []
 
         # Get all classes
         self.classes_attr = util.populate_components("ApexClass")
 
-        selected_items = []
-        unselected_items = []
         self.classmap = {}
+        selected_items = []; unselected_items = []
         for key, item in self.classes_attr.items():
             if not item["is_test"]:
                 continue
@@ -1283,13 +1284,17 @@ class RunSyncTests(sublime_plugin.WindowCommand):
             self.classmap[classItem] = cname
 
         if not self.classmap:
-            return Printer.get('error').write("There is no available test class");
+            settings = context.get_settings()
+            return Printer.get('error').write(
+                "No available test class in {org_name} org".format(
+                    org_name=settings["default_project_name"]
+                )
+            );
         
         # Add `All` Item
         allItem = "[%s] All" % (
             "√" if self.chosen_classes else "x"
         )
-        self.classmap[allItem] = "*"
         self.items = [allItem]
 
         # Add class items
@@ -1307,15 +1312,23 @@ class RunSyncTests(sublime_plugin.WindowCommand):
 
     def on_done(self, index):
         if index == -1:
+            callback_command = self.callback_options["callback_command"]
             if self.chosen_classes:
-                processor.handle_run_sync_test(self.chosen_classes)
+                args = self.callback_options.get("args", {})
+                args["chosen_classes"] = self.chosen_classes
+                return sublime.active_window().run_command(
+                    callback_command, args
+                )
+            if callback_command == "deploy_package":
+                Printer.get("error").write(
+                    "You should choose at least one test class"
+                )
             return
 
         self.index = index
         chosen_item = self.items[index]
-        class_attr = self.classmap[chosen_item]
 
-        if class_attr == "*":
+        if chosen_item.endswith(" All"):
             if len(self.chosen_classes) == len(self.items) - 1:
                 self.chosen_classes = []
             else:
@@ -1324,13 +1337,29 @@ class RunSyncTests(sublime_plugin.WindowCommand):
                     if v == "*": continue
                     self.chosen_classes.append(v)
         else:
+            class_attr = self.classmap[chosen_item]
             class_name = class_attr
             if class_name in self.chosen_classes:
                 self.chosen_classes.remove(class_name)
             else:
                 self.chosen_classes.append(class_name)
 
-        sublime.set_timeout_async(self.run, 10)
+        sublime.set_timeout_async(self.run(
+            callback_options=self.callback_options
+        ), 10)
+
+class RunSyncTests(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(RunSyncTests, self).__init__(*args, **kwargs)
+
+    def run(self, chosen_classes=[]):
+        if not chosen_classes:
+            return self.window.run_command('choose_test_classes', {
+                "callback_options": {
+                    "callback_command": "run_sync_tests"
+                }
+            })
+        processor.handle_run_sync_test(chosen_classes)
 
 class RunSyncTest(sublime_plugin.TextCommand):
     def run(self, edit):

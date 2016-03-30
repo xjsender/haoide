@@ -48,7 +48,7 @@ class DeployLightingToServer(sublime_plugin.WindowCommand):
             })
 
         base64_package = util.build_aura_package(dirs)
-        processor.handle_deploy_thread(base64_package, source_org)
+        processor.handle_deploy_thread(base64_package, source_org=source_org)
 
     def is_visible(self, dirs, switch_project=True):
         if not dirs or len(dirs) == 0: return False

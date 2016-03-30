@@ -51,11 +51,11 @@ class MetadataApi():
 
     def _invoke_method(self, _method, options={}):
         """ Support below methods:
-            * describe_metadata
-            * read_metadata
-            * rename_metadata
-            * delete_metadata
-            * cancel_deployment
+            * describeMetadata
+            * readMetadata
+            * renameMetadata
+            * deleteMetadata
+            * cancelDeployment
         """
 
         result = self.login()
@@ -484,7 +484,7 @@ class MetadataApi():
 
         return result
         
-    def deploy(self, base64_zip):
+    def deploy(self, base64_zip, test_classes=[]):
         """ Deploy zip file
 
         Arguments:
@@ -497,7 +497,7 @@ class MetadataApi():
         # Log the StartTime
         start_time = datetime.datetime.now()
 
-        # Populate the soap_body with actual session id
+        # Populate the soap_body with actual options
         deploy_options = self.settings["deploy_options"]
         
         # If just checkOnly, output VALIDATE, otherwise, output DEPLOY
@@ -507,6 +507,14 @@ class MetadataApi():
         Printer.get('log').write_start().write("[sf:%s] Start request for a deploy..." % deploy_or_validate)
         options = deploy_options
         options["zipfile"] = base64_zip
+
+        # If testLevel is Run Specified Test, 
+        # we need to specify the runTests
+        testLevel = options.get("testLevel", "NoTestRun") 
+        if testLevel == "RunSpecifiedTests":
+            options["runTests"] = "\n".join([
+                "<met:runTests>%s</met:runTests>" % c for c in test_classes
+            ])
         soap_body = self.soap.create_request('deploy', options)
 
         try:

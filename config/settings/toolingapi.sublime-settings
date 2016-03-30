@@ -70,7 +70,7 @@
         // ".history"
     ],
 
-    // Solution for issue #49
+    // Solution for issue #49 in https://github.com/xjsender/SublimeApex
     // It works when reload sObjects cache or export workbooks
     // Setting for controlling maximum concurrent connections with salesforce
     "maximum_concurrent_connections": 30,
@@ -208,6 +208,8 @@
 
     // Deploy Options, if you just want to valid a deployment,
     // you can copy this setting to user settings and set checkOnly to true
+    // 
+    // testLevel: NoTestRun, RunSpecifiedTests, RunLocalTests, RunAllTestsInOrg
     "deploy_options" : {
         "allowMissingFiles" : false,
         "autoUpdatePackage" : false,
@@ -216,8 +218,9 @@
         "performRetrieve" : false,
         "purgeOnDelete" : false,
         "rollbackOnError" : true,
-        "runAllTests" : false,
-        "singlePackage" : true
+        "singlePackage" : true,
+        "testLevel": "NoTestRun",
+        "runTests" : ""
     },
 
     // The return number of "fetch logs" command

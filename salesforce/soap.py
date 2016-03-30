@@ -209,7 +209,8 @@ class SOAP():
                     <met:performRetrieve>{performRetrieve}</met:performRetrieve>
                     <met:purgeOnDelete>{purgeOnDelete}</met:purgeOnDelete>
                     <met:rollbackOnError>{rollbackOnError}</met:rollbackOnError>
-                    <met:runAllTests>{runAllTests}</met:runAllTests>
+                    <met:testLevel>{testLevel}</met:testLevel>
+                    {runTests}
                     <met:singlePackage>{singlePackage}</met:singlePackage>
                 </met:DeployOptions>
             </met:deploy>

@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+Release 3.3.7 (2016-03-28)
+++++++++++++++++++
+* Fix issue #88
+* Fix issue #99, problem of ``reload document``
+* Deliver enhancement for issue #96
+* Open exported CSV file when execute ``Export CustomField`` command
+
+
 Release 3.3.6 (2016-03-28)
 ++++++++++++++++++
 * Fix issue #98

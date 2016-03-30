@@ -26,7 +26,7 @@ There has a setting ``switch_back_after_migration`` to control whether switch ba
 
     - This command is just enabled when any one of open files is salesforce code files.
 
-* Deploy Package Folder Step by Step, [demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif) is here
+* Deploy Package Folder Step by Step, [demo](https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/DeployPackageFolder.gif) is here, if you just want to run specified test, you can change your ``testLevel`` in the ``deploy_options`` setting.
     - Choose a valid package folder, for example, ``src`` folder or ``Project/src``, plugin will check whether ``src`` folder contains ``package.xml`` file, if yes, you will ``Deploy To Server`` command in the sidebar menu, otherwise, ``Deploy To Server`` will be hidden
     - Click the ```Deploy To Server`` command
     - Waiting and checking the progress message in the output panel

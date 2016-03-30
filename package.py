@@ -124,20 +124,20 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
             self.metadata_objects.extend(child_types)
 
         self.selected_index = 0
-        self.chosen_metadata_objects = []
+        self.chosen_types = []
         self.build_items();
 
     def build_items(self):
         self.items = []
 
-        if self.chosen_metadata_objects:
+        if self.chosen_types:
             self.items.append("[√]All")
         else:
             self.items.append("[x]All")
 
         for m in sorted(self.settings["all_metadata_objects"]):
             # Add parent to items
-            if m in self.chosen_metadata_objects:
+            if m in self.chosen_types:
                 self.items.append("    [%s]%s" % ("√", m))
             else:
                 self.items.append("    [%s]%s" % ("x", m))
@@ -145,7 +145,7 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
             # Add children to items
             child_types = util.get_child_types(m)
             for c in child_types:
-                if c in self.chosen_metadata_objects:
+                if c in self.chosen_types:
                     self.items.append("        [%s]%s" % ("√", c))
                 else:
                     self.items.append("        [%s]%s" % ("x", c))
@@ -157,9 +157,9 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
         if index == -1:
             # Just when you select one metadata_object at least,
             # start to reload cache, otherwise, do nothing
-            if self.chosen_metadata_objects:
+            if self.chosen_types:
                 chosen_types = {}
-                for c in self.chosen_metadata_objects:
+                for c in self.chosen_types:
                     chosen_types[c] = ["*"]
 
                 processor.handle_reload_project_cache(chosen_types, 
@@ -170,12 +170,12 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
         self.selected_index = index
         selected_item = self.items[index]
         if selected_item == "[x]All":
-            self.chosen_metadata_objects = self.metadata_objects[:]
+            self.chosen_types = self.metadata_objects[:]
         elif selected_item == "[√]All":
-            if len(self.chosen_metadata_objects) == len(self.metadata_objects):
-                self.chosen_metadata_objects = []
+            if len(self.chosen_types) == len(self.metadata_objects):
+                self.chosen_types = []
             else:
-                self.chosen_metadata_objects = self.metadata_objects[:]
+                self.chosen_types = self.metadata_objects[:]
         else:
             chosen_type = selected_item.strip()[3:]
 
@@ -187,18 +187,18 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
 
             if "[x]" in selected_item:
                 if chosen_type == parent_type:
-                    if chosen_type not in self.chosen_metadata_objects:
-                        self.chosen_metadata_objects.append(chosen_type)
+                    if chosen_type not in self.chosen_types:
+                        self.chosen_types.append(chosen_type)
                     for c in child_types:
-                        self.chosen_metadata_objects.append(c)
+                        self.chosen_types.append(c)
                 else:
                     # Add chosen selected child metadata object
-                    if chosen_type not in self.chosen_metadata_objects:
-                        self.chosen_metadata_objects.append(chosen_type)
+                    if chosen_type not in self.chosen_types:
+                        self.chosen_types.append(chosen_type)
 
                     # Add parent metadata object of selected child
-                    if parent_type not in self.chosen_metadata_objects:
-                        self.chosen_metadata_objects.append(parent_type)
+                    if parent_type not in self.chosen_types:
+                        self.chosen_types.append(parent_type)
             else:
                 # Get all chosen child xml names
                 parent_type = parent_type
@@ -206,28 +206,28 @@ class ReloadProjectCache(sublime_plugin.WindowCommand):
 
                 chosen_child_types = []
                 for c in child_types:
-                    if c in self.chosen_metadata_objects:
+                    if c in self.chosen_types:
                         chosen_child_types.append(c)
 
                 if parent_type == chosen_type:
                     if len(child_types) == len(chosen_child_types):
-                        self.chosen_metadata_objects.remove(chosen_type)
+                        self.chosen_types.remove(chosen_type)
 
                         for c in child_types:
-                            if c in self.chosen_metadata_objects:
-                                self.chosen_metadata_objects.remove(c)
+                            if c in self.chosen_types:
+                                self.chosen_types.remove(c)
                     else:
                         for c in child_types:
-                            if c not in self.chosen_metadata_objects:
-                                self.chosen_metadata_objects.append(c)
+                            if c not in self.chosen_types:
+                                self.chosen_types.append(c)
                 else:
                     # Remove child
-                    self.chosen_metadata_objects.remove(chosen_type)
+                    self.chosen_types.remove(chosen_type)
 
                     # If all siblings are also not exist in selected list,
                     # parent should also be removed from selected list
                     if len(chosen_child_types) == 1:
-                        self.chosen_metadata_objects.remove(parent_type)
+                        self.chosen_types.remove(parent_type)
 
         self.build_items()
 
@@ -258,7 +258,7 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
                 "callback_command": "build_package_xml"
             })
 
-        self.package = json.loads(open(package_cache).read())
+        self.cache = json.loads(open(package_cache).read())
 
         # Get types from settings of current view,
         # if current view doesn't have the `types` setting,
@@ -288,8 +288,8 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         
         self.members = []
         self.matched_package = {}
-        for metadata_object in sorted(self.package.keys()):
-            if not self.package[metadata_object]: continue
+        for metadata_object in sorted(self.cache.keys()):
+            if not self.cache[metadata_object]: continue
             if metadata_object in types:
                 display = "[√]" + metadata_object
             else:
@@ -297,7 +297,7 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
             self.members.append(display)
 
             matched_members = []
-            for mem in self.package[metadata_object]:
+            for mem in self.cache[metadata_object]:
                 if self.filters and not self.is_filter_match(mem):
                     continue
                 matched_members.append(mem)
@@ -349,13 +349,13 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         chosen_element = self.members[index]
 
         if " => " in chosen_element:
-            chosen_metadata_object, chosen_member = chosen_element.split(" => ")
-            is_chosen = "[√]" in chosen_metadata_object
-            chosen_metadata_object = chosen_metadata_object[7:]
+            chosen_type, chosen_member = chosen_element.split(" => ")
+            is_chosen = "[√]" in chosen_type
+            chosen_type = chosen_type[7:]
         else:
-            chosen_metadata_object, chosen_member = chosen_element, None
-            is_chosen = "[√]" in chosen_metadata_object
-            chosen_metadata_object = chosen_metadata_object[3:]
+            chosen_type, chosen_member = chosen_element, None
+            is_chosen = "[√]" in chosen_type
+            chosen_type = chosen_type[3:]
 
         view = self.window.active_view()
         if not view or not view.settings().has("types"): 
@@ -370,26 +370,23 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         types = view.settings().get("types", {})
 
         if not chosen_member:
-            if not is_chosen:
-                types[chosen_metadata_object] = self.matched_package[chosen_metadata_object]
+            if not is_chosen or len(types[chosen_type]) != len(self.matched_package[chosen_type]):
+                types[chosen_type] = self.matched_package[chosen_type]
             else:
-                if len(types[chosen_metadata_object]) != len(self.matched_package[chosen_metadata_object]):
-                    types[chosen_metadata_object] = self.matched_package[chosen_metadata_object]
-                else:
-                    del types[chosen_metadata_object]
-        elif chosen_metadata_object in types:
+                del types[chosen_type]
+        elif chosen_type in types:
             if not is_chosen:
-                if chosen_member not in types[chosen_metadata_object]:
-                    types[chosen_metadata_object].append(chosen_member)
+                if chosen_member not in types[chosen_type]:
+                    types[chosen_type].append(chosen_member)
             else:
-                if len(types[chosen_metadata_object]) > 1:
+                if len(types[chosen_type]) > 1:
                     # If there has more than one member, just remove the chosen member
-                    types[chosen_metadata_object].remove(chosen_member)
+                    types[chosen_type].remove(chosen_member)
                 else:
                     # If there is only one member, just remove the type
-                    del types[chosen_metadata_object]
+                    del types[chosen_type]
         else:
-            types[chosen_metadata_object] = [chosen_member]
+            types[chosen_type] = [chosen_member]
 
         view.settings().set("types", types)
 
@@ -550,8 +547,9 @@ class DeployPackage(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployPackage, self).__init__(*args, **kwargs)
 
-    def run(self, dirs, switch=True, source_org=None):
+    def run(self, dirs, switch=True, source_org=None, chosen_classes=[]):
         settings = context.get_settings()
+        source_org = settings["default_project_name"]
 
         if switch:
             return self.window.run_command("switch_project", {
@@ -560,13 +558,30 @@ class DeployPackage(sublime_plugin.WindowCommand):
                     "args": {
                         "dirs": dirs,
                         "switch": False,
-                        "source_org": settings["default_project_name"]
+                        "source_org": source_org
                     }
                 }
             })
 
-        processor.handle_deploy_thread(util.compress_package(self.package_dir), 
-            source_org=source_org);
+        deploy_options = settings["deploy_options"]
+        testLevel = deploy_options.get("testLevel", "NoTestRun") 
+        if testLevel == "RunSpecifiedTests" and not chosen_classes:
+            return self.window.run_command("choose_test_classes", {
+                "callback_options": {
+                    "callback_command": "deploy_package", 
+                    "args": {
+                        "dirs": dirs,
+                        "switch": False,
+                        "source_org": source_org
+                    }
+                }
+            })
+
+        processor.handle_deploy_thread(
+            util.compress_package(self.package_dir), 
+            source_org=source_org,
+            chosen_classes=chosen_classes
+        );
 
     def is_visible(self, dirs):
         if not dirs: return False
