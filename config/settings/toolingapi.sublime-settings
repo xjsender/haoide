@@ -206,10 +206,14 @@
         }
     ],
 
-    // Deploy Options, if you just want to valid a deployment,
+    // Deploy Options, 
+    // If you just want to valid a deployment,
     // you can copy this setting to user settings and set checkOnly to true
     // 
+    // Enhancement for issue #96
     // testLevel: NoTestRun, RunSpecifiedTests, RunLocalTests, RunAllTestsInOrg
+    // If you want to run specified test classes when deploy, 
+    // you can set testLevel to RunSpecifiedTests
     "deploy_options" : {
         "allowMissingFiles" : false,
         "autoUpdatePackage" : false,
@@ -219,7 +223,7 @@
         "purgeOnDelete" : false,
         "rollbackOnError" : true,
         "singlePackage" : true,
-        "testLevel": "NoTestRun",
+        "testLevel": "NoTestRun", 
         "runTests" : ""
     },
 
