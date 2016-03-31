@@ -984,8 +984,9 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployFilesToServer, self).__init__(*args, **kwargs)
 
-    def run(self, files, switch=True, source_org=None):
+    def run(self, files, switch=True, source_org=None, chosen_classes=[]):
         settings = context.get_settings()
+        source_org = settings["default_project_name"]
 
         if switch:
             return self.window.run_command("switch_project", {
@@ -994,7 +995,21 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
                     "args": {
                         "files": files,
                         "switch": False,
-                        "source_org": settings["default_project_name"]
+                        "source_org": source_org
+                    }
+                }
+            })
+
+        deploy_options = settings["deploy_options"]
+        testLevel = deploy_options.get("testLevel", "NoTestRun") 
+        if testLevel == "RunSpecifiedTests" and not chosen_classes:
+            return self.window.run_command("choose_test_classes", {
+                "callback_options": {
+                    "callback_command": "deploy_files_to_server", 
+                    "args": {
+                        "files": files,
+                        "switch": False,
+                        "source_org": source_org
                     }
                 }
             })
@@ -1008,7 +1023,11 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
 
         # Keep the files to deploy
         base64_encoded_zip = util.build_deploy_package(files)
-        processor.handle_deploy_thread(base64_encoded_zip, source_org=source_org)
+        processor.handle_deploy_thread(
+            base64_encoded_zip, 
+            source_org=source_org,
+            chosen_classes=chosen_classes
+        )
 
     def is_visible(self, files):
         """
