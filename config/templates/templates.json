@@ -1,0 +1,146 @@
+{
+    "Aura": {
+        "Application": {
+            "directory": "Aura/Application.app",
+            "extension": ".app",
+            "children": ["Controller", "Helper", "Style", "Documentation", "Renderer", "Design", "SVG"]
+        },
+
+        "Component": {
+            "directory": "Aura/Component.cmp",
+            "extension": ".cmp",
+            "children": ["Controller", "Helper", "Style", "Documentation", "Renderer", "Design", "SVG"]
+        },
+
+        "Interface": {
+            "directory": "Aura/Interface.intf",
+            "extension": ".intf",
+            "children": []
+        },
+
+        "Event": {
+            "directory": "Aura/Event.evt",
+            "extension": ".evt",
+            "children": []
+        }
+    },
+
+    "AuraElement": {
+        "Controller": {
+            "directory": "AuraElement/Controller.js",
+            "extension": ".js"
+        },
+
+        "Helper": {
+            "directory": "AuraElement/Helper.js",
+            "extension": ".js"
+        },
+
+        "Style": {
+            "directory": "AuraElement/Style.css",
+            "extension": ".css"
+        },
+
+        "Documentation": {
+            "directory": "AuraElement/Documentation.auradoc",
+            "extension": ".auradoc"
+        },
+
+        "Renderer": {
+            "directory": "AuraElement/Renderer.js",
+            "extension": ".js"
+        },
+
+        "Design": {
+            "directory": "AuraElement/Design.design",
+            "extension": ".design"
+        },
+
+        "SVG": {
+            "directory": "AuraElement/SVG.svg",
+            "extension": ".svg"
+        }
+    },
+
+    "ApexClass": {
+        "Basic": {
+            "directory": "ApexClass/Basic.cls",
+            "extension": ".cls",
+            "description": "Basic Pattern"
+        },
+        "Batch": {
+            "directory": "ApexClass/Batch.cls",
+            "extension": ".cls",
+            "description": "Batch Class Template"
+        },
+        "Controller": {
+            "directory": "ApexClass/Controller.cls",
+            "extension": ".cls",
+            "description": "Custom Controller"
+        },
+        "StandardController Extension": {
+            "directory": "ApexClass/StandardController Extension.cls",
+            "extension": ".cls",
+            "description": "directory for StandardController"
+        },
+        "StandardSetController Extension": {
+            "directory": "ApexClass/StandardSetController Extension.cls",
+            "extension": ".cls",
+            "description": "directory for StandardSetController"
+        },
+        "Schedule": {
+            "directory": "ApexClass/Schedule.cls",
+            "extension": ".cls",
+            "description": "Schedule Class Template"
+        },
+        "Exception": {
+            "directory": "ApexClass/Exception.cls",
+            "extension": ".cls",
+            "description": "Exception Class"
+        },
+        "Apex REST": {
+            "directory": "ApexClass/Apex REST.cls",
+            "extension": ".cls",
+            "description": "Exception Class"
+        },
+        "Test": {
+            "directory": "ApexClass/Test.cls",
+            "extension": ".cls",
+            "description": "Test Class"
+        },
+        "Triggers Template": {
+            "directory": "ApexClass/Triggers Template.cls",
+            "extension": ".cls",
+            "description": "Triggers Template"
+        },
+        "Triggers Implementation": {
+            "directory": "ApexClass/Triggers Implementation.cls",
+            "extension": ".cls",
+            "description": "Implementation Class for Triggers Template"
+        }
+    },
+
+    "ApexTrigger": {
+        "Basic": {
+            "directory": "ApexTrigger/Basic.trigger",
+            "extension": ".trigger",
+            "description": "Trigger Template"
+        }
+    },
+    
+    "ApexComponent": {
+        "Basic": {
+            "directory": "ApexComponent/Basic.component",
+            "extension": ".component",
+            "description": "component Template"
+        }
+    },
+
+    "ApexPage": {
+        "Basic": {
+            "directory": "ApexComponent/Basic.page",
+            "extension": ".page",
+            "description": "Visualforce Page Template"
+        }
+    }
+}

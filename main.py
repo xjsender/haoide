@@ -1839,10 +1839,10 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         self.markup_or_body = markup_or_body
         self.sobject_name = sobject_name
 
-        template_settings = sublime.load_settings("template.sublime-settings")
-        self.templates = template_settings.get("template")
+        self.templates = util.load_templates()
         templates = self.templates[self.component_type]
         self.template_names = [[n, templates[n]["description"]] for n in templates]
+        self.template_names = sorted(self.template_names)
 
         # After input # in visualforce page, we can get 
         # the component name and template name, no need to choose again
@@ -1883,15 +1883,18 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         self.create_component()
 
     def create_component(self):
-        extension = self.template_attr["extension"]
-        body = self.template_attr["body"]
-        if extension == ".trigger":
-            body = body.replace("trigger_name", self.component_name).replace("sobject_name", self.sobject_name)
-        elif extension == ".cls":
-            body = body.replace("class_name", self.component_name)
-
         self.settings = context.get_settings()
         workspace = self.settings["workspace"]
+
+        extension = self.template_attr["extension"]
+        directory = self.template_attr["directory"]
+        with open(os.path.join(workspace, ".templates", directory)) as fp:
+            body = fp.read()
+        if extension == ".trigger":
+            body = body.replace("Trigger_Name__c", self.component_name).replace("Sobject_Name__c", self.sobject_name)
+        elif extension == ".cls":
+            body = body.replace("Class_Name__c", self.component_name)
+
         component_outputdir = os.path.join(workspace, "src", self.settings[self.component_type]["directoryName"])
         if not os.path.exists(component_outputdir):
             os.makedirs(component_outputdir)

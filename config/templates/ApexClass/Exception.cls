@@ -1,0 +1,1 @@
+public class Class_Name__c extends Exception {}

@@ -200,12 +200,13 @@ class CreateLightingElement(sublime_plugin.WindowCommand):
         """
 
         # Get template attribute
-        template_settings = sublime.load_settings("template.sublime-settings")
-        template = template_settings.get("template").get("AuraElement").get(element)
-        extension = template["extension"]
-        body = template["body"]
-
+        templates = util.load_templates()
+        template = templates.get("AuraElement").get(element)
+        with open(os.path.join(workspace, ".templates", template["directory"])) as fp:
+            body = fp.read()
+        
         # JS Component is different with others
+        extension = template["extension"]
         element_name = "%s%s%s" % (
             self.aura_name,
             element if extension == ".js" else "", 
@@ -280,8 +281,10 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
             return
 
         # Get template attribute
-        template_settings = sublime.load_settings("template.sublime-settings")
-        template = template_settings.get("template").get("Aura").get(self._type)
+        templates = util.load_templates()
+        template = templates.get("Aura").get(self._type)        
+        with open(os.path.join(workspace, ".templates", template["directory"])) as fp:
+            body = fp.read()
 
         # Build dir for new lighting component
         settings = context.get_settings()
@@ -299,7 +302,7 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
 
         # Create Aura lighting file
         with open(lihghting_file, "w") as fp:
-            fp.write(template["body"])
+            fp.write(body)
 
         # If created succeed, just open it and refresh project
         window = sublime.active_window()

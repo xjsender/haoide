@@ -90,8 +90,6 @@ class ToolingApi():
                     response_result = response_result[0]                    
             except:
                 response_result = {"Error Message": res.text}
-
-            response_result["url"] = res.url
             response_result["success"] = False
         else:
             try:

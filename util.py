@@ -26,6 +26,57 @@ from . import context
 from xml.sax.saxutils import unescape
 
 
+def load_templates():
+    settings = context.get_settings()
+    target_dir = os.path.join(settings["workspace"], ".templates")
+
+    templates_dir = os.path.join(target_dir, "templates.json")
+    if not os.path.isfile(templates_dir):
+        source_dir = os.path.join(
+            sublime.installed_packages_path(), 
+            "haoide.sublime-package"
+        )
+
+        if os.path.isfile(source_dir):
+            extract_zipfile(
+                source_dir, target_dir
+            )
+        else:
+            source_dir = os.path.join(
+                sublime.packages_path(), "haoide/config/templates"
+            )
+            print (source_dir)
+            copy_files(source_dir, target_dir)
+
+    with open(templates_dir) as fp:
+        templates = json.loads(fp.read())
+
+    return templates
+
+def copy_files(source_dir, target_dir):
+    """ Copy whole path drom source dir to target dir
+
+    Paramter:
+        @source_dir -- Source Directory
+        @target_dir -- Target Directory
+    """
+
+    for _file in os.listdir(source_dir): 
+        sourceFile = os.path.join(source_dir, _file) 
+        targetFile = os.path.join(target_dir, _file) 
+
+        if os.path.isfile(sourceFile): 
+            if not os.path.exists(target_dir): 
+                os.makedirs(target_dir) 
+            if not os.path.exists(targetFile) or (
+                    os.path.exists(targetFile) and (
+                        os.path.getsize(targetFile) != os.path.getsize(sourceFile)
+                    )):
+                open(targetFile, "wb").write(open(sourceFile, "rb").read()) 
+        if os.path.isdir(sourceFile): 
+            First_Directory = False 
+            copy_files(sourceFile, targetFile) 
+
 def get_described_metadata(settings):
     cache_file = os.path.join(
         settings["workspace"], 
