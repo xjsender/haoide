@@ -29,6 +29,8 @@ from xml.sax.saxutils import unescape
 def load_templates():
     settings = context.get_settings()
     target_dir = os.path.join(settings["workspace"], ".templates")
+    if not os.path.exists(target_dir): 
+        os.makedirs(target_dir)
 
     templates_dir = os.path.join(target_dir, "templates.json")
     if not os.path.isfile(templates_dir):
@@ -38,14 +40,26 @@ def load_templates():
         )
 
         if os.path.isfile(source_dir):
-            extract_zipfile(
-                source_dir, target_dir
-            )
+            zfile = zipfile.ZipFile(source_dir, 'r')
+            for filename in zfile.namelist():
+                if filename.endswith('/'): continue
+                if filename.startswith("config/templates/"):
+                    f = os.path.join(
+                        target_dir,
+                        filename.replace("config/templates/", "")
+                    )
+
+                    if not os.path.exists(os.path.dirname(f)):
+                        os.makedirs(os.path.dirname(f))
+
+                    with open(f, "wb") as fp:
+                        fp.write(zfile.read(filename))
+
+            zfile.close()
         else:
             source_dir = os.path.join(
                 sublime.packages_path(), "haoide/config/templates"
             )
-            print (source_dir)
             copy_files(source_dir, target_dir)
 
     with open(templates_dir) as fp:

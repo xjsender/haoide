@@ -69,8 +69,7 @@ class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
 
     def run(self, app_name=None):
         if app_name:
-            self.app_name = app_name
-            return self.preview_app()
+            return self.preview_app(app_name)
 
         # Get all available apps to preview in the local aura path
         aura_dir = os.path.join(self.settings["workspace"], "src", "aura")
@@ -90,13 +89,12 @@ class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
 
     def on_chosen(self, index):
         if index == -1: return
-        self.app_name = self.app_names[index]
-        self.preview_app()
+        self.preview_app(self.app_names[index])
 
-    def preview_app(self):
+    def preview_app(self, app_name):
         instance = util.get_instance(self.settings)
         start_url = "https://%s.lightning.force.com/%s/%s.app" % (
-            instance, self.namespace, self.app_name
+            instance, self.namespace, app_name
         )
         self.window.run_command("login_to_sfdc", {"startURL": start_url})
 
@@ -280,6 +278,10 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
                 "", self.on_input, None, None)
             return
 
+        # Get settings
+        settings = context.get_settings()
+        workspace = settings["workspace"]
+
         # Get template attribute
         templates = util.load_templates()
         template = templates.get("Aura").get(self._type)        
@@ -287,8 +289,7 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
             body = fp.read()
 
         # Build dir for new lighting component
-        settings = context.get_settings()
-        component_dir = os.path.join(settings["workspace"], "src", "aura", lighting_name)
+        component_dir = os.path.join(workspace, "src", "aura", lighting_name)
         if not os.path.exists(component_dir):
             os.makedirs(component_dir)
         else:
