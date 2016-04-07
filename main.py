@@ -502,7 +502,6 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
     def run(self, edit, is_background=False, allowed_folders=None):
         sel = self.view.sel()[0]
         sel_text = self.view.substr(self.view.word(sel.begin()))
-        
         settings = context.get_settings()
         for ct in settings["subscribed_metadata_objects"]:
             if "suffix" not in settings[ct]: 

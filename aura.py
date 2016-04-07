@@ -29,7 +29,6 @@ class OpenAuraDocumentReference(sublime_plugin.WindowCommand):
 
         return True
 
-
 class DeployLightingToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployLightingToServer, self).__init__(*args, **kwargs)

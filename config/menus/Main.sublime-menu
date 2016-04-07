@@ -129,6 +129,7 @@
                             "force": true
                         }
                     },
+                    { "caption": "-" },
                     {
                         "caption": "Clear SymbolTable Cache",
                         "command": "clear_cache",

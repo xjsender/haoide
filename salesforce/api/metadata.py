@@ -417,8 +417,9 @@ class MetadataApi():
             response = requests.post(self.metadata_url, soap_body, 
                 verify=False, headers=self.headers)
         except requests.exceptions.RequestException as e:
-            if self.settings["debug_mode"]:
-                print ("Network connection timeout when issuing LIST PACKAGE request")
+            Printer.get("log").write("Connection timeout when list package for %s" % (
+                ", ".join(list(_types.keys()))
+            ))
             return []
 
         # If status_code is > 399, which means it has error

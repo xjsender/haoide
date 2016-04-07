@@ -1,0 +1,14 @@
+<snippet>
+    <content><![CDATA[
+/*******************************************************************************
+ *  Summary         : $1
+ *  Refer Object    : $2
+ *  Author          : $3      
+ *  CreatedDate     : $4
+ *  Change Log      : 
+ ******************************************************************************/
+]]></content>
+    <tabTrigger>comments</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Class Comments Header</description>
+</snippet>

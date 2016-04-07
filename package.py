@@ -289,7 +289,9 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         self.members = []
         self.matched_package = {}
         for metadata_object in sorted(self.cache.keys()):
-            if not self.cache[metadata_object]: continue
+            members = self.cache.get(metadata_object)
+            if not members: continue
+            
             if metadata_object in types:
                 display = "[√]" + metadata_object
             else:
@@ -297,7 +299,7 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
             self.members.append(display)
 
             matched_members = []
-            for mem in self.cache[metadata_object]:
+            for mem in members:
                 if self.filters and not self.is_filter_match(mem):
                     continue
                 matched_members.append(mem)

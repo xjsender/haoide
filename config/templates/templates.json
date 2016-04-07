@@ -138,7 +138,7 @@
 
     "ApexPage": {
         "Basic": {
-            "directory": "ApexComponent/Basic.page",
+            "directory": "ApexPage/Basic.page",
             "extension": ".page",
             "description": "Visualforce Page Template"
         }

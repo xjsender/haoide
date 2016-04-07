@@ -764,7 +764,7 @@ def parse_symbol_table(symbol_table):
                 params.append(p["type"]+" "+p["name"])
         if len(params) == 1:
             completions[modifiers+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
-                "%s({1:%s})" % (c["name"], ", ".join(params))
+                "%s(${1:%s})" % (c["name"], ", ".join(params))
         elif len(params) > 1:
             paramStrings = []
             for i, p in enumerate(params):
@@ -1024,9 +1024,16 @@ def parse_package_types(_types):
                 if children:
                     parent_to_children[parent] = children
 
-            child_cache[_child_type] = parent_to_children
+            if parent_to_children:
+                child_cache[_child_type] = parent_to_children
 
         package_types[_type] = child_cache
+
+    # view = sublime.active_window().new_file()
+    # view.run_command("new_view", {
+    #     "name": "test",
+    #     "input": json.dumps(package_types)
+    # })
 
     return package_types
 
