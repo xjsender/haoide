@@ -55,3 +55,6 @@ After you have installed this plugin successfully, you can follow <a href="/docs
 + ``Save to Server`` vs ``Deploy to Server``
     * ``Save to Server`` is achieved by ``Tooling API`` tech, which is usually used to develop apex code in sandbox
     * ``Deploy to Server`` is achieved by ``Metadata API`` tech, which is usually used to develop none-apex in sandbox, deploy any components into different org or production
+
++ Failed to deploy package after release 3.3.7
+  * you should remove ``deploy_options`` from your user settings, see more detail at [issue #101](https://github.com/xjsender/haoide/issues/101)
