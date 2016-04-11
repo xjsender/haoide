@@ -56,5 +56,9 @@ After you have installed this plugin successfully, you can follow <a href="/docs
     * ``Save to Server`` is achieved by ``Tooling API`` tech, which is usually used to develop apex code in sandbox
     * ``Deploy to Server`` is achieved by ``Metadata API`` tech, which is usually used to develop none-apex in sandbox, deploy any components into different org or production
 
++ What's the usage of ``Update Project Pattern`` command
+    * Everytime when you udpate the ``file_exclude_patterns`` or ``folder_exclude_patterns``, you must execute ``Update Project Pattern`` command to ensure it is working.
+    * Everytime when the default project doesn't appeared in the sidebar panel, you an use this command to show the default project.
+
 + Failed to deploy package after release 3.3.7
   * you should remove ``deploy_options`` from your user settings, see more detail at [issue #101](https://github.com/xjsender/haoide/issues/101)
