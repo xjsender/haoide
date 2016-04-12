@@ -4,6 +4,15 @@ Release History
 
 ---------------
 
+
+Release 3.3.8 (2016-04-12)
+++++++++++++++++++
+* Enhancement for code template, welcome new template pull request
+* Add runSpecifiedTest support for deploying files
+* Change mousemap key mapping, see more detail at Q&A
+* Update Q&A in the pulgin home page
+
+
 Release 3.3.7 (2016-03-28)
 ++++++++++++++++++
 * Fix issue #88

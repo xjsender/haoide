@@ -1989,7 +1989,7 @@ def parse_sync_test_coverage(result):
 
     allrows.append("~" * 80)
     allrows.append("Follow the instruction as below, you can quickly view code coverage,")
-    allrows.append("    * Put focus on code name, hold down 'alt' and triple-click the 'Left Mouse'")
+    allrows.append("    * Put focus on code name, hold down 'alt' and Dblclick the 'Left Mouse'")
 
     header_width = {
         "Type": 15, "Name": 50, "Percent": 10, "Lines": 10
