@@ -2,6 +2,7 @@ import urllib
 import os
 import json
 import time
+import datetime
 from xml.sax.saxutils import escape
 
 from .. import requests
@@ -11,7 +12,14 @@ from .. import util
 def soap_login(settings, session_id_expired=False, timeout=10):
     if not session_id_expired:
         session = util.get_session_info(settings)
-        if session: return session
+        try:
+            # Force login again every two hours
+            time_stamp = session.get("time_stamp")
+            dt = datetime.datetime.strptime(time_stamp, "%Y-%m-%d %H:%M:%S")
+            if (dt + datetime.timedelta(hours=2)) >= datetime.datetime.now():
+                return session
+        except:
+            pass
 
     login_soap_request_body = """<?xml version="1.0" encoding="utf-8" ?>
         <env:Envelope
