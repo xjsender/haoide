@@ -162,6 +162,10 @@ def get_settings():
     # Indicate whether include users in role when export role hierarchy
     settings["include_users_in_role_hierarchy"] = s.get("include_users_in_role_hierarchy", True)
 
+    # Indicate whether automatically remove slash in the response 
+    # when execute REST Test
+    settings["remove_slash_for_rest_response"] = s.get("remove_slash_for_rest_response", False)
+
     # Set the polling interval for checking metadata job status
     settings["metadata_polling_frequency"] = s.get("metadata_polling_frequency", 1)
     

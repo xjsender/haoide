@@ -846,13 +846,14 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
 
         # If response result is just like '"{\\"name\\":\\"test\\"}"'
         # we will remove the \\ and convert it to json automatically
-        try:
-            if "\\" in result:
-                result = result.replace("\\", "")
-                result = result[1:-1]
-                result = json.loads(result)
-        except:
-            pass
+        if settings.get("remove_slash_for_rest_response", False):
+            try:
+                if "\\" in result:
+                    result = result.replace("\\", "")
+                    result = result[1:-1]
+                    result = json.loads(result)
+            except:
+                pass
 
         # Remove the useless success attribute
         if isinstance(result, dict) and "success" in result:
@@ -860,7 +861,7 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
-        view.set_syntax_file("Packages/JavaScript/JavaScript.tmLanguage")
+        view.set_syntax_file("Packages/JavaScript/JSON.tmLanguage")
         time_stamp = time.strftime("%H:%M:%S", time.localtime(time.time()))
         view.run_command("new_view", {
             "name": "Rest %s-%s" % (operation, time_stamp), 

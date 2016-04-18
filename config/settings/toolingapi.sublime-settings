@@ -320,6 +320,12 @@
     // Indicate whether include users in role when export role hierarchy
     "include_users_in_role_hierarchy": true,
 
+    // Indicate whether automatically remove slash in the response 
+    // when execute REST Test, for example,
+    // If response result is just like '"{\\"name\\":\\"test\\"}"'
+    // we will remove the \\ and convert it to json automatically
+    "remove_slash_for_rest_response": false,
+
     "content_types": [
         "application/fractals",
         "application/futuresplash",
