@@ -1,0 +1,16 @@
+<snippet>
+    <content><![CDATA[
+ /**************************************************************************************************
+ * Name: $1
+ * Object: $2
+ * Purpose: $3
+ * Author: $4 ($5)
+ * Create Date: 2016-04-18$6
+ * Modify History:
+ * 2016-04-18$6    $4    Write comments in this format
+ **************************************************************************************************/
+]]></content>
+    <tabTrigger>ch</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Class Head</description>
+</snippet>
