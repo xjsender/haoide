@@ -424,14 +424,16 @@ class MetadataApi():
 
         # If status_code is > 399, which means it has error
         if response.status_code > 399:
+            if "INVALID_SESSION_ID" in response.text:
+                Printer.get("log").write("Session is expired, need login again")
+                self.login(True)
+                return self.list_package(_types)
+
             result = util.get_response_error(response)
             Printer.get("log").write("Error happened when list package for %s, detail reason: %s" % (
-                ", ".join(list(_types.keys())), 
-                result["Error Message"] if "Error Message" in result else "Unknown Reason"
+                ", ".join(list(_types.keys())), result.get("Error Message", "Unknown Reason")
             ))
-            
-            if self.settings["debug_mode"]:
-                print (json.dumps(util.get_response_error(response), indent=4))
+
             return []
 
         result = xmltodict.parse(response.content)
