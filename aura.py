@@ -199,7 +199,10 @@ class CreateLightingElement(sublime_plugin.WindowCommand):
         # Get template attribute
         templates = util.load_templates()
         template = templates.get("AuraElement").get(element)
-        with open(os.path.join(workspace, ".templates", template["directory"])) as fp:
+        settings = context.get_settings()
+        tempaltes_path = os.path.join(settings["workspace"], 
+            ".templates", template["directory"])
+        with open(tempaltes_path) as fp:
             body = fp.read()
         
         # JS Component is different with others
