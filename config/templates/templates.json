@@ -63,6 +63,11 @@
     },
 
     "ApexClass": {
+        "Aura": {
+            "directory": "ApexClass/Aura.cls",
+            "extension": ".cls",
+            "description": "Basic template for Aura Class"
+        },
         "Basic": {
             "directory": "ApexClass/Basic.cls",
             "extension": ".cls",
