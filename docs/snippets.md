@@ -196,13 +196,19 @@
         </tr>
         <tr>
             <td>Apex</td>
+            <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/Apex/Debug - debug error.sublime-snippet" target="_blank">dbe</a></td>
+            <td>source.java, source.apex</td>
+            <td>Collection Debug in Loop</td>
+        </tr>
+        <tr>
+            <td>Apex</td>
             <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/Apex/Debug - debug json.sublime-snippet" target="_blank">dbj</a></td>
             <td>source.java, source.apex</td>
             <td>Variable Debug in JSON Format</td>
         </tr>
         <tr>
             <td>Apex</td>
-            <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/Apex/Debug - debug variable.sublime-snippet" target="_blank">dbi</a></td>
+            <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/Apex/Debug - debug info.sublime-snippet" target="_blank">dbi</a></td>
             <td>source.java, source.apex</td>
             <td>Variable Debug</td>
         </tr>

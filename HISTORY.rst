@@ -4,6 +4,17 @@ Release History
 
 ---------------
 
+Release 3.3.9 (2016-04-18)
+++++++++++++++++++
+* Force login every two hours
+* Add retry operation for list package if session is expired
+* Change display format for REST TEST Response, add a new setting ``remove_slash_for_rest_response``
+* Fix bug for aura creation
+* Add AuraEnabled template class
+* Add a snippet for class comments header
+* Add a snippet for LoggingLevel.ERROR debug
+* Update a snippet for LoggingLevel.INFO debug
+
 
 Release 3.3.8 (2016-04-12)
 ++++++++++++++++++
