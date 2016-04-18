@@ -1858,8 +1858,8 @@ def parse_method(methods, is_method=True):
             for i in range(len(display_parameters)):
                 return_parameters.append("${%s:%s}" % (i + 1, display_parameters[i]))
 
-            methods_dict["%s(%s)\t%s" % (method["name"], ','.join(display_parameters), returnType)] =\
-                "%s(%s)$0" % (method["name"], ','.join(return_parameters))
+            methods_dict["%s(%s)\t%s" % (method["name"], ', '.join(display_parameters), returnType)] =\
+                "%s(%s)$0" % (method["name"], ', '.join(return_parameters))
 
     return methods_dict
 
