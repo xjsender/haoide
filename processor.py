@@ -1096,11 +1096,9 @@ def handle_run_sync_test(class_names, timeout=120):
 
         # If succeed
         result = api.result
+        print (result)
         if "success" in result and not result["success"]:
             return
-
-        if result.get("numTestsRun", 0) == 0:
-            return Printer.get("error").write("There is no available test to run")
 
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
