@@ -55,7 +55,7 @@ apex_namespaces = {
         "UnexpectedException", 
         "JSONToken", 
         "UserInfo", 
-        "LIST", 
+        "List", 
         "FlexQueue", 
         "CURRENCY", 
         "SandboxContext", 
@@ -4230,7 +4230,7 @@ apex_completions = {
         "constructors": {}, 
         "properties": {}, 
         "namespace": "System", 
-        "name": "LIST", 
+        "name": "List", 
         "methods": {
             "deepClone()\tList<String>": "deepClone()$0", 
             "size()\tInteger": "size()$0", 
