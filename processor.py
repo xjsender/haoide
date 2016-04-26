@@ -841,9 +841,11 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         result = api.result
         
         # If succeed
-        if "list" in result: result = result["list"]
-        if "str"  in result: result = result["str"]
-
+        if "list" in result: 
+            result = result["list"]
+        if "str"  in result:
+            result = result["str"]
+        
         # If response result is just like '"{\\"name\\":\\"test\\"}"'
         # we will remove the \\ and convert it to json automatically
         if settings.get("remove_slash_for_rest_response", False):
@@ -867,9 +869,6 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
             "name": "Rest %s-%s" % (operation, time_stamp), 
             "input": json.dumps(result, ensure_ascii=False, indent=4)
         })
-
-        # If you have installed the htmljs plugin, below statement will work
-        view.run_command("htmlprettify")
 
     settings = context.get_settings()
     api = ToolingApi(settings)

@@ -92,8 +92,8 @@ class ToolingApi():
                 response_result = {"Error Message": res.text}
             response_result["success"] = False
         else:
+            response_result = {}
             try:
-                response_result = {}
                 if isinstance(res.json(), list):
                     response_result["list"] = res.json()
                 elif isinstance(res.json(), dict):
@@ -101,7 +101,7 @@ class ToolingApi():
                 else:
                     response_result["str"] = res.text
             except:
-                response_result = {}
+                response_result["str"] = res.text
             response_result["success"] = True
 
         return response_result
@@ -810,16 +810,11 @@ class ToolingApi():
         # Check whether session_id is expired
         if "INVALID_SESSION_ID" in response.text:
             result = self.login(True)
-            if not result["success"]:
-                self.result = result
-                return self.result
             return self.retrieve_body(retrieve_url)
 
-        result = {
-            "success": response.status_code < 399,
-            "body": response.text
-        }
+        result = self.parse_response(response)
         self.result = result
+        
         return result
 
     def run_tests_asynchronous(self, class_ids):
