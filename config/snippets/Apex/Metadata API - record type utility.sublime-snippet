@@ -102,7 +102,7 @@ public with sharing class UtilRecordType {
     }
 }
 ]]></content>
-    <tabTrigger>ru</tabTrigger>
+    <tabTrigger>reu</tabTrigger>
     <scope>source.java, source.apex</scope>
     <description>RecordType Utilities</description>
 </snippet>

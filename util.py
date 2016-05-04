@@ -1960,6 +1960,7 @@ def parse_sync_test_coverage(result):
     codeCoverage = result["codeCoverage"]
 
     allrows = []
+    print (json.dumps(result))
     if result["failures"]:
         allrows.append("Failed Test Methods:")
         for failure in sorted(result["failures"], key=lambda k : k["name"]):
