@@ -1004,17 +1004,10 @@ def handle_view_debug_log_detail(log_id, timeout=120):
         
         if not api.result["success"]: return
 
-        try:
-            body = api.result["body"]
-            body = body.encode("utf-8")
-        except Exception as e:
-            print (str(e))
-            body = api.result["body"]
-
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "Debug Log Detail",
-            "input": api.result["body"]
+            "input": api.result["str"]
         })
 
     settings = context.get_settings()
@@ -1095,7 +1088,6 @@ def handle_run_sync_test(class_names, timeout=120):
 
         # If succeed
         result = api.result
-        print (result)
         if "success" in result and not result["success"]:
             return
 
