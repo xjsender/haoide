@@ -387,11 +387,6 @@
     },
 
     {
-        "caption": "HaoIDE: Reload Sobject Cache",
-        "command": "reload_sobject_cache"
-    },
-
-    {
         "caption": "HaoIDE: Reload Session Cache",
         "command": "login", 
         "args": {
