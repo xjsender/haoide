@@ -96,6 +96,9 @@
     // Automatically update change to server when save file
     "auto_update_on_save": false,
 
+    // Indicate whether need confirmation for save operation
+    "confirm_on_save": false,
+
     // Every time when you open a file, assume the project of this file is not the default project,
     // if you set this setting to true, plugin will switch the default project to the project
     // of the open file automatically when you open a file

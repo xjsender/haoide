@@ -1934,6 +1934,13 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
 
 class SaveToServer(sublime_plugin.TextCommand):
     def run(self, edit, is_check_only=False):
+        # Check whether need confirm
+        settings = context.get_settings()
+        if settings["confirm_on_save"]:
+            message = "Confirm to continue save operation?"
+            if not sublime.ok_cancel_dialog(message, "Save to Server?"): 
+                return
+
         # Automatically save current file if dirty
         if self.view.is_dirty():
             self.view.run_command("save")
