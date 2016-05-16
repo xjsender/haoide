@@ -1632,8 +1632,11 @@ def handle_create_component(data, component_name, component_type, markup_or_body
         components_dict = s.get(username, {})
 
         # Prevent exception for creating component if no component in org
-        if component_type not in components_dict: 
-            components_dict = {component_type : {}}
+        if component_type not in components_dict:
+            if not components_dict:
+                components_dict = {component_type : {}}
+            else:
+                components_dict[component_type] = {}
 
         # Build components dict
         lower_name = component_name.lower()
