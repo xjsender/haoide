@@ -417,6 +417,12 @@
             <td>$ObjectType.sObjectName.fields.Field.Label</td>
         </tr>
         <tr>
+            <td>Page</td>
+            <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/Page/Page - close window and refresh opener.sublime-snippet" target="_blank">closew</a></td>
+            <td>source.java, soucre.apex, text.html</td>
+            <td>Close window and refresh opener</td>
+        </tr>
+        <tr>
             <td>SOQL</td>
             <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/SOQL/SOQL - SELECT * FROM.sublime-snippet" target="_blank">se</a></td>
             <td>source.java, source.apex</td>
