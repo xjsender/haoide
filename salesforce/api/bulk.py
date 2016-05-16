@@ -27,7 +27,7 @@ class BulkApi():
 
     def write_csv_to_file(self, result, operation):
         # Write result to csv
-        time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
+        time_stamp = time.strftime("%Y%m%d%H%M", time.localtime())
         if operation != "query":
             outputfile = os.path.dirname(self.input) +\
                 "/log/%s-%s-%s.csv" % (self.sobject, operation, time_stamp)
@@ -74,7 +74,7 @@ class BulkApi():
                 chardet_result = chardet.detect(csvfile.read(1000))
                 encoding = chardet_result["encoding"]
 
-        if "utf" in encoding.lower():
+        if encoding and "utf" in encoding.lower():
             csvfile = open(input, encoding=encoding)
             reader = csv.reader(csvfile)
         else:
