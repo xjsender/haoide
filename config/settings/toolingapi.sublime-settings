@@ -321,7 +321,10 @@
     ],
 
     // Indicate whether include users in role when export role hierarchy
-    "include_users_in_role_hierarchy": true,
+    // Attention:
+    //      1. Not including portal roles
+    //      1. Not including portal users in exported users
+    "include_users_in_role_hierarchy": false,
 
     // Indicate whether automatically remove slash in the response 
     // when execute REST Test, for example,
