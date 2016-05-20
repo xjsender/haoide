@@ -4,6 +4,29 @@ Release History
 
 ---------------
 
+Release 3.4.0 (2016-05-20)
+++++++++++++++++++
+- Deliver enhancement for issue #108
+- Deliver enhancement for issue #111
+
+- Fix bug when test class failed caused by dependency compilation
+- Fix bug when view debug log detail
+- Fix bug when read csv encoding
+- Fix bug When create first new code that will clear the cache of others
+- Fix bug When deploy files, default project is not switched back 
+
+- Remove duplicate command ``Reload Sobject Cache`` from command palette
+- Remove snippet ``Class Body - class comments``
+
+- Add new snippet: ``Page - close window and refresh opener``
+- Add keymap for ``Open All Documents``, check the keymap setting for detail
+- Add new command ``copy_files_to_project`` for issue #113
+
+- Update snippet: ``Debug - debug info``, ``Debug - debug error``, ``Class Header - class header``
+- Update include_users_in_role_hierarchy to false on default
+- Update ``folder_exclude_patterns`` pattern to exclude ``.templates`` folder in the sidebar
+
+
 Release 3.3.9 (2016-04-18)
 ++++++++++++++++++
 * Force login every two hours

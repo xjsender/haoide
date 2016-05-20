@@ -205,6 +205,9 @@ def get_settings():
 
     return settings
 
+def get_setting(key):
+    return get_settings().get(key)
+
 def get_default_project_name():
     s = sublime.load_settings("toolingapi.sublime-settings")
     projects = s.get("projects")
