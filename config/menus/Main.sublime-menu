@@ -161,7 +161,10 @@
 
                     {
                         "caption": "Open Documentation",
-                        "command": "open_documentation"
+                        "command": "open_documentation",
+                        "args": {
+                            "show_all": true
+                        }
                     },
 
                     {

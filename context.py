@@ -73,6 +73,9 @@ def get_settings():
     # Automatically update change to server when save file
     settings["auto_update_on_save"] = s.get("auto_update_on_save", False)
 
+    # Indicate whether need confirmation for save operation
+    settings["confirm_on_save"] = s.get("confirm_on_save", False)
+
     # Check whether the LastModifiedById is current user
     settings["check_save_conflict"] = s.get("check_save_conflict", True)
 
@@ -201,6 +204,9 @@ def get_settings():
         settings["organizationNamespace"] = described_metadata["organizationNamespace"]
 
     return settings
+
+def get_setting(key):
+    return get_settings().get(key)
 
 def get_default_project_name():
     s = sublime.load_settings("toolingapi.sublime-settings")

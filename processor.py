@@ -472,7 +472,9 @@ def handle_reload_sobjects_completions(timeout=120):
 
         # Reload cache for completions
         from . import completions
-        completions.reload_globals(username)
+        sublime.set_timeout(lambda:completions.load_sobject_cache(
+            False, username
+        ), 5)
 
     def handle_thread(api, thread, timeout=120):
         if thread.is_alive():
@@ -841,9 +843,11 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         result = api.result
         
         # If succeed
-        if "list" in result: result = result["list"]
-        if "str"  in result: result = result["str"]
-
+        if "list" in result: 
+            result = result["list"]
+        if "str"  in result:
+            result = result["str"]
+        
         # If response result is just like '"{\\"name\\":\\"test\\"}"'
         # we will remove the \\ and convert it to json automatically
         if settings.get("remove_slash_for_rest_response", False):
@@ -867,9 +871,6 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
             "name": "Rest %s-%s" % (operation, time_stamp), 
             "input": json.dumps(result, ensure_ascii=False, indent=4)
         })
-
-        # If you have installed the htmljs plugin, below statement will work
-        view.run_command("htmlprettify")
 
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -1005,17 +1006,10 @@ def handle_view_debug_log_detail(log_id, timeout=120):
         
         if not api.result["success"]: return
 
-        try:
-            body = api.result["body"]
-            body = body.encode("utf-8")
-        except Exception as e:
-            print (str(e))
-            body = api.result["body"]
-
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": "Debug Log Detail",
-            "input": api.result["body"]
+            "input": api.result["str"]
         })
 
     settings = context.get_settings()
@@ -1096,7 +1090,6 @@ def handle_run_sync_test(class_names, timeout=120):
 
         # If succeed
         result = api.result
-        print (result)
         if "success" in result and not result["success"]:
             return
 
@@ -1641,8 +1634,11 @@ def handle_create_component(data, component_name, component_type, markup_or_body
         components_dict = s.get(username, {})
 
         # Prevent exception for creating component if no component in org
-        if component_type not in components_dict: 
-            components_dict = {component_type : {}}
+        if component_type not in components_dict:
+            if not components_dict:
+                components_dict = {component_type : {}}
+            else:
+                components_dict[component_type] = {}
 
         # Build components dict
         lower_name = component_name.lower()
@@ -1660,6 +1656,9 @@ def handle_create_component(data, component_name, component_type, markup_or_body
 
         # Save settings and show success message
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
+
+        # After new component is stored into cache, reload cache in globals()
+        sublime.set_timeout(lambda:util.load_component_metadata(True), 50)
 
         # Create Meta.xml File
         if component_type in ["ApexClass", "ApexTrigger"]:

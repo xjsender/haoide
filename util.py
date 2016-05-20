@@ -60,15 +60,15 @@ def load_templates():
             source_dir = os.path.join(
                 sublime.packages_path(), "haoide/config/templates"
             )
-            copy_files(source_dir, target_dir)
+            copy_files_in_folder(source_dir, target_dir)
 
     with open(templates_dir) as fp:
         templates = json.loads(fp.read())
 
     return templates
 
-def copy_files(source_dir, target_dir):
-    """ Copy whole path drom source dir to target dir
+def copy_files_in_folder(source_dir, target_dir):
+    """ Copy folders and files in source dir to target dir
 
     Paramter:
         @source_dir -- Source Directory
@@ -88,8 +88,56 @@ def copy_files(source_dir, target_dir):
                     )):
                 open(targetFile, "wb").write(open(sourceFile, "rb").read()) 
         if os.path.isdir(sourceFile): 
-            First_Directory = False 
-            copy_files(sourceFile, targetFile) 
+            copy_files(sourceFile, targetFile)
+
+def copy_files(attributes, target_dir):
+    """ Copy files and its related meta file to target dir
+
+    Paramter:
+        @files      --  file attributes, example: {
+                            "fileDir": ".../classes/ABC.cls",
+                            "fullName": "ABC"
+                        }
+        @target_dir --  Target Directory
+    """
+
+    try:
+        for attribute in attributes:
+            # Copy file to target dir
+            # 
+            # Build target metdata folder, make it if not exist
+            target_meta_folder = os.path.join(
+                target_dir, "src",
+                attribute["metadata_folder"],
+                attribute.get("folder", "")
+            )
+            if not os.path.exists(target_meta_folder):
+                os.mkdir(target_meta_folder)
+
+            # Build tareget file
+            target_file = os.path.join(
+                target_meta_folder, 
+                attribute["fullName"]
+            )
+
+            # Copy file to target file
+            fileDir = attribute["fileDir"]
+            with open(fileDir, "rb") as fread:
+                with open(target_file, "wb") as fwrite:
+                    fwrite.write(fread.read())
+
+            # Write meta file to target dir if exist
+            metaFileDir = fileDir + "-meta.xml"
+            if os.path.isfile(metaFileDir):
+                target_meta_file = target_file + "-meta.xml"
+                with open(metaFileDir, "rb") as fread:
+                    with open(target_meta_file, "wb") as fwrite:
+                        fwrite.write(fread.read())
+    except BaseException as ex:
+        Printer.get("error").write(ex)
+        return False
+
+    return True
 
 def get_described_metadata(settings):
     cache_file = os.path.join(
@@ -1672,6 +1720,9 @@ def reload_file_attributes(file_properties, settings=None, append=False):
     component_settings.set(settings["username"], csettings)
     sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
+    # Reload component metadata cache in globals()
+    sublime.set_timeout(lambda:load_metadata_cache(True, settings["username"]), 5)
+
 def format_debug_logs(settings, records):
     if len(records) == 0: return "No available logs."
 
@@ -2824,6 +2875,17 @@ def get_metadata_folder(file_name):
     attributes = get_file_attributes(file_name)
     return attributes["metadata_folder"]
 
+def load_metadata_cache(reload_cache=False, username=None):
+    """ Reload component cache in globals()
+    """
+    if reload_cache or "components" not in globals():
+        component_metadata = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
+        if not username:
+            username = context.get_setting("username")
+        globals()["components"] = component_metadata.get(username, {})
+
+    return globals()["components"]
+
 def get_component_attribute(file_name, switch=True):
     """
     get the component name by file_name, and then get the component_url and component_id
@@ -2863,9 +2925,9 @@ def get_component_attribute(file_name, switch=True):
 
     xml_name = settings[metadata_folder]["xmlName"]
     username = settings["username"]
-    components = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
+    components = load_metadata_cache(username=username)
     try:
-        component_attribute = components.get(username)[xml_name][fullName.lower()]
+        component_attribute = components[xml_name][fullName.lower()]
     except:
         component_attribute, name = None, None
 
@@ -2961,8 +3023,10 @@ def switch_project(target):
 
     # Reload cache for completions
     from . import completions
-    settings = context.get_settings()
-    completions.reload_globals(settings["username"])
+    sublime.set_timeout(lambda:completions.load_sobject_cache(True), 50)
+
+    # Reload cache for component metadata
+    sublime.set_timeout(lambda:load_metadata_cache(True), 50)
 
 def add_project_to_workspace(settings):
     """Add new project folder to workspace
@@ -3009,23 +3073,6 @@ def add_project_to_workspace(settings):
     else:
         folders.append(switch_to_folder)
     sublime.active_window().set_project_data({"folders": folders})
-
-def focus_view(view):
-    """ Focus window with view, however, just work on windows but not for OSX
-    """
-
-    window = view.window()
-    window.focus_view(view)
-    window.run_command('focus_neighboring_group')
-    window.focus_view(view)
-
-def subl(args=[]):
-    # Copy from SideBarEnhancements
-    executable_path = sublime.executable_path()
-    if sublime.platform() == 'osx':
-        app_path = executable_path[:executable_path.rfind(".app/") + 5]
-        executable_path = app_path + "Contents/SharedSupport/bin/subl"
-    subprocess.Popen([executable_path] + args)
 
 def get_completion_list(meta_type, meta_folder):
     """ Get the name list by specified metadataObject

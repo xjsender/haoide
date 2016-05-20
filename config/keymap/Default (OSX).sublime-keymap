@@ -54,6 +54,11 @@
     {"keys": ["ctrl+3"], "command": "show_panel", "args": {
         "panel": "output.diff_with_server"
     }},
+
+    // Open all documents
+    {"keys": ["super+alt+a"], "command": "open_documentation", "args": {
+        "show_all": true
+    }},
     
     // Open Document
     {"keys": ["super+alt+o"], "command": "open_documentation", "args": {

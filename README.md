@@ -63,6 +63,9 @@ After you have installed this plugin successfully, you can follow <a href="/docs
 + If you failed to deploy package after release 3.3.7
   * you should remove ``deploy_options`` from your user settings, see more detail at [issue #101](https://github.com/xjsender/haoide/issues/101)
 
++ Don't want to create new project with time stamp every day?
+  * You can set ``keep_project_name_time_suffix`` to ``false``
+
 + What is the usage of mouesmap key bindings?
   * Press ``shift`` + Dblclick ``left mouse button``: Quick open component by name
   * Press ``alt`` + Click ``left mouse button``: Retrieve debug log detail by id

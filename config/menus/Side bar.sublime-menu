@@ -26,6 +26,11 @@
                 "args": {"files": []}
             },
 
+            {
+                "caption": "Copy Files to Project", "command": "copy_files_to_project",
+                "args": {"files": []}
+            },
+
             {"caption": "-"},
 
             {

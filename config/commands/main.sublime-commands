@@ -10,16 +10,6 @@
     },
 
     {
-        "caption": "HaoIDE: Toggle Metdata Objects",
-        "command": "toggle_metadata_objects", 
-        "args": {
-            "callback_options": {
-                "callback_command": "update_project"
-            }
-        }
-    },
-
-    {
         "caption": "HaoIDE: New Project",
         "command": "describe_metadata",
         "args": {
@@ -110,6 +100,16 @@
         "command": "create_lighting_definition", 
         "args": {
             "_type": "Event"
+        }
+    },
+
+    {
+        "caption": "HaoIDE: Toggle Metdata Objects",
+        "command": "toggle_metadata_objects", 
+        "args": {
+            "callback_options": {
+                "callback_command": "update_project"
+            }
         }
     },
 
@@ -384,11 +384,6 @@
     {
         "caption": "HaoIDE: Reload SymbolTable Cache",
         "command": "reload_symbol_table_cache"
-    },
-
-    {
-        "caption": "HaoIDE: Reload Sobject Cache",
-        "command": "reload_sobject_cache"
     },
 
     {

@@ -5,9 +5,9 @@
  * Object: $2
  * Purpose: $3
  * Author: $4 ($5)
- * Create Date: ${6:2016-04-18}
+ * Create Date: 2016-${6:04-18}
  * Modify History:
- * ${6:2016-04-18}    $4    ${7:Write comments in this format}
+ * 2016-${6:04-18}    $4    ${7:Write comments in this format}
  **************************************************************************************************/
 ]]></content>
     <tabTrigger>ch</tabTrigger>

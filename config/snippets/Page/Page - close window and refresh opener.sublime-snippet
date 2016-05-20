@@ -1,0 +1,22 @@
+<snippet>
+    <content><![CDATA[
+// If opener is exist, just refresh opener
+if (window.opener) {
+    window.opener.location.reload();
+}
+
+// Close current window
+var browserName = navigator.appName;
+if (browserName == "Microsoft Internet Explorer") {
+    window.open('', '_parent', '');
+    window.close();
+}
+else {
+    window.open('', '_self', '');
+    window.close();
+}
+]]></content>
+    <tabTrigger>closew</tabTrigger>
+    <scope>source.java, source.apex, text.html</scope>
+    <description>Close window and refresh opener</description>
+</snippet>

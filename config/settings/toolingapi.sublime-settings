@@ -68,7 +68,7 @@
     // Just work after new project is invoked or click ``HaoIDE > Update > Update Project Patterns``
     "folder_exclude_patterns": [
         // ".history",
-        // ".templates"
+        ".templates"
     ],
 
     // Solution for issue #49 in https://github.com/xjsender/SublimeApex
@@ -95,6 +95,9 @@
 
     // Automatically update change to server when save file
     "auto_update_on_save": false,
+
+    // Indicate whether need confirmation for save operation
+    "confirm_on_save": false,
 
     // Every time when you open a file, assume the project of this file is not the default project,
     // if you set this setting to true, plugin will switch the default project to the project
@@ -318,7 +321,10 @@
     ],
 
     // Indicate whether include users in role when export role hierarchy
-    "include_users_in_role_hierarchy": true,
+    // Attention:
+    //      1. Not including portal roles
+    //      1. Not including portal users in exported users
+    "include_users_in_role_hierarchy": false,
 
     // Indicate whether automatically remove slash in the response 
     // when execute REST Test, for example,

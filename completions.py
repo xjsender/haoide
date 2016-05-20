@@ -15,14 +15,16 @@ from .salesforce.lib import bootstrap
 from .salesforce.lib.panel import Printer
 
 
-def reload_globals(username):
-    """ Reload sObject cache in globals()
-
-    Return:
-        username -- username of default project
+def load_sobject_cache(reload_cache=False, username=None):
+    """ Reload component cache in globals()
     """
-    metadata = util.get_sobject_metadata(username)
-    globals()["metadata"] = metadata
+    if reload_cache or "metadata" not in globals():
+        if not username:
+            username = context.get_setting("username")
+        metadata = util.get_sobject_metadata(username)
+        globals()["metadata"] = metadata
+
+    return globals()["metadata"]
 
 class PackageCompletions(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
@@ -114,11 +116,7 @@ class ApexCompletions(sublime_plugin.EventListener):
         
         # In order to speed up code completion,
         # store the "metadata" into globals()
-        if "metadata" not in globals():
-            metadata = util.get_sobject_metadata(username)
-            globals()["metadata"] = metadata
-        else:
-            metadata = globals()["metadata"]
+        metadata = load_sobject_cache(username=username)
 
         # Get sobjects describe and symbol tables
         sobjects_describe = metadata.get("sobjects", {})
@@ -458,11 +456,7 @@ class PageCompletions(sublime_plugin.EventListener):
 
         # In order to speed up code completion,
         # store the "metadata" into globals()
-        if "metadata" not in globals():
-            metadata = util.get_sobject_metadata(username)
-            globals()["metadata"] = metadata
-        else:
-            metadata = globals()["metadata"]
+        metadata = load_sobject_cache(username=username)
         sobjects_describe = metadata.get("sobjects", {})
             
         completion_list = []
