@@ -60,15 +60,15 @@ def load_templates():
             source_dir = os.path.join(
                 sublime.packages_path(), "haoide/config/templates"
             )
-            copy_files(source_dir, target_dir)
+            copy_files_in_folder(source_dir, target_dir)
 
     with open(templates_dir) as fp:
         templates = json.loads(fp.read())
 
     return templates
 
-def copy_files(source_dir, target_dir):
-    """ Copy whole path drom source dir to target dir
+def copy_files_in_folder(source_dir, target_dir):
+    """ Copy folders and files in source dir to target dir
 
     Paramter:
         @source_dir -- Source Directory
@@ -88,8 +88,56 @@ def copy_files(source_dir, target_dir):
                     )):
                 open(targetFile, "wb").write(open(sourceFile, "rb").read()) 
         if os.path.isdir(sourceFile): 
-            First_Directory = False 
-            copy_files(sourceFile, targetFile) 
+            copy_files(sourceFile, targetFile)
+
+def copy_files(attributes, target_dir):
+    """ Copy files and its related meta file to target dir
+
+    Paramter:
+        @files      --  file attributes, example: {
+                            "fileDir": ".../classes/ABC.cls",
+                            "fullName": "ABC"
+                        }
+        @target_dir --  Target Directory
+    """
+
+    try:
+        for attribute in attributes:
+            # Copy file to target dir
+            # 
+            # Build target metdata folder, make it if not exist
+            target_meta_folder = os.path.join(
+                target_dir, "src",
+                attribute["metadata_folder"],
+                attribute.get("folder", "")
+            )
+            if not os.path.exists(target_meta_folder):
+                os.mkdir(target_meta_folder)
+
+            # Build tareget file
+            target_file = os.path.join(
+                target_meta_folder, 
+                attribute["fullName"]
+            )
+
+            # Copy file to target file
+            fileDir = attribute["fileDir"]
+            with open(fileDir, "rb") as fread:
+                with open(target_file, "wb") as fwrite:
+                    fwrite.write(fread.read())
+
+            # Write meta file to target dir if exist
+            metaFileDir = fileDir + "-meta.xml"
+            if os.path.isfile(metaFileDir):
+                target_meta_file = target_file + "-meta.xml"
+                with open(metaFileDir, "rb") as fread:
+                    with open(target_meta_file, "wb") as fwrite:
+                        fwrite.write(fread.read())
+    except BaseException as ex:
+        Printer.get("error").write(ex)
+        return False
+
+    return True
 
 def get_described_metadata(settings):
     cache_file = os.path.join(

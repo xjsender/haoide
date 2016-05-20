@@ -1045,6 +1045,53 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
 
         return True
 
+class CopyFilesToProject(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CopyFilesToProject, self).__init__(*args, **kwargs)
+
+    def run(self, files, switch=True, source_org=None):
+        settings = context.get_settings()
+        if not source_org:
+            source_org = settings["default_project_name"]
+
+        if switch:
+            return self.window.run_command("switch_project", {
+                "callback_options": {
+                    "callback_command": "copy_files_to_project", 
+                    "args": {
+                        "files": files,
+                        "switch": False,
+                        "source_org": source_org
+                    }
+                }
+            })
+
+        target_dir = settings["workspace"]
+        util.copy_files(self.attributes, target_dir)
+
+        # If succeed, just show the succeed message
+        Printer.get("log").write("Files are copied to " + source_org)
+
+        # we need to switch project back to original
+        if settings["switch_back_after_migration"]:
+            util.switch_project(source_org)
+
+    def is_visible(self, files):
+        if not files: return False
+        self.settings = context.get_settings()
+        self.attributes = []
+        for _file in files:
+            if not os.path.isfile(_file): continue # Ignore folder
+            if _file.endswith("-meta.xml"): continue # Ignore meta file 
+            attribute = util.get_file_attributes(_file)
+            if attribute["metadata_folder"] not in self.settings["all_metadata_folders"]:
+                continue
+
+            attribute["fileDir"] = _file
+            self.attributes.append(attribute)
+
+        return self.attributes is not []
+
 class ExportProfile(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ExportProfile, self).__init__(*args, **kwargs)
