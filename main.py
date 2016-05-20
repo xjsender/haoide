@@ -985,7 +985,8 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
 
     def run(self, files, switch=True, source_org=None, chosen_classes=[]):
         settings = context.get_settings()
-        source_org = settings["default_project_name"]
+        if not source_org:
+            source_org = settings["default_project_name"]
 
         if switch:
             return self.window.run_command("switch_project", {
