@@ -1672,6 +1672,9 @@ def reload_file_attributes(file_properties, settings=None, append=False):
     component_settings.set(settings["username"], csettings)
     sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
+    # Reload component metadata cache in globals()
+    sublime.set_timeout(lambda:load_metadata_cache(True, settings["username"]), 5)
+
 def format_debug_logs(settings, records):
     if len(records) == 0: return "No available logs."
 
@@ -2824,6 +2827,17 @@ def get_metadata_folder(file_name):
     attributes = get_file_attributes(file_name)
     return attributes["metadata_folder"]
 
+def load_metadata_cache(reload_cache=False, username=None):
+    """ Reload component cache in globals()
+    """
+    if reload_cache or "components" not in globals():
+        component_metadata = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
+        if not username:
+            username = context.get_setting("username")
+        globals()["components"] = component_metadata.get(username, {})
+
+    return globals()["components"]
+
 def get_component_attribute(file_name, switch=True):
     """
     get the component name by file_name, and then get the component_url and component_id
@@ -2863,9 +2877,9 @@ def get_component_attribute(file_name, switch=True):
 
     xml_name = settings[metadata_folder]["xmlName"]
     username = settings["username"]
-    components = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
+    components = load_metadata_cache(username=username)
     try:
-        component_attribute = components.get(username)[xml_name][fullName.lower()]
+        component_attribute = components[xml_name][fullName.lower()]
     except:
         component_attribute, name = None, None
 
@@ -2961,8 +2975,10 @@ def switch_project(target):
 
     # Reload cache for completions
     from . import completions
-    settings = context.get_settings()
-    completions.reload_globals(settings["username"])
+    sublime.set_timeout(lambda:completions.load_sobject_cache(True), 50)
+
+    # Reload cache for component metadata
+    sublime.set_timeout(lambda:load_metadata_cache(True), 50)
 
 def add_project_to_workspace(settings):
     """Add new project folder to workspace
@@ -3009,23 +3025,6 @@ def add_project_to_workspace(settings):
     else:
         folders.append(switch_to_folder)
     sublime.active_window().set_project_data({"folders": folders})
-
-def focus_view(view):
-    """ Focus window with view, however, just work on windows but not for OSX
-    """
-
-    window = view.window()
-    window.focus_view(view)
-    window.run_command('focus_neighboring_group')
-    window.focus_view(view)
-
-def subl(args=[]):
-    # Copy from SideBarEnhancements
-    executable_path = sublime.executable_path()
-    if sublime.platform() == 'osx':
-        app_path = executable_path[:executable_path.rfind(".app/") + 5]
-        executable_path = app_path + "Contents/SharedSupport/bin/subl"
-    subprocess.Popen([executable_path] + args)
 
 def get_completion_list(meta_type, meta_folder):
     """ Get the name list by specified metadataObject

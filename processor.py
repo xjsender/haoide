@@ -472,7 +472,9 @@ def handle_reload_sobjects_completions(timeout=120):
 
         # Reload cache for completions
         from . import completions
-        completions.reload_globals(username)
+        sublime.set_timeout(lambda:completions.load_sobject_cache(
+            False, username
+        ), 5)
 
     def handle_thread(api, thread, timeout=120):
         if thread.is_alive():
@@ -1654,6 +1656,9 @@ def handle_create_component(data, component_name, component_type, markup_or_body
 
         # Save settings and show success message
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
+
+        # After new component is stored into cache, reload cache in globals()
+        sublime.set_timeout(lambda:util.load_component_metadata(True), 50)
 
         # Create Meta.xml File
         if component_type in ["ApexClass", "ApexTrigger"]:
