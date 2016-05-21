@@ -111,10 +111,11 @@ def copy_files(attributes, target_dir):
                 attribute["metadata_folder"],
                 attribute.get("folder", "")
             )
-            if not os.path.exists(target_meta_folder):
-                os.mkdir(target_meta_folder)
 
-            # Build tareget file
+            if not os.path.exists(target_meta_folder):
+                os.makedirs(target_meta_folder)
+
+            # Build target file
             target_file = os.path.join(
                 target_meta_folder, 
                 attribute["fullName"]
@@ -123,18 +124,22 @@ def copy_files(attributes, target_dir):
             # Copy file to target file
             fileDir = attribute["fileDir"]
             with open(fileDir, "rb") as fread:
-                with open(target_file, "wb") as fwrite:
-                    fwrite.write(fread.read())
+                content = fread.read()
+
+            with open(target_file, "wb") as fwrite:
+                fwrite.write(content)
 
             # Write meta file to target dir if exist
             metaFileDir = fileDir + "-meta.xml"
             if os.path.isfile(metaFileDir):
                 target_meta_file = target_file + "-meta.xml"
                 with open(metaFileDir, "rb") as fread:
-                    with open(target_meta_file, "wb") as fwrite:
-                        fwrite.write(fread.read())
+                    content = fread.read()
+
+                with open(target_meta_file, "wb") as fwrite:
+                    fwrite.write(content)
     except BaseException as ex:
-        Printer.get("error").write(ex)
+        Printer.get("error").write(str(ex))
         return False
 
     return True
