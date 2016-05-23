@@ -1045,6 +1045,15 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
 
         return True
 
+class CopyFileToProject(sublime_plugin.TextCommand):
+    def run(self, edit, switch=True, source_org=None):
+        sublime.active_window().run_command("copy_files_to_project", {
+            "files": [self.view.file_name()]
+        })
+
+    def is_enabled(self):
+        return self.view.file_name() is not None
+
 class CopyFilesToProject(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CopyFilesToProject, self).__init__(*args, **kwargs)
@@ -1076,7 +1085,7 @@ class CopyFilesToProject(sublime_plugin.WindowCommand):
         if settings["switch_back_after_migration"]:
             util.switch_project(source_org)
 
-    def is_visible(self, files):
+    def is_enabled(self, files, **kwargs):
         if not files: return False
         self.settings = context.get_settings()
         self.attributes = []
@@ -1090,7 +1099,13 @@ class CopyFilesToProject(sublime_plugin.WindowCommand):
             attribute["fileDir"] = _file
             self.attributes.append(attribute)
 
-        return self.attributes is not []
+        if not self.attributes:
+            return False
+
+        return True
+
+    def is_visible(self, files, **kwargs):
+        return self.is_enabled(files)
 
 class ExportProfile(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

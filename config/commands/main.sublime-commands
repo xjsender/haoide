@@ -178,6 +178,11 @@
     },
 
     {
+        "caption": "HaoIDE: Copy File to Project",
+        "command": "copy_file_to_project"
+    },
+
+    {
         "caption": "HaoIDE: Retrieve All",
         "command": "retrieve_metadata",
         "args": {

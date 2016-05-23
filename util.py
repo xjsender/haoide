@@ -138,7 +138,7 @@ def copy_files(attributes, target_dir):
 
                 with open(target_meta_file, "wb") as fwrite:
                     fwrite.write(content)
-    except BaseException as ex:
+    except Exception as ex:
         Printer.get("error").write(str(ex))
         return False
 
