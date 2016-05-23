@@ -1125,6 +1125,11 @@ def handle_run_sync_test(class_names, timeout=120):
         with open(cache_file, "w") as fp:
             fp.write(json.dumps(coverages, indent=4))
 
+        # Get the latest debug log
+        sublime.active_window().run_command('fetch_debug_log', {
+            "fetch_self": True
+        })
+
     settings = context.get_settings()
     api = ToolingApi(settings)
     thread = threading.Thread(target=api.run_tests_synchronous, args=(class_names, ))
