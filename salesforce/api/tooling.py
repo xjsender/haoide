@@ -769,8 +769,6 @@ class ToolingApi():
                 debug_level["id"] = debug_level["Id"] # Prevent keyError problem
                 debug_level["success"] = True
                 return debug_level
-        else:
-            return debug_level
 
         debug_level = self.settings["trace_flag"].copy()
         debug_level["MasterLabel"] = name;
