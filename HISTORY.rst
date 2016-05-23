@@ -4,6 +4,10 @@ Release History
 
 ---------------
 
+Release 3.4.2 (2016-05-23)
+++++++++++++++++++
+* Change api version back to 35, fix issue #116
+
 
 Release 3.4.1 (2016-05-23)
 ++++++++++++++++++
