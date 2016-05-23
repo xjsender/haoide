@@ -77,7 +77,7 @@
     "maximum_concurrent_connections": 30,
 
     // API version
-    "api_version" : 36,
+    "api_version" : 35,
 
     // Browser Path Setting,
     // You should set a valid browser path, otherwise, it will have problem.
