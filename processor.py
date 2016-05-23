@@ -1658,7 +1658,7 @@ def handle_create_component(data, component_name, component_type, markup_or_body
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
 
         # After new component is stored into cache, reload cache in globals()
-        sublime.set_timeout(lambda:util.load_component_metadata(True), 50)
+        sublime.set_timeout(lambda:util.load_metadata_cache(True), 50)
 
         # Create Meta.xml File
         if component_type in ["ApexClass", "ApexTrigger"]:
