@@ -1710,6 +1710,9 @@ def handle_set_component_attribute(attributes, timeout=120):
         elif settings["debug_mode"]:
             pprint.pprint(result)
 
+        # Refresh metadata cache
+        util.load_metadata_cache(True)
+
     settings = context.get_settings()
     api = ToolingApi(settings)
     soql = "SELECT LastModifiedDate FROM %s WHERE Id = '%s'" % (
