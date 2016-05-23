@@ -9,6 +9,8 @@ Release 3.4.1 (2016-05-23)
 ++++++++++++++++++
 * Fix issue #113
 * Fix issue #115
+* Fix Bug for conflict checking bug caused by solution for issue #108
+* Fix Bug for ``fetch debug log``
 * Execute ``fetch_debug_log`` operation after ``run sync test``
 
 
