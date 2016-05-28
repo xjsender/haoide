@@ -575,7 +575,7 @@ class PageCompletions(sublime_plugin.EventListener):
                 if matched_region:
                     matched_tag = view.substr(matched_region)[1:]
                     tag_name = matched_tag.split(":")[1].strip()
-                    completion_list = util.get_component_attributes(settings, tag_name)
+                    completion_list.extend(util.get_component_attributes(settings, tag_name))
 
             ##########################################
             # HTML Element Attribute Completions

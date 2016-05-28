@@ -573,8 +573,11 @@ def get_component_attributes(settings, component_name):
     if os.path.isfile(component_dir):
         name, _type, description = "", "", ""
         with open(component_dir) as fp:
-            content = fp.read()
-
+            try:
+                content = fp.read()
+            except UnicodeDecodeError as ex:
+                return completion_list
+            
             pattern = "<apex:attribute[\\S\\s]*?>"
             for match in re.findall(pattern, content, re.IGNORECASE):
                 pattern = '\\w+\\s*=\\s*"[\\s\\S]*?"'
