@@ -2894,7 +2894,7 @@ def load_metadata_cache(reload_cache=False, username=None):
 
     return globals()["components"]
 
-def get_component_attribute(file_name, switch=True):
+def get_component_attribute(file_name, switch=True, reload_cache=False):
     """
     get the component name by file_name, and then get the component_url and component_id
     by component name and local settings
@@ -2933,7 +2933,7 @@ def get_component_attribute(file_name, switch=True):
 
     xml_name = settings[metadata_folder]["xmlName"]
     username = settings["username"]
-    components = load_metadata_cache(username=username)
+    components = load_metadata_cache(reload_cache=reload_cache, username=username)
     try:
         component_attribute = components[xml_name][fullName.lower()]
     except:

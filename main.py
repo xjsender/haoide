@@ -167,22 +167,22 @@ class XmlFormat(BaseSelection, sublime_plugin.TextCommand):
 
 class DiffWithServer(sublime_plugin.TextCommand):
     def run(self, edit, switch=True, source_org=None):
+        if not source_org:
+            source_org = self.settings["default_project_name"]
+        
         if switch:
             return self.view.window().run_command("switch_project", {
                 "callback_options": {
                     "callback_command": "diff_with_server", 
                     "args": {                        
                         "switch": False,
-                        "source_org": self.settings["default_project_name"]
+                        "source_org": source_org
                     }
                 }
             })
-
-        if not source_org:
-            source_org = self.settings["default_project_name"]
         
         file_name = self.view.file_name()
-        attr = util.get_component_attribute(file_name, switch)[0]
+        attr = util.get_component_attribute(file_name, False, reload_cache=True)[0]
 
         # If this component is not exist in chosen project, just stop
         if not attr:
@@ -197,8 +197,8 @@ class DiffWithServer(sublime_plugin.TextCommand):
             return False
 
         self.settings = context.get_settings()
-        attributes = util.get_file_attributes(self.file_name)
-        if attributes["metadata_folder"] not in ["classes", "triggers", "pages", "components"]:
+        self.attributes = util.get_file_attributes(self.file_name)
+        if self.attributes["metadata_folder"] not in ["classes", "triggers", "pages", "components"]:
             return False
 
         return True
@@ -2232,6 +2232,7 @@ class ExtractToHere(sublime_plugin.WindowCommand):
             return False
 
         self._file = files[0]
+        
         return True
 
 class UpdateStaticResource(sublime_plugin.WindowCommand):
