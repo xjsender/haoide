@@ -2232,8 +2232,7 @@ class ExtractToHere(sublime_plugin.WindowCommand):
             return False
 
         self._file = files[0]
-        
-        return True
+        return zipfile.is_zipfile(self._file)
 
 class UpdateStaticResource(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
