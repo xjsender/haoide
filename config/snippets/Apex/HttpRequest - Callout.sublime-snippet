@@ -14,6 +14,6 @@ Blob headerValue = Blob.valueOf(userName + ':' + password);
 String authorizationHeader = 'Basic ' + EncodingUtil.base64Encode(headerValue);
 request.setHeader('Authorization', authorizationHeader);
 ]]></content>
-    <tabTrigger>authorization</tabTrigger>
+    <tabTrigger>callout</tabTrigger>
     <scope>source.java</scope>
 </snippet>
