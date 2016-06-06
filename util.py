@@ -668,10 +668,14 @@ def remove_comments(view, regions):
     matched_regions = []
     for region in regions:
         # check whether region is comment statement
-        is_comment_region = False
+        invalid_region = False
         for comment_region in comment_regions:
             if comment_region.contains(region):
-                is_comment_region = True
+                invalid_region = True
+                break
+
+            if "\n" in view.substr(region):
+                invalid_region = True
                 break
 
         # Check whether DML statement, for example
@@ -682,7 +686,7 @@ def remove_comments(view, regions):
             continue
 
         # If region is comment statement, just skip
-        if not is_comment_region:
+        if not invalid_region:
             matched_regions.append(region)
 
     return matched_regions
@@ -739,6 +743,8 @@ def get_variable_type(view, pt, pattern):
     # String str;
     else:
         variable_type = matched_str.split(" ")[0]
+
+    print (variable_type)
 
     return variable_type
 
