@@ -1,0 +1,18 @@
+<snippet>
+    <content><![CDATA[
+<apex:actionstatus id="loading">
+    <apex:facet name="start">
+        <span class="waitingSearchDiv" id="el_loading" style=" background-color: #fbfbfb ;
+               height: 100%; opacity:0.65; width:100%;">
+            <span class="waitingHolder" style="top : 50%; width: 91px;">
+                <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                <span style="font-size: 15px;">Loading...</span >
+            </span>
+        </span>
+    </apex:facet>
+</apex:actionstatus>
+]]></content>
+    <tabTrigger>loading</tabTrigger>
+    <scope>text.html, source.apex, source.java</scope>
+    <description>Loading apex:actionStatus</description>
+</snippet>

@@ -89,7 +89,7 @@
 
             {"caption": "Execute Rest Test","command": "execute_rest_test"},
             {"caption": "Execute Anonymous","command": "execute_anonymous"},
-            {"caption": "Execute Query","command": "execute_query"},
+            // {"caption": "Execute Query","command": "execute_query"},
             {"caption": "Run Test Class","command": "run_test"},
             {"caption": "Run Sync Test","command": "run_sync_test"},
             {"caption": "Preview Page in Server","command": "preview_page"},

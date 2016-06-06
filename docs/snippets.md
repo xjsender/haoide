@@ -418,6 +418,12 @@
         </tr>
         <tr>
             <td>Page</td>
+            <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/Page/Page - loading action status.sublime-snippet" target="_blank">loading</a></td>
+            <td>source.java, soucre.apex, source.html</td>
+            <td>Loading apex:actionStatus</td>
+        </tr>
+        <tr>
+            <td>Page</td>
             <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/Page/Page - close window and refresh opener.sublime-snippet" target="_blank">closew</a></td>
             <td>source.java, soucre.apex, text.html</td>
             <td>Close window and refresh opener</td>
