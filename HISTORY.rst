@@ -4,6 +4,18 @@ Release History
 
 ---------------
 
+
+Release 3.4.3 (2016-06-06)
+++++++++++++++++++
+* Hide ``execute query`` command in the context menu, use ``REST TEST Query`` instead
+* Rename Snippet ``HttpRequest - Authorization Basic Credentials.sublime-snippet`` to ``HttpRequest - Callout.sublime-snippet``
+* Add new snippet named ``Page - loading action status.sublime-snippet``
+* Add visibility control for ``Extract To Here`` in the sidebar menu
+* Fix bug for custom components completion
+* Fix bug for variable type fetching for code completion
+* Fix issue #117
+
+
 Release 3.4.2 (2016-05-23)
 ++++++++++++++++++
 * Change api version back to 35, fix issue #116
