@@ -4,6 +4,10 @@ Release History
 
 ---------------
 
+Release 3.4.4 (2016-06-11)
+++++++++++++++++++
+* Fix Urgent ``FileNotFoundError`` problem when create new code
+
 
 Release 3.4.3 (2016-06-06)
 ++++++++++++++++++
