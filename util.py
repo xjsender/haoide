@@ -88,7 +88,7 @@ def copy_files_in_folder(source_dir, target_dir):
                     )):
                 open(targetFile, "wb").write(open(sourceFile, "rb").read()) 
         if os.path.isdir(sourceFile): 
-            copy_files(sourceFile, targetFile)
+            copy_files_in_folder(sourceFile, targetFile)
 
 def copy_files(attributes, target_dir):
     """ Copy files and its related meta file to target dir
