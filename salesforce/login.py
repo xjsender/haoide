@@ -16,7 +16,8 @@ def soap_login(settings, session_id_expired=False, timeout=10):
             # Force login again every two hours
             time_stamp = session.get("time_stamp")
             dt = datetime.datetime.strptime(time_stamp, "%Y-%m-%d %H:%M:%S")
-            if (dt + datetime.timedelta(hours=2)) >= datetime.datetime.now():
+            intervalDT = datetime.timedelta(minutes=settings["force_login_interval"])
+            if (dt + intervalDT) >= datetime.datetime.now():
                 return session
         except:
             pass

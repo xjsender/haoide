@@ -70,6 +70,9 @@ def get_settings():
     # Indicate whether keep local change history
     settings["keep_local_change_history"] = s.get("keep_local_change_history", True)
 
+    # Login again every n minutes as below
+    settings["force_login_interval"] = s.get("force_login_interval", 120)
+
     # Automatically update change to server when save file
     settings["auto_update_on_save"] = s.get("auto_update_on_save", False)
 
