@@ -4,5 +4,5 @@ System.debug(LoggingLevel.INFO, '*** $1: ' + $1);$0
 ]]></content>
     <tabTrigger>dbi</tabTrigger>
     <scope>source.java, source.apex</scope>
-    <description>Variable Debug</description>
+    <description>Variable Debug Info</description>
 </snippet>

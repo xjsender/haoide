@@ -362,6 +362,11 @@
     },
 
     {
+        "caption": "HaoIDE: View Debug Only",
+        "command": "view_debug_only"
+    },
+
+    {
         "caption": "HaoIDE: Run Test",
         "command": "run_one_test"
     },

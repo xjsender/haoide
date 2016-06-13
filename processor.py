@@ -947,6 +947,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
                 "name": "Execute Anonymous Result",
                 "input": util.parse_execute_anonymous_xml(result)
             })
+            view.settings().set("is_debug_log", True)
 
         # Keep the history apex script to local
         util.add_operation_history('execute_anonymous', apex_string)
@@ -1011,6 +1012,7 @@ def handle_view_debug_log_detail(log_id, timeout=120):
             "name": "Debug Log Detail",
             "input": api.result["str"]
         })
+        view.settings().set("is_debug_log", True)
 
     settings = context.get_settings()
     api = ToolingApi(settings)

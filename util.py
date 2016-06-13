@@ -2974,16 +2974,15 @@ def check_enabled(file_name, check_cache=True):
 
     # Check whether project of current file is active project
     default_project_name = settings["default_project_name"]
-    if default_project_name.lower() not in file_name.lower(): 
+    if default_project_name.lower() not in file_name.lower():
         sublime.status_message('This project is not active project');
         return False
 
     # Check whether active component is in active project
     if check_cache:
-        username = settings["username"]
         component_attribute, component_name = get_component_attribute(file_name)
         if not component_attribute: 
-            sublime.status_message("This component is not in active project")
+            sublime.status_message("Not found the attribute of this component")
             return False
     
     return True

@@ -95,8 +95,10 @@
             {"caption": "Preview Page in Server","command": "preview_page"},
 
             {"caption": "-"},
+
             {"caption": "View Code Coverage","command": "view_code_coverage"},
             {"caption": "View Debug Log Detail","command": "view_debug_log_detail"},
+            {"caption": "View Debug Only","command": "view_debug_only"},
             {"caption": "View Id in Salesforce Web","command": "view_id_in_sfdc_web"},
             {"caption": "View in Salesforce Web","command": "show_in_sfdc_web"},
             {"caption": "View File Attributes","command": "view_file_attributes"}

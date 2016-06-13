@@ -1582,7 +1582,7 @@ class FetchDebugLogCommand(sublime_plugin.WindowCommand):
         user_id = self.users[user_name]
         processor.handle_fetch_debug_logs(user_name, user_id)
 
-class ViewDebugLogDetailCommand(sublime_plugin.TextCommand):
+class ViewDebugLogDetail(sublime_plugin.TextCommand):
     def run(self, view):
         processor.handle_view_debug_log_detail(self.log_id)
 
@@ -1596,6 +1596,26 @@ class ViewDebugLogDetailCommand(sublime_plugin.TextCommand):
         if not self.log_id.startswith("07L"): return False
 
         return True
+
+class ViewDebugOnly(sublime_plugin.TextCommand):
+    def run(self, view):
+        whole_region = sublime.Region(0, self.view.size())
+        debug_content = []
+        for line in self.view.lines(whole_region):
+            line_content = self.view.substr(line)
+            if "|USER_DEBUG|" in line_content:
+                debug_content.append(line_content)
+
+        self.view.window().run_command("new_dynamic_view", {
+            "view_id": self.view.id(),
+            "view_name": self.view.name(),
+            "point": 0,
+            "erase_all": True,
+            "input": "\n".join(debug_content)
+        })
+
+    def is_enabled(self):
+        return self.view.settings().get("is_debug_log")
 
 class ExecuteQuery(sublime_plugin.TextCommand):
     def run(self, view):

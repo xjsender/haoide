@@ -115,6 +115,9 @@
     // View Code Coverage
     {"keys": ["ctrl+alt+c"], "command": "view_code_coverage"},
 
+    // Just display user debug log, hide any other information
+    {"keys": ["ctrl+;"], "command": "view_debug_only"},
+
     // View the debug log detail by chosen log id
     {"keys": ["alt+d", "alt+l"], "command": "view_debug_log_detail"},
 

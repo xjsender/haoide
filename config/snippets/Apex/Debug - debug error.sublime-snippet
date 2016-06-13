@@ -4,5 +4,5 @@ System.debug(LoggingLevel.ERROR, '*** $1: ' + $1);$0
 ]]></content>
     <tabTrigger>dbe</tabTrigger>
     <scope>source.java, source.apex</scope>
-    <description>Variable Debug</description>
+    <description>Variable Debug Error</description>
 </snippet>
