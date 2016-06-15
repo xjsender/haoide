@@ -473,7 +473,7 @@ def handle_reload_sobjects_completions(timeout=120):
         # Reload cache for completions
         from . import completions
         sublime.set_timeout(lambda:completions.load_sobject_cache(
-            False, username
+            True, username
         ), 5)
 
     def handle_thread(api, thread, timeout=120):
