@@ -577,23 +577,24 @@ class ViewSelectedCodeCoverageCommand(sublime_plugin.TextCommand):
             "allowed_folders": ["classes", "triggers"]
         })
 
-        # Get the view of open code file
+        # 1. Open the view of related code file
+        # 2. Run command `view_code_coverage` to open coverage view
+        # 3. Close the view of related code file
+        # 4. Focus on the coverage view
         view = sublime.active_window().active_view()
-
-        # Execute view_code_coverage command
         view.run_command("view_code_coverage")
+        coverage_view = sublime.active_window().active_view()
 
-        # Get the coverage view
-        coverageView = sublime.active_window().active_view()
+        # If there is no available code file
+        if coverage_view.id() == view.id():
+            return
 
-        # Focus on the view of open code file
-        # Close the view of open code file
         if view.id() not in openViewIds:
             sublime.active_window().focus_view(view)
             sublime.active_window().run_command("close")
 
         # Move focus to the coverage view
-        sublime.active_window().focus_view(coverageView)
+        sublime.active_window().focus_view(coverage_view)
 
 class NewViewCommand(sublime_plugin.TextCommand):
     """
@@ -1615,7 +1616,7 @@ class ViewDebugOnly(sublime_plugin.TextCommand):
         })
 
     def is_enabled(self):
-        return self.view.settings().get("is_debug_log")
+        return self.view.settings().get("is_debug_log") is True
 
 class ExecuteQuery(sublime_plugin.TextCommand):
     def run(self, view):
