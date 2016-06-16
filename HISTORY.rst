@@ -4,6 +4,15 @@ Release History
 
 ---------------
 
+
+Release 3.4.5 (2016-06-16)
+++++++++++++++++++
+* Fix bug: sublime will be closed when view debug log by logId with pressing alt + dblclick left mouse
+* Fix issue #126
+* Deliver feature #119
+* Add a new setting ``force_login_interval`` for controlling login cache refresh interval
+
+
 Release 3.4.4 (2016-06-11)
 ++++++++++++++++++
 * Fix Urgent ``FileNotFoundError`` problem when create new code
