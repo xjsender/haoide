@@ -63,6 +63,9 @@ After you have installed this plugin successfully, you can follow <a href="/docs
 + If you failed to deploy package after release 3.3.7
   * you should remove ``deploy_options`` from your user settings, see more detail at [issue #101](https://github.com/xjsender/haoide/issues/101)
 
++ If all menu items are all gray and disabled after you installed haoide
+  * You should check whether [issue #112](https://github.com/xjsender/haoide/issues/112) can resolve your problem
+
 + Don't want to create new project with time stamp every day?
   * You can set ``keep_project_name_time_suffix`` to ``false``
 
