@@ -2,7 +2,7 @@
     <content><![CDATA[
 public $1 {get; set;}
 ]]></content>
-    <tabTrigger>gso</tabTrigger>
+    <tabTrigger>gs</tabTrigger>
     <scope>source.java, source.apex</scope>
-    <description>public variable {get; set;}</description>
+    <description>public variable { get; set; }</description>
 </snippet>
