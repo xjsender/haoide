@@ -66,6 +66,55 @@ class BaseSelection(object):
 
         return True
 
+class BuildCustomLabelsMetadata(sublime_plugin.TextCommand):
+    def run(self, edit):
+        try:
+            file_name = self.view.file_name()
+            lables_metadata = util.build_metadata(file_name, {
+                "root": "CustomLabels",
+                "leaf": "labels",
+                "xmlNodes": [
+                    "shortDescription", "fullName",
+                    "categories", "protected",
+                    "language", "value"
+                ]
+            })
+
+            formatter = xmlformatter.Formatter(indent=4)
+            lables_metadata = formatter.format_string(lables_metadata)
+        except ValueError as ve:
+            return Printer.get('error').write(str(ve))
+            
+        view = sublime.active_window().new_file()
+        view.set_syntax_file("Packages/XML/XML.tmLanguage")
+        view.run_command("new_view", {
+            "name": "CustomLabels.labels",
+            "input": lables_metadata.decode("utf-8")
+        })
+
+class BuildCustomLabelsTranslationMetadata(sublime_plugin.TextCommand):
+    def run(self, edit):
+        try:
+            file_name = self.view.file_name()
+            translations = util.build_metadata(file_name, {
+                "root": "Translations",
+                "leaf": "customLabels",
+                "xmlNodes": ["name", "label"]
+            })
+
+            formatter = xmlformatter.Formatter(indent=4)
+            translations = formatter.format_string(translations)
+        except ValueError as ve:
+            raise ve
+            return Printer.get('error').write(str(ve))
+            
+        view = sublime.active_window().new_file()
+        view.set_syntax_file("Packages/XML/XML.tmLanguage")
+        view.run_command("new_view", {
+            "name": "Translations.translation",
+            "input": translations.decode("utf-8")
+        })
+
 class JsonFormat(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
         try:

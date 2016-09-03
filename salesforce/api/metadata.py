@@ -704,12 +704,11 @@ class MetadataApi():
         total_seconds = (datetime.datetime.now() - start_time).seconds
         Printer.get('log').write("\n\nTotal time: %s seconds" % total_seconds, False)
 
-        # Display debug log message in the new view
-        if "header" in result and result["header"] and "debugLog" in result["header"]:
-            view = sublime.active_window().new_file()
-            view.run_command("new_view", {
-                "name": "Debugging Information",
-                "input": result["header"]["debugLog"]
-            })
+        # # Display debug log message in the new view
+        # view = sublime.active_window().new_file()
+        # view.run_command("new_view", {
+        #     "name": "Debugging Information",
+        #     "input": result.get("header", {}).get("debugLog", "")
+        # })
 
         self.result = result

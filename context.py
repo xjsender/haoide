@@ -63,9 +63,14 @@ def get_settings():
     else:
         settings["security_token"] = ""
 
+    # Get the default api version
+    api_version = default_project.get("api_version")
+    if not api_version:
+        api_version = s.get("api_version", 37)
+
     login_url = default_project.get("login_url")
     settings["login_url"] = login_url
-    settings["soap_login_url"] = login_url + "/services/Soap/u/v{0}.0".format(s.get("api_version", "29"))
+    settings["soap_login_url"] = login_url + "/services/Soap/u/v{0}.0".format(api_version)
 
     # Indicate whether keep local change history
     settings["keep_local_change_history"] = s.get("keep_local_change_history", True)
@@ -110,7 +115,7 @@ def get_settings():
         s.get("reload_symbol_tables_when_create_project", True)
 
     # Set API Version
-    settings["api_version"] = s.get("api_version", "28")
+    settings["api_version"] = api_version
 
     # Browser Path
     settings["default_chrome_path"] = s.get("default_chrome_path")

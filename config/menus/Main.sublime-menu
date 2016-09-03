@@ -351,6 +351,15 @@
                         "command": "xml_format"
                     },
 
+                    {
+                        "caption": "Build CustomLables Metadata",
+                        "command": "build_custom_labels_metadata"
+                    },
+                    {
+                        "caption": "Build CustomLables Translation Metadata",
+                        "command": "build_custom_labels_translation_metadata"
+                    },
+
                     { "caption": "-" },
 
                     {
