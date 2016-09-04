@@ -68,6 +68,12 @@ def get_settings():
     if not api_version:
         api_version = s.get("api_version", 37)
 
+    # Set deploy options
+    deploy_options = default_project.get("deploy_options")
+    if not deploy_options:
+        deploy_options = s.get("deploy_options")
+    settings["deploy_options"] = deploy_options
+
     login_url = default_project.get("login_url")
     settings["login_url"] = login_url
     settings["soap_login_url"] = login_url + "/services/Soap/u/v{0}.0".format(api_version)
@@ -153,9 +159,6 @@ def get_settings():
 
     # Log Levels of Anonymous Code
     settings["anonymous_log_levels"] = s.get("anonymous_log_levels")
-
-    # Deploy Option
-    settings["deploy_options"] = s.get("deploy_options")
 
     # Settings for controlling action when file is activated
     settings["auto_switch_project_on_file_activated"] = s.get("auto_switch_project_on_file_activated", True)

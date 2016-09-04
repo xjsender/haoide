@@ -54,7 +54,22 @@
             "subscribed_metadata_objects": [],
 
             // Default API Version for single project
-            "api_version": 36
+            "api_version": 36,
+
+            // Default deploy options
+            // testLevel: NoTestRun, RunSpecifiedTests, RunLocalTests, RunAllTestsInOrg
+            "deploy_options": {
+                "allowMissingFiles": false,
+                "autoUpdatePackage": false,
+                "checkOnly": false,
+                "ignoreWarnings": true,
+                "performRetrieve": false,
+                "purgeOnDelete": false,
+                "rollbackOnError": true,
+                "runTests": "true",
+                "singlePackage": true,
+                "testLevel": "NoTestRun"
+            },
         }
     },
 
