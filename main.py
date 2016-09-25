@@ -11,6 +11,7 @@ import json
 import pprint
 import time
 import xml
+import urllib.request
 
 from . import requests
 from . import processor
@@ -410,9 +411,9 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
             "cache_name": self.cache_name
         }), 10)
 
-class Convert15Id218IdCommand(sublime_plugin.WindowCommand):
+class Convert15Id218Id(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(Convert15Id218IdCommand, self).__init__(*args, **kwargs)
+        super(Convert15Id218Id, self).__init__(*args, **kwargs)
 
     def run(self):
         self.window.show_input_panel("Input 15 Id: ", 
@@ -421,6 +422,30 @@ class Convert15Id218IdCommand(sublime_plugin.WindowCommand):
     def on_input(self, input):
         c18Id = util.convert_15_to_18(input)
         Printer.get('log').write("Converted 18 Digit Id: " + c18Id);
+
+class DecodeUrl(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DecodeUrl, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.window.show_input_panel("Input your URL to be decoded: ", 
+            "", self.on_input, None, None)
+
+    def on_input(self, input):
+        decodedUrl = urllib.request.unquote(input)
+        Printer.get('log').write("Decoded URL: " + decodedUrl);
+
+class EncodeUrl(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(EncodeUrl, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.window.show_input_panel("Input your URL to be encoded: ", 
+            "", self.on_input, None, None)
+
+    def on_input(self, input):
+        encodedUrl = urllib.request.quote(input)
+        Printer.get('log').write("Encoded URL: " + encodedUrl);
 
 class GenerateSoqlCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

@@ -234,6 +234,16 @@
     },
 
     {
+        "caption": "HaoIDE: Utitlities > Decode URL",
+        "command": "decode_url"
+    },
+
+    {
+        "caption": "HaoIDE: Utitlities > Encode URL",
+        "command": "encode_url"
+    },
+
+    {
         "caption": "HaoIDE: Utitlities > JSON Format",
         "command": "json_format"
     },
