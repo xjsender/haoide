@@ -921,11 +921,17 @@ class DestructFilesFromServer(sublime_plugin.WindowCommand):
 
         return True
 
-class DeployZipCommand(sublime_plugin.WindowCommand):
+class DeployZip(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(DeployZipCommand, self).__init__(*args, **kwargs)
+        super(DeployZip, self).__init__(*args, **kwargs)
 
-    def run(self):
+    def run(self, zipfile_path=None, chosen_classes=[]):
+        self.zipfile_path = zipfile_path
+        self.chosen_classes = chosen_classes
+
+        if self.zipfile_path:
+            return self.execute_deploy()
+
         path = sublime.get_clipboard()
         if not path or not os.path.isfile(path): path = ""
         if not path.endswith("zip"): path = ""
@@ -934,10 +940,30 @@ class DeployZipCommand(sublime_plugin.WindowCommand):
 
     def on_input(self, zipfile_path):
         if not zipfile_path.endswith('.zip'):
-            Printer.get("error").write("Invalid Zip File")
-            return
+            return Printer.get("error").write("Invalid Zip File")
+        self.zipfile_path = zipfile_path
 
-        processor.handle_deploy_thread(util.base64_encode(zipfile_path))
+        # Start deployment
+        self.execute_deploy()
+
+    def execute_deploy(self):
+        settings = context.get_settings()
+        deploy_options = settings["deploy_options"]
+        testLevel = deploy_options.get("testLevel", "NoTestRun") 
+        if testLevel == "RunSpecifiedTests" and not self.chosen_classes:
+            return self.window.run_command("choose_test_classes", {
+                "callback_options": {
+                    "callback_command": "deploy_zip", 
+                    "args": {
+                        "zipfile_path": self.zipfile_path,
+                        "chosen_classes": self.chosen_classes
+                    }
+                }
+            })
+
+
+        processor.handle_deploy_thread(util.base64_encode(self.zipfile_path), 
+            chosen_classes=self.chosen_classes)
 
 class DeployOpenFilesToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
