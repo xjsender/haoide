@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 3.4.6 (2016-09-26)
+++++++++++++++++++
+* Deliver enhancement for issue #132
+* Deliver enhancement for issue #134
+* Deliver enhancement for issue #140
+* Fix issue #138
+
 
 Release 3.4.5 (2016-06-16)
 ++++++++++++++++++
