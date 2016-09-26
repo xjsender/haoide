@@ -51,7 +51,25 @@
             // If this attribute is not exist, it will be populated when create your first new project
             // After that time, if you want to subscribe more objects or unsubscribe exist objects,
             // you can do it by ``Settings > Toggle Metadata Objects`` in the main menu
-            "subscribed_metadata_objects": []
+            "subscribed_metadata_objects": [],
+
+            // Default API Version for single project
+            "api_version": 36,
+
+            // Default deploy options
+            // testLevel: NoTestRun, RunSpecifiedTests, RunLocalTests, RunAllTestsInOrg
+            "deploy_options": {
+                "allowMissingFiles": false,
+                "autoUpdatePackage": false,
+                "checkOnly": false,
+                "ignoreWarnings": true,
+                "performRetrieve": false,
+                "purgeOnDelete": false,
+                "rollbackOnError": true,
+                "runTests": "true",
+                "singlePackage": true,
+                "testLevel": "NoTestRun"
+            },
         }
     },
 

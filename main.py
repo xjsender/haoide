@@ -11,6 +11,7 @@ import json
 import pprint
 import time
 import xml
+import urllib.request
 
 from . import requests
 from . import processor
@@ -65,6 +66,55 @@ class BaseSelection(object):
                 self.view.size()))
 
         return True
+
+class BuildCustomLabelsMetadata(sublime_plugin.TextCommand):
+    def run(self, edit):
+        try:
+            file_name = self.view.file_name()
+            lables_metadata = util.build_metadata(file_name, {
+                "root": "CustomLabels",
+                "leaf": "labels",
+                "xmlNodes": [
+                    "shortDescription", "fullName",
+                    "categories", "protected",
+                    "language", "value"
+                ]
+            })
+
+            formatter = xmlformatter.Formatter(indent=4)
+            lables_metadata = formatter.format_string(lables_metadata)
+        except ValueError as ve:
+            return Printer.get('error').write(str(ve))
+            
+        view = sublime.active_window().new_file()
+        view.set_syntax_file("Packages/XML/XML.tmLanguage")
+        view.run_command("new_view", {
+            "name": "CustomLabels.labels",
+            "input": lables_metadata.decode("utf-8")
+        })
+
+class BuildCustomLabelsTranslationMetadata(sublime_plugin.TextCommand):
+    def run(self, edit):
+        try:
+            file_name = self.view.file_name()
+            translations = util.build_metadata(file_name, {
+                "root": "Translations",
+                "leaf": "customLabels",
+                "xmlNodes": ["name", "label"]
+            })
+
+            formatter = xmlformatter.Formatter(indent=4)
+            translations = formatter.format_string(translations)
+        except ValueError as ve:
+            raise ve
+            return Printer.get('error').write(str(ve))
+            
+        view = sublime.active_window().new_file()
+        view.set_syntax_file("Packages/XML/XML.tmLanguage")
+        view.run_command("new_view", {
+            "name": "Translations.translation",
+            "input": translations.decode("utf-8")
+        })
 
 class JsonFormat(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
@@ -361,9 +411,9 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
             "cache_name": self.cache_name
         }), 10)
 
-class Convert15Id218IdCommand(sublime_plugin.WindowCommand):
+class Convert15Id218Id(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(Convert15Id218IdCommand, self).__init__(*args, **kwargs)
+        super(Convert15Id218Id, self).__init__(*args, **kwargs)
 
     def run(self):
         self.window.show_input_panel("Input 15 Id: ", 
@@ -372,6 +422,30 @@ class Convert15Id218IdCommand(sublime_plugin.WindowCommand):
     def on_input(self, input):
         c18Id = util.convert_15_to_18(input)
         Printer.get('log').write("Converted 18 Digit Id: " + c18Id);
+
+class DecodeUrl(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(DecodeUrl, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.window.show_input_panel("Input your URL to be decoded: ", 
+            "", self.on_input, None, None)
+
+    def on_input(self, input):
+        decodedUrl = urllib.request.unquote(input)
+        Printer.get('log').write("Decoded URL: " + decodedUrl);
+
+class EncodeUrl(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(EncodeUrl, self).__init__(*args, **kwargs)
+
+    def run(self):
+        self.window.show_input_panel("Input your URL to be encoded: ", 
+            "", self.on_input, None, None)
+
+    def on_input(self, input):
+        encodedUrl = urllib.request.quote(input)
+        Printer.get('log').write("Encoded URL: " + encodedUrl);
 
 class GenerateSoqlCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -847,11 +921,17 @@ class DestructFilesFromServer(sublime_plugin.WindowCommand):
 
         return True
 
-class DeployZipCommand(sublime_plugin.WindowCommand):
+class DeployZip(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(DeployZipCommand, self).__init__(*args, **kwargs)
+        super(DeployZip, self).__init__(*args, **kwargs)
 
-    def run(self):
+    def run(self, zipfile_path=None, chosen_classes=[]):
+        self.zipfile_path = zipfile_path
+        self.chosen_classes = chosen_classes
+
+        if self.zipfile_path:
+            return self.execute_deploy()
+
         path = sublime.get_clipboard()
         if not path or not os.path.isfile(path): path = ""
         if not path.endswith("zip"): path = ""
@@ -860,10 +940,30 @@ class DeployZipCommand(sublime_plugin.WindowCommand):
 
     def on_input(self, zipfile_path):
         if not zipfile_path.endswith('.zip'):
-            Printer.get("error").write("Invalid Zip File")
-            return
+            return Printer.get("error").write("Invalid Zip File")
+        self.zipfile_path = zipfile_path
 
-        processor.handle_deploy_thread(util.base64_encode(zipfile_path))
+        # Start deployment
+        self.execute_deploy()
+
+    def execute_deploy(self):
+        settings = context.get_settings()
+        deploy_options = settings["deploy_options"]
+        testLevel = deploy_options.get("testLevel", "NoTestRun") 
+        if testLevel == "RunSpecifiedTests" and not self.chosen_classes:
+            return self.window.run_command("choose_test_classes", {
+                "callback_options": {
+                    "callback_command": "deploy_zip", 
+                    "args": {
+                        "zipfile_path": self.zipfile_path,
+                        "chosen_classes": self.chosen_classes
+                    }
+                }
+            })
+
+
+        processor.handle_deploy_thread(util.base64_encode(self.zipfile_path), 
+            chosen_classes=self.chosen_classes)
 
 class DeployOpenFilesToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

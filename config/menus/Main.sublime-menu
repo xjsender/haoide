@@ -320,6 +320,18 @@
                     { "caption": "-" },
 
                     {
+                        "caption": "Decode URL",
+                        "command": "decode_url"
+                    },
+
+                    {
+                        "caption": "Encode URL",
+                        "command": "encode_url"
+                    },
+
+                    { "caption": "-" },
+
+                    {
                         "caption": "JSON Format",
                         "command": "json_format"
                     },
@@ -349,6 +361,15 @@
                     {
                         "caption": "XML Format",
                         "command": "xml_format"
+                    },
+
+                    {
+                        "caption": "Build CustomLables Metadata",
+                        "command": "build_custom_labels_metadata"
+                    },
+                    {
+                        "caption": "Build CustomLables Translation Metadata",
+                        "command": "build_custom_labels_translation_metadata"
                     },
 
                     { "caption": "-" },

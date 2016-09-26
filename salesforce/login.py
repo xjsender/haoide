@@ -72,6 +72,7 @@ def soap_login(settings, session_id_expired=False, timeout=10):
         del globals()["repeat_times"]
 
     result = {}
+    print (response.text)
     if response.status_code != 200:
         except_msg = util.getUniqueElementValueFromXmlString(response.content, 'sf:exceptionMessage')
         result["Error Message"] = except_msg

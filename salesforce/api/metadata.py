@@ -642,7 +642,7 @@ class MetadataApi():
             Printer.get('log').write("[sf:%s] Request Failed\n\nBUILD FAILED" % deploy_or_validate)
             Printer.get('log').write("*********** DEPLOYMENT FAILED ***********", False)
             Printer.get('log').write("Request ID: %s" % async_process_id, False)
-
+            
             # Output Failure Details
             failures_messages = []
             if "componentFailures" in body["details"]:
@@ -653,15 +653,29 @@ class MetadataApi():
                 for index in range(len(component_failures)):
                     component_failure = component_failures[index]
                     failures_messages.append("%s. %s -- %s: %s (line %s column %s)" % (
-                        index+1, 
+                        index + 1, 
                         component_failure["fileName"],
                         component_failure["problemType"],
                         component_failure["problem"],
                         component_failure["lineNumber"] \
-                            if "lineNumber" in component_failure else "0",
+                            if "lineNumber" in component_failure else "N/A",
                         component_failure["columnNumber"] \
-                            if "columnNumber" in component_failure else "0"
+                            if "columnNumber" in component_failure else "N/A"
                     ))
+            elif "runTestResult" in body["details"]:
+                failures = body["details"]["runTestResult"].get("failures", [])
+                if isinstance(failures, dict):
+                    failures = [failures]
+
+                for index in range(len(failures)):
+                    failure = failures[index]
+                    failures_messages.append("%s. %s -- %s: %s" % (
+                        index + 1, 
+                        failure.get("type"),
+                        failure.get("name"),
+                        failure.get("message")
+                    ))
+
             elif "errorMessage" in body:
                 Printer.get('log').write("\n" + body["errorMessage"], False)
 
@@ -704,12 +718,11 @@ class MetadataApi():
         total_seconds = (datetime.datetime.now() - start_time).seconds
         Printer.get('log').write("\n\nTotal time: %s seconds" % total_seconds, False)
 
-        # Display debug log message in the new view
-        if "header" in result and result["header"] and "debugLog" in result["header"]:
-            view = sublime.active_window().new_file()
-            view.run_command("new_view", {
-                "name": "Debugging Information",
-                "input": result["header"]["debugLog"]
-            })
+        # # Display debug log message in the new view
+        # view = sublime.active_window().new_file()
+        # view.run_command("new_view", {
+        #     "name": "Debugging Information",
+        #     "input": result.get("header", {}).get("debugLog", "")
+        # })
 
         self.result = result

@@ -744,8 +744,6 @@ def get_variable_type(view, pt, pattern):
     else:
         variable_type = matched_str.split(" ")[0]
 
-    print (variable_type)
-
     return variable_type
 
 def get_soql_match_region(view, pt):
@@ -3479,3 +3477,32 @@ def export_profile_settings():
     Printer.get("log").write("Writing profile object security to "+outputdir)
     with open(outputdir+"/FieldLevelSecurity.csv", "wb") as fp:
         fp.write("\n".join(all_rows).encode("utf-8"))
+
+def build_metadata(csvfile, options):
+    """ Convert JSON to custom labels metadata """
+    rjson = convert_csv_to_json(csvfile, options.get("xmlNodes"))
+    custom_labels_json = {
+        options.get("root"): {
+            "@xmlns": "http://soap.sforce.com/2006/04/metadata",
+            options.get("leaf"): rjson
+        }
+    }
+
+    return xmltodict.unparse(custom_labels_json)
+
+def convert_csv_to_json(csvfile, xmlNodes):
+    """ Convert CSV to JSON format"""
+
+    fp = open(csvfile, "rt", encoding="utf8"); # Open CSV file
+    next(fp) # Ignore header
+    csv_reader = csv.DictReader(fp, xmlNodes)
+
+    tempjson = os.path.join(os.path.split(csvfile)[0], "temp.json")
+    with open(tempjson, 'w') as fp:
+        fp.write(json.dumps([r for r in csv_reader]))
+
+    rjson = json.loads(open(tempjson).read())
+    os.remove(tempjson)
+
+    return rjson
+
