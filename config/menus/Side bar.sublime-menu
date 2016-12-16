@@ -39,8 +39,13 @@
             },
 
             {
-                "caption": "Combine Package.xml", "command": "combine_package_xml",
+                "caption": "Combine Package Folder", "command": "combine_package_folder",
                 "args": {"dirs": []}
+            },
+
+            {
+                "caption": "Combine Package Files", "command": "combine_package_files",
+                "args": {"files": []}
             },
 
             {

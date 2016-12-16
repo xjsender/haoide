@@ -10,52 +10,81 @@ from . import processor
 from .salesforce.lib.panel import Printer
 
 
-class CombinePackageXml(sublime_plugin.WindowCommand):
+class CombinePackageFiles(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(CombinePackageXml, self).__init__(*args, **kwargs)
+        super(CombinePackageFiles, self).__init__(*args, **kwargs)
 
-    def run(self, dirs):
+    def run(self, files):
+        package_xmls = []
+        for _file in files:
+            if _file.endswith("-meta.xml"):
+                continue
+            
+            if _file.endswith(".xml"):
+                package_xmls.append(_file)
+
+        target_dir = os.path.split(files[0])[0]
+        self.window.run_command('combine_package_folder', {
+            "dirs": [],
+            "package_xmls": package_xmls,
+            "target_dir": target_dir
+        })
+
+
+    def is_visible(self, files):
+        if not files: return False
+        return True
+
+class CombinePackageFolder(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CombinePackageFolder, self).__init__(*args, **kwargs)
+
+    def run(self, dirs, package_xmls=None, target_dir=None):
         self.settings = context.get_settings()
 
+        # If combine package by folder
+        if not package_xmls:
+            package_xmls = []
+            for _dir in dirs:
+                for dirpath, dirnames, filenames in os.walk(_dir):
+                    for filename in filenames:
+                        if filename.endswith("-meta.xml"): continue
+                        if not filename.endswith(".xml"): continue
+
+                        # Package file name
+                        package_xmls.append(os.path.join(dirpath, filename))
+
         all_types = {}
-        for _dir in dirs:
-            for dirpath, dirnames, filenames in os.walk(_dir):
-                for filename in filenames:
-                    if filename.endswith("-meta.xml"): continue
-                    if not filename.endswith(".xml"): continue
+        for package_xml in package_xmls:
+            # Read package.xml content
+            with open(package_xml, "rb") as fp:
+                content = fp.read()
 
-                    # Package file name
-                    package_xml = os.path.join(dirpath, filename)
+            """ Combine types sample: [
+                {"ApexClass": ["test"]},
+                {"ApexTrigger": ["test"]}
+            ]
+            """
+            try:
+                _types = util.build_package_types(content)
+            except xml.parsers.expat.ExpatError as ee:
+                message = "%s parse error: %s" % (package_xml, str(ee))
+                Printer.get("error").write(message)
+                if not sublime.ok_cancel_dialog(message, "Skip?"): return
+                continue
+            except KeyError as ex:
+                if self.settings["debug_mode"]:
+                    print ("%s is not valid package.xml" % package_xml)
+                continue
 
-                    # Read package.xml content
-                    with open(package_xml, "rb") as fp:
-                        content = fp.read()
+            for _type in _types:
+                members = _types[_type]
 
-                    """ Combine types sample: [
-                        {"ApexClass": ["test"]},
-                        {"ApexTrigger": ["test"]}
-                    ]
-                    """
-                    try:
-                        _types = util.build_package_types(content)
-                    except xml.parsers.expat.ExpatError as ee:
-                        message = "%s parse error: %s" % (package_xml, str(ee))
-                        Printer.get("error").write(message)
-                        if not sublime.ok_cancel_dialog(message, "Skip?"): return
-                        continue
-                    except KeyError as ex:
-                        if self.settings["debug_mode"]:
-                            print ("%s is not valid package.xml" % package_xml)
-                        continue
-
-                    for _type in _types:
-                        members = _types[_type]
-
-                        if _type in all_types:
-                            members.extend(all_types[_type])
-                            members = list(set(members))
-                        
-                        all_types[_type] = sorted(members)
+                if _type in all_types:
+                    members.extend(all_types[_type])
+                    members = list(set(members))
+                
+                all_types[_type] = sorted(members)
 
         if not all_types:
             Printer.get("error").write_start().write("No available package.xml to combine")
@@ -81,7 +110,10 @@ class CombinePackageXml(sublime_plugin.WindowCommand):
             api_version=self.settings["api_version"]
         )
 
-        package_path = os.path.join(dirs[0], "combined package.xml")
+        # Define target dir to contain the combined xml
+        if len(dirs) > 0: target_dir = dirs[0]
+
+        package_path = os.path.join(target_dir, "All.xml")
         sublime.active_window().show_input_panel("Input Package.xml Path", 
             package_path, self.on_input_package_path, None, None)
 
