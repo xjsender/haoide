@@ -2087,7 +2087,9 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
         file_name = "%s/%s" % (component_outputdir, self.component_name + extension)
         if os.path.isfile(file_name):
             message = '"%s" is already exist, do you want to try again?' % self.component_name
-            if not sublime.ok_cancel_dialog(message, "Continue?"): return
+            if not sublime.ok_cancel_dialog(message, "Continue?"):
+                self.window.open_file(file_name)
+                return
             self.window.show_input_panel("Please Input Name: ", "", self.on_input, None, None)
             return
 
