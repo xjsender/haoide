@@ -4094,7 +4094,7 @@ tag_defs = {
         }
     },
 
-    "ui:outputDataTime": {
+    "ui:outputDateTime": {
         "simple": False,
         "type": "aura",
         "attribs": {
