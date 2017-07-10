@@ -19,10 +19,14 @@ tag_defs = {
                 ]
             },
             "controller": {
-                "type": "String"
+                "type": "String",
+                "description" : "The server-side controller class for the app. The format is namespace.myController."
             },
             "description": {
                 "type": "String"
+            },
+            "extends": {
+                "type" : "Component"
             },
             "implements": {
                 "type": "String"
@@ -85,6 +89,9 @@ tag_defs = {
             },
             "implements": {
                 "type": "String"
+            },
+            "extends": {
+                "type" : "Component"
             },
             "body": {
                 "type": "String"
@@ -4763,6 +4770,7 @@ tag_defs = {
             "aura:id": {
                 "type": "String"
             },
+
             "body": {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
@@ -4776,6 +4784,1360 @@ tag_defs = {
             "toggleLoadingIndicator": {
                 "type": "COMPONENT",
                 "description": "Change the visibility of a ui:spinner component."
+            }
+        }
+    },
+
+    "lightning:avatar": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "alternativeText": {
+                "type": "String",
+                "description": "The alternative text used to describe the avatar, which is displayed as hover text on the image. Required"
+            },
+
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+
+            "size": {
+                "type": "String",
+                "description": "The size of the avatar. Valid values are x-small, small, medium, and large. This value defaults to medium."
+            },
+
+            "src": {
+                "type": "String",
+                "description": "The URL for the image. Required"
+            }
+        }
+    },
+
+    "lightning:badge": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+
+            "label": {
+                "type": "String",
+                "description": "The text to be displayed inside the badge."
+            }
+        }
+    },
+
+    "lightning:breadcrumbs": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+
+            "href": {
+                "type": "String",
+                "description": "The URL of the page that the breadcrumb goes to."
+            },
+
+            "label": {
+                "type": "String",
+                "description": "The text label for the breadcrumb. Required."
+            },
+
+            "name": {
+                "type": "String",
+                "description": "The name for the breadcrumb component. This value is optional and can be used to identify the breadcrumb in a callback."
+            },
+
+            "onclick": {
+                "type": "Action",
+                "description": "The action triggered when the breadcrumb is clicked."
+            },
+
+            "title": {
+                "type": "String",
+                "description": "Displays tooltip text when the mouse moves over the element."
+            }
+        }
+    },
+
+    "lightning:breadcrumbs": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+
+            "title": {
+                "type": "String",
+                "description": "Displays tooltip text when the mouse moves over the element."
+            }
+        }
+    },
+
+    "lightning:button": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "accesskey": {
+                "type": "String",
+                "description": "Specifies a shortcut key to activate or focus an element."
+            },
+
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+
+            "disabled": {
+                "type": "Boolean",
+                "description": "Specifies whether this button should be displayed in a disabled state. Disabled buttons can't be clicked. This value defaults to false."
+            },
+
+            "iconName": {
+                "type": "String",
+                "description": "The Lightning Design System name of the icon. "
+            },
+
+            "iconPosition": {
+                "type": "String",
+                "description": "Describes the position of the icon with respect to body. Options include left and right. This value defaults to left."
+            },
+
+            "label": {
+                "type": "String",
+                "description": "The text to be displayed inside the button."
+            },
+
+            "name": {
+                "type": "String",
+                "description": "The name for the button element. This value is optional and can be used to identify the button in a callback."
+            },
+
+            "onblur": {
+                "type": "Action",
+                "description": "The action triggered when the element releases focus."
+            },
+
+            "onclick": {
+                "type": "Action",
+                "description": "The action triggered when the button is clicked."
+            },
+
+            "onfocus": {
+                "type": "Action",
+                "description": "The action triggered when the element receives focus."
+            },
+
+            "tabindex": {
+                "type": "Integer",
+                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
+            },
+
+            "type": {
+                "type": "String",
+                "description": "Specifies the type of button. Valid values are button, reset, and submit. This value defaults to button."
+            },
+
+            "value": {
+                "type": "String",
+                "description": "The value for the button element. This value is optional and can be used when submitting a form."
+            },
+
+            "variant": {
+                "type": "String",
+                "description": "The variant changes the appearance of the button. Accepted variants include base, neutral, brand, destructive, and inverse. This value defaults to neutral."
+            },
+
+            "title": {
+                "type": "String",
+                "description": "Displays tooltip text when the mouse moves over the element."
+            }
+        }
+    },
+
+    "lightning:buttonGroup": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            }
+        }
+    },
+
+    "lightning:buttonIcon": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "accesskey": {
+                "type": "String",
+                "description": "Specifies a shortcut key to activate or focus an element."
+            },
+
+            "alternativeText": {
+                "type": "String",
+                "description": "The alternative text used to describe the icon. This text should describe what happens when you click the button, for example 'Upload File', not what the icon looks like, 'Paperclip'. Required."
+            },
+
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+
+            "disabled": {
+                "type": "Boolean",
+                "description": "Specifies whether this button should be displayed in a disabled state. Disabled buttons can't be clicked. This value defaults to false."
+            },
+
+            "iconClass": {
+                "type": "String",
+                "description": "The class to be applied to the contained icon element."
+            },
+
+             "iconName": {
+                "type": "String",
+                "description": "The Lightning Design System name of the icon. Names are written in the format '\\utility:down\\' where 'utility' is the category, and 'down' is the specific icon to be displayed. Required."
+            },
+
+            "name": {
+                "type": "String",
+                "description": "The name for the button element. This value is optional and can be used to identify the button in a callback."
+            },
+
+            "onblur": {
+                "type": "Action",
+                "description": "The action triggered when the element releases focus."
+            },
+
+            "onclick": {
+                "type": "Action",
+                "description": "The action triggered when the button is clicked."
+            },
+
+            "onfocus": {
+                "type": "Action",
+                "description": "The action triggered when the element receives focus."
+            },
+
+            "size": {
+                "type": "String",
+                "description": "The size of the buttonIcon. For the bare variant, options include x-small, small, medium, and large. For non-bare variants, options include xx-small, x-small, small, and medium. This value defaults to medium."
+            },
+
+            "tabindex": {
+                "type": "Integer",
+                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
+            },
+
+            "title": {
+                "type": "String",
+                "description": "Displays tooltip text when the mouse moves over the element."
+            },
+
+            "type": {
+                "type": "String",
+                "description": "Specifies the type of button. Valid values are button, reset, and submit. This value defaults to button."
+            },
+
+            "value": {
+                "type": "String",
+                "description": "The value for the button element. This value is optional and can be used when submitting a form."
+            },
+
+            "variant": {
+                "type": "String",
+                "description": "The variant changes the appearance of the button. Accepted variants include base, neutral, brand, destructive, and inverse. This value defaults to neutral."
+            }
+        }
+    },
+
+    "lightning:buttonMenu": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "accesskey": {
+                "type": "String",
+                "description": "Specifies a shortcut key to activate or focus an element."
+            },
+
+            "alternativeText": {
+                "type": "String",
+                "description": "The alternative text used to describe the icon. This text should describe what happens when you click the button, for example 'Upload File', not what the icon looks like, 'Paperclip'. Required."
+            },
+
+            "body": {
+                "type": "ComponentDefRef[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+
+            "disabled": {
+                "type": "Boolean",
+                "description": "Specifies whether this button should be displayed in a disabled state. Disabled buttons can't be clicked. This value defaults to false."
+            },
+
+             "iconName": {
+                "type": "String",
+                "description": "The Lightning Design System name of the icon. Names are written in the format '\\utility:down\\' where 'utility' is the category, and 'down' is the specific icon to be displayed."
+            },
+
+            "iconSize": {
+                "type": "String",
+                "values" : ["xx-small", "x-small", "medium", "large"],
+                "description": "The size of the icon. Options include xx-small, x-small, medium, or large. This value defaults to medium."
+            },
+
+            "menuAlignment": {
+                "type": "String",
+                "description": "Determines the alignment of the menu relative to the button. Available options are: left, center, right. This value defaults to left."
+            },
+
+            "name": {
+                "type": "String",
+                "description": "The name for the button element. This value is optional and can be used to identify the button in a callback."
+            },
+
+            "onblur": {
+                "type": "Action",
+                "description": "The action triggered when the element releases focus."
+            },
+
+            "onselect": {
+                "type": "Action",
+                "description": "Action fired when a menu item is selected. The 'detail.menuItem' property of the passed event is the selected menu item."
+            },
+
+            "onfocus": {
+                "type": "Action",
+                "description": "The action triggered when the element receives focus."
+            },
+
+            "tabindex": {
+                "type": "Integer",
+                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
+            },
+
+            "title": {
+                "type": "String",
+                "description": "Tooltip text on the button."
+            },
+
+            "value": {
+                "type": "String",
+                "description": "The value for the button element. This value is optional and can be used when submitting a form."
+            },
+
+            "variant": {
+                "type": "String",
+                "description": "The variant changes the appearance of the button. Accepted variants include base, neutral, brand, destructive, and inverse. This value defaults to neutral."
+            },
+
+            "type": {
+                "type": "Boolean",
+                "description": "If true, the menu items are displayed. This value defaults to false."
+            }
+        }
+    },
+
+    "lightning:buttonStateful": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "accesskey": {
+                "type": "String",
+                "description": "Specifies a shortcut key to activate or focus an element."
+            },
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            "iconNameWhenHover": {
+                "type": "String",
+                "description": "The name of the icon to be used in the format \\'utility:close\\' when the state is true and the button receives focus."
+            },
+            "iconNameWhenOff": {
+                "type": "String",
+                "description": "The name of the icon to be used in the format \\'utility:add\\' when the state is false."
+            },
+            "iconNameWhenOn": {
+                "type": "String",
+                "description": "The name of the icon to be used in the format \\'utility:check\\' when the state is true."
+            },
+            "labelWhenHover": {
+                "type": "String",
+                "description": "The text to be displayed inside the button when state is true and the button receives focus."
+            },
+            "labelWhenOff": {
+                "type": "String",
+                "description": "The text to be displayed inside the button when state is false."
+            },
+            "labelWhenOn": {
+                "type": "String",
+                "description": "The text to be displayed inside the button when state is true."
+            },
+            "onblur": {
+                "type": "Action",
+                "description": "The action triggered when the element releases focus."
+            },
+            "onclick": {
+                "type": "Action",
+                "description": "The action triggered when the button is clicked."
+            },
+            "onfocus": {
+                "type": "Action",
+                "description": "The action triggered when the element receives focus."
+            },
+            "state": {
+                "type": "Boolean",
+                "description": "The state of the button, which shows whether the button has been selected or not. The default state is false."
+            },
+            "tabindex": {
+                "type": "Integer",
+                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
+            },
+            "title": {
+                "type": "String",
+                "description": "Displays tooltip text when the mouse moves over the element."
+            },
+            "variant": {
+                "type": "String",
+                "description": "The variant changes the appearance of the button. Accepted variants include brand, inverse, neutral and text. This value defaults to neutral."
+            }
+        }
+    },
+    "lightning:card": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "actions": {
+                "type": "Component[]",
+                "description": "Actions are components such as button or buttonIcon. Actions are displayed in the header."
+            },
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            "footer": {
+                "type": "Component[]",
+                "description": "The footer can include text or another component"
+            },
+            "iconName": {
+                "type": "String",
+                "description": "The Lightning Design System name of the icon. Names are written in the format '\\utility:down\\' where 'utility' is the category, and 'down' is the specific icon to be displayed. The icon is displayed in the header to the left of the title."
+            },
+            "title": {
+                "type": "Component[]",
+                "description": "The title can include text or another component, and is displayed in the header."
+            },
+            "variant": {
+                "type": "String",
+                "description": "The variant changes the appearance of the card. Accepted variants include base or narrow. This value defaults to base."
+            }
+        }
+    },
+    "lightning:container": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "alternativeText": {
+                "type": "String",
+                "description": "Used for alternative text in accessibility scenarios."
+            },
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "class": {
+                "type": "String",
+                "description": "The CSS class for the iframe element."
+            },
+            "onerror": {
+                "type": "Action",
+                "description": "The client-side controller action to run when an error occurs when sending a message to the contained app."
+            },
+            "onmessage": {
+                "type": "Action",
+                "description": "The client-side controller action to run when a message is received from the contained content."
+            },
+            "src": {
+                "type": "String",
+                "description": "The resource name, landing page and query params in url format. Navigation is supported only for the single page identified."
+            }
+        }
+    },
+    "lightning:formattedDateTime": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "day": {
+                "type": "String",
+                "description": "Allowed values are numeric or 2-digit."
+            },
+            "era": {
+                "type": "String",
+                "description": "Allowed values are narrow, short, or long."
+            },
+            "hour": {
+                "type": "String",
+                "description": "Allowed values are numeric or 2-digit."
+            },
+            "hour12": {
+                "type": "Boolean",
+                "description": "Determines whether time is displayed as 12-hour. If false, time displays as 24-hour. The default setting is determined by the user's locale."
+            },
+            "minute": {
+                "type": "String",
+                "description": "Allowed values are numeric or 2-digit."
+            },
+            "month": {
+                "type": "String",
+                "description": "Allowed values are 2-digit, narrow, short, or long."
+            },
+            "second": {
+                "type": "String",
+                "description": "Allowed values are numeric or 2-digit."
+            },
+            "timeZone": {
+                "type": "String",
+                "description": "The time zone to use. Implementations can include any time zone listed in the IANA time zone database. The default is the runtime's default time zone. Use this attribute only if you want to override the default time zone."
+            },
+            "timeZoneName": {
+                "type": "String",
+                "description": "Allowed values are short or long. For example, the Pacific Time zone would display as 'PST' if you select 'short', or 'Pacific Standard Time' if you select 'long.'"
+            },
+            "value": {
+                "type": "Object",
+                "description": "The value to be formatted, which can be a Date object or timestamp."
+            },
+            "weekday": {
+                "type": "String",
+                "description": "Allowed values are narrow, short, or long."
+            },
+            "year": {
+                "type": "String",
+                "description": "Allowed values are numeric or 2-digit."
+            }
+        }
+    },
+    "lightning:formattedNumber": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "currencyCode": {
+                "type": "String",
+                "description": "Only used if style='currency', this attribute determines which currency is displayed. Possible values are the ISO 4217 currency codes, such as 'USD' for the US dollar."
+            },
+            "currencyDisplayAs": {
+                "type": "String",
+                "description": "Determines how currency is displayed. Possible values are symbol, code, and name. This value defaults to symbol."
+            },
+            "maximumFractionDigits": {
+                "type": "Integer",
+                "description": "The maximum number of fraction digits that are allowed."
+            },
+            "maximumSignificantDigits": {
+                "type": "Integer",
+                "description": "The maximum number of significant digits that are allowed. Possible values are from 1 to 21."
+            },
+            "minimumFractionDigits": {
+                "type": "Integer",
+                "description": "The minimum number of fraction digits that are required."
+            },
+            "minimumIntegerDigits": {
+                "type": "Integer",
+                "description": "The minimum number of integer digits that are required. Possible values are from 1 to 21."
+            },
+            "minimumSignificantDigits": {
+                "type": "Integer",
+                "description": "The minimum number of significant digits that are required. Possible values are from 1 to 21."
+            },
+            "style": {
+                "type": "String",
+                "description": "The number formatting style to use. Possible values are decimal, currency, and percent. This value defaults to decimal."
+            },
+            "value": {
+                "type": "Decimal",
+                "description": "The value to be formatted."
+            }
+        }
+    },
+    "lightning:icon": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "alternativeText": {
+                "type": "String",
+                "description": "The alternative text used to describe the icon. This text should describe what happens when you click the button, for example 'Upload File', not what the icon looks like, 'Paperclip'."
+            },
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            "iconName": {
+                "type": "String",
+                "description": "The Lightning Design System name of the icon. Names are written in the format '\\utility:down\\' where 'utility' is the category, and 'down' is the specific icon to be displayed."
+            },
+            "size": {
+                "type": "String",
+                "description": "The size of the icon. Options include xx-small, x-small, small, medium, or large. This value defaults to medium."
+            },
+            "title": {
+                "type": "String",
+                "description": "Displays tooltip text when the mouse moves over the element."
+            },
+            "variant": {
+                "type": "String",
+                "description": "The variant changes the appearance of a utility icon. Accepted variants include inverse, warning and error. Use the inverse variant to implement a white fill in utility icons on dark backgrounds."
+            }
+        }
+    },
+    "lightning:input": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "accept": {
+                "type": "String",
+                "description": "Specifies the types of files that the server accepts. This attribute can be used only when type='file'."
+            },
+            "accesskey": {
+                "type": "String",
+                "description": "Specifies a shortcut key to activate or focus an element."
+            },
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "checked": {
+                "type": "Boolean",
+                "description": "Specifies whether the checkbox is checked. This value defaults to false."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            "disabled": {
+                "type": "Boolean",
+                "description": "Specifies that an input element should be disabled. This value defaults to false."
+            },
+            "files": {
+                "type": "Object",
+                "description": "A FileList that contains selected files. This attribute can be used only when type='file'."
+            },
+            "formatter": {
+                "type": "String",
+                "description": "String value with the formatter to be used."
+            },
+            "isLoading": {
+                "type": "Boolean",
+                "description": "Specifies whether the spinner is displayed to indicate that data is loading. This value defaults to false."
+            },
+            "label": {
+                "type": "String",
+                "description": "Text label for the input."
+            },
+            "max": {
+                "type": "Decimal",
+                "description": "Expected higher bound for the value in Floating-Point number"
+            },
+            "maxlength": {
+                "type": "Integer",
+                "description": "The maximum number of characters allowed in the field."
+            },
+            "messageToggleActive": {
+                "type": "String",
+                "description": "Text shown for the active state of a toggle. The default is \"Active\"."
+            },
+            "messageToggleInactive": {
+                "type": "String",
+                "description": "Text shown for then inactive state of a toggle. The default is \"Inactive\"."
+            },
+            "messageWhenBadInput": {
+                "type": "String",
+                "description": "Error message to be displayed when a bad input is detected."
+            },
+            "messageWhenPatternMismatch": {
+                "type": "String",
+                "description": "Error message to be displayed when a pattern mismatch is detected."
+            },
+            "messageWhenRangeOverflow": {
+                "type": "String",
+                "description": "Error message to be displayed when a range overflow is detected."
+            },
+            "messageWhenRangeUnderflow": {
+                "type": "String",
+                "description": "Error message to be displayed when a range underflow is detected."
+            },
+            "messageWhenStepMismatch": {
+                "type": "String",
+                "description": "Error message to be displayed when a step mismatch is detected."
+            },
+            "messageWhenTooLong": {
+                "type": "String",
+                "description": "Error message to be displayed when the value is too long."
+            },
+            "messageWhenTypeMismatch": {
+                "type": "String",
+                "description": "Error message to be displayed when a type mismatch is detected."
+            },
+            "messageWhenValueMissing": {
+                "type": "String",
+                "description": "Error message to be displayed when the value is missing."
+            },
+            "min": {
+                "type": "Decimal",
+                "description": "Expected lower bound for the value in Floating-Point number"
+            },
+            "minlength": {
+                "type": "Integer",
+                "description": "The minimum number of characters allowed in the field."
+            },
+            "multiple": {
+                "type": "Boolean",
+                "description": "Specifies that a user can enter more than one value. This attribute can be used only when type='file' or type='email'."
+            },
+            "name": {
+                "type": "String",
+                "description": "Specifies the name of an input element."
+            },
+            "onblur": {
+                "type": "Action",
+                "description": "The action triggered when the element releases focus."
+            },
+            "onchange": {
+                "type": "Action",
+                "description": "The action triggered when a value attribute changes."
+            },
+            "onfocus": {
+                "type": "Action",
+                "description": "The action triggered when the element receives focus."
+            },
+            "pattern": {
+                "type": "String",
+                "description": "Specifies the regular expression that the input's value is checked against. This attributed is supported for text, date, search, url, tel, email, and password types."
+            },
+            "placeholder": {
+                "type": "String",
+                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
+            },
+            "readonly": {
+                "type": "Boolean",
+                "description": "Specifies that an input field is read-only. This value defaults to false."
+            },
+            "required": {
+                "type": "Boolean",
+                "description": "Specifies that an input field must be filled out before submitting the form. This value defaults to false."
+            },
+            "step": {
+                "type": "Object",
+                "description": "Granularity of the value in Positive Floating Point. Use 'any' when granularity is not a concern."
+            },
+            "tabindex": {
+                "type": "Integer",
+                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
+            },
+            "type": {
+                "type": "String",
+                "description": "The type of the input. This value defaults to text."
+            },
+            "validity": {
+                "type": "Object",
+                "description": "Represents the validity states that an element can be in, with respect to constraint validation."
+            },
+            "value": {
+                "type": "Object",
+                "description": "Specifies the value of an input element."
+            },
+            "variant": {
+                "type": "String",
+                "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard."
+            }
+        }
+    },
+    "lightning:inputRichText": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "accesskey": {
+                "type": "String",
+                "description": "Specifies a shortcut key to activate or focus an element."
+            },
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "disabled": {
+                "type": "Boolean",
+                "description": "Specifies whether the editor is disabled. This value defaults to false."
+            },
+            "disabledCategories": {
+                "type": "List",
+                "description": "A comma-separated list of button categories to remove from the toolbar."
+            },
+            "messageWhenBadInput": {
+                "type": "String",
+                "description": "Error message that's displayed when valid is false."
+            },
+            "onblur": {
+                "type": "Action",
+                "description": "The action triggered when the element releases focus."
+            },
+            "onfocus": {
+                "type": "Action",
+                "description": "The action triggered when the element receives focus."
+            },
+            "placeholder": {
+                "type": "String",
+                "description": "Text that is displayed when the field is empty."
+            },
+            "tabindex": {
+                "type": "Integer",
+                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
+            },
+            "valid": {
+                "type": "Boolean",
+                "description": "Specifies whether the editor content is valid. If invalid, the slds-has-error class is added. This value defaults to true."
+            },
+            "value": {
+                "type": "String",
+                "description": "The HTML content in the rich text editor."
+            },
+            "variant": {
+                "type": "String",
+                "description": "The variant changes the appearance of the toolbar. Accepted variants include bottom-toolbar."
+            }
+        }
+    },
+    "lightning:layout": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "Body of the layout component."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class that is applied to the outer element. This style is in addition to base classes output by the component."
+            },
+            "horizontalAlign": {
+                "type": "String",
+                "description": "Determines how to spread the layout items horizontally. The alignment options are center, space, spread, and end."
+            },
+            "multipleRows": {
+                "type": "Boolean",
+                "description": "Determines whether to wrap the child items when they exceed the layout width. If true, the items wrap to the following line. This value defaults to false."
+            },
+            "pullToBoundary": {
+                "type": "String",
+                "description": "Pulls layout items to the layout boundaries and corresponds to the padding size on the layout item. Possible values are small, medium, or large."
+            },
+            "verticalAlign": {
+                "type": "String",
+                "description": "Determines how to spread the layout items vertically. The alignment options are start, center, end, and stretch."
+            }
+        }
+    },
+    "lightning:layoutItem": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class that will be applied to the outer element. This style is in addition to base classes output by the component."
+            },
+            "flexibility": {
+                "type": "Object",
+                "description": "Make the item fluid so that it absorbs any extra space in its container or shrinks when there is less space. Allowed values are auto, shrink, no-shrink, grow, no-grow, no-flex."
+            },
+            "largeDeviceSize": {
+                "type": "Integer",
+                "description": "If the viewport is divided into 12 parts, this attribute indicates the relative space the container occupies on device-types larger than desktop. It is expressed as an integer from 1 through 12."
+            },
+            "mediumDeviceSize": {
+                "type": "Integer",
+                "description": "If the viewport is divided into 12 parts, this attribute indicates the relative space the container occupies on device-types larger than tablet. It is expressed as an integer from 1 through 12."
+            },
+            "padding": {
+                "type": "String",
+                "description": "Sets padding to either the right and left sides of a container, or all sides of a container. Allowed values are horizontal-small, horizontal-medium, horizontal-large, around-small, around-medium, around-large."
+            },
+            "size": {
+                "type": "Integer",
+                "description": "If the viewport is divided into 12 parts, size indicates the relative space the container occupies. Size is expressed as an integer from 1 through 12. This applies for all device-types."
+            },
+            "smallDeviceSize": {
+                "type": "Integer",
+                "description": "If the viewport is divided into 12 parts, this attribute indicates the relative space the container occupies on device-types larger than mobile. It is expressed as an integer from 1 through 12."
+            }
+        }
+    },
+    "lightning:menuItem": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "accesskey": {
+                "type": "String",
+                "description": "Specifies a shortcut key to activate or focus an element."
+            },
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "checked": {
+                "type": "Boolean",
+                "description": "If not specified, the menu item is not checkable. If true, the a check mark is shown to the left of the menu item. If false, a check mark is not shown but there is space to accommodate one."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            "disabled": {
+                "type": "Boolean",
+                "description": "If true the menu item is not actionable and is shown as disabled."
+            },
+            "iconName": {
+                "type": "String",
+                "description": "If provided an icon with the provided name is shown to the right of the menu item."
+            },
+            "label": {
+                "type": "String",
+                "description": "Text of the menu item."
+            },
+            "onblur": {
+                "type": "Action",
+                "description": "The action triggered when the element releases focus."
+            },
+            "onfocus": {
+                "type": "Action",
+                "description": "The action triggered when the element receives focus."
+            },
+            "tabindex": {
+                "type": "Integer",
+                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
+            },
+            "title": {
+                "type": "String",
+                "description": "Tooltip text."
+            },
+            "value": {
+                "type": "String",
+                "description": "A value associated with the menu item."
+            },
+            "onactive": {
+                "type": "Action",
+                "description": "DEPRECATED. The action triggered when this menu item becomes active."
+            }
+        }
+    },
+    "lightning:pill": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            "hasError": {
+                "type": "Boolean",
+                "description": "Specifies whether the pill has errors. The default is false."
+            },
+            "href": {
+                "type": "String",
+                "description": "The URL of the page that the link goes to."
+            },
+            "label": {
+                "type": "String",
+                "description": "The text label that displays in the pill."
+            },
+            "media": {
+                "type": "Component[]",
+                "description": "The icon or figure that's displayed next to the textual information."
+            },
+            "name": {
+                "type": "String",
+                "description": "The name for the pill. This value is optional and can be used to identify the pill in a callback."
+            },
+            "onclick": {
+                "type": "Action",
+                "description": "The action triggered when the button is clicked."
+            },
+            "onremove": {
+                "type": "Action",
+                "description": "The action triggered when the pill is removed."
+            },
+            "title": {
+                "type": "String",
+                "description": "Displays tooltip text when the mouse moves over the element."
+            }
+        }
+    },
+    "lightning:relativeDateTime": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "value": {
+                "type": "Object",
+                "description": "The timestamp or JavaScript Date object to be formatted."
+            }
+        }
+    },
+    "lightning:select": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "accesskey": {
+                "type": "String",
+                "description": "Specifies a shortcut key to activate or focus an element."
+            },
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component."
+            },
+            "disabled": {
+                "type": "Boolean",
+                "description": "Specifies that an input element should be disabled. This value defaults to false."
+            },
+            "label": {
+                "type": "String",
+                "description": "Text that describes the desired select input."
+            },
+            "messageWhenValueMissing": {
+                "type": "String",
+                "description": "Error message to be displayed when the value is missing."
+            },
+            "name": {
+                "type": "String",
+                "description": "Specifies the name of an input element."
+            },
+            "onblur": {
+                "type": "Action",
+                "description": "The action triggered when the element releases focus."
+            },
+            "onchange": {
+                "type": "Action",
+                "description": "The action triggered when a value attribute changes."
+            },
+            "onfocus": {
+                "type": "Action",
+                "description": "The action triggered when the element receives focus."
+            },
+            "readonly": {
+                "type": "Boolean",
+                "description": "Specifies that an input field is read-only. This value defaults to false."
+            },
+            "required": {
+                "type": "Boolean",
+                "description": "Specifies that an input field must be filled out before submitting the form. This value defaults to false."
+            },
+            "tabindex": {
+                "type": "Integer",
+                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
+            },
+            "validity": {
+                "type": "Object",
+                "description": "Represents the validity states that an element can be in, with respect to constraint validation."
+            },
+            "value": {
+                "type": "String",
+                "description": "The value of the select, also used as the default value to select the right option during init. If no value is provided, the first option will be selected."
+            },
+            "variant": {
+                "type": "String",
+                "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard."
+            }
+        }
+    },
+    "lightning:spinner": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "alternativeText": {
+                "type": "String",
+                "description": "The alternative text used to describe the reason for the wait and need for a spinner."
+            },
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            "size": {
+                "type": "String",
+                "description": "The size of the spinner. Accepted sizes are small, medium, and large. This value defaults to medium."
+            },
+            "variant": {
+                "type": "String",
+                "description": "The variant changes the appearance of the spinner. Accepted variants are brand and inverse."
+            }
+        }
+    },
+    "lightning:tab": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "accesskey": {
+                "type": "String",
+                "description": "Specifies a shortcut key to activate or focus an element."
+            },
+            "body": {
+                "type": "ComponentDefRef[]",
+                "description": "The body of the tab."
+            },
+            "id": {
+                "type": "String",
+                "description": "The optional ID is used during tabset's onSelect event to determine which tab was clicked."
+            },
+            "label": {
+                "type": "Component[]",
+                "description": "The text that appears in the tab."
+            },
+            "onblur": {
+                "type": "Action",
+                "description": "The action triggered when the element releases focus."
+            },
+            "onfocus": {
+                "type": "Action",
+                "description": "The action triggered when the element receives focus."
+            },
+            "tabindex": {
+                "type": "Integer",
+                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
+            },
+            "title": {
+                "type": "String",
+                "description": "The title displays when you hover over the tab. The title should describe the content of the tab for screen readers."
+            },
+            "onactive": {
+                "type": "Action",
+                "description": "The action triggered when this tab becomes active."
+            }
+        }
+    },
+    "lightning:tabSet": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "ComponentDefRef[]",
+                "description": "The body of the component. This could be one or more lightning:tab components."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            "onselect": {
+                "type": "Action",
+                "description": "The action that will run when the tab is clicked."
+            },
+            "selectedTabId": {
+                "type": "String",
+                "description": "Allows you to set a specific tab to open by default. If this attribute is not used, the first tab opens by default."
+            },
+            "variant": {
+                "type": "String",
+                "description": "The variant changes the appearance of the tabset. Accepted variants are default and scoped."
+            }
+        }
+    },
+    "lightning:textarea": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "accesskey": {
+                "type": "String",
+                "description": "Specifies a shortcut key to activate or focus an element."
+            },
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component."
+            },
+            "disabled": {
+                "type": "Boolean",
+                "description": "Specifies that an input element should be disabled. This value defaults to false."
+            },
+            "label": {
+                "type": "String",
+                "description": "Text that describes the desired textarea input."
+            },
+            "maxlength": {
+                "type": "Integer",
+                "description": "The maximum number of characters allowed in the textarea."
+            },
+            "messageWhenBadInput": {
+                "type": "String",
+                "description": "Error message to be displayed when a bad input is detected."
+            },
+            "messageWhenTooLong": {
+                "type": "String",
+                "description": "Error message to be displayed when the value is too long."
+            },
+            "messageWhenValueMissing": {
+                "type": "String",
+                "description": "Error message to be displayed when the value is missing."
+            },
+            "minlength": {
+                "type": "Integer",
+                "description": "The minimum number of characters allowed in the textarea."
+            },
+            "name": {
+                "type": "String",
+                "description": "Specifies the name of an input element."
+            },
+            "onblur": {
+                "type": "Action",
+                "description": "The action triggered when the element releases focus."
+            },
+            "onchange": {
+                "type": "Action",
+                "description": "The action triggered when a value attribute changes."
+            },
+            "onfocus": {
+                "type": "Action",
+                "description": "The action triggered when the element receives focus."
+            },
+            "placeholder": {
+                "type": "String",
+                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
+            },
+            "readonly": {
+                "type": "Boolean",
+                "description": "Specifies that an input field is read-only. This value defaults to false."
+            },
+            "required": {
+                "type": "Boolean",
+                "description": "Specifies that an input field must be filled out before submitting the form. This value defaults to false."
+            },
+            "tabindex": {
+                "type": "Integer",
+                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
+            },
+            "validity": {
+                "type": "Object",
+                "description": "Represents the validity states that an element can be in, with respect to constraint validation."
+            },
+            "value": {
+                "type": "String",
+                "description": "The value of the textarea, also used as the default value during init."
+            },
+            "variant": {
+                "type": "String",
+                "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard."
+            }
+        }
+    },
+    "lightning:tile": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component."
+            },
+            "href": {
+                "type": "String",
+                "description": "The URL of the page that the link goes to."
+            },
+            "label": {
+                "type": "String",
+                "description": "The text label that displays in the tile and hover text."
+            },
+            "media": {
+                "type": "Component[]",
+                "description": "The icon or figure that's displayed next to the textual information."
             }
         }
     },
