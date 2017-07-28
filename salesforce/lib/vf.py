@@ -9756,8 +9756,9 @@ tag_defs = {
             "layout": {
                 "type": "Picklist",
                 "values": [
-                    "lineDirection",
-                    "pageDirection"
+                    "inline",
+                    "block",
+                    "none"
                 ]
             },
             "onclick": {
