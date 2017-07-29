@@ -701,6 +701,20 @@ class PageCompletions(sublime_plugin.EventListener):
                         break
 
         elif ch == ".":
+            ################################################################
+            #  Custom label completion, which is fetched form <project cache>
+            ################################################################
+            if variable_name.lower() == "label":
+                package_cache = util.get_package_info(settings)
+                if "CustomLabel" in package_cache:
+                    for member in package_cache["CustomLabel"]:
+                        completion_list.append(("%s\t%s" % (member, "CustomLabel"), member))
+
+                    return completion_list
+
+            ################################################################
+            # Extension or Controller creation after # with specified pattern
+            ################################################################
             if not view.file_name(): 
                 return completion_list
 
