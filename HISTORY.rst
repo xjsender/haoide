@@ -4,6 +4,16 @@ Release History
 
 ---------------
 
+
+Release 3.4.7 (2017-07-29)
+++++++++++++++++++
+* Really and still busy on project delivery work in the past year, will continue in the next days.
+* New Fetaure: Combine package.xml in selected folders
+* New Feature: Custom Label completion support, which is fetched from ``project/.config/package.json`` by ``Reload Project Cache`` command
+* Update Aura completion lib by ``lushang``
+* Others
+
+
 Release 3.4.6 (2016-09-26)
 ++++++++++++++++++
 * Deliver enhancement for issue #132
