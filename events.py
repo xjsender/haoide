@@ -35,6 +35,15 @@ class SFDCEventListener(sublime_plugin.EventListener):
                 except:
                     pass
 
+        # Open controller or extension
+        # print (view.file_name())
+        # if view.file_name() and view.file_name().endswith(".page"):
+        #     matched_region = view.find('(controller="\\w+#"|extensions="\\w+#")', 0)
+        #     print (view.substr(matched_region))
+        #     if not matched_region: return
+        #     matched_block = view.substr(matched_region).strip()
+        #     print (matched_block)
+
     def on_post_save_async(self, view):
         settings = context.get_settings();
         if not view.file_name(): return

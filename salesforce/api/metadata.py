@@ -306,7 +306,7 @@ class MetadataApi():
         self.result = result
 
     def prepare_members(self, _types, list_package_for_all=False):
-        self.login()
+        if not self.login(): return
 
         if list_package_for_all:
             Printer.get("log").write_start()
@@ -438,6 +438,7 @@ class MetadataApi():
 
         result = xmltodict.parse(response.content)
         result = result["soapenv:Envelope"]["soapenv:Body"]["listMetadataResponse"]
+        # print (json.dumps(result))
         if not result or "result" not in result: 
             return []
         result = result["result"]

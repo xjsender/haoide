@@ -503,7 +503,7 @@ class BuildOrganizationPackageXml(sublime_plugin.WindowCommand):
     def write_package_xml(self, content):
         settings = context.get_settings()
         package_xml_dir = os.path.join(settings["workspace"], ".config", "package.xml")
-        Printer.get("log").write("Start to write content to package.xml file, after that, it will be open as a new view")
+        Printer.get("log").write("Start to prepare package.xml file, which will be opened as a new view")
         with open(package_xml_dir, "wb") as fp:
             fp.write(util.format_xml(content))
 

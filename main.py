@@ -1089,8 +1089,10 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
         if not source_org:
             source_org = settings["default_project_name"]
 
-        if switch:
-            return self.window.run_command("switch_project", {
+        deploy_options = settings["deploy_options"]
+        testLevel = deploy_options.get("testLevel", "NoTestRun") 
+        if testLevel == "RunSpecifiedTests" and not chosen_classes:
+            return self.window.run_command("choose_test_classes", {
                 "callback_options": {
                     "callback_command": "deploy_files_to_server", 
                     "args": {
@@ -1101,10 +1103,8 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
                 }
             })
 
-        deploy_options = settings["deploy_options"]
-        testLevel = deploy_options.get("testLevel", "NoTestRun") 
-        if testLevel == "RunSpecifiedTests" and not chosen_classes:
-            return self.window.run_command("choose_test_classes", {
+        if switch:
+            return self.window.run_command("switch_project", {
                 "callback_options": {
                     "callback_command": "deploy_files_to_server", 
                     "args": {
