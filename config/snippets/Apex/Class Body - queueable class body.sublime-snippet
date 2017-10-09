@@ -1,0 +1,14 @@
+<snippet>
+    <content><![CDATA[
+public class ${1:QUEUEABLE-CLASS-NAME} implements Queueable {
+
+    public void execute(QueueableContext context) {
+
+    }
+
+}
+]]></content>
+    <tabTrigger>que</tabTrigger>
+    <scope>source.java, source.apex</scope>
+    <description>Queueable Apex</description>
+</snippet>

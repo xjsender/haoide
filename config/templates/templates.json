@@ -83,6 +83,11 @@
             "extension": ".cls",
             "description": "Custom Controller"
         },
+        "Queueable": {
+            "directory": "ApexClass/Queueable.cls",
+            "extension": ".cls",
+            "description": "Queueable Apex Template"
+        },
         "StandardController Extension": {
             "directory": "ApexClass/StandardController Extension.cls",
             "extension": ".cls",
