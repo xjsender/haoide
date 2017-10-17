@@ -288,13 +288,13 @@ class ApexCompletions(sublime_plugin.EventListener):
                     completion_list.append(("%s\t%s" % (standard_class, variable_name), standard_class))
 
             # Check whether variable is standard class
-            if variable_name.lower() in apex.apex_completions:
-                class_name = variable_name.lower()
-            elif variable_type.lower() in apex.apex_completions:
+            if variable_type.lower() in apex.apex_completions:
                 class_name = variable_type.lower()
+            elif variable_name.lower() in apex.apex_completions:
+                class_name = variable_name.lower()
             else:
                 class_name = None
-
+            
             # If variable is standard class
             if class_name:
                 class_attrs = apex.apex_completions[class_name]
