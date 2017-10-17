@@ -1,5 +1,6 @@
 import sublime
 import time
+from datetime import date
 
 class Printer(object):
     """ Based on printer of Mavensmate
@@ -20,7 +21,8 @@ class Printer(object):
             printer.init()
             cls.printers[str(window_id)+name] = printer
             package_info = sublime.load_settings("package.sublime-settings")
-            version_info = "Copyright © 2013-2016 By %s, Dev Channel, Build v%s\n" % (
+            version_info = "Copyright © 2013-%s By %s, Dev Channel, Build v%s\n" % (
+                date.today().year,
                 package_info.get("author"),
                 package_info.get("version")
             )
