@@ -668,7 +668,7 @@ class PageCompletions(sublime_plugin.EventListener):
             # Sort the completion_list by first element
             completion_list.sort(key=lambda tup:tup[1])
 
-        elif ch == '"':
+        if ch in ['"']:
             # 1. sObject completion for standardController
             pattern = "<\\w+:\\w+\\s+standardController=\"\\w+\""
             matched_region = view.find(pattern, begin, sublime.IGNORECASE)
@@ -700,7 +700,16 @@ class PageCompletions(sublime_plugin.EventListener):
                             completion_list.append(("%s\tBootstrap3" % className, className))
                         break
 
-        elif ch == ".":
+        # Completions for component interface, for example, 
+        #   e.g. force:appHostable, force:lightningQuickAction
+        if ch in ['"', ',', ' ']:
+            matched_region = view.find('(implements="[\\w\\s:\\,]+")', begin)
+            if matched_region and matched_region.contains(pt): 
+                completion_list = []
+                for _interface in vf.component_interfaces:
+                    completion_list.append((_interface, _interface))
+
+        if ch == ".":
             ################################################################
             #  Custom label completion, which is fetched form <project cache>
             ################################################################
