@@ -6,6 +6,27 @@ page_reference_attrs = [
     "finishLocation"
 ]
 
+component_interfaces = [
+    "clients:availableForMailAppAppPage",
+    "clients:hasEventContext",
+    "clients:hasItemContext",
+    "flexipage:availableForAllPageTypes",
+    "flexipage:availableForRecordHome",
+    "forceCommunity:availableForAllPageTypes",
+    "force:appHostable",
+    "force:lightningQuickAction",
+    "force:lightningQuickActionWithoutHeader",
+    "ltng:allowGuestAccess",
+    "force:hasRecordId",
+    "force:hasSObjectName",
+    "lightning:actionOverride",
+    "lightning:appHomeTemplate",
+    "lightning:availableForChatterExtensionComposer",
+    "lightning:availableForChatterExtensionRenderer",
+    "lightning:homeTemplate",
+    "lightning:recordHomeTemplate"
+]
+
 tag_defs = {
     "aura:application": {
         "simple": False,
@@ -187,6 +208,14 @@ tag_defs = {
         "simple": False,
         "type": "aura",
         "attribs": {
+            "name": {
+                "type": "text"
+            },
+
+            "value": {
+                "type": "String"
+            },
+
             "event": {
                 "type": "Picklist",
                 "values": [
@@ -204,6 +233,20 @@ tag_defs = {
 
             "action": {
                 "type": "Object"
+            }
+        }
+    },
+
+    "aura:registerEvent": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "name": {
+                "type": "text"
+            },
+
+            "type": {
+                "type": "String"
             }
         }
     },

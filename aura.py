@@ -105,7 +105,7 @@ class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
         
         self.namespace = metadata["organizationNamespace"]
         if not self.namespace:
-            return False
+            self.namespace = 'c'
 
         return True
 
