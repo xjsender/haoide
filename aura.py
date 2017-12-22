@@ -5,6 +5,7 @@ import re
 from . import context
 from . import util
 from . import processor
+from .salesforce.lib.panel import Printer
 
 
 class OpenAuraDocumentReference(sublime_plugin.WindowCommand):
