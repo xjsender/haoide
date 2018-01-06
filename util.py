@@ -917,12 +917,12 @@ def export_report_api(rootdir):
             report_dir = parent + "/" + filename
             report_folder = os.path.split(parent)[1]
             report_name = filename.split(".")[0]
-            report_api = util.getUniqueElementValueFromXmlString(open(report_dir, "rb").read(), "name")
+            report_api = getUniqueElementValueFromXmlString(open(report_dir, "rb").read(), "name")
 
-            report_dict[report_api] = report_name
+            # report_dict[report_api] = report_name
             reports.append({"name": report_name, "api": report_api, "folder": report_folder})
 
-    util.list2csv(rootdir + "/test.csv", reports)
+    list2csv(rootdir + "/test.csv", reports)
 
 def check_action_enabled():
     """If project in current date is not created, new component is not enabled

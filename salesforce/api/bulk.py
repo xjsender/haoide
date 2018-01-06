@@ -45,7 +45,7 @@ class BulkApi():
                 fp.write(u'\ufeff'.encode('utf8'))
                 fp.write(result)
             except:
-                print (sobject + " export is failed")
+                print(self.sobject + " export is failed")
             finally:
                 fp.close()
 
@@ -268,7 +268,7 @@ class BulkJob():
         result = xmltodict.parse(response.content)
         if response.status_code == 400:
             result = self.parse_response(response, url)
-            result["success"] = false
+            result["success"] = False
             result["action"] = "Check Batch Status"
             result["success"] = False
             return result

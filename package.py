@@ -2,6 +2,7 @@ import sublime, sublime_plugin
 import os
 import time
 import json
+import xml
 
 from . import util
 from . import context
