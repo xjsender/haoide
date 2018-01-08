@@ -415,6 +415,52 @@ tag_defs = {
             }
         }
     },
+    "auraStorage:init": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "clearStorageOnInit": {
+                "type": "Boolean",
+                "description": "Set to true to delete all previous data on initialization (relevant for persistent storage only). This value defaults to true."
+            },
+            "debugLoggingEnabled": {
+                "type": "Boolean",
+                "description": "Set to true to enable debug logging with $A.log(). This value defaults to false."
+            },
+            "defaultAutoRefreshInterval": {
+                "type": "Integer",
+                "description": "The default duration (seconds) before an auto refresh request will be initiated. Actions may override this on a per-entry basis with Action.setStorable(). This value defaults to 30."
+            },
+            "defaultExpiration": {
+                "type": "Integer",
+                "description": "The default duration (seconds) that an object will be retained in storage. Actions may override this on a per-entry basis with Action.setStorable(). This value defaults to 10."
+            },
+            "maxSize": {
+                "type": "Integer",
+                "description": "Maximum size (KB) of the storage instance. Existing items will be evicted to make room for new items; algorithm is adapter-specific. This value defaults to 1000. "
+            },
+            "name": {
+                "type": "String",
+                "description": "The programmatic name for the storage instance."
+            },
+            "persistent": {
+                "type": "Boolean",
+                "description": "Set to true if this storage desires persistence. This value defaults to false."
+            },
+            "secure": {
+                "type": "Boolean",
+                "description": "Set to true if this storage requires secure storage support. This value defaults to false."
+            },
+            "version": {
+                "type": "String",
+                "description": "Version to associate with all stored items."
+            }
+        }
+    },
 
     "force:canvasApp": {
         "simple": False,
@@ -552,7 +598,49 @@ tag_defs = {
             }
         }
     },
-
+    "force:recordData": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "fields": {
+                "type": "String[]",
+                "description": "Specifies which of the record's fields to query."
+            },
+            "layoutType": {
+                "type": "String",
+                "description": "Name of the layout to query, which determines the fields included. Valid values are FULL or COMPACT. The layoutType and/or fields attribute must be specified."
+            },
+            "mode": {
+                "type": "Picklist",
+                "values": ["VIEW", "EDIT"],
+                "description": "The mode in which to load the record: VIEW (default) or EDIT."
+            },
+            "recordId": {
+                "type": "String",
+                "description": "The record Id"
+            },
+            "targetError": {
+                "type": "String",
+                "description": "Will be set to the localized error message if the record can't be provided."
+            },
+            "targetFields": {
+                "type": "Object",
+                "description": "A simplified view of the fields in targetRecord, to reference record fields in component markup."
+            },
+            "targetRecord": {
+                "type": "Object",
+                "description": "The provided record. This attribute will contain only the fields relevant to the requested layoutType and/or fields atributes."
+            },
+            "recordUpdated": {
+                "type": "COMPONENT",
+                "description": "Event fired when the record has changed."
+            }
+        }
+    },
     "force:recordEdit": {
         "simple": False,
         "type": "aura",
@@ -575,7 +663,45 @@ tag_defs = {
             }
         }
     },
-
+    "force:recordPreview": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "fields": {
+                "type": "String[]",
+                "description": "List of fields to query. This attribute or layoutType must be specified. If you specify both, the list of fields queried is the union of fields from fields and layoutType."
+            },
+            "ignoreExistingAction": {
+                "type": "Boolean",
+                "description": "Whether to skip the cache and force a server request. Defaults to false.Setting this attribute to true is useful for handling user-triggered actions such as pull-to-refresh."
+            },
+            "layoutType": {
+                "type": "String",
+                "description": "Name of the layout to query, which determines the fields included"
+            },
+            "mode": {
+                "type": "Picklist",
+                "values": ["VIEW", "EDIT"],
+                "description": "The mode in which to access the record. Valid values are the following. -VIEW -EDIT. Defaults to VIEW."
+            },
+            "recordId": {
+                "type": "String",
+                "description": "The 15-character or 18-character ID of the record to load, modify, or delete. Defaults to null, to create a record."
+            },
+            "targetError": {
+                "type": "String",
+                "description": "A reference to a component attribute to which a localized error message is assigned if necessary."
+            },
+            "targetRecord": {
+                "type": "Record",
+                "description": "A reference to a component attribute, to which the loaded record is assigned.Changes to the record are also assigned to this value, which triggers change handlers, re-renders, and so on."
+            },
+            "recordUpdated": {
+                "type": "COMPONENT",
+                "description": "The event fired when the record is loaded, changed, updated, or removed."
+            }
+        }
+    },
     "force:recordView": {
         "simple": False,
         "type": "aura",
@@ -584,10 +710,10 @@ tag_defs = {
                 "type": "Component[]",
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
             },
-            # "recordId": {
-            #     "type": "SObjectRow",
-            #     "description": "The record (SObject) to load, optional if recordId attribute is specified."
-            # },
+            "record": {
+                "type": "SObjectRow",
+                "description": "The record (SObject) to load, optional if recordId attribute is specified."
+            },
             "recordId": {
                 "type": "String",
                 "description": "The Id of the record to load, optional if record attribute is specified."
@@ -617,7 +743,168 @@ tag_defs = {
             }
         }
     },
-
+    "forceChatter:fullFeed": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "handleNavigationEvents": {
+                "type": "Boolean",
+                "description": "Should this component handle navigation events for entities and urls. If true then navigation events will result in the entity or url being opened in a new window."
+            },
+            "subjectId": {
+                "type": "String",
+                "description": "For most feeds tied to an entity, this is used specified the desired entity. Defaults to the current user if not specified"
+            },
+            "type": {
+                "type": "String",
+                "description": "The strategy used to find items associated with the subject. Valid values include: News, Home, Record, To."
+            }
+        }
+    },
+    "forceChatter:publisher": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "context": {
+                "type": "String",
+                "description": "The context in which the component is being displayed (RECORD or GLOBAL). RECORD is for a record feed, and GLOBAL is for all other feed types. This attribute is case-sensitive."
+            },
+            "recordId": {
+                "type": "String",
+                "description": "The record Id"
+            }
+        }
+    },
+    "forceCommunity:appLauncher": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            }
+        }
+    },
+    "forceCommunity:navigationMenuBase": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "menuItems": {
+                "type": "Object",
+                "description": "Automatically populated with data of menu item. This attribute is read-only."
+            }
+        }
+    },
+    "forceCommunity:notifications": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            }
+        }
+    },
+    "forceCommunity:routeLink": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "class": {
+                "type": "String",
+                "description": "A CSS class for the anchor tag."
+            },
+            "id": {
+                "type": "String",
+                "description": "The ID of the anchor tag."
+            },
+            "label": {
+                "type": "String",
+                "description": "The text displayed in the link."
+            },
+            "onClick": {
+                "type": "Action",
+                "description": "Action to trigger when the anchor is clicked."
+            },
+            "routeInput": {
+                "type": "HashMap",
+                "description": "The map of dynamic parameters that create the link. Only recordId-based routes are supported."
+            },
+            "title": {
+                "type": "String",
+                "description": "The text to display for the link tooltip."
+            }
+        }
+    },
+    "forceCommunity:waveDashboard": {
+        "simple": False,
+        "type": "aura",
+        "attribs": {
+            "accessToken": {
+                "type": "String",
+                "description": "A valid access token obtained by logging into Salesforce. Useful when the component is used by Lightning Out in a non-Salesforce domain."
+            },
+            "body": {
+                "type": "Component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            },
+            "dashboardId": {
+                "type": "String",
+                "description": "The unique ID of the dashboard"
+            },
+            "developerName": {
+                "type": "String",
+                "description": "The unique developer name of the dashboard"
+            },
+            "filter": {
+                "type": "String",
+                "description": "Adds selections or filters to the embedded dashboard at runtime"
+            },
+            "height": {
+                "type": "Integer",
+                "description": "Specifies the height of the dashboard, in pixels."
+            },
+            "hideOnError": {
+                "type": "Boolean",
+                "description": "Controls whether or not users see a dashboard that has an error"
+            },
+            "openLinksInNewWindow": {
+                "type": "Boolean",
+                "description": "If false, links to other dashboards will be opened in the same window."
+            },
+            "recordId": {
+                "type": "String",
+                "description": "Id of the current entity in the context of which the component is being displayed."
+            },
+            "showHeader": {
+                "type": "Boolean",
+                "description": "If true, the dashboard is displayed with a header bar that includes dashboard information and controls"
+            },
+            "showSharing": {
+                "type": "Boolean",
+                "description": "If true, and the dashboard is shareable, then the dashboard shows the Share icon"
+            },
+            "showTitle": {
+                "type": "Boolean",
+                "description": "If true, tile of the dashboard is included above the dashboard. If false, the dashboard appears without a title."
+            }
+        }
+    },
     "ltng:require": {
         "simple": False,
         "type": "aura",
@@ -7644,7 +7931,7 @@ tag_defs = {
                 "description": "If true, title of the dashboard is included above the dashboard. If false, the dashboard appears without a title."
             }
         }
-    }
+    },
     "apex:attribute": {
         "simple": False,
         "type": "visualforce",
