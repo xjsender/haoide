@@ -9,6 +9,7 @@ from . import util
 from .salesforce import xmltodict
 from .salesforce.lib import apex
 from .salesforce.lib import vf
+from .salesforce.lib import lightning
 from .salesforce.lib import html
 from .salesforce.lib import bootstrap
 
@@ -430,12 +431,12 @@ class ApexCompletions(sublime_plugin.EventListener):
 
 
 class PageCompletions(sublime_plugin.EventListener):
-    """ There are two kinds of completion, Visualforce and Html
+    """ There are three kinds of completion, Visualforce, Html and Custom Lightning component
     Visualforce Lib is based on Mavensmate
     Html Lib is based on EMMET
     
-    1. input <, list all Tags of Visualforce and Html
-    2. input :, list suffix of all Visualforce Components
+    1. input <, list all Tags of Visualforce, Html and Lightning components
+    2. input :, list suffix of all Visualforce and Lightning Components
     3. input space, list all attributes of tags, if tag attribute has predefined values, 
        output attr, otherwise, output attr="$1"
     4. input =, list all values of this corresponding attribute
@@ -456,6 +457,10 @@ class PageCompletions(sublime_plugin.EventListener):
         variable_name = view.substr(view.word(pt-1))
         begin = view.full_line(pt).begin()
 
+        # Determine if current file is Lightning
+        file_name = view.file_name()
+        is_lightning = True if file_name.split(".")[-1] in ["app", "cmp"] else False
+
         # In order to speed up code completion,
         # store the "metadata" into globals()
         metadata = load_sobject_cache(username=username)
@@ -471,33 +476,40 @@ class PageCompletions(sublime_plugin.EventListener):
                     tag_has_ending = True
 
             if ch == "<":
-                # Visualforce Standard Components
-                for tag in sorted(vf.tag_defs):
-                    attr = vf.tag_defs[tag]
-                    completion_list.append((tag + "\t%s" % attr["type"], 
-                                            tag if tag_has_ending else (tag + "$1>")))
-
-                # Custom Apex Component
-                completion_list.extend(util.get_component_completion(username, "ApexComponent"))
-
-                # Custom Lightning Component
-                completion_list.extend(util.get_component_completion(username, "AuraDefinitionBundle"))
+                if is_lightning:
+                    # Lightning Standard Components
+                    for tag in sorted(lightning.tag_defs):
+                        attr = lightning.tag_defs[tag]
+                        completion_list.append((tag + "\t%s" % attr["type"],
+                                                tag if tag_has_ending else (tag + "$1>")))
+                    # Custom Lightning Component
+                    completion_list.extend(util.get_component_completion(username, "AuraDefinitionBundle"))
+                else:
+                    # Visualforce Standard Components
+                    for tag in sorted(vf.tag_defs):
+                        attr = vf.tag_defs[tag]
+                        completion_list.append((tag + "\t%s" % attr["type"],
+                                                tag if tag_has_ending else (tag + "$1>")))
+                    # Custom Apex Component
+                    completion_list.extend(util.get_component_completion(username, "ApexComponent"))
 
                 # HTML Elements
                 for tag in sorted(html.HTML_ELEMENTS_ATTRIBUTES):
-                    completion_list.append((tag + "\thtml", 
-                        tag if tag_has_ending else (tag + "$1>")))
+                    completion_list.append((tag + "\thtml",
+                                            tag if tag_has_ending else (tag + "$1>")))
 
                 completion_list.sort(key=lambda tup: tup[1])
+
             elif ch == ":":
                 # Just Visualforce and Lightning Component contain :
                 matched_tag_prefix = view.substr(view.word(pt))
 
-                # If tag prefix 'c', list all custom Apex components and Lightning components
+                # If tag prefix 'c', list all custom Apex components or  Lightning components
                 if matched_tag_prefix == "c":
-                    apex_cmps = util.get_component_completion(username, "ApexComponent")
-                    lightning_cmps = util.get_component_completion(username, "AuraDefinitionBundle")
-                    return apex_cmps + lightning_cmps
+                    if is_lightning:
+                        return util.get_component_completion(username, "AuraDefinitionBundle")
+                    else:
+                        return util.get_component_completion(username, "ApexComponent")
 
                 # Combine components
                 tag_names = {}
@@ -560,17 +572,17 @@ class PageCompletions(sublime_plugin.EventListener):
                             else:
                                 completion_list.append((display, key+'="$1"$0'))
 
-            ##########################################
-            # Custom Component Attribute Completions
-            ##########################################
+            ######################################################
+            # Custom Apex/Lightning Component Attribute Completions
+            ######################################################
             # Get all matched regions
             if not settings["disable_custom_component_completion"]:
                 matched_regions = view.find_all("<c:\\w+")
 
                 # Get the nearest matched region from start to end
-                # for example, matched regions by above pattern are : 
+                # for example, matched regions by above pattern are :
                 #       [(4, 24), (28, 57), (76, 96), (100, 129)]
-                # the cursor point is int the next or same row 
+                # the cursor point is int the next or same row
                 # with the second one, so that one is the exact one
                 matched_region = None
                 for mr in matched_regions:
@@ -581,7 +593,7 @@ class PageCompletions(sublime_plugin.EventListener):
                 if matched_region:
                     matched_tag = view.substr(matched_region)[1:]
                     tag_name = matched_tag.split(":")[1].strip()
-                    completion_list.extend(util.get_component_attributes(settings, tag_name))
+                    completion_list.extend(util.get_component_attributes(settings, tag_name, is_lightning))
 
             ##########################################
             # HTML Element Attribute Completions
@@ -707,13 +719,13 @@ class PageCompletions(sublime_plugin.EventListener):
                             completion_list.append(("%s\tBootstrap3" % className, className))
                         break
 
-        # Completions for component interface, for example, 
+        # Completions for Lightning component interface, for example,
         #   e.g. force:appHostable, force:lightningQuickAction
         if ch in ['"', ',', ' ']:
             matched_region = view.find('(implements="[\\w\\s:\\,]+")', begin)
             if matched_region and matched_region.contains(pt): 
                 completion_list = []
-                for _interface in vf.component_interfaces:
+                for _interface in lightning.component_interfaces:
                     completion_list.append((_interface, _interface))
 
         if ch == ".":

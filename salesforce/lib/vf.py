@@ -6,8499 +6,10 @@ page_reference_attrs = [
     "finishLocation"
 ]
 
-component_interfaces = [
-    "clients:availableForMailAppAppPage",
-    "clients:hasEventContext",
-    "clients:hasItemContext",
-    "flexipage:availableForAllPageTypes",
-    "flexipage:availableForRecordHome",
-    "forceCommunity:availableForAllPageTypes",
-    "force:appHostable",
-    "force:lightningQuickAction",
-    "force:lightningQuickActionWithoutHeader",
-    "ltng:allowGuestAccess",
-    "force:hasRecordId",
-    "force:hasSObjectName",
-    "lightning:actionOverride",
-    "lightning:appHomeTemplate",
-    "lightning:availableForChatterExtensionComposer",
-    "lightning:availableForChatterExtensionRenderer",
-    "lightning:homeTemplate",
-    "lightning:recordHomeTemplate"
-]
+# prefix = ["apex", "messaging", "chatteranswers", "chatteranswers", "flow", "ideas", "site", "social", "support"]
 
 tag_defs = {
-    "aura:application": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "access": {
-                "type": "Picklist",
-                "values":[
-                    "public",
-                    "global"
-                ]
-            },
-            "controller": {
-                "type": "String",
-                "description" : "The server-side controller class for the app. The format is namespace.myController."
-            },
-            "description": {
-                "type": "String"
-            },
-            "extends": {
-                "type" : "Component"
-            },
-            "implements": {
-                "type": "String"
-            },
-            "useAppcache": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "aura:attribute": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "access": {
-                "type": "Picklist",
-                "values":[
-                    "public", "global", "PRIVATE"
-                ]
-            },
-            "name": {
-                "type": "String"
-            },
-            "type": {
-                "type": "Picklist",
-                "values": [
-                    "Boolean", "Date", "DateTime", "Decimal", 
-                    "Double", "Integer", "Long", "String",
-                    "Object", "List", "Set", "Map"
-                ]
-            },
-            "default": {
-                "type": "String"
-            },
-            "required": {
-                "type": "Boolean"
-            },
-            "description": {
-                "type": "String"
-            }
-        }
-    },
-
-    "aura:component": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "access": {
-                "type": "Picklist",
-                "values":[
-                    "public",
-                    "global"
-                ]
-            },
-            "controller": {
-                "type": "String"
-            },
-            "description": {
-                "type": "String"
-            },
-            "implements": {
-                "type": "String"
-            },
-            "extends": {
-                "type": "Component"
-            },
-            "body": {
-                "type": "String"
-            },
-            "isTemplate": {
-                "type": "Boolean"
-            },
-            "template": {
-                "type": "Component"
-            }
-        }
-    },
-
-    "aura:method": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "name": {
-                "type": "String",
-                "description": "The method name. Use the method name to call the method in JavaScript code"
-            },
-            "action": {
-                "type": "Expression",
-                "values":[
-                    "{!c.$0}",
-                    "{!}"
-                ]
-            },
-            "access": {
-                "type": "Picklist",
-                "values":[
-                    "public",
-                    "global"
-                ]
-            },
-            "description": {
-                "type": "String"
-            }
-        }
-    },
-
-    "aura:dependency": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "resource": {
-                "type": "String",
-                "values": [
-                    "markup://sampleNamespace:sampleComponent",
-                    "markup://sampleNamespace:*",
-                    "markup://sampleNamespace:input*"
-                ]
-            },
-            "type": {
-                "type": "Picklist",
-                "values": [
-                    "COMPONENT", "APPLICATION", "EVENT"
-                ]
-            }
-        }
-    },
-
-    "aura:event": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "access": {
-                "type": "Picklist",
-                "values": [
-                    "public",
-                    "global"
-                ]
-            },
-            "description": {
-                "type": "String"
-            },
-            "extends": {
-                "type": "String",
-                "values": [
-                    "namespace:myEvent"
-                ]
-            },
-            "type": {
-                "type": "Picklist",
-                "values": [
-                    "COMPONENT", "APPLICATION"
-                ]
-            }
-        }
-    },
-
-    "aura:handler": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "name": {
-                "type": "text"
-            },
-
-            "value": {
-                "type": "String"
-            },
-
-            "event": {
-                "type": "Picklist",
-                "values": [
-                    "${1:Customize}",
-                    "aura:doneRendering",
-                    "aura:doneWaiting",
-                    "aura:locationChange",
-                    "aura:systemError",
-                    "aura:valueChange",
-                    "aura:valueDestroy",
-                    "aura:valueInit",
-                    "aura:waiting"
-                ]
-            },
-
-            "action": {
-                "type": "Object"
-            }
-        }
-    },
-
-    "aura:registerEvent": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "name": {
-                "type": "text"
-            },
-
-            "type": {
-                "type": "String"
-            }
-        }
-    },
-
-    "aura:if": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "else": {
-                "type": "ComponentDefRef[]"
-            },
-            "isTrue": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "aura:html": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "HTMLAttributes": {
-                "type": "HashMap",
-                "description": "A Map of attributes to set on the html element."
-            },
-            "tag": {
-                "type": "String",
-                "description": "The name of the html element that should be rendered."
-            }
-        }
-    },
-
-    "aura:expression": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "value": {
-                "type": "String",
-                "description": "The expression to evaluate and render."
-            }
-        }
-    },
-
-    "aura:interface": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "access": {
-                "type": "Picklist",
-                "values":[
-                    "public",
-                    "global"
-                ]
-            },
-            "description": {
-                "type": "String"
-            },
-            "extends": {
-                "type": "String",
-                "values": [
-                    "namespace:myEvent"
-                ]
-            }
-        }
-    },
-
-    "aura:iteration": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "ComponentDefRef[]"
-            },
-            "indexVar": {
-                "type": "String"
-            },
-            "items": {
-                "type": "List"
-            },
-            "var": {
-                "type": "String"
-            },
-        }
-    },
-
-    "aura:renderIf": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "else": {
-                "type": "ComponentDefRef[]"
-            },
-            "isTrue": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "aura:set": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "attribute": {
-                "type": "String"
-            },
-            "value": {
-                "type": "String"
-            }
-        }
-    },
-
-    "aura:unescapedHtml": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of <aura:unescapedHtml> is ignored and won't be rendered."
-            },
-            "value": {
-                "type": "String",
-                "description": "The string that should be rendered as unescaped HTML."
-            }
-        }
-    },
-
-    "aura:template": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "bodyClass": {
-                "type": "String",
-                "description": "Extra body CSS styles"
-            },
-            "defaultBodyClass": {
-                "type": "String",
-                "description": "Default body CSS styles."
-            },
-            "doctype": {
-                "type": "String",
-                "description": "The DOCTYPE declaration for the template"
-            },
-            "errorMessage": {
-                "type": "String",
-                "description": "Error loading text"
-            },
-            "errorTitle": {
-                "type": "String",
-                "description": "Error title when an error has occured."
-            },
-            "loadingText": {
-                "type": "String",
-                "description": "Loading text"
-            },
-            "title": {
-                "type": "String",
-                "description": "The title of the template."
-            }
-        }
-    },
-    "auraStorage:init": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "clearStorageOnInit": {
-                "type": "Boolean",
-                "description": "Set to true to delete all previous data on initialization (relevant for persistent storage only). This value defaults to true."
-            },
-            "debugLoggingEnabled": {
-                "type": "Boolean",
-                "description": "Set to true to enable debug logging with $A.log(). This value defaults to false."
-            },
-            "defaultAutoRefreshInterval": {
-                "type": "Integer",
-                "description": "The default duration (seconds) before an auto refresh request will be initiated. Actions may override this on a per-entry basis with Action.setStorable(). This value defaults to 30."
-            },
-            "defaultExpiration": {
-                "type": "Integer",
-                "description": "The default duration (seconds) that an object will be retained in storage. Actions may override this on a per-entry basis with Action.setStorable(). This value defaults to 10."
-            },
-            "maxSize": {
-                "type": "Integer",
-                "description": "Maximum size (KB) of the storage instance. Existing items will be evicted to make room for new items; algorithm is adapter-specific. This value defaults to 1000. "
-            },
-            "name": {
-                "type": "String",
-                "description": "The programmatic name for the storage instance."
-            },
-            "persistent": {
-                "type": "Boolean",
-                "description": "Set to true if this storage desires persistence. This value defaults to false."
-            },
-            "secure": {
-                "type": "Boolean",
-                "description": "Set to true if this storage requires secure storage support. This value defaults to false."
-            },
-            "version": {
-                "type": "String",
-                "description": "Version to associate with all stored items."
-            }
-        }
-    },
-
-    "force:canvasApp": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "displayLocation": {
-                "description": "The location in the application where the canvas app is currently being called from.", 
-                "type": "String"
-            }, 
-            "containerId": {
-                "description": "An html element id in which canvas app is rendered. The container needs to be defined before canvasApp cmp usage.", 
-                "type": "String"
-            }, 
-            "developerName": {
-                "description": "Developer name of the canvas app. This name is defined when the canvas app is created and can be viewed in the Canvas App Previewer. Either developerName or applicationName is required.", 
-                "type": "String"
-            }, 
-            "maxWidth": {
-                "description": "The maximum width of the Canvas app window in pixels. Defaults to 1000 px; 'infinite' is also a valid value.", 
-                "type": "String"
-            }, 
-            "maxHeight": {
-                "description": "The maximum height of the Canvas app window in pixels. Defaults to 2000 px; 'infinite' is also a valid value.", 
-                "type": "String"
-            }, 
-            "body": {
-                "description": "The body of the component. In markup, this is everything in the body of the tag.", 
-                "type": "Component[]"
-            }, 
-            "onCanvasAppError": {
-                "description": "Name of the JavaScript function to be called if the canvas app fails to render.", 
-                "type": "String"
-            }, 
-            "width": {
-                "description": "Canvas app window width, in pixels. If not specified, defaults to 800 px.", 
-                "type": "String"
-            }, 
-            "watermark": {
-                "description": "Renders a link if set to true", 
-                "type": "Boolean"
-            }, 
-            "applicationName": {
-                "description": "Name of the canvas app. Either applicationName or developerName is required.", 
-                "type": "String"
-            }, 
-            "title": {
-                "description": "Title for the link", 
-                "type": "String"
-            }, 
-            "referenceId": {
-                "description": "The reference id of the canvas app, if set this is used instead of developerName, applicationName and namespacePrefix", 
-                "type": "String"
-            }, 
-            "namespacePrefix": {
-                "description": "Namespace value of the Developer Edition organization in which the canvas app was created. Optional if the canvas app wasn¡¯t created in a Developer Edition organization. If not specified, defaults to null.", 
-                "type": "String"
-            }, 
-            "border": {
-                "description": "Width of the canvas app border, in pixels. If not specified, defaults to 0 px.", 
-                "type": "String"
-            }, 
-            "onCanvasAppLoad": {
-                "description": "Name of the JavaScript function to be called after the canvas app loads.", 
-                "type": "String"
-            }, 
-            "scrolling": {
-                "description": "Canvas window scrolling", 
-                "type": "String"
-            }, 
-            "canvasId": {
-                "description": "An unique label within a page for the Canvas app window. This should be used when targeting events to this canvas app.", 
-                "type": "String"
-            }, 
-            "parameters": {
-                "description": "Object representation of parameters passed to the canvas app. This should be supplied in JSON format or as a JavaScript object literal. Here¡¯s an example of parameters in a JavaScript object literal: {param1:'value1',param2:'value2'}. If not specified, defaults to null.", 
-                "type": "String"
-            }, 
-            "sublocation": {
-                "description": "The sublocation is the location in the application where the canvas app is currently being called from, for ex, displayLocation can be PageLayout and sublocation can be S1MobileCardPreview or S1MobileCardFullview, etc", 
-                "type": "String"
-            }, 
-            "height": {
-                "description": "Canvas app window height, in pixels. If not specified, defaults to 900 px.", 
-                "type": "String"
-            }, 
-            "onCanvasSubscribed": {
-                "description": "Name of the JavaScript function to be called after the canvas app registers with the parent.", 
-                "type": "String"
-            }
-        }
-    },
-
-    "force:inputField": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "The CSS style used to display the field."
-            },
-            "errorComponent": {
-                "type": "Component[]",
-                "description": "A component which is responsible for displaying the error message."
-            },
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether this field is required or not."
-            },
-            "value": {
-                "type": "Object",
-                "description": "Data value of Salesforce field to which to bind."
-            }
-        }
-    },
-
-    "force:outputField": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },   
-            "value": {
-                "type": "Object",
-                "description": "Data value of Salesforce field to which to bind."
-            }
-        }
-    },
-    "force:recordData": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "fields": {
-                "type": "String[]",
-                "description": "Specifies which of the record's fields to query."
-            },
-            "layoutType": {
-                "type": "String",
-                "description": "Name of the layout to query, which determines the fields included. Valid values are FULL or COMPACT. The layoutType and/or fields attribute must be specified."
-            },
-            "mode": {
-                "type": "Picklist",
-                "values": ["VIEW", "EDIT"],
-                "description": "The mode in which to load the record: VIEW (default) or EDIT."
-            },
-            "recordId": {
-                "type": "String",
-                "description": "The record Id"
-            },
-            "targetError": {
-                "type": "String",
-                "description": "Will be set to the localized error message if the record can't be provided."
-            },
-            "targetFields": {
-                "type": "Object",
-                "description": "A simplified view of the fields in targetRecord, to reference record fields in component markup."
-            },
-            "targetRecord": {
-                "type": "Object",
-                "description": "The provided record. This attribute will contain only the fields relevant to the requested layoutType and/or fields atributes."
-            },
-            "recordUpdated": {
-                "type": "COMPONENT",
-                "description": "Event fired when the record has changed."
-            }
-        }
-    },
-    "force:recordEdit": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "recordId": {
-                "type": "String",
-                "description": "The Id of the record to load, optional if record attribute is specified."
-            },
-            "recordSave": {
-                "type": "COMPONENT",
-                "description": "Record save request"
-            },
-            "recordSaveSuccess": {
-                "type": "COMPONENT",
-                "description": "Indicates that the record has been successfully saved."
-            }
-        }
-    },
-    "force:recordPreview": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "fields": {
-                "type": "String[]",
-                "description": "List of fields to query. This attribute or layoutType must be specified. If you specify both, the list of fields queried is the union of fields from fields and layoutType."
-            },
-            "ignoreExistingAction": {
-                "type": "Boolean",
-                "description": "Whether to skip the cache and force a server request. Defaults to false.Setting this attribute to true is useful for handling user-triggered actions such as pull-to-refresh."
-            },
-            "layoutType": {
-                "type": "String",
-                "description": "Name of the layout to query, which determines the fields included"
-            },
-            "mode": {
-                "type": "Picklist",
-                "values": ["VIEW", "EDIT"],
-                "description": "The mode in which to access the record. Valid values are the following. -VIEW -EDIT. Defaults to VIEW."
-            },
-            "recordId": {
-                "type": "String",
-                "description": "The 15-character or 18-character ID of the record to load, modify, or delete. Defaults to null, to create a record."
-            },
-            "targetError": {
-                "type": "String",
-                "description": "A reference to a component attribute to which a localized error message is assigned if necessary."
-            },
-            "targetRecord": {
-                "type": "Record",
-                "description": "A reference to a component attribute, to which the loaded record is assigned.Changes to the record are also assigned to this value, which triggers change handlers, re-renders, and so on."
-            },
-            "recordUpdated": {
-                "type": "COMPONENT",
-                "description": "The event fired when the record is loaded, changed, updated, or removed."
-            }
-        }
-    },
-    "force:recordView": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "record": {
-                "type": "SObjectRow",
-                "description": "The record (SObject) to load, optional if recordId attribute is specified."
-            },
-            "recordId": {
-                "type": "String",
-                "description": "The Id of the record to load, optional if record attribute is specified."
-            },
-            "type": {
-                "type": "String",
-                "description": "The type of layout to use to display the record. Possible values: FULL, MINI. The default is FULL."
-            },
-        }
-    },
-
-    "forceChatter:feed": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "subjectId": {
-                "type": "String",
-                "description": "For most feeds tied to an entity, this is used specified the desired entity. Defaults to the current user if not specified"
-            },
-            "type": {
-                "type": "String",
-                "description": "The strategy used to find items associated with the subject. Valid values include: News, Home, Record, To."
-            }
-        }
-    },
-    "forceChatter:fullFeed": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "handleNavigationEvents": {
-                "type": "Boolean",
-                "description": "Should this component handle navigation events for entities and urls. If true then navigation events will result in the entity or url being opened in a new window."
-            },
-            "subjectId": {
-                "type": "String",
-                "description": "For most feeds tied to an entity, this is used specified the desired entity. Defaults to the current user if not specified"
-            },
-            "type": {
-                "type": "String",
-                "description": "The strategy used to find items associated with the subject. Valid values include: News, Home, Record, To."
-            }
-        }
-    },
-    "forceChatter:publisher": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "context": {
-                "type": "String",
-                "description": "The context in which the component is being displayed (RECORD or GLOBAL). RECORD is for a record feed, and GLOBAL is for all other feed types. This attribute is case-sensitive."
-            },
-            "recordId": {
-                "type": "String",
-                "description": "The record Id"
-            }
-        }
-    },
-    "forceCommunity:appLauncher": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            }
-        }
-    },
-    "forceCommunity:navigationMenuBase": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "menuItems": {
-                "type": "Object",
-                "description": "Automatically populated with data of menu item. This attribute is read-only."
-            }
-        }
-    },
-    "forceCommunity:notifications": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            }
-        }
-    },
-    "forceCommunity:routeLink": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the anchor tag."
-            },
-            "id": {
-                "type": "String",
-                "description": "The ID of the anchor tag."
-            },
-            "label": {
-                "type": "String",
-                "description": "The text displayed in the link."
-            },
-            "onClick": {
-                "type": "Action",
-                "description": "Action to trigger when the anchor is clicked."
-            },
-            "routeInput": {
-                "type": "HashMap",
-                "description": "The map of dynamic parameters that create the link. Only recordId-based routes are supported."
-            },
-            "title": {
-                "type": "String",
-                "description": "The text to display for the link tooltip."
-            }
-        }
-    },
-    "forceCommunity:waveDashboard": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "accessToken": {
-                "type": "String",
-                "description": "A valid access token obtained by logging into Salesforce. Useful when the component is used by Lightning Out in a non-Salesforce domain."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "dashboardId": {
-                "type": "String",
-                "description": "The unique ID of the dashboard"
-            },
-            "developerName": {
-                "type": "String",
-                "description": "The unique developer name of the dashboard"
-            },
-            "filter": {
-                "type": "String",
-                "description": "Adds selections or filters to the embedded dashboard at runtime"
-            },
-            "height": {
-                "type": "Integer",
-                "description": "Specifies the height of the dashboard, in pixels."
-            },
-            "hideOnError": {
-                "type": "Boolean",
-                "description": "Controls whether or not users see a dashboard that has an error"
-            },
-            "openLinksInNewWindow": {
-                "type": "Boolean",
-                "description": "If false, links to other dashboards will be opened in the same window."
-            },
-            "recordId": {
-                "type": "String",
-                "description": "Id of the current entity in the context of which the component is being displayed."
-            },
-            "showHeader": {
-                "type": "Boolean",
-                "description": "If true, the dashboard is displayed with a header bar that includes dashboard information and controls"
-            },
-            "showSharing": {
-                "type": "Boolean",
-                "description": "If true, and the dashboard is shareable, then the dashboard shows the Share icon"
-            },
-            "showTitle": {
-                "type": "Boolean",
-                "description": "If true, tile of the dashboard is included above the dashboard. If false, the dashboard appears without a title."
-            }
-        }
-    },
-    "ltng:require": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "scripts": {
-                "type": "String[]",
-                "description": "The set of scripts in dependency order that will be loaded."
-            },
-            "styles": {
-                "type": "String[]",
-                "description": "The set of style sheets in dependency order that will be loaded."
-            },
-            "afterScriptsLoaded": {
-                "type": "COMPONENT",
-                "description": "Fired when ltng:require has loaded all scripts listed in ltng:require.scripts"
-            }
-        }
-    },
-
-    "ui:actionMenuItem": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "mouseup": {
-                "description": "Indicates that the user has released the mouse button.", 
-                "type": "COMPONENT"
-            }, 
-            "label": {
-                "description": "The text displayed on the component.", 
-                "type": "String"
-            }, 
-            "class": {
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component.", 
-                "type": "String"
-            }, 
-            "keydown": {
-                "description": "Indicates that the user has pressed and released a keyboard key.", 
-                "type": "COMPONENT"
-            }, 
-            "blur": {
-                "description": "Indicates that a component has been put out of focus.", 
-                "type": "COMPONENT"
-            }, 
-            "dblclick": {
-                "description": "Indicates that a component has been double-clicked.", 
-                "type": "COMPONENT"
-            }, 
-            "selected": {
-                "description": "The status of the menu item. True means this menu item is selected; False is not selected.", 
-                "type": "Boolean"
-            }, 
-            "mouseover": {
-                "description": "Indicates that the user has moved the mouse pointer over the component.", 
-                "type": "COMPONENT"
-            }, 
-            "keyup": {
-                "description": "Indicates that the user has released a keyboard key.", 
-                "type": "COMPONENT"
-            }, 
-            "type": {
-                "description": "The concrete type of the menu item. Accepted values are 'action', 'checkbox', 'radio', 'separator' or any namespaced,component descriptor, e.g. ns:xxxxmenuItem.", 
-                "type": "String"
-            }, 
-            "hideMenuAfterSelected": {
-                "description": "Set to true to hide menu after the menu item is selected.", 
-                "type": "Boolean"
-            }, 
-            "select": {
-                "description": "Indicates that the user has made a selection.", 
-                "type": "COMPONENT"
-            }, 
-            "body": {
-                "description": "The body of the component. In markup, this is everything in the body of the tag.", 
-                "type": "Component[]"
-            }, 
-            "mousedown": {
-                "description": "Indicates that the user has pressed a mouse key.", 
-                "type": "COMPONENT"
-            }, 
-            "focus": {
-                "description": "Indicates that a component has been put on focus.", 
-                "type": "COMPONENT"
-            }, 
-            "disabled": {
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is 'false'.", 
-                "type": "Boolean"
-            }, 
-            "keypress": {
-                "description": "Indicates that the user has pressed and held down a keyboard key.", 
-                "type": "COMPONENT"
-            }, 
-            "mouseout": {
-                "description": "Indicates that the user has moved the mouse pointer away from the component.", 
-                "type": "COMPONENT"
-            }, 
-            "mousemove": {
-                "description": "Indicates that the user has moved the mouse pointer.", 
-                "type": "COMPONENT"
-            }, 
-            "click": {
-                "description": "Indicates that a component has been clicked.", 
-                "type": "COMPONENT"
-            }
-        }
-    },
-
-    "ui:button": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "label": {
-                "type": "String", 
-                "description": "The text displayed on the button. Corresponds to the value attribute of the rendered HTML input element."
-            }, 
-            "buttonType": {
-                "type": "String", 
-                "description": "Specifies the type attribute in the HTML input element. Default value is button."
-            }, 
-            "disabled": {
-                "type": "Boolean", 
-                "description": "Specifies whether this button should be displayed in a disabled state. Disabled buttons can't be clicked. Default value is 'false'."
-            }, 
-            "body": {
-                "type": "Component[]", 
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            }, 
-            "labelClass": {
-                "type": "String", 
-                "description": "A CSS style to be attached to the label. This style is added in addition to base styles output by the component."
-            }, 
-            "class": {
-                "type": "String", 
-                "description": "A CSS style to be attached to the button. This style is added in addition to base styles output by the component."
-            }, 
-            "accesskey": {
-                "type": "String", 
-                "description": "The keyboard access key that puts the button in focus. When the button is in focus, pressing Enter clicks the button."
-            }, 
-            "buttonTitle": {
-                "type": "String", 
-                "description": "The text displayed in a tooltip when the mouse pointer hovers over the button."
-            },
-            "press": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the component has been pressed."
-            }, 
-        }
-    },
-
-    "ui:checkboxMenuItem": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "label": {
-                "type": "String", 
-                "description": "The text displayed on the component."
-            }, 
-            "mousedown": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has pressed a mouse key."
-            }, 
-            "click": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been clicked."
-            }, 
-            "keyup": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has released a keyboard key."
-            }, 
-            "dblclick": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been double-clicked."
-            }, 
-            "mouseup": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has released the mouse button."
-            }, 
-            "body": {
-                "type": "Component[]", 
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            }, 
-            "mousemove": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer."
-            }, 
-            "keypress": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            }, 
-            "class": {
-                "type": "String", 
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            }, 
-            "keydown": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            }, 
-            "select": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has made a selection."
-            }, 
-            "selected": {
-                "type": "Boolean", 
-                "description": "The status of the menu item. True means this menu item is selected; False is not selected."
-            }, 
-            "type": {
-                "type": "String", 
-                "description": "The concrete type of the menu item. Accepted values are 'action', 'checkbox', 'radio', 'separator' or any namespaced component descriptor, e.g. ns:xxxxmenuItem."
-            }, 
-            "disabled": {
-                "type": "Boolean", 
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is 'false'."
-            }, 
-            "blur": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been put out of focus."
-            }, 
-            "focus": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been put on focus."
-            }, 
-            "mouseover": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            }, 
-            "mouseout": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            }, 
-            "hideMenuAfterSelected": {
-                "type": "Boolean", 
-                "description": "Set to true to hide menu after the menu item is selected."
-            }
-        }
-    },
-
-    "ui:inputCheckbox": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "name": {
-                "description": "The name of the component.", 
-                "type": "String"
-            }, 
-            "clearErrors": {
-                "description": "Indicates that any validation error should be cleared.", 
-                "type": "COMPONENT"
-            }, 
-            "body": {
-                "description": "The body of the component. In markup, this is everything in the body of the tag.", 
-                "type": "Component[]"
-            }, 
-            "updateOn": {
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is 'change,click'.", 
-                "type": "String"
-            }, 
-            "value": {
-                "description": "Indicates whether the status of the option is selected. Default value is 'false'.", 
-                "type": "Boolean"
-            }, 
-            "mouseup": {
-                "description": "Indicates that the user has released the mouse button.", 
-                "type": "COMPONENT"
-            }, 
-            "mousemove": {
-                "description": "Indicates that the user has moved the mouse pointer.", 
-                "type": "COMPONENT"
-            }, 
-            "change": {
-                "description": "Indicates that the content of a component or the state has changed.", 
-                "type": "COMPONENT"
-            }, 
-            "labelClass": {
-                "description": "The CSS class of the label component", 
-                "type": "String"
-            }, 
-            "mouseout": {
-                "description": "Indicates that the user has moved the mouse pointer away from the component.", 
-                "type": "COMPONENT"
-            }, 
-            "validationError": {
-                "description": "Indicates that the component has validation error(s).", 
-                "type": "COMPONENT"
-            }, 
-            "blur": {
-                "description": "Indicates that a component has been put out of focus.", 
-                "type": "COMPONENT"
-            }, 
-            "paste": {
-                "description": "Indicates that the user has pasted content from the clipboard.", 
-                "type": "COMPONENT"
-            }, 
-            "copy": {
-                "description": "Indicates that the user has copied content to the clipboard.", 
-                "type": "COMPONENT"
-            }, 
-            "select": {
-                "description": "Indicates that the user has made a selection.", 
-                "type": "COMPONENT"
-            }, 
-            "text": {
-                "description": "The input value attribute.", 
-                "type": "String"
-            }, 
-            "dblclick": {
-                "description": "Indicates that a component has been double-clicked.", 
-                "type": "COMPONENT"
-            }, 
-            "class": {
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component.", 
-                "type": "String"
-            }, 
-            "requiredIndicatorClass": {
-                "description": "The CSS class of the required indicator component", 
-                "type": "String"
-            }, 
-            "keydown": {
-                "description": "Indicates that the user has pressed and released a keyboard key.", 
-                "type": "COMPONENT"
-            }, 
-            "disabled": {
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is 'false'.", 
-                "type": "Boolean"
-            }, 
-            "label": {
-                "description": "The text displayed on the component.", 
-                "type": "String"
-            },
-            "click": {
-                "description": "Indicates that a component has been clicked.", 
-                "type": "COMPONENT"
-            }, 
-            "keyup": {
-                "description": "Indicates that the user has released a keyboard key.", 
-                "type": "COMPONENT"
-            }, 
-            "mouseover": {
-                "description": "Indicates that the user has moved the mouse pointer over the component.", 
-                "type": "COMPONENT"
-            }, 
-            "focus": {
-                "description": "Indicates that a component has been put on focus.", 
-                "type": "COMPONENT"
-            }, 
-            "keypress": {
-                "description": "Indicates that the user has pressed and held down a keyboard key.", 
-                "type": "COMPONENT"
-            }, 
-            "cut": {
-                "description": "Indicates that the user has cut content to the clipboard.", 
-                "type": "COMPONENT"
-            }, 
-            "required": {
-                "description": "Specifies whether the input is required. Default value is 'false'.", 
-                "type": "Boolean"
-            }, 
-            "mousedown": {
-                "description": "Indicates that the user has pressed a mouse key.", 
-                "type": "COMPONENT"
-            }
-        }
-    },
-
-    "ui:inputCurrency": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "format": {
-                "type": "String",
-                "description": "The format of the number. For example, format='.00' displays the number followed by two decimal places. If not specified, the Locale default format will be used."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text of the label component"
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "maxlength": {
-                "type": "Integer",
-                "description": "The maximum number of characters that can be typed into the input field. Corresponds to the maxlength attribute of the rendered HTML input element."
-            },
-
-            "placeholder": {
-                "type": "String",
-                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is false."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "size": {
-                "type": "Integer",
-                "description": "The width of the input field, in characters. Corresponds to the size attribute of the rendered HTML input element."
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is change."
-            },
-
-            "value": {
-                "type": "BigDecimal",
-                "description": "The input value of the number."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:inputDate": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "displayDatePicker": {
-                "type": "Boolean",
-                "description": "Indicate if ui:datePicker is displayed."
-            },
-
-            "format": {
-                "type": "String",
-                "description": "The java.text.SimpleDateFormat style format string."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text of the label component"
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "langLocale": {
-                "type": "String",
-                "description": "The language locale used to format date time."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is false."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is 'change'."
-            },
-
-            "value": {
-                "type": "Date",
-                "description": "The input value of the date/time."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:inputDateTime": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is 'false'."
-            },
-
-            "displayDatePicker": {
-                "type": "Boolean",
-                "description": "Indicate if ui:datePicker is displayed."
-            },
-
-            "format": {
-                "type": "String",
-                "description": "The java.text.SimpleDateFormat style format string."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text of the label component"
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "langLocale": {
-                "type": "String",
-                "description": "The language locale used to format date time."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is 'false'."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is 'change'."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The input value of the date/time."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:inputDefaultError": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]", 
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String", 
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "value": {
-                "type": "ArrayList", 
-                "description": "The list of errors strings to be displayed."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:inputEmail": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is 'false'."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text of the label component"
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "maxlength": {
-                "type": "Integer",
-                "description": "The maximum number of characters that can be typed into the input field. Corresponds to the maxlength attribute of the rendered HTML input element."
-            },
-
-            "placeholder": {
-                "type": "String",
-                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is 'false'."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "size": {
-                "type": "Integer",
-                "description": "The width of the input field, in characters. Corresponds to the size attribute of the rendered HTML input element."
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is 'change'."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The value currently in the input field."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:inputNumber": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is 'false'."
-            },
-
-            "format": {
-                "type": "String",
-                "description": "The format of the number. For example, format=¡°.00¡± displays the number followed by two decimal places. If not specified, the Locale default format will be used."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text of the label component"
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "maxlength": {
-                "type": "Integer",
-                "description": "The maximum number of characters that can be typed into the input field. Corresponds to the maxlength attribute of the rendered HTML input element."
-            },
-
-            "placeholder": {
-                "type": "String",
-                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is 'false'."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "size": {
-                "type": "Integer",
-                "description": "The width of the input field, in characters. Corresponds to the size attribute of the rendered HTML input element."
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is 'change'."
-            },
-
-            "value": {
-                "type": "BigDecimal",
-                "description": "The input value of the number."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:inputPhone": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is 'false'."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text of the label component"
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "maxlength": {
-                "type": "Integer",
-                "description": "The maximum number of characters that can be typed into the input field. Corresponds to the maxlength attribute of the rendered HTML input element."
-            },
-
-            "placeholder": {
-                "type": "String",
-                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is 'false'."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "size": {
-                "type": "Integer",
-                "description": "The width of the input field, in characters. Corresponds to the size attribute of the rendered HTML input element."
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is 'change'."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The value currently in the input field."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:inputRadio": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether this radio button should be displayed in a disabled state. Disabled radio buttons can't be clicked. Default value is false."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text displayed on the component."
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "name": {
-                "type": "String",
-                "description": "The name of the component."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is false."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "text": {
-                "type": "String",
-                "description": "The input value attribute."
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is change."
-            },
-
-            "value": {
-                "type": "Boolean",
-                "description": "Indicates whether the status of the option is selected. Default value is false."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:inputRichText": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "cols": {
-                "type": "Integer",
-                "description": "The width of the text area, which is defined by the number of characters to display in a single row at a time. Default value is ¡°20¡±."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "height": {
-                "type": "String",
-                "description": "The height of the editing area (that includes the editor content). This can be an integer, for pixel sizes, or any CSS-defined length unit."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text of the label component"
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "maxlength": {
-                "type": "Integer",
-                "description": "The maximum number of characters that can be typed into the input field. Corresponds to the maxlength attribute of the rendered HTML textarea element."
-            },
-
-            "placeholder": {
-                "type": "String",
-                "description": "The text that is displayed by default."
-            },
-
-            "readonly": {
-                "type": "Boolean",
-                "description": "Specifies whether the text area should be rendered as read-only. Default value is ¡°false¡±."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is false."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "resizable": {
-                "type": "Boolean",
-                "description": "Specifies whether or not the textarea should be resizable. Defaults to true."
-            },
-
-            "rows": {
-                "type": "Integer",
-                "description": "The height of the text area, which is defined by the number of rows to display at a time. Default value is '2'."
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is change."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The value currently in the input field."
-            },
-
-            "width": {
-                "type": "String",
-                "description": "The editor UI outer width. This can be an integer, for pixel sizes, or any CSS-defined unit. If isRichText is set to false, use the cols attribute instead."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:inputSecret": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text of the label component"
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "maxlength": {
-                "type": "Integer",
-                "description": "The maximum number of characters that can be typed into the input field. Corresponds to the maxlength attribute of the rendered HTML input element."
-            },
-
-            "placeholder": {
-                "type": "String",
-                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is false."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "size": {
-                "type": "Integer",
-                "description": "The width of the input field, in characters. Corresponds to the size attribute of the rendered HTML input element."
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is 'change'."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The value currently in the input field."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:inputSelect": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text of the label component"
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "multiple": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is a multiple select. Default value is ¡°false¡±."
-            },
-
-            "options": {
-                "type": "List",
-                "description": "A list of aura.components.ui.InputOption."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is false."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is change."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The value currently in the input field."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:inputSelectOption": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text displayed on the component."
-            },
-
-            "name": {
-                "type": "String",
-                "description": "The name of the component."
-            },
-
-            "text": {
-                "type": "String",
-                "description": "The input value attribute."
-            },
-
-            "value": {
-                "type": "Boolean",
-                "description": "Indicates whether the status of the option is selected. Default value is ¡°false¡±."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            }
-        }
-    },
-
-    "ui:inputText": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text of the label component"
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "maxlength": {
-                "type": "Integer",
-                "description": "The maximum number of characters that can be typed into the input field. Corresponds to the maxlength attribute of the rendered HTML input element."
-            },
-
-            "placeholder": {
-                "type": "String",
-                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is false."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "size": {
-                "type": "Integer",
-                "description": "The width of the input field, in characters. Corresponds to the size attribute of the rendered HTML input element."
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is change."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The value currently in the input field."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:inputTextArea": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "cols": {
-                "type": "Integer",
-                "description": "The width of the text area, which is defined by the number of characters to display in a single row at a time. Default value is '20'."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is 'false'."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text of the label component"
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "maxlength": {
-                "type": "Integer",
-                "description": "The maximum number of characters that can be typed into the input field. Corresponds to the maxlength attribute of the rendered HTML textarea element."
-            },
-
-            "placeholder": {
-                "type": "String",
-                "description": "The text that is displayed by default."
-            },
-
-            "readonly": {
-                "type": "Boolean",
-                "description": "Specifies whether the text area should be rendered as read-only. Default value is 'false'."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is 'false'."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "resizable": {
-                "type": "Boolean",
-                "description": "Specifies whether or not the textarea should be resizable. Defaults to true."
-            },
-
-            "rows": {
-                "type": "Integer",
-                "description": "The height of the text area, which is defined by the number of rows to display at a time. Default value is '2'."
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is 'change'."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The value currently in the input field."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:inputURL": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text of the label component"
-            },
-
-            "labelClass": {
-                "type": "String",
-                "description": "The CSS class of the label component"
-            },
-
-            "maxlength": {
-                "type": "Integer",
-                "description": "The maximum number of characters that can be typed into the input field. Corresponds to the maxlength attribute of the rendered HTML input element."
-            },
-
-            "placeholder": {
-                "type": "String",
-                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
-            },
-
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the input is required. Default value is false."
-            },
-
-            "requiredIndicatorClass": {
-                "type": "String",
-                "description": "The CSS class of the required indicator component"
-            },
-
-            "size": {
-                "type": "Integer",
-                "description": "The width of the input field, in characters. Corresponds to the size attribute of the rendered HTML input element."
-            },
-
-            "updateOn": {
-                "type": "String",
-                "description": "Updates the component's value binding if the updateOn attribute is set to the handled event. Default value is change."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The value currently in the input field."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "cut": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has cut content to the clipboard."
-            },
-
-            "validationError": {
-                "type": "COMPONENT",
-                "description": "Indicates that the component has validation error(s)."
-            },
-
-            "clearErrors": {
-                "type": "COMPONENT",
-                "description": "Indicates that any validation error should be cleared."
-            },
-
-            "change": {
-                "type": "COMPONENT",
-                "description": "Indicates that the content of a component or the state has changed."
-            },
-
-            "copy": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has copied content to the clipboard."
-            },
-
-            "paste": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pasted content from the clipboard."
-            }
-        }
-    },
-
-    "ui:menu": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:menuItem": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "hideMenuAfterSelected": {
-                "type": "Boolean",
-                "description": "Set to true to hide menu after the menu item is selected."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text displayed on the component."
-            },
-
-            "selected": {
-                "type": "Boolean",
-                "description": "The status of the menu item. True means this menu item is selected; False is not selected."
-            },
-
-            "type": {
-                "type": "String",
-                "values": [
-                    "action", "checkbox", "radio", "separator", "${1:ns:xxxxmenuItem}"
-                ],
-                "description": "The concrete type of the menu item. Accepted values are 'action', 'checkbox', 'radio', 'separator' or any namespaced component descriptor, e.g. ns:xxxxmenuItem."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            }
-        }
-    },
-
-    "ui:menuItemSeparator": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:menuList": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "autoPosition": {
-                "type": "Boolean",
-                "description": "Move the popup target up when there is not enough space at the bottom to display. Note: even if autoPosition is set to false, popup will still position the menu relative to the trigger. To override default positioning, use manualPosition attribute."
-            },
-
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "closeOnClickOutside": {
-                "type": "Boolean",
-                "description": "Close target when user clicks or taps outside of the target"
-            },
-
-            "closeOnTabKey": {
-                "type": "Boolean",
-                "description": "Indicates whether to close the target list on tab key or not."
-            },
-
-            "curtain": {
-                "type": "Boolean",
-                "description": "Whether or not to apply an overlay under the target."
-            },
-
-            "menuItems": {
-                "type": "List",
-                "description": "A list of menu items set explicitly using instances of the Java class: aura.components.ui.MenuItem."
-            },
-
-            "visible": {
-                "type": "Boolean",
-                "description": "Controls the visibility of the menu. The default is false, which hides the menu."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "expand": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component expands."
-            },
-
-            "menuSelect": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user selects a menu item inside a menu component."
-            },
-
-            "collapse": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component collapses."
-            },
-
-            "menuFocusChange": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user changes menu item focus inside a menu component."
-            }
-        }
-    },
-
-    "ui:menuTrigger": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "title": {
-                "type": "String",
-                "description": "The text to display as a tooltip when the mouse pointer hovers over this component."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "menuTriggerPress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the menu trigger is clicked."
-            }
-        }
-    },
-
-    "ui:menuTriggerLink": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]", 
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String", 
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean", 
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "label": {
-                "type": "String", 
-                "description": "The text displayed on the component."
-            },
-
-            "title": {
-                "type": "String", 
-                "description": "The text to display as a tooltip when the mouse pointer hovers over this component."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            },
-
-            "menuTriggerPress": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the menu trigger is clicked."
-            }
-        }
-    },
-
-    "ui:message": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "closable": {
-                "type": "Boolean",
-                "description": "Specifies whether to display an 'x' that will close the alert when clicked. Default value is 'false'."
-            },
-
-            "severity": {
-                "type": "String",
-                "description": "The severity of the message. Possible values: message (default), confirm, info, warning, error"
-            },
-
-            "title": {
-                "type": "String",
-                "description": "The title text for the message."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:outputCheckbox": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "altChecked": {
-                "type": "String",
-                "description": "The alternate text description when the checkbox is checked. Default value is 'True'."
-            },
-
-            "altUnchecked": {
-                "type": "String",
-                "description": "The alternate text description when the checkbox is unchecked. Default value is 'False'."
-            },
-
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "value": {
-                "type": "Boolean",
-                "description": "Specifies whether the checkbox is checked."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:outputCurrency": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "currencyCode": {
-                "type": "String",
-                "description": "The ISO 4217 currency code specified as a String, e.g. USD."
-            },
-
-            "currencySymbol": {
-                "type": "String",
-                "description": "The currency symbol specified as a String."
-            },
-
-            "format": {
-                "type": "String",
-                "description": "The format of the number. For example, format=¡°.00¡± displays the number followed by two decimal places. If not specified, the default format based on the browser's locale will be used."
-            },
-
-            "value": {
-                "type": "BigDecimal",
-                "description": "The output value of the currency, which is defined as type Decimal."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:outputDate": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]", 
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String", 
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "format": {
-                "type": "String", 
-                "description": "A string (pattern letters are defined in java.text.SimpleDateFormat) used to format the date and time of the value attribute."
-            },
-
-            "langLocale": {
-                "type": "String", 
-                "description": "The language locale used to format date value."
-            },
-
-            "value": {
-                "type": "String", 
-                "description": "The output value of the date. It should be a date string in ISO-8601 format (YYYY-MM-DD)."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:outputDataTime": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]", 
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String", 
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "format": {
-                "type": "String", 
-                "description": "A string (pattern letters are defined in java.text.SimpleDateFormat) used to format the date and time of the value attribute."
-            },
-
-            "langLocale": {
-                "type": "String", 
-                "description": "The language locale used to format date value."
-            },
-
-            "timezone": {
-                "type": "Picklist",
-                "values": [
-                    "Pacific/Chatham", "Pacific/Auckland", "Pacific/Enderbury", "Pacific/Fiji", 
-                    "Pacific/Tongatapu", "Asia/Kamchatka", "Australia/Lord_Howe", "Australia/Sydney", 
-                    "Pacific/Guadalcanal", "Pacific/Norfolk", "Australia/Adelaide", "Australia/Brisbane", 
-                    "Australia/Darwin", "Asia/Seoul", "Asia/Tokyo", "Asia/Hong_Kong", "Asia/Kuala_Lumpur", 
-                    "Asia/Manila", "Asia/Shanghai", "Asia/Singapore", "Asia/Taipei", "Australia/Perth", 
-                    "Asia/Bangkok", "Asia/Ho_Chi_Minh", "Asia/Jakarta", "Asia/Rangoon", "Asia/Dhaka", 
-                    "Asia/Kathmandu", "Asia/Colombo", "Asia/Kolkata", "Asia/Karachi", "Asia/Tashkent", 
-                    "Asia/Yekaterinburg", "Asia/Kabul", "Asia/Baku", "Asia/Dubai", "Asia/Tbilisi", 
-                    "Asia/Yerevan", "Asia/Tehran", "Africa/Nairobi", "Asia/Baghdad", "Asia/Kuwait", 
-                    "Asia/Riyadh", "Europe/Minsk", "Europe/Moscow", "Africa/Cairo", "Africa/Johannesburg", 
-                    "Asia/Beirut", "Asia/Jerusalem", "Europe/Athens", "Europe/Bucharest", "Europe/Helsinki", 
-                    "Europe/Istanbul", "Africa/Algiers", "Europe/Amsterdam", "Europe/Berlin", "Europe/Brussels", 
-                    "Europe/Paris", "Europe/Prague", "Europe/Rome", "Africa/Casablanca", "Europe/Dublin", 
-                    "Europe/Lisbon", "Europe/London", "America/Scoresbysund", "Atlantic/Azores", 
-                    "Atlantic/Cape_Verde", "America/Sao_Paulo", "Atlantic/South_Georgia", 
-                    "America/Argentina/Buenos_Aires", "America/Santiago", "America/St_Johns", "America/Halifax", 
-                    "America/Puerto_Rico", "Atlantic/Bermuda", "America/Caracas", "America/Bogota", 
-                    "America/Indiana/Indianapolis", "America/Lima", "America/New_York", "America/Panama", 
-                    "America/Chicago", "America/El_Salvador", "America/Mexico_City", "America/Denver", 
-                    "America/Mazatlan", "America/Phoenix", "America/Los_Angeles", "America/Tijuana", "Pacific/Pitcairn", 
-                    "America/Anchorage", "Pacific/Gambier", "Pacific/Marquesas", "America/Adak", "Pacific/Honolulu", 
-                    "Pacific/Niue", "Pacific/Pago_Pago" 
-                ],
-                "description": "The timezone ID, for example, America/Los_Angeles."
-            },
-
-            "value": {
-                "type": "String", 
-                "description": "An ISO8601-formatted string representing a date time."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT", 
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT", 
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:outputEmail": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The output value of the email"
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:outputNumber": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "format": {
-                "type": "String",
-                "description": "The format of the number. For example, format=¡°.00¡± displays the number followed by two decimal places. If not specified, the Locale default format will be used."
-            },
-
-            "value": {
-                "type": "BigDecimal",
-                "description": "The number displayed when this component is rendered."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:outputPhone": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The phone number displayed when this component is rendered."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:outputRichText": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The richly-formatted text used for output."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:outputText": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The text displayed when this component is rendered."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:outputTextArea": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The text to display."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:outputURL": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "alt": {
-                "type": "String",
-                "description": "The alternate text description for image (used when there is no label)"
-            },
-
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "iconClass": {
-                "type": "String",
-                "description": "The CSS style used to display the icon or image."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text displayed on the component."
-            },
-
-            "target": {
-                "type": "Picklist",
-                "values": [
-                    "_blank", "_parent", "_self", "_top"
-                ],
-                "description": "The target destination where this rendered component is displayed. Possible values: _blank, _parent, _self, _top"
-            },
-
-            "title": {
-                "type": "String",
-                "description": "The text to display as a tooltip when the mouse pointer hovers over this component."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The text displayed when this component is rendered."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            }
-        }
-    },
-
-    "ui:radioMenuItem": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS style to be attached to the component. This style is added in addition to base styles output by the component."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the component should be displayed in a disabled state. Default value is false."
-            },
-
-            "hideMenuAfterSelected": {
-                "type": "Boolean",
-                "description": "Set to true to hide menu after the menu item is selected."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text displayed on the component."
-            },
-
-            "selected": {
-                "type": "Boolean",
-                "description": "The status of the menu item. True means this menu item is selected; False is not selected."
-            },
-
-            "type": {
-                "type": "Picklist",
-                "values": [
-                    "action", "checkbox", "radio", "separator", "${1:ns:xxxxmenuItem}"
-                ],
-                "description": "The concrete type of the menu item. Accepted values are 'action', 'checkbox', 'radio', 'separator' or any namespaced component descriptor, e.g. ns:xxxxmenuItem."
-            },
-
-            "dblclick": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been double-clicked."
-            },
-
-            "mouseover": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer over the component."
-            },
-
-            "mouseout": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer away from the component."
-            },
-
-            "mouseup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released the mouse button."
-            },
-
-            "mousemove": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has moved the mouse pointer."
-            },
-
-            "click": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been clicked."
-            },
-
-            "mousedown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed a mouse key."
-            },
-
-            "select": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has made a selection."
-            },
-
-            "blur": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put out of focus."
-            },
-
-            "focus": {
-                "type": "COMPONENT",
-                "description": "Indicates that a component has been put on focus."
-            },
-
-            "keypress": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and held down a keyboard key."
-            },
-
-            "keyup": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has released a keyboard key."
-            },
-
-            "keydown": {
-                "type": "COMPONENT",
-                "description": "Indicates that the user has pressed and released a keyboard key."
-            }
-
-        }
-    },
-
-    "ui:spinner": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "aura:id": {
-                "type": "String"
-            },
-
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "isVisible": {
-                "type": "Boolean",
-                "description": "Specifies whether or not this spinner should be visible. Defaults to true."
-            },
-
-            "toggleLoadingIndicator": {
-                "type": "COMPONENT",
-                "description": "Change the visibility of a ui:spinner component."
-            }
-        }
-    },
-
-    "lightning:accordion": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "activeSectionName": {
-                "type": "String",
-                "description": "The activeSectionName changes the default expanded section. The first section in the accordion is expanded by default."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            }
-        }
-    },
-
-    "lightning:accordionSection": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "actions": {
-                "type": "Component[]",
-                "description": "Enables a custom menu implementation. Actions are displayed to the right of the section title."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "label": {
-                "type": "String",
-                "description": "The text that displays as the title of the section."
-            },
-            "name": {
-                "type": "String",
-                "description": "The unique section name to use with the activeSectionName attribute in the lightning:accordion component."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            }
-        }
-    },
-
-    "lightning:avatar": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "alternativeText": {
-                "type": "String",
-                "description": "The alternative text used to describe the avatar, which is displayed as hover text on the image. Required"
-            },
-
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-
-            "size": {
-                "type": "String",
-                "description": "The size of the avatar. Valid values are x-small, small, medium, and large. This value defaults to medium."
-            },
-
-            "src": {
-                "type": "String",
-                "description": "The URL for the image. Required"
-            }
-        }
-    },
-
-    "lightning:badge": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text to be displayed inside the badge."
-            }
-        }
-    },
-
-    "lightning:breadcrumb": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "href": {
-                "type": "String",
-                "description": "The URL of the page that the breadcrumb goes to."
-            },
-            "label": {
-                "type": "String",
-                "description": "The text label for the breadcrumb."
-            },
-            "name": {
-                "type": "String",
-                "description": "The name for the breadcrumb component. This value is optional and can be used to identify the breadcrumb in a callback."
-            },
-            "onclick": {
-                "type": "Action",
-                "description": "The action triggered when the breadcrumb is clicked."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            }
-        }
-    },
-
-    "lightning:breadcrumbs": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-
-            "href": {
-                "type": "String",
-                "description": "The URL of the page that the breadcrumb goes to."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text label for the breadcrumb. Required."
-            },
-
-            "name": {
-                "type": "String",
-                "description": "The name for the breadcrumb component. This value is optional and can be used to identify the breadcrumb in a callback."
-            },
-
-            "onclick": {
-                "type": "Action",
-                "description": "The action triggered when the breadcrumb is clicked."
-            },
-
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            }
-        }
-    },
-
-    "lightning:button": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether this button should be displayed in a disabled state. Disabled buttons can't be clicked. This value defaults to false."
-            },
-
-            "iconName": {
-                "type": "String",
-                "description": "The Lightning Design System name of the icon. "
-            },
-
-            "iconPosition": {
-                "type": "String",
-                "description": "Describes the position of the icon with respect to body. Options include left and right. This value defaults to left."
-            },
-
-            "label": {
-                "type": "String",
-                "description": "The text to be displayed inside the button."
-            },
-
-            "name": {
-                "type": "String",
-                "description": "The name for the button element. This value is optional and can be used to identify the button in a callback."
-            },
-
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-
-            "onclick": {
-                "type": "Action",
-                "description": "The action triggered when the button is clicked."
-            },
-
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-
-            "type": {
-                "type": "String",
-                "description": "Specifies the type of button. Valid values are button, reset, and submit. This value defaults to button."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The value for the button element. This value is optional and can be used when submitting a form."
-            },
-
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of the button. Accepted variants include base, neutral, brand, destructive, and inverse. This value defaults to neutral."
-            },
-
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            }
-        }
-    },
-
-    "lightning:buttonGroup": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            }
-        }
-    },
-
-    "lightning:buttonIcon": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-
-            "alternativeText": {
-                "type": "String",
-                "description": "The alternative text used to describe the icon. This text should describe what happens when you click the button, for example 'Upload File', not what the icon looks like, 'Paperclip'. Required."
-            },
-
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether this button should be displayed in a disabled state. Disabled buttons can't be clicked. This value defaults to false."
-            },
-
-            "iconClass": {
-                "type": "String",
-                "description": "The class to be applied to the contained icon element."
-            },
-
-             "iconName": {
-                "type": "String",
-                "description": "The Lightning Design System name of the icon. Names are written in the format '\\utility:down\\' where 'utility' is the category, and 'down' is the specific icon to be displayed. Required."
-            },
-
-            "name": {
-                "type": "String",
-                "description": "The name for the button element. This value is optional and can be used to identify the button in a callback."
-            },
-
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-
-            "onclick": {
-                "type": "Action",
-                "description": "The action triggered when the button is clicked."
-            },
-
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-
-            "size": {
-                "type": "String",
-                "description": "The size of the buttonIcon. For the bare variant, options include x-small, small, medium, and large. For non-bare variants, options include xx-small, x-small, small, and medium. This value defaults to medium."
-            },
-
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-
-            "type": {
-                "type": "String",
-                "description": "Specifies the type of button. Valid values are button, reset, and submit. This value defaults to button."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The value for the button element. This value is optional and can be used when submitting a form."
-            },
-
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of the button. Accepted variants include base, neutral, brand, destructive, and inverse. This value defaults to neutral."
-            }
-        }
-    },
-
-    "lightning:buttonIconStateful": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "name": {
-                "type": "String",
-                "description": "The name for the button element. This value is optional and can be used to identify the button in a callback."
-            },
-            "value": {
-                "type": "String",
-                "description": "The value for the button element. This value is optional and can be used when submitting a form."
-            },
-            "iconName": {
-                "type": "String",
-                "description": "The Lightning Design System name of the icon"
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of buttonIcon. Accepted variants border, and border-inverse. This value defaults to border."
-            },
-            "size": {
-                "type": "String",
-                "description": "The size of the buttonIcon. Options include xx-small, x-small, small, and medium. This value defaults to medium."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether this button should be displayed in a disabled state. Disabled buttons can't be clicked. This value defaults to false."
-            },
-            "alternativeText": {
-                "type": "String",
-                "description": "The alternative text used to describe the icon. This text should describe what happens when you click the button, for example 'Upload File', not what the icon looks like, 'Paperclip'."
-            },
-            "onclick": {
-                "type": "Action",
-                "description": "The action that will be run when the button is clicked."
-            },
-            "selected": {
-                "type": "Boolean",
-                "description": "Specifies whether button is in selected state or not"
-            }
-        }
-    },
-
-    "lightning:buttonMenu": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-
-            "alternativeText": {
-                "type": "String",
-                "description": "The alternative text used to describe the icon. This text should describe what happens when you click the button, for example 'Upload File', not what the icon looks like, 'Paperclip'. Required."
-            },
-
-            "body": {
-                "type": "ComponentDefRef[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether this button should be displayed in a disabled state. Disabled buttons can't be clicked. This value defaults to false."
-            },
-
-             "iconName": {
-                "type": "String",
-                "description": "The Lightning Design System name of the icon. Names are written in the format '\\utility:down\\' where 'utility' is the category, and 'down' is the specific icon to be displayed."
-            },
-
-            "iconSize": {
-                "type": "String",
-                "values" : ["xx-small", "x-small", "medium", "large"],
-                "description": "The size of the icon. Options include xx-small, x-small, medium, or large. This value defaults to medium."
-            },
-
-            "menuAlignment": {
-                "type": "String",
-                "description": "Determines the alignment of the menu relative to the button. Available options are: left, center, right. This value defaults to left."
-            },
-
-            "name": {
-                "type": "String",
-                "description": "The name for the button element. This value is optional and can be used to identify the button in a callback."
-            },
-
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-
-            "onselect": {
-                "type": "Action",
-                "description": "Action fired when a menu item is selected. The 'detail.menuItem' property of the passed event is the selected menu item."
-            },
-
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-
-            "title": {
-                "type": "String",
-                "description": "Tooltip text on the button."
-            },
-
-            "value": {
-                "type": "String",
-                "description": "The value for the button element. This value is optional and can be used when submitting a form."
-            },
-
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of the button. Accepted variants include base, neutral, brand, destructive, and inverse. This value defaults to neutral."
-            },
-
-            "type": {
-                "type": "Boolean",
-                "description": "If true, the menu items are displayed. This value defaults to false."
-            }
-        }
-    },
-
-    "lightning:buttonStateful": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "iconNameWhenHover": {
-                "type": "String",
-                "description": "The name of the icon to be used in the format \\'utility:close\\' when the state is true and the button receives focus."
-            },
-            "iconNameWhenOff": {
-                "type": "String",
-                "description": "The name of the icon to be used in the format \\'utility:add\\' when the state is false."
-            },
-            "iconNameWhenOn": {
-                "type": "String",
-                "description": "The name of the icon to be used in the format \\'utility:check\\' when the state is true."
-            },
-            "labelWhenHover": {
-                "type": "String",
-                "description": "The text to be displayed inside the button when state is true and the button receives focus."
-            },
-            "labelWhenOff": {
-                "type": "String",
-                "description": "The text to be displayed inside the button when state is false."
-            },
-            "labelWhenOn": {
-                "type": "String",
-                "description": "The text to be displayed inside the button when state is true."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-            "onclick": {
-                "type": "Action",
-                "description": "The action triggered when the button is clicked."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-            "state": {
-                "type": "Boolean",
-                "description": "The state of the button, which shows whether the button has been selected or not. The default state is false."
-            },
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of the button. Accepted variants include brand, inverse, neutral and text. This value defaults to neutral."
-            }
-        }
-    },
-    "lightning:card": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "actions": {
-                "type": "Component[]",
-                "description": "Actions are components such as button or buttonIcon. Actions are displayed in the header."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "footer": {
-                "type": "Component[]",
-                "description": "The footer can include text or another component"
-            },
-            "iconName": {
-                "type": "String",
-                "description": "The Lightning Design System name of the icon. Names are written in the format '\\utility:down\\' where 'utility' is the category, and 'down' is the specific icon to be displayed. The icon is displayed in the header to the left of the title."
-            },
-            "title": {
-                "type": "Component[]",
-                "description": "The title can include text or another component, and is displayed in the header."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of the card. Accepted variants include base or narrow. This value defaults to base."
-            }
-        }
-    },
-    "lightning:checkboxGroup": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "name": {
-                "type": "String",
-                "description": "The name of the checkbox group."
-            },
-            "label": {
-                "type": "String",
-                "description": "Text label for the checkbox group."
-            },
-            "options": {
-                "type": "List",
-                "description": "Array of label-value pairs for each checkbox."
-            },
-            "value": {
-                "type": "String[]",
-                "description": "The list of selected checkboxes. Each array entry contains the value of a selected checkbox. The value of each checkbox is set in the options attribute."
-            },
-            "messageWhenValueMissing": {
-                "type": "String",
-                "description": "Optional message displayed when no checkbox is selected and the required attribute is set to true."
-            },
-            "required": {
-                "type": "Boolean",
-                "description": "Set to true if at least one checkbox must be selected. This value defaults to false."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "Set to true if the checkbox group is disabled. Checkbox selections can't be changed for a disabled checkbox group. This value defaults to false."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the checkbox group releases focus."
-            },
-            "onchange": {
-                "type": "Action",
-                "description": "The action triggered when a checkbox value changes."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the checkbox group receives focus."
-            }
-        }
-    },
-    "lightning:clickToDial": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "value": {
-                "type": "String",
-                "description": "The phone number."
-            },
-            "recordId": {
-                "type": "String",
-                "description": "The Salesforce record Id that's associated with the phone number."
-            },
-            "params": {
-                "type": "String",
-                "description": "Comma-separated list of parameters to pass to the third-party phone system."
-            }
-        }
-    },
-    "lightning:combobox": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "name": {
-                "type": "String",
-                "description": "Specifies the name of an input element."
-            },
-            "value": {
-                "type": "Object",
-                "description": "Specifies the value of an input element."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies that an input element should be disabled. This value defaults to false."
-            },
-            "readonly": {
-                "type": "Boolean",
-                "description": "Specifies that an input field is read-only. This value defaults to false."
-            },
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies that an input field must be filled out before submitting the form. This value defaults to false."
-            },
-            "validity": {
-                "type": "Object",
-                "description": "Represents the validity states that an element can be in, with respect to constraint validation."
-            },
-            "onchange": {
-                "type": "Action",
-                "description": "The action triggered when a value attribute changes."
-            },
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "options": {
-                "type": "Object[]",
-                "description": "A list of options that are available for selection. Each option has the following attributes: class, selected, label, and value."
-            },
-            "label": {
-                "type": "String",
-                "description": "Text label for the combobox."
-            },
-            "placeholder": {
-                "type": "String",
-                "description": "Text that is displayed before an option is selected, to prompt the user to select an option. The default is &quot;Select an Option&quot;."
-            },
-            "dropdownAlignment": {
-                "type": "String",
-                "description": "Determines the alignment of the drop-down relative to the input. Available values are left, center, right, bottom-left, bottom-center, bottom-right. The default is left."
-            },
-            "messageWhenValueMissing": {
-                "type": "String",
-                "description": "Error message to be displayed when the value is missing and input is required."
-            }
-        }
-    },
-    "lightning:container": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "alternativeText": {
-                "type": "String",
-                "description": "Used for alternative text in accessibility scenarios."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "The CSS class for the iframe element."
-            },
-            "onerror": {
-                "type": "Action",
-                "description": "The client-side controller action to run when an error occurs when sending a message to the contained app."
-            },
-            "onmessage": {
-                "type": "Action",
-                "description": "The client-side controller action to run when a message is received from the contained content."
-            },
-            "src": {
-                "type": "String",
-                "description": "The resource name, landing page and query params in url format. Navigation is supported only for the single page identified."
-            }
-        }
-    },
-    "lightning:datatable": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "keyField": {
-                "type": "String",
-                "description": "Required for better performance. Associates each row with a unique ID."
-            },
-            "columns": {
-                "type": "List",
-                "description": "Array of the columns object that's used to define the data types. Required properties include 'label', 'fieldName', and 'type'. The default type is 'text'."
-            },
-            "data": {
-                "type": "Object",
-                "description": "The array of data to be displayed."
-            },
-            "hideCheckboxColumn": {
-                "type": "Boolean",
-                "description": "Hides or displays the checkbox column for row selection. To hide the checkbox column, set hideCheckboxColumn to true. The default is false."
-            },
-            "resizeColumnDisabled": {
-                "type": "Boolean",
-                "description": "Specifies whether column resizing is disabled. The default is false."
-            },
-            "minColumnWidth": {
-                "type": "Integer",
-                "description": "The minimum width for all columns. The default is 50px."
-            },
-            "maxColumnWidth": {
-                "type": "Integer",
-                "description": "The maximum width for all columns. The default is 1000px."
-            },
-            "resizeStep": {
-                "type": "Integer",
-                "description": "The width to resize the column when user press left or right arrow. The default is 10px."
-            },
-            "sortedBy": {
-                "type": "String",
-                "description": "The column fieldName that controls the sorting order. Sort the data using the onsort event handler."
-            },
-            "sortedDirection": {
-                "type": "String",
-                "description": "Specifies the sorting direction. Sort the data using the onsort event handler. Valid options include 'asc' and 'desc'."
-            },
-            "defaultSortDirection": {
-                "type": "String",
-                "description": "Specifies the default sorting direction on an unsorted column. Valid options include 'asc' and 'desc'. The default is 'asc' for sorting in ascending order."
-            },
-            "onrowselection": {
-                "type": "Action",
-                "description": "The action triggered when a row is selected."
-            },
-            "onsort": {
-                "type": "Action",
-                "description": "The action triggered when a column is sorted."
-            }
-        }
-    },
-    "lightning:dualListbox": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "name": {
-                "type": "String",
-                "description": "Specifies the name of an input element."
-            },
-            "value": {
-                "type": "Object",
-                "description": "Specifies the value of an input element."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies that an input element should be disabled. This value defaults to false."
-            },
-            "readonly": {
-                "type": "Boolean",
-                "description": "Specifies that an input field is read-only. This value defaults to false."
-            },
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies that an input field must be filled out before submitting the form. This value defaults to false."
-            },
-            "validity": {
-                "type": "Object",
-                "description": "Represents the validity states that an element can be in, with respect to constraint validation."
-            },
-            "onchange": {
-                "type": "Action",
-                "description": "The action triggered when a value attribute changes."
-            },
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-            "label": {
-                "type": "String",
-                "description": "Label for the dual list box."
-            },
-            "sourceLabel": {
-                "type": "String",
-                "description": "Label for source options list box."
-            },
-            "selectedLabel": {
-                "type": "String",
-                "description": "Label for selected options list box."
-            },
-            "options": {
-                "type": "Object[]",
-                "description": "A list of options that are available for selection. Each option has the following attributes: label and value."
-            },
-            "requiredOptions": {
-                "type": "List",
-                "description": "A list of required options that cannot be removed from selected options list box. This list is populated with values from options attribute."
-            },
-            "values": {
-                "type": "List",
-                "description": "A list of default options that are included in the selected options list box. This list is populated with values from the options attribute."
-            },
-            "min": {
-                "type": "Integer",
-                "description": "Minimum number of options required in the selected options list box."
-            },
-            "max": {
-                "type": "Integer",
-                "description": "Maximum number of options required in the selected options list box."
-            }
-        }
-    },
-    "lightning:dynamicIcon": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "type": {
-                "type": "String",
-                "description": "The Lightning Design System name of the dynamicIcon. Valid values are: ellie, eq, score, strength, trend, and waffle."
-            },
-            "option": {
-                "type": "String",
-                "description": "The option attribute changes the appearance of the dynamicIcon"
-            },
-            "alternativeText": {
-                "type": "String",
-                "description": "The alternative text used to describe the dynamicIcon. This text should describe what&#x2019;s happening. For example, 'Graph is refreshing', not what the icon looks like, 'Graph'."
-            },
-            "onclick": {
-                "type": "Action",
-                "description": "The action triggered when the icon is clicked."
-            }
-        }
-    },
-    "lightning:fileCard": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "fileId": {
-                "type": "String",
-                "description": "The Salesforce File ID (ContentDocument)."
-            }
-        }
-    },
-    "lightning:fileUpload": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "label": {
-                "type": "String",
-                "description": "The text label for the file uploader."
-            },
-            "recordId": {
-                "type": "String",
-                "description": "The record Id of the record that the uploaded file is associated to."
-            },
-            "multiple": {
-                "type": "Boolean",
-                "description": "Specifies whether a user can upload more than one file simultanesouly. This value defaults to false."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether this component should be displayed in a disabled state. Disabled components can't be clicked. This value defaults to false."
-            },
-            "accept": {
-                "type": "List",
-                "description": "Comma-separated list of file extensions that can be uploaded in the format .ext, such as .pdf, .jpg, or .png"
-            },
-            "onuploadfinished": {
-                "type": "Action",
-                "description": "The action triggered when files have finished uploading."
-            }
-        }
-    },
-    "lightning:flexipageRegionInfo": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "width": {
-                "type": "String",
-                "description": "The width of the region that the component resides in."
-            }
-        }
-    },
-    "lightning:flow": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "onstatuschange": {
-                "type": "Action",
-                "description": "The current status of the flow interview."
-            }
-        }
-    },
-    "lightning:formattedEmail": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "value": {
-                "type": "String",
-                "description": "The email address that's displayed if a label is not provided."
-            },
-            "label": {
-                "type": "String",
-                "description": "The text label for the email."
-            },
-            "onclick": {
-                "type": "Action",
-                "description": "The action triggered when the email is clicked."
-            }
-        }
-    },
-    "lightning:formattedLocation": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "latitude": {
-                "type": "Decimal",
-                "description": "The latitude value of the geolocation. Latitude values must be within -90 and 90."
-            },
-            "longitude": {
-                "type": "Decimal",
-                "description": "The longitude value of the geolocation. Longitude values must be within -180 and 180."
-            }
-        }
-    },
-    "lightning:formattedPhone": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "value": {
-                "type": "Integer",
-                "description": "Sets the phone number to display."
-            },
-            "onclick": {
-                "type": "Action",
-                "description": "The action triggered when the phone number is clicked."
-            }
-        }
-    },
-    "lightning:formattedRichText": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "value": {
-                "type": "String",
-                "description": "Sets the rich text to display."
-            }
-        }
-    },
-    "lightning:formattedText": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "value": {
-                "type": "String",
-                "description": "Text to output."
-            },
-            "linkify": {
-                "type": "Boolean",
-                "description": "Specifies whether the text should be converted to a link. If set to true, URLs and email addresses are displayed in anchor tags."
-            }
-        }
-    },
-    "lightning:formattedUrl": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "value": {
-                "type": "String",
-                "description": "The URL to be formatted."
-            },
-            "target": {
-                "type": "String",
-                "description": "Specifies where to open the link. Options include _blank, _parent, _self, and _top."
-            },
-            "label": {
-                "type": "String",
-                "description": "The text to display in the link."
-            },
-            "tooltip": {
-                "type": "String",
-                "description": "The text to display when the mouse hovers over the link."
-            },
-            "onclick": {
-                "type": "Action",
-                "description": "The action triggered when the URL is clicked."
-            }
-        }
-    },
-    "lightning:formattedDateTime": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "day": {
-                "type": "String",
-                "description": "Allowed values are numeric or 2-digit."
-            },
-            "era": {
-                "type": "String",
-                "description": "Allowed values are narrow, short, or long."
-            },
-            "hour": {
-                "type": "String",
-                "description": "Allowed values are numeric or 2-digit."
-            },
-            "hour12": {
-                "type": "Boolean",
-                "description": "Determines whether time is displayed as 12-hour. If false, time displays as 24-hour. The default setting is determined by the user's locale."
-            },
-            "minute": {
-                "type": "String",
-                "description": "Allowed values are numeric or 2-digit."
-            },
-            "month": {
-                "type": "String",
-                "description": "Allowed values are 2-digit, narrow, short, or long."
-            },
-            "second": {
-                "type": "String",
-                "description": "Allowed values are numeric or 2-digit."
-            },
-            "timeZone": {
-                "type": "String",
-                "description": "The time zone to use. Implementations can include any time zone listed in the IANA time zone database. The default is the runtime's default time zone. Use this attribute only if you want to override the default time zone."
-            },
-            "timeZoneName": {
-                "type": "String",
-                "description": "Allowed values are short or long. For example, the Pacific Time zone would display as 'PST' if you select 'short', or 'Pacific Standard Time' if you select 'long.'"
-            },
-            "value": {
-                "type": "Object",
-                "description": "The value to be formatted, which can be a Date object or timestamp."
-            },
-            "weekday": {
-                "type": "String",
-                "description": "Allowed values are narrow, short, or long."
-            },
-            "year": {
-                "type": "String",
-                "description": "Allowed values are numeric or 2-digit."
-            }
-        }
-    },
-    "lightning:formattedNumber": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "currencyCode": {
-                "type": "String",
-                "description": "Only used if style='currency', this attribute determines which currency is displayed. Possible values are the ISO 4217 currency codes, such as 'USD' for the US dollar."
-            },
-            "currencyDisplayAs": {
-                "type": "String",
-                "description": "Determines how currency is displayed. Possible values are symbol, code, and name. This value defaults to symbol."
-            },
-            "maximumFractionDigits": {
-                "type": "Integer",
-                "description": "The maximum number of fraction digits that are allowed."
-            },
-            "maximumSignificantDigits": {
-                "type": "Integer",
-                "description": "The maximum number of significant digits that are allowed. Possible values are from 1 to 21."
-            },
-            "minimumFractionDigits": {
-                "type": "Integer",
-                "description": "The minimum number of fraction digits that are required."
-            },
-            "minimumIntegerDigits": {
-                "type": "Integer",
-                "description": "The minimum number of integer digits that are required. Possible values are from 1 to 21."
-            },
-            "minimumSignificantDigits": {
-                "type": "Integer",
-                "description": "The minimum number of significant digits that are required. Possible values are from 1 to 21."
-            },
-            "style": {
-                "type": "String",
-                "description": "The number formatting style to use. Possible values are decimal, currency, and percent. This value defaults to decimal."
-            },
-            "value": {
-                "type": "Decimal",
-                "description": "The value to be formatted."
-            }
-        }
-    },
-    "lightning:icon": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "alternativeText": {
-                "type": "String",
-                "description": "The alternative text used to describe the icon. This text should describe what happens when you click the button, for example 'Upload File', not what the icon looks like, 'Paperclip'."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "iconName": {
-                "type": "String",
-                "description": "The Lightning Design System name of the icon. Names are written in the format '\\utility:down\\' where 'utility' is the category, and 'down' is the specific icon to be displayed."
-            },
-            "size": {
-                "type": "String",
-                "description": "The size of the icon. Options include xx-small, x-small, small, medium, or large. This value defaults to medium."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of a utility icon. Accepted variants include inverse, warning and error. Use the inverse variant to implement a white fill in utility icons on dark backgrounds."
-            }
-        }
-    },
-    "lightning:helptext": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "content": {
-                "type": "String",
-                "description": "Text to be shown in the popover."
-            },
-            "iconName": {
-                "type": "String",
-                "description": "The Lightning Design System name of the icon used as the visible element"
-            }
-        }
-    },
-    "lightning:inputLocation": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "latitude": {
-                "type": "String",
-                "description": "The latitude value. Latitude values must be within -90 and 90."
-            },
-            "longitude": {
-                "type": "String",
-                "description": "The longitude value. Longitude values must be within -180 and 180."
-            },
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies whether the compound field must be filled out. An error message is displayed if a user interacts with the field and does not provide a value. This value defaults to false."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the compound field should be disabled. Disabled fields are grayed out and not clickable. This value defaults to false."
-            },
-            "readonly": {
-                "type": "Boolean",
-                "description": "Specifies whether the compound field is read-only. This value defaults to false."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of the compound field. Accepted variants include standard and label-hidden. This value defaults to standard."
-            },
-            "label": {
-                "type": "String",
-                "description": "Text label for the compound field."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the input releases focus."
-            },
-            "onchange": {
-                "type": "Action",
-                "description": "The action triggered when the value changes."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the input receives focus."
-            }
-        }
-    },
-    "lightning:input": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "accept": {
-                "type": "String",
-                "description": "Specifies the types of files that the server accepts. This attribute can be used only when type='file'."
-            },
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "checked": {
-                "type": "Boolean",
-                "description": "Specifies whether the checkbox is checked. This value defaults to false."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies that an input element should be disabled. This value defaults to false."
-            },
-            "files": {
-                "type": "Object",
-                "description": "A FileList that contains selected files. This attribute can be used only when type='file'."
-            },
-            "formatter": {
-                "type": "String",
-                "description": "String value with the formatter to be used."
-            },
-            "isLoading": {
-                "type": "Boolean",
-                "description": "Specifies whether the spinner is displayed to indicate that data is loading. This value defaults to false."
-            },
-            "label": {
-                "type": "String",
-                "description": "Text label for the input."
-            },
-            "max": {
-                "type": "Decimal",
-                "description": "Expected higher bound for the value in Floating-Point number"
-            },
-            "maxlength": {
-                "type": "Integer",
-                "description": "The maximum number of characters allowed in the field."
-            },
-            "messageToggleActive": {
-                "type": "String",
-                "description": "Text shown for the active state of a toggle. The default is \"Active\"."
-            },
-            "messageToggleInactive": {
-                "type": "String",
-                "description": "Text shown for then inactive state of a toggle. The default is \"Inactive\"."
-            },
-            "messageWhenBadInput": {
-                "type": "String",
-                "description": "Error message to be displayed when a bad input is detected."
-            },
-            "messageWhenPatternMismatch": {
-                "type": "String",
-                "description": "Error message to be displayed when a pattern mismatch is detected."
-            },
-            "messageWhenRangeOverflow": {
-                "type": "String",
-                "description": "Error message to be displayed when a range overflow is detected."
-            },
-            "messageWhenRangeUnderflow": {
-                "type": "String",
-                "description": "Error message to be displayed when a range underflow is detected."
-            },
-            "messageWhenStepMismatch": {
-                "type": "String",
-                "description": "Error message to be displayed when a step mismatch is detected."
-            },
-            "messageWhenTooLong": {
-                "type": "String",
-                "description": "Error message to be displayed when the value is too long."
-            },
-            "messageWhenTypeMismatch": {
-                "type": "String",
-                "description": "Error message to be displayed when a type mismatch is detected."
-            },
-            "messageWhenValueMissing": {
-                "type": "String",
-                "description": "Error message to be displayed when the value is missing."
-            },
-            "min": {
-                "type": "Decimal",
-                "description": "Expected lower bound for the value in Floating-Point number"
-            },
-            "minlength": {
-                "type": "Integer",
-                "description": "The minimum number of characters allowed in the field."
-            },
-            "multiple": {
-                "type": "Boolean",
-                "description": "Specifies that a user can enter more than one value. This attribute can be used only when type='file' or type='email'."
-            },
-            "name": {
-                "type": "String",
-                "description": "Specifies the name of an input element."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-            "onchange": {
-                "type": "Action",
-                "description": "The action triggered when a value attribute changes."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-            "pattern": {
-                "type": "String",
-                "description": "Specifies the regular expression that the input's value is checked against. This attributed is supported for text, date, search, url, tel, email, and password types."
-            },
-            "placeholder": {
-                "type": "String",
-                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
-            },
-            "readonly": {
-                "type": "Boolean",
-                "description": "Specifies that an input field is read-only. This value defaults to false."
-            },
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies that an input field must be filled out before submitting the form. This value defaults to false."
-            },
-            "step": {
-                "type": "Object",
-                "description": "Granularity of the value in Positive Floating Point. Use 'any' when granularity is not a concern."
-            },
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-            "type": {
-                "type": "String",
-                "description": "The type of the input. This value defaults to text."
-            },
-            "validity": {
-                "type": "Object",
-                "description": "Represents the validity states that an element can be in, with respect to constraint validation."
-            },
-            "value": {
-                "type": "Object",
-                "description": "Specifies the value of an input element."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard."
-            }
-        }
-    },
-    "lightning:inputRichText": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies whether the editor is disabled. This value defaults to false."
-            },
-            "disabledCategories": {
-                "type": "List",
-                "description": "A comma-separated list of button categories to remove from the toolbar."
-            },
-            "messageWhenBadInput": {
-                "type": "String",
-                "description": "Error message that's displayed when valid is false."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-            "placeholder": {
-                "type": "String",
-                "description": "Text that is displayed when the field is empty."
-            },
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-            "valid": {
-                "type": "Boolean",
-                "description": "Specifies whether the editor content is valid. If invalid, the slds-has-error class is added. This value defaults to true."
-            },
-            "value": {
-                "type": "String",
-                "description": "The HTML content in the rich text editor."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of the toolbar. Accepted variants include bottom-toolbar."
-            }
-        }
-    },
-    "lightning:layout": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "Body of the layout component."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class that is applied to the outer element. This style is in addition to base classes output by the component."
-            },
-            "horizontalAlign": {
-                "type": "String",
-                "description": "Determines how to spread the layout items horizontally. The alignment options are center, space, spread, and end."
-            },
-            "multipleRows": {
-                "type": "Boolean",
-                "description": "Determines whether to wrap the child items when they exceed the layout width. If true, the items wrap to the following line. This value defaults to false."
-            },
-            "pullToBoundary": {
-                "type": "String",
-                "description": "Pulls layout items to the layout boundaries and corresponds to the padding size on the layout item. Possible values are small, medium, or large."
-            },
-            "verticalAlign": {
-                "type": "String",
-                "description": "Determines how to spread the layout items vertically. The alignment options are start, center, end, and stretch."
-            }
-        }
-    },
-    "lightning:layoutItem": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class that will be applied to the outer element. This style is in addition to base classes output by the component."
-            },
-            "flexibility": {
-                "type": "Object",
-                "description": "Make the item fluid so that it absorbs any extra space in its container or shrinks when there is less space. Allowed values are auto, shrink, no-shrink, grow, no-grow, no-flex."
-            },
-            "largeDeviceSize": {
-                "type": "Integer",
-                "description": "If the viewport is divided into 12 parts, this attribute indicates the relative space the container occupies on device-types larger than desktop. It is expressed as an integer from 1 through 12."
-            },
-            "mediumDeviceSize": {
-                "type": "Integer",
-                "description": "If the viewport is divided into 12 parts, this attribute indicates the relative space the container occupies on device-types larger than tablet. It is expressed as an integer from 1 through 12."
-            },
-            "padding": {
-                "type": "String",
-                "description": "Sets padding to either the right and left sides of a container, or all sides of a container. Allowed values are horizontal-small, horizontal-medium, horizontal-large, around-small, around-medium, around-large."
-            },
-            "size": {
-                "type": "Integer",
-                "description": "If the viewport is divided into 12 parts, size indicates the relative space the container occupies. Size is expressed as an integer from 1 through 12. This applies for all device-types."
-            },
-            "smallDeviceSize": {
-                "type": "Integer",
-                "description": "If the viewport is divided into 12 parts, this attribute indicates the relative space the container occupies on device-types larger than mobile. It is expressed as an integer from 1 through 12."
-            }
-        }
-    },
-    "lightning:menuItem": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "checked": {
-                "type": "Boolean",
-                "description": "If not specified, the menu item is not checkable. If true, the a check mark is shown to the left of the menu item. If false, a check mark is not shown but there is space to accommodate one."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "If true the menu item is not actionable and is shown as disabled."
-            },
-            "iconName": {
-                "type": "String",
-                "description": "If provided an icon with the provided name is shown to the right of the menu item."
-            },
-            "label": {
-                "type": "String",
-                "description": "Text of the menu item."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-            "title": {
-                "type": "String",
-                "description": "Tooltip text."
-            },
-            "value": {
-                "type": "String",
-                "description": "A value associated with the menu item."
-            },
-            "onactive": {
-                "type": "Action",
-                "description": "DEPRECATED. The action triggered when this menu item becomes active."
-            }
-        }
-    },
-    "lightning:omniToolkitAPI": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            }
-        }
-    },
-    "lightning:outputField": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "fieldName": {
-                "type": "String",
-                "description": "The API name of the field to be displayed."
-            },
-            "variant": {
-                "type": "String",
-                "description": "Changes the appearance of the output. Accepted variants include standard and label-hidden. This value defaults to standard."
-            }
-        }
-    },
-    "lightning:path": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "recordId": {
-                "type": "String",
-                "description": "The record's ID"
-            },
-            "variant": {
-                "type": "String",
-                "description": "Changes the appearance of the path"
-            },
-            "hideUpdateButton": {
-                "type": "Boolean",
-                "description": "Specified whether the Mark Complete button is displayed next to the path. If true, the button is not displayed. The Mark Complete button is displayed by default."
-            },
-            "onselect": {
-                "type": "Action",
-                "description": "The action triggered when a step on the path is clicked."
-            }
-        }
-    },
-    "lightning:picklistPath": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "onselect": {
-                "type": "Action",
-                "description": "The action triggered when a step on the path is clicked."
-            },
-            "picklistFieldApiName": {
-                "type": "String",
-                "description": "The API name of the field from which the path is derived. For example, StageName for Opportunity."
-            },
-            "recordId": {
-                "type": "String",
-                "description": "The record's ID"
-            },
-            "variant": {
-                "type": "String",
-                "description": "Changes the appearance of the path"
-            }
-        }
-    },
-    "lightning:progressBar": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant of the progress bar. Valid values are base and circular."
-            },
-            "value": {
-                "type": "Integer",
-                "description": "The percentage value of the progress bar."
-            },
-            "size": {
-                "type": "String",
-                "description": "The size of the progress bar. Valid values are x-small, small, medium, and large. The default value is medium."
-            }
-        }
-    },
-    "lightning:progressIndicator": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "currentStep": {
-                "type": "String",
-                "description": "The current step, which must match the value attribute of one of progressStep components. If a step is not provided, the value of the first progressStep component is used."
-            },
-            "hasError": {
-                "type": "Boolean",
-                "description": "Indicates whether the current step is in error state and displays a warning icon on the step indicator. Applies to the base type only. This value defaults to false."
-            },
-            "type": {
-                "type": "String",
-                "description": "Changes the visual pattern of the indicator. Valid values are base and path. This value defaults to base."
-            },
-            "variant": {
-                "type": "String",
-                "description": "Changes the appearance of the progress indicator for the base type only"
-            }
-        }
-    },
-    "lightning:pill": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "hasError": {
-                "type": "Boolean",
-                "description": "Specifies whether the pill has errors. The default is false."
-            },
-            "href": {
-                "type": "String",
-                "description": "The URL of the page that the link goes to."
-            },
-            "label": {
-                "type": "String",
-                "description": "The text label that displays in the pill."
-            },
-            "media": {
-                "type": "Component[]",
-                "description": "The icon or figure that's displayed next to the textual information."
-            },
-            "name": {
-                "type": "String",
-                "description": "The name for the pill. This value is optional and can be used to identify the pill in a callback."
-            },
-            "onclick": {
-                "type": "Action",
-                "description": "The action triggered when the button is clicked."
-            },
-            "onremove": {
-                "type": "Action",
-                "description": "The action triggered when the pill is removed."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            }
-        }
-    },
-    "lightning:radioGroup": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "name": {
-                "type": "String",
-                "description": "Specifies the name of an input element."
-            },
-            "value": {
-                "type": "Object",
-                "description": "Specifies the value of an input element."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies that an input element should be disabled. This value defaults to false."
-            },
-            "readonly": {
-                "type": "Boolean",
-                "description": "Specifies that an input field is read-only. This value defaults to false."
-            },
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies that an input field must be filled out before submitting the form. This value defaults to false."
-            },
-            "validity": {
-                "type": "Object",
-                "description": "Represents the validity states that an element can be in, with respect to constraint validation."
-            },
-            "onchange": {
-                "type": "Action",
-                "description": "The action triggered when a value attribute changes."
-            },
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "label": {
-                "type": "String",
-                "description": "Text label for the radio group."
-            },
-            "options": {
-                "type": "List",
-                "description": "Array of label-value pairs for each radio button."
-            },
-            "type": {
-                "type": "String",
-                "description": "The style of the radio group. Options are radio or button. The default is radio."
-            },
-            "messageWhenValueMissing": {
-                "type": "String",
-                "description": "Optional message displayed when no radio button is selected and the required attribute is set to true."
-            }
-        }
-    },
-    "lightning:recordViewForm": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "recordId": {
-                "type": "String",
-                "description": "The ID of the record to be displayed."
-            },
-            "objectApiName": {
-                "type": "String",
-                "description": "The API name of the object."
-            }
-        }
-    },
-    "lightning:relativeDateTime": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "value": {
-                "type": "Object",
-                "description": "The timestamp or JavaScript Date object to be formatted."
-            }
-        }
-    },
-    "lightning:select": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies that an input element should be disabled. This value defaults to false."
-            },
-            "label": {
-                "type": "String",
-                "description": "Text that describes the desired select input."
-            },
-            "messageWhenValueMissing": {
-                "type": "String",
-                "description": "Error message to be displayed when the value is missing."
-            },
-            "name": {
-                "type": "String",
-                "description": "Specifies the name of an input element."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-            "onchange": {
-                "type": "Action",
-                "description": "The action triggered when a value attribute changes."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-            "readonly": {
-                "type": "Boolean",
-                "description": "Specifies that an input field is read-only. This value defaults to false."
-            },
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies that an input field must be filled out before submitting the form. This value defaults to false."
-            },
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-            "validity": {
-                "type": "Object",
-                "description": "Represents the validity states that an element can be in, with respect to constraint validation."
-            },
-            "value": {
-                "type": "String",
-                "description": "The value of the select, also used as the default value to select the right option during init. If no value is provided, the first option will be selected."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard."
-            }
-        }
-    },
-    "lightning:slider": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "value": {
-                "type": "Integer",
-                "description": "The numerical value of the input range. This value defaults to 0."
-            },
-            "onchange": {
-                "type": "String",
-                "description": "The action triggered when the slider value changes. You must pass any newly selected value back to the slider component to bind the new value to the slider."
-            },
-            "min": {
-                "type": "Integer",
-                "description": "The min value of the input range. This value defaults to 0."
-            },
-            "max": {
-                "type": "Integer",
-                "description": "The max value of the input range. This value defaults to 100."
-            },
-            "step": {
-                "type": "String",
-                "description": "The step increment value of the input range. Example steps include 0.1, 1, or 10. This value defaults to 1."
-            },
-            "size": {
-                "type": "String",
-                "description": "The size value of the input range. This value default to empty, which is the base. Supports x-small, small, medium, and large."
-            },
-            "type": {
-                "type": "String",
-                "description": "The type of the input range position. This value defaults to horizontal."
-            },
-            "label": {
-                "type": "String",
-                "description": "The text label for the input range. Provide your own label to describe the slider. Otherwise, no label is displayed."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "The disabled value of the input range. This value default to false."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of the slider. Accepted variants include standard and label-hidden. This value defaults to standard."
-            },
-            "messageWhenBadInput": {
-                "type": "String",
-                "description": "Error message to be displayed when a bad input is detected. Use with setCustomValidity."
-            },
-            "messageWhenPatternMismatch": {
-                "type": "String",
-                "description": "Error message to be displayed when a pattern mismatch is detected. Use with setCustomValidity."
-            },
-            "messageWhenTypeMismatch": {
-                "type": "String",
-                "description": "Error message to be displayed when a type mismatch is detected. Use with setCustomValidity."
-            },
-            "messageWhenValueMissing": {
-                "type": "String",
-                "description": "Error message to be displayed when the value is missing. Use with setCustomValidity."
-            },
-            "messageWhenRangeOverflow": {
-                "type": "String",
-                "description": "Error message to be displayed when a range overflow is detected. Use with setCustomValidity."
-            },
-            "messageWhenRangeUnderflow": {
-                "type": "String",
-                "description": "Error message to be displayed when a range underflow is detected. Use with setCustomValidity."
-            },
-            "messageWhenStepMismatch": {
-                "type": "String",
-                "description": "Error message to be displayed when a step mismatch is detected. Use with setCustomValidity."
-            },
-            "messageWhenTooLong": {
-                "type": "String",
-                "description": "Error message to be displayed when the value is too long. Use with setCustomValidity."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the slider releases focus."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the slider receives focus."
-            }
-        }
-    },
-    "lightning:spinner": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "alternativeText": {
-                "type": "String",
-                "description": "The alternative text used to describe the reason for the wait and need for a spinner."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "size": {
-                "type": "String",
-                "description": "The size of the spinner. Accepted sizes are small, medium, and large. This value defaults to medium."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of the spinner. Accepted variants are brand and inverse."
-            }
-        }
-    },
-    "lightning:tab": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-            "body": {
-                "type": "ComponentDefRef[]",
-                "description": "The body of the tab."
-            },
-            "id": {
-                "type": "String",
-                "description": "The optional ID is used during tabset's onSelect event to determine which tab was clicked."
-            },
-            "label": {
-                "type": "Component[]",
-                "description": "The text that appears in the tab."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-            "title": {
-                "type": "String",
-                "description": "The title displays when you hover over the tab. The title should describe the content of the tab for screen readers."
-            },
-            "onactive": {
-                "type": "Action",
-                "description": "The action triggered when this tab becomes active."
-            }
-        }
-    },
-    "lightning:tabSet": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "ComponentDefRef[]",
-                "description": "The body of the component. This could be one or more lightning:tab components."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "onselect": {
-                "type": "Action",
-                "description": "The action that will run when the tab is clicked."
-            },
-            "selectedTabId": {
-                "type": "String",
-                "description": "Allows you to set a specific tab to open by default. If this attribute is not used, the first tab opens by default."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of the tabset. Accepted variants are default and scoped."
-            }
-        }
-    },
-    "lightning:textarea": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "accesskey": {
-                "type": "String",
-                "description": "Specifies a shortcut key to activate or focus an element."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component."
-            },
-            "disabled": {
-                "type": "Boolean",
-                "description": "Specifies that an input element should be disabled. This value defaults to false."
-            },
-            "label": {
-                "type": "String",
-                "description": "Text that describes the desired textarea input."
-            },
-            "maxlength": {
-                "type": "Integer",
-                "description": "The maximum number of characters allowed in the textarea."
-            },
-            "messageWhenBadInput": {
-                "type": "String",
-                "description": "Error message to be displayed when a bad input is detected."
-            },
-            "messageWhenTooLong": {
-                "type": "String",
-                "description": "Error message to be displayed when the value is too long."
-            },
-            "messageWhenValueMissing": {
-                "type": "String",
-                "description": "Error message to be displayed when the value is missing."
-            },
-            "minlength": {
-                "type": "Integer",
-                "description": "The minimum number of characters allowed in the textarea."
-            },
-            "name": {
-                "type": "String",
-                "description": "Specifies the name of an input element."
-            },
-            "onblur": {
-                "type": "Action",
-                "description": "The action triggered when the element releases focus."
-            },
-            "onchange": {
-                "type": "Action",
-                "description": "The action triggered when a value attribute changes."
-            },
-            "onfocus": {
-                "type": "Action",
-                "description": "The action triggered when the element receives focus."
-            },
-            "placeholder": {
-                "type": "String",
-                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
-            },
-            "readonly": {
-                "type": "Boolean",
-                "description": "Specifies that an input field is read-only. This value defaults to false."
-            },
-            "required": {
-                "type": "Boolean",
-                "description": "Specifies that an input field must be filled out before submitting the form. This value defaults to false."
-            },
-            "tabindex": {
-                "type": "Integer",
-                "description": "Specifies the tab order of an element (when the tab button is used for navigating)."
-            },
-            "validity": {
-                "type": "Object",
-                "description": "Represents the validity states that an element can be in, with respect to constraint validation."
-            },
-            "value": {
-                "type": "String",
-                "description": "The value of the textarea, also used as the default value during init."
-            },
-            "variant": {
-                "type": "String",
-                "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard."
-            }
-        }
-    },
-    "lightning:tile": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component."
-            },
-            "href": {
-                "type": "String",
-                "description": "The URL of the page that the link goes to."
-            },
-            "label": {
-                "type": "String",
-                "description": "The text label that displays in the tile and hover text."
-            },
-            "media": {
-                "type": "Component[]",
-                "description": "The icon or figure that's displayed next to the textual information."
-            }
-        }
-    },
-    "lightning:tree": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "items": {
-                "type": "Object",
-                "description": "An array of key-value pairs that describe the tree. Keys include label, name, disabled, expanded, and items."
-            },
-            "header": {
-                "type": "String",
-                "description": "The text that's displayed as the tree heading."
-            },
-            "onselect": {
-                "type": "Action",
-                "description": "The action triggered when a tree item is selected."
-            }
-        }
-    },
-    "lightning:utilityBarAPI": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            }
-        }
-    },
-    "lightning:verticalNavigation": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "compact": {
-                "type": "Boolean",
-                "description": "Specify true to reduce spacing between navigation items. This value defaults to false."
-            },
-            "onbeforeselect": {
-                "type": "Action",
-                "description": "Action fired before an item is selected"
-            },
-            "onselect": {
-                "type": "Action",
-                "description": "Action fired when an item is selected. The event params include the `name` of the selected item."
-            },
-            "selectedItem": {
-                "type": "String",
-                "description": "Name of the nagivation item to make active."
-            },
-            "shaded": {
-                "type": "Boolean",
-                "description": "Specify true when the vertical navigation is sitting on top of a shaded background. This value defaults to false."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            }
-        }
-    },
-    "lightning:verticalNavigationItem": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "label": {
-                "type": "String",
-                "description": "The text displayed for the navigation item."
-            },
-            "name": {
-                "type": "String",
-                "description": "A unique identifier for the navigation item."
-            },
-            "href": {
-                "type": "String",
-                "description": "The URL of the page that the navigation item goes to."
-            }
-        }
-    },
-    "lightning:verticalNavigationItemBadge": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "label": {
-                "type": "String",
-                "description": "The text displayed for this navigation item."
-            },
-            "name": {
-                "type": "String",
-                "description": "A unique identifier for this navigation item."
-            },
-            "href": {
-                "type": "String",
-                "description": "The URL of the page that the navigation item goes to."
-            },
-            "badgeCount": {
-                "type": "Integer",
-                "description": "The number to show inside the badge. If this value is zero the badge will be hidden."
-            },
-            "assistiveText": {
-                "type": "String",
-                "description": "Assistive text describing the number in the badge. This is used to enhance accessibility and is not displayed to the user."
-            }
-        }
-    },
-    "lightning:verticalNavigationItemIcon": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "class": {
-                "type": "String",
-                "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
-            "title": {
-                "type": "String",
-                "description": "Displays tooltip text when the mouse moves over the element."
-            },
-            "label": {
-                "type": "String",
-                "description": "The text displayed for this navigation item."
-            },
-            "name": {
-                "type": "String",
-                "description": "A unique identifier for this navigation item."
-            },
-            "href": {
-                "type": "String",
-                "description": "The URL of the page that the navigation item goes to."
-            },
-            "iconName": {
-                "type": "String",
-                "description": "The Lightning Design System name of the icon. Names are written in the format '\\utility:down\\' where 'utility' is the category, and 'down' is the specific icon to be displayed."
-            }
-        }
-    },
-    "lightning:verticalNavigationOverflow": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            }
-        }
-    },
-    "lightning:verticalNavigationSection": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "label": {
-                "type": "String",
-                "description": "The heading text for this section."
-            }
-        }
-    },
-    "lightning:workspaceAPI": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            }
-        }
-    },
-    "wave:waveDashboard": {
-        "simple": False,
-        "type": "aura",
-        "attribs": {
-            "accessToken": {
-                "type": "String",
-                "description": "A valid access token obtained by logging into Salesforce. Useful when the component is used by Lightning Out in a non salesforce domain."
-            },
-            "body": {
-                "type": "Component[]",
-                "description": "The body of the component. In markup, this is everything in the body of the tag."
-            },
-            "dashboardId": {
-                "type": "String",
-                "description": "The unique ID of the dashboard"
-            },
-            "developerName": {
-                "type": "String",
-                "description": "The unique developer name of the dashboard"
-            },
-            "filter": {
-                "type": "String",
-                "description": "Adds selections or filters to the embedded dashboard at runtime"
-            },
-            "height": {
-                "type": "Integer",
-                "description": "Specifies the height of the dashboard, in pixels."
-            },
-            "hideOnError": {
-                "type": "Boolean",
-                "description": "Controls whether or not users see a dashboard that has an error"
-            },
-            "openLinksInNewWindow": {
-                "type": "Boolean",
-                "description": "If false, links to other dashboards will be opened in the same window."
-            },
-            "recordId": {
-                "type": "String",
-                "description": "Id of the current entity in the context of which the component is being displayed."
-            },
-            "showHeader": {
-                "type": "Boolean",
-                "description": "If true, the dashboard is displayed with a header bar that includes dashboard information and controls"
-            },
-            "showSharing": {
-                "type": "Boolean",
-                "description": "If true, and the dashboard is shareable, then the dashboard shows the Share icon"
-            },
-            "showTitle": {
-                "type": "Boolean",
-                "description": "If true, title of the dashboard is included above the dashboard. If false, the dashboard appears without a title."
-            }
-        }
-    },
-    "apex:attribute": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "access": {
-                "type": "Picklist",
-                "values":[
-                    "public",
-                    "global"
-                ]
-            },
-            "assignTo": {
-                "type": "Object"
-            },
-            "name": {
-                "type": "String"
-            },
-            "type": {
-                "type": "Picklist",
-                "values": [
-                    "Boolean", "Date", "DateTime", "Decimal", 
-                    "Double", "Integer", "Long", "String", 
-                    "Object"
-                ]
-            },
-            "id": {
-                "type": "String"
-            },
-            "encode": {
-                "type": "String"
-            },
-            "default": {
-                "type": "Boolean"
-            },
-            "required": {
-                "type": "Boolean"
-            },
-            "description": {
-                "type": "String"
-            }
-        }
-    },
-
-    # ChatterAnswer
-    "chatteranswers:aboutme": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "communityId": {
-                "type": "String"
-            },
-            "id": {
-                "type": "String"
-            },
-            "noSignIn": {
-                "type": "Boolean"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:allfeeds": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "articleLanguage": {
-                "type": "String"
-            },
-            "communityId": {
-                "type": "id"
-            },
-            "filterOptions": {
-                "type": "Picklist",
-                "values":[
-                    'AllQuestions', 'UnansweredQuestions', 
-                    'UnsolvedQuestions', 'SolvedQuestions', 
-                    'MyQuestions', 'MostPopular', 
-                    'DatePosted', 'RecentActivity'
-                ]
-            },
-            "forceSecureCustomWebAddress": {
-                "type": "Boolean"
-            },
-            "id": {
-                "type": "String"
-            },
-            "jsApiVersion": {
-                "type": "Double"
-            },
-            "noSignIn": {
-                "type": "Boolean"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "useUrlRewriter": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:changepassword": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:datacategoryfilter": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "communityId": {
-                "type": "String"
-            },
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:feedfilter": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "filterOptions": {
-                "type": "Picklist",
-                "values":[
-                    'AllQuestions', 'UnansweredQuestions', 
-                    'UnsolvedQuestions', 'SolvedQuestions', 
-                    'MyQuestions', 'MostPopular', 
-                    'DatePosted', 'RecentActivity'
-                ]
-            },
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:feeds": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "articleLanguage": {
-                "type": "String"
-            },
-            "communityId": {
-                "type": "id"
-            },
-            "id": {
-                "type": "String"
-            },
-            "jsApiVersion": {
-                "type": "Double"
-            },
-            "noSignIn": {
-                "type": "Boolean"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "useUrlRewriter": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:forgotpassword": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "useUrlRewriter": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:forgotpasswordconfirm": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "useUrlRewriter": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:guestsignin": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "useUrlRewriter": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:help": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:login": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "useUrlRewriter": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:registration": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "hideTerms": {
-                "type": "Boolean"
-            },
-            "id": {
-                "type": "String"
-            },
-            "profileId": {
-                "type": "id"
-            },
-            "registrationClassName": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "useUrlRewriter": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:searchask": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "communityId": {
-                "type": "String"
-            },
-            "id": {
-                "type": "String"
-            },
-            "noSignIn": {
-                "type": "Boolean"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "searchLanguage": {
-                "type": "String"
-            },
-            "useUrlRewriter": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    "chatteranswers:singleitemfeed": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "entityId": {
-                "type": "id"
-            },
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    # Messaging part
-    "messaging:attachment": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "filename": {
-                "type": "String"
-            },
-            "id": {
-                "type": "String"
-            },
-            "inline": {
-                "type": "Boolean"
-            },
-            "renderAs": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-    "apex:emailPublisher": {
-        "type": "visualforce",
-        "attribs": {
-            "autoCollapseBody": {
-                "type": "Boolean"
-            },
-            "bccVisibility": {
-                "type": "Picklist",
-                "values": [
-                    "editable",
-                    "editableWithLookup",
-                    "readOnly",
-                    "hidden"
-                ]
-            },
-            "ccVisibility": {
-                "type": "Picklist",
-                "values": [
-                    "editable",
-                    "editableWithLookup",
-                    "readOnly",
-                    "hidden"
-                ]
-            },
-            "emailBody": {
-                "type": "String"
-            },
-            "emailBodyFormat": {
-                "type": "Picklist",
-                "values": [
-                    "text",
-                    "HTML",
-                    "textAndHTML"
-                ]
-            },
-            "emailBodyHeight": {
-                "type": "String"
-            },
-            "enableQuickText": {
-                "type": "Boolean"
-            },
-            "entityId": {
-                "type": "id"
-            },
-            "expandableHeader": {
-                "type": "Boolean"
-            },
-            "fromAddresses": {
-                "type": "String"
-            },
-            "fromVisibility": {
-                "type": "Picklist",
-                "values": [
-                    "selectable",
-                    "hidden"
-                ]
-            },
-            "id": {
-                "type": "String"
-            },
-            "onSubmitFailure": {
-                "type": "String"
-            },
-            "onSubmitSuccess": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "reRender": {
-                "type": "Object"
-            },
-            "sendButtonName": {
-                "type": "String"
-            },
-            "showAdditionalFields": {
-                "type": "Boolean"
-            },
-            "showAttachments": {
-                "type": "Boolean"
-            },
-            "showSendButton": {
-                "type": "Boolean"
-            },
-            "showTemplates": {
-                "type": "Boolean"
-            },
-            "subject": {
-                "type": "String"
-            },
-            "subjectVisibility": {
-                "type": "Picklist",
-                "values": [
-                    "editable",
-                    "readOnly",
-                    "hidden"
-                ]
-            },
-            "submitFunctionName": {
-                "type": "String"
-            },
-            "title": {
-                "type": "String"
-            },
-            "toAddresses": {
-                "type": "String"
-            },
-            "toVisibility": {
-                "type": "Picklist",
-                "values": [
-                    "editable",
-                    "editableWithLookup",
-                    "readOnly",
-                    "hidden"
-                ]
-            },
-            "verticalResize": {
-                "type": "Boolean"
-            },
-            "width": {
-                "type": "String"
-            }
-        }
-    },
-    "messaging:emailHeader": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "name": {
-                "type": "String"
-            },
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-    "messaging:emailTemplate": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "language": {
-                "type": "String"
-            },
-            "recipientType": {
-                "type": "String"
-            },
-            "relatedToType": {
-                "type": "String"
-            },
-            "replyTo": {
-                "type": "String"
-            },
-            "subject": {
-                "type": "String"
-            }
-        }
-    },
-    "messaging:htmlEmailBody": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-    "messaging:plainTextEmailBody": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-
-    # analytics part
-    "analytics:reportChart": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "filter": {
-                "type": "json",
-                "values":[
-                    '{"column": $1, "operator": $2, "value": $3}'
-                ]
-            },
-            "hideOnError": {
-                "type": "Boolean"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "reportId": {
-                "type": "String"
-            },
-            "size": {
-                "type": "String"
-            }
-        }
-    },
-
     "apex:actionFunction": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "action": {
                 "type": "ApexPages.Action"
@@ -8521,11 +32,11 @@ tag_defs = {
             "oncomplete": {
                 "type": "String"
             },
-            "rendered": {
-                "type": "Boolean"
-            },
             "reRender": {
                 "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
             },
             "status": {
                 "type": "String"
@@ -8533,11 +44,11 @@ tag_defs = {
             "timeout": {
                 "type": "Integer"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:actionPoller": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "action": {
                 "type": "ApexPages.Action"
@@ -8557,11 +68,11 @@ tag_defs = {
             "onsubmit": {
                 "type": "String"
             },
-            "rendered": {
-                "type": "Boolean"
-            },
             "reRender": {
                 "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
             },
             "status": {
                 "type": "String"
@@ -8569,11 +80,11 @@ tag_defs = {
             "timeout": {
                 "type": "Integer"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:actionRegion": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -8581,17 +92,17 @@ tag_defs = {
             "immediate": {
                 "type": "Boolean"
             },
-            "rendered": {
-                "type": "Boolean"
-            },
             "renderRegionOnly": {
                 "type": "Boolean"
+            },
+            "rendered": {
+                "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:actionStatus": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "dirs": {
                 "type": "Picklist",
@@ -8682,19 +193,19 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:actionSupport": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "action": {
                 "type": "ApexPages.Action"
             },
-            "disabled": {
+            "disableDefault": {
                 "type": "Boolean"
             },
-            "disableDefault": {
+            "disabled": {
                 "type": "Boolean"
             },
             "event": {
@@ -8734,11 +245,11 @@ tag_defs = {
             "onsubmit": {
                 "type": "String"
             },
-            "rendered": {
-                "type": "Boolean"
-            },
             "reRender": {
                 "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
             },
             "status": {
                 "type": "String"
@@ -8746,11 +257,11 @@ tag_defs = {
             "timeout": {
                 "type": "Integer"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:areaSeries": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "axis": {
                 "type": "Picklist",
@@ -8803,11 +314,59 @@ tag_defs = {
             "yField": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "apex:attribute": {
+        "attribs": {
+            "access": {
+                "type": "Picklist",
+                "values": [
+                    "public",
+                    "global"
+                ]
+            },
+            "assignTo": {
+                "type": "Object"
+            },
+            "default": {
+                "type": "Boolean"
+            },
+            "description": {
+                "type": "String"
+            },
+            "encode": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "name": {
+                "type": "String"
+            },
+            "required": {
+                "type": "Boolean"
+            },
+            "type": {
+                "type": "Picklist",
+                "values": [
+                    "Boolean",
+                    "Date",
+                    "DateTime",
+                    "Decimal",
+                    "Double",
+                    "Integer",
+                    "Long",
+                    "String",
+                    "Object"
+                ]
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:axis": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "dashSize": {
                 "type": "Integer"
@@ -8862,11 +421,11 @@ tag_defs = {
                     "Radial"
                 ]
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:barSeries": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "axis": {
                 "type": "Picklist",
@@ -8944,11 +503,11 @@ tag_defs = {
             "yPadding": {
                 "type": "Integer"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:canvasApp": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "applicationName": {
                 "type": "String"
@@ -8998,11 +557,11 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:chart": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "animate": {
                 "type": "Boolean"
@@ -9034,11 +593,11 @@ tag_defs = {
             "name": {
                 "type": "String"
             },
-            "rendered": {
-                "type": "Boolean"
-            },
             "renderTo": {
                 "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
             },
             "resizable": {
                 "type": "Boolean"
@@ -9049,11 +608,11 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:chartLabel": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "color": {
                 "type": "String"
@@ -9099,11 +658,11 @@ tag_defs = {
             "rotate": {
                 "type": "Integer"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:chartTips": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "height": {
                 "type": "Integer"
@@ -9129,11 +688,11 @@ tag_defs = {
             "width": {
                 "type": "Integer"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:column": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "breakBefore": {
                 "type": "Boolean"
@@ -9217,65 +776,11 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
-    },
-    "apex:component": {
+        },
         "simple": True,
-        "type": "visualforce",
-        "attribs": {
-            "access": {
-                "type": "Picklist",
-                "values": [
-                    "public",
-                    "global"
-                ]
-            },
-            "allowDML": {
-                "type": "Boolean"
-            },
-            "controller": {
-                "type": "String"
-            },
-            "extensions": {
-                "type": "String"
-            },
-            "id": {
-                "type": "String"
-            },
-            "language": {
-                "type": "String"
-            },
-            "layout": {
-                "type": "Picklist",
-                "values": [
-                    "block",
-                    "inline",
-                    "none"
-                ]
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "selfClosing": {
-                "type": "Boolean"
-            }
-        }
-    },
-    "apex:componentBody": {
-        "simple": True,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
+        "type": "visualforce"
     },
     "apex:commandButton": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "accesskey": {
                 "type": "String"
@@ -9347,11 +852,11 @@ tag_defs = {
             "onmouseup": {
                 "type": "String"
             },
-            "rendered": {
-                "type": "Boolean"
-            },
             "reRender": {
                 "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
             },
             "status": {
                 "type": "String"
@@ -9374,11 +879,11 @@ tag_defs = {
             "value": {
                 "type": "String"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:commandLink": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "accesskey": {
                 "type": "String"
@@ -9450,14 +955,14 @@ tag_defs = {
             "onmouseup": {
                 "type": "String"
             },
+            "reRender": {
+                "type": "String"
+            },
             "rel": {
                 "type": "String"
             },
             "rendered": {
                 "type": "Boolean"
-            },
-            "reRender": {
-                "type": "String"
             },
             "rev": {
                 "type": "String"
@@ -9465,9 +970,9 @@ tag_defs = {
             "shape": {
                 "type": "Picklist",
                 "values": [
-                    "default", 
-                    "circle", 
-                    "rect", 
+                    "default",
+                    "circle",
+                    "rect",
                     "poly"
                 ]
             },
@@ -9504,11 +1009,65 @@ tag_defs = {
             "value": {
                 "type": "String"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
+    },
+    "apex:component": {
+        "attribs": {
+            "access": {
+                "type": "Picklist",
+                "values": [
+                    "public",
+                    "global"
+                ]
+            },
+            "allowDML": {
+                "type": "Boolean"
+            },
+            "controller": {
+                "type": "String"
+            },
+            "extensions": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "language": {
+                "type": "String"
+            },
+            "layout": {
+                "type": "Picklist",
+                "values": [
+                    "block",
+                    "inline",
+                    "none"
+                ]
+            },
+            "rendered": {
+                "type": "Boolean"
+            },
+            "selfClosing": {
+                "type": "Boolean"
+            }
+        },
+        "simple": True,
+        "type": "visualforce"
+    },
+    "apex:componentBody": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:composition": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "rendered": {
                 "type": "String"
@@ -9516,11 +1075,11 @@ tag_defs = {
             "template": {
                 "type": "ApexPages.PageReference"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:dataList": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "dirs": {
                 "type": "Picklist",
@@ -9592,17 +1151,17 @@ tag_defs = {
             "var": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:dataTable": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "align": {
                 "type": "Picklist",
                 "values": [
-                    "left", 
-                    "center", 
+                    "left",
+                    "center",
                     "right"
                 ]
             },
@@ -9649,14 +1208,14 @@ tag_defs = {
             "frame": {
                 "type": "Picklist",
                 "values": [
-                    "none", 
-                    "above", 
-                    "below", 
-                    "hsides", 
-                    "vsides", 
-                    "lhs", 
-                    "rhs", 
-                    "box", 
+                    "none",
+                    "above",
+                    "below",
+                    "hsides",
+                    "vsides",
+                    "lhs",
+                    "rhs",
+                    "box",
                     "border"
                 ]
             },
@@ -9667,6 +1226,27 @@ tag_defs = {
                 "type": "String"
             },
             "lang": {
+                "type": "String"
+            },
+            "onRowClick": {
+                "type": "String"
+            },
+            "onRowDblClick": {
+                "type": "String"
+            },
+            "onRowMouseDown": {
+                "type": "String"
+            },
+            "onRowMouseMove": {
+                "type": "String"
+            },
+            "onRowMouseOut": {
+                "type": "String"
+            },
+            "onRowMouseOver": {
+                "type": "String"
+            },
+            "onRowMouseUp": {
                 "type": "String"
             },
             "onclick": {
@@ -9699,27 +1279,6 @@ tag_defs = {
             "onmouseup": {
                 "type": "String"
             },
-            "onRowClick": {
-                "type": "String"
-            },
-            "onRowDblClick": {
-                "type": "String"
-            },
-            "onRowMouseDown": {
-                "type": "String"
-            },
-            "onRowMouseMove": {
-                "type": "String"
-            },
-            "onRowMouseOut": {
-                "type": "String"
-            },
-            "onRowMouseOver": {
-                "type": "String"
-            },
-            "onRowMouseUp": {
-                "type": "String"
-            },
             "rendered": {
                 "type": "Boolean"
             },
@@ -9732,10 +1291,10 @@ tag_defs = {
             "rules": {
                 "type": "String",
                 "values": [
-                    "none", 
-                    "groups", 
-                    "rows", 
-                    "cols", 
+                    "none",
+                    "groups",
+                    "rows",
+                    "cols",
                     "all"
                 ]
             },
@@ -9760,20 +1319,20 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:define": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "name": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:detail": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -9805,11 +1364,11 @@ tag_defs = {
             "title": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:dynamicComponent": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "componentValue": {
                 "type": "UIComponent"
@@ -9820,11 +1379,135 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
+    },
+    "apex:emailPublisher": {
+        "attribs": {
+            "autoCollapseBody": {
+                "type": "Boolean"
+            },
+            "bccVisibility": {
+                "type": "Picklist",
+                "values": [
+                    "editable",
+                    "editableWithLookup",
+                    "readOnly",
+                    "hidden"
+                ]
+            },
+            "ccVisibility": {
+                "type": "Picklist",
+                "values": [
+                    "editable",
+                    "editableWithLookup",
+                    "readOnly",
+                    "hidden"
+                ]
+            },
+            "emailBody": {
+                "type": "String"
+            },
+            "emailBodyFormat": {
+                "type": "Picklist",
+                "values": [
+                    "text",
+                    "HTML",
+                    "textAndHTML"
+                ]
+            },
+            "emailBodyHeight": {
+                "type": "String"
+            },
+            "enableQuickText": {
+                "type": "Boolean"
+            },
+            "entityId": {
+                "type": "id"
+            },
+            "expandableHeader": {
+                "type": "Boolean"
+            },
+            "fromAddresses": {
+                "type": "String"
+            },
+            "fromVisibility": {
+                "type": "Picklist",
+                "values": [
+                    "selectable",
+                    "hidden"
+                ]
+            },
+            "id": {
+                "type": "String"
+            },
+            "onSubmitFailure": {
+                "type": "String"
+            },
+            "onSubmitSuccess": {
+                "type": "String"
+            },
+            "reRender": {
+                "type": "Object"
+            },
+            "rendered": {
+                "type": "Boolean"
+            },
+            "sendButtonName": {
+                "type": "String"
+            },
+            "showAdditionalFields": {
+                "type": "Boolean"
+            },
+            "showAttachments": {
+                "type": "Boolean"
+            },
+            "showSendButton": {
+                "type": "Boolean"
+            },
+            "showTemplates": {
+                "type": "Boolean"
+            },
+            "subject": {
+                "type": "String"
+            },
+            "subjectVisibility": {
+                "type": "Picklist",
+                "values": [
+                    "editable",
+                    "readOnly",
+                    "hidden"
+                ]
+            },
+            "submitFunctionName": {
+                "type": "String"
+            },
+            "title": {
+                "type": "String"
+            },
+            "toAddresses": {
+                "type": "String"
+            },
+            "toVisibility": {
+                "type": "Picklist",
+                "values": [
+                    "editable",
+                    "editableWithLookup",
+                    "readOnly",
+                    "hidden"
+                ]
+            },
+            "verticalResize": {
+                "type": "Boolean"
+            },
+            "width": {
+                "type": "String"
+            }
+        },
+        "type": "visualforce"
     },
     "apex:enhancedList": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "customizable": {
                 "type": "Boolean"
@@ -9841,11 +1524,11 @@ tag_defs = {
             "oncomplete": {
                 "type": "String"
             },
-            "rendered": {
-                "type": "Boolean"
-            },
             "reRender": {
                 "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
             },
             "rowsPerPage": {
                 "type": "Picklist",
@@ -9863,20 +1546,20 @@ tag_defs = {
             "width": {
                 "type": "Integer"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:facet": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "name": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:flash": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "flashvars": {
                 "type": "String"
@@ -9902,11 +1585,11 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:form": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "accept": {
                 "type": "String"
@@ -9998,11 +1681,11 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:gaugeSeries": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "colorSet": {
                 "type": "String"
@@ -10034,11 +1717,11 @@ tag_defs = {
             "tips": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:iframe": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "frameborder": {
                 "type": "Boolean"
@@ -10064,11 +1747,11 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:image": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "alt": {
                 "type": "String"
@@ -10149,11 +1832,11 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:include": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -10164,11 +1847,11 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:includeScript": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -10176,15 +1859,15 @@ tag_defs = {
             "value": {
                 "type": "Object",
                 "values": [
-                    "{!URLFOR(\$Resource.$1, '$2')}",
-                    "{!\$Resource.$1}"
+                    "{!URLFOR(\\$Resource.$1, '$2')}",
+                    "{!\\$Resource.$1}"
                 ]
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:inlineEditSupport": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "changedStyleClass": {
                 "type": "String"
@@ -10210,10 +1893,11 @@ tag_defs = {
             "showOnEdit": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:input": {
-        "type": "visualforce",
         "attribs": {
             "accesskey": {
                 "type": "String"
@@ -10320,11 +2004,10 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "type": "visualforce"
     },
     "apex:inputCheckbox": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "accesskey": {
                 "type": "String"
@@ -10417,17 +2100,20 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:inputField": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
             },
             "label": {
                 "type": "String"
+            },
+            "list": {
+                "type": "Object"
             },
             "onblur": {
                 "type": "String"
@@ -10477,11 +2163,17 @@ tag_defs = {
             "required": {
                 "type": "Boolean"
             },
-            "list": {
-                "type": "Object"
-            },
             "showDatePicker": {
                 "type": "Boolean"
+            },
+            "style": {
+                "type": "String"
+            },
+            "styleClass": {
+                "type": "String"
+            },
+            "taborderhint": {
+                "type": "Integer"
             },
             "type": {
                 "type": "Picklist",
@@ -10501,23 +2193,14 @@ tag_defs = {
                     "text"
                 ]
             },
-            "style": {
-                "type": "String"
-            },
-            "styleClass": {
-                "type": "String"
-            },
-            "taborderhint": {
-                "type": "Integer"
-            },
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:inputFile": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "accept": {
                 "type": "String"
@@ -10593,7 +2276,7 @@ tag_defs = {
                 "type": "Boolean"
             },
             "required": {
-                "type": "java:\/\/java.lang.Boolean"
+                "type": "java:\\/\\/java.lang.Boolean"
             },
             "size": {
                 "type": "Integer"
@@ -10613,11 +2296,11 @@ tag_defs = {
             "value": {
                 "type": "Blob"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:inputHidden": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -10634,11 +2317,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:inputSecret": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "accesskey": {
                 "type": "String"
@@ -10743,11 +2426,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:inputText": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "accesskey": {
                 "type": "String"
@@ -10771,11 +2454,11 @@ tag_defs = {
             "label": {
                 "type": "String"
             },
-            "list": {
-                "type": "Object"
-            },
             "lang": {
                 "type": "String"
+            },
+            "list": {
+                "type": "Object"
             },
             "maxlength": {
                 "type": "Integer"
@@ -10843,11 +2526,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:inputTextarea": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "accesskey": {
                 "type": "String"
@@ -10946,20 +2629,20 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:insert": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "name": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:legend": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "font": {
                 "type": "String"
@@ -10985,11 +2668,11 @@ tag_defs = {
             "spacing": {
                 "type": "Integer"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:lineSeries": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "axis": {
                 "type": "Picklist",
@@ -11061,11 +2744,11 @@ tag_defs = {
             "yField": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:listViews": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -11076,10 +2759,11 @@ tag_defs = {
             "type": {
                 "type": "String"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:logCallPublisher": {
-        "type": "visualforce",
         "attribs": {
             "autoCollapseBody": {
                 "type": "Boolean"
@@ -11102,11 +2786,11 @@ tag_defs = {
             "onSubmitSuccess": {
                 "type": "String"
             },
-            "rendered": {
-                "type": "Boolean"
-            },
             "reRender": {
                 "type": "Object"
+            },
+            "rendered": {
+                "type": "Boolean"
             },
             "showAdditionalFields": {
                 "type": "Boolean"
@@ -11126,16 +2810,16 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
+        },
+        "type": "visualforce"
     },
     "apex:map": {
-        "type": "visualforce",
         "attribs": {
             "center": {
                 "type": "Object",
                 "values": [
                     "${1:1 Market Street, San Francisco, CA}",
-                    "${1:{latitude: 37.794, longitude: -122.395\}}",
+                    "${1:{latitude: 37.794, longitude: -122.395\\}}",
                     "${1:Map<String, Double>}"
                 ]
             },
@@ -11165,10 +2849,10 @@ tag_defs = {
             "zoomLevel": {
                 "type": "Integer"
             }
-        }
+        },
+        "type": "visualforce"
     },
     "apex:mapInfoWindow": {
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -11179,10 +2863,10 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean"
             }
-        }
+        },
+        "type": "visualforce"
     },
     "apex:mapMarker": {
-        "type": "visualforce",
         "attribs": {
             "icon": {
                 "type": "String",
@@ -11197,7 +2881,7 @@ tag_defs = {
                 "type": "Object",
                 "values": [
                     "${1:1 Market Street, San Francisco, CA}",
-                    "${1:{latitude: 37.794, longitude: -122.395\}}",
+                    "${1:{latitude: 37.794, longitude: -122.395\\}}",
                     "${1:Map<String, Double>}"
                 ]
             },
@@ -11207,11 +2891,10 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "type": "visualforce"
     },
     "apex:message": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "dir": {
                 "type": "Picklist",
@@ -11241,11 +2924,11 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:messages": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "dir": {
                 "type": "Picklist",
@@ -11282,10 +2965,11 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:milestoneTracker": {
-        "type": "visualforce",
         "attribs": {
             "entityId": {
                 "type": "String"
@@ -11296,11 +2980,10 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean"
             }
-        }
+        },
+        "type": "visualforce"
     },
     "apex:outputField": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "dir": {
                 "type": "Picklist",
@@ -11333,11 +3016,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:outputLabel": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "accesskey": {
                 "type": "String"
@@ -11415,11 +3098,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:outputLink": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "accesskey": {
                 "type": "String"
@@ -11524,11 +3207,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:outputPanel": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "dir": {
                 "type": "Picklist",
@@ -11593,11 +3276,11 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:outputText": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "dir": {
                 "type": "Picklist",
@@ -11633,11 +3316,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:page": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "action": {
                 "type": "ApexPages.Action"
@@ -11750,11 +3433,11 @@ tag_defs = {
             "wizard": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:pageBlock": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "dir": {
                 "type": "Picklist",
@@ -11823,11 +3506,11 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:pageBlockButtons": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "dir": {
                 "type": "Picklist",
@@ -11892,11 +3575,11 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:pageBlockSection": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "collapsible": {
                 "type": "Boolean"
@@ -11956,11 +3639,11 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:pageBlockSectionItem": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "dataStyle": {
                 "type": "String"
@@ -12059,11 +3742,11 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:pageBlockTable": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "align": {
                 "type": "Picklist",
@@ -12113,14 +3796,14 @@ tag_defs = {
             "frame": {
                 "type": "Picklist",
                 "values": [
-                    "none", 
-                    "above", 
-                    "below", 
-                    "hsides", 
-                    "vsides", 
-                    "lhs", 
-                    "rhs", 
-                    "box", 
+                    "none",
+                    "above",
+                    "below",
+                    "hsides",
+                    "vsides",
+                    "lhs",
+                    "rhs",
+                    "box",
                     "border"
                 ]
             },
@@ -12131,6 +3814,27 @@ tag_defs = {
                 "type": "String"
             },
             "lang": {
+                "type": "String"
+            },
+            "onRowClick": {
+                "type": "String"
+            },
+            "onRowDblClick": {
+                "type": "String"
+            },
+            "onRowMouseDown": {
+                "type": "String"
+            },
+            "onRowMouseMove": {
+                "type": "String"
+            },
+            "onRowMouseOut": {
+                "type": "String"
+            },
+            "onRowMouseOver": {
+                "type": "String"
+            },
+            "onRowMouseUp": {
                 "type": "String"
             },
             "onclick": {
@@ -12161,27 +3865,6 @@ tag_defs = {
                 "type": "String"
             },
             "onmouseup": {
-                "type": "String"
-            },
-            "onRowClick": {
-                "type": "String"
-            },
-            "onRowDblClick": {
-                "type": "String"
-            },
-            "onRowMouseDown": {
-                "type": "String"
-            },
-            "onRowMouseMove": {
-                "type": "String"
-            },
-            "onRowMouseOut": {
-                "type": "String"
-            },
-            "onRowMouseOver": {
-                "type": "String"
-            },
-            "onRowMouseUp": {
                 "type": "String"
             },
             "rendered": {
@@ -12217,11 +3900,11 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:pageMessage": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "detail": {
                 "type": "String"
@@ -12238,18 +3921,18 @@ tag_defs = {
             "severity": {
                 "type": "String",
                 "values": [
-                    "CONFIRM", 
-                    "INFO", 
-                    "WARNING", 
+                    "CONFIRM",
+                    "INFO",
+                    "WARNING",
                     "ERROR"
                 ]
             },
             "strength": {
                 "type": "Picklist",
                 "values": [
-                    "0", 
-                    "1", 
-                    "2", 
+                    "0",
+                    "1",
+                    "2",
                     "3"
                 ]
             },
@@ -12259,11 +3942,11 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:pageMessages": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "escape": {
                 "type": "Boolean"
@@ -12277,11 +3960,11 @@ tag_defs = {
             "showDetail": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:panelBar": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "contentClass": {
                 "type": "String"
@@ -12336,11 +4019,11 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:panelBarItem": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "contentClass": {
                 "type": "String"
@@ -12381,11 +4064,11 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:panelGrid": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "bgcolor": {
                 "type": "String"
@@ -12424,14 +4107,14 @@ tag_defs = {
             "frame": {
                 "type": "Picklist",
                 "values": [
-                    "none", 
-                    "above", 
-                    "below", 
-                    "hsides", 
-                    "vsides", 
-                    "lhs", 
-                    "rhs", 
-                    "box", 
+                    "none",
+                    "above",
+                    "below",
+                    "hsides",
+                    "vsides",
+                    "lhs",
+                    "rhs",
+                    "box",
                     "border"
                 ]
             },
@@ -12498,11 +4181,11 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:panelGroup": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -12523,11 +4206,11 @@ tag_defs = {
             "styleClass": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:param": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "assignTo": {
                 "type": "Object"
@@ -12541,11 +4224,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:pieSeries": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "colorSet": {
                 "type": "String"
@@ -12577,11 +4260,11 @@ tag_defs = {
             "tips": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:radarSeries": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "fill": {
                 "type": "String"
@@ -12632,11 +4315,11 @@ tag_defs = {
             "yField": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:relatedList": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -12656,11 +4339,11 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:remoteObjectField": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -12674,10 +4357,11 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:remoteObjectModel": {
-        "type": "visualforce",
         "attribs": {
             "create": {
                 "type": "String"
@@ -12706,10 +4390,10 @@ tag_defs = {
             "update": {
                 "type": "String"
             }
-        }
+        },
+        "type": "visualforce"
     },
     "apex:remoteObjects": {
-        "type": "visualforce",
         "attribs": {
             "create": {
                 "type": "String"
@@ -12732,11 +4416,10 @@ tag_defs = {
             "update": {
                 "type": "String"
             }
-        }
+        },
+        "type": "visualforce"
     },
     "apex:repeat": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "first": {
                 "type": "Integer"
@@ -12756,11 +4439,11 @@ tag_defs = {
             "var": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:scatterSeries": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "axis": {
                 "type": "Picklist",
@@ -12811,11 +4494,11 @@ tag_defs = {
             "yField": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:scontrol": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "controlName": {
                 "type": "String"
@@ -12838,11 +4521,11 @@ tag_defs = {
             "width": {
                 "type": "Integer"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:sectionHeader": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "description": {
                 "type": "String"
@@ -12865,11 +4548,11 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:selectCheckboxes": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "accesskey": {
                 "type": "String"
@@ -12987,11 +4670,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:selectList": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "accesskey": {
                 "type": "String"
@@ -13093,11 +4776,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:selectOption": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "dirs": {
                 "type": "Picklist",
@@ -13166,11 +4849,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:selectOptions": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -13181,11 +4864,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:selectRadio": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "accesskey": {
                 "type": "String"
@@ -13303,11 +4986,11 @@ tag_defs = {
             "value": {
                 "type": "Object"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:stylesheet": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -13315,15 +4998,15 @@ tag_defs = {
             "value": {
                 "type": "Object",
                 "values": [
-                    "{!URLFOR(\$Resource.$1, '$2')}",
-                    "{!\$Resource.$1}"
+                    "{!URLFOR(\\$Resource.$1, '$2')}",
+                    "{!\\$Resource.$1}"
                 ]
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:tab": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "disabled": {
                 "type": "Boolean"
@@ -13385,11 +5068,11 @@ tag_defs = {
             "ontableave": {
                 "type": "String"
             },
-            "rendered": {
-                "type": "Boolean"
-            },
             "reRender": {
                 "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
             },
             "status": {
                 "type": "String"
@@ -13414,11 +5097,11 @@ tag_defs = {
             "title": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:tabPanel": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "activeTabClass": {
                 "type": "String"
@@ -13493,11 +5176,11 @@ tag_defs = {
             "onmouseup": {
                 "type": "String"
             },
-            "rendered": {
-                "type": "Boolean"
-            },
             "reRender": {
                 "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
             },
             "selectedTab": {
                 "type": "Object"
@@ -13528,11 +5211,11 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:toolbar": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "contentClass": {
                 "type": "String"
@@ -13631,11 +5314,11 @@ tag_defs = {
             "width": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:toolbarGroup": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -13699,11 +5382,11 @@ tag_defs = {
             "styleClass": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "apex:variable": {
-        "simple": True,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -13717,11 +5400,11 @@ tag_defs = {
             "var": {
                 "type": "String"
             }
-        }
+        },
+        "simple": True,
+        "type": "visualforce"
     },
     "apex:vote": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -13729,170 +5412,157 @@ tag_defs = {
             "objectId": {
                 "type": "String"
             },
-            "rendered": {
-                "type": "Boolean"
-            },
             "reRender": {
                 "type": "String"
-            }
-        }
-    },
-    "c:sitefooter": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
             },
             "rendered": {
                 "type": "Boolean"
             }
-        }
-    },
-    "c:siteheader": {
+        },
         "simple": False,
-        "type": "visualforce",
+        "type": "visualforce"
+    },
+    "chatteranswers:aboutme": {
         "attribs": {
+            "communityId": {
+                "type": "String"
+            },
             "id": {
                 "type": "String"
+            },
+            "noSignIn": {
+                "type": "Boolean"
             },
             "rendered": {
                 "type": "Boolean"
             }
-        }
-    },
-    "c:sitelogin": {
+        },
         "simple": False,
-        "type": "visualforce",
+        "type": "visualforce"
+    },
+    "chatteranswers:allfeeds": {
         "attribs": {
-            "id": {
+            "articleLanguage": {
                 "type": "String"
             },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-    "c:sitepoweredby": {
-        "simple": False,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-    "chatter:feed": {
-        "simple": True,
-        "type": "visualforce",
-        "attribs": {
-            "entityId": {
+            "communityId": {
                 "type": "id"
             },
-            "feedItemType": {
+            "filterOptions": {
+                "type": "Picklist",
+                "values": [
+                    "AllQuestions",
+                    "UnansweredQuestions",
+                    "UnsolvedQuestions",
+                    "SolvedQuestions",
+                    "MyQuestions",
+                    "MostPopular",
+                    "DatePosted",
+                    "RecentActivity"
+                ]
+            },
+            "forceSecureCustomWebAddress": {
+                "type": "Boolean"
+            },
+            "id": {
+                "type": "String"
+            },
+            "jsApiVersion": {
+                "type": "Double"
+            },
+            "noSignIn": {
+                "type": "Boolean"
+            },
+            "rendered": {
+                "type": "Boolean"
+            },
+            "useUrlRewriter": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "chatteranswers:changepassword": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "chatteranswers:datacategoryfilter": {
+        "attribs": {
+            "communityId": {
                 "type": "String"
             },
             "id": {
                 "type": "String"
             },
-            "onComplete": {
-                "type": "String"
-            },
             "rendered": {
                 "type": "Boolean"
-            },
-            "reRender": {
-                "type": "String"
-            },
-            "showPublisher": {
-                "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
-    "chatter:feedWithFollowers": {
-        "simple": True,
-        "type": "visualforce",
+    "chatteranswers:feedfilter": {
         "attribs": {
-            "entityId": {
-                "type": "id"
+            "filterOptions": {
+                "type": "Picklist",
+                "values": [
+                    "AllQuestions",
+                    "UnansweredQuestions",
+                    "UnsolvedQuestions",
+                    "SolvedQuestions",
+                    "MyQuestions",
+                    "MostPopular",
+                    "DatePosted",
+                    "RecentActivity"
+                ]
             },
             "id": {
                 "type": "String"
             },
-            "onComplete": {
-                "type": "String"
-            },
             "rendered": {
                 "type": "Boolean"
-            },
-            "reRender": {
-                "type": "String"
-            },
-            "showHeader": {
-                "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
-    "chatter:follow": {
-        "simple": True,
-        "type": "visualforce",
+    "chatteranswers:feeds": {
         "attribs": {
-            "entityId": {
-                "type": "id"
-            },
-            "id": {
+            "articleLanguage": {
                 "type": "String"
             },
-            "onComplete": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "reRender": {
-                "type": "String"
-            }
-        }
-    },
-    "chatter:followers": {
-        "simple": True,
-        "type": "visualforce",
-        "attribs": {
-            "entityId": {
+            "communityId": {
                 "type": "id"
             },
             "id": {
                 "type": "String"
             },
-            "rendered": {
-                "type": "Boolean"
-            }
-        }
-    },
-    "chatter:newsfeed": {
-        "simple": True,
-        "type": "visualforce",
-        "attribs": {
-            "id": {
-                "type": "String"
+            "jsApiVersion": {
+                "type": "Double"
             },
-            "onComplete": {
-                "type": "String"
+            "noSignIn": {
+                "type": "Boolean"
             },
             "rendered": {
                 "type": "Boolean"
             },
-            "reRender": {
-                "type": "String"
+            "useUrlRewriter": {
+                "type": "Boolean"
             }
-        }
-    },
-    "chatter:userPhotoUpload": {
+        },
         "simple": False,
-        "type": "visualforce",
+        "type": "visualforce"
+    },
+    "chatteranswers:forgotpassword": {
         "attribs": {
             "id": {
                 "type": "String"
@@ -13900,14 +5570,134 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean"
             },
-            "showOriginalPhoto": {
+            "useUrlRewriter": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "chatteranswers:forgotpasswordconfirm": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            },
+            "useUrlRewriter": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "chatteranswers:guestsignin": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            },
+            "useUrlRewriter": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "chatteranswers:help": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "chatteranswers:login": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            },
+            "useUrlRewriter": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "chatteranswers:registration": {
+        "attribs": {
+            "hideTerms": {
+                "type": "Boolean"
+            },
+            "id": {
+                "type": "String"
+            },
+            "profileId": {
+                "type": "id"
+            },
+            "registrationClassName": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            },
+            "useUrlRewriter": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "chatteranswers:searchask": {
+        "attribs": {
+            "communityId": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "noSignIn": {
+                "type": "Boolean"
+            },
+            "rendered": {
+                "type": "Boolean"
+            },
+            "searchLanguage": {
+                "type": "String"
+            },
+            "useUrlRewriter": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "chatteranswers:singleitemfeed": {
+        "attribs": {
+            "entityId": {
+                "type": "id"
+            },
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "flow:interview": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "buttonLocation": {
                 "type": "String",
@@ -13941,11 +5731,11 @@ tag_defs = {
             "showHelp": {
                 "type": "Boolean"
             }
-        }
-    },
-    "ideas:detailOutputLink": {
+        },
         "simple": False,
-        "type": "visualforce",
+        "type": "visualforce"
+    },
+"ideas:detailOutputLink": {
         "attribs": {
             "id": {
                 "type": "String"
@@ -13971,11 +5761,11 @@ tag_defs = {
             "styleClass": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "ideas:listOutputLink": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "category": {
                 "type": "String"
@@ -14013,11 +5803,11 @@ tag_defs = {
             "styleClass": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "ideas:profileListOutputLink": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "communityId": {
                 "type": "String"
@@ -14052,11 +5842,98 @@ tag_defs = {
             "userId": {
                 "type": "String"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "messaging:attachment": {
+        "attribs": {
+            "filename": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "inline": {
+                "type": "Boolean"
+            },
+            "renderAs": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "messaging:emailHeader": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "name": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "messaging:emailTemplate": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "language": {
+                "type": "String"
+            },
+            "recipientType": {
+                "type": "String"
+            },
+            "relatedToType": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            },
+            "replyTo": {
+                "type": "String"
+            },
+            "subject": {
+                "type": "String"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "messaging:htmlEmailBody": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "messaging:plainTextEmailBody": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "site:googleAnalyticsTracking": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -14064,11 +5941,11 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "site:previewAsAdmin": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "id": {
                 "type": "String"
@@ -14076,11 +5953,11 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "social:profileViewer": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "entityId": {
                 "type": "id"
@@ -14091,11 +5968,11 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     },
     "support:clickToDial": {
-        "simple": False,
-        "type": "visualforce",
         "attribs": {
             "entityId": {
                 "type": "String"
@@ -14112,6 +5989,8 @@ tag_defs = {
             "rendered": {
                 "type": "Boolean"
             }
-        }
+        },
+        "simple": False,
+        "type": "visualforce"
     }
 }

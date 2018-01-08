@@ -562,12 +562,12 @@ def get_sobject_completion_list(
 
 
 def get_component_completion(username, component_type, tag_has_ending=False):
-    """ Return the formatted completion list of component
+    """ Return the formatted completion list of custom Apex/Lightning component
 
     Return:
-    * completion_list -- all apex component completion list
+    * completion_list -- all Apex/Lightning component completion list
     """
-    lightning = {".app": "LightningApplication", ".cmp": "LightningComponent", ".evt": "LightningEvent"}
+    lightning = {".cmp": "LightningComponent"}
     completion_list = []
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
     if not component_settings.has(username):
@@ -593,9 +593,13 @@ def get_component_completion(username, component_type, tag_has_ending=False):
     return completion_list
 
 
-def get_component_attributes(settings, component_name):
-    component_dir = os.path.join(settings["workspace"], "src", 
-        "components", component_name+".component")
+def get_component_attributes(settings, component_name, is_lightning=False):
+    if is_lightning:
+        component_dir = os.path.join(settings["workspace"], "src",
+                                     "aura", component_name, component_name + ".cmp")
+    else:
+        component_dir = os.path.join(settings["workspace"], "src",
+                                     "components", component_name+".component")
     completion_list = []
     if os.path.isfile(component_dir):
         name, _type, description = "", "", ""
@@ -604,8 +608,8 @@ def get_component_attributes(settings, component_name):
                 content = fp.read()
             except UnicodeDecodeError as ex:
                 return completion_list
-            
-            pattern = "<apex:attribute[\\S\\s]*?>"
+
+            pattern = "<aura:attribute[\\S\\s]*?>" if is_lightning else "<apex:attribute[\\S\\s]*?>"
             for match in re.findall(pattern, content, re.IGNORECASE):
                 pattern = '\\w+\\s*=\\s*"[\\s\\S]*?"'
                 for m in re.findall(pattern, match, re.IGNORECASE):
