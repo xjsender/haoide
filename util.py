@@ -67,6 +67,7 @@ def load_templates():
 
     return templates
 
+
 def copy_files_in_folder(source_dir, target_dir):
     """ Copy folders and files in source dir to target dir
 
@@ -89,6 +90,7 @@ def copy_files_in_folder(source_dir, target_dir):
                 open(targetFile, "wb").write(open(sourceFile, "rb").read()) 
         if os.path.isdir(sourceFile): 
             copy_files_in_folder(sourceFile, targetFile)
+
 
 def copy_files(attributes, target_dir):
     """ Copy files and its related meta file to target dir
@@ -144,6 +146,7 @@ def copy_files(attributes, target_dir):
 
     return True
 
+
 def get_described_metadata(settings):
     cache_file = os.path.join(
         settings["workspace"], 
@@ -157,6 +160,7 @@ def get_described_metadata(settings):
             described_metadata = json.loads(fp.read())
 
     return described_metadata
+
 
 def get_instance(settings):
     """ Get instance by instance_url
@@ -175,6 +179,7 @@ def get_instance(settings):
     instance = base_url[2:-1]
 
     return instance
+
 
 def get_session_info(settings):
     """ Get Session Info
@@ -196,6 +201,7 @@ def get_session_info(settings):
 
     return session
 
+
 def get_package_info(settings):
     package = None
     package_directory = os.path.join(settings["workspace"], ".config", "package.json")
@@ -204,6 +210,7 @@ def get_package_info(settings):
             package = json.loads(fp.read())
 
     return package
+
 
 def view_coverage(name, file_name, body):
     settings = context.get_settings()
@@ -256,6 +263,7 @@ def view_coverage(name, file_name, body):
     view.add_regions("numLocationsCovered", covered_region, "comment", "cross",
         sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
 
+
 def get_local_timezone_offset():
     """ Return the timezone offset of local time with GMT standard
 
@@ -269,6 +277,7 @@ def get_local_timezone_offset():
     offset_hours = localoffset.total_seconds() / 3600
 
     return offset_hours
+
 
 # https://docs.python.org/3.2/library/datetime.html#strftime-and-strptime-behavior
 # http://stackoverflow.com/questions/12015170/how-do-i-automatically-get-the-timezone-offset-for-my-local-time-zone
@@ -286,6 +295,7 @@ def local_datetime(server_datetime_str):
 
     return local_datetime
 
+
 def server_datetime(local_datetime):
     """ Convert the Datetime got from local to GMT Standard
 
@@ -298,6 +308,7 @@ def server_datetime(local_datetime):
     server_datetime = local_datetime + datetime.timedelta(hours=-offset)
 
     return server_datetime
+
 
 def populate_all_components():
     """ Get all components from local cache
@@ -324,6 +335,7 @@ def populate_all_components():
 
     return return_component_attributes
 
+
 def populate_components(_type):
     """
     Get dict (Class Name => Class Id) which NamespacePrefix is null in whole org
@@ -346,6 +358,7 @@ def populate_components(_type):
 
     return component_settings.get(username).get(_type)
 
+
 def populate_lighting_applications():
     settings = context.get_settings()
     workspace = settings["workspace"]
@@ -363,6 +376,7 @@ def populate_lighting_applications():
             aura_attributes[aura_name] = aura_cache[name]
 
     return aura_attributes
+
 
 def populate_sobjects_describe():
     """
@@ -387,6 +401,7 @@ def populate_sobjects_describe():
         sobjects_describe[sobject_describe["name"]] = sobject_describe
     return sobjects_describe
 
+
 def populate_all_test_classes():
     # Get username
     settings = context.get_settings()
@@ -404,6 +419,7 @@ def populate_all_test_classes():
         test_class_ids.append(class_attr["id"])
 
     return test_class_ids
+
 
 def set_component_attribute(attributes, lastModifiedDate):
     """ Set the LastModifiedDate for specified component
@@ -436,7 +452,8 @@ def set_component_attribute(attributes, lastModifiedDate):
     # Save settings and show success message
     s.set(username, components_dict)
     sublime.save_settings("component_metadata.sublime-settings")
-    
+
+
 def get_sobject_caches(setting_name):
     """ Return the specified local cache of default project
 
@@ -455,6 +472,7 @@ def get_sobject_caches(setting_name):
 
     return caches
 
+
 def clear_cache(username, setting_name):
     """ Clear the specified local cache of default project
 
@@ -466,6 +484,7 @@ def clear_cache(username, setting_name):
     settings = settings.erase(username)
     sublime.save_settings(setting_name)
     sublime.status_message(username + " cache is cleared")
+
 
 def get_sobject_metadata(username):
     """ Return the sobject cache of default project
@@ -484,6 +503,7 @@ def get_sobject_metadata(username):
 
     return sobjects_metadata
 
+
 def get_symbol_tables(username):
     """ Return the sobject cache of default project
 
@@ -499,6 +519,7 @@ def get_symbol_tables(username):
         symbol_tables = symbol_tables_settings.get(username, {})
 
     return symbol_tables
+
 
 def get_sobject_completion_list(
         sobject_describe, 
@@ -539,32 +560,38 @@ def get_sobject_completion_list(
 
     return completion_list
 
+
 def get_component_completion(username, component_type, tag_has_ending=False):
     """ Return the formatted completion list of component
 
     Return:
     * completion_list -- all apex component completion list
     """
-
+    lightning = {".app": "LightningApplication", ".cmp": "LightningComponent", ".evt": "LightningEvent"}
     completion_list = []
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
-    if not component_settings.has(username): return completion_list
+    if not component_settings.has(username):
+        return completion_list
+
     component_attrs = component_settings.get(username)
     if component_type in component_attrs:
         components = component_attrs[component_type]
-        for name in components:
-            if "name" not in components[name]: continue
-            component_name = components[name]["name"]
-            if component_type == "ApexComponent":
-                display = "c:%s\t%s" % (component_name, component_type)
-                value = "c:%s%s" % (
-                    component_name, "" if tag_has_ending else "$1>"
-                )
+        for component in components:
+            component_extension = components[component]["extension"]
+            none_lightning = component_type == "AuraDefinitionBundle" and component_extension not in lightning
+            if "name" not in components[component] or none_lightning:
+                continue
+
+            component_name = components[component]["name"]
+            if component_type in ["ApexComponent", "AuraDefinitionBundle"]:
+                c_type = lightning.get(component_extension, component_type)
+                display = "c:%s\t%s" % (component_name, c_type)
+                value = "c:%s%s" % (component_name, "" if tag_has_ending else "$1>")
                 completion_list.append((display, value))
             else:
                 completion_list.append((component_name+"\t"+component_type, component_name))
-    
     return completion_list
+
 
 def get_component_attributes(settings, component_name):
     component_dir = os.path.join(settings["workspace"], "src", 
@@ -599,6 +626,7 @@ def get_component_attributes(settings, component_name):
 
     return completion_list
 
+
 def convert_15_to_18(the15Id):
     """ Convert Salesforce 15 Id to 18 Id
 
@@ -628,6 +656,7 @@ def convert_15_to_18(the15Id):
 
     return the15Id + "".join(chars)
 
+
 def list_chunks(l, n):
     """ Yield successive n-sized chunks from l.
 
@@ -639,11 +668,13 @@ def list_chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i+n]
 
+
 def dict_chunks(data, SIZE=10000):
     from itertools import islice
     it = iter(data)
     for i in range(0, len(data), SIZE):
-        yield {k:data[k] for k in islice(it, SIZE)}
+        yield {k: data[k] for k in islice(it, SIZE)}
+
 
 def open_with_browser(show_url, use_default_chrome=True):
     """ Utility for open file in browser
@@ -660,6 +691,7 @@ def open_with_browser(show_url, use_default_chrome=True):
     else:
         webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
         webbrowser.get('chrome').open_new_tab(show_url)
+
 
 def remove_comments(view, regions):
     # Get all comment regions
@@ -690,6 +722,7 @@ def remove_comments(view, regions):
             matched_regions.append(region)
 
     return matched_regions
+
 
 def get_variable_type(view, pt, pattern):
     """Return the matched soql region
@@ -746,6 +779,7 @@ def get_variable_type(view, pt, pattern):
 
     return variable_type
 
+
 def get_soql_match_region(view, pt):
     """Return the mgatched soql region
 
@@ -783,6 +817,7 @@ def get_soql_match_region(view, pt):
         sobject_name = sobject_name.strip()
 
     return (matched_region, is_between_start_and_from, sobject_name)
+
 
 def parse_symbol_table(symbol_table):
     """Parse the symbol_table to completion (Copied From MavensMate)
@@ -864,6 +899,7 @@ def parse_symbol_table(symbol_table):
 
     return completions
 
+
 def add_operation_history(operation, history_content):
     """Keep the history in the local history
 
@@ -890,6 +926,7 @@ def add_operation_history(operation, history_content):
     fp.write(history.encode("utf-8"))
     fp.close()
 
+
 def add_config_history(operation, content, settings, ext="json"):
     """Keep the history in the local history
 
@@ -909,6 +946,7 @@ def add_config_history(operation, content, settings, ext="json"):
     sublime.set_timeout(lambda:sublime.active_window().run_command('refresh_folder_list'), 200);
     sublime.set_timeout(lambda:sublime.active_window().run_command('refresh_folder_list'), 1300);
 
+
 def export_report_api(rootdir):
     reports = []
     for parent,dirnames,filenames in os.walk(rootdir):
@@ -924,6 +962,7 @@ def export_report_api(rootdir):
 
     list2csv(rootdir + "/test.csv", reports)
 
+
 def check_action_enabled():
     """If project in current date is not created, new component is not enabled
 
@@ -938,6 +977,7 @@ def check_action_enabled():
     # Check whether describe_metadata request is finished
     described_metadata = get_described_metadata(settings)
     return described_metadata is not None
+
 
 def get_view_by_name(view_name):
     """Get view by view name
@@ -957,6 +997,7 @@ def get_view_by_name(view_name):
                 view = v
 
     return view
+
 
 def get_view_by_file_name(file_name):
     """
@@ -979,6 +1020,7 @@ def get_view_by_file_name(file_name):
 
     return view
 
+
 def get_view_by_id(view_id):
     """
     Get the view in the active window by the view_id
@@ -994,6 +1036,7 @@ def get_view_by_id(view_id):
             view = v
 
     return view
+
 
 def get_child_types(parent_type):
     """ Get child types by parent type
@@ -1011,6 +1054,7 @@ def get_child_types(parent_type):
         child_types = [child_types]
 
     return child_types
+
 
 def parse_package_types(_types):
     """ Build structure
@@ -1097,6 +1141,7 @@ def parse_package_types(_types):
 
     return package_types
 
+
 def build_package_types(package_xml_content):
     result = xmltodict.parse(package_xml_content)
 
@@ -1119,6 +1164,7 @@ def build_package_types(package_xml_content):
 
     return types
 
+
 def build_folder_types(dirs):
     """  Build folders_dict for folder refreshing
         {
@@ -1140,6 +1186,7 @@ def build_folder_types(dirs):
         types[xml_name] = ["*"]
 
     return types
+
 
 def build_package_dict(files, ignore_folder=True):
     """ Build Package Dict as follow structure by files
@@ -1200,6 +1247,7 @@ def build_package_dict(files, ignore_folder=True):
             package_dict[metadata_object] = [file_dict]
 
     return package_dict
+
 
 def build_package_xml(settings, package_dict):
     """ Build Package XML as follow structure
@@ -3085,6 +3133,7 @@ def add_project_to_workspace(settings):
         folders.append(switch_to_folder)
     sublime.active_window().set_project_data({"folders": folders})
 
+
 def get_completion_list(meta_type, meta_folder):
     """ Get the name list by specified metadataObject
 
@@ -3135,6 +3184,7 @@ def get_completion_list(meta_type, meta_folder):
                 completion_list.append(("%s\t%s" % (name, meta_type), name))
 
     return completion_list
+
 
 def get_metadata_elements(metadata_dir):
     """ Get the name list by specified metadataObject
@@ -3505,4 +3555,3 @@ def convert_csv_to_json(csvfile, xmlNodes):
     os.remove(tempjson)
 
     return rjson
-
