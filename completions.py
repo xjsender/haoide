@@ -459,7 +459,7 @@ class PageCompletions(sublime_plugin.EventListener):
 
         # Determine if current file is Lightning
         file_name = view.file_name()
-        is_lightning = True if file_name.split(".")[-1] in ["app", "cmp"] else False
+        is_lightning = True if file_name.split(".")[-1] in ["app", "cmp", "evt"] else False
 
         # Get tag definition of Visualforce page or Lightning component
         tag_defs = lightning.tag_defs if is_lightning else vf.tag_defs
