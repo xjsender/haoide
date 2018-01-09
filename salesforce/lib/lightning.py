@@ -21,6 +21,7 @@ component_interfaces = [
     "lightning:recordHomeTemplate"
 ]
 
+# ["analytics", "aura", "force", "forceChatter", "forceCommunity", "lightning", "ltng", "ui", "wave"]
 tag_defs = {
     "analytics:reportChart": {
         "attribs": {
@@ -473,126 +474,7 @@ tag_defs = {
         "simple": False,
         "type": "aura"
     },
-    "chatter:feed": {
-        "attribs": {
-            "entityId": {
-                "type": "id"
-            },
-            "feedItemType": {
-                "type": "String"
-            },
-            "id": {
-                "type": "String"
-            },
-            "onComplete": {
-                "type": "String"
-            },
-            "reRender": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "showPublisher": {
-                "type": "Boolean"
-            }
-        },
-        "simple": True,
-        "type": "visualforce"
-    },
-    "chatter:feedWithFollowers": {
-        "attribs": {
-            "entityId": {
-                "type": "id"
-            },
-            "id": {
-                "type": "String"
-            },
-            "onComplete": {
-                "type": "String"
-            },
-            "reRender": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "showHeader": {
-                "type": "Boolean"
-            }
-        },
-        "simple": True,
-        "type": "visualforce"
-    },
-    "chatter:follow": {
-        "attribs": {
-            "entityId": {
-                "type": "id"
-            },
-            "id": {
-                "type": "String"
-            },
-            "onComplete": {
-                "type": "String"
-            },
-            "reRender": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        },
-        "simple": True,
-        "type": "visualforce"
-    },
-    "chatter:followers": {
-        "attribs": {
-            "entityId": {
-                "type": "id"
-            },
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        },
-        "simple": True,
-        "type": "visualforce"
-    },
-    "chatter:newsfeed": {
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "onComplete": {
-                "type": "String"
-            },
-            "reRender": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            }
-        },
-        "simple": True,
-        "type": "visualforce"
-    },
-    "chatter:userPhotoUpload": {
-        "attribs": {
-            "id": {
-                "type": "String"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "showOriginalPhoto": {
-                "type": "Boolean"
-            }
-        },
-        "simple": False,
-        "type": "visualforce"
-    },
+
     "force:canvasApp": {
         "attribs": {
             "applicationName": {

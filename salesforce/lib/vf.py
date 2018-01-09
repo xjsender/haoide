@@ -6,7 +6,7 @@ page_reference_attrs = [
     "finishLocation"
 ]
 
-# prefix = ["apex", "messaging", "chatteranswers", "chatteranswers", "flow", "ideas", "site", "social", "support"]
+# ["apex", "messaging","chatter", "chatteranswers", "chatteranswers", "flow", "ideas", "site", "social", "support"]
 
 tag_defs = {
     "apex:actionFunction": {
@@ -5416,6 +5416,126 @@ tag_defs = {
                 "type": "String"
             },
             "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "visualforce"
+    },
+    "chatter:feed": {
+        "attribs": {
+            "entityId": {
+                "type": "id"
+            },
+            "feedItemType": {
+                "type": "String"
+            },
+            "id": {
+                "type": "String"
+            },
+            "onComplete": {
+                "type": "String"
+            },
+            "reRender": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            },
+            "showPublisher": {
+                "type": "Boolean"
+            }
+        },
+        "simple": True,
+        "type": "visualforce"
+    },
+    "chatter:feedWithFollowers": {
+        "attribs": {
+            "entityId": {
+                "type": "id"
+            },
+            "id": {
+                "type": "String"
+            },
+            "onComplete": {
+                "type": "String"
+            },
+            "reRender": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            },
+            "showHeader": {
+                "type": "Boolean"
+            }
+        },
+        "simple": True,
+        "type": "visualforce"
+    },
+    "chatter:follow": {
+        "attribs": {
+            "entityId": {
+                "type": "id"
+            },
+            "id": {
+                "type": "String"
+            },
+            "onComplete": {
+                "type": "String"
+            },
+            "reRender": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": True,
+        "type": "visualforce"
+    },
+    "chatter:followers": {
+        "attribs": {
+            "entityId": {
+                "type": "id"
+            },
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": True,
+        "type": "visualforce"
+    },
+    "chatter:newsfeed": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "onComplete": {
+                "type": "String"
+            },
+            "reRender": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": True,
+        "type": "visualforce"
+    },
+    "chatter:userPhotoUpload": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            },
+            "showOriginalPhoto": {
                 "type": "Boolean"
             }
         },
