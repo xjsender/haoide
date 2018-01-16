@@ -1387,6 +1387,7 @@ def build_destructive_package_by_package_xml(types):
 
     return base64_package
 
+
 def build_deploy_package(files):
     # Initiate zipfile
     settings = context.get_settings()
@@ -1410,7 +1411,7 @@ def build_deploy_package(files):
                 f["extension"]
             )
 
-            # If lighting component, add all realted file to zip too
+            # If lighting component, add all related file to zip too
             if f["metadata_folder"] == "aura":
                 base = os.path.split(f["dir"])[0]
                 for parent, dirnames, filenames in os.walk(base):
@@ -1454,7 +1455,7 @@ def build_deploy_package(files):
         zf.write(xml_dir, "package.xml")
     except Exception as ex:
         if settings["debug_mode"]:
-            print ('When save package.xml, encounter error: %s' % str(ex))
+            print('When save package.xml, encounter error: %s' % str(ex))
 
     # Close zip input stream
     zf.close()
@@ -1467,6 +1468,7 @@ def build_deploy_package(files):
         os.remove(zipfile_path)
 
     return base64_package
+
 
 def compress_resource_folder(resource_folder):
     """ Prepare base64 encoded zip for uploading static resource
@@ -1491,6 +1493,7 @@ def compress_resource_folder(resource_folder):
     base64_package = build_deploy_package([static_resource_file])
 
     return base64_package
+
 
 def build_aura_package(files_or_dirs):
     # Build package

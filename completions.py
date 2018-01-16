@@ -460,7 +460,7 @@ class PageCompletions(sublime_plugin.EventListener):
 
         # Determine if current file is Lightning
         file_name = view.file_name()
-        is_lightning = True if file_name.split(".")[-1] in ["app", "cmp"] else False
+        is_lightning = True if file_name.split(".")[-1] in ["app", "cmp", "evt"] else False
 
         # Get tag definition of Visualforce page or Lightning component
         tag_defs = lightning.tag_defs if is_lightning else vf.tag_defs
@@ -737,7 +737,7 @@ class PageCompletions(sublime_plugin.EventListener):
         #   e.g. force:appHostable, force:lightningQuickAction
         if ch in ['"', ',', ' ']:
             matched_region = view.find('(implements="[\\w\\s:\\,]+")', begin)
-            if matched_region and matched_region.contains(pt): 
+            if matched_region and pt < matched_region.b:
                 completion_list = []
                 for _interface in lightning.component_interfaces:
                     completion_list.append((_interface, _interface))

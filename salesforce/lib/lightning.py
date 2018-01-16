@@ -246,6 +246,16 @@ tag_defs = {
             },
             "value": {
                 "type": "String"
+            },
+            "includeFacets": {
+                "type": "Boolean"
+            },
+            "phase": {
+                "type": "Picklist",
+                "values": [
+                    "bubble",
+                    "capture"
+                ]
             }
         },
         "simple": False,
