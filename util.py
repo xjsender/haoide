@@ -3382,30 +3382,22 @@ def export_profile_settings():
         "viewAllRecords"
     ]
 
-    cruds_translation = {
-        "allowRead": "Read", 
-        "allowCreate": "Create", 
-        "allowEdit": "Edit", 
-        "allowDelete": "Delete", 
-        "modifyAllRecords": "ModifyAll", 
-        "viewAllRecords": "ViewAll"
+    crud_literal = {
+        "allowCreate": "C", 
+        "allowRead": "R", 
+        "allowEdit": "U", 
+        "allowDelete": "D", 
+        "modifyAllRecords": "M", 
+        "viewAllRecords": "V"
     }
 
     # Define the column that contains profile
-    profile_headers = ["Object"]
+    profile_headers = ["Object Name"]
     for profile in profiles:
         profile_headers.append(profile)
-        for i in range(len(cruds) - 1):
-            profile_headers.append("")
-
-    # Define the column
-    crud_headers = [""]
-    for profile in profiles:
-        for crud in cruds:
-            crud_headers.append(cruds_translation[crud])
 
     sobject_names = sorted(sobject_names)
-    all_rows = [",".join(profile_headers), ",".join(crud_headers)]
+    all_rows = []
     for sobject in sobject_names:
         rows = [sobject]
         for profile in profiles:
@@ -3413,8 +3405,11 @@ def export_profile_settings():
             if "objectPermissions" in profile_settings[profile]:
                 if sobject in profile_settings[profile]["objectPermissions"]:
                     object_permission = profile_settings[profile]["objectPermissions"][sobject]
+                    crud_str = []
                     for crud in cruds:
-                        rows.append("√" if object_permission[crud] == "true" else "")
+                        if object_permission[crud] == "true":
+                            crud_str.append(crud_literal[crud])
+                    rows.append("".join(crud_str))
                 else:
                     for crud in cruds:
                         rows.append("")
@@ -3423,6 +3418,48 @@ def export_profile_settings():
                     rows.append("")
 
         all_rows.append(",".join(rows))
+
+    # cruds_translation = {
+    #     "allowRead": "Read", 
+    #     "allowCreate": "Create", 
+    #     "allowEdit": "Edit", 
+    #     "allowDelete": "Delete", 
+    #     "modifyAllRecords": "ModifyAll", 
+    #     "viewAllRecords": "ViewAll"
+    # }
+
+    # # Define the column that contains profile
+    # profile_headers = ["Object"]
+    # for profile in profiles:
+    #     profile_headers.append(profile)
+    #     for i in range(len(cruds) - 1):
+    #         profile_headers.append("")
+
+    # # Define the column
+    # crud_headers = [""]
+    # for profile in profiles:
+    #     for crud in cruds:
+    #         crud_headers.append(cruds_translation[crud])
+
+    # sobject_names = sorted(sobject_names)
+    # all_rows = [",".join(profile_headers), ",".join(crud_headers)]
+    # for sobject in sobject_names:
+    #     rows = [sobject]
+    #     for profile in profiles:
+    #         # Some standard sObject is not configurable
+    #         if "objectPermissions" in profile_settings[profile]:
+    #             if sobject in profile_settings[profile]["objectPermissions"]:
+    #                 object_permission = profile_settings[profile]["objectPermissions"][sobject]
+    #                 for crud in cruds:
+    #                     rows.append("√" if object_permission[crud] == "true" else "")
+    #             else:
+    #                 for crud in cruds:
+    #                     rows.append("")
+    #         else:
+    #             for crud in cruds:
+    #                 rows.append("")
+
+    #     all_rows.append(",".join(rows))
 
     outputdir = settings["workspace"]+ "/.export/profile"
     if not os.path.exists(outputdir):
