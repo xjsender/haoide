@@ -637,20 +637,6 @@ class PageCompletions(sublime_plugin.EventListener):
                             completion_list.append(("%s\tBootstrap3" % class_name, class_name))
                         break
 
-            ############################################
-            # SLDS class name completions
-            ############################################
-            if not settings["disable_slds_completion"]:
-                matched_attribute_regions = view.find_all('\w+="[\w\s\-]*"')
-                for mr in matched_attribute_regions:
-                    if not mr.contains(pt):
-                        continue
-                    class_name = view.substr(mr).split("=")[0]
-                    if class_name.lower() in ["styleclass", "class"]:
-                        for class_name in slds.classes:
-                            completion_list.append(("%s\tSLDS" % class_name, class_name))
-                        break
-
             # Sort the completion_list by first element
             completion_list.sort(key=lambda tup: tup[1])
 
@@ -731,6 +717,18 @@ class PageCompletions(sublime_plugin.EventListener):
                     if class_name.lower() == "class":
                         for class_name in bootstrap.classes:
                             completion_list.append(("%s\tBootstrap3" % class_name, class_name))
+                        break
+
+            # 5. SLDS class name completions
+            if not settings["disable_slds_completion"]:
+                matched_attribute_regions = view.find_all('\w+="[\w\s\-]*"')
+                for mr in matched_attribute_regions:
+                    if not mr.contains(pt):
+                        continue
+                    class_name = view.substr(mr).split("=")[0]
+                    if class_name.lower() == "class":
+                        for class_name in slds.classes:
+                            completion_list.append(("%s\tSLDS" % class_name, class_name))
                         break
 
         # Completions for Lightning component interface, for example,
