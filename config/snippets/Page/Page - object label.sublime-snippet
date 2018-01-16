@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+{!\$ObjectType.${1:sObjectName}.Label$0}
+]]></content>
+    <tabTrigger>ol</tabTrigger>
+    <scope>text.html</scope>
+    <description>$ObjectType.sObjectName.Label</description>
+</snippet>

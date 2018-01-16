@@ -12,6 +12,7 @@ from .salesforce.lib import vf
 from .salesforce.lib import lightning
 from .salesforce.lib import html
 from .salesforce.lib import bootstrap
+from .salesforce.lib import slds
 
 from .salesforce.lib.panel import Printer
 
@@ -622,7 +623,7 @@ class PageCompletions(sublime_plugin.EventListener):
                             else:
                                 completion_list.append((attr_name + "\tattr", attr_name+'="$1"$0'))
 
-            # ##########################################
+            ############################################
             # Bootstrap3 class name completions
             ############################################
             if not settings["disable_bootstrap_completion"]:
@@ -634,6 +635,20 @@ class PageCompletions(sublime_plugin.EventListener):
                     if class_name.lower() in ["styleclass", "class"]:
                         for class_name in bootstrap.classes:
                             completion_list.append(("%s\tBootstrap3" % class_name, class_name))
+                        break
+
+            ############################################
+            # SLDS class name completions
+            ############################################
+            if not settings["disable_slds_completion"]:
+                matched_attribute_regions = view.find_all('\w+="[\w\s\-]*"')
+                for mr in matched_attribute_regions:
+                    if not mr.contains(pt):
+                        continue
+                    class_name = view.substr(mr).split("=")[0]
+                    if class_name.lower() in ["styleclass", "class"]:
+                        for class_name in slds.classes:
+                            completion_list.append(("%s\tSLDS" % class_name, class_name))
                         break
 
             # Sort the completion_list by first element

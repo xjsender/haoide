@@ -197,6 +197,9 @@
     // Flag to disable bootstrap3 completion
     "disable_bootstrap_completion": false,
 
+    // Flag to disable Lightning design system completion
+    "disable_slds_completion": false,
+
     // Indicate whether keep history of execute_anonymous, query and run test to local ``.history`` path
     "keep_operation_history" : true,
 

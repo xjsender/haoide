@@ -21,6 +21,14 @@ component_interfaces = [
     "lightning:recordHomeTemplate"
 ]
 
+# Attributes which type is ApexPages.PageReference
+page_reference_attrs = [
+    "page",
+    "template",
+    "pageName",
+    "finishLocation"
+]
+
 # ["analytics", "aura", "force", "forceChatter", "forceCommunity", "lightning", "ltng", "ui", "wave"]
 tag_defs = {
     "analytics:reportChart": {
