@@ -735,7 +735,8 @@ class PageCompletions(sublime_plugin.EventListener):
         #   e.g. force:appHostable, force:lightningQuickAction
         if ch in ['"', ',', ' ']:
             matched_region = view.find('(implements="[\\w\\s:\\,]+")', begin)
-            if matched_region and pt < matched_region.b:
+            # if matched_region and pt < matched_region.b:
+            if matched_region and matched_region.contains(pt):
                 completion_list = []
                 for _interface in lightning.component_interfaces:
                     completion_list.append((_interface, _interface))
