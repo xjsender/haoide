@@ -33,6 +33,7 @@ class RemoveComments(sublime_plugin.TextCommand):
             region = self.view.full_line(region)
             self.view.erase(edit, region)
 
+
 class Haoku(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(Haoku, self).__init__(*args, **kwargs)
@@ -57,6 +58,7 @@ class Haoku(sublime_plugin.WindowCommand):
         open_url = heroku_host + '?%s' % show_params
         util.open_with_browser(open_url)
 
+
 class BaseSelection(object):
     def is_enabled(self):
         if not self.view.size(): return False
@@ -66,6 +68,7 @@ class BaseSelection(object):
                 self.view.size()))
 
         return True
+
 
 class BuildCustomLabelsMetadata(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -93,6 +96,7 @@ class BuildCustomLabelsMetadata(sublime_plugin.TextCommand):
             "input": lables_metadata.decode("utf-8")
         })
 
+
 class BuildCustomLabelsTranslationMetadata(sublime_plugin.TextCommand):
     def run(self, edit):
         try:
@@ -116,6 +120,7 @@ class BuildCustomLabelsTranslationMetadata(sublime_plugin.TextCommand):
             "input": translations.decode("utf-8")
         })
 
+
 class JsonFormat(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
         try:
@@ -130,6 +135,7 @@ class JsonFormat(BaseSelection, sublime_plugin.TextCommand):
             "input": formatted_json
         })
 
+
 class JsonSerialization(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
         try:
@@ -142,6 +148,7 @@ class JsonSerialization(BaseSelection, sublime_plugin.TextCommand):
             "name": "SerializedJSON",
             "input": json.dumps(self.data)
         })
+
 
 class JsonToApex(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
@@ -164,6 +171,7 @@ class JsonToApex(BaseSelection, sublime_plugin.TextCommand):
             "input": snippet
         })
 
+
 class JsonToXml(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
         try:
@@ -181,6 +189,7 @@ class JsonToXml(BaseSelection, sublime_plugin.TextCommand):
             "input": util.format_xml(result).decode("UTF-8")
         })
 
+
 class XmlToJson(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
         try:
@@ -196,6 +205,7 @@ class XmlToJson(BaseSelection, sublime_plugin.TextCommand):
             "name": "XML2JSON",
             "input": json.dumps(result, indent=4)
         })
+
 
 class XmlFormat(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
@@ -214,6 +224,7 @@ class XmlFormat(BaseSelection, sublime_plugin.TextCommand):
             "name": "XMLFormat",
             "input": formatted_xml.decode("utf-8")
         })
+
 
 class DiffWithServer(sublime_plugin.TextCommand):
     def run(self, edit, switch=True, source_org=None):
@@ -256,12 +267,14 @@ class DiffWithServer(sublime_plugin.TextCommand):
     def is_visible(self):
         return self.is_enabled()
 
+
 class ShowMyPanel(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ShowMyPanel, self).__init__(*args, **kwargs)
 
     def run(self, panel):
         Printer.get(panel).show_panel()
+
 
 class ToggleMetadataObjects(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -353,6 +366,7 @@ class ToggleMetadataObjects(sublime_plugin.WindowCommand):
             "callback_options": self.callback_options
         }), 10)
 
+
 class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ReloadSobjectCacheCommand, self).__init__(*args, **kwargs)
@@ -362,6 +376,7 @@ class ReloadSobjectCacheCommand(sublime_plugin.WindowCommand):
         if not sublime.ok_cancel_dialog(message, "Confirm Reload?"): return
         processor.handle_reload_sobjects_completions()
 
+
 class ReloadSymbolTableCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ReloadSymbolTableCacheCommand, self).__init__(*args, **kwargs)
@@ -370,6 +385,7 @@ class ReloadSymbolTableCacheCommand(sublime_plugin.WindowCommand):
         message = "Are you sure you really want to reload symbol table cache?"
         if not sublime.ok_cancel_dialog(message, "Confirm Reload"): return
         processor.handle_reload_symbol_tables()
+
 
 class ClearSessionCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -386,6 +402,7 @@ class ClearSessionCacheCommand(sublime_plugin.WindowCommand):
             sublime.status_message("Session cache is cleared")
         except:
             sublime.status_message("Session cache clear failed")
+
 
 class ClearCacheCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -411,6 +428,7 @@ class ClearCacheCommand(sublime_plugin.WindowCommand):
             "cache_name": self.cache_name
         }), 10)
 
+
 class Convert15Id218Id(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(Convert15Id218Id, self).__init__(*args, **kwargs)
@@ -422,6 +440,7 @@ class Convert15Id218Id(sublime_plugin.WindowCommand):
     def on_input(self, input):
         c18Id = util.convert_15_to_18(input)
         Printer.get('log').write("Converted 18 Digit Id: " + c18Id);
+
 
 class DecodeUrl(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -435,6 +454,7 @@ class DecodeUrl(sublime_plugin.WindowCommand):
         decodedUrl = urllib.request.unquote(input)
         Printer.get('log').write("Decoded URL: " + decodedUrl);
 
+
 class EncodeUrl(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(EncodeUrl, self).__init__(*args, **kwargs)
@@ -446,6 +466,7 @@ class EncodeUrl(sublime_plugin.WindowCommand):
     def on_input(self, input):
         encodedUrl = urllib.request.quote(input)
         Printer.get('log').write("Encoded URL: " + encodedUrl);
+
 
 class GenerateSoqlCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -467,6 +488,7 @@ class GenerateSoqlCommand(sublime_plugin.WindowCommand):
     def on_choose_action(self, index):
         if index == -1: return
         processor.handle_generate_sobject_soql(self.sobject, self.filters[index])
+
 
 class ExportQueryToCsv(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -1080,6 +1102,7 @@ class DeployFileToThisServer(sublime_plugin.TextCommand):
     def is_visible(self):
         return self.is_enabled()
 
+
 class DeployFilesToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployFilesToServer, self).__init__(*args, **kwargs)
@@ -1145,6 +1168,7 @@ class DeployFilesToServer(sublime_plugin.WindowCommand):
                 return False
 
         return True
+
 
 class CopyFileToProject(sublime_plugin.TextCommand):
     def run(self, edit, switch=True, source_org=None):
