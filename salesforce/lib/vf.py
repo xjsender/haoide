@@ -350,6 +350,7 @@ tag_defs = {
             },
             "type": {
                 "type": "Picklist",
+                "supportSobjects": True,
                 "values": [
                     "Boolean",
                     "Date",

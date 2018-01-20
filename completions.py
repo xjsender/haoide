@@ -144,7 +144,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                     # Add all object name to keyword completions
                     for key in sorted(sobjects_describe.keys()):
                         sobject_name = sobjects_describe[key]["name"]
-                        completion_list.append((sobject_name + "\tSobject", sobject_name))
+                        completion_list.append((sobject_name + "\tsObject", sobject_name))
 
                     # Add all standard class to keyword completions
                     for key in sorted(apex.apex_completions):
@@ -684,6 +684,12 @@ class PageCompletions(sublime_plugin.EventListener):
                             for value in tag_attribute["values"]:
                                 completion_list.append((value + "\t" + matched_attr_name, '"%s"' % value))
 
+                            # If attribute support sobjects
+                            if tag_attribute.get("supportSobjects"):
+                                for key in sorted(sobjects_describe.keys()):
+                                    sobject_name = sobjects_describe[key]["name"]
+                                    completion_list.append((sobject_name + "\tsObject", sobject_name))
+
                         return completion_list
 
             ##########################################
@@ -705,7 +711,7 @@ class PageCompletions(sublime_plugin.EventListener):
             if matched_region and matched_region.contains(pt): 
                 for key in sorted(sobjects_describe.keys()):
                     sobject_name = sobjects_describe[key]["name"]
-                    completion_list.append((sobject_name + "\tSobject", sobject_name))
+                    completion_list.append((sobject_name + "\tsObject", sobject_name))
 
             # 2. Custom class completion for extension or controller
             matched_region = view.find('(controller="\\w+"|extensions="\\w+")', begin)
