@@ -445,7 +445,7 @@ class PageCompletions(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
         # Only trigger within HTML
-        if not view.match_selector(locations[0], "text.html - source"): 
+        if not view.match_selector(locations[0], "text.html - source, source.js"): 
             return []
 
         # Get plugin settings
@@ -770,7 +770,7 @@ class PageCompletions(sublime_plugin.EventListener):
                     for member in package_cache.get("CustomLabel", []):
                         completion_list.append(("%s\t%s" % (member, "CustomLabel"), member))
                 else:
-                    sublime.status_message("Info: No custom label cache")
+                    sublime.status_message("Info: No custom label cache exist")
 
                     return completion_list
 

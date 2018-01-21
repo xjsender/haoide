@@ -4,6 +4,18 @@ Release History
 
 ---------------
 
+Release 3.5.0 (2018-01-21)
+++++++++++++++++++
+* Add aura component and attribute completion, contributed by @lushang
+* Add some missed base component
+* Add lightning component implements completion
+* Add Queueable Apex Template
+* Add SLDS classes completion
+* Add some console snippets
+* Add sObject completion when attribute support sObjects, such as type for aura:attribute
+* Update export format for ``Export Profile`` command
+* Fix some bugs, such as, aura app preview, custom label completion, etc.
+
 
 Release 3.4.7 (2017-07-29)
 ++++++++++++++++++
