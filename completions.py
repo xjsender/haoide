@@ -766,9 +766,11 @@ class PageCompletions(sublime_plugin.EventListener):
             ################################################################
             if variable_name.lower() == "label":
                 package_cache = util.get_package_info(settings)
-                if "CustomLabel" in package_cache:
-                    for member in package_cache["CustomLabel"]:
+                if package_cache:
+                    for member in package_cache.get("CustomLabel", []):
                         completion_list.append(("%s\t%s" % (member, "CustomLabel"), member))
+                else:
+                    sublime.status_message("Info: No custom label cache")
 
                     return completion_list
 
