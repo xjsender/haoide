@@ -6,10 +6,12 @@ component_interfaces = [
     "clients:hasItemContext",
     "flexipage:availableForAllPageTypes",
     "flexipage:availableForRecordHome",
+    "flexipage:availableForAllPageTypes",
     "forceCommunity:availableForAllPageTypes",
     "force:appHostable",
     "force:lightningQuickAction",
     "force:lightningQuickActionWithoutHeader",
+    "force:lightningQuickAction",
     "ltng:allowGuestAccess",
     "force:hasRecordId",
     "force:hasSObjectName",
@@ -17,8 +19,10 @@ component_interfaces = [
     "lightning:appHomeTemplate",
     "lightning:availableForChatterExtensionComposer",
     "lightning:availableForChatterExtensionRenderer",
+    "lightning:availableForFlowScreens",
     "lightning:homeTemplate",
-    "lightning:recordHomeTemplate"
+    "lightning:recordHomeTemplate",
+    "lightning:prechatUI"
 ]
 
 # Attributes which type is ApexPages.PageReference

@@ -688,7 +688,7 @@ class PageCompletions(sublime_plugin.EventListener):
                             if tag_attribute.get("supportSobjects"):
                                 for key in sorted(sobjects_describe.keys()):
                                     sobject_name = sobjects_describe[key]["name"]
-                                    completion_list.append((sobject_name + "\tsObject", sobject_name))
+                                    completion_list.append((sobject_name + "\tsObject", '"%s"' % sobject_name))
 
                         return completion_list
 
@@ -754,11 +754,10 @@ class PageCompletions(sublime_plugin.EventListener):
         #   e.g. force:appHostable, force:lightningQuickAction
         if ch in ['"', ',', ' ']:
             matched_region = view.find('(implements="[\\w\\s:\\,]+")', begin)
-            # if matched_region and pt < matched_region.b:
             if matched_region and matched_region.contains(pt):
                 completion_list = []
                 for _interface in lightning.component_interfaces:
-                    completion_list.append((_interface, _interface))
+                    completion_list.append(('%s\tInterface' % _interface, _interface))
 
         if ch == ".":
             ################################################################
