@@ -26,7 +26,7 @@ component_interfaces = [
 ]
 
 # Since 2018, Spring18, v42
-event_references = [
+standard_events = [
     "force:closeQuickAction",
     "force:createRecord",
     "force:editRecord",
@@ -51,6 +51,46 @@ event_references = [
     "wave:selectionChanged",
     "wave:update"
 ]
+
+global_functions = {
+    "$Browser": {
+        "methods": {
+            "formFactor()\tDESKTOP, PHONE, TABLET": "formFactor()$0",
+            "isAndroid()\tBoolean": "isAndroid()$0",
+            "isIOS()\tBoolean": "isIOS()$0",
+            "isIPad()\tBoolean": "isIPad()$0",
+            "isIPhone()\tBoolean": "isIPhone()$0",
+            "isPhone()\tBoolean": "isPhone()$0",
+            "isTablet()\tBoolean": "isTablet()$0",
+            "isWindowsPhone()\tBoolean": "isWindowsPhone()$0",
+        }
+    },
+
+    "$Locale": {
+        "attribs": {
+            "country\tUS,DE,GB": "country",
+            "currency\t$": "currency",
+            "currencyCode\tUSD": "currencyCode",
+            "decimal\t.": "decimal",
+            "firstDayOfWeek\t\t1": "firstDayOfWeek\t",
+            "grouping\t,": "grouping",
+            "isEasternNameStyle\tFALSE": "isEasternNameStyle",
+            "labelForToday\tToday": "labelForToday",
+            "language\ten,de,zh": "language",
+            "langLocale\ten_US,en_GB": "langLocale",
+            "nameOfMonths\t{fullName:January,shortName:Jan}": "nameOfMonths",
+            "nameOfWeekdays\t{fullName:Sunday,shortName:SUN}": "nameOfWeekdays",
+            "timezone\tAmerica/Los_Angeles": "timezone",
+            "userLocaleCountry\tUS": "userLocaleCountry",
+            "userLocaleLang\ten": "userLocaleLang",
+            "variant\tWIN,MAC,POSIX": "variant"
+        }
+    },
+
+    "$Resource": {
+    
+    }
+}
 
 # Attributes which type is ApexPages.PageReference
 page_reference_attrs = [

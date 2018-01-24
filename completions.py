@@ -443,24 +443,36 @@ class LightningCompletions(sublime_plugin.EventListener):
         if not view.match_selector(locations[0], "source.js"): 
             return []
 
+        settings = context.get_settings()
+        workspace = settings["workspace"]
+
         # Only work for lightning controller.js and helper.js
         file_name = view.file_name()
-        if not file_name.endswith('Controller.js') and\
+        if not file_name or not file_name.endswith('Controller.js') or\
                 not file_name.endswith('Helper.js'):
             return []
 
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
-        next_char = view.substr(sublime.Region(pt + 2, pt + 3))
         variable_name = view.substr(view.word(pt-1))
-        begin = view.full_line(pt).begin()
 
         completion_list = []
         if variable_name == 'e':
             # Standard events completion
-            for eve in lightning.event_references:
+            for eve in lightning.standard_events:
                 completion_list.append((
                     "e.%s\tStandard Event" % eve, eve
+                ))
+
+            # Custom events completion
+            events = util.get_metadata_elements(
+                os.path.join(workspace, "src", "aura"),
+                ".evt"
+            )
+            for eve in events:
+                completion_list.append((
+                    "e.%s\tCustom Event" % eve,
+                    "e.%s" % eve
                 ))
 
         return completion_list

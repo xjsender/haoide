@@ -3192,24 +3192,28 @@ def get_completion_list(meta_type, meta_folder):
 
     return completion_list
 
-
-def get_metadata_elements(metadata_dir):
+def get_metadata_elements(metadata_dir, suffix=None):
     """ Get the name list by specified metadataObject
     
     Arguments:
     metadata_dir -- directory of metadataObject
+    suffix -- for example, .evt, .cls
 
     Return:
     names -- elements in the specified metadataObject folder
     """
-    
+
     elements = []
     for parent, dirnames, filenames in os.walk(metadata_dir):
         for _file in filenames:
-            if _file.endswith("-meta.xml"): continue
+            if _file.endswith("-meta.xml"):
+                continue
             base, full_name = os.path.split(_file)
-            name = full_name[:full_name.rfind(".")]
-            elements.append(name)
+
+            # If suffix is not empty,
+            if suffix and full_name.endswith(suffix):
+                name = full_name[:full_name.rfind(".")]
+                elements.append(name)
 
     return elements
 
