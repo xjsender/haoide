@@ -430,6 +430,40 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         return completion_list
 
+class LightningCompletions(sublime_plugin.EventListener):
+    """ Lightning Javascript completion
+
+    1. Standard Event Completion
+    2. Customized Event Completion
+    3. ...
+    """
+
+    def on_query_completions(self, view, prefix, locations):
+        # Only trigger within HTML
+        if not view.match_selector(locations[0], "source.js"): 
+            return []
+
+        # Only work for lightning controller.js and helper.js
+        file_name = view.file_name()
+        if not file_name.endswith('Controller.js') and\
+                not file_name.endswith('Helper.js'):
+            return []
+
+        pt = locations[0] - len(prefix) - 1
+        ch = view.substr(sublime.Region(pt, pt + 1))
+        next_char = view.substr(sublime.Region(pt + 2, pt + 3))
+        variable_name = view.substr(view.word(pt-1))
+        begin = view.full_line(pt).begin()
+
+        completion_list = []
+        if variable_name == 'e':
+            # Standard events completion
+            for eve in lightning.event_references:
+                completion_list.append((
+                    "e.%s\tStandard Event" % eve, eve
+                ))
+
+        return completion_list
 
 class PageCompletions(sublime_plugin.EventListener):
     """ There are three kinds of completion, Visualforce, Html and Custom Lightning component
@@ -445,7 +479,7 @@ class PageCompletions(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
         # Only trigger within HTML
-        if not view.match_selector(locations[0], "text.html - source, source.js"): 
+        if not view.match_selector(locations[0], "text.html - source"): 
             return []
 
         # Get plugin settings

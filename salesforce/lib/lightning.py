@@ -25,6 +25,33 @@ component_interfaces = [
     "lightning:prechatUI"
 ]
 
+# Since 2018, Spring18, v42
+event_references = [
+    "force:closeQuickAction",
+    "force:createRecord",
+    "force:editRecord",
+    "force:navigateToComponent",
+    "force:navigateToList",
+    "force:navigateToObjectHome",
+    "force:navigateToRelatedList",
+    "force:navigateToSObject",
+    "force:navigateToURL",
+    "force:recordSave",
+    "force:recordSaveSuccess",
+    "force:refreshView",
+    "force:showToast",
+    "forceCommunity:analyticsInteraction",
+    "forceCommunity:routeChange",
+    "lightning:openFiles",
+    "lightning:sendChatterExtensionPayload",
+    "ltng:selectSObject",
+    "ltng:sendMessage",
+    "wave:discoverDashboard",
+    "wave:discoverResponse",
+    "wave:selectionChanged",
+    "wave:update"
+]
+
 # Attributes which type is ApexPages.PageReference
 page_reference_attrs = [
     "page",
@@ -369,7 +396,15 @@ tag_defs = {
                 "type": "text"
             },
             "type": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "ui:expand",
+                    "ui:collapse",
+                    "ui:menuFocusChange",
+                    "ui:menuSelect",
+                    "ui:menuTriggerPress",
+                    "c:${1:MyEvent}"
+                ]
             }
         },
         "simple": False,
