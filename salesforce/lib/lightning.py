@@ -26,65 +26,89 @@ component_interfaces = [
 ]
 
 # Since 2018, Spring18, v42
-standard_events = [
-    "force:closeQuickAction",
-    "force:createRecord",
-    "force:editRecord",
-    "force:navigateToComponent",
-    "force:navigateToList",
-    "force:navigateToObjectHome",
-    "force:navigateToRelatedList",
-    "force:navigateToSObject",
-    "force:navigateToURL",
-    "force:recordSave",
-    "force:recordSaveSuccess",
-    "force:refreshView",
-    "force:showToast",
-    "forceCommunity:analyticsInteraction",
-    "forceCommunity:routeChange",
-    "lightning:openFiles",
-    "lightning:sendChatterExtensionPayload",
-    "ltng:selectSObject",
-    "ltng:sendMessage",
-    "wave:discoverDashboard",
-    "wave:discoverResponse",
-    "wave:selectionChanged",
-    "wave:update"
-]
+standard_lib = {
+    'e': {
+        "type": "Standar Event",
+        "properties": [
+            "force:closeQuickAction",
+            "force:createRecord",
+            "force:editRecord",
+            "force:navigateToComponent",
+            "force:navigateToList",
+            "force:navigateToObjectHome",
+            "force:navigateToRelatedList",
+            "force:navigateToSObject",
+            "force:navigateToURL",
+            "force:recordSave",
+            "force:recordSaveSuccess",
+            "force:refreshView",
+            "force:showToast",
+            "forceCommunity:analyticsInteraction",
+            "forceCommunity:routeChange",
+            "lightning:openFiles",
+            "lightning:sendChatterExtensionPayload",
+            "ltng:selectSObject",
+            "ltng:sendMessage",
+            "wave:discoverDashboard",
+            "wave:discoverResponse",
+            "wave:selectionChanged",
+            "wave:update"
+        ]
+    },
 
-global_functions = {
+    '$A': {
+        "properties": [
+            "util"
+        ],
+        "methods": {
+            "createComponent(String type, Object attributes, function callback)": "createComponent(${1:String type}, ${2:Object attributes}, ${3:function callback})$0",
+            "createComponents(Array components, function callback)": "createComponents(${1:Array components}, ${2:function callback})$0",
+            "enqueueAction(Action action, Boolean background)": "enqueueAction(${1:Action action}, ${2:Boolean background})$0",
+            "get(String key, function callback)": "get(${1:String key}, ${2:function callback})$0",
+            "getCallback(function callback)": "getCallback(${!:function callback})$0",
+            "getComponent(Object identifier)": "getComponent(${1:Object identifier})$0",
+            "getReference(String key)": "getReference(${1:String key})$0",
+            "getRoot()": "getRoot()$0",
+            "getToken(String token)": "getToken(${1:String token})$0",
+            "log(Object value, Object error)": "log(${1:Object value}, ${2:Object error})$0",
+            "reportError(String message, Error error)": "reportError(${1:String message}, ${2:Error error})$0",
+            "set(String key, Object value)": "set(${1:String key}, ${2:Object value})$0",
+            "warning(String w, Error e)": "warning(${1:String w}, ${2:Error e})$0",
+        }
+    },
+
     "$Browser": {
         "methods": {
-            "formFactor()\tDESKTOP, PHONE, TABLET": "formFactor()$0",
-            "isAndroid()\tBoolean": "isAndroid()$0",
-            "isIOS()\tBoolean": "isIOS()$0",
-            "isIPad()\tBoolean": "isIPad()$0",
-            "isIPhone()\tBoolean": "isIPhone()$0",
-            "isPhone()\tBoolean": "isPhone()$0",
-            "isTablet()\tBoolean": "isTablet()$0",
-            "isWindowsPhone()\tBoolean": "isWindowsPhone()$0",
+            "formFactor()": "formFactor()$0",
+            "isAndroid()": "isAndroid()$0",
+            "isIOS()": "isIOS()$0",
+            "isIPad()": "isIPad()$0",
+            "isIPhone()": "isIPhone()$0",
+            "isPhone()": "isPhone()$0",
+            "isTablet()": "isTablet()$0",
+            "isWindowsPhone()": "isWindowsPhone()$0"
         }
     },
 
     "$Locale": {
-        "attribs": {
-            "country\tUS,DE,GB": "country",
-            "currency\t$": "currency",
-            "currencyCode\tUSD": "currencyCode",
-            "decimal\t.": "decimal",
-            "firstDayOfWeek\t\t1": "firstDayOfWeek\t",
-            "grouping\t,": "grouping",
-            "isEasternNameStyle\tFALSE": "isEasternNameStyle",
-            "labelForToday\tToday": "labelForToday",
-            "language\ten,de,zh": "language",
-            "langLocale\ten_US,en_GB": "langLocale",
-            "nameOfMonths\t{fullName:January,shortName:Jan}": "nameOfMonths",
-            "nameOfWeekdays\t{fullName:Sunday,shortName:SUN}": "nameOfWeekdays",
-            "timezone\tAmerica/Los_Angeles": "timezone",
-            "userLocaleCountry\tUS": "userLocaleCountry",
-            "userLocaleLang\ten": "userLocaleLang",
-            "variant\tWIN,MAC,POSIX": "variant"
-        }
+        "properties": [
+            "country",
+            "currency",
+            "currencyCode",
+            "decimal",
+            "firstDayOfWeek",
+            "grouping",
+            "isEasternNameStyle",
+            "labelForToday",
+            "language",
+            "langLocale",
+            "nameOfMonths",
+            "nameOfWeekdays",
+            "timezone",
+            "userLocaleCountry",
+            "userLocaleLang",
+            "variant"
+        ]
     },
 
     "$Resource": {

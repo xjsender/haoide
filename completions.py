@@ -448,23 +448,33 @@ class LightningCompletions(sublime_plugin.EventListener):
 
         # Only work for lightning controller.js and helper.js
         file_name = view.file_name()
-        if not file_name or not file_name.endswith('Controller.js') or\
+        if not file_name:
+            return []
+        if not file_name.endswith('Controller.js') and\
                 not file_name.endswith('Helper.js'):
             return []
 
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
         variable_name = view.substr(view.word(pt-1))
-
         completion_list = []
-        if variable_name == 'e':
-            # Standard events completion
-            for eve in lightning.standard_events:
-                completion_list.append((
-                    "e.%s\tStandard Event" % eve, eve
-                ))
+        if variable_name in lightning.standard_lib:
+            _lib = lightning.standard_lib[variable_name]
 
-            # Custom events completion
+            if "properties" in _lib:
+                for v in _lib["properties"]:
+                    completion_list.append((
+                        "%s\tProperty" % v, v
+                    ))
+
+            if "methods" in _lib:
+                for k, v in _lib["methods"].items():
+                    completion_list.append((
+                        "%s\tMethod" % k, v
+                    ))
+
+        # Custom events completion
+        if variable_name == 'e':
             events = util.get_metadata_elements(
                 os.path.join(workspace, "src", "aura"),
                 ".evt"
@@ -474,6 +484,16 @@ class LightningCompletions(sublime_plugin.EventListener):
                     "e.%s\tCustom Event" % eve,
                     "e.%s" % eve
                 ))
+
+        # Keyword completion for standard lib
+        if ch not in [".", "="]:
+            if not settings["disable_keyword_completion"]:
+                for k, v in lightning.standard_lib.items():
+                    v = k.replace('$', '\$')
+                    completion_list.append((
+                        "%s\tAura Lib" % k, v
+                    ))
+
 
         return completion_list
 
