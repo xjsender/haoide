@@ -28,7 +28,7 @@ component_interfaces = [
 # Since 2018, Spring18, v42
 standard_lib = {
     'e': {
-        "type": "Standar Event",
+        "type": "Standard Class",
         "properties": [
             "force:closeQuickAction",
             "force:createRecord",
@@ -57,28 +57,31 @@ standard_lib = {
     },
 
     "A": {
+        "type": "Standard Class",
         "prefix": "$",
-        "properties": [
+        "sub_classes": [
             "util"
         ],
         "methods": {
-            "createComponent(String type, Object attributes, function callback)": "createComponent(${1:String type}, ${2:Object attributes}, ${3:function callback})$0",
-            "createComponents(Array components, function callback)": "createComponents(${1:Array components}, ${2:function callback})$0",
-            "enqueueAction(Action action, Boolean background)": "enqueueAction(${1:Action action}, ${2:Boolean background})$0",
-            "get(String key, function callback)": "get(${1:String key}, ${2:function callback})$0",
-            "getCallback(function callback)": "getCallback(${!:function callback})$0",
-            "getComponent(Object identifier)": "getComponent(${1:Object identifier})$0",
-            "getReference(String key)": "getReference(${1:String key})$0",
-            "getRoot()": "getRoot()$0",
-            "getToken(String token)": "getToken(${1:String token})$0",
-            "log(Object value, Object error)": "log(${1:Object value}, ${2:Object error})$0",
-            "reportError(String message, Error error)": "reportError(${1:String message}, ${2:Error error})$0",
-            "set(String key, Object value)": "set(${1:String key}, ${2:Object value})$0",
-            "warning(String w, Error e)": "warning(${1:String w}, ${2:Error e})$0",
+            "createComponent(String type, Object attributes, function callback)\tvoid": "createComponent(${1:String type}, ${2:Object attributes}, ${3:function callback})$0",
+            "createComponents(Array components, function callback)\tvoid": "createComponents(${1:Array components}, ${2:function callback})$0",
+            "enqueueAction(Action action, Boolean background)\tvoid": "enqueueAction(${1:Action action}, ${2:Boolean background})$0",
+            "get(String key, function callback)\tvoid": "get(${1:String key}, ${2:function callback})$0",
+            "getCallback(function callback)\tvoid": "getCallback(${!:function callback})$0",
+            "getComponent(Object identifier)\tvoid": "getComponent(${1:Object identifier})$0",
+            "getReference(String key)\tvoid": "getReference(${1:String key})$0",
+            "getRoot()\tvoid": "getRoot()$0",
+            "getToken(String token)\tvoid": "getToken(${1:String token})$0",
+            "log(Object value, Object error)\tvoid": "log(${1:Object value}, ${2:Object error})$0",
+            "reportError(String message, Error error)\tvoid": "reportError(${1:String message}, ${2:Error error})$0",
+            "set(String key, Object value)\tvoid": "set(${1:String key}, ${2:Object value})$0",
+            "warning(String w, Error e)\tvoid": "warning(${1:String w}, ${2:Error e})$0",
         }
     },
 
     "util": {
+        "sub_class": True,
+        "type": "Standard Class",
         "methods": {
             "addClass(Object element, String newClass)\tvoid": "addClass(${1:Object element}, ${2:String newClass})$0",
             "getBooleanValue(Object val)\tBoolean": "getBooleanValue(${1:Object val})$0",
@@ -93,7 +96,37 @@ standard_lib = {
         }
     },
 
+    "action": {
+        "type": "Customized Lib",
+        "methods": {
+            "getError()\tObject[]": "getError()$0",
+            "getName()\tString": "getName()$0",
+            "getParam(String name)\tObject": "getParam(${1:String name})$0",
+            "getParams()\tObject": "getParams()$0",
+            "getReturnValue()\tvoid": "getReturnValue()$0",
+            "getState()\tString": "getState()$0",
+            "isBackground()\tvoid": "isBackground()$0",
+            "setAbortable()\tvoid": "setAbortable()$0",
+            "setBackground()\tvoid": "setBackground()$0",
+            "setCallback(Object scope, function callback, String name)\tvoid": "setCallback(${1:Object scope}, ${2:function callback}, ${3:String name})$0",
+            "setParam(String key, Object value)\tvoid": "setParam(${1:String key}, ${2:Object value})$0",
+            "setParams(Object config)\tvoid": "setParams(${1:Object config})$0",
+            "setStorable(Object config)\tvoid": "setStorable(${1:Object config})$0"
+        }
+    },
+
+    "response": {
+        "type": "Customized Lib",
+        "methods": {
+            "getState()\tString": "getState()",
+            "getReturnValue()\tObject": "getReturnValue()",
+            "getErrors()\tArray": "getErrors()"
+        }
+    },
+
+
     "component": {
+        "type": "Customized Lib",
         "methods": {
             "addEventHandler(String event, function handler, String phase, Boolean includeFacets)\tvoid": "addEventHandler(${1:String event}, ${2:function handler}, ${3:String phase}, ${4:Boolean includeFacetse})$0",
             "addValueHandler(Object config)\tvoid": "addValueHandler(${1:Object config})$0",
@@ -123,6 +156,7 @@ standard_lib = {
     },
 
     "cmp": {
+        "type": "Customized Lib",
         "methods": {
             "addEventHandler(String event, function handler, String phase, Boolean includeFacets)\tvoid": "addEventHandler(${1:String event}, ${2:function handler}, ${3:String phase}, ${4:Boolean includeFacetse})$0",
             "addValueHandler(Object config)\tvoid": "addValueHandler(${1:Object config})$0",
@@ -152,6 +186,7 @@ standard_lib = {
     },
 
     "Browser": {
+        "type": "Standard Class",
         "prefix": "$",
         "methods": {
             "formFactor()\tBoolean": "formFactor()$0",
@@ -166,6 +201,7 @@ standard_lib = {
     },
 
     "console": {
+        "type": "Standard Class",
         "methods": {
             "log()\tvoid": "log($1)$0",
             "error()\tvoid": "log($1)$0",
@@ -175,6 +211,7 @@ standard_lib = {
     },
 
     "Locale": {
+        "type": "Standard Class",
         "prefix": "$",
         "properties": [
             "country",
@@ -197,6 +234,7 @@ standard_lib = {
     },
 
     "Resource": {
+        "type": "Standard Class",
         "prefix": "$"
     }
 }

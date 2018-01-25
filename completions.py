@@ -457,9 +457,18 @@ class LightningCompletions(sublime_plugin.EventListener):
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
         variable_name = view.substr(view.word(pt-1))
+        if variable_name.startswith("$"):
+            variable_name = variable_name[1:]
+            
         completion_list = []
         if variable_name in lightning.standard_lib:
             _lib = lightning.standard_lib[variable_name]
+
+            if "sub_classes" in _lib:
+                for v in _lib["sub_classes"]:
+                    completion_list.append((
+                        "%s\tSub Class" % v, v
+                    ))
 
             if "properties" in _lib:
                 for v in _lib["properties"]:
@@ -489,9 +498,11 @@ class LightningCompletions(sublime_plugin.EventListener):
         if ch not in [".", "="]:
             if not settings["disable_keyword_completion"]:
                 for k, v in lightning.standard_lib.items():
+                    if v.get("sub_class"):
+                        continue
                     prefix = v.get('prefix', '')
                     completion_list.append((
-                        "%s%s\tAura Lib" % (prefix, k), 
+                        "%s%s\t%s" % (prefix, k, v.get("type")), 
                         "%s%s%s" % (
                             '\\' if prefix == "$" else "",
                             prefix, k
