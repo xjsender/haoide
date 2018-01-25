@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[
-console.log('Log: ' + JSON.stringify($1));$0
-]]></content>
-    <tabTrigger>log json</tabTrigger>
-    <scope>source.js, source.jsx, source.ts</scope>
-    <description>console.log('Log: ' + JSON.stringify(sth)</description>
-</snippet>
