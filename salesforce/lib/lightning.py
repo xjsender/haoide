@@ -56,7 +56,8 @@ standard_lib = {
         ]
     },
 
-    '$A': {
+    "A": {
+        "prefix": "$",
         "properties": [
             "util"
         ],
@@ -77,20 +78,104 @@ standard_lib = {
         }
     },
 
-    "$Browser": {
+    "util": {
         "methods": {
-            "formFactor()": "formFactor()$0",
-            "isAndroid()": "isAndroid()$0",
-            "isIOS()": "isIOS()$0",
-            "isIPad()": "isIPad()$0",
-            "isIPhone()": "isIPhone()$0",
-            "isPhone()": "isPhone()$0",
-            "isTablet()": "isTablet()$0",
-            "isWindowsPhone()": "isWindowsPhone()$0"
+            "addClass(Object element, String newClass)\tvoid": "addClass(${1:Object element}, ${2:String newClass})$0",
+            "getBooleanValue(Object val)\tBoolean": "getBooleanValue(${1:Object val})$0",
+            "hasClass(Object element, String className)\tBoolean": "hasClass(${1:Object element}, ${2:String className})$0",
+            "isArray(Object obj)\tBoolean": "isArray(${1:Object obj})$0",
+            "isEmpty(Object obj)\tBoolean": "isEmpty(${1:Object obj})$0",
+            "isObject(Object obj)\tBoolean": "isObject(${1:Object obj})$0",
+            "isUndefined(Object obj)\tBoolean": "isUndefined(${1:Object obj})$0",
+            "isUndefinedOrNull(Object obj)\tBoolean": "isUndefinedOrNull(${1:Object obj})$0",
+            "removeClass(Object element, String newClass)\tvoid": "removeClass(${1:Object element}, ${2:String newClass})$0",
+            "toggleClass(Object element, String className)\tvoid": "toggleClass(${1:Object element}, ${2:String className})$0"
         }
     },
 
-    "$Locale": {
+    "component": {
+        "methods": {
+            "addEventHandler(String event, function handler, String phase, Boolean includeFacets)\tvoid": "addEventHandler(${1:String event}, ${2:function handler}, ${3:String phase}, ${4:Boolean includeFacetse})$0",
+            "addValueHandler(Object config)\tvoid": "addValueHandler(${1:Object config})$0",
+            "addValueProvider(String key, Object valueProvider)\tvoid": "addValueProvider(${1:String key}, ${2:Object valueProvider})$0",
+            "autoDestroy(Boolean destroy)\tvoid": "autoDestroy(Boolean destroy)$0",
+            "clearReference(String key)\tvoid": "clearReference(${1:String key})$0",
+            "destroy()\tvoid": "destroy()$0",
+            "find(String | Object name)\tvoid": "find(${1:String | Object} ${2:name})$0",
+            "get(String key)\tvoid": "get(${1:String key})$0",
+            "getConcreteComponent()\tvoid": "getConcreteComponent()$0",
+            "getElement()\tvoid": "getElement()$0",
+            "getElements()\tvoid": "getElements()$0",
+            "getEvent(String name)\tvoid": "getEvent(${1:String name})$0",
+            "getGlobalId()\tvoid": "getGlobalId()$0",
+            "getLocalId()\tvoid": "getLocalId()$0",
+            "getName()\tvoid": "getName()$0",
+            "getReference(String key)\tPropertyReferenceValue": "getReference(${1:String key})$0",
+            "getSuper()\tvoid": "getSuper()$0",
+            "getType()\tvoid": "getType()$0",
+            "getVersion()\tvoid": "getVersion()$0",
+            "isConcrete()\tvoid": "isConcrete()$0",
+            "isInstanceOf(String name)\tBoolean": "isInstanceOf(${1:String name})$0",
+            "isValid()\tvoid": "isValid()$0",
+            "removeEventHandler(String event, function handler, String phase)\tvoid": "removeEventHandler(${1:String event}, ${2:function handler}, ${3:String phase})$0",
+            "set(String key, Object value)\tvoid": "set(${1:String key}, ${2:Object value})$0"
+        }
+    },
+
+    "cmp": {
+        "methods": {
+            "addEventHandler(String event, function handler, String phase, Boolean includeFacets)\tvoid": "addEventHandler(${1:String event}, ${2:function handler}, ${3:String phase}, ${4:Boolean includeFacetse})$0",
+            "addValueHandler(Object config)\tvoid": "addValueHandler(${1:Object config})$0",
+            "addValueProvider(String key, Object valueProvider)\tvoid": "addValueProvider(${1:String key}, ${2:Object valueProvider})$0",
+            "autoDestroy(Boolean destroy)\tvoid": "autoDestroy(Boolean destroy)$0",
+            "clearReference(String key)\tvoid": "clearReference(${1:String key})$0",
+            "destroy()\tvoid": "destroy()$0",
+            "find(String | Object name)\tvoid": "find(${1:String | Object} ${2:name})$0",
+            "get(String key)\tvoid": "get(${1:String key})$0",
+            "getConcreteComponent()\tvoid": "getConcreteComponent()$0",
+            "getElement()\tvoid": "getElement()$0",
+            "getElements()\tvoid": "getElements()$0",
+            "getEvent(String name)\tvoid": "getEvent(${1:String name})$0",
+            "getGlobalId()\tvoid": "getGlobalId()$0",
+            "getLocalId()\tvoid": "getLocalId()$0",
+            "getName()\tvoid": "getName()$0",
+            "getReference(String key)\tPropertyReferenceValue": "getReference(${1:String key})$0",
+            "getSuper()\tvoid": "getSuper()$0",
+            "getType()\tvoid": "getType()$0",
+            "getVersion()\tvoid": "getVersion()$0",
+            "isConcrete()\tvoid": "isConcrete()$0",
+            "isInstanceOf(String name)\tBoolean": "isInstanceOf(${1:String name})$0",
+            "isValid()\tvoid": "isValid()$0",
+            "removeEventHandler(String event, function handler, String phase)\tvoid": "removeEventHandler(${1:String event}, ${2:function handler}, ${3:String phase})$0",
+            "set(String key, Object value)\tvoid": "set(${1:String key}, ${2:Object value})$0"
+        }
+    },
+
+    "Browser": {
+        "prefix": "$",
+        "methods": {
+            "formFactor()\tBoolean": "formFactor()$0",
+            "isAndroid()\tBoolean": "isAndroid()$0",
+            "isIOS()\tBoolean": "isIOS()$0",
+            "isIPad()\tBoolean": "isIPad()$0",
+            "isIPhone()\tBoolean": "isIPhone()$0",
+            "isPhone()\tBoolean": "isPhone()$0",
+            "isTablet()\tBoolean": "isTablet()$0",
+            "isWindowsPhone()\tBoolean": "isWindowsPhone()$0"
+        }
+    },
+
+    "console": {
+        "methods": {
+            "log()\tvoid": "log($1)$0",
+            "error()\tvoid": "log($1)$0",
+            "info()\tvoid": "log($1)$0",
+            "warn()\tvoid": "log($1)$0"
+        }
+    },
+
+    "Locale": {
+        "prefix": "$",
         "properties": [
             "country",
             "currency",
@@ -111,8 +196,8 @@ standard_lib = {
         ]
     },
 
-    "$Resource": {
-    
+    "Resource": {
+        "prefix": "$"
     }
 }
 
@@ -186,7 +271,7 @@ tag_defs = {
                 "values": [
                     "public",
                     "global",
-                    "PRIVATE"
+                    "private"
                 ]
             },
             "default": {
@@ -213,10 +298,13 @@ tag_defs = {
                     "Integer",
                     "Long",
                     "String",
+                    "Function",
                     "Object",
+                    "String[]",
+                    "Map",
                     "List",
                     "Set",
-                    "Map"
+                    "Aura.Action"
                 ]
             }
         },
@@ -334,6 +422,7 @@ tag_defs = {
                     "aura:valueChange",
                     "aura:valueDestroy",
                     "aura:valueInit",
+                    "aura:valueRender",
                     "aura:waiting"
                 ]
             },

@@ -470,7 +470,7 @@ class LightningCompletions(sublime_plugin.EventListener):
             if "methods" in _lib:
                 for k, v in _lib["methods"].items():
                     completion_list.append((
-                        "%s\tMethod" % k, v
+                        "%s" % k, v
                     ))
 
         # Custom events completion
@@ -489,9 +489,13 @@ class LightningCompletions(sublime_plugin.EventListener):
         if ch not in [".", "="]:
             if not settings["disable_keyword_completion"]:
                 for k, v in lightning.standard_lib.items():
-                    v = k.replace('$', '\$')
+                    prefix = v.get('prefix', '')
                     completion_list.append((
-                        "%s\tAura Lib" % k, v
+                        "%s%s\tAura Lib" % (prefix, k), 
+                        "%s%s%s" % (
+                            '\\' if prefix == "$" else "",
+                            prefix, k
+                        ),
                     ))
 
 
