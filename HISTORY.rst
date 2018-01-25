@@ -4,6 +4,11 @@ Release History
 
 ---------------
 
+Release 3.5.1 (2018-01-25)
+++++++++++++++++++
+* Basic completion support for component controller or helper
+
+
 Release 3.5.0 (2018-01-21)
 ++++++++++++++++++
 * Add aura component and attribute completion, contributed by @lushang
