@@ -211,6 +211,23 @@ def get_package_info(settings):
 
     return package
 
+def get_completion_from_cache(settings, component_type):
+    """ Get component completion list from .config/package.json
+
+    * settings -- plugin settings
+    * component_type -- metadata objec type, StaticResource, CustomLabel, etc.
+    """
+
+    package_cache = get_package_info(settings)
+
+    completion_list = []
+    if package_cache:
+        for member in package_cache.get(component_type, []):
+            completion_list.append(("%s\t%s" % (member, component_type), member))
+    else:
+        sublime.status_message("Info: Not found " + component_type)
+
+    return completion_list
 
 def view_coverage(name, file_name, body):
     settings = context.get_settings()
@@ -563,6 +580,7 @@ def get_sobject_completion_list(
 
 def get_component_completion(username, component_type, tag_has_ending=False):
     """ Return the formatted completion list of custom Apex/Lightning component
+        from local src path
 
     Return:
     * completion_list -- all Apex/Lightning component completion list

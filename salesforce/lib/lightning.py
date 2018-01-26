@@ -233,7 +233,14 @@ standard_lib = {
         ]
     },
 
+    "Label": {
+        "metaObject": "CustomLabel",
+        "type": "Standard Class",
+        "prefix": "$"
+    },
+
     "Resource": {
+        "metaObject": "StaticResource",
         "type": "Standard Class",
         "prefix": "$"
     }

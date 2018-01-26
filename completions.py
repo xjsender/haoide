@@ -494,6 +494,12 @@ class LightningCompletions(sublime_plugin.EventListener):
                     "e.%s" % eve
                 ))
 
+        # Component completion, support CustomLabel, StaticResource now
+        if variable_name in lightning.standard_lib:
+            metaObject = lightning.standard_lib[variable_name].get("metaObject")
+            if metaObject:
+                return util.get_completion_from_cache(settings, metaObject)
+
         # Keyword completion for standard lib
         if ch not in [".", "="]:
             if not settings["disable_keyword_completion"]:
@@ -502,7 +508,7 @@ class LightningCompletions(sublime_plugin.EventListener):
                         continue
                     prefix = v.get('prefix', '')
                     completion_list.append((
-                        "%s%s\t%s" % (prefix, k, v.get("type")), 
+                        "%s%s\t%s" % (prefix, k, v.get("type", "")), 
                         "%s%s%s" % (
                             '\\' if prefix == "$" else "",
                             prefix, k
@@ -845,14 +851,7 @@ class PageCompletions(sublime_plugin.EventListener):
             #  Custom label completion, which is fetched form <project cache>
             ################################################################
             if variable_name.lower() == "label":
-                package_cache = util.get_package_info(settings)
-                if package_cache:
-                    for member in package_cache.get("CustomLabel", []):
-                        completion_list.append(("%s\t%s" % (member, "CustomLabel"), member))
-                else:
-                    sublime.status_message("Info: No custom label cache exist")
-
-                    return completion_list
+                return util.get_completion_from_cache(settings, "CustomLabel")
 
             ################################################################
             # Extension or Controller creation after # with specified pattern
