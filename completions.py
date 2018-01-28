@@ -454,51 +454,76 @@ class LightningCompletions(sublime_plugin.EventListener):
                 not file_name.endswith('Helper.js'):
             return []
 
+        # Get component name by cut off suffix
+        component_name = ""
+        for suffix in ["Controller.js", "Helper.js"]:
+            if file_name.endswith(suffix):
+                base, fullName = os.path.split(file_name)
+                component_name = fullName[:-len(suffix)]
+                break
+
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
-        variable_name = view.substr(view.word(pt-1))
-        if variable_name.startswith("$"):
-            variable_name = variable_name[1:]
+        var_name = view.substr(view.word(pt-1))
+        if var_name.startswith("$"):
+            var_name = var_name[1:]
             
         completion_list = []
-        if variable_name in lightning.standard_lib:
-            _lib = lightning.standard_lib[variable_name]
+        if ch == ".":
+            if var_name in lightning.standard_lib:
+                _lib = lightning.standard_lib[var_name]
 
-            if "sub_classes" in _lib:
-                for v in _lib["sub_classes"]:
+                if "sub_classes" in _lib:
+                    for v in _lib["sub_classes"]:
+                        completion_list.append((
+                            "%s\tSub Class" % v, v
+                        ))
+
+                if "properties" in _lib:
+                    for v in _lib["properties"]:
+                        completion_list.append((
+                            "%s\tProperty" % v, v
+                        ))
+
+                if "methods" in _lib:
+                    for k, v in _lib["methods"].items():
+                        completion_list.append((
+                            "%s" % k, v
+                        ))
+
+                # Component completion, support CustomLabel, StaticResource now
+                metaObject = lightning.standard_lib[var_name].get("metaObject")
+                if metaObject:
+                    completion_list = util.get_completion_from_cache(
+                        settings, metaObject
+                    )
+
+            # Custom events completion
+            if var_name == 'e':
+                events = util.get_metadata_elements(
+                    os.path.join(workspace, "src", "aura"),
+                    ".evt"
+                )
+                for eve in events:
                     completion_list.append((
-                        "%s\tSub Class" % v, v
+                        "e.%s\tCustom Event" % eve,
+                        "e.%s" % eve
                     ))
 
-            if "properties" in _lib:
-                for v in _lib["properties"]:
-                    completion_list.append((
-                        "%s\tProperty" % v, v
-                    ))
+            # Component attribute completion
+            if var_name == 'v':
+                attributes = util.get_component_attributes(
+                    settings, component_name, is_lightning=True
+                )
 
-            if "methods" in _lib:
-                for k, v in _lib["methods"].items():
-                    completion_list.append((
-                        "%s" % k, v
-                    ))
-
-        # Custom events completion
-        if variable_name == 'e':
-            events = util.get_metadata_elements(
-                os.path.join(workspace, "src", "aura"),
-                ".evt"
-            )
-            for eve in events:
-                completion_list.append((
-                    "e.%s\tCustom Event" % eve,
-                    "e.%s" % eve
-                ))
-
-        # Component completion, support CustomLabel, StaticResource now
-        if variable_name in lightning.standard_lib:
-            metaObject = lightning.standard_lib[variable_name].get("metaObject")
-            if metaObject:
-                return util.get_completion_from_cache(settings, metaObject)
+                for attribute in attributes:
+                    display = "%s\t%s(%s)" % (
+                        attribute["name"], 
+                        attribute["description"],
+                        attribute["type"].capitalize()
+                    )
+                    value = attribute["name"]
+                    completion_list.append((display, value))
 
         # Keyword completion for standard lib
         if ch not in [".", "="]:
@@ -680,7 +705,7 @@ class PageCompletions(sublime_plugin.EventListener):
                 if matched_region:
                     matched_tag = view.substr(matched_region)[1:]
                     tag_name = matched_tag.split(":")[1].strip()
-                    completion_list.extend(util.get_component_attributes(settings, tag_name, is_lightning))
+                    completion_list.extend(util.get_attribute_completion(settings, tag_name, is_lightning))
 
             ##########################################
             # HTML Element Attribute Completions

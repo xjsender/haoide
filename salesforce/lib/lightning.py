@@ -204,9 +204,9 @@ standard_lib = {
         "type": "Standard Class",
         "methods": {
             "log()\tvoid": "log($1)$0",
-            "error()\tvoid": "log($1)$0",
-            "info()\tvoid": "log($1)$0",
-            "warn()\tvoid": "log($1)$0"
+            "error()\tvoid": "error($1)$0",
+            "info()\tvoid": "info($1)$0",
+            "warn()\tvoid": "warn($1)$0"
         }
     },
 
@@ -243,6 +243,10 @@ standard_lib = {
         "metaObject": "StaticResource",
         "type": "Standard Class",
         "prefix": "$"
+    },
+
+    "v": {
+        "type": "Component View"
     }
 }
 

@@ -618,17 +618,21 @@ def get_component_attributes(settings, component_name, is_lightning=False):
     else:
         component_dir = os.path.join(settings["workspace"], "src",
                                      "components", component_name+".component")
-    completion_list = []
+    attributes = []
     if os.path.isfile(component_dir):
         name, _type, description = "", "", ""
-        with open(component_dir) as fp:
+        with open(component_dir, "rb") as fp:
             try:
                 content = fp.read()
             except UnicodeDecodeError as ex:
-                return completion_list
+                sublime.status_message(str(ex))
+                return attributes
 
-            pattern = "<aura:attribute[\\S\\s]*?>" if is_lightning else "<apex:attribute[\\S\\s]*?>"
-            for match in re.findall(pattern, content, re.IGNORECASE):
+            pattern = "<%s:attribute[\\S\\s]*?>" % (
+                "aura" if is_lightning else "apex"
+            )
+
+            for match in re.findall(pattern, content.decode("utf-8"), re.IGNORECASE):
                 pattern = '\\w+\\s*=\\s*"[\\s\\S]*?"'
                 for m in re.findall(pattern, match, re.IGNORECASE):
                     attr, value = m.split('=')
@@ -642,12 +646,26 @@ def get_component_attributes(settings, component_name, is_lightning=False):
                         description = value
 
                 if name and _type:
-                    display = "%s\t%s(%s)" % (name, description, _type.capitalize())
-                    value = '%s="$1"$0' % name
-                    completion_list.append((display, value))
+                    attributes.append({
+                        "name": name,
+                        "type": _type,
+                        "description": description
+                    })
+
+    return attributes
+
+def get_attribute_completion(settings, component_name, is_lightning=False):
+    completion_list = []
+    for attribute in get_component_attributes(settings, component_name, is_lightning):
+        display = "%s\t%s(%s)" % (
+            attribute["name"], 
+            attribute["description"], 
+            attribute["type"].capitalize()
+        )
+        value = '%s="$1"$0' % attribute["name"]
+        completion_list.append((display, value))
 
     return completion_list
-
 
 def convert_15_to_18(the15Id):
     """ Convert Salesforce 15 Id to 18 Id
@@ -1963,8 +1981,11 @@ def parse_namespace(publicDeclarations):
     """
     from . import util
     import json
-    namespace_json = util.parse_namespace(publicDeclarations["publicDeclarations"])
-    json.dump(namespace_json, open("c:/namespace.json",'w'))
+    apexjson_path = "C:/Users/Jiao/Desktop/apex.json"
+    apex = json.loads(open(apexjson_path).read())
+
+    namespace_json = util.parse_namespace(apex["publicDeclarations"])
+    json.dump(namespace_json, open("C:/Users/Jiao/Desktop/namespace.json",'w'))
     """
 
     namespaces_dict = {}
@@ -2012,16 +2033,20 @@ def parse_all(apex):
     Usage:
         from . import util
         import json
-        apex_json = util.parse_all(apex)
+        apexjson_path = "C:/Users/Jiao/Desktop/apex.json"
+        apex = json.loads(open(apexjson_path).read())
+        apex_json = util.parse_all(apex["publicDeclarations"])
+        print (apex_json)
 
 
         from .salesforce.lib import apex
-        return_apex = {}
         for lib in apex.apex_completions:
+            if isinstance(apex.apex_completions[lib], list):
+              print (lib)
             if "customize" in apex.apex_completions[lib]:
                 apex_json[lib] = apex.apex_completions[lib]
 
-        json.dump(apex_json, open("/Users/mouse/apex.json",'w'))
+        json.dump(apex_json, open("C:/Users/Jiao/Desktop/apex2.json",'w'))
     """
 
     apex_completions = {}
@@ -2029,9 +2054,9 @@ def parse_all(apex):
         for class_name in apex[namespace]:
             class_detail = apex[namespace][class_name]
 
-            constructors_dict = parse_method(class_detail["constructors"], False)
-            methods_dict = parse_method(class_detail["methods"])
-            properties_dict = parse_properties(class_detail["properties"])
+            constructors_dict = parse_method(class_detail.get("constructors"), False)
+            methods_dict = parse_method(class_detail.get("methods"))
+            properties_dict = parse_properties(class_detail.get("properties"))
 
             # all_dict = dict(list(methods_dict.items()) + list(properties_dict.items()))
 
