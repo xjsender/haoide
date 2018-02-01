@@ -3,10 +3,12 @@ import os
 import json
 import time
 import datetime
+import sublime
 from xml.sax.saxutils import escape
 
 from .. import requests
 from .. import util
+from ..libs import auth
 
 # https://github.com/xjsender/simple-salesforce/blob/master/simple_salesforce/login.py
 def soap_login(settings, session_id_expired=False, timeout=10):
@@ -72,7 +74,6 @@ def soap_login(settings, session_id_expired=False, timeout=10):
         del globals()["repeat_times"]
 
     result = {}
-    print (response.text)
     if response.status_code != 200:
         except_msg = util.getUniqueElementValueFromXmlString(response.content, 'sf:exceptionMessage')
         result["Error Message"] = except_msg
@@ -87,8 +88,6 @@ def soap_login(settings, session_id_expired=False, timeout=10):
     result = {
         "project name": settings["default_project"]["project_name"],
         "session_id": session_id,
-        "X-SFDC-Session": session_id,
-        "server_url": server_url,
         "metadata_url": instance_url + "/services/Soap/m/%s.0" % settings["api_version"],
         "rest_url": instance_url + "/services/data/v%s.0" % settings["api_version"],
         "apex_url": instance_url + "/services/Soap/s/%s.0" % settings["api_version"],
@@ -109,3 +108,52 @@ def soap_login(settings, session_id_expired=False, timeout=10):
     util.add_config_history('session', result, settings)
 
     return result
+
+from ..libs import server
+sfdc_oauth_server = None
+
+def start_server():
+    global sfdc_oauth_server
+    if sfdc_oauth_server is None:
+        sfdc_oauth_server = server.Server()
+
+def stop_server():
+    global sfdc_oauth_server
+    if sfdc_oauth_server is not None:
+        sfdc_oauth_server.stop()
+        sfdc_oauth_server = None
+
+# Only support grant_type is authorization_code
+def rest_login(settings, session_id_expired=False, timeout=10):
+    if not session_id_expired:
+        session = util.get_session_info(settings)
+        try:
+            # Force login again every two hours
+            time_stamp = session.get("time_stamp")
+            dt = datetime.datetime.strptime(time_stamp, "%Y-%m-%d %H:%M:%S")
+            intervalDT = datetime.timedelta(minutes=settings["force_login_interval"])
+            if (dt + intervalDT) >= datetime.datetime.now():
+                return session
+        except:
+            pass
+
+    app = sublime.load_settings("app.sublime-settings")
+    oauth = auth.SalesforceOAuth2(
+        app.get("client_id"),
+        app.get("client_secret"),
+        app.get("redirect_uri"),
+        settings["login_url"],
+    )
+    authorize_url = oauth.authorize_url()
+    start_server()
+    util.open_with_browser(authorize_url)
+
+    # Return Message if not login, session expired or session invalid
+    error_message = "waiting for oAuth2 login finished"
+    if session_id_expired:
+        error_message = "Session invalid or expired, " + error_message
+
+    return {
+        "success": False,
+        "error_message": error_message
+    }

@@ -30,7 +30,7 @@
             "login_url" : "https://login.salesforce.com",
 
             // Login username and password
-            "password" : "sublime111111",
+            "password" : "******",
             "username" : "apex.sublime@dev.com",
 
             /**

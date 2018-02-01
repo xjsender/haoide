@@ -15,8 +15,7 @@ import math
 from xml.sax.saxutils import unescape
 from . import requests, context, util
 from .context import COMPONENT_METADATA_SETTINGS
-from .salesforce import soap, message, login
-from .salesforce.login import soap_login
+from .salesforce import soap, message
 from .salesforce.api.bulk import BulkJob
 from .salesforce.api.bulk import BulkApi
 from .salesforce.api.metadata import MetadataApi

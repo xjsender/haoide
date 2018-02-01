@@ -10,7 +10,7 @@ import urllib.parse
 from xml.sax.saxutils import unescape
 
 from ... import requests, util, context
-from ..login import soap_login
+from ..login import soap_login, rest_login
 from ..lib.panel import Printer
 
 class ToolingApi():
@@ -34,7 +34,10 @@ class ToolingApi():
         * result -- Keep the session info, if `output_session_info` in plugin setting is True, 
             session info will be outputted to console
         """
-        result = soap_login(self.settings, session_id_expired)
+        if self.settings["login_type"] == "REST":
+            result = rest_login(self.settings, session_id_expired)
+        else:
+            result = soap_login(self.settings, session_id_expired)
         if not result["success"]:
             self.result = result
             return self.result

@@ -42,6 +42,8 @@ After you have installed this plugin successfully, you can follow <a href="/docs
   > - [xmltodict](https://github.com/martinblech/xmltodict)
   > - [dateutil](http://labix.org/python-dateutil/)
   > - [xmlformatter](https://pypi.python.org/pypi/xmlformatter/)
+  > - [Salesforce oAuth2](https://github.com/neworganizing/salesforce-oauth2)
+  > - [SalesforceXyTools](https://github.com/exiahuang/SalesforceXyTools)
 
 # Q&A
 + ``Refresh Package`` vs ``Update Project``

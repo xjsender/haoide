@@ -56,8 +56,9 @@ def get_settings():
     settings["workspace"] = workspace + "/" + project_name
     settings["file_exclude_patterns"] = s.get("file_exclude_patterns", [])
     settings["folder_exclude_patterns"] = s.get("folder_exclude_patterns", [])
+    settings["login_type"] = default_project.get("login_type", "SOAP")
     settings["username"] = default_project.get("username")
-    settings["password"] = default_project["password"]
+    settings["password"] = default_project.get("password", "")
     if "security_token" in default_project:
         settings["security_token"] = default_project["security_token"]
     else:

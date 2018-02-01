@@ -2210,6 +2210,9 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
         settings = context.get_settings()
         described_metadata = util.get_described_metadata(settings)
         if not described_metadata:
+            session = util.get_session_info(settings)
+            if not session:
+                return processor.handle_login_thread()
             return self.window.run_command("describe_metadata", {
                 "callback_options": self.callback_options
             })
