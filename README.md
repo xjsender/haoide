@@ -14,6 +14,24 @@ Or, You can follow the step-by-step [instruction](https://meighanrockssf.wordpre
 # Project Configuration
 After you have installed this plugin successfully, you can follow <a href="/docs/project.md" target="_blank">Project Configuration</a> to configure your own project.
 
+If you don't want to keep your user credential information in the plugin , you just need to do it as below format, plugin will lanuch the browser to start OAuth2 Login process,
+```javascript
+"projects": {
+  "pro-sublime": {
+      "default": true,
+      "login_url": "https://login.salesforce.com",
+      "login_type": "REST",
+      "subscribed_metadata_objects": [
+          "ApexClass",
+          "ApexComponent",
+          "ApexTrigger",
+          "AuraDefinitionBundle"
+      ],
+      "username": "apex.sublime@dev.com"
+    },
+}
+```
+
 # Change Logs
 + <a href="https://github.com/xjsender/haoide/blob/master/HISTORY.rst" target="_blank">Change Logs</a>
 

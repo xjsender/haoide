@@ -125,8 +125,8 @@ def stop_server():
 
 # Only support grant_type is authorization_code
 def rest_login(settings, session_id_expired=False, timeout=10):
+    session = util.get_session_info(settings)
     if not session_id_expired:
-        session = util.get_session_info(settings)
         try:
             # Force login again every two hours
             time_stamp = session.get("time_stamp")
@@ -137,6 +137,7 @@ def rest_login(settings, session_id_expired=False, timeout=10):
         except:
             pass
 
+    # Get haoide default oAuth2 info
     app = sublime.load_settings("app.sublime-settings")
     oauth = auth.SalesforceOAuth2(
         app.get("client_id"),
@@ -144,8 +145,45 @@ def rest_login(settings, session_id_expired=False, timeout=10):
         app.get("redirect_uri"),
         login_url=settings["login_url"]
     )
+
+    # If refresh token is exist, just refresh token
+    refresh_token = session.get("refresh_token")
+    print (refresh_token)
+    if refresh_token is not None:
+        result = oauth.refresh_token(refresh_token)
+
+        # If succeed, 
+        if result.get("access_token"):
+            instance_url = result["instance_url"]
+            result["project name"] = settings["default_project"]["project_name"]
+            result["session_id"] = result["access_token"]
+            result["metadata_url"] = instance_url + "/services/Soap/m/%s.0" % settings["api_version"]
+            result["rest_url"] = instance_url + "/services/data/v%s.0" % settings["api_version"]
+            result["apex_url"] = instance_url + "/services/Soap/s/%s.0" % settings["api_version"]
+            result["partner_url"] = instance_url + "/services/Soap/u/%s.0" % settings["api_version"]
+            result["instance_url"] = instance_url
+            result["time_stamp"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+            result["user_id"] = result["id"][-18:]
+            result["headers"] = {
+                "Authorization": "OAuth " + result["access_token"],
+                "Content-Type": "application/json; charset=UTF-8",
+                "Accept": "application/json"
+            }
+            result["success"] = True
+            result["refresh_token"] = refresh_token
+            util.add_config_history('session', result, settings)
+            return result
+        else:
+            if settings["debug_mode"]:
+                print (result)
+            
+            # Remove refresh token and start oAuth2 login again
+            result.pop('refresh_token', None)
+            util.add_config_history('session', result, settings)
+            return rest_login(settings, session_id_expired)
+
+    # Start oAuth2 login process
     authorize_url = oauth.authorize_url(settings["username"])
-    print (authorize_url)
     start_server()
     util.open_with_browser(authorize_url)
 

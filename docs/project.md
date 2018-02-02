@@ -91,7 +91,6 @@ After your project configuration is finished, you can click ```HaoIDE``` > ```Ne
             "password": "b",
             "username": "b@b.com"
         }
-        ......
     }
 }
 ```
