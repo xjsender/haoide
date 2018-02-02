@@ -24,10 +24,6 @@ class OpenAuraDocumentReference(sublime_plugin.WindowCommand):
         if not metadata: 
             return False
         
-        self.namespace = metadata["organizationNamespace"]
-        if not self.namespace:
-            return False
-
         return True
 
 class DeployLightingToServer(sublime_plugin.WindowCommand):
