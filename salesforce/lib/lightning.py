@@ -66,6 +66,7 @@ standard_lib = {
             "createComponent(String type, Object attributes, function callback)\tvoid": "createComponent(${1:String type}, ${2:Object attributes}, ${3:function callback})$0",
             "createComponents(Array components, function callback)\tvoid": "createComponents(${1:Array components}, ${2:function callback})$0",
             "enqueueAction(Action action, Boolean background)\tvoid": "enqueueAction(${1:Action action}, ${2:Boolean background})$0",
+            "enqueueAction(Action action)\tvoid": "enqueueAction(${1:Action action})$0",
             "get(String key, function callback)\tvoid": "get(${1:String key}, ${2:function callback})$0",
             "getCallback(function callback)\tvoid": "getCallback(${!:function callback})$0",
             "getComponent(Object identifier)\tvoid": "getComponent(${1:Object identifier})$0",

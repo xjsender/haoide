@@ -9,7 +9,7 @@ from xml.sax.saxutils import unescape, quoteattr
 
 from .. import xmltodict
 from ..soap import SOAP
-from ..login import soap_login
+from ..login import soap_login, rest_login
 from ... import requests, util
 
 

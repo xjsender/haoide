@@ -4,7 +4,7 @@ import pprint
 import os
 import csv
 
-from ..login import soap_login
+from ..login import soap_login, rest_login
 from ..soap import SOAP
 from .. import xmltodict
 from ... import requests, util
