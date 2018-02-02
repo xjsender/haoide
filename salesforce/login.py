@@ -147,10 +147,8 @@ def rest_login(settings, session_id_expired=False, timeout=10):
     )
 
     # If refresh token is exist, just refresh token
-    refresh_token = session.get("refresh_token")
-    print (refresh_token)
-    if refresh_token is not None:
-        result = oauth.refresh_token(refresh_token)
+    if session and session.get("refresh_token"):
+        result = oauth.refresh_token(session.get("refresh_token"))
 
         # If succeed, 
         if result.get("access_token"):
@@ -170,7 +168,7 @@ def rest_login(settings, session_id_expired=False, timeout=10):
                 "Accept": "application/json"
             }
             result["success"] = True
-            result["refresh_token"] = refresh_token
+            result["refresh_token"] = session.get("refresh_token")
             util.add_config_history('session', result, settings)
             return result
         else:

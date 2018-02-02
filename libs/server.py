@@ -119,7 +119,7 @@ def do_finish():
                 </head>
                 <body>
                     <center>
-                        <h3 style="font: green">Login Success</h2>
+                        <h3 style="color: #a6e22e">Login Success</h2>
                         <span>you can find the session cache in the [workspace]/[default project]/.config/session.json</span><br/>
                         <span style="">Window will be closed in five minutes later</span><br/>
                     </center>
