@@ -210,6 +210,26 @@ standard_lib = {
         }
     },
 
+    "event": {
+        "type": "Standard Class",
+        "methods": {
+            "fire(Object params)\tvoid": "fire(${1:Object params})$0",
+            "getEventType()\tString": "getEventType()$0",
+            "getName()\tString": "getName()$0",
+            "getParam(String name)\tObject": "getParam(${1:String name})$0",
+            "getParams()\tObject": "getParams()$0",
+            "getPhase()\tvoid": "getPhase()$0",
+            "getSource()\tObject": "getSource()$0",
+            "getType()\tString": "getType()$0",
+            "pause()\tvoid": "pause()$0",
+            "preventDefault()\tvoid": "preventDefault()$0",
+            "preventDefault()\tvoid": "preventDefault()$0",
+            "setParam(String key, Object value)\tvoid": "setParam(${1:String key}, ${2:Object value})$0",
+            "setParams(Object config)\tvoid": "setParams(${1:Object config})$0",
+            "stopPropagation()\tvoid": "stopPropagation()$0"
+        }
+    },
+
     "Locale": {
         "type": "Standard Class",
         "prefix": "$",
