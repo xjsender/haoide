@@ -142,14 +142,15 @@ def rest_login(settings, session_id_expired=False, timeout=10):
         app.get("client_id"),
         app.get("client_secret"),
         app.get("redirect_uri"),
-        settings["login_url"],
+        login_url=settings["login_url"]
     )
-    authorize_url = oauth.authorize_url()
+    authorize_url = oauth.authorize_url(settings["username"])
+    print (authorize_url)
     start_server()
     util.open_with_browser(authorize_url)
 
     # Return Message if not login, session expired or session invalid
-    error_message = "waiting for oAuth2 login finished"
+    error_message = "Waiting for oAuth2 login finished"
     if session_id_expired:
         error_message = "Session invalid or expired, " + error_message
 

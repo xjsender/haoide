@@ -31,7 +31,7 @@ close_window_script = """
             window.close();
         }
     }
-    window.setTimeout(close_window, 3000);
+    window.setTimeout(close_window, 5000);
 """
 
 @app.route('/auth/callback', method=['GET', 'POST'])
@@ -121,7 +121,7 @@ def do_finish():
                     <center>
                         <h3 style="font: green">Login Success</h2>
                         <span>you can find the session cache in the [workspace]/[default project]/.config/session.json</span><br/>
-                        <span style="">Window will be closed in three minutes later</span><br/>
+                        <span style="">Window will be closed in five minutes later</span><br/>
                     </center>
                 </body>
             </html>
@@ -136,7 +136,7 @@ def do_finish():
                 <body>
                     <span style="background-color:#ff0000;">Login Error!!</span><br/>
                     <h3 style="font: #ff0000">Login Failed!!</h2>
-                    <span style="">Window will be closed in three minutes later</span><br/>
+                    <span style="">Window will be closed in five minutes later</span><br/>
                 </body>
             </html>
         '''.format(script=close_window_script)

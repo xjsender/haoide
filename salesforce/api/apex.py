@@ -35,7 +35,10 @@ class ApexApi():
         * result -- Keep the session info, if `output_session_info` in plugin setting is True, 
             session info will be outputted to console
         """
-        result = soap_login(self.settings, session_id_expired)
+        if self.settings["login_type"] == "REST":
+            result = rest_login(self.settings, session_id_expired)
+        else:
+            result = soap_login(self.settings, session_id_expired)
         if not result["success"]:
             self.result = result
             return self.result

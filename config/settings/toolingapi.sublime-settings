@@ -29,18 +29,22 @@
             // production: https://login.salesforce.com
             "login_url" : "https://login.salesforce.com",
 
-            // Login username and password
-            "password" : "******",
+            // Login Type, two options, if login_type is null, SOAP is default:
+            // REST: support oAuth2 Login, pasword and security_token is not required
+            // SOAP: support SOAP login, password and security_token is required
+            "login_type": "REST",
+
+            // Login username, password and security token
+            // 1. username is always required becuase it is used to as entry key for local cache
+            //    and also it will be used to populate the login form
+            // 2. password and security token is optional if login type is REST
             "username" : "apex.sublime@dev.com",
+            "password" : "******",
+            "security_token" : "",
 
             /**
              * Below are optional properties
              */
-            
-            // If you don't need security token,
-            // just leave it as below or just delete below
-            "security_token" : "",
-
             // Valid value should be package namespace
             // for example, "allowed_packages": ["sinaweibo", "twitter", "facebook"],
             "allowed_packages" : [],

@@ -32,23 +32,15 @@ class SalesforceOAuth2(object):
         result = requests.post(url, data=post_data, headers=headers, verify=False)
         return result, result.json()
 
-    def authorize_url(self, **kwargs):
-        
-        # scope = kwargs.get('scope', quote('full refresh_token'))
-        # fields = {
-        #     'site': self.auth_site,
-        #     'authorize_url': self.authorization_url,
-        #     'clientid': self.client_id,
-        #     'redirect_uri': quote(self.redirect_uri),
-        #     'scope': scope
-        # }
-
-        # return "{site}{authorize_url}?response_type=code&client_id={clientid}&redirect_uri={redirect_uri}&scope={scope}".format(**fields)
+    def authorize_url(self, username="", **kwargs):
+        # Check below url for parameter detail
+        # https://help.salesforce.com/articleView?id=remoteaccess_oauth_web_server_flow.htm&type=0
         fields = {
             'response_type': 'token',
             'client_id': self.client_id,
             'redirect_uri': self.redirect_uri,
             'prompt': 'login',
+            'login_hint': username,
             'display': 'popup'
         }
         url = self.auth_site + self.authorization_url + '?' + urlencode(fields)
