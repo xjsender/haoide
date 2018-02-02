@@ -83,7 +83,8 @@
         // "*.md",
         // "*-history.*",
         "*.*-meta.xml",
-        "*.sublime-project"
+        "*.sublime-project",
+        "package.zip"
     ],
 
     // Folders not shown in the sidebar and Command Palette
