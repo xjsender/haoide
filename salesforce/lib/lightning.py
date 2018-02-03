@@ -7498,7 +7498,7 @@ tag_defs = {
         "simple": False,
         "type": "aura"
     },
-    "ui:outputDataTime": {
+    "ui:outputDateTime": {
         "attribs": {
             "aura:id": {
                 "type": "String"
