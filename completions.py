@@ -495,7 +495,7 @@ class LightningCompletions(sublime_plugin.EventListener):
                 metaObject = lightning.standard_lib[var_name].get("metaObject")
                 if metaObject:
                     completion_list = util.get_completion_from_cache(
-                        settings, metaObject
+                        settings, metaObject, True
                     )
 
             # Custom events completion
@@ -873,10 +873,10 @@ class PageCompletions(sublime_plugin.EventListener):
 
         if ch == ".":
             ################################################################
-            #  Custom label completion, which is fetched form <project cache>
+            #  Custom label completion, fetched form .config/package.json
             ################################################################
             if variable_name.lower() == "label":
-                return util.get_completion_from_cache(settings, "CustomLabel")
+                return util.get_completion_from_cache(settings, "CustomLabel", is_lightning)
 
             ################################################################
             # Extension or Controller creation after # with specified pattern

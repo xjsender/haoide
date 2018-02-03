@@ -211,7 +211,7 @@ def get_package_info(settings):
 
     return package
 
-def get_completion_from_cache(settings, component_type):
+def get_completion_from_cache(settings, component_type, is_lightning=False):
     """ Get component completion list from .config/package.json
 
     * settings -- plugin settings
@@ -222,8 +222,12 @@ def get_completion_from_cache(settings, component_type):
 
     completion_list = []
     if package_cache:
+        namespace = "c." if is_lightning else ""
         for member in package_cache.get(component_type, []):
-            completion_list.append(("%s\t%s" % (member, component_type), member))
+            completion_list.append((
+                "%s%s\t%s" % (namespace, member, component_type), 
+                "%s%s" % (namespace, member)
+            ))
     else:
         sublime.status_message("Info: Not found " + component_type)
 
