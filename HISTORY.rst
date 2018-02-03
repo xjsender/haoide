@@ -4,6 +4,21 @@ Release History
 
 ---------------
 
+Release 3.5.2 (2018-02-03)
+++++++++++++++++++
+* Support oAuth2 Login, check https://github.com/xjsender/haoide#project-configuration for guide
+* Add Lightning event methods completion
+* Add customlabel and staticresource completions for lightning component
+* Add lightning component iconName support
+* Add package.zip to file_exclude_patterns
+* Add attributes completion after v.
+* Update apex lib to v41
+* Deliver enhancement for issue #145
+* Fix custom label completion bug in Lightning mode
+* Fix bug for open_aura_document_reference command
+* Fix bug #147
+
+
 Release 3.5.1 (2018-01-25)
 ++++++++++++++++++
 * Basic completion support for component controller or helper
