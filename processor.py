@@ -1195,6 +1195,7 @@ def handle_describe_sobject(sobject, timeout=120):
             "name": sobject + " Describe Result",
             "input": describe_result
         })
+        view.set_syntax_file("Packages/Textile/Textile.tmLanguage")
 
         # Keep sobject describe history
         util.add_operation_history('describe/' + sobject, describe_result)
