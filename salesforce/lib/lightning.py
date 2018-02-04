@@ -1,30 +1,3 @@
-# Metadata for Lightning component
-
-component_interfaces = [
-    "clients:availableForMailAppAppPage",
-    "clients:hasEventContext",
-    "clients:hasItemContext",
-    "flexipage:availableForAllPageTypes",
-    "flexipage:availableForRecordHome",
-    "flexipage:availableForAllPageTypes",
-    "forceCommunity:availableForAllPageTypes",
-    "force:appHostable",
-    "force:lightningQuickAction",
-    "force:lightningQuickActionWithoutHeader",
-    "force:lightningQuickAction",
-    "ltng:allowGuestAccess",
-    "force:hasRecordId",
-    "force:hasSObjectName",
-    "lightning:actionOverride",
-    "lightning:appHomeTemplate",
-    "lightning:availableForChatterExtensionComposer",
-    "lightning:availableForChatterExtensionRenderer",
-    "lightning:availableForFlowScreens",
-    "lightning:homeTemplate",
-    "lightning:recordHomeTemplate",
-    "lightning:prechatUI"
-]
-
 # Since 2018, Spring18, v42
 standard_lib = {
     'e': {
@@ -60,7 +33,7 @@ standard_lib = {
         "type": "Standard Class",
         "prefix": "$",
         "sub_classes": [
-            "util"
+            "util", "localizationService"
         ],
         "methods": {
             "createComponent(String type, Object attributes, function callback)\tvoid": "createComponent(${1:String type}, ${2:Object attributes}, ${3:function callback})$0",
@@ -95,6 +68,61 @@ standard_lib = {
             "isUndefinedOrNull(Object obj)\tBoolean": "isUndefinedOrNull(${1:Object obj})$0",
             "removeClass(Object element, String newClass)\tvoid": "removeClass(${1:Object element}, ${2:String newClass})$0",
             "toggleClass(Object element, String className)\tvoid": "toggleClass(${1:Object element}, ${2:String className})$0"
+        }
+    },
+
+    "localizationService": {
+        "sub_class": True,
+        "type": "Sub Class",
+        "methods": {
+            "UTCToWallTime(Date date, String timezone, function callback)\tvoid": "UTCToWallTime(${1:Date date}, ${2:String timezone}, ${3:function callback})$0",
+            "WallTimeToUTC(Date date, String timezone, function callback)\tvoid": "WallTimeToUTC(${1:Date date}, ${2:String timezone}, ${3:function callback})$0",
+            "displayDuration(Duration d, Boolean noSuffix)\tString": "displayDuration(${1:Duration d}, ${2:Boolean noSuffix})$0",
+            "displayDurationInDays(Duration d)\tNumber": "displayDurationInDays(${1:Duration d})$0",
+            "displayDurationInHours(Duration d)\tNumber": "displayDurationInHours(${1:Duration d})$0",
+            "displayDurationInMilliseconds(Duration d)\tNumber": "displayDurationInMilliseconds(${1:Duration d})$0",
+            "displayDurationInMinutes(Duration d)\tNumber": "displayDurationInMinutes(${1:Duration d})$0",
+            "displayDurationInMonths(Duration d)\tNumber": "displayDurationInMonths(${1:Duration d})$0",
+            "displayDurationInSeconds(Duration d)\tNumber": "displayDurationInSeconds(${1:Duration d})$0",
+            "duration(Number | Object num, String unit)\tObject": "duration(${1:Number | Object num}, ${2:String unit})$0",
+            "endOf(String | Number | Date date, String unit)\tDate": "endOf(${1:String | Number | Date date}, ${2:String unit})$0",
+            "formatCurrency(Number number)\tNumber": "formatCurrency(${1:Number number})$0",
+            "formatDate(String | Number | Date date, String formatString, String locale)\tString": "formatDate(${1:String | Number | Date date}, ${2:String formatString}, ${3:String locale})$0",
+            "formatDateTime(String | Number | Date date, String formatString, String locale)\tString": "formatDateTime(${1:String | Number | Date date}, ${2:String formatString}, ${3:String locale})$0",
+            "formatDateTimeUTC(String | Number | Date date, String formatString, String locale)\tString": "formatDateTimeUTC(${1:String | Number | Date date}, ${2:String formatString}, ${3:String locale})$0",
+            "formatDateUTC(String | Number | Date date, String formatString, String locale)\tString": "formatDateUTC(${1:String | Number | Date date}, ${2:String formatString}, ${3:String locale})$0",
+            "formatNumber(Number number)\tNumber": "formatNumber(${1:Number number})$0",
+            "formatPercent(Number number)\tNumber": "formatPercent(${1:Number number})$0",
+            "formatTime(String | Number | Date date, String formatString, String locale)\tString": "formatTime(${1:String | Number | Date date}, ${2:String formatString}, ${3:String locale})$0",
+            "formatTimeUTC(String | Number | Date date, String formatString, String locale)\tString": "formatTimeUTC(${1:String | Number | Date date}, ${2:String formatString}, ${3:String locale})$0",
+            "getDateStringBasedOnTimezone(String timezone, Date dateObj, function callback)\tvoid": "getDateStringBasedOnTimezone(${1:String timezone}, ${2:Date dateObjfunction callback})$0",
+            "getDaysInDuration(Duration d)\tNumber": "getDaysInDuration(${1:Duration d})$0",
+            "getDefaultCurrencyFormat()\tNumber": "getDefaultCurrencyFormat()$0",
+            "getDefaultNumberFormat()\tNumber": "getDefaultNumberFormat()$0",
+            "getDefaultPercentFormat()\tNumber": "getDefaultPercentFormat()$0",
+            "getHoursInDuration(Duration d)\tNumber": "getHoursInDuration(${1:Duration d})$0",
+            "getLocalizedDateTimeLabels()\tObject": "getLocalizedDateTimeLabels()$0",
+            "getMillisecondsInDuration(Duration d)\tNumber": "getMillisecondsInDuration(${1:Duration d})$0",
+            "getMinutesInDuration(Duration d)\tNumber": "getMinutesInDuration(${1:Duration d})$0",
+            "getMonthsInDuration(Duration d)\tNumber": "getMonthsInDuration(${1:Duration d})$0",
+            "getNumberFormat(String formatString symbols)\tNumber": "getNumberFormat(${1:String formatString symbols})$0",
+            "getSecondsInDuration(Duration d)\tNumber": "getSecondsInDuration(${1:Duration d})$0",
+            "getToday(String timezone, function callback)\tString": "getToday(${1:String timezone}, ${2:function callback})$0",
+            "getYearsInDuration(Duration d)\tNumber": "getYearsInDuration(${1:Duration d})$0",
+            "isAfter(String | Number | Date date1, String | Number | Date date2, String unit)\tBoolean": "isAfter(${1:String | Number | Date date1}, ${2:String | Number | Date date2}, ${3:String unit})$0",
+            "isBefore(String | Number | Date date1, String | Number | Date date2, String unit)\tBoolean": "isBefore(${1:String | Number | Date date1}, ${2:String | Number | Date date2}, ${3:String unit})$0",
+            "isBetween(String | Number | Date date, String | Number | Date fromDate, String | Number | Date toDate, String unit)\tBoolean: unit})$0": "isBetween(${1:String | Number | Date date}, ${2:String | Number | Date fromDate}, ${3:String | Number | Date toDate}, ${4:String unit})\tBoolean: unit})$0",
+            "isPeriodTimeView(String pattern)\tBoolean": "isPeriodTimeView(${1:String pattern})$0",
+            "isSame(String | Number | Date date1, String | Number | Date date2, String unit)\tBoolean": "isSame(${1:String | Number | Date date1}, ${2:String | Number | Date date2}, ${3:String unit})$0",
+            "parseDateTime(String dateTimeString, String parseFormat, String locale, Boolean strictParsing)\tDate": "parseDateTime(${1:String dateTimeString}, ${2:String parseFormat}, ${3:String locale}, ${4:Boolean strictParsing})$0",
+            "parseDateTimeISO8601(String dateTimeString)\tDate": "parseDateTimeISO8601(${1:String dateTimeString})$0",
+            "parseDateTimeUTC(String dateTimeString, String parseFormat, String locale, Boolean strictParsing)\tDate": "parseDateTimeUTC(${1:String dateTimeString}, ${2:String parseFormat}, ${3:String locale}, ${4:Boolean strictParsing})$0",
+            "startOf(String | Number | Date date, String unit)\tDate": "startOf(${1:String | Number | Date date}, ${2:String unit})$0",
+            "toISOString(Date date)\tString": "toISOString(${1:Date date})$0",
+            "translateFromLocalizedDigits(String input)\tString": "translateFromLocalizedDigits(${1:String input})$0",
+            "translateFromOtherCalendar(Date date)\tDate": "translateFromOtherCalendar(${1:Date date})$0",
+            "translateToLocalizedDigits(String input)\tString": "translateToLocalizedDigits(${1:String input})$0",
+            "translateToOtherCalendar(Date date)\tDate": "translateToOtherCalendar(${1:Date date})$0"
         }
     },
 
@@ -278,6 +306,31 @@ page_reference_attrs = [
     "template",
     "pageName",
     "finishLocation"
+]
+
+component_interfaces = [
+    "clients:availableForMailAppAppPage",
+    "clients:hasEventContext",
+    "clients:hasItemContext",
+    "flexipage:availableForAllPageTypes",
+    "flexipage:availableForRecordHome",
+    "flexipage:availableForAllPageTypes",
+    "forceCommunity:availableForAllPageTypes",
+    "force:appHostable",
+    "force:lightningQuickAction",
+    "force:lightningQuickActionWithoutHeader",
+    "force:lightningQuickAction",
+    "ltng:allowGuestAccess",
+    "force:hasRecordId",
+    "force:hasSObjectName",
+    "lightning:actionOverride",
+    "lightning:appHomeTemplate",
+    "lightning:availableForChatterExtensionComposer",
+    "lightning:availableForChatterExtensionRenderer",
+    "lightning:availableForFlowScreens",
+    "lightning:homeTemplate",
+    "lightning:recordHomeTemplate",
+    "lightning:prechatUI"
 ]
 
 icon_names = [
@@ -1027,7 +1080,20 @@ tag_defs = {
                 "type": "String"
             },
             "extends": {
+                "type": "Picklist",
+                "values": [
+                    "force:slds"
+                ]
+            },
+            "extensible": {
+                "type": "Boolean",
+                "description": "Indicates whether the app is extensible by another app. Defaults to false."
+            },
+            "template": {
                 "type": "Component"
+            },
+            "tokens": {
+                "type": "String"
             },
             "implements": {
                 "type": "String"
@@ -1076,6 +1142,7 @@ tag_defs = {
                     "Function",
                     "Object",
                     "String[]",
+                    "Integer[]",
                     "Map",
                     "List",
                     "Set",
@@ -1105,17 +1172,25 @@ tag_defs = {
                 "type": "String"
             },
             "extends": {
-                "type": "Component"
+                "type": "Picklist",
+                "values": [
+                    "aura:template"
+                ]
             },
             "implements": {
-                "type": "String"
+                "type": "Picklist",
+                "values": component_interfaces
             },
             "isTemplate": {
                 "type": "Boolean"
             },
             "template": {
                 "type": "Component"
-            }
+            },
+            "extensible": {
+                "type": "Boolean",
+                "description": "Set to true if the component can be extended. The default is false."
+            },
         },
         "simple": False,
         "type": "aura"
@@ -1135,7 +1210,8 @@ tag_defs = {
                 "values": [
                     "COMPONENT",
                     "APPLICATION",
-                    "EVENT"
+                    "EVENT",
+                    "INTERFACE"
                 ]
             }
         },
