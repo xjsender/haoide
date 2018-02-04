@@ -31,7 +31,7 @@ close_window_script = """
             window.close();
         }
     }
-    window.setTimeout(close_window, 5000);
+    window.setTimeout(close_window, 10000);
 """
 
 @app.route('/auth/callback', method=['GET', 'POST'])
