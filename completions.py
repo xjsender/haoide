@@ -506,8 +506,8 @@ class LightningCompletions(sublime_plugin.EventListener):
                 )
                 for eve in events:
                     completion_list.append((
-                        "e.%s\tCustom Event" % eve,
-                        "e.%s" % eve
+                        "c:%s\tCustom Event" % eve,
+                        "c:%s" % eve
                     ))
 
             # Component attribute completion
@@ -861,7 +861,7 @@ class PageCompletions(sublime_plugin.EventListener):
                         for class_name in slds.classes:
                             completion_list.append(("%s\tSLDS" % class_name, class_name))
                         break
-
+        
         # Completions for Lightning component interface, for example,
         #   e.g. force:appHostable, force:lightningQuickAction
         if ch in ['"', ',', ' ']:
