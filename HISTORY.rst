@@ -4,6 +4,13 @@ Release History
 
 ---------------
 
+Release 3.5.3 (2018-02-06)
+++++++++++++++++++
+* Add missing base components from lightning developer guide by script: https://gist.github.com/xjsender/265d237fbeafebabff6c8669f9359fff#file-read-json-from-lightning-compnent-js
+* Add $A.localizationService lib
+* Fix some minor bugs
+
+
 Release 3.5.2 (2018-02-03)
 ++++++++++++++++++
 * Support oAuth2 Login, check https://github.com/xjsender/haoide#project-configuration for guide
