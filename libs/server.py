@@ -121,7 +121,7 @@ def do_finish():
                     <center>
                         <h3 style="color: #a6e22e">Login Success</h2>
                         <span>you can find the session cache in the [workspace]/[default project]/.config/session.json</span><br/>
-                        <span style="">Window will be closed in five minutes later</span><br/>
+                        <span style="">Window will be closed in 10 minutes later</span><br/>
                     </center>
                 </body>
             </html>
@@ -136,7 +136,7 @@ def do_finish():
                 <body>
                     <span style="background-color:#ff0000;">Login Error!!</span><br/>
                     <h3 style="font: #ff0000">Login Failed!!</h2>
-                    <span style="">Window will be closed in five minutes later</span><br/>
+                    <span style="">Window will be closed in 10 minutes later</span><br/>
                 </body>
             </html>
         '''.format(script=close_window_script)
