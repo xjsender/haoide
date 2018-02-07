@@ -886,6 +886,24 @@ class PageCompletions(sublime_plugin.EventListener):
             ################################################################
             if not view.file_name(): 
                 return completion_list
+            base, file_name = os.path.split(view.file_name())
+
+            # Lightning component attributes value completion
+            if variable_name.lower() == "v":
+                component_name = file_name.split('.')[0]
+                attributes = util.get_component_attributes(
+                    settings, component_name, is_lightning=True
+                )
+
+                for attribute in attributes:
+                    display = "%s\t%s(%s)" % (
+                        attribute["name"],
+                        attribute["description"],
+                        attribute["type"].capitalize()
+                    )
+                    value = attribute["name"]
+                    completion_list.append((display, value))
+                return completion_list
 
             # Get the name of controller or extension
             pattern = '\\s+(controller="\\w+"|extensions="\\w+")'
@@ -895,7 +913,7 @@ class PageCompletions(sublime_plugin.EventListener):
             controller_name = view.substr(matched_regions[0]).split('"')[1]
 
             # Get the classes path
-            base, filename = os.path.split(view.file_name())
+            # base, filename = os.path.split(view.file_name())
             src, path = os.path.split(base)
             controller_path = os.path.join(src, "classes", controller_name+".cls")
             if not os.path.isfile(controller_path):

@@ -34,3 +34,8 @@ nosetests.xml
 .project
 .pydevproject
 *.log
+
+# idea
+.idea/*
+sublime.py
+sublime_plugin.py
