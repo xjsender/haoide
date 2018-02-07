@@ -8,6 +8,7 @@ from . import context
 from . import util
 from .salesforce.lib.panel import Printer
 
+
 class SFDCEventListener(sublime_plugin.EventListener):
     def on_new(self, view):
         """
