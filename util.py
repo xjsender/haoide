@@ -2902,6 +2902,8 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
     if len(elementsByName) > 0:
         elementValue = elementsByName[0].toxml().replace('<' +\
             elementName + '>','').replace('</' + elementName + '>','')
+    else:
+        elementValue = xmlString.decode("utf-8")
     return unescape(elementValue, {"&apos;": "'", "&quot;": '"'})
 
 def get_response_error(response):

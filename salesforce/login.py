@@ -75,6 +75,10 @@ def soap_login(settings, session_id_expired=False, timeout=10):
 
     result = {}
     if response.status_code != 200:
+        # Log the error message
+        if settings["debug_mode"]:
+            print (response.content)
+
         except_msg = util.getUniqueElementValueFromXmlString(response.content, 'sf:exceptionMessage')
         result["Error Message"] = except_msg
         result["success"] = False
