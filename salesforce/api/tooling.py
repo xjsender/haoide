@@ -630,7 +630,7 @@ class ToolingApi():
         sobjects = {}
         if "sobjects" in tooling_result:
             for sd in tooling_result["sobjects"]:
-                if "name" in sd and sd["queryable"]:
+                if "name" in sd:
                     sobjects[sd["name"]] = {
                         "name": sd["name"],
                         "custom": sd["custom"],
@@ -644,7 +644,7 @@ class ToolingApi():
         #   we just choose that non-tooling ones to override tooling sObjects
         if "sobjects" in result:
             for sd in result["sobjects"]:
-                if "name" in sd and sd["queryable"]:
+                if "name" in sd:
                     sobjects[sd["name"]] = {
                         "name": sd["name"],
                         "custom": sd["custom"],
