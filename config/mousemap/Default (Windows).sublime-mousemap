@@ -14,7 +14,7 @@
 
     // Press alt and Click Button 1 for twice will quick view the code coverage
     {
-        "button": "button1", "count": 2, "modifiers": ["alt"],
+        "button": "button1", "count": 2, "modifiers": ["alt+shitf"],
         "press_command": "view_selected_code_coverage"
     },
 
