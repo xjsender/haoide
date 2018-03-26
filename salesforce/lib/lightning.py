@@ -314,10 +314,8 @@ component_interfaces = [
     "clients:hasItemContext",
     "flexipage:availableForAllPageTypes",
     "flexipage:availableForRecordHome",
-    "flexipage:availableForAllPageTypes",
     "forceCommunity:availableForAllPageTypes",
     "force:appHostable",
-    "force:lightningQuickAction",
     "force:lightningQuickActionWithoutHeader",
     "force:lightningQuickAction",
     "ltng:allowGuestAccess",
@@ -2196,7 +2194,11 @@ tag_defs = {
                 "required": False
             },
             "variant": {
-                "type": "String",
+                "type": "Picklist",
+                "values": [
+                    "standard",
+                    "label-hidden"
+                ],
                 "description": "The variant changes the appearance of the compound field. Accepted variants include standard and label-hidden. This value defaults to standard.",
                 "required": False
             }
@@ -2681,7 +2683,11 @@ tag_defs = {
                 "required": False
             },
             "variant": {
-                "type": "String",
+                "type": "Picklist",
+                "values": [
+                    "standard",
+                    "label-hidden"
+                ],
                 "description": "The variant changes the appearance of the compound field. Accepted variants include standard and label-hidden. This value defaults to standard.",
                 "required": False
             }
@@ -2917,7 +2923,14 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of the button. Accepted variants include base, neutral, brand, destructive, and inverse. This value defaults to neutral.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "base",
+                    "neutral",
+                    "brand",
+                    "destructive",
+                    "inverse"
+                ]
             }
         },
         "simple": False,
@@ -3006,7 +3019,14 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of the button. Accepted variants include base, neutral, brand, destructive, and inverse. This value defaults to neutral.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "base",
+                    "neutral",
+                    "brand",
+                    "destructive",
+                    "inverse"
+                ]
             }
         },
         "simple": False,
@@ -3077,7 +3097,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of buttonIcon. Accepted variants border, and border-inverse. This value defaults to border.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "border",
+                    "border-inverse"
+                ]
             }
         },
         "simple": False,
@@ -3158,7 +3182,14 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of the button. Accepted variants include base, neutral, brand, destructive, and inverse. This value defaults to neutral.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "base",
+                    "neutral",
+                    "brand",
+                    "destructive",
+                    "inverse"
+                ]
             }
         },
         "simple": False,
@@ -3231,7 +3262,12 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of the button. Accepted variants include brand, inverse, neutral and text. This value defaults to neutral.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "neutral",
+                    "brand",
+                    "inverse"
+                ]
             }
         },
         "simple": False,
@@ -3266,7 +3302,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of the card. Accepted variants include base or narrow. This value defaults to base.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "base",
+                    "narrow"
+                ]
             }
         },
         "simple": False,
@@ -3440,7 +3480,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "standard",
+                    "label-hidden"
+                ]
             }
         },
         "simple": False,
@@ -3630,7 +3674,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "standard",
+                    "label-hidden"
+                ]
             }
         },
         "simple": False,
@@ -4090,7 +4138,12 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of a utility icon. Accepted variants include inverse, warning and error. Use the inverse variant to implement a white fill in utility icons on dark backgrounds.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "error",
+                    "warning",
+                    "inverse"
+                ]
             }
         },
         "simple": False,
@@ -4273,7 +4326,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "standard",
+                    "label-hidden"
+                ]
             }
         },
         "simple": False,
@@ -4324,7 +4381,11 @@ tag_defs = {
                 "required": False
             },
             "variant": {
-                "type": "String",
+                "type": "Picklist",
+                "values": [
+                    "standard",
+                    "label-hidden"
+                ],
                 "description": "The variant changes the appearance of the compound field. Accepted variants include standard and label-hidden. This value defaults to standard.",
                 "required": False
             },
@@ -4419,7 +4480,10 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of the toolbar. Accepted variants include bottom-toolbar.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "bottom-toolbar"
+                ]
             }
         },
         "simple": False,
@@ -4574,7 +4638,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "Changes the appearance of the output. Accepted variants include standard and label-hidden. This value defaults to standard.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "standard",
+                    "label-hidden"
+                ]
             }
         },
         "simple": False,
@@ -4702,7 +4770,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant of the progress bar. Valid values are base and circular.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "base",
+                    "circular"
+                ]
             }
         },
         "simple": False,
@@ -4818,7 +4890,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "standard",
+                    "label-hidden"
+                ]
             }
         },
         "simple": False,
@@ -4920,7 +4996,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "standard",
+                    "label-hidden"
+                ]
             }
         },
         "simple": False,
@@ -5018,7 +5098,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of the slider. Accepted variants include standard and label-hidden. This value defaults to standard.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "standard",
+                    "label-hidden"
+                ]
             }
         },
         "simple": False,
@@ -5044,7 +5128,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of the spinner. Accepted variants are brand and inverse.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "brand",
+                    "inverse"
+                ]
             }
         },
         "simple": False,
@@ -5112,7 +5200,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of the tabset. Accepted variants are default and scoped.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "default",
+                    "scoped"
+                ]
             }
         },
         "simple": False,
@@ -5202,7 +5294,11 @@ tag_defs = {
             },
             "variant": {
                 "description": "The variant changes the appearance of an input field. Accepted variants include standard and label-hidden. This value defaults to standard.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "standard",
+                    "label-hidden"
+                ]
             }
         },
         "simple": False,
