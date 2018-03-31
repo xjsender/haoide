@@ -395,7 +395,7 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         view = self.window.active_view()
         if not view or not view.settings().has("types"): 
             view = self.window.new_file()
-            view.set_syntax_file("Packages/XML/xml.tmLanguage")
+            view.set_syntax_file("Packages/XML/XML.sublime-syntax")
             view.run_command("new_view", {
                 "name": "package.xml",
                 "input": ""
@@ -526,7 +526,7 @@ class CreatePackageXml(sublime_plugin.WindowCommand):
                 <version>{0}.0</version>
             </Package>
         """.format(settings["api_version"])
-        file_name = os.path.join(_dir, "package%s.xml" % \
+        file_name = os.path.join(_dir, "package-%s.xml" % \
             time.strftime("%Y%m%d", time.localtime(time.time())))
         if os.path.isfile(file_name):
             message = "Package.xml is already exist, override?"
