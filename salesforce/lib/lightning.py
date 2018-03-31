@@ -1151,6 +1151,25 @@ tag_defs = {
         "simple": False,
         "type": "aura"
     },
+    
+    "design:attribute": {
+        "attribs": {
+            "default": {
+                "type": "String"
+            },
+            "description": {
+                "type": "String"
+            },
+            "name": {
+                "type": "String"
+            },
+            "required": {
+                "type": "Boolean"
+            }
+        },
+        "simple": False,
+        "type": "aura"
+    },
     "aura:component": {
         "attribs": {
             "access": {
