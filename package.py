@@ -3,6 +3,7 @@ import os
 import time
 import json
 import xml
+import datetime
 
 from . import util
 from . import context
@@ -274,6 +275,17 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         super(BuildPackageXml, self).__init__(*args, **kwargs)
 
     def run(self):
+        sublime.active_window().show_input_panel(
+            "Modified Last N Days: ", 
+            "7", self.on_input_last_n_days, None, None
+        )
+
+    def on_input_last_n_days(self, last_n_days):
+        # Default value of last_n_days is 7
+        self.last_n_days = last_n_days
+        if not self.last_n_days:
+            self.last_n_days = 7
+
         if not hasattr(self, "filters"):
             sublime.active_window().show_input_panel(
                 "Input filters for members separated with comma: ", 
@@ -321,9 +333,9 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         
         self.members = []
         self.matched_package = {}
-        for metadata_object in sorted(self.cache.keys()):
-            members = self.cache.get(metadata_object)
-            if not members: continue
+        for metadata_object, members in self.cache.items():
+            if not members:
+                continue
             
             if metadata_object in types:
                 display = "[√]" + metadata_object
@@ -333,15 +345,29 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
 
             matched_members = []
             for mem in members:
-                if self.filters and not self.is_filter_match(mem):
-                    continue
-                matched_members.append(mem)
+                fullName = mem.get("fullName")
 
-                if mem in types.get(metadata_object, []):
-                    mem = "[√]" + metadata_object + " => " + mem
+                # Check filters
+                if self.filters and not self.is_filter_match(fullName):
+                    continue
+
+                # Check lastModifiedDate
+                lastModifiedDate = datetime.datetime.strptime(
+                    mem.get("lastModifiedDate")[:-5], 
+                    "%Y-%m-%dT%H:%M:%S"
+                )
+                intervalDays = datetime.timedelta(
+                    days=int(self.last_n_days)
+                )
+                if lastModifiedDate < datetime.datetime.now() - intervalDays:
+                    continue
+
+                matched_members.append(fullName)
+                if fullName in types.get(metadata_object, []):
+                    fullName = "[√]" + metadata_object + " => " + fullName
                 else:
-                    mem = "[x]" + metadata_object + " => " + mem
-                self.members.append("    %s" % mem)
+                    fullName = "[x]" + metadata_object + " => " + fullName
+                self.members.append("    %s" % fullName)
 
              # If no matched member, just skip
             if not matched_members:
@@ -395,7 +421,7 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
         view = self.window.active_view()
         if not view or not view.settings().has("types"): 
             view = self.window.new_file()
-            view.set_syntax_file("Packages/XML/XML.sublime-syntax")
+            view.set_syntax_file("Packages/XML/xml.sublime-syntax")
             view.run_command("new_view", {
                 "name": "package.xml",
                 "input": ""
@@ -526,7 +552,7 @@ class CreatePackageXml(sublime_plugin.WindowCommand):
                 <version>{0}.0</version>
             </Package>
         """.format(settings["api_version"])
-        file_name = os.path.join(_dir, "package-%s.xml" % \
+        file_name = os.path.join(_dir, "package%s.xml" % \
             time.strftime("%Y%m%d", time.localtime(time.time())))
         if os.path.isfile(file_name):
             message = "Package.xml is already exist, override?"
