@@ -268,11 +268,11 @@ class SOAP():
 
         metadata_objects = []
         types = options["types"]
-        for _type in types:
+        for k, v in types.items():
             metadata_objects.append(
                 "<met:types>%s<name>%s</name></met:types>" % (
-                    "".join(["<met:members>%s</met:members>" % m for m in types[_type]]),
-                    _type
+                    "".join(["<met:members>%s</met:members>" % m for m in v]),
+                    k
                 )
             )
 

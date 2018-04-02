@@ -196,7 +196,23 @@ class MetadataApi():
         list_package_for_all = False
         if "list_package_for_all" in options and options["list_package_for_all"]:
             list_package_for_all = True
-        options["types"] = self.prepare_members(options["types"], list_package_for_all)
+        records = self.prepare_members(options["types"], list_package_for_all)
+
+        # Add types for options
+        _types = {}
+        for k, values in records.items():
+            if "*" in values:
+                _types[k] = values
+            else:
+                members = []
+                for v in values:
+                    if isinstance(v, str):
+                        members.append(v)
+                    elif isinstance(v, dict):
+                        members.append(v["fullName"])
+                _types[k] = members
+
+        options["types"] = _types
         
         # [sf:retrieve]
         Printer.get('log').write("[sf:retrieve] Start request for a retrieve...")
@@ -330,9 +346,14 @@ class MetadataApi():
                 folders = []
                 elements = []
                 for record in self.list_package({metadata_object : [""]}):
-                    _folder = record["fullName"]
-                    elements.append(_folder)
-                    folders.append(_folder)
+                    elements.append({
+                        "id": record["id"],
+                        "fullName": record["fullName"],
+                        "lastModifiedDate": record["lastModifiedDate"],
+                        "lastModifiedById": record["lastModifiedById"],
+                        "lastModifiedByName": record["lastModifiedByName"]
+                    })
+                    folders.append(record["fullName"])
 
                 for _folders in util.list_chunks(folders, 3):
                     Printer.get("log").write("[sf:retrieve] Fetching component metadata for %s Folder: %s" % (
@@ -341,9 +362,16 @@ class MetadataApi():
 
                     # Add file in folders into retrieve list
                     for record in self.list_package({_type : _folders}):
-                        elements.append(record["fullName"])
+                        detail = {
+                            "id": record["id"],
+                            "fullName": record["fullName"],
+                            "lastModifiedDate": record["lastModifiedDate"],
+                            "lastModifiedById": record["lastModifiedById"],
+                            "lastModifiedByName": record["lastModifiedByName"]
+                        }
+                        elements.append(detail)
 
-                elements = sorted(elements)
+                elements = sorted(elements, key=lambda k : k['fullName'])
                 _types[_type] = elements
 
         # In order to speed up retrieve request, we will not list package for them
@@ -355,6 +383,7 @@ class MetadataApi():
             if "CustomObject" in _types and "*" in _types["CustomObject"]:
                 _types_list.append("CustomObject")
 
+            print (_types)
             if "InstalledPackage" in _types and "*" in _types["InstalledPackage"]:
                 _types_list.append("InstalledPackage")
         else:
@@ -382,15 +411,27 @@ class MetadataApi():
             ))
             for record in self.list_package(_trunked_types):
                 _type = record["type"]
-                fullName = record["fullName"]
+
+                # StandardValueSetTranslation doesn't have type?
+                if isinstance(record["type"], dict):
+                    _type = "StandardValueSetTranslation"
+                
+                detail = {
+                    "id": record.get("id", ""),
+                    "fullName": record["fullName"],
+                    "lastModifiedDate": record["lastModifiedDate"],
+                    "lastModifiedById": record["lastModifiedById"],
+                    "lastModifiedByName": record["lastModifiedByName"]
+                }
+
                 if _type not in type_with_elements:
-                    type_with_elements[_type] = [fullName]
+                    type_with_elements[_type] = [detail]
                 else:
-                    type_with_elements[_type].append(fullName)
+                    type_with_elements[_type].append(detail)
 
             # Order elements
             for t in type_with_elements:
-                type_with_elements[t] = sorted(type_with_elements[t])
+                type_with_elements[t] = sorted(type_with_elements[t], key=lambda k : k['fullName'])
 
             # Update _types with result of list_package request
             for _type in _trunked_types:
@@ -441,7 +482,6 @@ class MetadataApi():
 
         result = xmltodict.parse(response.content)
         result = result["soapenv:Envelope"]["soapenv:Body"]["listMetadataResponse"]
-        # print (json.dumps(result))
         if not result or "result" not in result: 
             return []
         result = result["result"]

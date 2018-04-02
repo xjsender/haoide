@@ -223,10 +223,12 @@ def get_completion_from_cache(settings, component_type, is_lightning=False):
     completion_list = []
     if package_cache:
         namespace = "c." if is_lightning else ""
-        for member in package_cache.get(component_type, []):
+
+        members = package_cache.get(component_type, [])
+        for member in members:
             completion_list.append((
-                "%s%s\t%s" % (namespace, member, component_type), 
-                "%s%s" % (namespace, member)
+                "%s%s\t%s" % (namespace, member.get("fullName"), component_type), 
+                "%s%s" % (namespace, member.get("fullName"))
             ))
     else:
         sublime.status_message("Info: Not found " + component_type)

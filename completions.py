@@ -89,7 +89,12 @@ class PackageCompletions(sublime_plugin.EventListener):
             # List all members in `.config/package.json`
             if meta_type in package_cache:
                 for member in package_cache[meta_type]:
-                    completion_list.append(("%s\t%s" % (member, meta_type), member))
+                    if isinstance(member, dict):
+                        completion_list.append(("%s\t%s" % (
+                            member["fullName"], meta_type
+                        ), member["fullName"]))
+                    else:
+                        completion_list.append(("%s\t%s" % (member, meta_type), member))
 
         return completion_list, sublime.INHIBIT_WORD_COMPLETIONS or sublime.INHIBIT_EXPLICIT_COMPLETIONS
 

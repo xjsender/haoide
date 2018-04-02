@@ -552,7 +552,7 @@ class CreatePackageXml(sublime_plugin.WindowCommand):
                 <version>{0}.0</version>
             </Package>
         """.format(settings["api_version"])
-        file_name = os.path.join(_dir, "package%s.xml" % \
+        file_name = os.path.join(_dir, "package-%s.xml" % \
             time.strftime("%Y%m%d", time.localtime(time.time())))
         if os.path.isfile(file_name):
             message = "Package.xml is already exist, override?"
