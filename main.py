@@ -64,6 +64,7 @@ class BaseSelection(object):
         if not self.view.size(): return False
         self.selection = self.view.substr(self.view.sel()[0])
         if not self.selection:
+            self.choose_all = True
             self.selection = self.view.substr(sublime.Region(0, 
                 self.view.size()))
 
@@ -128,12 +129,21 @@ class JsonFormat(BaseSelection, sublime_plugin.TextCommand):
                 ensure_ascii=False, indent=4)
         except ValueError as ve:
             return Printer.get('error').write(str(ve))
-            
-        view = sublime.active_window().new_file()
-        view.run_command("new_view", {
-            "name": "FormattedJSON",
-            "input": formatted_json
-        })
+        
+        if not self.choose_all:
+            view = sublime.active_window().new_file()
+            view.run_command("new_view", {
+                "name": "FormattedJSON",
+                "input": formatted_json
+            })
+        else:
+            self.view.window().run_command("new_dynamic_view", {
+                "view_id": self.view.id(),
+                "view_name": self.view.name(),
+                "point": 0,
+                "erase_all": True,
+                "input": formatted_json
+            })
 
 
 class JsonSerialization(BaseSelection, sublime_plugin.TextCommand):
@@ -143,11 +153,21 @@ class JsonSerialization(BaseSelection, sublime_plugin.TextCommand):
         except ValueError as ve:
             return Printer.get('error').write(str(ve))
 
-        view = sublime.active_window().new_file()
-        view.run_command("new_view", {
-            "name": "SerializedJSON",
-            "input": json.dumps(self.data)
-        })
+        print (self.data)
+        if not self.choose_all:
+            view = sublime.active_window().new_file()
+            view.run_command("new_view", {
+                "name": "SerializedJSON",
+                "input": json.dumps(self.data)
+            })
+        else:
+            self.view.window().run_command("new_dynamic_view", {
+                "view_id": self.view.id(),
+                "view_name": self.view.name(),
+                "point": 0,
+                "erase_all": True,
+                "input": json.dumps(self.data)
+            })
 
 
 class JsonToApex(BaseSelection, sublime_plugin.TextCommand):
@@ -218,12 +238,21 @@ class XmlFormat(BaseSelection, sublime_plugin.TextCommand):
                 return Printer.get("error").write(message)
             return Printer.get("error").write(str(ex))
 
-        new_view = sublime.active_window().new_file()
-        new_view.set_syntax_file("Packages/XML/XML.tmLanguage")
-        new_view.run_command("new_view", {
-            "name": "XMLFormat",
-            "input": formatted_xml.decode("utf-8")
-        })
+        if not self.choose_all:
+            new_view = sublime.active_window().new_file()
+            new_view.set_syntax_file("Packages/XML/XML.tmLanguage")
+            new_view.run_command("new_view", {
+                "name": "XMLFormat",
+                "input": formatted_xml.decode("utf-8")
+            })
+        else:
+            self.view.window().run_command("new_dynamic_view", {
+                "view_id": self.view.id(),
+                "view_name": self.view.name(),
+                "point": 0,
+                "erase_all": True,
+                "input": formatted_xml.decode("utf-8")
+            })
 
 
 class DiffWithServer(sublime_plugin.TextCommand):
@@ -235,7 +264,7 @@ class DiffWithServer(sublime_plugin.TextCommand):
             return self.view.window().run_command("switch_project", {
                 "callback_options": {
                     "callback_command": "diff_with_server", 
-                    "args": {                        
+                    "args": {
                         "switch": False,
                         "source_org": source_org
                     }
