@@ -63,6 +63,7 @@ class BaseSelection(object):
     def is_enabled(self):
         if not self.view.size(): return False
         self.selection = self.view.substr(self.view.sel()[0])
+        self.choose_all = False
         if not self.selection:
             self.choose_all = True
             self.selection = self.view.substr(sublime.Region(0, 
@@ -153,7 +154,6 @@ class JsonSerialization(BaseSelection, sublime_plugin.TextCommand):
         except ValueError as ve:
             return Printer.get('error').write(str(ve))
 
-        print (self.data)
         if not self.choose_all:
             view = sublime.active_window().new_file()
             view.run_command("new_view", {
