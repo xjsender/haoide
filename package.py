@@ -276,15 +276,15 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
 
     def run(self):
         sublime.active_window().show_input_panel(
-            "Modified Last N Days: ", 
-            "7", self.on_input_last_n_days, None, None
+            "Modified Last N Hours: ", 
+            "1", self.on_input_last_n_hours, None, None
         )
 
-    def on_input_last_n_days(self, last_n_days):
-        # Default value of last_n_days is 7
-        self.last_n_days = last_n_days
-        if not self.last_n_days:
-            self.last_n_days = 7
+    def on_input_last_n_hours(self, last_n_hours):
+        # Default value of last_n_hours is 7
+        self.last_n_hours = last_n_hours
+        if not self.last_n_hours:
+            self.last_n_hours = 1
 
         if not hasattr(self, "filters"):
             sublime.active_window().show_input_panel(
@@ -356,10 +356,10 @@ class BuildPackageXml(sublime_plugin.WindowCommand):
                     mem.get("lastModifiedDate")[:-5], 
                     "%Y-%m-%dT%H:%M:%S"
                 )
-                intervalDays = datetime.timedelta(
-                    days=int(self.last_n_days)
+                intervalHours = datetime.timedelta(
+                    hours=int(self.last_n_hours)
                 )
-                if lastModifiedDate < datetime.datetime.now() - intervalDays:
+                if lastModifiedDate < datetime.datetime.now() - intervalHours:
                     continue
 
                 matched_members.append(fullName)
