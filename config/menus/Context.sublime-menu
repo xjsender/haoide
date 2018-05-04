@@ -18,7 +18,7 @@
 
             {"caption": "-"},
 
-            // Lighting App preview command
+            // Lightning App preview command
             {"caption": "Preview This App In Server", "command": "preview_this_app_in_server"},
             {"caption": "Diff With This Server", "command": "diff_with_server", 
                 "args": {
