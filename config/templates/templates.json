@@ -111,7 +111,7 @@
         "Apex REST": {
             "directory": "ApexClass/Apex REST.cls",
             "extension": ".cls",
-            "description": "Exception Class"
+            "description": "REST Class"
         },
         "Test": {
             "directory": "ApexClass/Test.cls",

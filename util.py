@@ -342,7 +342,7 @@ def populate_all_components():
     username = settings["username"]
 
     # If sobjects is exist in local cache, just return it
-    component_metadata = sublime.load_settings("component_metadata.sublime-settings")
+    component_metadata = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
     if not component_metadata.has(username):
         Printer.get('error').write("No Cache, Please New Project Firstly.")
         return {}
@@ -373,7 +373,7 @@ def populate_components(_type):
     username = settings["username"]
 
     # If sobjects is exist in local cache, just return it
-    component_settings = sublime.load_settings("component_metadata.sublime-settings")
+    component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
     if not component_settings.has(username):
         message = "Please execute `Cache > Reload Sobject Cache` command before execute this command"
         Printer.get("error").write(message)
@@ -387,7 +387,7 @@ def populate_lighting_applications():
     workspace = settings["workspace"]
     username = settings["username"]
     aura_path = os.path.join(workspace, "src", "aura")
-    component_settings = sublime.load_settings("component_metadata.sublime-settings")
+    component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
     if not component_settings.has(username):
         return {}
 
@@ -430,7 +430,7 @@ def populate_all_test_classes():
     settings = context.get_settings()
     username = settings["username"]
 
-    component_metadata = sublime.load_settings("component_metadata.sublime-settings")
+    component_metadata = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
     if not component_metadata.has(username):
         Printer.get('error').write("No cache, please create new project firstly.")
         return
@@ -455,7 +455,7 @@ def set_component_attribute(attributes, lastModifiedDate):
     # If sobjects is exist in local cache, just return it
     settings = context.get_settings()
     username = settings["username"]
-    s = sublime.load_settings("component_metadata.sublime-settings")
+    s = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
     if not s.has(username):
         return
 
@@ -474,7 +474,7 @@ def set_component_attribute(attributes, lastModifiedDate):
 
     # Save settings and show success message
     s.set(username, components_dict)
-    sublime.save_settings("component_metadata.sublime-settings")
+    sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
 
 def get_sobject_caches(setting_name):
