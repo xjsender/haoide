@@ -1152,6 +1152,118 @@ class ToolingApi():
         # Result used in thread invoke
         self.result = return_result
 
+    def save_aura_to_server(self, component_attribute, body, check_save_conflict=True):
+        """ Save AuraDefinition such as Lightning component makeup, controller and helper
+
+        Arguments:
+
+        * component_attribute - attribute of component, e.g., component id, url
+        * body -- Code content
+        * check_save_conflict -- indicate whether to check saving conflict
+        """
+
+        def handle_error_message(result):
+            _result = dict()
+            _result["success"] = False
+            _result["errorCode"] = result["errorCode"]
+            if "\n" in result["message"]:
+                error_messages = result["message"].split('\n')
+                error_base_info = error_messages[0].split(':')
+                _result['id'] = error_base_info[0]
+                _result["lineNumber"] = error_base_info[1].split(',')[0]
+                _result["columnNumber"] = error_base_info[1].split(',')[1]
+                _result["problem"] = error_messages[1]
+            else:
+                _result["problem"] = result["message"]
+                _result['id'] = result["message"].split(':')[0]
+                m = re.search(r'\[\d+,\s*\d+\]', result["message"])
+                if m:
+                    col_row = m.group(0)
+                    col_row = col_row[1:len(col_row)-1]
+                    _result["lineNumber"] = col_row.split(',')[0]
+                    _result["columnNumber"] = col_row.split(',')[1]
+            return _result
+
+        # 1. Firstly Login
+        result = self.login()
+        if not result["success"]:
+            self.result = result
+            return self.result
+
+        # Component Attribute
+        # component_type = component_attribute["type"]
+        component_type = 'AuraDefinition'
+        component_id = component_attribute["id"]
+        component_url = self.base_url + '/tooling/sobjects/AuraDefinition/' + component_id
+
+        # 2. Check conflict
+        if self.settings["check_save_conflict"] and check_save_conflict:
+            Printer.get('log').write("Start to check saving conflict")
+            query = "SELECT Id, LastModifiedById, LastModifiedBy.Id, " + \
+                    "LastModifiedBy.Name, LastModifiedDate, SystemModstamp " + \
+                    "FROM %s WHERE Id = '%s'" % (component_type, component_id)
+            result = self.query(query, True)
+
+            # Exception Process
+            if not result["success"]:
+                self.result = result
+                return result
+
+            # Get Server Date and LastModifiedBy
+            class_attr = result["records"][0]
+            lastModifiedBy = class_attr["LastModifiedBy"]
+            serverDateLiteral = class_attr["LastModifiedDate"]
+            serverLastModifiedDateZone = util.local_datetime(serverDateLiteral)
+
+            # Get local lastModifiedDate
+            localDateLiteral = component_attribute.get("lastModifiedDate", '')
+
+            # If local date is different with server date or lastModifiedBy is not you,
+            # it means the newest version on remote has been modified and may be different from local
+            lastModifiedByYou = class_attr["LastModifiedById"] == self.session["user_id"]
+            timeStampMatch = serverDateLiteral[:19] == localDateLiteral[:19]
+            if not lastModifiedByYou or not timeStampMatch:
+                # Used for debug
+                if self.settings["debug_mode"]:
+                    print("localDateLiteral: " + localDateLiteral)
+                    print("serverDateLiteral: " + serverDateLiteral)
+
+                message = "Modified by %s at %s, continue?" % (
+                    lastModifiedBy["Name"], serverLastModifiedDateZone
+                )
+                if not sublime.ok_cancel_dialog(message, "Ignore Conflict?"):
+                    Printer.get('log').write("Has conflict, comparing with server...")
+                    self.result = {
+                        "Operation": "cancel",
+                        "Message": "Save operation is cancelled by you due to the conflict"
+                    }
+                    return self.result
+
+            # If no conflict, just outout the lastModified information
+            Printer.get('log').write("No conflict, last modified by you at %s" % serverLastModifiedDateZone)
+
+        # 3. Update component source using HTTP patch method
+        Printer.get('log').write("Start to Save")
+        data = {
+            "Source": body
+        }
+        result = self.patch(component_url, data)
+        return_result = {
+            "success": False,
+            "problem": '',
+            "columnNumber": 0,
+            "lineNumber": 0
+        }
+
+        # 4. Get result and handle error
+        if "errorCode" in result:
+            return_result = handle_error_message(result)
+        else:
+            return_result["success"] = True
+
+        # Result used in thread invoke
+        self.result = return_result
+
     def write_symbol_table_cache(self, member_id):
         # Get the symbol table from ApexClassMember
         query = "SELECT Id, SymbolTable " +\

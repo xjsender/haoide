@@ -563,7 +563,7 @@ def handle_destructive_package_xml(types, timeout=120):
     handle_thread(thread, timeout)
 
 def handle_deploy_thread(base64_encoded_zip, 
-        source_org=None, chosen_classes=[], timeout=120):
+        source_org=None, element=None, chosen_classes=[], timeout=120, update_meta=False):
     def handle_thread(thread, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
@@ -572,6 +572,11 @@ def handle_deploy_thread(base64_encoded_zip,
         # If source_org is not None, we need to switch project back
         if settings["switch_back_after_migration"] and source_org:
             util.switch_project(source_org)
+
+        result = api.result
+        body = result["body"]
+        if body["status"] == "Succeeded" and update_meta:
+            handle_update_aura_meta(body, element)
 
     settings = context.get_settings()
     api = MetadataApi(settings)
@@ -583,6 +588,77 @@ def handle_deploy_thread(base64_encoded_zip,
     ThreadProgress(api, thread, "Deploy Metadata to %s" % settings["default_project_name"], 
         "Metadata Deployment Finished")
     handle_thread(thread, timeout)
+
+
+def handle_update_aura_meta(body, element, timeout=120, type = "AuraDefinitionBundle"):
+    """
+
+    :param body: body data returned from SOAP API
+    :param element: Aura type in `COMPONENT`, `CONTROLLER`, `HELPER`, `SVG`...
+    :param timeout: timeout in second
+    :param type: type
+    :return:
+    """
+    def handle_thread(thread, full_name, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_thread(thread, full_name, timeout), timeout)
+            return
+
+        result = api.result
+        if not result or not result["success"]:
+            return
+
+        if result["totalSize"] == 0:
+            Printer.get("log").write("There is no component data")
+            return
+        elif result["totalSize"] == 1:
+            record = result["records"][0]
+            cmp_meta = {
+                "name": full_name[:full_name.find('.')],
+                "extension": full_name[full_name.find('.'):],
+                "id": record["Id"],
+                "lastModifiedDate": record["LastModifiedDate"],
+                "type": "AuraDefinitionBundle",
+                "DefType": record["DefType"]
+            }
+            components_dict[type][full_name.lower()] = cmp_meta
+            s.set(username, components_dict)
+            sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
+
+            # Refresh metadata settings
+            sublime.set_timeout(lambda: util.load_metadata_cache(True, settings["username"]), 5)
+
+    settings = context.get_settings()
+    username = settings["username"]
+    s = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
+    if not s.has(username):
+        return
+
+    component_successes = body["details"]["componentSuccesses"]
+    if isinstance(component_successes, dict):
+        component_successes = [component_successes]
+
+    for item in component_successes:
+        if item["componentType"] == "AuraDefinitionBundle":
+            base_name = item["fullName"]
+            full_name = base_name + context.EXT_DICT.get(element.lower())
+            components_dict = s.get(username, {})
+
+            # Prevent exception if no component in org
+            if type not in components_dict:
+                components_dict = {type: {}}
+
+            # Build components dict
+            api = ToolingApi(settings)
+            query_str = "SELECT Id, DefType, LastModifiedDate, LastModifiedById " +\
+                "FROM AuraDefinition WHERE AuraDefinitionBundleId = '%s' and DefType = '%s'" % (
+                    item['id'], element.upper())
+            thread = threading.Thread(target=api.query, args=(query_str,))
+            thread.start()
+            ThreadProgress(api, thread, "Update Component Metadata", "Update Component Metadata Finished")
+            handle_thread(thread, full_name, timeout)
+            break
+
 
 def handle_track_all_debug_logs_thread(users, timeout=120):
     settings = context.get_settings()
@@ -1503,8 +1579,9 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
             Printer.get('log').write("%s %s successfully" % (save_or_compile, file_base_name))
 
             # Add total seconds message
-            total_seconds = (datetime.datetime.now() - start_time).seconds
-            Printer.get('log').write("\nTotal time: %s seconds" % total_seconds, False)
+            dt = datetime.datetime.now() - start_time
+            total_seconds = dt.seconds + dt.microseconds / 1e6
+            Printer.get('log').write("\nTotal time: %.2f seconds" % total_seconds, False)
 
             # Remove highlight
             view = util.get_view_by_file_name(file_name)
@@ -1602,8 +1679,12 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     Printer.get('log').write_start().write("Start to %s %s" % (compile_or_save, file_base_name))
 
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.save_to_server,
-        args=(component_attribute, body, is_check_only, ))
+    if component_attribute["type"] in ["AuraDefinitionBundle", "AuraDefinition"]:
+        target = api.save_aura_to_server
+    else:
+        target = api.save_to_server
+    thread = threading.Thread(target=target,
+                              args=(component_attribute, body, is_check_only, ))
     thread.start()
 
     # If saving thread is started, set the flag to True
