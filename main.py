@@ -2190,7 +2190,7 @@ class SaveToServer(sublime_plugin.TextCommand):
     def is_enabled(self):
         if not self.view or not self.view.file_name(): return False
         attributes = util.get_file_attributes(self.view.file_name())
-        if attributes["metadata_folder"] not in ["classes", "components", "pages", "triggers"]:
+        if attributes["metadata_folder"] not in ["classes", "components", "pages", "triggers", "aura"]:
             return False
             
         return util.check_enabled(self.view.file_name())

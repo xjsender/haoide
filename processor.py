@@ -1503,8 +1503,9 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
             Printer.get('log').write("%s %s successfully" % (save_or_compile, file_base_name))
 
             # Add total seconds message
-            total_seconds = (datetime.datetime.now() - start_time).seconds
-            Printer.get('log').write("\nTotal time: %s seconds" % total_seconds, False)
+            dt = datetime.datetime.now() - start_time
+            total_seconds = dt.seconds + dt.microseconds / 1e6
+            Printer.get('log').write("\nTotal time: %.2f seconds" % total_seconds, False)
 
             # Remove highlight
             view = util.get_view_by_file_name(file_name)
@@ -1602,8 +1603,12 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     Printer.get('log').write_start().write("Start to %s %s" % (compile_or_save, file_base_name))
 
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.save_to_server,
-        args=(component_attribute, body, is_check_only, ))
+    if component_attribute["type"] in ["AuraDefinitionBundle", "AuraDefinition"]:
+        target = api.save_aura_to_server
+    else:
+        target = api.save_to_server
+    thread = threading.Thread(target=target,
+                              args=(component_attribute, body, is_check_only, ))
     thread.start()
 
     # If saving thread is started, set the flag to True
