@@ -26,11 +26,12 @@ class OpenAuraDocumentReference(sublime_plugin.WindowCommand):
         
         return True
 
+
 class DeployLightingToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployLightingToServer, self).__init__(*args, **kwargs)
 
-    def run(self, dirs, switch_project=True, source_org=None):
+    def run(self, dirs, switch_project=True, source_org=None, element=None, update_meta=False):
         if switch_project:
             return self.window.run_command("switch_project", {
                 "callback_options": {
@@ -38,13 +39,15 @@ class DeployLightingToServer(sublime_plugin.WindowCommand):
                     "args": {
                         "switch_project": False,
                         "source_org": self.settings["default_project_name"],
-                        "dirs": dirs
+                        "dirs": dirs,
+                        "element": element,
+                        "update_meta": update_meta
                     }
                 }
             })
 
         base64_package = util.build_aura_package(dirs)
-        processor.handle_deploy_thread(base64_package, source_org=source_org)
+        processor.handle_deploy_thread(base64_package, source_org=source_org, element=element, update_meta=update_meta)
 
     def is_visible(self, dirs, switch_project=True):
         if not dirs or len(dirs) == 0: return False
@@ -228,7 +231,9 @@ class CreateLightingElement(sublime_plugin.WindowCommand):
         # Deploy Aura to server
         self.window.run_command("deploy_lighting_to_server", {
             "dirs": [self._dir],
-            "switch_project": False
+            "switch_project": False,
+            "element": element,
+            "update_meta": True
         })
 
     def is_visible(self, dirs, element=""):
@@ -312,7 +317,9 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
         # Deploy Aura to server
         self.window.run_command("deploy_lighting_to_server", {
             "dirs": [component_dir],
-            "switch_project": False
+            "switch_project": False,
+            "element": self._type,
+            "update_meta": True
         })
 
     def is_enabled(self):

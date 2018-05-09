@@ -8,6 +8,19 @@ from .salesforce.lib.panel import Printer
 
 COMPONENT_METADATA_SETTINGS = "component_metadata.sublime-settings"
 TOOLING_API_SETTINGS = "toolingapi.sublime-settings"
+EXT_DICT = {
+        'application': '.app',
+        'controller': 'controller.js',
+        'component': '.cmp',
+        'event': '.evt',
+        'helper': 'helper.js',
+        'interface': '.intf',
+        'renderer': 'renderer.js',
+        'style': '.css',
+        'documentation': '.auradoc',
+        'design': '.design',
+        'svg': '.svg'
+    }
 
 def get_settings():
     """ Load all settings in toolingapi.sublime-settings
