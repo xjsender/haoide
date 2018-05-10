@@ -2902,7 +2902,8 @@ tag_defs = {
             },
             "iconPosition": {
                 "description": "Describes the position of the icon with respect to body. Options include left and right. This value defaults to left.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["left", "right"]
             },
             "label": {
                 "description": "The text to be displayed inside the button.",
@@ -2934,7 +2935,8 @@ tag_defs = {
             },
             "type": {
                 "description": "Specifies the type of button. Valid values are button, reset, and submit. This value defaults to button.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["button", "rest", "submit"]
             },
             "value": {
                 "description": "The value for the button element. This value is optional and can be used when submitting a form.",
@@ -3030,7 +3032,8 @@ tag_defs = {
             },
             "type": {
                 "description": "Specifies the type of button. Valid values are button, reset, and submit. This value defaults to button.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["button", "reset", "submit"]
             },
             "value": {
                 "description": "The value for the button element. This value is optional and can be used when submitting a form.",
@@ -3100,7 +3103,8 @@ tag_defs = {
             },
             "size": {
                 "description": "The size of the buttonIcon. Options include xx-small, x-small, small, and medium. This value defaults to medium.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["xx-small", "x-small", "small", "medium"]
             },
             "tabindex": {
                 "description": "Specifies the tab order of an element (when the tab button is used for navigating).",
@@ -3165,7 +3169,8 @@ tag_defs = {
             },
             "menuAlignment": {
                 "description": "Determines the alignment of the menu relative to the button. Available options are: left, center, right. This value defaults to left.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["left", "center", "right"]
             },
             "name": {
                 "description": "The name for the button element. This value is optional and can be used to identify the button in a callback.",
@@ -3439,7 +3444,8 @@ tag_defs = {
             },
             "dropdownAlignment": {
                 "description": "Determines the alignment of the drop-down relative to the input. Available values are left, center, right, bottom-left, bottom-center, bottom-right. The default is left.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["left", "center", "right", "bottom-left", "bottom-center", "bottom-right"]
             },
             "label": {
                 "description": "Text label for the combobox.",
@@ -3559,7 +3565,8 @@ tag_defs = {
             },
             "defaultSortDirection": {
                 "description": "Specifies the default sorting direction on an unsorted column. Valid options include 'asc' and 'desc'. The default is 'asc' for sorting in ascending order.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["asc", "desc"]
             },
             "hideCheckboxColumn": {
                 "description": "Hides or displays the checkbox column for row selection. To hide the checkbox column, set hideCheckboxColumn to true. The default is false.",
@@ -3599,7 +3606,8 @@ tag_defs = {
             },
             "sortedDirection": {
                 "description": "Specifies the sorting direction. Sort the data using the onsort event handler. Valid options include 'asc' and 'desc'.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["asc", "desc"]
             },
             "title": {
                 "description": "Displays tooltip text when the mouse moves over the element.",
@@ -3731,7 +3739,8 @@ tag_defs = {
             },
             "type": {
                 "description": "The Lightning Design System name of the dynamicIcon. Valid values are: ellie, eq, score, strength, trend, and waffle.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["ellie", "eq", "score", "strength", "trend", "waffle"]
             }
         },
         "simple": False,
@@ -3841,7 +3850,8 @@ tag_defs = {
             },
             "era": {
                 "description": "Allowed values are narrow, short, or long.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["narrow", "short", "long"]
             },
             "hour": {
                 "description": "Allowed values are numeric or 2-digit.",
@@ -3955,7 +3965,8 @@ tag_defs = {
             },
             "currencyDisplayAs": {
                 "description": "Determines how currency is displayed. Possible values are symbol, code, and name. This value defaults to symbol.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["symbol", "code", "name"]
             },
             "maximumFractionDigits": {
                 "description": "The maximum number of fraction digits that are allowed.",
@@ -3979,7 +3990,8 @@ tag_defs = {
             },
             "style": {
                 "description": "The number formatting style to use. Possible values are decimal, currency, and percent. This value defaults to decimal.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["decimal", "currency", "percent"]
             },
             "value": {
                 "description": "The value to be formatted.",
@@ -4083,7 +4095,8 @@ tag_defs = {
             },
             "target": {
                 "description": "Specifies where to open the link. Options include _blank, _parent, _self, and _top.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["_blank", "_parent", "_self", "_top"]
             },
             "title": {
                 "description": "Displays tooltip text when the mouse moves over the element.",
@@ -4520,7 +4533,8 @@ tag_defs = {
             },
             "horizontalAlign": {
                 "description": "Determines how to spread the layout items horizontally. The alignment options are center, space, spread, and end.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["center", "space", "spread", "end"]
             },
             "multipleRows": {
                 "description": "Determines whether to wrap the child items when they exceed the layout width. If true, the items wrap to the following line. This value defaults to false.",
@@ -4528,11 +4542,13 @@ tag_defs = {
             },
             "pullToBoundary": {
                 "description": "Pulls layout items to the layout boundaries and corresponds to the padding size on the layout item. Possible values are small, medium, or large.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["small", "medium", "large"]
             },
             "verticalAlign": {
                 "description": "Determines how to spread the layout items vertically. The alignment options are start, center, end, and stretch.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["start", "center", "end", "stretch"]
             }
         },
         "simple": False,
@@ -4562,7 +4578,15 @@ tag_defs = {
             },
             "padding": {
                 "description": "Sets padding to either the right and left sides of a container, or all sides of a container. Allowed values are horizontal-small, horizontal-medium, horizontal-large, around-small, around-medium, around-large.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "horizontal-small",
+                    "horizontal-medium",
+                    "horizontal-large",
+                    "around-small",
+                    "around-medium",
+                    "around-large"
+                ]
             },
             "size": {
                 "description": "If the viewport is divided into 12 parts, size indicates the relative space the container occupies. Size is expressed as an integer from 1 through 12. This applies for all device-types.",
@@ -4777,7 +4801,8 @@ tag_defs = {
             },
             "size": {
                 "description": "The size of the progress bar. Valid values are x-small, small, medium, and large. The default value is medium.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["x-small", "small", "medium", "large"]
             },
             "title": {
                 "description": "Displays tooltip text when the mouse moves over the element.",
@@ -4823,7 +4848,8 @@ tag_defs = {
             },
             "type": {
                 "description": "Changes the visual pattern of the indicator. Valid values are base and path. This value defaults to base.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["base", "path"]
             },
             "variant": {
                 "description": "Changes the appearance of the progress indicator for the base type only",
@@ -5143,7 +5169,8 @@ tag_defs = {
             },
             "size": {
                 "description": "The size of the spinner. Accepted sizes are small, medium, and large. This value defaults to medium.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["small", "medium", "large"]
             },
             "variant": {
                 "description": "The variant changes the appearance of the spinner. Accepted variants are brand and inverse.",
