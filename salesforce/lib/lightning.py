@@ -150,7 +150,7 @@ standard_lib = {
         "methods": {
             "getState()\tString": "getState()",
             "getReturnValue()\tObject": "getReturnValue()",
-            "getErrors()\tArray": "getErrors()"
+            "getError()\tArray": "getError()"
         }
     },
 
