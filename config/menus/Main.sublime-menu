@@ -470,6 +470,14 @@
                             "startURL": "/ui/setup/apex/ApexTestQueuePage"
                         }
                     },
+                    
+                    {
+                        "caption": "Custom Labels",
+                        "command": "login_to_sfdc",
+                        "args": {
+                            "startURL": "/ui/setup/ExternalStrings/home"
+                        }
+                    },
 
                     {
                         "caption": "Create Object",
