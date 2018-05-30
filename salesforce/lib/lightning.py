@@ -4853,6 +4853,21 @@ tag_defs = {
             },
             "variant": {
                 "description": "Changes the appearance of the progress indicator for the base type only",
+                "type": "picklist",
+                "values": [
+                    "base"
+                ]
+            }
+        },
+        "simple": False,
+        "type": "aura"
+    },
+    "lightning:progressStep": {
+        "attribs": {
+            "label": {
+                "type": "String"
+            },
+            "value": {
                 "type": "String"
             }
         },
@@ -4923,7 +4938,11 @@ tag_defs = {
             },
             "type": {
                 "description": "The style of the radio group. Options are radio or button. The default is radio.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "radio",
+                    "button"
+                ]
             },
             "validity": {
                 "description": "Represents the validity states that an element can be in, with respect to constraint validation.",
