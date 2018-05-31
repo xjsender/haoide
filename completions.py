@@ -530,6 +530,18 @@ class LightningCompletions(sublime_plugin.EventListener):
                     value = attribute["name"]
                     completion_list.append((display, value))
 
+            if var_name == 'helper':
+                helper_path = file_name[:-13] + 'Helper.js'
+                if os.path.isfile(helper_path):
+                    wdw = sublime.active_window();
+                    helper_view = wdw.open_file(helper_path)
+                    wdw.focus_view(view)
+                    for rg, symbol in view.symbols():
+                        method_name = symbol.split(':')[0]
+                        completion_list.append((
+                            symbol, '%s($1)$0' % method_name.strip()
+                        ))
+
         # Keyword completion for standard lib
         if ch not in [".", "="]:
             if not settings["disable_keyword_completion"]:
