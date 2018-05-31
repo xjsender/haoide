@@ -534,13 +534,19 @@ class LightningCompletions(sublime_plugin.EventListener):
                 helper_path = file_name[:-13] + 'Helper.js'
                 if os.path.isfile(helper_path):
                     wdw = sublime.active_window();
-                    helper_view = wdw.open_file(helper_path)
-                    wdw.focus_view(view)
-                    for rg, symbol in view.symbols():
-                        method_name = symbol.split(':')[0]
-                        completion_list.append((
-                            symbol, '%s($1)$0' % method_name.strip()
-                        ))
+
+                    # We can only get symbols in opened view
+                    # so we just open it in background
+                    helper_view = wdw.find_open_file(helper_path)
+                    if not helper_view:
+                        helper_view = wdw.open_file(helper_path)
+                        wdw.focus_view(view)
+                    else:
+                        for rg, symbol in helper_view.symbols():
+                            method_name = symbol.split(':')[0]
+                            completion_list.append((
+                                symbol, '%s($1)$0' % method_name.strip()
+                            ))
 
         # Keyword completion for standard lib
         if ch not in [".", "="]:
