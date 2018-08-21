@@ -2576,7 +2576,7 @@ def get_soql_fields(soql):
     """
 
     match = re.match("SELECT\\s+[\\w\\n,.:_\\s]*\\s+FROM", soql, re.IGNORECASE)
-    fieldstr = match.group(0)[6:-4].replace(" ", "").replace("\n", "")
+    fieldstr = match.group(0)[6:-4].replace(" ", "").replace("\n", "").replace("\t", "")
 
     return fieldstr.split(",")
 
@@ -2585,7 +2585,8 @@ def query_to_csv(result, soql):
     if not records:
         return b"No matched rows"
     
-    # Get CSV headers
+    # Get CSV headers, 
+    # If we use * to fetch all fields
     if re.compile("select\s+\*\s+from[\s\t]+\w+", re.I).match(soql):
         headers = sorted(list(records[0].keys()))
     else:
