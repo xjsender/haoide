@@ -829,15 +829,19 @@ class ToolingApi():
         self.result = self.get(url)
         return self.result
 
-    def run_tests_synchronous(self, class_names):
-        """ Run synchronous test for specified class ids
+    def run_tests_synchronous(self, class_name, test_names):
+        """ Run synchronous test for specified class names
 
         Arguments:
 
-        * class_names -- Apex Test Class Name List
+        * class_name -- Apex Test Class Name
+        * test_names -- Apex Test Method Name List
         """
-        url = "/tooling/runTestsSynchronous/?classnames=" + ",".join(class_names)
-        self.result = self.get(url)
+        if test_names and len(test_names) > 0:
+            data = {"tests":[{"className":class_name,"testMethods":test_names}]}
+        else:
+            data = {"tests":[{"className":class_name}]}
+        self.result = self.post("/tooling/runTestsSynchronous/", data)
         return self.result
 
     def run_test(self, class_id):
