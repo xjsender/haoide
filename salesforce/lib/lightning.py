@@ -1,32 +1,1041 @@
 # Since 2018, Spring18, v42
+std_events = {
+    "lightning:conversationAgentSend": {
+        "attrs": [
+            {
+                "type": "string", 
+                "required": True, 
+                "access": "global", 
+                "name": "recordId", 
+                "description": "Record ID of the conversation"
+            }, 
+            {
+                "type": "string", 
+                "required": True, 
+                "access": "global", 
+                "name": "content", 
+                "description": "The text of a message in the chat log."
+            }, 
+            {
+                "type": "string", 
+                "required": True, 
+                "access": "global", 
+                "name": "name", 
+                "description": "The name of the agent who is attempting to send the message as it appears in the chat log."
+            }, 
+            {
+                "type": "string", 
+                "required": True, 
+                "access": "global", 
+                "name": "type", 
+                "description": "The type of message that was received—for example, agent."
+            }, 
+            {
+                "type": "date", 
+                "required": True, 
+                "access": "global", 
+                "name": "timestamp", 
+                "description": "The date and time the agent attempted to send the chat message."
+            }
+        ]
+    },
+
+    "lightning:conversationChatEnded": {
+        "attrs": [
+            {
+                "name": "recordId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "Record ID of the conversation"
+            }
+        ]
+    },
+
+    "lightning:conversationCustomEvent": {
+        "attrs": [
+            {
+                "name": "recordId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "Record ID of the conversation"
+            },
+            {
+                "name": "type",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "Name of the custom event"
+            },
+            {
+                "name": "data",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "Data attached to the custom event"
+            }
+        ]
+    },
+
+    "lightning:conversationNewMessage": {
+        "attrs": [
+            {
+                "name": "recordId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "Record ID of the conversation"
+            },
+            {
+                "name": "content",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The text of a message in the chat log."
+            },
+            {
+                "name": "name",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The name of the agent who is attempting to send the message as it appears in the chat log."
+            },
+            {
+                "name": "type",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The type of message that was received—for example, agent."
+            },
+            {
+                "name": "timestamp",
+                "type": "date",
+                "access": "global",
+                "required": True,
+                "description": "The date and time the agent attempted to send the chat message."
+            }
+        ]
+    },
+
+    "lightning:openFiles": {
+        "attrs": [
+            {
+                "name": "recordIds",
+                "type": "string[]",
+                "access": "global",
+                "required": True,
+                "description": "IDs of the records to open. This must not be empty."
+            },
+            {
+                "name": "selectedRecordId",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "ID of the record to open first among the one specified in the recordIds attribute. If this value is not provided or if the value provided is not in the list, the first element from the list will be used."
+            }
+        ]
+    },
+
+    "lightning:sendChatterExtensionPayload": {
+        "attrs": [
+            {
+                "name": "payload",
+                "type": "object",
+                "access": "global",
+                "required": True,
+                "description": "Payload data to be saved with the feed item."
+            },
+            {
+                "name": "extensionTitle",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "Title for the extension to be saved with the feed item."
+            },
+            {
+                "name": "extensionDescription",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "Description for the extension to be saved with the feed item"
+            },
+            {
+                "name": "extensionThumbnailUrl",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "thumbnailUrl for the extension to be saved with the feedItem"
+            }
+        ]
+    },
+
+    "lightning:tabClosed": {
+        "attrs": [
+            {
+                "name": "tabId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The closed tab ID."
+            }
+        ]
+    },
+
+    "lightning:tabCreated": {
+        "attrs": [
+            {
+                "name": "tabId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The newly created tab ID."
+            }
+        ]
+    },
+
+    "lightning:tabFocused": {
+        "attrs": [
+            {
+                "name": "previousTabId",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The previously focused tab ID."
+            },
+            {
+                "name": "currentTabId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The currently focused tab ID."
+            }
+        ]
+    },
+
+    "lightning:tabRefreshed": {
+        "attrs": [
+            {
+                "name": "tabId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The currently refreshed tab ID."
+            }
+        ]
+    },
+
+    "lightning:tabReplaced": {
+        "attrs": [
+            {
+                "name": "tabId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The ID of the refreshed tab."
+            }
+        ]
+    },
+
+    "lightning:tabUpdated": {
+        "attrs": [
+            {
+                "name": "tabId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The ID of the tab that was updated."
+            }
+        ]
+    },
+
+    "aura:applicationEvent": {
+        "attrs": []
+    },
+
+    "aura:componentEvent": {
+        "attrs": []
+    },
+
+    "aura:doneRendering": {
+        "attrs": []
+    },
+
+    "aura:doneWaiting": {
+        "attrs": []
+    },
+
+    "aura:locationChange": {
+        "attrs": [
+            {
+                "name": "token",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The new hash part of the url"
+            },
+            {
+                "name": "querystring",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The query string portion of the hash that is stripped off and applied to the event as parameters."
+            }
+        ]
+    },
+
+    "aura:methodCall": {
+        "attrs": [
+            {
+                "name": "name",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The name of the method called."
+            },
+            {
+                "name": "arguments",
+                "type": "list",
+                "access": "global",
+                "required": False,
+                "description": "The list of arguments passed into the public method."
+            }
+        ]
+    },
+
+    "aura:noAccess": {
+        "attrs": [
+            {
+                "name": "redirectURL",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "A url that the server says the application should redirect the browser to when this event fires."
+            }
+        ]
+    },
+
+    "aura:systemError": {
+        "attrs": [
+            {
+                "name": "message",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The message to be displayed during an error."
+            },
+            {
+                "name": "error",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The system error that's returned."
+            }
+        ]
+    },
+
+    "aura:valueChange": {
+        "attrs": [
+            {
+                "name": "expression",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The expression that triggered the value change."
+            },
+            {
+                "name": "oldValue",
+                "type": "object",
+                "access": "global",
+                "required": False,
+                "description": "The previous value that was changed."
+            },
+            {
+                "name": "value",
+                "type": "object",
+                "access": "global",
+                "required": False,
+                "description": "The new value."
+            },
+            {
+                "name": "index",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "If the handler was registered through an ArrayValue or MapValue, the name/index of the changed Value in that ArrayValue or MapValue"
+            }
+        ]
+    },
+
+    "aura:valueDestroy": {
+        "attrs": [
+            {
+                "name": "value",
+                "type": "object",
+                "access": "global",
+                "required": False,
+                "description": "The component that is being destroyed."
+            }
+        ]
+    },
+
+    "aura:valueEvent": {
+        "attrs": []
+    },
+
+    "aura:valueInit": {
+        "attrs": [
+            {
+                "name": "value",
+                "type": "object",
+                "access": "global",
+                "required": False,
+                "description": "The component that initialized."
+            }
+        ]
+    },
+
+    "aura:valueRender": {
+        "attrs": [
+            {
+                "name": "value",
+                "type": "object",
+                "access": "global",
+                "required": False,
+                "description": "The component that rendered."
+            }
+        ]
+    },
+
+    "aura:waiting": {
+        "attrs": []
+    },
+
+    "force:createRecord": {
+        "attrs": [
+            {
+                "name": "entityApiName",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "Required. The API name of the custom or standard object, such as \"Account\", \"Case\", \"Contact\", \"Lead\", \"Opportunity\", or \"namespace__objectName__c\"."
+            },
+            {
+                "name": "recordTypeId",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "Non-null if recordTypes are enabled. Null means Master RecordType."
+            },
+            {
+                "name": "defaultFieldValues",
+                "type": "map",
+                "access": "global",
+                "required": False,
+                "description": "Prepopulates fields on a record create panel, including fields not displayed on the panel. ID fields and rich text fields can't be prepopulated. Users must have create access to prepopulated fields. Errors during saving that are caused by field access limitations do not display error messages."
+            }
+        ]
+    },
+
+    "force:editRecord": {
+        "attrs": [
+            {
+                "name": "recordId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": ""
+            }
+        ]
+    },
+
+    "force:navigateToList": {
+        "attrs": [
+            {
+                "name": "listViewId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The ID of the list view to be displayed"
+            },
+            {
+                "name": "listViewName",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "Specifies the name for the list view and doesn't need to match the actual name. To use the actual name that's saved for the list view, set listViewName to null."
+            },
+            {
+                "name": "scope",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The name of the sObject in the view, for example, 'Account' or 'MyObject__c'"
+            }
+        ]
+    },
+
+    "force:navigateToObjectHome": {
+        "attrs": [
+            {
+                "name": "scope",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "name or key prefix of entity to display object home for."
+            },
+            {
+                "name": "resetHistory",
+                "type": "boolean",
+                "access": "global",
+                "required": False,
+                "description": "Set to true to reset history"
+            }
+        ]
+    },
+
+    "force:navigateToReactNativeApp": {
+        "attrs": [
+            {
+                "name": "appName",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The name of the react native app to navigate to, for example, Insights."
+            },
+            {
+                "name": "params",
+                "type": "object",
+                "access": "global",
+                "required": False,
+                "description": "The parameters required for the react native app."
+            }
+        ]
+    },
+
+    "force:navigateToRelatedList": {
+        "attrs": [
+            {
+                "name": "relatedListId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The API name of the related list to display. For standard objects it is typically the related list's entity api name in plural form, such as 'Contacts' or '​Opportunitie​s'. For custom objects it takes the form of '{​YourCustom​Relationship​Label}__r'"
+            },
+            {
+                "name": "parentRecordId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The ID of the parent record"
+            },
+            {
+                "name": "entityApiName",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The entity API name of the related list"
+            }
+        ]
+    },
+
+    "force:navigateToSObject": {
+        "attrs": [
+            {
+                "name": "networkId",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "InheritedNetwork that the event is associated with."
+            },
+            {
+                "name": "recordId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The record ID"
+            },
+            {
+                "name": "slideDevName",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The slideDevName of the slide to navigate to. By default, options are 'chatter', 'related', 'detail'."
+            },
+            {
+                "name": "isredirect",
+                "type": "boolean",
+                "access": "global",
+                "required": False,
+                "description": "If we are redirecting in place, we don't want to create 2 history entries for hybrid. Instead hybrid ignores redirects as a history entry."
+            }
+        ]
+    },
+
+    "force:navigateToURL": {
+        "attrs": [
+            {
+                "name": "networkId",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "InheritedNetwork that the event is associated with."
+            },
+            {
+                "name": "isredirect",
+                "type": "boolean",
+                "access": "global",
+                "required": False,
+                "description": "If we are redirecting in place, we don't want to create 2 history entries for hybrid. Instead hybrid ignores redirects as a history entry."
+            },
+            {
+                "name": "url",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The URL of the target"
+            }
+        ]
+    },
+
+    "force:recordSave": {
+        "attrs": []
+    },
+
+    "force:recordSaveSuccess": {
+        "attrs": []
+    },
+
+    "force:refreshView": {
+        "attrs": []
+    },
+
+    "force:showToast": {
+        "attrs": [
+            {
+                "name": "title",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "Specifies the title for a message to display. The title is shown above the message in a slightly larger font."
+            },
+            {
+                "name": "duration",
+                "type": "integer",
+                "access": "global",
+                "required": False,
+                "description": "Length of time the toast is visible for, in milliseconds. Applies to 'dismissible' or 'pester' toast modes. The default is 5000ms if the provided value is less than 5000ms."
+            },
+            {
+                "name": "message",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The message to display in the toast."
+            },
+            {
+                "name": "key",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "Icon to use when toast type is 'other'. Icon keys are available at the Lightning Design System Icons page."
+            },
+            {
+                "name": "mode",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The toast mode, which controls how users can dismiss the toast. Valid values are 'pester' and 'sticky'. The default is 'dismissible', which displays the close button."
+            },
+            {
+                "name": "type",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The toast type, which can be 'error', 'warning', 'success', or 'info'. The default is 'other', which is styled like an 'info' toast and doesn’t display an icon, unless specified by the key attribute."
+            },
+            {
+                "name": "messageTemplate",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "Overwrites message string with the specified message. Requires messageTemplateData."
+            },
+            {
+                "name": "messageTemplateData",
+                "type": "object[]",
+                "access": "global",
+                "required": False,
+                "description": "An array of text and actions to be used in messageTemplate."
+            }
+        ]
+    },
+
+    "forceChatter:customOpenFile": {
+        "attrs":  [
+            {
+                "name": "recordId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "ID of the file record. This must not be empty."
+            }
+        ]
+            },
+
+            "forceChatter:postCreated": {
+                "attrs": [
+            {
+                "name": "feedItemId",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The id of the feed item that has been created"
+            }
+        ]
+    },
+
+    "forceCommunity:analyticsInteraction": {
+        "attrs": [
+            {
+                "name": "hitType",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The type of hit. Supported types: 'event', 'social', 'exception', 'timing'."
+            },
+            {
+                "name": "eventCategory",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The type or category of item that was interacted with. Required for 'event' hitType."
+            },
+            {
+                "name": "eventAction",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The type of action. Required for 'event' hitType."
+            },
+            {
+                "name": "eventLabel",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "A label for providing additional event information."
+            },
+            {
+                "name": "eventValue",
+                "type": "integer",
+                "access": "global",
+                "required": False,
+                "description": "A positive numeric value associated with the event."
+            },
+            {
+                "name": "socialNetwork",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The network on which the action occurs. Required for 'social' hitType."
+            },
+            {
+                "name": "socialAction",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The type of action that happens. Required for 'social' hitType."
+            },
+            {
+                "name": "socialTarget",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "Specifies the target of a social interaction. Required for 'social' hitType."
+            },
+            {
+                "name": "exDescription",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "A description of the exception."
+            },
+            {
+                "name": "exFatal",
+                "type": "boolean",
+                "access": "global",
+                "required": False,
+                "description": "True if the exception was fatal."
+            },
+            {
+                "name": "timingCategory",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "A string for categorizing all user timing variables into logical groups. Required for 'timing' hitType."
+            },
+            {
+                "name": "timingVar",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "A string to identify the variable being recorded. Required for 'timing' hitType."
+            },
+            {
+                "name": "timingValue",
+                "type": "integer",
+                "access": "global",
+                "required": False,
+                "description": "The number of milliseconds in elapsed time to report to Google Analytics. Required for 'timing' hitType."
+            },
+            {
+                "name": "timingLabel",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "A string that can be used to add flexibility in visualizing user timings in the reports."
+            }
+        ]
+    },
+
+    "forceCommunity:routeChange": {
+        "attrs": []
+    },
+
+    "ltng:afterScriptsLoaded": {
+        "attrs": []
+    },
+
+    "ltng:beforeLoadingResources": {
+        "attrs": []
+    },
+
+    "ltng:selectSObject": {
+        "attrs": [
+            {
+                "name": "recordId",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The record ID associated with the record to select."
+            },
+            {
+                "name": "channel",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "Represents the channel name. Specify this attribute if you want particular components to process some event messages while ignoring others."
+            }
+        ]
+    },
+
+    "ltng:sendMessage": {
+        "attrs": [
+            {
+                "name": "message",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "A message in the form of a String or JSON."
+            },
+            {
+                "name": "channel",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "Represents the channel name. Use a channel to enable a component to filter down to specific events."
+            }
+        ]
+    },
+
+    "ui:clearErrors": {
+        "attrs": []
+    },
+
+    "ui:collapse": {
+        "attrs": []
+    },
+
+    "ui:expand": {
+        "attrs": []
+    },
+
+    "ui:menuFocusChange": {
+        "attrs": [
+            {
+                "name": "previousItem",
+                "type": "component[]",
+                "access": "global",
+                "required": False,
+                "description": "The menu item that's previously focused."
+            },
+            {
+                "name": "currentItem",
+                "type": "component[]",
+                "access": "global",
+                "required": False,
+                "description": "The menu item that's currently focused."
+            }
+        ]
+    },
+
+    "ui:menuSelect": {
+        "attrs": [
+            {
+                "name": "selectedItem",
+                "type": "component[]",
+                "access": "global",
+                "required": False,
+                "description": "The menu item that's selected."
+            },
+            {
+                "name": "hideMenu",
+                "type": "boolean",
+                "access": "global",
+                "required": False,
+                "description": "Hides menu if set to true."
+            },
+            {
+                "name": "deselectSiblings",
+                "type": "boolean",
+                "access": "global",
+                "required": False,
+                "description": "Deselects the siblings of the currently selected menu item."
+            },
+            {
+                "name": "focusTrigger",
+                "type": "boolean",
+                "access": "global",
+                "required": False,
+                "description": "Sets focus to menuTrigger."
+            }
+        ]
+    },
+
+    "ui:menuTriggerPress": {
+        "attrs": []
+    },
+
+    "ui:validationError": {
+        "attrs": []
+    },
+
+    "wave:discover": {
+        "attrs": [
+            {
+                "name": "UID",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "Optional identifier that will be included in the response data."
+            }
+        ]
+    },
+
+    "wave:discoverResponse": {
+        "attrs": [
+            {
+                "name": "id",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "Dashboard Id."
+            },
+            {
+                "name": "type",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "Type of component, usually dashboard."
+            },
+            {
+                "name": "title",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "Title of the dashboard."
+            },
+            {
+                "name": "isLoaded",
+                "type": "boolean",
+                "access": "global",
+                "required": True,
+                "description": "Whether dashboard is loaded or still loading."
+            },
+            {
+                "name": "UID",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "Optional parameter sent with the request."
+            }
+        ]
+    },
+
+    "wave:selectionChanged": {
+        "attrs": [
+            {
+                "name": "noun",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The type of the Wave asset for which a selection change event occurred."
+            },
+            {
+                "name": "verb",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The action that occurred on the Wave asset."
+            },
+            {
+                "name": "id",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "The identifier of the Wave asset for which a selection change event occurred."
+            },
+            {
+                "name": "payload",
+                "type": "string",
+                "access": "global",
+                "required": False,
+                "description": "Contains the selection information from the asset that fired the event."
+            }
+        ]
+    },
+
+    "wave:update": {
+        "attrs": [
+            {
+                "name": "id",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The identifier for the Wave asset, in the form of a standard 18-character ID."
+            },
+            {
+                "name": "value",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The JSON representing the filter or selection to be applied to the asset."
+            },
+            {
+                "name": "type",
+                "type": "string",
+                "access": "global",
+                "required": True,
+                "description": "The type of the Wave asset. Currently, only dashboard is supported."
+            }
+        ]
+    }
+}
+
 standard_lib = {
     'e': {
         "type": "Standard Class",
-        "properties": [
-            "force:closeQuickAction",
-            "force:createRecord",
-            "force:editRecord",
-            "force:navigateToComponent",
-            "force:navigateToList",
-            "force:navigateToObjectHome",
-            "force:navigateToRelatedList",
-            "force:navigateToSObject",
-            "force:navigateToURL",
-            "force:recordSave",
-            "force:recordSaveSuccess",
-            "force:refreshView",
-            "force:showToast",
-            "forceCommunity:analyticsInteraction",
-            "forceCommunity:routeChange",
-            "lightning:openFiles",
-            "lightning:sendChatterExtensionPayload",
-            "ltng:selectSObject",
-            "ltng:sendMessage",
-            "wave:discoverDashboard",
-            "wave:discoverResponse",
-            "wave:selectionChanged",
-            "wave:update"
-        ]
+        "properties": sorted(std_events.keys())
     },
 
     "A": {
@@ -1035,31 +2044,119 @@ icon_names = [
     "utility:zoomout"
 ]
 
+timezones = [
+    "Pacific/Kiritimati",
+    "Pacific/Enderbury",
+    "Pacific/Tongatapu",
+    "Pacific/Chatham",
+    "Asia/Kamchatka",
+    "Pacific/Auckland",
+    "Pacific/Fiji",
+    "Pacific/Guadalcanal",
+    "Pacific/Norfolk",
+    "Australia/Lord_Howe",
+    "Australia/Brisbane",
+    "Australia/Sydney",
+    "Australia/Adelaide",
+    "Australia/Darwin",
+    "Asia/Seoul",
+    "Asia/Tokyo",
+    "Asia/Hong_Kong",
+    "Asia/Kuala_Lumpur",
+    "Asia/Manila",
+    "Asia/Shanghai",
+    "Asia/Singapore",
+    "Asia/Taipei",
+    "Australia/Perth",
+    "Asia/Bangkok",
+    "Asia/Ho_Chi_Minh",
+    "Asia/Jakarta",
+    "Asia/Rangoon",
+    "Asia/Dhaka",
+    "Asia/Kathmandu",
+    "Asia/Colombo",
+    "Asia/Kolkata",
+    "Asia/Karachi",
+    "Asia/Tashkent",
+    "Asia/Yekaterinburg",
+    "Asia/Kabul",
+    "Asia/Tehran",
+    "Asia/Baku",
+    "Asia/Dubai",
+    "Asia/Tbilisi",
+    "Asia/Yerevan",
+    "Africa/Nairobi",
+    "Asia/Baghdad",
+    "Asia/Beirut",
+    "Asia/Jerusalem",
+    "Asia/Kuwait",
+    "Asia/Riyadh",
+    "Europe/Athens",
+    "Europe/Bucharest",
+    "Europe/Helsinki",
+    "Europe/Istanbul",
+    "Europe/Minsk",
+    "Europe/Moscow",
+    "Africa/Cairo",
+    "Africa/Johannesburg",
+    "Europe/Amsterdam",
+    "Europe/Berlin",
+    "Europe/Brussels",
+    "Europe/Paris",
+    "Europe/Prague",
+    "Europe/Rome",
+    "Africa/Algiers",
+    "Europe/Dublin",
+    "Europe/Lisbon",
+    "Europe/London",
+    "Africa/Casablanca",
+    "America/Scoresbysund",
+    "Atlantic/Azores",
+    "GMT",
+    "Atlantic/Cape_Verde",
+    "Atlantic/South_Georgia",
+    "America/St_Johns",
+    "America/Argentina/Buenos_Aires",
+    "America/Halifax",
+    "America/Sao_Paulo",
+    "Atlantic/Bermuda",
+    "America/Caracas",
+    "America/Indiana/Indianapolis",
+    "America/New_York",
+    "America/Puerto_Rico",
+    "America/Santiago",
+    "America/Bogota",
+    "America/Chicago",
+    "America/Lima",
+    "America/Mexico_City",
+    "America/Panama",
+    "America/Denver",
+    "America/El_Salvador",
+    "America/Mazatlan",
+    "America/Los_Angeles",
+    "America/Phoenix",
+    "America/Tijuana",
+    "America/Anchorage",
+    "Pacific/Pitcairn",
+    "America/Adak",
+    "Pacific/Gambier",
+    "Pacific/Marquesas",
+    "Pacific/Honolulu",
+    "Pacific/Niue",
+    "Pacific/Pago_Pago"
+]
+
 # ["analytics", "aura", "force", "forceChatter", "forceCommunity", "lightning", "ltng", "ui", "wave"]
 tag_defs = {
-    "analytics:reportChart": {
-        "attribs": {
-            "filter": {
-                "type": "json",
-                "values": [
-                    "{\"column\": $1, \"operator\": $2, \"value\": $3}"
-                ]
-            },
-            "hideOnError": {
-                "type": "Boolean"
-            },
-            "rendered": {
-                "type": "Boolean"
-            },
-            "reportId": {
-                "type": "String"
-            },
-            "size": {
-                "type": "String"
-            }
-        },
+    "sfdc:sobjects": {
+        "attribs": {},
         "simple": False,
-        "type": "visualforce"
+        "type": "aura"
+    },
+    "sfdc:sobject": {
+        "attribs": {},
+        "simple": False,
+        "type": "aura"
     },
     "aura:application": {
         "attribs": {
@@ -1144,7 +2241,9 @@ tag_defs = {
                     "Map",
                     "List",
                     "Set",
-                    "Aura.Action"
+                    "Aura.Action",
+                    "Aura.Component",
+                    "Aura.Component[]"
                 ]
             }
         },
@@ -1814,7 +2913,10 @@ tag_defs = {
             },
             "type": {
                 "description": "The type of layout to use to display the record. Possible values: FULL, MINI. The default is FULL.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "FULL", "MINI"
+                ]
             }
         },
         "simple": False,
@@ -3875,7 +4977,8 @@ tag_defs = {
             },
             "timeZone": {
                 "description": "The time zone to use. Implementations can include any time zone listed in the IANA time zone database. The default is the runtime's default time zone. Use this attribute only if you want to override the default time zone.",
-                "type": "String"
+                "type": "Picklist",
+                "values": timezones
             },
             "timeZoneName": {
                 "description": "Allowed values are short or long. For example, the Pacific Time zone would display as 'PST' if you select 'short', or 'Pacific Standard Time' if you select 'long.'",
@@ -4853,6 +5956,21 @@ tag_defs = {
             },
             "variant": {
                 "description": "Changes the appearance of the progress indicator for the base type only",
+                "type": "picklist",
+                "values": [
+                    "base"
+                ]
+            }
+        },
+        "simple": False,
+        "type": "aura"
+    },
+    "lightning:progressStep": {
+        "attribs": {
+            "label": {
+                "type": "String"
+            },
+            "value": {
                 "type": "String"
             }
         },
@@ -4923,7 +6041,11 @@ tag_defs = {
             },
             "type": {
                 "description": "The style of the radio group. Options are radio or button. The default is radio.",
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "radio",
+                    "button"
+                ]
             },
             "validity": {
                 "description": "Represents the validity states that an element can be in, with respect to constraint validation.",
@@ -8528,105 +9650,7 @@ tag_defs = {
             "timezone": {
                 "description": "The timezone ID, for example, America/Los_Angeles.",
                 "type": "Picklist",
-                "values": [
-                    "Pacific/Chatham",
-                    "Pacific/Auckland",
-                    "Pacific/Enderbury",
-                    "Pacific/Fiji",
-                    "Pacific/Tongatapu",
-                    "Asia/Kamchatka",
-                    "Australia/Lord_Howe",
-                    "Australia/Sydney",
-                    "Pacific/Guadalcanal",
-                    "Pacific/Norfolk",
-                    "Australia/Adelaide",
-                    "Australia/Brisbane",
-                    "Australia/Darwin",
-                    "Asia/Seoul",
-                    "Asia/Tokyo",
-                    "Asia/Hong_Kong",
-                    "Asia/Kuala_Lumpur",
-                    "Asia/Manila",
-                    "Asia/Shanghai",
-                    "Asia/Singapore",
-                    "Asia/Taipei",
-                    "Australia/Perth",
-                    "Asia/Bangkok",
-                    "Asia/Ho_Chi_Minh",
-                    "Asia/Jakarta",
-                    "Asia/Rangoon",
-                    "Asia/Dhaka",
-                    "Asia/Kathmandu",
-                    "Asia/Colombo",
-                    "Asia/Kolkata",
-                    "Asia/Karachi",
-                    "Asia/Tashkent",
-                    "Asia/Yekaterinburg",
-                    "Asia/Kabul",
-                    "Asia/Baku",
-                    "Asia/Dubai",
-                    "Asia/Tbilisi",
-                    "Asia/Yerevan",
-                    "Asia/Tehran",
-                    "Africa/Nairobi",
-                    "Asia/Baghdad",
-                    "Asia/Kuwait",
-                    "Asia/Riyadh",
-                    "Europe/Minsk",
-                    "Europe/Moscow",
-                    "Africa/Cairo",
-                    "Africa/Johannesburg",
-                    "Asia/Beirut",
-                    "Asia/Jerusalem",
-                    "Europe/Athens",
-                    "Europe/Bucharest",
-                    "Europe/Helsinki",
-                    "Europe/Istanbul",
-                    "Africa/Algiers",
-                    "Europe/Amsterdam",
-                    "Europe/Berlin",
-                    "Europe/Brussels",
-                    "Europe/Paris",
-                    "Europe/Prague",
-                    "Europe/Rome",
-                    "Africa/Casablanca",
-                    "Europe/Dublin",
-                    "Europe/Lisbon",
-                    "Europe/London",
-                    "America/Scoresbysund",
-                    "Atlantic/Azores",
-                    "Atlantic/Cape_Verde",
-                    "America/Sao_Paulo",
-                    "Atlantic/South_Georgia",
-                    "America/Argentina/Buenos_Aires",
-                    "America/Santiago",
-                    "America/St_Johns",
-                    "America/Halifax",
-                    "America/Puerto_Rico",
-                    "Atlantic/Bermuda",
-                    "America/Caracas",
-                    "America/Bogota",
-                    "America/Indiana/Indianapolis",
-                    "America/Lima",
-                    "America/New_York",
-                    "America/Panama",
-                    "America/Chicago",
-                    "America/El_Salvador",
-                    "America/Mexico_City",
-                    "America/Denver",
-                    "America/Mazatlan",
-                    "America/Phoenix",
-                    "America/Los_Angeles",
-                    "America/Tijuana",
-                    "Pacific/Pitcairn",
-                    "America/Anchorage",
-                    "Pacific/Gambier",
-                    "Pacific/Marquesas",
-                    "America/Adak",
-                    "Pacific/Honolulu",
-                    "Pacific/Niue",
-                    "Pacific/Pago_Pago"
-                ]
+                "values": timezones
             },
             "value": {
                 "description": "An ISO8601-formatted string representing a date time.",
