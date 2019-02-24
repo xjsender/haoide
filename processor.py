@@ -1159,7 +1159,7 @@ def handle_run_test(class_name, class_id, timeout=120):
     ThreadProgress(api, thread, "Run Test Class " + class_name, "Run Test for " + class_name + " Succeed")
     handle_thread(thread, timeout)
 
-def handle_run_sync_test(class_names, timeout=120):
+def handle_run_sync_test(class_names, test_names, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -1209,7 +1209,7 @@ def handle_run_sync_test(class_names, timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.run_tests_synchronous, args=(class_names, ))
+    thread = threading.Thread(target=api.run_tests_synchronous, args=(class_names[0], test_names))
     thread.start()
     wait_message = "Running Sync Test Classes%s" % (
         " for %s" % class_names[0] if len(class_names) == 1 else ""
