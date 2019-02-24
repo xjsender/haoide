@@ -1598,7 +1598,13 @@ class RunSyncTests(sublime_plugin.WindowCommand):
 
 class RunSyncTest(sublime_plugin.TextCommand):
     def run(self, edit):
-        processor.handle_run_sync_test([self.cname])
+        tests = [];
+        for region in self.view.sel():
+            sel = self.view.substr(self.view.word(region.begin()))
+            if sel and not sel.isspace():
+                tests.append(sel.strip())
+
+        processor.handle_run_sync_test([self.cname], tests)
 
     def is_enabled(self):
         # Get current file name and Read file content
@@ -1623,6 +1629,11 @@ class RunSyncTest(sublime_plugin.TextCommand):
                 component_attribute["namespacePrefix"],
                 self.cname
             )
+            
+        for region in self.view.sel():
+            sel = self.view.substr(self.view.word(region.begin()))
+            if sel and not sel.isspace() and not re.compile(r'^[a-zA-Z0-9_]*$').match(sel.strip()):
+                return False
             
         return True
 
