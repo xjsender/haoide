@@ -1621,7 +1621,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
             # Check current view the saving code file
             if not view or not view.file_name(): return
             if not file_base_name in view.file_name(): return
-            if not extension in [".trigger", ".cls", ".page"]: return
+            if not extension in [".trigger", ".cls", ".page", ".cmp", '.js', '.css']: return
 
             if "line" in result:
                 line = result["line"]
