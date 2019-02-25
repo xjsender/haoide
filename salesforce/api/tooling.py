@@ -1172,11 +1172,20 @@ class ToolingApi():
             _result["errorCode"] = result["errorCode"]
             if "\n" in result["message"]:
                 error_messages = result["message"].split('\n')
-                error_base_info = error_messages[0].split(':')
-                _result['id'] = error_base_info[0]
-                _result["lineNumber"] = error_base_info[1].split(',')[0]
-                _result["columnNumber"] = error_base_info[1].split(',')[1]
-                _result["problem"] = error_messages[1]
+                if "CSS Parser" in error_messages[0] :
+                    error_msg = error_messages[2]
+                    _result["problem"] = error_msg
+                    error_line_info = error_msg[error_msg.find("(")+1: error_msg.find(")")]
+                    _result["lineNumber"] = error_line_info.split(",")[0][5:]
+                    _result["columnNumber"] = error_line_info.split(",")[1][5:]
+                else:
+                    error_base_info = error_messages[0].split(': ')
+                    error_line_info = error_base_info[1].split(':')[1]
+                    error_line_info = error_line_info[1 : len(error_line_info) - 1]
+                    _result['id'] = error_base_info[0]
+                    _result["lineNumber"] = error_line_info.split(',')[0]
+                    _result["columnNumber"] = error_line_info.split(',')[1]
+                    _result["problem"] = error_messages[1]
             else:
                 _result["problem"] = result["message"]
                 _result['id'] = result["message"].split(':')[0]

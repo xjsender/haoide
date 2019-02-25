@@ -1,4 +1,9 @@
+# Update to: Winter19 Version 44
 apex_namespaces = {
+    "Auth": [
+        "LoginDiscoveryException",
+        "DiscoveryCustomErrorException"
+    ],
     "Search": [
         "SearchResults", 
         "KnowledgeSuggestionFilter", 
@@ -822,7 +827,9 @@ apex_namespaces = {
         "FlowException", 
         "Schema", 
         "QueueableContextImpl", 
-        "Site"
+        "Site",
+        "UserManagement",
+        "Callable"
     ], 
     "Canvas": [
         "CanvasRenderException", 
@@ -1509,7 +1516,8 @@ apex_completions = {
             "isExternalId()\tBoolean": "isExternalId()$0", 
             "isCreateable()\tBoolean": "isCreateable()$0", 
             "isDependentPicklist()\tBoolean": "isDependentPicklist()$0", 
-            "getFilteredLookupInfo()\tSchema.FilteredLookupInfo": "getFilteredLookupInfo()$0", 
+            "getFilteredLookupInfo()\tSchema.FilteredLookupInfo": "getFilteredLookupInfo()$0",
+            "isAiPredictionField()\tBoolean": "isAiPredictionField()$0",
             "isCaseSensitive()\tBoolean": "isCaseSensitive()$0", 
             "isDisplayLocationInDecimal()\tBoolean": "isDisplayLocationInDecimal()$0", 
             "getDefaultValueFormula()\tString": "getDefaultValueFormula()$0", 
@@ -3484,7 +3492,8 @@ apex_completions = {
             "toString()\tString": "toString()$0", 
             "getFile()\tString": "getFile()$0", 
             "getQuery()\tString": "getQuery()$0", 
-            "getHost()\tString": "getHost()$0"
+            "getHost()\tString": "getHost()$0",
+            "getOrgDomainUrl()\tSystem.Url": "getOrgDomainUrl()$0"
         }, 
         "namespace": "System", 
         "properties": {}
@@ -6586,7 +6595,10 @@ apex_completions = {
             "getRandomLong()\tLong": "getRandomLong()$0", 
             "generateAesKey(Integer size)\tBlob": "generateAesKey(${1:Integer size})$0", 
             "signXml(String algorithmName, dom.XmlNode node, String idAttributeName, String certDevName, dom.XmlNode refChild)\tvoid": "signXml(${1:String algorithmName}, ${2:dom.XmlNode node}, ${3:String idAttributeName}, ${4:String certDevName}, ${5:dom.XmlNode refChild})$0", 
-            "sign(String algorithmName, Blob input, Blob privateKey)\tBlob": "sign(${1:String algorithmName}, ${2:Blob input}, ${3:Blob privateKey})$0"
+            "sign(String algorithmName, Blob input, Blob privateKey)\tBlob": "sign(${1:String algorithmName}, ${2:Blob input}, ${3:Blob privateKey})$0",
+            "verify(String algorithmName, Blob data, Blob signature, Blob publicKey)\tBlob": "verify(${1:String algorithmName}, ${2:Blob data}, ${3:Blob signature}, ${4:Blob publicKey})$0",
+            "verify(String algorithmName, Blob data, Blob signature, String certDevName)\tBlob": "verify(${1:String algorithmName}, ${2:Blob data}, ${3:Blob signature}, ${4:String certDevName})$0",
+            "verifyMac(String algorithmName, Blob input, Blob privateKey, Blob macToVerify)\tBlob": "verifyMac(${1:String algorithmName}, ${2:Blob input}, ${3:Blob privateKey}, ${4:Blob macToVerify})$0"
         }, 
         "namespace": "System", 
         "properties": {}
@@ -9772,6 +9784,7 @@ apex_completions = {
             "getLocalName()\tString": "getLocalName()$0", 
             "isSearchable()\tBoolean": "isSearchable()$0", 
             "getRecordTypeInfosById()\tMap<Id,Schema.RecordTypeInfo>": "getRecordTypeInfosById()$0", 
+            "getRecordTypeInfosByDeveloperName()\tMap<String,Schema.RecordTypeInfo>": "getRecordTypeInfosByDeveloperName()$0",
             "isUndeletable()\tBoolean": "isUndeletable()$0", 
             "getFields()\tSchema.SObjectTypeFields": "getFields()$0", 
             "isAccessible()\tBoolean": "isAccessible()$0", 
@@ -17685,7 +17698,8 @@ apex_completions = {
         "name": "RecordTypeInfo", 
         "methods": {
             "isActive()\tBoolean": "isActive()$0", 
-            "getRecordTypeId()\tId": "getRecordTypeId()$0", 
+            "getRecordTypeId()\tId": "getRecordTypeId()$0",
+            "getDeveloperName()\tString": "getDeveloperName()$0",
             "isMaster()\tBoolean": "isMaster()$0", 
             "isAvailable()\tBoolean": "isAvailable()$0", 
             "getName()\tString": "getName()$0", 
