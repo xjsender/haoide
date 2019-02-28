@@ -2370,24 +2370,6 @@ tag_defs = {
         "type": "aura"
     },
     
-    "design:attribute": {
-        "attribs": {
-            "default": {
-                "type": "String"
-            },
-            "description": {
-                "type": "String"
-            },
-            "name": {
-                "type": "String"
-            },
-            "required": {
-                "type": "Boolean"
-            }
-        },
-        "simple": False,
-        "type": "aura"
-    },
     "aura:component": {
         "attribs": {
             "access": {
@@ -2765,6 +2747,63 @@ tag_defs = {
             },
             "version": {
                 "description": "Version to associate with all stored items.",
+                "type": "String"
+            }
+        },
+        "simple": False,
+        "type": "aura"
+    },
+
+    "design:attribute": {
+        "attribs": {
+            "datasource": {
+                "description": "Renders a field as a picklist, with static values. Only supported for String attributes.",
+                "type": "String"
+            },
+            "default": {
+                "description": "Sets a default value on an attribute in a design resource.",
+                "type": "String"
+            },
+            "description": {
+                "description": "Displays as an i-bubble for the attribute in the tool.",
+                "type": "String"
+            },
+            "label": {
+                "description": "Attribute label that displays in the tool.",
+                "type": "String"
+            },
+            "max": {
+                "description": "If the attribute is an Integer, this sets its maximum allowed value. If the attribute is a String, this is the maximum length allowed.",
+                "type": "Integer"
+            },
+            "min": {
+                "description": "If the attribute is an Integer, this sets its minimum allowed value. If the attribute is a String, this is the minimum length allowed.",
+                "type": "Integer"
+            },
+            "": {
+                "description": "",
+                "type": "String"
+            },
+            "name": {
+                "description": "Required attribute. Its value must match the aura:attribute name value in the .cmp resource.",
+                "type": "String"
+            },
+            "placeholder": {
+                "description": "Input placeholder text for the attribute when it displays in the tool.",
+                "type": "String"
+            },
+            "required": {
+                "description": "Denotes whether the attribute is required. If omitted, defaults to false.",
+                "type": "String"
+            }
+        },
+        "simple": False,
+        "type": "aura"
+    },
+    "design:component": {
+        "attribs": {
+            "label": {
+                "description": "Sets the label of the component when it displays in tools such as App Builder.",
                 "type": "String"
             }
         },
