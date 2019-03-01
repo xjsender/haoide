@@ -3378,7 +3378,13 @@ tag_defs = {
                 "type": "Boolean"
             },
             "docType": {
-                "type": "String"
+                "type": "Picklist",
+                "values": [
+                    "html-4.01-strict",
+                    "xhtml-1.0-transitional",
+                    "xhtml-1.1-basic",
+                    "html-5.0"
+                ]
             },
             "expires": {
                 "type": "Integer"
@@ -3394,6 +3400,9 @@ tag_defs = {
             },
             "language": {
                 "type": "String"
+            },
+            "lightningStylesheets": {
+                "type": "Boolean"
             },
             "manifest": {
                 "type": "String"
@@ -3426,6 +3435,9 @@ tag_defs = {
                 "type": "Boolean"
             },
             "showHeader": {
+                "type": "Boolean"
+            },
+            "showQuickActionVfHeader": {
                 "type": "Boolean"
             },
             "sidebar": {
@@ -5001,6 +5013,18 @@ tag_defs = {
             }
         },
         "simple": False,
+        "type": "visualforce"
+    },
+    "apex:slds": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": True,
         "type": "visualforce"
     },
     "apex:stylesheet": {
