@@ -2296,7 +2296,9 @@ tag_defs = {
             "extends": {
                 "type": "Picklist",
                 "values": [
-                    "force:slds"
+                    "${1:Customize}",
+                    "force:slds",
+                    "ltng:outApp"
                 ]
             },
             "extensible": {

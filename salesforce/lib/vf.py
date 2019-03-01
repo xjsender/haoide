@@ -1852,6 +1852,18 @@ tag_defs = {
         "simple": True,
         "type": "visualforce"
     },
+    "apex:includeLightning": {
+        "attribs": {
+            "id": {
+                "type": "String"
+            },
+            "rendered": {
+                "type": "Boolean"
+            }
+        },
+        "simple": True,
+        "type": "visualforce"
+    },
     "apex:includeScript": {
         "attribs": {
             "id": {
