@@ -20,7 +20,8 @@ soap.create_request('readMetadata', {
 })
 """
 
-class SOAP():
+
+class SOAP:
     def __init__(self, settings, indent=4, **kwargs):
         self.settings = settings
         self.indent = indent

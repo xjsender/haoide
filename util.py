@@ -42,7 +42,8 @@ def load_templates():
         if os.path.isfile(source_dir):
             zfile = zipfile.ZipFile(source_dir, 'r')
             for filename in zfile.namelist():
-                if filename.endswith('/'): continue
+                if filename.endswith('/'):
+                    continue
                 if filename.startswith("config/templates/"):
                     f = os.path.join(
                         target_dir,
@@ -1537,12 +1538,15 @@ def compress_resource_folder(resource_folder):
     return base64_package
 
 
-def build_aura_package(files_or_dirs):
+# Build zip package for Aura or LWC deployment
+def build_package(files_or_dirs, meta_type="aura"):
+
     # Build package
     settings = context.get_settings()
     workspace = settings["workspace"]
-    if not os.path.exists(workspace): os.makedirs(workspace)
-    zipfile_path = workspace+"/aura.zip"
+    if not os.path.exists(workspace):
+        os.makedirs(workspace)
+    zipfile_path = workspace + "/aura.zip" if meta_type is 'aura' else "/lwc.zip"
     zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
 
     aura_names = []
@@ -1570,11 +1574,12 @@ def build_aura_package(files_or_dirs):
         <Package xmlns="http://soap.sforce.com/2006/04/metadata">
             <types>
                 %s
-                <name>AuraDefinitionBundle</name>
+                <name>%s</name>
             </types>
             <version>%s.0</version>
         </Package>
-    """ % ("\n".join(["<members>%s</members>" % a for a in aura_names]), settings["api_version"])
+    """ % ("\n".join(["<members>%s</members>" % a for a in aura_names]),
+           "AuraDefinitionBundle" if meta_type is 'aura' else "LightningComponentBundle",settings["api_version"])
     package_xml_path = settings["workspace"]+"/package.xml"
     open(package_xml_path, "wb").write(package_xml_content.encode("utf-8"))
     zf.write(package_xml_path, "package.xml")
@@ -1591,12 +1596,14 @@ def build_aura_package(files_or_dirs):
 
     return base64_package
 
+
 def base64_encode(zipfile):
     with open(zipfile, "rb") as f:
         bytes = f.read()
         base64String = base64.b64encode(bytes)
 
     return base64String.decode('UTF-8')
+
 
 def compress_package(package_dir):
     zipfile_path = package_dir+"/archive.zip"
@@ -1611,6 +1618,7 @@ def compress_package(package_dir):
     os.remove(zipfile_path)
 
     return base64_package
+
 
 def extract_encoded_zipfile(encoded_zip_file, extract_to, ignore_package_xml=False):
     """ Decode the base64 encoded file and 

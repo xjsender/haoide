@@ -39,3 +39,8 @@ nosetests.xml
 .idea/*
 sublime.py
 sublime_plugin.py
+
+# temp remove
+apex_tag.py
+aura_tag.py
+sp.py

@@ -1,4 +1,5 @@
-import sublime, sublime_plugin
+import sublime
+import sublime_plugin
 import os
 import re
 
@@ -46,7 +47,7 @@ class DeployLightingToServer(sublime_plugin.WindowCommand):
                 }
             })
 
-        base64_package = util.build_aura_package(dirs)
+        base64_package = util.build_package(dirs)
         processor.handle_deploy_thread(base64_package, source_org=source_org, element=element, update_meta=update_meta)
 
     def is_visible(self, dirs, switch_project=True):
@@ -61,6 +62,7 @@ class DeployLightingToServer(sublime_plugin.WindowCommand):
                 return False
 
         return True
+
 
 class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -109,6 +111,7 @@ class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
 
         return True
 
+
 class PreviewThisAppInServer(sublime_plugin.TextCommand):
     def run(self, edit):
         self.view.window().run_command('preview_lighting_app_in_server', {
@@ -128,6 +131,7 @@ class PreviewThisAppInServer(sublime_plugin.TextCommand):
 
     def is_visible(self):
         return self.is_enabled()
+
 
 class RetrieveLightingFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -168,6 +172,7 @@ class RetrieveLightingFromServer(sublime_plugin.WindowCommand):
 
         return True
 
+
 class DestructLightingFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DestructLightingFromServer, self).__init__(*args, **kwargs)
@@ -187,6 +192,7 @@ class DestructLightingFromServer(sublime_plugin.WindowCommand):
                 return False
 
         return True
+
 
 class CreateLightingElement(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -263,6 +269,7 @@ class CreateLightingElement(sublime_plugin.WindowCommand):
             return True
 
         return False
+
 
 class CreateLightingDefinition(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

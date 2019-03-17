@@ -13,7 +13,8 @@ from ..login import soap_login, rest_login
 from ... import requests, util
 from ..lib.panel import Printer
 
-class MetadataApi():
+
+class MetadataApi:
     def __init__(self, settings, **kwargs):
         self.settings = settings
         self.api_version = settings["api_version"]
@@ -113,8 +114,8 @@ class MetadataApi():
             session = requests.Session()
             adapter = requests.adapters.HTTPAdapter(max_retries=10)
             session.mount(self.metadata_url, adapter)
-            response = session.post(self.metadata_url, soap_body, verify=False, 
-                headers=headers, timeout=timeout)
+            response = session.post(self.metadata_url, soap_body, verify=False,
+                                    headers=headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
                 "Error Message":  "Network connection timeout when checking status for retrieve",
@@ -151,7 +152,7 @@ class MetadataApi():
             adapter = requests.adapters.HTTPAdapter(max_retries=10)
             session.mount(self.metadata_url, adapter)
             response = session.post(self.metadata_url, soap_body, 
-                verify=False, headers=headers, timeout=120)
+                                    verify=False, headers=headers, timeout=120)
         except requests.exceptions.RequestException as e:
             self.result = {
                 "Error Message":  "Network connection timeout when checking retrieve status",
@@ -383,7 +384,7 @@ class MetadataApi():
             if "CustomObject" in _types and "*" in _types["CustomObject"]:
                 _types_list.append("CustomObject")
 
-            print (_types)
+            print(_types)
             if "InstalledPackage" in _types and "*" in _types["InstalledPackage"]:
                 _types_list.append("InstalledPackage")
         else:
@@ -459,7 +460,7 @@ class MetadataApi():
 
         try:
             response = requests.post(self.metadata_url, soap_body, 
-                verify=False, headers=self.headers)
+                                     verify=False, headers=self.headers)
         except requests.exceptions.RequestException as e:
             Printer.get("log").write("Connection timeout when list package for %s" % (
                 ", ".join(list(_types.keys()))

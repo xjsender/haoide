@@ -22,6 +22,7 @@ EXT_DICT = {
         'svg': '.svg'
     }
 
+
 def get_settings():
     """ Load all settings in toolingapi.sublime-settings
 
@@ -77,10 +78,11 @@ def get_settings():
     else:
         settings["security_token"] = ""
 
-    # Get the default api version
+    # Get the default api version, updated the very default version to v45 for
+    # the support of Lightning Web Component
     api_version = default_project.get("api_version")
     if not api_version:
-        api_version = s.get("api_version", 37)
+        api_version = s.get("api_version", 45)
 
     # Set deploy options
     deploy_options = default_project.get("deploy_options")
@@ -245,6 +247,7 @@ def get_default_project_name():
             break
 
     return default_project_name
+
 
 def build_metadata_objects_settings(settings, metadata_objects):
     settings["all_metadata_folders"] = [c["directoryName"] for c in metadata_objects]
