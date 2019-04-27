@@ -11,6 +11,7 @@
             {"caption": "-"},
 
             {"caption": "Diff With Server", "command": "diff_with_server"},
+            {"caption": "Diff With Other File", "command": "diff_with_other_file"},
 
             {"caption": "Retrieve From Server", "command": "retrieve_file_from_server"},
             {"caption": "Deploy To Server", "command": "deploy_file_to_server"},

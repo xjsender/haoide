@@ -31,6 +31,26 @@ def diff_changes(file_name, result):
 
     show_diff_panel(difftxt)
 
+def diff_files(file_name, other_file_name):
+    try:
+        this_file_content = codecs.open(file_name, "r", "utf-8").read().splitlines()
+        other_file_content = codecs.open(other_file_name, "r", "utf-8").read().splitlines()
+    except UnicodeDecodeError:
+        show_diff_panel("Diff only works with UTF-8 files")
+        return
+
+    diff = difflib.unified_diff(this_file_content, other_file_content, "Server", "Local ", "", "", lineterm='')
+    difftxt = u"\n".join(line for line in diff)
+
+    if difftxt == "":
+        show_diff_panel("There is no difference between %s and %s" % (
+            file_name,
+            other_file_name
+        ))
+        return
+
+    show_diff_panel(difftxt)
+
 def show_diff_panel(difftxt):
     win = sublime.active_window()
     v = win.create_output_panel('diff_with_server')

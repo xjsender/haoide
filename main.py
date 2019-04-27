@@ -297,6 +297,29 @@ class DiffWithServer(sublime_plugin.TextCommand):
         return self.is_enabled()
 
 
+class DiffWithOtherFile(sublime_plugin.TextCommand):
+    def run(self, edit):
+        self.other_open_files = []
+        for v in self.views:
+            if v.id() != self.view.id():
+                if not v.file_name():
+                    continue
+                self.other_open_files.append(v.file_name())
+
+        sublime.active_window().show_quick_panel(self.other_open_files, self.on_done, 1)
+
+    def on_done(self, index):
+        if index == -1:
+            return
+
+        from .salesforce.lib import diff
+        diff.diff_files(self.view.file_name(), self.other_open_files[index])
+
+    def is_enabled(self):
+        self.views = sublime.active_window().views()
+        return len(self.views) > 1
+
+
 class ShowMyPanel(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ShowMyPanel, self).__init__(*args, **kwargs)
