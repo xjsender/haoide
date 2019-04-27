@@ -2580,6 +2580,7 @@ def get_soql_fields(soql):
         return []
 
     fieldstr = match.group(0).strip()[6:-4].replace("\n", "").replace("\t", "")
+    print (fieldstr.split(','))
 
     fields = []
     expr_fields = [] # Aggregate Fields
@@ -2590,9 +2591,13 @@ def get_soql_fields(soql):
             fields.append(f)
         elif "(" in f:
             expr_fields.append(f)
+        else:
+            fields.append(f)
 
     for idx in range(0, len(expr_fields)):
         fields.append('expr%s' % idx)
+
+    print (fields)
 
     return fields
 
