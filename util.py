@@ -2575,10 +2575,26 @@ def get_soql_fields(soql):
         field list is : ['Id', 'Name', 'Owner.Name', 'Owner.FirstName']
     """
 
-    match = re.match("SELECT\\s+[\\w\\n,.:_\\s]*\\s+FROM", soql, re.IGNORECASE)
-    fieldstr = match.group(0)[6:-4].replace(" ", "").replace("\n", "").replace("\t", "")
+    match = re.match("[\\n\\s]*SELECT\\s+[()\\w\\n,.:_\\s]*\\s+FROM", soql, re.IGNORECASE)
+    if not match:
+        return []
 
-    return fieldstr.split(",")
+    fieldstr = match.group(0).strip()[6:-4].replace("\n", "").replace("\t", "")
+
+    fields = []
+    expr_fields = [] # Aggregate Fields
+    for f in fieldstr.split(','):
+        f = f.strip()
+        if " " in f:
+            f = f.split(" ")[1]
+            fields.append(f)
+        elif "(" in f:
+            expr_fields.append(f)
+
+    for idx in range(0, len(expr_fields)):
+        fields.append('expr%s' % idx)
+
+    return fields
 
 def query_to_csv(result, soql):
     records = result["records"]
@@ -2587,7 +2603,7 @@ def query_to_csv(result, soql):
     
     # Get CSV headers, 
     # If we use * to fetch all fields
-    if re.compile("select\s+\*\s+from[\s\t]+\w+", re.I).match(soql):
+    if re.compile("select\\s+\\*\\s+from[\\s\\t]+\\w+", re.I).match(soql):
         headers = sorted(list(records[0].keys()))
     else:
         headers = get_soql_fields(soql)
