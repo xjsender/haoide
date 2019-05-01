@@ -351,6 +351,11 @@
                         "command": "json_to_xml"
                     },
 
+                    {
+                        "caption": "JSON to CSV",
+                        "command": "json_to_csv"
+                    },
+
                     { "caption": "-" },
 
                     {

@@ -210,6 +210,25 @@ class JsonToXml(BaseSelection, sublime_plugin.TextCommand):
         })
 
 
+class JsonToCsv(BaseSelection, sublime_plugin.TextCommand):
+    def run(self, edit):
+        try:
+            _list = json.loads(self.selection)
+            if not isinstance(_list, list):
+                msg = "Your input is not valid json list"
+                return Printer.get("error").write(msg)
+        except ValueError as ve:
+            return Printer.get("error").write(str(ve))
+        except xml.parsers.expat.ExpatError as ex:
+            return Printer.get("error").write(str(ex))
+
+        new_view = sublime.active_window().new_file()
+        new_view.run_command("new_view", {
+            "name": "JSON2CSV.csv",
+            "input": util.json2csv(_list)
+        })
+
+
 class XmlToJson(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
         try:
@@ -544,7 +563,6 @@ class GenerateSoqlCommand(sublime_plugin.WindowCommand):
     def on_choose_action(self, index):
         if index == -1: return
         processor.handle_generate_sobject_soql(self.sobject, self.filters[index])
-
 
 class ExportQueryToCsv(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

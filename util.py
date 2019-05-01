@@ -2423,8 +2423,7 @@ def write_metadata_to_csv(fp, columns, metadata, sobject):
     fp.write(row_values) # Write Body
     fp.close()
 
-NOT_INCLUDED_COLUMNS = ["urls", "attributes"]
-def list2csv(file_path, records):
+def list2csv(file_path, records, NOT_INCLUDED_COLUMNS=["urls", "attributes"]):
     """convert simple dict in list to csv
 
     Arguments:
@@ -2446,6 +2445,30 @@ def list2csv(file_path, records):
                 else:
                     values.append(('"%s"' % none_value(record[strk])).encode("utf-8"))
             fp.write(b",".join(values) + b"\n")
+
+def json2csv(_list, NOT_INCLUDED_COLUMNS=["urls", "attributes"]):
+    """convert simple dict in list to csv
+
+    Arguments:
+
+    * _list -- [{"1": 1}, {"2": 2}]
+    """
+    # If _list size is 0, just return
+    if len(_list) == 0: return "No Elements"
+
+    headers = [k for k in _list[0] if k not in NOT_INCLUDED_COLUMNS]
+    csv_content = ",".join(headers) + "\n"
+    for record in _list:
+        values = []
+        for k in headers:
+            strk = str(k)
+            if strk not in record:
+                values.append("")
+            else:
+                values.append(('"%s"' % none_value(record[strk])))
+        csv_content += ",".join(values) + "\n";
+
+    return csv_content
 
 def parse_data_template_vertical(output_file_dir, result):
     """Parse the data template to csv by page layout

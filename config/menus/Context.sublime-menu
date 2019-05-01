@@ -75,6 +75,11 @@
                     },
 
                     {
+                        "caption": "JSON To CSV",
+                        "command": "json_to_csv"
+                    },
+
+                    {
                         "caption": "XML To JSON",
                         "command": "xml_to_json"
                     },
