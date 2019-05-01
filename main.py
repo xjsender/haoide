@@ -319,6 +319,10 @@ class DiffWithOtherFile(sublime_plugin.TextCommand):
         self.views = sublime.active_window().views()
         return len(self.views) > 1
 
+    def is_visible(self):
+        view = sublime.active_window().active_view()
+        return view.file_name() is not None
+
 
 class ShowMyPanel(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
