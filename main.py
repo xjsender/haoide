@@ -554,17 +554,8 @@ class ExportQueryToCsv(sublime_plugin.WindowCommand):
     def on_input_soql(self, soql):
         self.soql = soql.strip()
 
-        # If (SELECT) in match, it means there has parent-to-child query
-        match = re.match("select[\\W\\w]*[\\()]+select", self.soql.strip(), re.IGNORECASE)
-        if match and match.group(0):
-            Printer.get("error").write("This feature does not support parent-to-child query")
-            if sublime.ok_cancel_dialog("Want to try again?"):
-                self.window.show_input_panel('Input Your SOQL:', 
-                    "", self.on_input_soql, None, None)
-            return 
-
         # Check whether the soql is valid and not parent-to-child query
-        match = re.match("SELECT\\s+[*\\w\\n,.:_\\s()]+\\s+FROM\\s+\\w+", 
+        match = re.match("[\\n\\s]*SELECT\\s+[*\\w\\n,.:_\\s()]+?\\s+FROM\\s+[1-9_a-zA-Z]", 
             self.soql, re.IGNORECASE)
         if not match:
             Printer.get("error").write("Your input SOQL is not valid")
@@ -573,10 +564,18 @@ class ExportQueryToCsv(sublime_plugin.WindowCommand):
                     "", self.on_input_soql, None, None)
             return
 
+        # This feature does not support parent to child query
+        matchs = re.findall('SELECT\\s+', match.group(0), re.IGNORECASE)
+        if len(matchs) > 1:
+            Printer.get("error").write("This feature does not support parent-to-child query")
+            if sublime.ok_cancel_dialog("Want to try again?"):
+                self.window.show_input_panel('Input Your SOQL:', 
+                    "", self.on_input_soql, None, None)
+            return
+
         # Parse the sObject Name for CSV name
         matchstr = match.group(0)
         self.sobject = matchstr[matchstr.rfind(" ")+1:]
-        print (self.sobject)
 
         sublime.active_window().show_input_panel('Input CSV Name:', 
             self.sobject, self.on_input_name, None, None)
