@@ -2280,7 +2280,10 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
     def run(self, callback_options={}):
         self.callback_options = callback_options
         settings = context.get_settings()
-        projects = settings["projects"]
+        projects = {}
+        for k, v in settings["projects"].items():
+            if not v.get("hidden_in_project_list", False):
+                projects[k] = v
         self.projects = ["(" + ('Active' if projects[p]["default"] else 
             'Inactive') + ") " + p for p in projects]
         self.projects = sorted(self.projects, reverse=False)

@@ -24,6 +24,9 @@
             // There should be only one active project in projects settings
             "default" : true,
 
+            // Hide the project in the `Switch Project` Fetaure if this option is true
+            "hidden_in_project_list": false,
+
             // Login URL,
             // sandbox: https://test.salesforce.com
             // production: https://login.salesforce.com
