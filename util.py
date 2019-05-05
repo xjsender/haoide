@@ -2598,7 +2598,7 @@ def get_soql_fields(soql):
         field list is : ['Id', 'Name', 'Owner.Name', 'Owner.FirstName']
     """
 
-    match = re.match("[\\n\\s]*SELECT\\s+[()\\w\\n,.:_\\s]*\\s+FROM", soql, re.IGNORECASE)
+    match = re.match("[\\n\\s]*SELECT\\s+[*\\w\\n,.:_\\s()]+?\\s+FROM", soql, re.IGNORECASE)
     if not match:
         return []
 

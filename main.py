@@ -577,7 +577,7 @@ class ExportQueryToCsv(sublime_plugin.WindowCommand):
         self.soql = soql.strip()
 
         # Check whether the soql is valid and not parent-to-child query
-        match = re.match("[\\n\\s]*SELECT\\s+[*\\w\\n,.:_\\s()]+?\\s+FROM\\s+[1-9_a-zA-Z]", 
+        match = re.match("[\\n\\s]*SELECT\\s+[*\\w\\n,.:_\\s()]+?\\s+FROM\\s+[1-9_a-zA-Z]+", 
             self.soql, re.IGNORECASE)
         if not match:
             Printer.get("error").write("Your input SOQL is not valid")
