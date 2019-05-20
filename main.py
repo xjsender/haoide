@@ -210,6 +210,25 @@ class JsonToXml(BaseSelection, sublime_plugin.TextCommand):
         })
 
 
+class JsonToCsv(BaseSelection, sublime_plugin.TextCommand):
+    def run(self, edit):
+        try:
+            _list = json.loads(self.selection)
+            if not isinstance(_list, list):
+                msg = "Your input is not valid json list"
+                return Printer.get("error").write(msg)
+        except ValueError as ve:
+            return Printer.get("error").write(str(ve))
+        except xml.parsers.expat.ExpatError as ex:
+            return Printer.get("error").write(str(ex))
+
+        new_view = sublime.active_window().new_file()
+        new_view.run_command("new_view", {
+            "name": "JSON2CSV.csv",
+            "input": util.json2csv(_list)
+        })
+
+
 class XmlToJson(BaseSelection, sublime_plugin.TextCommand):
     def run(self, edit):
         try:
@@ -295,6 +314,33 @@ class DiffWithServer(sublime_plugin.TextCommand):
 
     def is_visible(self):
         return self.is_enabled()
+
+
+class DiffWithOtherFile(sublime_plugin.TextCommand):
+    def run(self, edit):
+        self.other_open_files = []
+        for v in self.views:
+            if v.id() != self.view.id():
+                if not v.file_name():
+                    continue
+                self.other_open_files.append(v.file_name())
+
+        sublime.active_window().show_quick_panel(self.other_open_files, self.on_done, 1)
+
+    def on_done(self, index):
+        if index == -1:
+            return
+
+        from .salesforce.lib import diff
+        diff.diff_files(self.view.file_name(), self.other_open_files[index])
+
+    def is_enabled(self):
+        self.views = sublime.active_window().views()
+        return len(self.views) > 1
+
+    def is_visible(self):
+        view = sublime.active_window().active_view()
+        return view.file_name() is not None
 
 
 class ShowMyPanel(sublime_plugin.WindowCommand):
@@ -518,7 +564,6 @@ class GenerateSoqlCommand(sublime_plugin.WindowCommand):
         if index == -1: return
         processor.handle_generate_sobject_soql(self.sobject, self.filters[index])
 
-
 class ExportQueryToCsv(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ExportQueryToCsv, self).__init__(*args, **kwargs)
@@ -529,25 +574,26 @@ class ExportQueryToCsv(sublime_plugin.WindowCommand):
             ('Tooling' if tooling else ''), "", self.on_input_soql, None, None)
 
     def on_input_soql(self, soql):
-        self.soql = soql
+        self.soql = soql.strip()
 
         # Check whether the soql is valid and not parent-to-child query
-        match = re.match("SELECT\\s+[*\\w\\n,.:_\\s()]+\\s+FROM\\s+\\w+", 
+        match = re.match("[\\n\\s]*SELECT\\s+[*\\w\\n,.:_\\s()]+?\\s+FROM\\s+[1-9_a-zA-Z]+", 
             self.soql, re.IGNORECASE)
         if not match:
             Printer.get("error").write("Your input SOQL is not valid")
             if sublime.ok_cancel_dialog("Want to try again?"):
                 self.window.show_input_panel('Input Your SOQL:', 
                     "", self.on_input_soql, None, None)
-            return 
+            return
 
-        # If () in match, it means there has parent-to-child query
-        if "(" in match.group(0):
+        # This feature does not support parent to child query
+        matchs = re.findall('SELECT\\s+', match.group(0), re.IGNORECASE)
+        if len(matchs) > 1:
             Printer.get("error").write("This feature does not support parent-to-child query")
             if sublime.ok_cancel_dialog("Want to try again?"):
                 self.window.show_input_panel('Input Your SOQL:', 
                     "", self.on_input_soql, None, None)
-            return 
+            return
 
         # Parse the sObject Name for CSV name
         matchstr = match.group(0)
@@ -2240,7 +2286,10 @@ class SwitchProjectCommand(sublime_plugin.WindowCommand):
     def run(self, callback_options={}):
         self.callback_options = callback_options
         settings = context.get_settings()
-        projects = settings["projects"]
+        projects = {}
+        for k, v in settings["projects"].items():
+            if not v.get("hidden_in_project_list", False):
+                projects[k] = v
         self.projects = ["(" + ('Active' if projects[p]["default"] else 
             'Inactive') + ") " + p for p in projects]
         self.projects = sorted(self.projects, reverse=False)

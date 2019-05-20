@@ -264,6 +264,11 @@
     },
 
     {
+        "caption": "HaoIDE: Utitlities > JSON to CSV",
+        "command": "json_to_csv"
+    },
+
+    {
         "caption": "HaoIDE: Utitlities > XML to JSON",
         "command": "xml_to_json"
     },
