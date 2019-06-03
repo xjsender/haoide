@@ -494,6 +494,10 @@ def handle_reload_sobjects_completions(timeout=120):
         threads = []
         apis = []
         for sobjects in chunked_sobjects:
+            sobjects = [
+                {"name": so, "tooling": sobjects_describe[so]["tooling"]}
+                for so in sobjects
+            ]
             api = ToolingApi(settings)
             thread = threading.Thread(target=api.describe_sobjects, args=(sobjects, ))
             thread.start()
