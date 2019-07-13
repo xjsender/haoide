@@ -104,6 +104,11 @@
     },
 
     {
+        "caption": "HaoIDE: New Lighting Web Component",
+        "command": "create_lightning_web_component"
+    },
+
+    {
         "caption": "HaoIDE: Toggle Metdata Objects",
         "command": "toggle_metadata_objects", 
         "args": {

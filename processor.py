@@ -622,7 +622,7 @@ def handle_update_aura_meta(body, element, timeout=120, type = "AuraDefinitionBu
                 "extension": full_name[full_name.find('.'):],
                 "id": record["Id"],
                 "lastModifiedDate": record["LastModifiedDate"],
-                "type": "AuraDefinitionBundle",
+                "type": type,
                 "DefType": record["DefType"]
             }
             components_dict[type][full_name.lower()] = cmp_meta

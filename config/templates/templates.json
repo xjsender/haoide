@@ -64,16 +64,16 @@
 
     "lwc": {
         "html": {
-            "directory": "lwc/html.html",
+            "directory": "lwc/lwc.html",
             "extension": ".html"
         },
         "js": {
-            "directory": "lwc/js.js",
+            "directory": "lwc/lwc.js",
             "extension": ".js"
         },
-        "css": {
-            "directory": "lwc/css.css",
-            "extension": ".css"
+        "js-meta": {
+            "directory": "lwc/lwc.js-meta.xml",
+            "extension": ".js-meta.xml"
         }
     },
 

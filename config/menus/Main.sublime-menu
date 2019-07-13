@@ -78,6 +78,13 @@
                         "args": {
                             "_type": "Event"
                         }
+                    },
+
+                    {"caption": "-"},
+
+                    {
+                        "caption": "New Lightning Web Component",
+                        "command": "create_lightning_web_component"
                     }
                 ]
             },

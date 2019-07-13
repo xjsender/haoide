@@ -33,7 +33,8 @@ def load_templates():
         os.makedirs(target_dir)
 
     templates_dir = os.path.join(target_dir, "templates.json")
-    if not os.path.isfile(templates_dir):
+    lwc_dir = os.path.join(target_dir, "lwc") # Check exist lwc logic
+    if not os.path.isfile(templates_dir) or not os.path.exists(lwc_dir):
         source_dir = os.path.join(
             sublime.installed_packages_path(), 
             "haoide.sublime-package"
@@ -1539,7 +1540,7 @@ def compress_resource_folder(resource_folder):
     return base64_package
 
 
-def build_aura_package(files_or_dirs):
+def build_aura_package(files_or_dirs, meta_type=""):
     # Build package
     settings = context.get_settings()
     workspace = settings["workspace"]
@@ -1552,31 +1553,41 @@ def build_aura_package(files_or_dirs):
         if os.path.isfile(_file_or_dir):
             base, aura_element = os.path.split(_file_or_dir)
             base, aura_name = os.path.split(base)
-            base, meta_type = os.path.split(base)
+            base, meta_folder = os.path.split(base)
             aura_names.append(aura_name)
-            zf.write(_file_or_dir, "%s/%s/%s" % (meta_type, aura_name, aura_element))
+            zf.write(_file_or_dir, "%s/%s/%s" % (meta_folder, aura_name, aura_element))
         else:
             base, aura_name = os.path.split(_file_or_dir)
-            base, meta_type = os.path.split(base)
+            base, meta_folder = os.path.split(base)
             aura_names.append(aura_name)
             for dirpath, dirnames, filenames in os.walk(_file_or_dir):
                 base, aura_name = os.path.split(dirpath)
                 if not filenames:
-                    zf.write(dirpath, meta_type+"/"+aura_name)
+                    zf.write(dirpath, meta_folder+"/"+aura_name)
                 else:
                     for filename in filenames:
-                        zf.write(os.path.join(dirpath, filename), "%s/%s/%s" % (meta_type, aura_name, filename))
+                        zf.write(os.path.join(dirpath, filename), "%s/%s/%s" % (
+                            meta_folder, aura_name, filename
+                        ))
+
+    # Transform metadata type
+    if meta_type != "LightningComponentBundle":
+        meta_type = "AuraDefinitionBundle"
 
     # Write package.xml to zip
     package_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
         <Package xmlns="http://soap.sforce.com/2006/04/metadata">
             <types>
                 %s
-                <name>AuraDefinitionBundle</name>
+                <name>%s</name>
             </types>
             <version>%s.0</version>
         </Package>
-    """ % ("\n".join(["<members>%s</members>" % a for a in aura_names]), settings["api_version"])
+    """ % (
+        "\n".join(["<members>%s</members>" % a for a in aura_names]), 
+        meta_type,
+        settings["api_version"]
+    )
     package_xml_path = settings["workspace"]+"/package.xml"
     open(package_xml_path, "wb").write(package_xml_content.encode("utf-8"))
     zf.write(package_xml_path, "package.xml")

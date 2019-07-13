@@ -94,7 +94,7 @@
     // Just work after new project is invoked or click ``HaoIDE > Update > Update Project Patterns``
     "folder_exclude_patterns": [
         // ".history",
-        ".templates"
+        // ".templates"
     ],
 
     // Solution for issue #49 in https://github.com/xjsender/SublimeApex
