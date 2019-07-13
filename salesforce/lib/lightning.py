@@ -2265,6 +2265,22 @@ timezones = [
     "Pacific/Pago_Pago"
 ]
 
+html_global_methods = [
+    "onabort", "onautocomplete", "onautocompleteerror", "onauxclick", "onblur",
+    "oncancel", "oncanplay", "oncanplaythrough", "onchange", "onclick",
+    "onclose", "oncontextmenu", "oncuechange", "ondblclick", "ondrag",
+    "ondragend", "ondragenter", "ondragexit", "ondragleave", "ondragover",
+    "ondragstart", "ondrop", "ondurationchange", "onemptied", "onended",
+    "onerror", "onfocus", "oninput", "oninvalid", "onkeydown",
+    "onkeypress", "onkeyup", "onload", "onloadeddata", "onloadedmetadata",
+    "onloadstart", "onmousedown", "onmouseenter", "onmouseleave",
+    "onmousemove", "onmouseout", "onmouseover", "onmouseup",
+    "onmousewheel", "onpause", "onplay", "onplaying", "onprogress",
+    "onratechange", "onreset", "onresize", "onscroll", "onseeked",
+    "onseeking", "onselect", "onshow", "onsort", "onstalled", "onsubmit",
+    "onsuspend", "ontimeupdate", "ontoggle", "onvolumechange", "onwaiting"
+]
+
 # ["analytics", "aura", "force", "forceChatter", "forceCommunity", "lightning", "ltng", "ui", "wave"]
 tag_defs = {
     "sfdc:sobjects": {
@@ -10733,6 +10749,13 @@ tag_defs = {
                 "required": False,
                 "default": "",
                 "description": ""
+            },
+            "if:false": {
+                "type": "TrackObject",
+                "access": "global",
+                "required": False,
+                "default": "",
+                "description": ""
             }
         }
     },
@@ -11353,6 +11376,48 @@ tag_defs = {
                 "required": False,
                 "default": "5",
                 "description": "The auto scroll duration. The default is 5 seconds, after that the next\nimage is displayed."
+            }
+        }
+    },
+
+    "lightning-carousel-image": {
+        "simple": False,
+        "type": "lwc",
+        "attribs": {
+            "src": {
+                "type": "String",
+                "access": "global",
+                "required": False,
+                "default": "",
+                "description": "The path to the image."
+            },
+            "header": {
+                "type": "String",
+                "access": "global",
+                "required": False,
+                "default": "",
+                "description": "Text for the label that's displayed under the image."
+            },
+            "description": {
+                "type": "String",
+                "access": "global",
+                "required": False,
+                "default": "5",
+                "description": "Text displayed under the header."
+            },
+            "alternative-text": {
+                "type": "String",
+                "access": "global",
+                "required": False,
+                "default": "5",
+                "description": "Assistive text for the image."
+            },
+            "href": {
+                "type": "String",
+                "access": "global",
+                "required": False,
+                "default": "5",
+                "description": "A URL to create a link for the image. Clicking the image opens the link in the same frame."
             }
         }
     },
@@ -12811,7 +12876,8 @@ tag_defs = {
                 "description": "A space-separated list of element IDs that provide descriptive labels for the input."
             },
             "formatter": {
-                "type": "String",
+                "type": "Picklist",
+                "values": ["decimal", "percent", "percent-fixed", "currency"],
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -12930,7 +12996,8 @@ tag_defs = {
                 "description": "If present, the input field must be filled out before the form is submitted."
             },
             "timezone": {
-                "type": "String",
+                "type": "Picklist",
+                "values": timezones,
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -12963,6 +13030,36 @@ tag_defs = {
                 "required": False,
                 "default": "",
                 "description": "Specifies a shortcut key to activate or focus an element."
+            },
+            "checkValidity": {
+                "type": "Method",
+                "access": "global",
+                "arguments": "message",
+                "description": "Sets a custom error message to be displayed when a form is submitted."
+            },
+            "reportValidity": {
+                "type": "Method",
+                "access": "global",
+                "arguments": "message",
+                "description": "Displays the error messages and returns false if the input is invalid. If the input is valid, reportValidity() clears displayed error messages and returns true."
+            },
+            "focus": {
+                "type": "Method",
+                "access": "global",
+                "arguments": "message",
+                "description": "Sets focus on the input element."
+            },
+            "blur": {
+                "type": "Method",
+                "access": "global",
+                "arguments": "message",
+                "description": "Removes keyboard focus from the input element."
+            },
+            "showHelpMessageIfInvalid": {
+                "type": "Method",
+                "access": "global",
+                "arguments": "message",
+                "description": "Displays error messages on invalid fields. An invalid field fails at least one constraint validation and returns false when checkValidity() is called."
             }
         }
     },

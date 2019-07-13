@@ -35,7 +35,7 @@ class PackageCompletions(sublime_plugin.EventListener):
             return []
 
         # Check whether current file is package file
-        pattern = "<types>[\s.*<>\-\w/\%1-9]+</types>"
+        pattern = "<types>[\\s.*<>\\-\\w/\\%1-9]+</types>"
         if not view.find_all(pattern): return
 
         location = locations[0]
@@ -712,10 +712,17 @@ class PageCompletions(sublime_plugin.EventListener):
                             
                             if value["type"] in ["Object", "ApexPages.Action"]:
                                 completion_list.append((display, key+'="{!$1}"$0'))
-                            elif value["type"] in ["TrackObject", "List"]:
+                            elif value["type"] in ["TrackObject", "List", "Method"]:
                                 completion_list.append((display, key+'={$1}$0'))
                             else:
                                 completion_list.append((display, key+'="$1"$0'))
+
+                        # Add html global functions for LWC
+                        if def_entry["type"] == "lwc":
+                            for method_name in lightning.html_global_methods:
+                                display = "%s\tMethod" % method_name
+                                completion_list.append((display, method_name+'={$1}$0'))
+                        
 
             ######################################################
             # Custom Apex/Lightning Component Attribute Completions

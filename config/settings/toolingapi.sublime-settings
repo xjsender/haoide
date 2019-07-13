@@ -85,7 +85,7 @@
     "file_exclude_patterns": [
         // "*.md",
         // "*-history.*",
-        "*.*-meta.xml",
+        // "*.*-meta.xml",
         "*.sublime-project",
         "package.zip"
     ],

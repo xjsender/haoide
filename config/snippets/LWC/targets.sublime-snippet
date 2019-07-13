@@ -1,0 +1,12 @@
+<snippet>
+    <content><![CDATA[
+<targets>
+    <target>lightning__AppPage</target>
+    <target>lightning__RecordPage</target>
+    <target>lightning__HomePage</target>
+</targets>
+]]></content>
+    <tabTrigger>targets</tabTrigger>
+    <scope>text.xml</scope>
+    <description>LWC Targets</description>
+</snippet>
