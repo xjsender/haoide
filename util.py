@@ -1283,7 +1283,7 @@ def build_package_dict(files, ignore_folder=True):
                 attributes["folder"], attributes["name"]
             )
 
-        if metadata_folder == "aura":
+        if metadata_folder in ["aura", "lwc"]:
             file_dict["metadata_name"] = "%s" % attributes["folder"]
 
         # Build dict
@@ -1445,22 +1445,24 @@ def build_deploy_package(files):
     # Add files to zip
     for meta_type in package_dict:
         for f in package_dict[meta_type]:
+            metadata_folder = f["metadata_folder"]
+
             # Define write_to
             write_to = (
-                f["metadata_folder"], 
+                metadata_folder, 
                 ("/" + f["folder"]) if f["folder"] else "", 
                 f["name"], 
                 f["extension"]
             )
 
             # If lighting component, add all related file to zip too
-            if f["metadata_folder"] == "aura":
+            if metadata_folder in ["aura", "lwc"]:
                 base = os.path.split(f["dir"])[0]
                 for parent, dirnames, filenames in os.walk(base):
                     for filename in filenames:
                         aura_file = os.path.join(parent, filename)
-                        zf.write(aura_file, "aura/%s/%s" % (
-                            f["folder"], filename
+                        zf.write(aura_file, "%s/%s/%s" % (
+                            metadata_folder, f["folder"], filename
                         ))
             else:
                 zf.write(f["dir"], "%s%s/%s.%s" % write_to)

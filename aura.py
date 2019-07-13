@@ -8,14 +8,14 @@ from . import processor
 from .salesforce.lib.panel import Printer
 
 
-class OpenAuraDocumentReference(sublime_plugin.WindowCommand):
+class OpenLightningDocReferences(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(OpenAuraDocumentReference, self).__init__(*args, **kwargs)
+        super(OpenLightningDocReferences, self).__init__(*args, **kwargs)
 
     def run(self):
         instance = util.get_instance(self.settings)
         if instance == "emea": instance = "eu0"
-        start_url = "https://%s.lightning.force.com/auradocs/reference.app" % instance
+        start_url = "https://%s.lightning.force.com/docs/component-library" % instance
         self.window.run_command("login_to_sfdc", {"startURL": start_url})
 
     def is_enabled(self):

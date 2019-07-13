@@ -67,8 +67,8 @@
     {"caption": "-"},
 
     {
-        "caption": "HaoIDE: Open Aura Document Reference",
-        "command": "open_aura_document_reference"
+        "caption": "HaoIDE: Open Lightning Doc Reference",
+        "command": "open_lightning_doc_references"
     },
 
     {
