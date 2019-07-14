@@ -17,14 +17,25 @@ class CreateLightningWebComponent(sublime_plugin.WindowCommand):
             "", self.on_input, None, None)
 
     def on_input(self, lwc_name):
+        if not lwc_name or lwc_name[0].isupper():
+            message = "The folder name must start with a lowercase character, "+\
+                "do you want to try again?"
+            if not sublime.ok_cancel_dialog(message): 
+                return
+            return self.window.show_input_panel(
+                "Please Input Your Component Name: ", 
+                "", self.on_input, None, None
+            )
+
         # Create component to local according to user input
         if not re.match('^[a-zA-Z]+\\w+$', lwc_name):
             message = 'Invalid format, do you want to try again?'
             if not sublime.ok_cancel_dialog(message): 
                 return
-            self.window.show_input_panel("Please Input Your Component Name: ", 
-                "", self.on_input, None, None)
-            return
+            return self.window.show_input_panel(
+                "Please Input Your Component Name: ", 
+                "", self.on_input, None, None
+            )
 
         # Get settings
         settings = context.get_settings()
