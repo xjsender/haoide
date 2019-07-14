@@ -35,7 +35,7 @@ class PackageCompletions(sublime_plugin.EventListener):
             return []
 
         # Check whether current file is package file
-        pattern = "<types>[\s.*<>\-\w/\%1-9]+</types>"
+        pattern = "<types>[\\s.*<>\\-\\w/\\%1-9]+</types>"
         if not view.find_all(pattern): return
 
         location = locations[0]
@@ -181,7 +181,7 @@ class ApexCompletions(sublime_plugin.EventListener):
                     sobject_describe = sobjects_describe.get(sobject_name.lower())
 
                     # Find all matched parent-to-child query in this view
-                    matches = view.find_all("\(\s*SELECT([\s\S]+?)\)", sublime.IGNORECASE)
+                    matches = view.find_all("\\(\\s*SELECT([\\s\\S]+?)\\)", sublime.IGNORECASE)
 
                     child_relationship_name = None
                     is_cursor_in_child_query = False
@@ -598,7 +598,7 @@ class PageCompletions(sublime_plugin.EventListener):
         if not file_name :
             is_lightning = False
         else:
-            is_lightning = True if file_name.split(".")[-1] in ["app", "cmp", "evt"] else False
+            is_lightning = True if file_name.split(".")[-1] in ["app", "cmp", "evt", "html", "js"] else False
 
         # Get tag definition of Visualforce page or Lightning component
         tag_defs = lightning.tag_defs if is_lightning else vf.tag_defs
@@ -614,7 +614,7 @@ class PageCompletions(sublime_plugin.EventListener):
             # `<apex:page />` has ending, `<apex:page` doesn't have
             tag_has_ending = False
 
-            for mr in view.find_all("<\w[\s\S]+?>"):
+            for mr in view.find_all("<\\w[\\s\\S]+?>"):
                 if mr.contains(pt):
                     tag_has_ending = True
 
@@ -622,7 +622,10 @@ class PageCompletions(sublime_plugin.EventListener):
                 # Standard Lightning/Visualforce Components
                 for tag in sorted(tag_defs):
                     attr = tag_defs[tag]
-                    completion_list.append((tag + "\t%s" % attr["type"], tag if tag_has_ending else (tag + "$1>")))
+                    completion_list.append((
+                        tag + "\t%s" % attr["type"], 
+                        tag if tag_has_ending else (tag + "$1>")
+                    ))
 
                 if is_lightning:
                     # Custom Lightning Component
@@ -633,12 +636,14 @@ class PageCompletions(sublime_plugin.EventListener):
 
                 # HTML Elements
                 for tag in sorted(html.HTML_ELEMENTS_ATTRIBUTES):
-                    completion_list.append((tag + "\thtml",
-                                            tag if tag_has_ending else (tag + "$1>")))
+                    completion_list.append((
+                        tag + "\thtml",
+                        tag if tag_has_ending else (tag + "$1>")
+                    ))
 
                 completion_list.sort(key=lambda tup: tup[1])
 
-            elif ch == ":":
+            elif ch in [":", "-"]:
                 # Just Visualforce and Lightning Component contain prefix/namespace :
                 matched_tag_prefix = view.substr(view.word(pt))
 
@@ -682,7 +687,7 @@ class PageCompletions(sublime_plugin.EventListener):
                 forward_two_chars = view.substr(sublime.Region(pt + 2, pt + 4))
 
                 # Get all matched regions
-                matched_regions = view.find_all("<\w+:\w+[\s\S]*?>")
+                matched_regions = view.find_all("<\\w+[:-]*\\w+[\\s\\S]*?>")
 
                 # Choose the matched one that contains cursor point
                 matched_region = None
@@ -707,8 +712,17 @@ class PageCompletions(sublime_plugin.EventListener):
                             
                             if value["type"] in ["Object", "ApexPages.Action"]:
                                 completion_list.append((display, key+'="{!$1}"$0'))
+                            elif value["type"] in ["TrackObject", "List", "Method"]:
+                                completion_list.append((display, key+'={$1}$0'))
                             else:
                                 completion_list.append((display, key+'="$1"$0'))
+
+                        # Add html global functions for LWC
+                        if def_entry["type"] == "lwc":
+                            for method_name in lightning.html_global_methods:
+                                display = "%s\tMethod" % method_name
+                                completion_list.append((display, method_name+'={$1}$0'))
+                        
 
             ######################################################
             # Custom Apex/Lightning Component Attribute Completions
@@ -738,7 +752,7 @@ class PageCompletions(sublime_plugin.EventListener):
             ##########################################
             if not settings["disable_html_completion"]:
                 # Get all matched regions
-                matched_regions = view.find_all("<\w+\s+[\s\S]*?>")
+                matched_regions = view.find_all("<\\w+\\s+[\\s\\S]*?>")
 
                 # Get the nearest matched region from start to end
                 # for example, matched regions by above pattern are : 
@@ -765,7 +779,7 @@ class PageCompletions(sublime_plugin.EventListener):
             # Bootstrap3 class name completions
             ############################################
             if not settings["disable_bootstrap_completion"]:
-                matched_attribute_regions = view.find_all('\w+="[\w\s\-]*"')
+                matched_attribute_regions = view.find_all('\\w+="[\\w\\s\\-]*"')
                 for mr in matched_attribute_regions:
                     if not mr.contains(pt):
                         continue
@@ -777,7 +791,7 @@ class PageCompletions(sublime_plugin.EventListener):
 
             # SLDS class name completions
             if not settings["disable_slds_completion"]:
-                matched_attribute_regions = view.find_all('\w+="[\w\s\-]*"')
+                matched_attribute_regions = view.find_all('\\w+="[\\w\\s\\-]*"')
                 for mr in matched_attribute_regions:
                     if not mr.contains(pt):
                         continue
@@ -795,7 +809,7 @@ class PageCompletions(sublime_plugin.EventListener):
             # Visualforce/Lightning Attribute Values Completions
             ############################################################
             if not settings["disable_component_attribute_value_completion"]:
-                matched_regions = view.find_all("<\w+:\w+[\s\S]*?>")
+                matched_regions = view.find_all("<\\w+[:-]+\\w+[\\s\\S]*?>")
 
                 matched_region = None
                 for mr in matched_regions:
@@ -804,9 +818,9 @@ class PageCompletions(sublime_plugin.EventListener):
 
                 if matched_region:
                     # Get the Tag Name and Tag Attribute Name
-                    matched_tag = view.substr(matched_region)[1:]
-                    matched_tag = matched_tag.split(" ")[0].strip()
-                    matched_attr_name = view.substr(view.word(pt-1))
+                    matched_str = view.substr(matched_region)[1:-1]
+                    matched_tag = matched_str.split(" ")[0].strip()
+                    matched_attr_name = view.substr(view.extract_scope(pt-1))[:-1]
 
                     # Get the Attribute Values
                     if matched_tag in tag_defs and matched_attr_name in tag_defs[matched_tag]["attribs"]:

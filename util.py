@@ -33,7 +33,8 @@ def load_templates():
         os.makedirs(target_dir)
 
     templates_dir = os.path.join(target_dir, "templates.json")
-    if not os.path.isfile(templates_dir):
+    lwc_dir = os.path.join(target_dir, "lwc") # Check exist lwc logic
+    if not os.path.isfile(templates_dir) or not os.path.exists(lwc_dir):
         source_dir = os.path.join(
             sublime.installed_packages_path(), 
             "haoide.sublime-package"
@@ -1284,7 +1285,7 @@ def build_package_dict(files, ignore_folder=True):
                 attributes["folder"], attributes["name"]
             )
 
-        if metadata_folder == "aura":
+        if metadata_folder in ["aura", "lwc"]:
             file_dict["metadata_name"] = "%s" % attributes["folder"]
 
         # Build dict
@@ -1446,22 +1447,24 @@ def build_deploy_package(files):
     # Add files to zip
     for meta_type in package_dict:
         for f in package_dict[meta_type]:
+            metadata_folder = f["metadata_folder"]
+
             # Define write_to
             write_to = (
-                f["metadata_folder"], 
+                metadata_folder, 
                 ("/" + f["folder"]) if f["folder"] else "", 
                 f["name"], 
                 f["extension"]
             )
 
             # If lighting component, add all related file to zip too
-            if f["metadata_folder"] == "aura":
+            if metadata_folder in ["aura", "lwc"]:
                 base = os.path.split(f["dir"])[0]
                 for parent, dirnames, filenames in os.walk(base):
                     for filename in filenames:
                         aura_file = os.path.join(parent, filename)
-                        zf.write(aura_file, "aura/%s/%s" % (
-                            f["folder"], filename
+                        zf.write(aura_file, "%s/%s/%s" % (
+                            metadata_folder, f["folder"], filename
                         ))
             else:
                 zf.write(f["dir"], "%s%s/%s.%s" % write_to)
@@ -1540,7 +1543,6 @@ def compress_resource_folder(resource_folder):
 
 # Build zip package for Aura or LWC deployment
 def build_package(files_or_dirs, meta_type="aura"):
-
     # Build package
     settings = context.get_settings()
     workspace = settings["workspace"]
@@ -1554,20 +1556,26 @@ def build_package(files_or_dirs, meta_type="aura"):
         if os.path.isfile(_file_or_dir):
             base, aura_element = os.path.split(_file_or_dir)
             base, aura_name = os.path.split(base)
-            base, meta_type = os.path.split(base)
+            base, meta_folder = os.path.split(base)
             aura_names.append(aura_name)
-            zf.write(_file_or_dir, "%s/%s/%s" % (meta_type, aura_name, aura_element))
+            zf.write(_file_or_dir, "%s/%s/%s" % (meta_folder, aura_name, aura_element))
         else:
             base, aura_name = os.path.split(_file_or_dir)
-            base, meta_type = os.path.split(base)
+            base, meta_folder = os.path.split(base)
             aura_names.append(aura_name)
             for dirpath, dirnames, filenames in os.walk(_file_or_dir):
                 base, aura_name = os.path.split(dirpath)
                 if not filenames:
-                    zf.write(dirpath, meta_type+"/"+aura_name)
+                    zf.write(dirpath, meta_folder+"/"+aura_name)
                 else:
                     for filename in filenames:
-                        zf.write(os.path.join(dirpath, filename), "%s/%s/%s" % (meta_type, aura_name, filename))
+                        zf.write(os.path.join(dirpath, filename), "%s/%s/%s" % (
+                            meta_folder, aura_name, filename
+                        ))
+
+    # Transform metadata type
+    if meta_type != "LightningComponentBundle":
+        meta_type = "AuraDefinitionBundle"
 
     # Write package.xml to zip
     package_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
@@ -2431,8 +2439,7 @@ def write_metadata_to_csv(fp, columns, metadata, sobject):
     fp.write(row_values) # Write Body
     fp.close()
 
-NOT_INCLUDED_COLUMNS = ["urls", "attributes"]
-def list2csv(file_path, records):
+def list2csv(file_path, records, NOT_INCLUDED_COLUMNS=["urls", "attributes"]):
     """convert simple dict in list to csv
 
     Arguments:
@@ -2454,6 +2461,30 @@ def list2csv(file_path, records):
                 else:
                     values.append(('"%s"' % none_value(record[strk])).encode("utf-8"))
             fp.write(b",".join(values) + b"\n")
+
+def json2csv(_list, NOT_INCLUDED_COLUMNS=["urls", "attributes"]):
+    """convert simple dict in list to csv
+
+    Arguments:
+
+    * _list -- [{"1": 1}, {"2": 2}]
+    """
+    # If _list size is 0, just return
+    if len(_list) == 0: return "No Elements"
+
+    headers = [k for k in _list[0] if k not in NOT_INCLUDED_COLUMNS]
+    csv_content = ",".join(headers) + "\n"
+    for record in _list:
+        values = []
+        for k in headers:
+            strk = str(k)
+            if strk not in record:
+                values.append("")
+            else:
+                values.append(('"%s"' % none_value(record[strk])))
+        csv_content += ",".join(values) + "\n";
+
+    return csv_content
 
 def parse_data_template_vertical(output_file_dir, result):
     """Parse the data template to csv by page layout
@@ -2583,10 +2614,31 @@ def get_soql_fields(soql):
         field list is : ['Id', 'Name', 'Owner.Name', 'Owner.FirstName']
     """
 
-    match = re.match("SELECT\\s+[\\w\\n,.:_\\s]*\\s+FROM", soql, re.IGNORECASE)
-    fieldstr = match.group(0)[6:-4].replace(" ", "").replace("\n", "").replace("\t", "")
+    match = re.match("[\\n\\s]*SELECT\\s+[*\\w\\n,.:_\\s()]+?\\s+FROM", soql, re.IGNORECASE)
+    if not match:
+        return []
 
-    return fieldstr.split(",")
+    fieldstr = match.group(0).strip()[6:-4].replace("\n", "").replace("\t", "")
+    print (fieldstr.split(','))
+
+    fields = []
+    expr_fields = [] # Aggregate Fields
+    for f in fieldstr.split(','):
+        f = f.strip()
+        if " " in f:
+            f = f.split(" ")[1]
+            fields.append(f)
+        elif "(" in f:
+            expr_fields.append(f)
+        else:
+            fields.append(f)
+
+    for idx in range(0, len(expr_fields)):
+        fields.append('expr%s' % idx)
+
+    print (fields)
+
+    return fields
 
 def query_to_csv(result, soql):
     records = result["records"]
@@ -2595,7 +2647,7 @@ def query_to_csv(result, soql):
     
     # Get CSV headers, 
     # If we use * to fetch all fields
-    if re.compile("select\s+\*\s+from[\s\t]+\w+", re.I).match(soql):
+    if re.compile("select\\s+\\*\\s+from[\\s\\t]+\\w+", re.I).match(soql):
         headers = sorted(list(records[0].keys()))
     else:
         headers = get_soql_fields(soql)

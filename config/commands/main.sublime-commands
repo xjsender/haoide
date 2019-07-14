@@ -67,8 +67,8 @@
     {"caption": "-"},
 
     {
-        "caption": "HaoIDE: Open Aura Document Reference",
-        "command": "open_aura_document_reference"
+        "caption": "HaoIDE: Open Lightning Doc Reference",
+        "command": "open_lightning_doc_references"
     },
 
     {
@@ -101,6 +101,11 @@
         "args": {
             "_type": "Event"
         }
+    },
+
+    {
+        "caption": "HaoIDE: New Lighting Web Component",
+        "command": "create_lightning_web_component"
     },
 
     {
@@ -261,6 +266,11 @@
     {
         "caption": "HaoIDE: Utitlities > JSON to XML",
         "command": "json_to_xml"
+    },
+
+    {
+        "caption": "HaoIDE: Utitlities > JSON to CSV",
+        "command": "json_to_csv"
     },
 
     {

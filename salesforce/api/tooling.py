@@ -604,12 +604,15 @@ class ToolingApi():
     def describe_sobjects(self, sobjects):
         """ Sends get requests, return sObjects describe result
 
-        * sobjects -- sObject collection
+        * sobjects -- {
+            "name": "Account",
+            "tooling": true
+        }
         """
 
         result = []
-        for sobject in sobjects:
-            result.append(self.describe_sobject(sobject))
+        for so in sobjects:
+            result.append(self.describe_sobject(so["name"], so["tooling"]))
 
         self.result = result
         return result

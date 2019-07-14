@@ -62,6 +62,21 @@
         }
     },
 
+    "lwc": {
+        "html": {
+            "directory": "lwc/lwc.html",
+            "extension": ".html"
+        },
+        "js": {
+            "directory": "lwc/lwc.js",
+            "extension": ".js"
+        },
+        "js-meta": {
+            "directory": "lwc/lwc.js-meta.xml",
+            "extension": ".js-meta.xml"
+        }
+    },
+
     "ApexClass": {
         "Aura": {
             "directory": "ApexClass/Aura.cls",

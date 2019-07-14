@@ -9,14 +9,14 @@ from . import processor
 from .salesforce.lib.panel import Printer
 
 
-class OpenAuraDocumentReference(sublime_plugin.WindowCommand):
+class OpenLightningDocReferences(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(OpenAuraDocumentReference, self).__init__(*args, **kwargs)
+        super(OpenLightningDocReferences, self).__init__(*args, **kwargs)
 
     def run(self):
         instance = util.get_instance(self.settings)
         if instance == "emea": instance = "eu0"
-        start_url = "https://%s.lightning.force.com/auradocs/reference.app" % instance
+        start_url = "https://%s.lightning.force.com/docs/component-library" % instance
         self.window.run_command("login_to_sfdc", {"startURL": start_url})
 
     def is_enabled(self):
@@ -47,17 +47,24 @@ class DeployLightingToServer(sublime_plugin.WindowCommand):
                 }
             })
 
-        base64_package = util.build_package(dirs)
-        processor.handle_deploy_thread(base64_package, source_org=source_org, element=element, update_meta=update_meta)
+        base64_package = util.build_aura_package(dirs, meta_type=element)
+        processor.handle_deploy_thread(
+            base64_package, 
+            source_org=source_org, 
+            element=element, 
+            update_meta=update_meta
+        )
 
     def is_visible(self, dirs, switch_project=True):
-        if not dirs or len(dirs) == 0: return False
+        if not dirs or len(dirs) == 0:
+            return False
 
         self.settings = context.get_settings()
         for _dir in dirs:
             attributes = util.get_file_attributes(_dir)
             metadata_folder = attributes["metadata_folder"]
-            if metadata_folder != "aura": return False
+            if metadata_folder not in ["aura", "lwc"]: 
+                return False
             if self.settings["default_project_name"] not in _dir:
                 return False
 
@@ -280,9 +287,9 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
         self.window.show_input_panel("Please Input %s Name: " % _type, 
             "", self.on_input, None, None)
 
-    def on_input(self, lighting_name):
+    def on_input(self, lightning_name):
         # Create component to local according to user input
-        if not re.match('^[a-zA-Z]+\\w+$', lighting_name):
+        if not re.match('^[a-zA-Z]+\\w+$', lightning_name):
             message = 'Invalid format, do you want to try again?'
             if not sublime.ok_cancel_dialog(message): return
             self.window.show_input_panel("Please Input %s Name: " % self._type, 
@@ -295,30 +302,30 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
 
         # Get template attribute
         templates = util.load_templates()
-        template = templates.get("Aura").get(self._type)        
+        template = templates.get("Aura").get(self._type)
         with open(os.path.join(workspace, ".templates", template["directory"])) as fp:
             body = fp.read()
 
         # Build dir for new lighting component
-        component_dir = os.path.join(workspace, "src", "aura", lighting_name)
+        component_dir = os.path.join(workspace, "src", "aura", lightning_name)
         if not os.path.exists(component_dir):
             os.makedirs(component_dir)
         else:
-            message = "%s is already exist, do you want to try again?" % lighting_name
+            message = "%s is already exist, do you want to try again?" % lightning_name
             if not sublime.ok_cancel_dialog(message, "Try Again?"): return
             self.window.show_input_panel("Please Input Lighting Name: ", 
                 "", self.on_input, None, None)
             return
         
-        lihghting_file = os.path.join(component_dir, lighting_name+template["extension"])
+        lightning_file = os.path.join(component_dir, lightning_name+template["extension"])
 
         # Create Aura lighting file
-        with open(lihghting_file, "w") as fp:
+        with open(lightning_file, "w") as fp:
             fp.write(body)
 
         # If created succeed, just open it and refresh project
         window = sublime.active_window()
-        window.open_file(lihghting_file)
+        window.open_file(lightning_file)
         window.run_command("refresh_folder_list")
 
         # Deploy Aura to server

@@ -494,6 +494,10 @@ def handle_reload_sobjects_completions(timeout=120):
         threads = []
         apis = []
         for sobjects in chunked_sobjects:
+            sobjects = [
+                {"name": so, "tooling": sobjects_describe[so]["tooling"]}
+                for so in sobjects
+            ]
             api = ToolingApi(settings)
             thread = threading.Thread(target=api.describe_sobjects, args=(sobjects, ))
             thread.start()
@@ -618,7 +622,7 @@ def handle_update_aura_meta(body, element, timeout=120, type = "AuraDefinitionBu
                 "extension": full_name[full_name.find('.'):],
                 "id": record["Id"],
                 "lastModifiedDate": record["LastModifiedDate"],
-                "type": "AuraDefinitionBundle",
+                "type": type,
                 "DefType": record["DefType"]
             }
             components_dict[type][full_name.lower()] = cmp_meta
