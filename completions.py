@@ -796,7 +796,7 @@ class PageCompletions(sublime_plugin.EventListener):
                     if not mr.contains(pt):
                         continue
                     class_name = view.substr(mr).split("=")[0]
-                    if class_name.lower() == "class":
+                    if class_name.lower() in ["class", "icon-class"]:
                         for class_name in slds.classes:
                             completion_list.append(("%s\tSLDS" % class_name, class_name))
                         break
