@@ -6,5 +6,6 @@
     "3.4.4": "config/messages/3.4.4.md",
     "3.4.5": "config/messages/3.4.5.md",
     "3.4.6": "config/messages/3.4.6.md",
+    "3.5.5": "config/messages/3.5.5.md",
     "install": "config/messages/install.txt"
 }
