@@ -1546,7 +1546,7 @@ def build_package(files_or_dirs, meta_type="aura"):
     workspace = settings["workspace"]
     if not os.path.exists(workspace):
         os.makedirs(workspace)
-    zipfile_path = workspace + "/aura.zip" if meta_type is 'aura' else "/lwc.zip"
+    zipfile_path = workspace + ("/aura.zip" if meta_type is 'aura' else "/lwc.zip")
     zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
 
     aura_names = []
