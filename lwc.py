@@ -48,7 +48,7 @@ class CreateLightningWebComponent(sublime_plugin.WindowCommand):
 
         # Get template attribute
         templates = util.load_templates()
-        template_bundle = templates.get("LWC")
+        template_bundle = templates.get("Lwc")
         for tpl_name in template_bundle:
             template = template_bundle.get(tpl_name)
             with open(os.path.join(self._workspace, ".templates", template["directory"])) as fp:
