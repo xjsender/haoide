@@ -2369,7 +2369,7 @@ tag_defs = {
                     "Integer",
                     "Long",
                     "String",
-                    "Function",
+                    "Method",
                     "Object",
                     "String[]",
                     "Integer[]",
@@ -10734,7 +10734,7 @@ tag_defs = {
                 "access": "global",
                 "required": False,
                 "default": "",
-                "description": "Displays tooltip text when the mouse moves over the element."
+                "description": "Use this directive to iterate over an array and render a list."
             },
             "for:item": {
                 "type": "TrackObject",
@@ -10748,14 +10748,28 @@ tag_defs = {
                 "access": "global",
                 "required": False,
                 "default": "",
-                "description": ""
+                "description": "Use this directive to conditionally render DOM elements in a template."
             },
             "if:false": {
                 "type": "TrackObject",
                 "access": "global",
                 "required": False,
                 "default": "",
-                "description": ""
+                "description": "Use this directive to conditionally render DOM elements in a template."
+            },
+            "key": {
+                "type": "TrackObject",
+                "access": "global",
+                "required": False,
+                "default": "",
+                "description": "Use this directive to improve rendering performance by assigning a unique identifier to each item in a list. The key must be a string or a number, it can’t be an object. The engine uses the keys to determine which items have changed."
+            },
+            "lwc:dom": {
+                "type": "TrackObject",
+                "access": "global",
+                "required": False,
+                "default": "",
+                "description": "Add this directive to a native HTML element to call appendChild() on the element from the owner’s JavaScript class and preserve styling."
             }
         }
     },
@@ -10865,7 +10879,7 @@ tag_defs = {
             },
             "variant": {
                 "type": "Picklist",
-                "values": ["", "circle", "square"],
+                "values": ["square", "circle", ""],
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -10948,7 +10962,15 @@ tag_defs = {
                 "description": ""
             },
             "variant": {
-                "type": "String",
+                "type": "Picklist",
+                "values": [
+                    "base",
+                    "neutral",
+                    "brand",
+                    "destructive",
+                    "inverse",
+                    "success"
+                ],
                 "access": "global",
                 "required": False,
                 "default": "neutral",
@@ -11006,7 +11028,15 @@ tag_defs = {
                 "description": ""
             },
             "variant": {
-                "type": "String",
+                "type": "Picklist",
+                "values": [
+                    "base",
+                    "neutral",
+                    "brand",
+                    "destructive",
+                    "inverse",
+                    "success"
+                ],
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -11036,7 +11066,8 @@ tag_defs = {
                 "description": ""
             },
             "type": {
-                "type": "String",
+                "type": "Picklis",
+                "values": ["button", "rest", "submit"],
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -11078,7 +11109,15 @@ tag_defs = {
                 "description": ""
             },
             "variant": {
-                "type": "String",
+               "type": "Picklist",
+                "values": [
+                    "base",
+                    "neutral",
+                    "brand",
+                    "destructive",
+                    "inverse",
+                    "success"
+                ],
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -11568,6 +11607,7 @@ tag_defs = {
             },
             "variant": {
                 "type": "Picklist",
+                "values": ["standard", "label-inline", "label-hidden", "label-stacked"],
                 "access": "global",
                 "required": False,
                 "default": "standard",
@@ -11602,7 +11642,7 @@ tag_defs = {
                 "description": "InheritedRepresents the validity states that an element can be in, with respect to constraint validation."
             },
             "onchange": {
-                "type": "Function",
+                "type": "Method",
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -11623,14 +11663,14 @@ tag_defs = {
                 "description": "InheritedSpecifies the tab order of an element when the Tab key is used for navigating. The tabindex value can be set to 0 or -1. The default is 0, which means that the component is focusable and participates in sequential keyboard navigation. -1 means that the component is focusable but does not participate in keyboard navigation."
             },
             "onfocus": {
-                "type": "Function",
+                "type": "Method",
                 "access": "global",
                 "required": False,
                 "default": "",
                 "description": "InheritedThe action triggered when the element receives focus."
             },
             "onblur": {
-                "type": "Function",
+                "type": "Method",
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -11651,8 +11691,7 @@ tag_defs = {
                 "description": "InheritedDisplays tooltip text when the mouse moves over the element."
             },
             "options": {
-                "type": "Picklist",
-                "values": ["label", "value"],
+                "type": "List",
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -11892,8 +11931,7 @@ tag_defs = {
                 "description": "Label for the dual listbox."
             },
             "options": {
-                "type": "Picklist",
-                "values": ["label", "value"],
+                "type": "List",
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -12098,13 +12136,23 @@ tag_defs = {
             },
             "accept": {
                 "type": "Picklist",
+                "values": [
+                    ".avi", ".doc", ".dot", ".docx", ".exe", 
+                    ".msg", ".wrf", ".html", ".acgi", ".htm", 
+                    ".htx", ".shtm", ".shtml", ".htt", ".mht", 
+                    ".mhtm", ".mhtml", ".mov", ".mp3", ".mp4", 
+                    ".mpeg", ".mpg", ".pdf", ".ppt", ".pot", 
+                    ".pps", ".pptx", ".svg", ".svgz", ".swf", 
+                    ".txml", ".unknown", ".wav", ".wma", ".wmv", 
+                    ".xhtml", ".xls", ".xlt", ".xlsx", ".xm"
+                ],
                 "access": "global",
                 "required": False,
                 "default": "",
                 "description": "Comma-separated list of file extensions that can be uploaded\nin the format .ext, such as .pdf, .jpg, or .png."
             },
             "record-id": {
-                "type": "String",
+                "type": "TrackObject",
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -12891,7 +12939,7 @@ tag_defs = {
                 "description": "The type of the input. This value defaults to text."
             },
             "is-loading": {
-                "type": "String",
+                "type": "Boolean",
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -12912,7 +12960,17 @@ tag_defs = {
                 "description": "The maximum number of characters allowed in the field."
             },
             "accept": {
-                "type": "String",
+                "type": "Picklist",
+                "values": [
+                    ".avi", ".doc", ".dot", ".docx", ".exe", 
+                    ".msg", ".wrf", ".html", ".acgi", ".htm", 
+                    ".htx", ".shtm", ".shtml", ".htt", ".mht", 
+                    ".mhtm", ".mhtml", ".mov", ".mp3", ".mp4", 
+                    ".mpeg", ".mpg", ".pdf", ".ppt", ".pot", 
+                    ".pps", ".pptx", ".svg", ".svgz", ".swf", 
+                    ".txml", ".unknown", ".wav", ".wma", ".wmv", 
+                    ".xhtml", ".xls", ".xlt", ".xlsx", ".xm"
+                ],
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -14114,7 +14172,7 @@ tag_defs = {
                 "description": "Sets the arrangement style of fields and labels in the form.\nAccepted values are compact, comfy, and auto (default).\nUse compact to display fields and their labels on the same line.\nUse comfy to display fields below their labels.\nUse auto to let the component dynamically set\nthe density according to the user's Display Density setting\nand the width of the form."
             },
             "record-id": {
-                "type": "String",
+                "type": "TrackObject",
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -14150,7 +14208,8 @@ tag_defs = {
                 "description": "Specifies the interaction and display style for the form.\nPossible values: view, edit, readonly.\nIf a record ID is not provided, the default mode is edit, which displays a form to create new records.\nIf a record ID is provided, the default mode is view, which displays field values with edit icons on updateable fields."
             },
             "layout-type": {
-                "type": "String",
+                "type": "Picklist",
+                "values": ["Compact", "Full"],
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -14165,7 +14224,7 @@ tag_defs = {
                 "description": "Sets the arrangement style of fields and labels in the form.\nAccepted values are compact, comfy, and auto (default).\nUse compact to display fields and their labels on the same line.\nUse comfy to display fields below their labels.\nUse auto to let the component dynamically set\nthe density according to the user's Display Density setting\nand the width of the form."
             },
             "record-id": {
-                "type": "String",
+                "type": "TrackObject",
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -14208,7 +14267,7 @@ tag_defs = {
                 "description": "Sets the arrangement style of fields and labels in the form.\nAccepted values are compact, comfy, and auto (default).\nUse compact to display fields and their labels on the same line.\nUse comfy to display fields below their labels.\nUse auto to let the component dynamically set\nthe density according to the user's Display Density setting\nand the width of the form."
             },
             "record-id": {
-                "type": "String",
+                "type": "TrackObject",
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -14407,7 +14466,52 @@ tag_defs = {
     "lightning-tab": {
         "simple": False,
         "type": "lwc",
-        "attribs": {}
+        "attribs": {
+            "value": {
+                "type": "String",
+                "access": "global",
+                "required": False,
+                "default": "",
+                "description": "The optional string to be used during tabset's select event to determine which tab was clicked.\nThis string is also used by active-tab-value in tabset to open a tab."
+            },
+            "label": {
+                "type": "String",
+                "access": "global",
+                "required": False,
+                "default": "",
+                "description": "The text displayed in the tab header."
+            },
+            "title": {
+                "type": "String",
+                "access": "global",
+                "required": False,
+                "default": "",
+                "description": "Specifies text that displays in a tooltip over the tab content."
+            },
+            "icon-name": {
+                "type": "Picklist",
+                "values": icon_names,
+                "access": "global",
+                "required": False,
+                "default": "",
+                "description": "The Lightning Design System name of an icon to display to the left of the tab label.\nSpecify the name in the format 'utility:down' where 'utility' is the category, and\n'down' is the icon to be displayed. Only utility icons can be used."
+                
+            },
+            "icon-assistive-text": {
+                "type": "String",
+                "access": "global",
+                "required": False,
+                "default": "",
+                "description": "The alternative text for the icon specified by icon-name."
+            },
+            "show-error-indicator": {
+                "type": "Boolean",
+                "access": "global",
+                "required": False,
+                "default": "",
+                "description": "Specifies whether there's an error in the tab content.\nAn error icon is displayed to the right of the tab label."
+            }
+        }
     },
 
     "lightning-tabset": {
@@ -14585,7 +14689,7 @@ tag_defs = {
                 "description": "The URL of the page that the link goes to."
             },
             "actions": {
-                "type": "String",
+                "type": "List",
                 "access": "global",
                 "required": False,
                 "default": "",
@@ -14677,7 +14781,7 @@ tag_defs = {
                 "description": "Determines where to start counting the row number. The default is 0."
             },
             "selected-rows": {
-                "type": "String",
+                "type": "List",
                 "access": "global",
                 "required": False,
                 "default": "[]",
