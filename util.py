@@ -1538,7 +1538,7 @@ def compress_resource_folder(resource_folder):
     return base64_package
 
 
-# Build zip package for Aura or LWC deployment
+# Build zip package for Aura or Lwc deployment
 def build_package(files_or_dirs, meta_type="aura"):
 
     # Build package
