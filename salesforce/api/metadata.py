@@ -720,7 +720,8 @@ class MetadataApi():
                         failure.get("message")
                     ))
 
-            elif "errorMessage" in body:
+            # Unknown exception printer
+            if "errorMessage" in body:
                 Printer.get('log').write("\n" + body["errorMessage"], False)
 
             warning_messages = []
