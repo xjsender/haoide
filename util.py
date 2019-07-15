@@ -1468,10 +1468,10 @@ def build_deploy_package(files):
             else:
                 zf.write(f["dir"], "%s%s/%s.%s" % write_to)
 
-            # If -meta.xml is exist, add it to folder
-            met_xml = f["dir"] + "-meta.xml"
-            if os.path.isfile(met_xml):
-                zf.write(met_xml, "%s%s/%s.%s-meta.xml" % write_to)
+                # If -meta.xml is exist, add it to folder
+                met_xml = f["dir"] + "-meta.xml"
+                if os.path.isfile(met_xml):
+                    zf.write(met_xml, "%s%s/%s.%s-meta.xml" % write_to)
 
     # Prepare package XML content
     package_xml_content = build_package_xml(settings, package_dict)
