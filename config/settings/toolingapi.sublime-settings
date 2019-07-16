@@ -532,6 +532,7 @@
         "Force.com Workbook": "workbook",
         "Integration Workbook": "integration_workbook",
         "Identity Implementation Guide": "identityImplGuide",
-        "Formulas Quick Reference": "salesforce_formulas_cheatsheet"
+        "Formulas Quick Reference": "salesforce_formulas_cheatsheet",
+        "User Interface API Developer Guide": "uiapi"
     }
 }
