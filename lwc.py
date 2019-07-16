@@ -55,7 +55,7 @@ class CreateLightningWebComponent(sublime_plugin.WindowCommand):
                 body = fp.read()
 
                 # Update dynamic parameters in the template
-                body = body.replace("{class_name__c}", lwc_name.capitalize())
+                body = body.replace("{class_name__c}", lwc_name[:1].upper() + lwc_name[1:])
                 body = body.replace("{api_version}", str(settings["api_version"]))
             
             lwc_file = os.path.join(component_dir, lwc_name + v["extension"])
