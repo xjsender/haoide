@@ -1261,9 +1261,9 @@ def build_package_dict(files, ignore_folder=True):
         if ignore_folder and not os.path.isfile(f): 
             continue
 
-        # Ignore "-meta.xml"
+        # Replace meta file with source file
         if f.endswith("-meta.xml"): 
-            continue
+            f = f.replace("-meta.xml", "")
 
         # If ignore_folder is true and f is folder
         attributes = get_file_attributes(f)
