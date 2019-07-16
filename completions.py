@@ -435,7 +435,7 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         return completion_list
 
-class LightningCompletions(sublime_plugin.EventListener):
+class AuraCompletions(sublime_plugin.EventListener):
     """ Lightning Javascript completion
 
     1. Standard Event Completion
@@ -563,6 +563,64 @@ class LightningCompletions(sublime_plugin.EventListener):
                         ),
                     ))
 
+
+        return completion_list
+
+
+class LwcCompletions(sublime_plugin.EventListener):
+    def on_query_completions(self, view, prefix, locations):
+        # Only trigger within JS
+        if not view.match_selector(locations[0], "source.js"):
+            return
+
+        settings = context.get_settings()
+        workspace = settings["workspace"]
+        username = settings["username"]
+
+        metadata = load_sobject_cache(username=username)
+        sobjects_describe = metadata.get("sobjects", {})
+
+        pt = locations[0] - len(prefix) - 1
+        ch = view.substr(sublime.Region(pt, pt + 1))
+        var_name = view.substr(view.word(pt-1))
+
+        completion_list = []
+        if ch == "/":
+            # Add salesforce meta resource
+            if var_name == "salesforce":
+                modules = [
+                    "apex", "apexContinuation", "contentAssertUrl",
+                    "i18n", "label", "resourceUrl", "schema", "user"
+                ]
+
+                for module in modules:
+                    completion_list.append((
+                        "%s\tModule" % module, module
+                    ))
+
+                return completion_list
+
+            if var_name == "schema":
+                for key, desc in sobjects_describe.items():
+                    sobject = desc["name"]
+
+                    # Add sobject schema
+                    completion_list.append((sobject + "\tsObject", sobject))
+
+                    # Add sobject field schema
+                    for k, v in desc["fields"].items():
+                        completion_list.append((
+                            "%s.%s" % (sobject, k),
+                            "%s.%s" % (sobject, v)
+                        ))
+            elif var_name == "resourceUrl":
+                completion_list = util.get_completion_from_cache(
+                    settings, "StaticResource", True
+                )
+            elif var_name == "label":
+                completion_list = util.get_completion_from_cache(
+                    settings, "CustomLabel", True
+                )
 
         return completion_list
 
