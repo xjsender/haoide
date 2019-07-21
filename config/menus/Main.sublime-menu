@@ -487,7 +487,7 @@
                         "caption": "Custom Labels",
                         "command": "login_to_sfdc",
                         "args": {
-                            "startURL": "/ui/setup/ExternalStrings/home"
+                            "startURL": "101?retURL=/ui/setup/Setup?setupid=DevTools&setupid=ExternalStrings"
                         }
                     },
 
