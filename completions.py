@@ -882,13 +882,20 @@ class PageCompletions(sublime_plugin.EventListener):
 
                     # Get the Attribute Values
                     if matched_tag in tag_defs and matched_attr_name in tag_defs[matched_tag]["attribs"]:
-                        tag_attribute = tag_defs[matched_tag]["attribs"][matched_attr_name]
+                        tag_def = tag_defs[matched_tag]
+                        tag_attribute = tag_def["attribs"][matched_attr_name]
 
-                        # If attr type boolean, add {!} to it
+                        # If attr type boolean, add {!} or {} to it according to type
                         if tag_attribute["type"] == "Boolean":
-                            completion_list.append(("{!}" + "\t" + matched_attr_name, '"{!$1}"$0'))
-                            completion_list.append(("true" + "\t" + matched_attr_name, '"true"$0'))
-                            completion_list.append(("false" + "\t" + matched_attr_name, '"false"$0'))
+                            if tag_def["type"] == "aura":
+                                completion_list.append(("{!}" + "\t" + matched_attr_name, '"{!$1}"$0'))
+
+                            if tag_def["type"] == "lwc":
+                                completion_list.append(("{}" + "\t" + matched_attr_name, '{$1}$0'))
+
+                            if tag_def["type"] in ["aura", "lwc"]:
+                                completion_list.append(("true" + "\t" + matched_attr_name, '"true"$0'))
+                                completion_list.append(("false" + "\t" + matched_attr_name, '"false"$0'))
 
                         if "values" in tag_attribute:
                             for value in tag_attribute["values"]:
