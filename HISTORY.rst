@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+Release 3.5.4 (2019-07-31)
+++++++++++++++++++
+* Add component tag attr desc completion when hover on attr
+* Add user interface api doc reference toc
+* lwc supports label, staticresource, custom object and fields import
+* Enhancement for lwc boolean attr completion
+* Fix bug for meta file deployment
+
 
 Release 3.5.4 (2018-02-12)
 ++++++++++++++++++
