@@ -34,7 +34,7 @@ class CreateLightningWebComponent(sublime_plugin.WindowCommand):
                                          "", self.on_input, None, None)
             return
 
-        # Build dir for new lighting web component
+        # Build dir for new Lightning web component
         component_dir = os.path.join(self._workspace, "src", "lwc", lwc_name)
         if not os.path.exists(component_dir):
             os.makedirs(component_dir)
@@ -48,15 +48,18 @@ class CreateLightningWebComponent(sublime_plugin.WindowCommand):
 
         # Get template attribute
         templates = util.load_templates()
-        template_bundle = templates.get("Lwc")
+        template_bundle = templates.get("lwc")
         for tpl_name in template_bundle:
             template = template_bundle.get(tpl_name)
             with open(os.path.join(self._workspace, ".templates", template["directory"])) as fp:
                 body = fp.read()
+                # Insert lwc name and api version into files
+                body = body.replace('{class_name__c}', lwc_name)
+                body = body.replace('{api_version}', str(self._settings["api_version"]))
 
             lwc_file = os.path.join(component_dir, lwc_name + template["extension"])
 
-            # Create Aura lighting file
+            # Create Aura Lightning file
             with open(lwc_file, "w") as fp:
                 fp.write(body)
 
@@ -100,7 +103,7 @@ class DeployLwcToServer(sublime_plugin.WindowCommand):
                 }
             })
 
-        base64_package = util.build_package(dirs, 'lwc')
+        base64_package = util.build_lightning_package(dirs, 'lwc')
         processor.handle_deploy_thread(base64_package, source_org=source_org, update_meta=update_meta)
 
     def is_visible(self, dirs, switch_project=True):

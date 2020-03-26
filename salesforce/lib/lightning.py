@@ -2265,6 +2265,22 @@ timezones = [
     "Pacific/Pago_Pago"
 ]
 
+html_global_methods = [
+    "onabort", "onautocomplete", "onautocompleteerror", "onauxclick", "onblur",
+    "oncancel", "oncanplay", "oncanplaythrough", "onchange", "onclick",
+    "onclose", "oncontextmenu", "oncuechange", "ondblclick", "ondrag",
+    "ondragend", "ondragenter", "ondragexit", "ondragleave", "ondragover",
+    "ondragstart", "ondrop", "ondurationchange", "onemptied", "onended",
+    "onerror", "onfocus", "oninput", "oninvalid", "onkeydown",
+    "onkeypress", "onkeyup", "onload", "onloadeddata", "onloadedmetadata",
+    "onloadstart", "onmousedown", "onmouseenter", "onmouseleave",
+    "onmousemove", "onmouseout", "onmouseover", "onmouseup",
+    "onmousewheel", "onpause", "onplay", "onplaying", "onprogress",
+    "onratechange", "onreset", "onresize", "onscroll", "onseeked",
+    "onseeking", "onselect", "onshow", "onsort", "onstalled", "onsubmit",
+    "onsuspend", "ontimeupdate", "ontoggle", "onvolumechange", "onwaiting"
+]
+
 # ["analytics", "aura", "force", "forceChatter", "forceCommunity", "lightning", "ltng", "ui", "wave"]
 tag_defs = {
     "sfdc:sobjects": {
@@ -2355,7 +2371,7 @@ tag_defs = {
                     "Integer",
                     "Long",
                     "String",
-                    "Function",
+                    "Method",
                     "Object",
                     "String[]",
                     "Integer[]",
@@ -3342,7 +3358,8 @@ tag_defs = {
             },
             "size": {
                 "description": "The size of the avatar. Valid values are x-small, small, medium, and large. This value defaults to medium.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["x-small", "small", "medium", "large"],
             },
             "src": {
                 "description": "The URL for the image. Required",
@@ -3582,7 +3599,8 @@ tag_defs = {
             },
             "size": {
                 "description": "The size of the buttonIcon. For the bare variant, options include x-small, small, medium, and large. For non-bare variants, options include xx-small, x-small, small, and medium. This value defaults to medium.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["xx-small", "x-small", "small", "medium", "large"],
             },
             "tabindex": {
                 "description": "Specifies the tab order of an element (when the tab button is used for navigating).",
@@ -4928,7 +4946,8 @@ tag_defs = {
             },
             "size": {
                 "description": "The size of the icon. Options include xx-small, x-small, small, medium, or large. This value defaults to medium.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["xx-small", "x-small", "small", "medium", "large"]
             },
             "title": {
                 "description": "Displays tooltip text when the mouse moves over the element.",
@@ -6447,7 +6466,8 @@ tag_defs = {
             },
             "size": {
                 "description": "The size value of the input range. This value default to empty, which is the base. Supports x-small, small, medium, and large.",
-                "type": "String"
+                "type": "Picklist",
+                "values": ["x-small", "small", "medium", "large"]
             },
             "step": {
                 "description": "The step increment value of the input range. Example steps include 0.1, 1, or 10. This value defaults to 1.",

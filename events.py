@@ -7,9 +7,40 @@ import re
 from . import context
 from . import util
 from .salesforce.lib.panel import Printer
+from .salesforce.lib import lightning
 
 
 class SFDCEventListener(sublime_plugin.EventListener):
+    """ Tag attribute description completion when hover
+    """
+    def on_hover(self, view, pt, hover_zone):
+        tag_defs = lightning.tag_defs
+
+        word = view.substr(view.extract_scope(pt-1))
+        matched_regions = view.find_all("<\\w+[:-]*\\w+[\\s\\S]*?>")
+
+        matched_region = None
+        for mr in matched_regions:
+            if mr.contains(pt):
+                matched_region = mr
+
+        if matched_region:
+            matched_str = view.substr(matched_region)[1:-1]
+            matched_tag = matched_str.split(" ")[0].strip()
+            matched_attr = view.substr(view.extract_scope(pt-1))[:-1]
+
+            if matched_tag in tag_defs and matched_attr in tag_defs[matched_tag]["attribs"]:
+                tag_attrib = tag_defs[matched_tag]["attribs"][matched_attr]
+                if "description" in tag_attrib and tag_attrib["description"]:
+                    view.show_popup(
+                        """<h3 style="padding: 5px; border-bottom: 1px solid white">{name}</h3>
+                            <div style="height:150px">
+                                {desc}
+                            </div>
+                        """.format(name=matched_attr, desc=tag_attrib["description"]),
+                        sublime.HIDE_ON_MOUSE_MOVE_AWAY
+                    )
+
     def on_new(self, view):
         """
         1. Eveytime when you open a new view, default syntax is Apex

@@ -4,6 +4,14 @@ Release History
 
 ---------------
 
+Release 3.5.4 (2019-07-31)
+++++++++++++++++++
+* Add component tag attr desc completion when hover on attr
+* Add user interface api doc reference toc
+* lwc supports label, staticresource, custom object and fields import
+* Enhancement for lwc boolean attr completion
+* Fix bug for meta file deployment
+
 
 Release 3.5.4 (2018-02-12)
 ++++++++++++++++++
@@ -244,23 +252,23 @@ Release 3.2.5 (2015-12-15)
 
 Release 3.2.4 (2015-12-09)
 ++++++++++++++++++
-* Enhancement for lighting development
+* Enhancement for lightning development
 * Add new command for creating ``SVG`` and ``design``
-* Update lighting related library
+* Update lightning related library
 * Change default ``api_version`` from ``34`` to ``35``
 
 
 Release 3.2.3 (2015-12-01)
 ++++++++++++++++++
 * Bug Fix:
-    Fix bug for lighting development when deploying cmp or app
+    Fix bug for lightning development when deploying cmp or app
 
 * Enhancement:
-    - Display the lighting type in the input panel when creating lighting components
+    - Display the lightning type in the input panel when creating lightning components
     - Change ``No change`` to ``no difference`` in non-difference message when executing ``diff_with_server`` command
 
 * Update:
-    - Remove four commands ``create_lighting_application``, ``create_lighting_component``, ``create_lighting_interface``, ``create_lighting_event``, bind the four features to ``create_lighting_definition`` by difference ``_type``
+    - Remove four commands ``create_lightning_application``, ``create_lightning_component``, ``create_lightning_interface``, ``create_lightning_event``, bind the four features to ``create_lightning_definition`` by difference ``_type``
     - Optimize completion for Boolean attribute in the html related page
     - Stop keeping useless ``settings.json`` to ``.config`` folder
 
@@ -272,7 +280,7 @@ Release 3.2.2 (2015-11-19)
     - Fix aura app preview problem
     - Fix bug for missing standard Objects when retrieve all
     - Fix bug for `deploy selected open files` fetaure
-    - Fix instance parse problem for lighting app preview
+    - Fix instance parse problem for lightning app preview
     - Fix bug of aura helperjs or controoler deploy
 
 * New Feature:
@@ -387,8 +395,8 @@ Release 3.1.4 (2015-07-25)
     - Add keymap for some frequently-used commands
     - Add visibility control for some CURD command on code file
     - Aura related features
-    - Merge ``Deploy Lighting To Server`` command with ``Deploy File to Server`` command
-    - Merge ``Retrieve Lighting To Server`` command with ``Retrieve File to Server`` command
+    - Merge ``Deploy Lightning To Server`` command with ``Deploy File to Server`` command
+    - Merge ``Retrieve Lightning To Server`` command with ``Retrieve File to Server`` command
     - Use file full name as key in ``component_metadata.sublime-settings``, originally, we use name as key, for example, originally, ``AccountController`` is key, now is ``AccountController.cls``
     - Change ``Diff With Server`` command to just visible when code file is ``classes, triggers, components or pages``
 
@@ -901,7 +909,7 @@ Release 2.7.8 (2015-02-02)
 * Rename ``refresh_selected_components`` command to ``refresh_files_from_server``
 * Rename ``delete_selected_components`` command to ``delete_files_from_server``
 * Add a new command for ``retrieve file from other server`` for retrieve file from different project.
-* Add a settings ``switch_back_after_migration`` to control whether switch back to original project after ``deploy to server``, ``deploy package to server``, ``deploy lighting to server`` or ``retrieve file from other server``, issue haoide:#3
+* Add a settings ``switch_back_after_migration`` to control whether switch back to original project after ``deploy to server``, ``deploy package to server``, ``deploy lightning to server`` or ``retrieve file from other server``, issue haoide:#3
 * Fix issue #5
 * Move ``pretty_json`` command from context menu to ``HaoIDE > Utilities > JSON Pretty`` in the main menu
 * Update README.MD
@@ -1043,17 +1051,17 @@ Release 2.5.6 (2014-12-13)
 * Fix Bug for issue #66
 * Enhancement for issue #48, after deployed, the `package.xml` is saved to `.package` in workspace
 * Before files are deployed to server, save them to local
-* When you deploy any lighting element, just deploy the whole lighting component
+* When you deploy any lightning element, just deploy the whole lightning component
 * Convert StartTime of debug log to local time by timezone module
 
 
 Release 2.5.5 (2014-12-09)
 ++++++++++++++++++
-* Fix Bug for creating Lighting Component Element
+* Fix Bug for creating Lightning Component Element
 * When deploy failed due to lower code coverage, display the coverage warning message
 * When new component is created, create the meta.xml file for it
-* Hide ``Retrieve Lighting from Server`` command when chosen folder is not aura folder
-* Hide ``Destruct Lighting from Server`` command when chosen folder is not aura folder
+* Hide ``Retrieve Lightning from Server`` command when chosen folder is not aura folder
+* Hide ``Destruct Lightning from Server`` command when chosen folder is not aura folder
 * Hide ``Extract to Here`` command if file extension is not `zip` or `resource`
 * Update the Documentation
 
@@ -1074,12 +1082,12 @@ Release 2.5.3 (2014-12-05)
 * Fix Bug for issue #62: 'module' object has no attribute 'populate_classes'
 * Fix Bug for issue #61: KeyError: 'name' in `get_component_completion`
 * Fix Bug for issue #60: Error with 'Update Project'
-* Add lighting component description for `Lighting Component` development
+* Add lightning component description for `Lightning Component` development
 
 
 Release 2.5.2 (2014-11-27)
 ++++++++++++++++++
-* After new lighting component is created, deploy it to server
+* After new lightning component is created, deploy it to server
 * Add a new command for ``pretty json`` in the context menu
 * hide the status message in progress bar when track self debug log after save succeed
 
@@ -1095,18 +1103,18 @@ Release 2.5.0 (2014-11-26)
 ++++++++++++++++++
 * Fix Bug: when delete component, if there is a open view which is not bind to file, it will throw TypeError: argument of type 'NoneType' is not iterable, and then, file is deleted from server but local file is not removed
 * Fix Bug: After folder is refreshed or project is updated, update the component cache
-* Add `Lighting Component` document reference
-* Add `Lighting Component` component tags to completions
-* Add `Lighting Component` to `components` settings and set it as default subscribed component
-* Add `Lighting Component` update feature
-* Add `Lighting Component` components update feature
-* Add `Lighting Component` component create feature
-* Add `Lighting Component` component destruct feature
+* Add `Lightning Component` document reference
+* Add `Lightning Component` component tags to completions
+* Add `Lightning Component` to `components` settings and set it as default subscribed component
+* Add `Lightning Component` update feature
+* Add `Lightning Component` components update feature
+* Add `Lightning Component` component create feature
+* Add `Lightning Component` component destruct feature
 * Change default ``api_version`` from 31 to 32
 * Remove ``Open Coverage Panel`` menu item in the main menu
 * Add ``duration`` column for debug logs and rearrange it's columns order
 * Add new document reference for ``Analytic Api``, ``Analytics Cloud Dashboard JSON``, ``Security Implementation`` 
-  and ``Lighting Component``
+  and ``Lightning Component``
 * Add new command for viewing release notes
 * Rename ``Extract Static Resource`` command to ``Extract To Here``, which command can be used to extract all zip source file but not only static resource for Salesforce
 * Add ``settings`` to ``components`` settings

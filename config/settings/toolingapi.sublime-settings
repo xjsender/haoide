@@ -85,7 +85,7 @@
     "file_exclude_patterns": [
         // "*.md",
         // "*-history.*",
-        "*.*-meta.xml",
+        // "*.*-meta.xml",
         "*.sublime-project",
         "package.zip"
     ],
@@ -94,7 +94,7 @@
     // Just work after new project is invoked or click ``HaoIDE > Update > Update Project Patterns``
     "folder_exclude_patterns": [
         // ".history",
-        ".templates"
+        // ".templates"
     ],
 
     // Solution for issue #49 in https://github.com/xjsender/SublimeApex
@@ -532,6 +532,7 @@
         "Force.com Workbook": "workbook",
         "Integration Workbook": "integration_workbook",
         "Identity Implementation Guide": "identityImplGuide",
-        "Formulas Quick Reference": "salesforce_formulas_cheatsheet"
+        "Formulas Quick Reference": "salesforce_formulas_cheatsheet",
+        "User Interface API Developer Guide": "uiapi"
     }
 }

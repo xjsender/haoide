@@ -51,7 +51,7 @@ If you don't want to keep your user credential information in the plugin , you j
 * <a href="/docs/dataloader.md" target="_blank">Data Loader</a>
 * <a href="/docs/document.md" target="_blank">Document Quick Reference</a>
 * <a href="/docs/plugin.md" target="_blank">Plugin Operation</a>
-* <a href="https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif" target="_blank">Lighting Development</a>
+* <a href="https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif" target="_blank">Lightning Development</a>
 * <a href="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif" target="_blank">Completions Demo</a>
 * <a href="http://docs.python-requests.org/en/latest/user/advanced/#proxies" target="_blank">Request Proxies</a>
 

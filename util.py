@@ -33,7 +33,8 @@ def load_templates():
         os.makedirs(target_dir)
 
     templates_dir = os.path.join(target_dir, "templates.json")
-    if not os.path.isfile(templates_dir):
+    lwc_dir = os.path.join(target_dir, "lwc") # Check exist lwc logic
+    if not os.path.isfile(templates_dir) or not os.path.exists(lwc_dir):
         source_dir = os.path.join(
             sublime.installed_packages_path(), 
             "haoide.sublime-package"
@@ -1261,9 +1262,9 @@ def build_package_dict(files, ignore_folder=True):
         if ignore_folder and not os.path.isfile(f): 
             continue
 
-        # Ignore "-meta.xml"
+        # Replace meta file with source file
         if f.endswith("-meta.xml"): 
-            continue
+            f = f.replace("-meta.xml", "")
 
         # If ignore_folder is true and f is folder
         attributes = get_file_attributes(f)
@@ -1284,7 +1285,7 @@ def build_package_dict(files, ignore_folder=True):
                 attributes["folder"], attributes["name"]
             )
 
-        if metadata_folder == "aura":
+        if metadata_folder in ["aura", "lwc"]:
             file_dict["metadata_name"] = "%s" % attributes["folder"]
 
         # Build dict
@@ -1446,30 +1447,32 @@ def build_deploy_package(files):
     # Add files to zip
     for meta_type in package_dict:
         for f in package_dict[meta_type]:
+            metadata_folder = f["metadata_folder"]
+
             # Define write_to
             write_to = (
-                f["metadata_folder"], 
+                metadata_folder, 
                 ("/" + f["folder"]) if f["folder"] else "", 
                 f["name"], 
                 f["extension"]
             )
 
             # If lighting component, add all related file to zip too
-            if f["metadata_folder"] == "aura":
+            if metadata_folder in ["aura", "lwc"]:
                 base = os.path.split(f["dir"])[0]
                 for parent, dirnames, filenames in os.walk(base):
                     for filename in filenames:
                         aura_file = os.path.join(parent, filename)
-                        zf.write(aura_file, "aura/%s/%s" % (
-                            f["folder"], filename
+                        zf.write(aura_file, "%s/%s/%s" % (
+                            metadata_folder, f["folder"], filename
                         ))
             else:
                 zf.write(f["dir"], "%s%s/%s.%s" % write_to)
 
-            # If -meta.xml is exist, add it to folder
-            met_xml = f["dir"] + "-meta.xml"
-            if os.path.isfile(met_xml):
-                zf.write(met_xml, "%s%s/%s.%s-meta.xml" % write_to)
+                # If -meta.xml is exist, add it to folder
+                met_xml = f["dir"] + "-meta.xml"
+                if os.path.isfile(met_xml):
+                    zf.write(met_xml, "%s%s/%s.%s-meta.xml" % write_to)
 
     # Prepare package XML content
     package_xml_content = build_package_xml(settings, package_dict)
@@ -1538,9 +1541,7 @@ def compress_resource_folder(resource_folder):
     return base64_package
 
 
-# Build zip package for Aura or Lwc deployment
-def build_package(files_or_dirs, meta_type="aura"):
-
+def build_lightning_package(files_or_dirs, meta_type=""):
     # Build package
     settings = context.get_settings()
     workspace = settings["workspace"]
@@ -1549,25 +1550,31 @@ def build_package(files_or_dirs, meta_type="aura"):
     zipfile_path = workspace + ("/aura.zip" if meta_type is 'aura' else "/lwc.zip")
     zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
 
-    aura_names = []
+    lightning_names = []
     for _file_or_dir in files_or_dirs:
         if os.path.isfile(_file_or_dir):
             base, aura_element = os.path.split(_file_or_dir)
             base, aura_name = os.path.split(base)
-            base, meta_type = os.path.split(base)
-            aura_names.append(aura_name)
-            zf.write(_file_or_dir, "%s/%s/%s" % (meta_type, aura_name, aura_element))
+            base, meta_folder = os.path.split(base)
+            lightning_names.append(aura_name)
+            zf.write(_file_or_dir, "%s/%s/%s" % (meta_folder, aura_name, aura_element))
         else:
             base, aura_name = os.path.split(_file_or_dir)
-            base, meta_type = os.path.split(base)
-            aura_names.append(aura_name)
+            base, meta_folder = os.path.split(base)
+            lightning_names.append(aura_name)
             for dirpath, dirnames, filenames in os.walk(_file_or_dir):
                 base, aura_name = os.path.split(dirpath)
                 if not filenames:
-                    zf.write(dirpath, meta_type+"/"+aura_name)
+                    zf.write(dirpath, meta_folder+"/"+aura_name)
                 else:
                     for filename in filenames:
-                        zf.write(os.path.join(dirpath, filename), "%s/%s/%s" % (meta_type, aura_name, filename))
+                        zf.write(os.path.join(dirpath, filename), "%s/%s/%s" % (
+                            meta_folder, aura_name, filename
+                        ))
+
+    # Transform metadata type
+    if meta_type != "LightningComponentBundle":
+        meta_type = "AuraDefinitionBundle"
 
     # Write package.xml to zip
     package_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
@@ -1578,8 +1585,11 @@ def build_package(files_or_dirs, meta_type="aura"):
             </types>
             <version>%s.0</version>
         </Package>
-    """ % ("\n".join(["<members>%s</members>" % a for a in aura_names]),
-           "AuraDefinitionBundle" if meta_type is 'aura' else "LightningComponentBundle",settings["api_version"])
+    """ % (
+        "\n".join(["<members>%s</members>" % a for a in lightning_names]),
+        meta_type,
+        settings["api_version"]
+    )
     package_xml_path = settings["workspace"]+"/package.xml"
     open(package_xml_path, "wb").write(package_xml_content.encode("utf-8"))
     zf.write(package_xml_path, "package.xml")
@@ -3707,3 +3717,20 @@ def convert_csv_to_json(csvfile, xmlNodes):
     os.remove(tempjson)
 
     return rjson
+
+
+def get_meta_type(file_name):
+    """
+    Get Metadata type from file name
+    return: aura/lwc/classes/objects etc.
+    """
+    paths = []
+    path, file_name = os.path.split(file_name)
+    while os.path.isdir(path):
+        path, crr_dir = os.path.split(path)
+        if crr_dir == 'src':
+            break
+        paths.append(crr_dir)
+
+    # return the sub-directory of src, that is the meta type
+    return paths[-1]
