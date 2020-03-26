@@ -188,17 +188,17 @@
 
     "LwcElement": {
         "AdditionalJS": {
-            "directory": "LwcElement/additional.js",
+            "directory": "LwcElement/Additional.js",
             "extension": ".js"
         },
 
         "CSS": {
-            "directory": "LwcElement/style.css",
+            "directory": "LwcElement/Style.css",
             "extension": ".css"
         },
 
         "SVG": {
-            "directory": "LwcElement/svg.svg",
+            "directory": "LwcElement/SVG.svg",
             "extension": ".svg"
         }
     }

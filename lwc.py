@@ -103,7 +103,7 @@ class DeployLwcToServer(sublime_plugin.WindowCommand):
                 }
             })
 
-        base64_package = util.build_lightning_package(dirs, 'lwc')
+        base64_package = util.build_lightning_package(dirs, 'LightningComponentBundle')
         processor.handle_deploy_thread(base64_package, source_org=source_org, update_meta=update_meta)
 
     def is_visible(self, dirs, switch_project=True):
@@ -120,3 +120,64 @@ class DeployLwcToServer(sublime_plugin.WindowCommand):
                 visible = False
 
         return visible
+
+
+class CreateLwcElement(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateLwcElement, self).__init__(*args, **kwargs)
+        self.settings = context.get_settings()
+
+    def run(self, dirs, element=""):
+        """ element: Component, Controller, Helper, Style, Documentation, Render
+        """
+
+        # Get template attribute
+        templates = util.load_templates()
+        template = templates.get("LwcElement").get(element)
+        templates_path = os.path.join(self.settings["workspace"],
+            ".templates", template["directory"])
+        with open(templates_path) as fp:
+            body = fp.read()
+
+        extension = template["extension"]
+        element_name = self.lwc_name + extension
+
+        # Combine lwc element component name
+        element_file = os.path.join(self._dir, element_name)
+
+        # If element file is already exist, just alert
+        if os.path.isfile(element_file):
+            return self.window.open_file(element_file)
+
+        # Create lwc Element file
+        with open(element_file, "w") as fp:
+            fp.write(body)
+
+        # If created succeed, just open it and refresh project
+        self.window.open_file(element_file)
+        self.window.run_command("refresh_folder_list")
+
+        # Deploy Aura to server
+        self.window.run_command("deploy_lightning_to_server", {
+            "dirs": [self._dir],
+            "switch_project": False,
+            "element": element,
+            "update_meta": True
+        })
+
+    def is_visible(self, dirs, element=""):
+        if not dirs or len(dirs) != 1:
+            return False
+        self._dir = dirs[0]
+
+        # Check whether project is the active one
+        if self.settings["default_project_name"] not in self._dir:
+            return False
+
+        # Check metadata folder
+        attributes = util.get_file_attributes(self._dir)
+        if attributes["metadata_folder"] != "lwc":
+            return False
+        self.lwc_name = attributes["name"]
+
+        return True

@@ -31,6 +31,7 @@ class OpenLightningDocReferences(sublime_plugin.WindowCommand):
 class DeployLightningToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployLightningToServer, self).__init__(*args, **kwargs)
+        self.meta_type = ''
 
     def run(self, dirs, switch_project=True, source_org=None, element=None, update_meta=False):
         if switch_project:
@@ -47,7 +48,7 @@ class DeployLightningToServer(sublime_plugin.WindowCommand):
                 }
             })
 
-        base64_package = util.build_lightning_package(dirs, meta_type=element)
+        base64_package = util.build_lightning_package(dirs, meta_type=self.meta_type)
         processor.handle_deploy_thread(
             base64_package,
             source_org=source_org,
@@ -62,9 +63,10 @@ class DeployLightningToServer(sublime_plugin.WindowCommand):
         self.settings = context.get_settings()
         for _dir in dirs:
             attributes = util.get_file_attributes(_dir)
-            metadata_folder = attributes["metadata_folder"]
-            if metadata_folder not in ["aura", "lwc"]:
+            meta_folder = attributes["metadata_folder"]
+            if meta_folder not in ["aura", "lwc"]:
                 return False
+            self.meta_type = 'AuraDefinitionBundle' if meta_folder == 'aura' else 'LightningComponentBundle'
             if self.settings["default_project_name"] not in _dir:
                 return False
 
@@ -183,7 +185,6 @@ class RetrieveLightningFromServer(sublime_plugin.WindowCommand):
                 self.types["LightningComponentBundle"] = [_name]
 
         # Check whether any aura components are chosen
-        print(self.types)
         if not self.types:
             return False
 

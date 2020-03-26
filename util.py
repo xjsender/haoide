@@ -33,14 +33,16 @@ def load_templates():
         os.makedirs(target_dir)
 
     templates_dir = os.path.join(target_dir, "templates.json")
-    lwc_dir = os.path.join(target_dir, "lwc") # Check exist lwc logic
-    if not os.path.isfile(templates_dir) or not os.path.exists(lwc_dir):
+    lwc_dir = os.path.join(target_dir, "Lwc") # Check exist lwc logic
+    lwc_ele_dir = os.path.join(target_dir, "LwcElement") # Check exist lwc element logic
+
+    if not os.path.isfile(templates_dir) or not os.path.exists(lwc_dir) or not os.path.exists(lwc_ele_dir):
         source_dir = os.path.join(
             sublime.installed_packages_path(), 
             "haoide.sublime-package"
         )
 
-        if os.path.isfile(source_dir):
+        if os.path.isfile(source_dir) and os.path.exists(lwc_dir) and os.path.exists(lwc_ele_dir):
             zfile = zipfile.ZipFile(source_dir, 'r')
             for filename in zfile.namelist():
                 if filename.endswith('/'):
@@ -60,7 +62,7 @@ def load_templates():
             zfile.close()
         else:
             source_dir = os.path.join(
-                sublime.packages_path(), "haoide/config/templates"
+                sublime.packages_path(), "haoide", "config", "templates"
             )
             copy_files_in_folder(source_dir, target_dir)
 
