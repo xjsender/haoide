@@ -3401,7 +3401,8 @@ def export_profile_settings():
         return
 
     Printer.get("log").write_start().write("Start to read all file name in profile folder")
-    profiles = get_metadata_elements(profile_dir)
+    profiles = get_metadata_elements(profile_dir, 'profile')
+    print('profiles:', profiles)
 
     profile_settings = {}
     sobject_names = []
@@ -3542,47 +3543,47 @@ def export_profile_settings():
 
         all_rows.append(",".join(rows))
 
-    # cruds_translation = {
-    #     "allowRead": "Read", 
-    #     "allowCreate": "Create", 
-    #     "allowEdit": "Edit", 
-    #     "allowDelete": "Delete", 
-    #     "modifyAllRecords": "ModifyAll", 
-    #     "viewAllRecords": "ViewAll"
-    # }
+    cruds_translation = {
+        "allowRead": "Read",
+        "allowCreate": "Create",
+        "allowEdit": "Edit",
+        "allowDelete": "Delete",
+        "modifyAllRecords": "ModifyAll",
+        "viewAllRecords": "ViewAll"
+    }
 
-    # # Define the column that contains profile
-    # profile_headers = ["Object"]
-    # for profile in profiles:
-    #     profile_headers.append(profile)
-    #     for i in range(len(cruds) - 1):
-    #         profile_headers.append("")
+    # Define the column that contains profile
+    profile_headers = ["SObject"]
+    for profile in profiles:
+        profile_headers.append(profile)
+        for i in range(len(cruds) - 1):
+            profile_headers.append("")
 
-    # # Define the column
-    # crud_headers = [""]
-    # for profile in profiles:
-    #     for crud in cruds:
-    #         crud_headers.append(cruds_translation[crud])
+    # Define the column
+    crud_headers = [""]
+    for profile in profiles:
+        for crud in cruds:
+            crud_headers.append(cruds_translation[crud])
 
-    # sobject_names = sorted(sobject_names)
-    # all_rows = [",".join(profile_headers), ",".join(crud_headers)]
-    # for sobject in sobject_names:
-    #     rows = [sobject]
-    #     for profile in profiles:
-    #         # Some standard sObject is not configurable
-    #         if "objectPermissions" in profile_settings[profile]:
-    #             if sobject in profile_settings[profile]["objectPermissions"]:
-    #                 object_permission = profile_settings[profile]["objectPermissions"][sobject]
-    #                 for crud in cruds:
-    #                     rows.append("√" if object_permission[crud] == "true" else "")
-    #             else:
-    #                 for crud in cruds:
-    #                     rows.append("")
-    #         else:
-    #             for crud in cruds:
-    #                 rows.append("")
+    sobject_names = sorted(sobject_names)
+    all_rows = [",".join(profile_headers), ",".join(crud_headers)]
+    for sobject in sobject_names:
+        rows = [sobject]
+        for profile in profiles:
+            # Some standard sObject is not configurable
+            if "objectPermissions" in profile_settings[profile]:
+                if sobject in profile_settings[profile]["objectPermissions"]:
+                    object_permission = profile_settings[profile]["objectPermissions"][sobject]
+                    for crud in cruds:
+                        rows.append("√" if object_permission[crud] == "true" else "")
+                else:
+                    for crud in cruds:
+                        rows.append("")
+            else:
+                for crud in cruds:
+                    rows.append("")
 
-    #     all_rows.append(",".join(rows))
+        all_rows.append(",".join(rows))
 
     outputdir = settings["workspace"]+ "/.export/profile"
     if not os.path.exists(outputdir):
@@ -3632,7 +3633,8 @@ def export_profile_settings():
     for permission_name in permission_names:
         rows = [permission_name]
         for profile in profiles:
-            if permission_name in profile_settings[profile]["userPermissions"]:
+            prf_setting = profile_settings[profile]
+            if prf_setting.get('userPermissions') is not None and permission_name in prf_setting.get('userPermissions'):
                 if profile_settings[profile]["userPermissions"][permission_name] == "true":
                     rows.append("√")
                 else:

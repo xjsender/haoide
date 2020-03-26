@@ -10,6 +10,7 @@ Release 3.5.7 (2020-03-26)
 * Add Retrieving, Destructing, Deploying lwc from both sidebar and context menu
 * Add Creating CSS style, SVG file for lwc in context menu
 * Fix auto completion for aura component bug
+* Fix issue #198
 
 
 Release 3.5.4 (2019-07-31)
