@@ -143,6 +143,7 @@ class PreviewThisAppInServer(sublime_plugin.TextCommand):
 class RetrieveLightningFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(RetrieveLightningFromServer, self).__init__(*args, **kwargs)
+        self.settings = context.get_settings()
 
     def run(self, dirs):
         message = "Are you sure you really want to continue refreshing"
@@ -154,28 +155,37 @@ class RetrieveLightningFromServer(sublime_plugin.WindowCommand):
             )
 
     def is_visible(self, dirs):
-        if len(dirs) == 0: return False
-        self.settings = context.get_settings()
         self.types = {}
+        if len(dirs) == 0:
+            return False
         for _dir in dirs:
-            if os.path.isfile(_dir): continue
+            if os.path.isfile(_dir):
+                continue
             base, _name = os.path.split(_dir)
             base, _folder = os.path.split(base)
 
             # Check Metadata Type
-            if _folder != "aura": continue
+            if _folder not in ["aura", "lwc"]:
+                continue
 
             # Check Project Name
             pn = self.settings["default_project_name"]
-            if pn not in _dir: continue
+            if pn not in _dir:
+                continue
 
             if "AuraDefinitionBundle" in self.types:
                 self.types["AuraDefinitionBundle"].append(_name)
-            else:
+            elif "LightningComponentBundle" in self.types:
+                self.types["LightningComponentBundle"].append(_name)
+            elif _folder == 'aura':
                 self.types["AuraDefinitionBundle"] = [_name]
+            elif _folder == 'lwc':
+                self.types["LightningComponentBundle"] = [_name]
 
         # Check whether any aura components are chosen
-        if not self.types: return False
+        print(self.types)
+        if not self.types:
+            return False
 
         return True
 
