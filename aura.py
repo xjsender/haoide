@@ -1,4 +1,5 @@
-import sublime, sublime_plugin
+import sublime
+import sublime_plugin
 import os
 import re
 
@@ -21,21 +22,22 @@ class OpenLightningDocReferences(sublime_plugin.WindowCommand):
     def is_enabled(self):
         self.settings = context.get_settings()
         metadata = util.get_described_metadata(self.settings)
-        if not metadata: 
+        if not metadata:
             return False
-        
+
         return True
 
 
-class DeployLightingToServer(sublime_plugin.WindowCommand):
+class DeployLightningToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(DeployLightingToServer, self).__init__(*args, **kwargs)
+        super(DeployLightningToServer, self).__init__(*args, **kwargs)
+        self.meta_type = ''
 
     def run(self, dirs, switch_project=True, source_org=None, element=None, update_meta=False):
         if switch_project:
             return self.window.run_command("switch_project", {
                 "callback_options": {
-                    "callback_command": "deploy_lighting_to_server", 
+                    "callback_command": "deploy_lightning_to_server",
                     "args": {
                         "switch_project": False,
                         "source_org": self.settings["default_project_name"],
@@ -46,11 +48,11 @@ class DeployLightingToServer(sublime_plugin.WindowCommand):
                 }
             })
 
-        base64_package = util.build_aura_package(dirs, meta_type=element)
+        base64_package = util.build_lightning_package(dirs, meta_type=self.meta_type)
         processor.handle_deploy_thread(
-            base64_package, 
-            source_org=source_org, 
-            element=element, 
+            base64_package,
+            source_org=source_org,
+            element=element,
             update_meta=update_meta
         )
 
@@ -61,17 +63,19 @@ class DeployLightingToServer(sublime_plugin.WindowCommand):
         self.settings = context.get_settings()
         for _dir in dirs:
             attributes = util.get_file_attributes(_dir)
-            metadata_folder = attributes["metadata_folder"]
-            if metadata_folder not in ["aura", "lwc"]: 
+            meta_folder = attributes["metadata_folder"]
+            if meta_folder not in ["aura", "lwc"]:
                 return False
+            self.meta_type = 'AuraDefinitionBundle' if meta_folder == 'aura' else 'LightningComponentBundle'
             if self.settings["default_project_name"] not in _dir:
                 return False
 
         return True
 
-class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
+
+class PreviewLightningAppInServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(PreviewLightingAppInServer, self).__init__(*args, **kwargs)
+        super(PreviewLightningAppInServer, self).__init__(*args, **kwargs)
 
     def run(self, app_name=None):
         if app_name:
@@ -107,23 +111,24 @@ class PreviewLightingAppInServer(sublime_plugin.WindowCommand):
     def is_enabled(self):
         self.settings = context.get_settings()
         metadata = util.get_described_metadata(self.settings)
-        if not metadata: 
+        if not metadata:
             return False
-        
+
         self.namespace = metadata["organizationNamespace"]
         if not self.namespace:
             self.namespace = 'c'
 
         return True
 
+
 class PreviewThisAppInServer(sublime_plugin.TextCommand):
     def run(self, edit):
-        self.view.window().run_command('preview_lighting_app_in_server', {
+        self.view.window().run_command('preview_lightning_app_in_server', {
             "app_name": self.app_name
         })
 
     def is_enabled(self):
-        if not self.view.file_name(): 
+        if not self.view.file_name():
             return False
 
         attrs = util.get_file_attributes(self.view.file_name())
@@ -136,48 +141,59 @@ class PreviewThisAppInServer(sublime_plugin.TextCommand):
     def is_visible(self):
         return self.is_enabled()
 
-class RetrieveLightingFromServer(sublime_plugin.WindowCommand):
+
+class RetrieveLightningFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(RetrieveLightingFromServer, self).__init__(*args, **kwargs)
+        super(RetrieveLightningFromServer, self).__init__(*args, **kwargs)
+        self.settings = context.get_settings()
 
     def run(self, dirs):
         message = "Are you sure you really want to continue refreshing"
         if sublime.ok_cancel_dialog(message, "Confirm?"):
             processor.handle_retrieve_package(
-                self.types, 
-                self.settings["workspace"], 
+                self.types,
+                self.settings["workspace"],
                 ignore_package_xml=True
             )
 
     def is_visible(self, dirs):
-        if len(dirs) == 0: return False
-        self.settings = context.get_settings()
         self.types = {}
+        if len(dirs) == 0:
+            return False
         for _dir in dirs:
-            if os.path.isfile(_dir): continue
+            if os.path.isfile(_dir):
+                continue
             base, _name = os.path.split(_dir)
             base, _folder = os.path.split(base)
 
             # Check Metadata Type
-            if _folder != "aura": continue
+            if _folder not in ["aura", "lwc"]:
+                continue
 
             # Check Project Name
             pn = self.settings["default_project_name"]
-            if pn not in _dir: continue
+            if pn not in _dir:
+                continue
 
             if "AuraDefinitionBundle" in self.types:
                 self.types["AuraDefinitionBundle"].append(_name)
-            else:
+            elif "LightningComponentBundle" in self.types:
+                self.types["LightningComponentBundle"].append(_name)
+            elif _folder == 'aura':
                 self.types["AuraDefinitionBundle"] = [_name]
-        
+            elif _folder == 'lwc':
+                self.types["LightningComponentBundle"] = [_name]
+
         # Check whether any aura components are chosen
-        if not self.types: return False
+        if not self.types:
+            return False
 
         return True
 
-class DestructLightingFromServer(sublime_plugin.WindowCommand):
+
+class DestructLightningFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(DestructLightingFromServer, self).__init__(*args, **kwargs)
+        super(DestructLightningFromServer, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
         if sublime.ok_cancel_dialog("Confirm to continue?"):
@@ -188,16 +204,17 @@ class DestructLightingFromServer(sublime_plugin.WindowCommand):
         self.settings = context.get_settings()
         for _dir in dirs:
             attributes = util.get_file_attributes(_dir)
-            if attributes["metadata_folder"] != "aura": 
+            if attributes["metadata_folder"] not in ["aura", "lwc"]:
                 return False
-            if not util.check_enabled(_dir, check_cache=False): 
+            if not util.check_enabled(_dir, check_cache=False):
                 return False
 
         return True
 
-class CreateLightingElement(sublime_plugin.WindowCommand):
+
+class CreateLightningElement(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(CreateLightingElement, self).__init__(*args, **kwargs)
+        super(CreateLightningElement, self).__init__(*args, **kwargs)
 
     def run(self, dirs, element=""):
         """ element: Component, Controller, Helper, Style, Documentation, Render
@@ -207,16 +224,16 @@ class CreateLightingElement(sublime_plugin.WindowCommand):
         templates = util.load_templates()
         template = templates.get("AuraElement").get(element)
         settings = context.get_settings()
-        tempaltes_path = os.path.join(settings["workspace"], 
+        templates_path = os.path.join(settings["workspace"],
             ".templates", template["directory"])
-        with open(tempaltes_path) as fp:
+        with open(templates_path) as fp:
             body = fp.read()
-        
+
         # JS Component is different with others
         extension = template["extension"]
         element_name = "%s%s%s" % (
             self.aura_name,
-            element if extension == ".js" else "", 
+            element if extension == ".js" else "",
             extension
         )
 
@@ -236,7 +253,7 @@ class CreateLightingElement(sublime_plugin.WindowCommand):
         self.window.run_command("refresh_folder_list")
 
         # Deploy Aura to server
-        self.window.run_command("deploy_lighting_to_server", {
+        self.window.run_command("deploy_lightning_to_server", {
             "dirs": [self._dir],
             "switch_project": False,
             "element": element,
@@ -258,26 +275,27 @@ class CreateLightingElement(sublime_plugin.WindowCommand):
             return False
         self.aura_name = attributes["name"]
 
-        # Check lighting type
-        lighting_extensions = []
+        # Check lightning type
+        lightning_extensions = []
         for dirpath, dirnames, filenames in os.walk(self._dir):
             for filename in filenames:
                 extension = filename[filename.find("."):]
-                lighting_extensions.append(extension)
+                lightning_extensions.append(extension)
 
         # Just Component and Application can have child elements
-        if ".cmp" in lighting_extensions or ".app" in lighting_extensions:
+        if ".cmp" in lightning_extensions or ".app" in lightning_extensions:
             return True
 
         return False
 
-class CreateLightingDefinition(sublime_plugin.WindowCommand):
+
+class CreateLightningDefinition(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
-        super(CreateLightingDefinition, self).__init__(*args, **kwargs)
+        super(CreateLightningDefinition, self).__init__(*args, **kwargs)
 
     def run(self, _type=""):
         self._type = _type
-        self.window.show_input_panel("Please Input %s Name: " % _type, 
+        self.window.show_input_panel("Please Input %s Name: " % _type,
             "", self.on_input, None, None)
 
     def on_input(self, lightning_name):
@@ -285,7 +303,7 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
         if not re.match('^[a-zA-Z]+\\w+$', lightning_name):
             message = 'Invalid format, do you want to try again?'
             if not sublime.ok_cancel_dialog(message): return
-            self.window.show_input_panel("Please Input %s Name: " % self._type, 
+            self.window.show_input_panel("Please Input %s Name: " % self._type,
                 "", self.on_input, None, None)
             return
 
@@ -299,20 +317,20 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
         with open(os.path.join(workspace, ".templates", template["directory"])) as fp:
             body = fp.read()
 
-        # Build dir for new lighting component
+        # Build dir for new lightning component
         component_dir = os.path.join(workspace, "src", "aura", lightning_name)
         if not os.path.exists(component_dir):
             os.makedirs(component_dir)
         else:
             message = "%s is already exist, do you want to try again?" % lightning_name
             if not sublime.ok_cancel_dialog(message, "Try Again?"): return
-            self.window.show_input_panel("Please Input Lighting Name: ", 
+            self.window.show_input_panel("Please Input Lightning Name: ",
                 "", self.on_input, None, None)
             return
-        
+
         lightning_file = os.path.join(component_dir, lightning_name+template["extension"])
 
-        # Create Aura lighting file
+        # Create Aura lightning file
         with open(lightning_file, "w") as fp:
             fp.write(body)
 
@@ -322,7 +340,7 @@ class CreateLightingDefinition(sublime_plugin.WindowCommand):
         window.run_command("refresh_folder_list")
 
         # Deploy Aura to server
-        self.window.run_command("deploy_lighting_to_server", {
+        self.window.run_command("deploy_lightning_to_server", {
             "dirs": [component_dir],
             "switch_project": False,
             "element": self._type,

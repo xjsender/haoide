@@ -1333,6 +1333,7 @@ def handle_export_all_workbooks(timeout=120):
     ThreadProgress(api, thread, "Describe Global", "Describe Global Succeed")
     handle_thread(thread, timeout)
 
+
 def handle_new_project(is_update=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1405,6 +1406,7 @@ def handle_new_project(is_update=False, timeout=120):
     wating_message = ("Creating New " if not is_update else "Updating ") + " Project"
     ThreadProgress(api, thread, wating_message, wating_message + " Finished")
     handle_thread(thread, timeout)
+
 
 def handle_describe_metadata(callback_options, timeout=120):
     def handle_thread(thread, timeout):

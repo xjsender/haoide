@@ -81,19 +81,19 @@
 
             {
                 "caption": "Retrieve Lightning From Server",
-                "command": "retrieve_lighting_from_server",
+                "command": "retrieve_lightning_from_server",
                 "args": {"dirs": []}
             },
 
             {
                 "caption": "Destruct Lightning From Server",
-                "command": "destruct_lighting_from_server",
+                "command": "destruct_lightning_from_server",
                 "args": {"dirs": []}
             },
 
             {
                 "caption": "Deploy Lightning To Server",
-                "command": "deploy_lighting_to_server",
+                "command": "deploy_lightning_to_server",
                 "args": {"dirs": []}
             },
 
@@ -101,45 +101,64 @@
             
             {
                 "caption": "Create Lightning Controller",
-                "command": "create_lighting_element",
+                "command": "create_lightning_element",
                 "args": {"dirs": [], "element": "Controller"}
             },
 
             {
                 "caption": "Create Lightning Helper",
-                "command": "create_lighting_element",
+                "command": "create_lightning_element",
                 "args": {"dirs": [], "element": "Helper"}
             },
 
             {
                 "caption": "Create Lightning Style",
-                "command": "create_lighting_element",
+                "command": "create_lightning_element",
                 "args": {"dirs": [], "element": "Style"}
             },
 
             {
                 "caption": "Create Lightning Documentation",
-                "command": "create_lighting_element",
+                "command": "create_lightning_element",
                 "args": {"dirs": [], "element": "Documentation"}
             },
 
             {
                 "caption": "Create Lightning Renderer",
-                "command": "create_lighting_element",
+                "command": "create_lightning_element",
                 "args": {"dirs": [], "element": "Renderer"}
             },
 
             {
                 "caption": "Create Lightning Design",
-                "command": "create_lighting_element",
+                "command": "create_lightning_element",
                 "args": {"dirs": [], "element": "Design"}
             },
 
             {
                 "caption": "Create Lightning SVG",
-                "command": "create_lighting_element",
+                "command": "create_lightning_element",
                 "args": {"dirs": [], "element": "SVG"}
             },
+
+            {
+                "caption": "Create Lwc Style",
+                "command": "create_lwc_element",
+                "args": {"dirs": [], "element": "CSS"}
+            },
+
+            {
+                "caption": "Create Lwc SVG",
+                "command": "create_lwc_element",
+                "args": {"dirs": [], "element": "SVG"}
+            },
+
+            // do not support additional js current
+            // {
+//                 "caption": "Add Lwc Additional JS",
+//                 "command": "create_lwc_element",
+//                 "args": {"dirs": [], "element": "AdditionalJS"}
+//             },
 
             {"caption": "-"},
 

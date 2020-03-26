@@ -50,7 +50,7 @@
 
                     {
                         "caption": "New Lightning Application",
-                        "command": "create_lighting_definition",
+                        "command": "create_lightning_definition",
                         "args": {
                             "_type": "Application"
                         }
@@ -58,7 +58,7 @@
 
                     {
                         "caption": "New Lightning Component",
-                        "command": "create_lighting_definition",
+                        "command": "create_lightning_definition",
                         "args": {
                             "_type": "Component"
                         }
@@ -66,7 +66,7 @@
 
                     {
                         "caption": "New Lightning Interface",
-                        "command": "create_lighting_definition",
+                        "command": "create_lightning_definition",
                         "args": {
                             "_type": "Interface"
                         }
@@ -74,7 +74,7 @@
 
                     {
                         "caption": "New Lightning Event",
-                        "command": "create_lighting_definition",
+                        "command": "create_lightning_definition",
                         "args": {
                             "_type": "Event"
                         }

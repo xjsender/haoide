@@ -33,17 +33,20 @@ def load_templates():
         os.makedirs(target_dir)
 
     templates_dir = os.path.join(target_dir, "templates.json")
-    lwc_dir = os.path.join(target_dir, "lwc") # Check exist lwc logic
-    if not os.path.isfile(templates_dir) or not os.path.exists(lwc_dir):
+    lwc_dir = os.path.join(target_dir, "Lwc") # Check exist lwc logic
+    lwc_ele_dir = os.path.join(target_dir, "LwcElement") # Check exist lwc element logic
+
+    if not os.path.isfile(templates_dir) or not os.path.exists(lwc_dir) or not os.path.exists(lwc_ele_dir):
         source_dir = os.path.join(
             sublime.installed_packages_path(), 
             "haoide.sublime-package"
         )
 
-        if os.path.isfile(source_dir):
+        if os.path.isfile(source_dir) and os.path.exists(lwc_dir) and os.path.exists(lwc_ele_dir):
             zfile = zipfile.ZipFile(source_dir, 'r')
             for filename in zfile.namelist():
-                if filename.endswith('/'): continue
+                if filename.endswith('/'):
+                    continue
                 if filename.startswith("config/templates/"):
                     f = os.path.join(
                         target_dir,
@@ -59,7 +62,7 @@ def load_templates():
             zfile.close()
         else:
             source_dir = os.path.join(
-                sublime.packages_path(), "haoide/config/templates"
+                sublime.packages_path(), "haoide", "config", "templates"
             )
             copy_files_in_folder(source_dir, target_dir)
 
@@ -251,7 +254,8 @@ def view_coverage(name, file_name, body):
     numLocationsNotCovered = coverage["numLocationsNotCovered"]
     numLocations = coverage["numLocations"]
     numLocationsCovered = numLocations - numLocationsNotCovered
-    linesNotCovered = [l["line"] for l in coverage["locationsNotCovered"]]
+    linesNotCovered = []
+    # linesNotCovered = [l["line"] for l in coverage["locationsNotCovered"]]
     if numLocations == 0:
         return Printer.get("error").write("There is no code coverage")
 
@@ -1540,26 +1544,27 @@ def compress_resource_folder(resource_folder):
     return base64_package
 
 
-def build_aura_package(files_or_dirs, meta_type=""):
+def build_lightning_package(files_or_dirs, meta_type=""):
     # Build package
     settings = context.get_settings()
     workspace = settings["workspace"]
-    if not os.path.exists(workspace): os.makedirs(workspace)
-    zipfile_path = workspace+"/aura.zip"
+    if not os.path.exists(workspace):
+        os.makedirs(workspace)
+    zipfile_path = workspace + ("/aura.zip" if meta_type is 'aura' else "/lwc.zip")
     zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
 
-    aura_names = []
+    lightning_names = []
     for _file_or_dir in files_or_dirs:
         if os.path.isfile(_file_or_dir):
             base, aura_element = os.path.split(_file_or_dir)
             base, aura_name = os.path.split(base)
             base, meta_folder = os.path.split(base)
-            aura_names.append(aura_name)
+            lightning_names.append(aura_name)
             zf.write(_file_or_dir, "%s/%s/%s" % (meta_folder, aura_name, aura_element))
         else:
             base, aura_name = os.path.split(_file_or_dir)
             base, meta_folder = os.path.split(base)
-            aura_names.append(aura_name)
+            lightning_names.append(aura_name)
             for dirpath, dirnames, filenames in os.walk(_file_or_dir):
                 base, aura_name = os.path.split(dirpath)
                 if not filenames:
@@ -1584,7 +1589,7 @@ def build_aura_package(files_or_dirs, meta_type=""):
             <version>%s.0</version>
         </Package>
     """ % (
-        "\n".join(["<members>%s</members>" % a for a in aura_names]), 
+        "\n".join(["<members>%s</members>" % a for a in lightning_names]),
         meta_type,
         settings["api_version"]
     )
@@ -1604,12 +1609,14 @@ def build_aura_package(files_or_dirs, meta_type=""):
 
     return base64_package
 
+
 def base64_encode(zipfile):
     with open(zipfile, "rb") as f:
         bytes = f.read()
         base64String = base64.b64encode(bytes)
 
     return base64String.decode('UTF-8')
+
 
 def compress_package(package_dir):
     zipfile_path = package_dir+"/archive.zip"
@@ -1624,6 +1631,7 @@ def compress_package(package_dir):
     os.remove(zipfile_path)
 
     return base64_package
+
 
 def extract_encoded_zipfile(encoded_zip_file, extract_to, ignore_package_xml=False):
     """ Decode the base64 encoded file and 
@@ -3394,7 +3402,7 @@ def export_profile_settings():
         return
 
     Printer.get("log").write_start().write("Start to read all file name in profile folder")
-    profiles = get_metadata_elements(profile_dir)
+    profiles = get_metadata_elements(profile_dir, 'profile')
 
     profile_settings = {}
     sobject_names = []
@@ -3535,47 +3543,47 @@ def export_profile_settings():
 
         all_rows.append(",".join(rows))
 
-    # cruds_translation = {
-    #     "allowRead": "Read", 
-    #     "allowCreate": "Create", 
-    #     "allowEdit": "Edit", 
-    #     "allowDelete": "Delete", 
-    #     "modifyAllRecords": "ModifyAll", 
-    #     "viewAllRecords": "ViewAll"
-    # }
+    cruds_translation = {
+        "allowRead": "Read",
+        "allowCreate": "Create",
+        "allowEdit": "Edit",
+        "allowDelete": "Delete",
+        "modifyAllRecords": "ModifyAll",
+        "viewAllRecords": "ViewAll"
+    }
 
-    # # Define the column that contains profile
-    # profile_headers = ["Object"]
-    # for profile in profiles:
-    #     profile_headers.append(profile)
-    #     for i in range(len(cruds) - 1):
-    #         profile_headers.append("")
+    # Define the column that contains profile
+    profile_headers = ["SObject"]
+    for profile in profiles:
+        profile_headers.append(profile)
+        for i in range(len(cruds) - 1):
+            profile_headers.append("")
 
-    # # Define the column
-    # crud_headers = [""]
-    # for profile in profiles:
-    #     for crud in cruds:
-    #         crud_headers.append(cruds_translation[crud])
+    # Define the column
+    crud_headers = [""]
+    for profile in profiles:
+        for crud in cruds:
+            crud_headers.append(cruds_translation[crud])
 
-    # sobject_names = sorted(sobject_names)
-    # all_rows = [",".join(profile_headers), ",".join(crud_headers)]
-    # for sobject in sobject_names:
-    #     rows = [sobject]
-    #     for profile in profiles:
-    #         # Some standard sObject is not configurable
-    #         if "objectPermissions" in profile_settings[profile]:
-    #             if sobject in profile_settings[profile]["objectPermissions"]:
-    #                 object_permission = profile_settings[profile]["objectPermissions"][sobject]
-    #                 for crud in cruds:
-    #                     rows.append("√" if object_permission[crud] == "true" else "")
-    #             else:
-    #                 for crud in cruds:
-    #                     rows.append("")
-    #         else:
-    #             for crud in cruds:
-    #                 rows.append("")
+    sobject_names = sorted(sobject_names)
+    all_rows = [",".join(profile_headers), ",".join(crud_headers)]
+    for sobject in sobject_names:
+        rows = [sobject]
+        for profile in profiles:
+            # Some standard sObject is not configurable
+            if "objectPermissions" in profile_settings[profile]:
+                if sobject in profile_settings[profile]["objectPermissions"]:
+                    object_permission = profile_settings[profile]["objectPermissions"][sobject]
+                    for crud in cruds:
+                        rows.append("√" if object_permission[crud] == "true" else "")
+                else:
+                    for crud in cruds:
+                        rows.append("")
+            else:
+                for crud in cruds:
+                    rows.append("")
 
-    #     all_rows.append(",".join(rows))
+        all_rows.append(",".join(rows))
 
     outputdir = settings["workspace"]+ "/.export/profile"
     if not os.path.exists(outputdir):
@@ -3625,7 +3633,8 @@ def export_profile_settings():
     for permission_name in permission_names:
         rows = [permission_name]
         for profile in profiles:
-            if permission_name in profile_settings[profile]["userPermissions"]:
+            prf_setting = profile_settings[profile]
+            if prf_setting.get('userPermissions') is not None and permission_name in prf_setting.get('userPermissions'):
                 if profile_settings[profile]["userPermissions"][permission_name] == "true":
                     rows.append("√")
                 else:
@@ -3712,3 +3721,20 @@ def convert_csv_to_json(csvfile, xmlNodes):
     os.remove(tempjson)
 
     return rjson
+
+
+def get_meta_type(file_name):
+    """
+    Get Metadata type from file name
+    return: aura/lwc/classes/objects etc.
+    """
+    paths = []
+    path, file_name = os.path.split(file_name)
+    while os.path.isdir(path):
+        path, crr_dir = os.path.split(path)
+        if crr_dir == 'src':
+            break
+        paths.append(crr_dir)
+
+    # return the sub-directory of src, that is the meta type
+    return paths[-1]

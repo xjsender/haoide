@@ -167,5 +167,39 @@
             "extension": ".page",
             "description": "Visualforce Page Template"
         }
+    },
+
+    "Lwc": {
+        "HTLM": {
+            "directory": "Lwc/lwc.html",
+            "extension": ".html"
+        },
+
+        "JavaScript": {
+            "directory": "Lwc/lwc.js",
+            "extension": ".js"
+        },
+
+        "Configuration": {
+            "directory": "Lwc/lwc.js-meta.xml",
+            "extension": ".js-meta.xml"
+        }
+    },
+
+    "LwcElement": {
+        "AdditionalJS": {
+            "directory": "LwcElement/Additional.js",
+            "extension": ".js"
+        },
+
+        "CSS": {
+            "directory": "LwcElement/Style.css",
+            "extension": ".css"
+        },
+
+        "SVG": {
+            "directory": "LwcElement/SVG.svg",
+            "extension": ".svg"
+        }
     }
 }

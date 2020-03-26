@@ -72,39 +72,46 @@
     },
 
     {
-        "caption": "HaoIDE: New Lighting Application",
-        "command": "create_lighting_definition", 
+        "caption": "HaoIDE: New lightning Application",
+        "command": "create_lightning_definition", 
         "args": {
             "_type": "Application"
         }
     },
 
     {
-        "caption": "HaoIDE: New Lighting Component",
-        "command": "create_lighting_definition", 
+        "caption": "HaoIDE: New lightning Component",
+        "command": "create_lightning_definition", 
         "args": {
             "_type": "Component"
         }
     },
 
     {
-        "caption": "HaoIDE: New Lighting Interface",
-        "command": "create_lighting_definition", 
+        "caption": "HaoIDE: New lightning Interface",
+        "command": "create_lightning_definition", 
         "args": {
             "_type": "Interface"
         }
     },
 
     {
-        "caption": "HaoIDE: New Lighting Event",
-        "command": "create_lighting_definition", 
+        "caption": "HaoIDE: New lightning Event",
+        "command": "create_lightning_definition", 
         "args": {
             "_type": "Event"
         }
     },
 
+    {"caption": "-"},
+
     {
-        "caption": "HaoIDE: New Lighting Web Component",
+        "caption": "HaoIDE: New Lightning Web Component",
+        "command": "create_lightning_web_component"
+    },
+
+    {
+        "caption": "HaoIDE: New lightning Web Component",
         "command": "create_lightning_web_component"
     },
 
@@ -124,12 +131,12 @@
     },
 
     {
-        "caption": "HaoIDE: Preview Lighting App In Server",
-        "command": "preview_lighting_app_in_server"
+        "caption": "HaoIDE: Preview lightning App In Server",
+        "command": "preview_lightning_app_in_server"
     },
 
     {
-        "caption": "HaoIDE: Preview This Lighting App In Server",
+        "caption": "HaoIDE: Preview This lightning App In Server",
         "command": "preview_this_app_in_server"
     },
 
@@ -140,7 +147,7 @@
 
     {
         "caption": "HaoIDE: Deploy Auras to Server",
-        "command": "deploy_lighting_to_server",
+        "command": "deploy_lightning_to_server",
         "args": {"dirs": []}
     },
 

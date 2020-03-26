@@ -606,6 +606,7 @@ class ExportQueryToCsv(sublime_plugin.WindowCommand):
         if not name: return
         processor.handle_export_query_to_csv(self.tooling, self.soql, name)
 
+
 class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(ExportDataTemplateCommand, self).__init__(*args, **kwargs)
@@ -632,6 +633,7 @@ class ExportDataTemplateCommand(sublime_plugin.WindowCommand):
 
     def is_enabled(self):
         return util.check_action_enabled()
+
 
 class ExecuteRestTest(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -664,6 +666,7 @@ class ExecuteRestTest(sublime_plugin.TextCommand):
         if not self.sel: return False
         return True
 
+
 class GotoComponentCommand(sublime_plugin.TextCommand):
     """
     Move the cursor to the class name, press shift key and double click left mouse, 
@@ -693,15 +696,18 @@ class GotoComponentCommand(sublime_plugin.TextCommand):
 
         if is_background: self.view.window().focus_view(self.view)
 
+
 class SetCheckPointCommand(sublime_plugin.TextCommand):
     def run(self, edit, mark):
         sel = [s for s in self.view.sel()]
         self.view.add_regions(mark, sel, "invalid", "dot",
             sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
 
+
 class RemoveCheckPointCommand(sublime_plugin.TextCommand):
     def run(self, edit, mark):
         self.view.erase_regions(mark)
+
 
 class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -724,7 +730,6 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         if self.attributes["metadata_folder"] not in ["classes", "triggers"]: 
             return False
 
-
         # Can't be Test Class
         with open(self.file_name, encoding="utf-8") as fp:
             self.body = fp.read()
@@ -735,7 +740,9 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         return True
 
     def is_visible(self):
-        return self.is_enabled()
+        # return self.is_enabled()
+        return False
+
 
 class ViewSelectedCodeCoverageCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -2389,6 +2396,7 @@ class UpdateUserPassword(sublime_plugin.WindowCommand):
     def is_enabled(self):
         return util.check_action_enabled()
 
+
 class UpdateProjectPatternsCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(UpdateProjectPatternsCommand, self).__init__(*args, **kwargs)
@@ -2399,6 +2407,7 @@ class UpdateProjectPatternsCommand(sublime_plugin.WindowCommand):
 
     def is_enabled(self):
         return util.check_action_enabled()
+
 
 class UpdateProjectCommand(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
@@ -2411,6 +2420,7 @@ class UpdateProjectCommand(sublime_plugin.WindowCommand):
 
     def is_enabled(self):
         return util.check_action_enabled()
+
 
 class CreateNewProject(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):

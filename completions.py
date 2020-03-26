@@ -10,6 +10,7 @@ from .salesforce import xmltodict
 from .salesforce.lib import apex
 from .salesforce.lib import vf
 from .salesforce.lib import lightning
+from .salesforce.lib import lwc
 from .salesforce.lib import html
 from .salesforce.lib import bootstrap
 from .salesforce.lib import slds
@@ -655,11 +656,19 @@ class PageCompletions(sublime_plugin.EventListener):
         file_name = view.file_name()
         if not file_name :
             is_lightning = False
+            meta_type = None
         else:
             is_lightning = True if file_name.split(".")[-1] in ["app", "cmp", "evt", "html", "js"] else False
+            meta_type = util.get_meta_type(file_name)
 
-        # Get tag definition of Visualforce page or Lightning component
-        tag_defs = lightning.tag_defs if is_lightning else vf.tag_defs
+        # Get tag definition of Visualforce page or Lightning aura component or Lightning Web component
+        tag_defs = []
+        if meta_type == 'aura':
+            tag_defs = lightning.tag_defs
+        elif meta_type == 'lwc':
+            tag_defs = lwc.tag_defs
+        elif meta_type in ['pages', 'components']:
+            tag_defs = vf.tag_defs
 
         # In order to speed up code completion,
         # store the "metadata" into globals()
@@ -961,7 +970,7 @@ class PageCompletions(sublime_plugin.EventListener):
                     if not mr.contains(pt):
                         continue
                     class_name = view.substr(mr).split("=")[0]
-                    print (class_name)
+                    # print (class_name)
                     if class_name.lower() == "class":
                         for class_name in slds.classes:
                             completion_list.append(("%s\tSLDS" % class_name, class_name))

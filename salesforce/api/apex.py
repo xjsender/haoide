@@ -13,7 +13,7 @@ from ..login import soap_login, rest_login
 from ... import requests, util
 
 
-class ApexApi():
+class ApexApi:
     def __init__(self, settings, **kwargs):
         self.settings = settings
         self.soap = SOAP(settings)
@@ -62,7 +62,7 @@ class ApexApi():
             "SOAPAction": '""'
         }
 
-        soap_body = soap.run_all_test.format(session_id=self.session["session_id"])
+        soap_body = SOAP.run_all_test.format(session_id=self.session["session_id"])
 
         body = self.soap.create_request('run_all_test')
         try:
