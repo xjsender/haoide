@@ -254,7 +254,8 @@ def view_coverage(name, file_name, body):
     numLocationsNotCovered = coverage["numLocationsNotCovered"]
     numLocations = coverage["numLocations"]
     numLocationsCovered = numLocations - numLocationsNotCovered
-    linesNotCovered = [l["line"] for l in coverage["locationsNotCovered"]]
+    linesNotCovered = []
+    # linesNotCovered = [l["line"] for l in coverage["locationsNotCovered"]]
     if numLocations == 0:
         return Printer.get("error").write("There is no code coverage")
 
@@ -3402,7 +3403,6 @@ def export_profile_settings():
 
     Printer.get("log").write_start().write("Start to read all file name in profile folder")
     profiles = get_metadata_elements(profile_dir, 'profile')
-    print('profiles:', profiles)
 
     profile_settings = {}
     sobject_names = []

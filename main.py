@@ -740,7 +740,8 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         return True
 
     def is_visible(self):
-        return self.is_enabled()
+        # return self.is_enabled()
+        return False
 
 
 class ViewSelectedCodeCoverageCommand(sublime_plugin.TextCommand):
