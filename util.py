@@ -27,6 +27,9 @@ from xml.sax.saxutils import unescape
 
 
 def load_templates():
+    """
+    Load code template files from haoide package to working project .templates folder
+    """
     settings = context.get_settings()
     target_dir = os.path.join(settings["workspace"], ".templates")
     if not os.path.exists(target_dir): 
@@ -36,13 +39,16 @@ def load_templates():
     lwc_dir = os.path.join(target_dir, "Lwc") # Check exist lwc logic
     lwc_ele_dir = os.path.join(target_dir, "LwcElement") # Check exist lwc element logic
 
+    # for the updating of Lwc, old project should update the template files
     if not os.path.isfile(templates_dir) or not os.path.exists(lwc_dir) or not os.path.exists(lwc_ele_dir):
+        # get the installed haoide package directory
         source_dir = os.path.join(
             sublime.installed_packages_path(), 
             "haoide.sublime-package"
         )
 
-        if os.path.isfile(source_dir) and os.path.exists(lwc_dir) and os.path.exists(lwc_ele_dir):
+        if os.path.isfile(source_dir):
+            # default situation, installed haoide package, copy files from zip file sub folders
             zfile = zipfile.ZipFile(source_dir, 'r')
             for filename in zfile.namelist():
                 if filename.endswith('/'):
@@ -61,8 +67,9 @@ def load_templates():
 
             zfile.close()
         else:
+            # when develop haoide, use local package templates files
             source_dir = os.path.join(
-                sublime.packages_path(), "haoide", "config", "templates"
+                sublime.packages_path(), "haoide2/config/templates"
             )
             copy_files_in_folder(source_dir, target_dir)
 
