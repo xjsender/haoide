@@ -104,6 +104,7 @@
 
             {"caption": "View Code Coverage","command": "view_code_coverage"},
             {"caption": "View Debug Log Detail","command": "view_debug_log_detail"},
+            {"caption": "View Apex Code Coverage","command": "view_code_coverage_after_sync_test"},
             {"caption": "View Debug Only","command": "view_debug_only"},
             {"caption": "View Id in Salesforce Web","command": "view_id_in_sfdc_web"},
             {"caption": "View in Salesforce Web","command": "show_in_sfdc_web"},

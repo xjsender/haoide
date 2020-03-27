@@ -29,9 +29,9 @@ from .salesforce.lib import diff
 def handle_populate_users(callback_command, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         if api.result or api.result["success"]:
             records = api.result["records"]
             users = {}
@@ -40,7 +40,7 @@ def handle_populate_users(callback_command, timeout=120):
                     name = "%s => %s" % (record["LastName"], record["Username"])
                 else:
                     name = "%s => %s" % (
-                        "%s %s" % (record["LastName"], record["FirstName"]), 
+                        "%s %s" % (record["LastName"], record["FirstName"]),
                         record["Username"]
                     )
 
@@ -57,10 +57,11 @@ def handle_populate_users(callback_command, timeout=120):
     # If not exist, we need to use callback function
     api = ToolingApi(settings)
     query = "SELECT Id, FirstName, LastName, Username FROM User WHERE IsActive = true"
-    thread = threading.Thread(target=api.query_all, args=(query, ))
+    thread = threading.Thread(target=api.query_all, args=(query,))
     thread.start()
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Downloading Users List", "Succeed to download users list")
+
 
 def populate_sobject_recordtypes():
     """
@@ -78,7 +79,7 @@ def populate_sobject_recordtypes():
     settings = context.get_settings()
 
     # If sobjects is exist in `/.config/recordtype.json`, just return it
-    recordtype_path = settings["workspace"]+"/.config/recordtype.json"
+    recordtype_path = settings["workspace"] + "/.config/recordtype.json"
     if os.path.isfile(recordtype_path):
         recordtype = json.loads(open(recordtype_path).read())
         return recordtype
@@ -86,7 +87,7 @@ def populate_sobject_recordtypes():
     # If sobjects is not exist in globals(), post request to pouplate it
     api = ToolingApi(settings)
     query = "SELECT Id, Name, SobjectType FROM RecordType"
-    thread = threading.Thread(target=api.query_all, args=(query, ))
+    thread = threading.Thread(target=api.query_all, args=(query,))
     thread.start()
 
     while thread.is_alive() or not api.result:
@@ -115,6 +116,7 @@ def populate_sobject_recordtypes():
     util.add_config_history("recordtype", sobject_recordtypes, settings)
     return sobject_recordtypes
 
+
 def handle_update_user_language(language, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -123,33 +125,36 @@ def handle_update_user_language(language, timeout=120):
         return Printer.get('error').write("Login is required before this action")
 
     patch_url = "/sobjects/User/%s" % session["user_id"]
-    thread = threading.Thread(target=api.patch, 
-        args=(patch_url, {"LanguageLocaleKey": language}, ))
+    thread = threading.Thread(target=api.patch,
+                              args=(patch_url, {"LanguageLocaleKey": language},))
     thread.start()
-    ThreadProgress(api, thread, "Updating User Language to " + language,  
-        "User language is updated to " + language)
+    ThreadProgress(api, thread, "Updating User Language to " + language,
+                   "User language is updated to " + language)
+
 
 def handle_enable_development_mode(user_id, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
 
     patch_url = "/sobjects/User/%s" % user_id
-    thread = threading.Thread(target=api.patch, 
-        args=(patch_url, {"UserPreferencesApexPagesDeveloperMode": True}, ))
+    thread = threading.Thread(target=api.patch,
+                              args=(patch_url, {"UserPreferencesApexPagesDeveloperMode": True},))
     thread.start()
     ThreadProgress(api, thread, "Enabling User Development Mode",
-        "Succeed to Enabling User Development Mode")
+                   "Succeed to Enabling User Development Mode")
+
 
 def handle_update_user_password(user_id, new_password, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
     thread = threading.Thread(target=api.manage_password, args=(
-        user_id, {"NewPassword": new_password}, 
+        user_id, {"NewPassword": new_password},
     ))
     thread.start()
     masked_password = new_password[:5] + "*" * len(new_password[3:])
-    ThreadProgress(api, thread, "Updating User Password to " + masked_password,  
-        "Succeed to update user password to " + masked_password)
+    ThreadProgress(api, thread, "Updating User Password to " + masked_password,
+                   "Succeed to update user password to " + masked_password)
+
 
 def handle_login_thread(callback_options={}, force=False, timeout=120):
     def handle_thread(thread, timeout):
@@ -166,13 +171,14 @@ def handle_login_thread(callback_options={}, force=False, timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.login, args=(force, ))
+    thread = threading.Thread(target=api.login, args=(force,))
     thread.start()
     handle_thread(thread, timeout)
 
     default_project_name = settings["default_project_name"]
-    ThreadProgress(api, thread, "Login to %s" % default_project_name, 
-        default_project_name + " Login Succeed")
+    ThreadProgress(api, thread, "Login to %s" % default_project_name,
+                   default_project_name + " Login Succeed")
+
 
 def handle_view_code_coverage(component_name, component_id, body, timeout=120):
     def handle_thread(thread, timeout):
@@ -181,7 +187,7 @@ def handle_view_code_coverage(component_name, component_id, body, timeout=120):
             return
 
         result = api.result
-        if not result["success"]: 
+        if not result["success"]:
             return
 
         if result["totalSize"] == 0:
@@ -201,17 +207,17 @@ def handle_view_code_coverage(component_name, component_id, body, timeout=120):
 
         # Append coverage statistic info
         coverage_statistic = "%s Coverage: %.2f%%(%s/%s)" % (
-            component_name, coverage_percent, 
+            component_name, coverage_percent,
             covered_lines_count, total_lines_count
         )
-        
+
         # If has coverage, just add coverage info to new view
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
             "name": coverage_statistic,
             "input": body
         })
-        
+
         # Calculate line coverage
         split_lines = view.lines(sublime.Region(0, view.size()))
         uncovered_region = []
@@ -223,24 +229,25 @@ def handle_view_code_coverage(component_name, component_id, body, timeout=120):
 
         # Append body with uncovered line
         view.add_regions("uncovered_lines", uncovered_region, "invalid", "dot",
-            sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
+                         sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    query = "SELECT Coverage FROM ApexCodeCoverageAggregate " +\
-        "WHERE ApexClassOrTriggerId = '{0}'".format(component_id)
-    thread = threading.Thread(target=api.query, args=(query, True, ))
+    query = "SELECT Coverage FROM ApexCodeCoverageAggregate " + \
+            "WHERE ApexClassOrTriggerId = '{0}'".format(component_id)
+    thread = threading.Thread(target=api.query, args=(query, True,))
     thread.start()
     ThreadProgress(api, thread, "View Code Coverage of " + component_name,
-        "View Code Coverage of " + component_name + " Succeed")
+                   "View Code Coverage of " + component_name + " Succeed")
     handle_thread(thread, timeout)
+
 
 def handle_refresh_folder(types, ignore_package_xml=True, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         # Not succeed
         if not api.result or not api.result["success"]: return
 
@@ -251,8 +258,8 @@ def handle_refresh_folder(types, ignore_package_xml=True, timeout=120):
         extract_to = settings["workspace"]
 
         # Extract zip, True means not override package.xml
-        thread = threading.Thread(target=util.extract_encoded_zipfile, 
-            args=(result["zipFile"], extract_to, ignore_package_xml, ))
+        thread = threading.Thread(target=util.extract_encoded_zipfile,
+                                  args=(result["zipFile"], extract_to, ignore_package_xml,))
         thread.start()
 
         util.reload_file_attributes(result["fileProperties"], settings)
@@ -263,11 +270,12 @@ def handle_refresh_folder(types, ignore_package_xml=True, timeout=120):
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
-    thread = threading.Thread(target=api.retrieve, args=({"types": types}, ))
+    thread = threading.Thread(target=api.retrieve, args=({"types": types},))
     thread.start()
     handle_thread(thread, timeout)
     message = "Refresh Folder"
-    ThreadProgress(api, thread, message, message+" Succeed")
+    ThreadProgress(api, thread, message, message + " Succeed")
+
 
 def handle_reload_symbol_tables(timeout=120):
     """
@@ -295,7 +303,7 @@ def handle_reload_symbol_tables(timeout=120):
             # Outer completions 
             outer = util.parse_symbol_table(record["SymbolTable"])
             symboltable_dict[record["Name"].lower()] = {
-                "outer" : outer,
+                "outer": outer,
                 "name": record["Name"]
             }
 
@@ -311,11 +319,12 @@ def handle_reload_symbol_tables(timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.query_symbol_table, args=(30, ))
+    thread = threading.Thread(target=api.query_symbol_table, args=(30,))
     thread.start()
     wating_message = "Reloading Symbol Tables"
     ThreadProgress(api, thread, wating_message, wating_message + " Succeed")
     handle_thread(thread, timeout)
+
 
 def handle_reload_sobjects_completions(timeout=120):
     """
@@ -327,7 +336,7 @@ def handle_reload_sobjects_completions(timeout=120):
             if thread.is_alive():
                 sublime.set_timeout(lambda: handle_threads(apis, threads, timeout), timeout)
                 return
-        
+
         # If succeed, get the all sobject describe result
         results = []
         for api in apis:
@@ -341,7 +350,7 @@ def handle_reload_sobjects_completions(timeout=120):
         all_child_relationship_dict = {}
         for sobject_describe in results:
             # Initiate Sobject completions
-            if "name" not in sobject_describe: 
+            if "name" not in sobject_describe:
                 continue
             sobject_name = sobject_describe["name"]
 
@@ -406,7 +415,7 @@ def handle_reload_sobjects_completions(timeout=120):
 
                 # Display field type with specified format
                 field_type_desc = field_desc_dict[field_type] if field_type \
-                    in field_desc_dict else field_desc_dict["other"]
+                                                                 in field_desc_dict else field_desc_dict["other"]
 
                 fd = "%s%s\t%s" % (externalUniqueNotation, field_name_desc, field_type_desc)
                 fields_dict[fd] = field_name
@@ -441,7 +450,7 @@ def handle_reload_sobjects_completions(timeout=120):
 
                 # Add Parent Relationship Name
                 parent_relationship_dict[f["relationshipName"]] = parentSobject
-            
+
             # Child Relationship dict
             for f in sobject_describe["childRelationships"]:
                 childRelationshipName = f["relationshipName"]
@@ -471,23 +480,23 @@ def handle_reload_sobjects_completions(timeout=120):
 
         # Reload cache for completions
         from . import completions
-        sublime.set_timeout(lambda:completions.load_sobject_cache(
+        sublime.set_timeout(lambda: completions.load_sobject_cache(
             True, username
         ), 5)
 
     def handle_thread(api, thread, timeout=120):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(api, thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(api, thread, timeout), timeout)
             return
 
         # Exception Process
-        if not api.result or not api.result["success"]: 
+        if not api.result or not api.result["success"]:
             return
 
         # Get describe result of all sObjects
         sobjects_describe = api.result["sobjects"]
         sobjects = list(sobjects_describe.keys())
-        
+
         mcc = settings["maximum_concurrent_connections"]
         chunked_sobjects = util.list_chunks(sobjects, math.ceil(len(sobjects) / mcc))
 
@@ -499,7 +508,7 @@ def handle_reload_sobjects_completions(timeout=120):
                 for so in sobjects
             ]
             api = ToolingApi(settings)
-            thread = threading.Thread(target=api.describe_sobjects, args=(sobjects, ))
+            thread = threading.Thread(target=api.describe_sobjects, args=(sobjects,))
             thread.start()
             threads.append(thread)
             apis.append(api)
@@ -514,10 +523,11 @@ def handle_reload_sobjects_completions(timeout=120):
     ThreadProgress(api, thread, "Global Describe", "Global Describe Succeed")
     handle_thread(api, thread, timeout)
 
+
 def handle_destructive_files(dirs_or_files, ignore_folder=True, timeout=120):
     def handle_thread(thread, timeout=120):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
 
         # After succeed, remove dirs_or_files and related *-meta.xml from local
@@ -526,7 +536,7 @@ def handle_destructive_files(dirs_or_files, ignore_folder=True, timeout=120):
             for _file_or_dir in dirs_or_files:
                 # Remove file from local disk and close the related view
                 view = util.get_view_by_file_name(_file_or_dir)
-                if view: 
+                if view:
                     win.focus_view(view)
                     win.run_command("close")
 
@@ -536,41 +546,43 @@ def handle_destructive_files(dirs_or_files, ignore_folder=True, timeout=120):
                     shutil.rmtree(_file_or_dir)
 
                 # Remove related *-meta.xml file from local disk and close the related view
-                if ignore_folder and os.path.isfile(_file_or_dir+"-meta.xml"):
-                    view = util.get_view_by_file_name(_file_or_dir+"-meta.xml")
-                    if view: 
+                if ignore_folder and os.path.isfile(_file_or_dir + "-meta.xml"):
+                    view = util.get_view_by_file_name(_file_or_dir + "-meta.xml")
+                    if view:
                         win.focus_view(view)
                         win.run_command("close")
 
-                    os.remove(_file_or_dir+"-meta.xml")
+                    os.remove(_file_or_dir + "-meta.xml")
 
     settings = context.get_settings()
     api = MetadataApi(settings)
     base64_encoded_zip = util.build_destructive_package_by_files(dirs_or_files, ignore_folder)
-    thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip, ))
+    thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip,))
     thread.start()
     ThreadProgress(api, thread, "Destructing Files", "Destructing Files Succeed")
     handle_thread(thread, timeout)
 
+
 def handle_destructive_package_xml(types, timeout=120):
     def handle_thread(thread, timeout=120):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
 
     settings = context.get_settings()
     api = MetadataApi(settings)
     base64_encoded_zip = util.build_destructive_package_by_package_xml(types)
-    thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip, ))
+    thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip,))
     thread.start()
     ThreadProgress(api, thread, "Destructing Package.xml", "Destructing Package.xml Succeed")
     handle_thread(thread, timeout)
 
-def handle_deploy_thread(base64_encoded_zip, 
-        source_org=None, element=None, chosen_classes=[], timeout=120, update_meta=False):
+
+def handle_deploy_thread(base64_encoded_zip,
+                         source_org=None, element=None, chosen_classes=[], timeout=120, update_meta=False):
     def handle_thread(thread, timeout=120):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
 
         # If source_org is not None, we need to switch project back
@@ -585,16 +597,16 @@ def handle_deploy_thread(base64_encoded_zip,
     settings = context.get_settings()
     api = MetadataApi(settings)
     thread = threading.Thread(target=api.deploy, args=(
-        base64_encoded_zip, 
-        chosen_classes, 
+        base64_encoded_zip,
+        chosen_classes,
     ))
     thread.start()
-    ThreadProgress(api, thread, "Deploy Metadata to %s" % settings["default_project_name"], 
-        "Metadata Deployment Finished")
+    ThreadProgress(api, thread, "Deploy Metadata to %s" % settings["default_project_name"],
+                   "Metadata Deployment Finished")
     handle_thread(thread, timeout)
 
 
-def handle_update_aura_meta(body, element, timeout=120, type = "AuraDefinitionBundle"):
+def handle_update_aura_meta(body, element, timeout=120, type="AuraDefinitionBundle"):
     """
 
     :param body: body data returned from SOAP API
@@ -603,6 +615,7 @@ def handle_update_aura_meta(body, element, timeout=120, type = "AuraDefinitionBu
     :param type: type
     :return:
     """
+
     def handle_thread(thread, full_name, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, full_name, timeout), timeout)
@@ -654,9 +667,9 @@ def handle_update_aura_meta(body, element, timeout=120, type = "AuraDefinitionBu
 
             # Build components dict
             api = ToolingApi(settings)
-            query_str = "SELECT Id, DefType, LastModifiedDate, LastModifiedById " +\
-                "FROM AuraDefinition WHERE AuraDefinitionBundleId = '%s' and DefType = '%s'" % (
-                    item['id'], element.upper())
+            query_str = "SELECT Id, DefType, LastModifiedDate, LastModifiedById " + \
+                        "FROM AuraDefinition WHERE AuraDefinitionBundleId = '%s' and DefType = '%s'" % (
+                            item['id'], element.upper())
             thread = threading.Thread(target=api.query, args=(query_str,))
             thread.start()
             ThreadProgress(api, thread, "Update Component Metadata", "Update Component Metadata Finished")
@@ -674,26 +687,28 @@ def handle_track_all_debug_logs_thread(users, timeout=120):
     split = math.ceil(len(users) / maximum_concurrent_connections)
     for item in util.dict_chunks(users, split):
         pieces.append(item)
-    
+
     threads = []
     for users in pieces:
         api = ToolingApi(settings)
-        thread = threading.Thread(target=api.create_trace_flags, args=(users, ))
+        thread = threading.Thread(target=api.create_trace_flags, args=(users,))
         thread.start()
         threads.append(thread)
 
     ThreadsProgress(threads, "Creating Trace Flags", "Creating Trace Flags Finished")
+
 
 def handle_cancel_deployment_thread(async_process_id, timeout=120):
     settings = context.get_settings()
     api = MetadataApi(settings)
     thread = threading.Thread(target=api._invoke_method, args=(
         "cancelDeploy", {
-            "async_process_id": async_process_id, 
+            "async_process_id": async_process_id,
         }
     ))
     thread.start()
     ThreadProgress(api, thread, "Canceling Deploy", "Canceling Deploy Succeed")
+
 
 def handle_close_jobs_thread(job_ids, timeout=120):
     settings = context.get_settings()
@@ -701,6 +716,7 @@ def handle_close_jobs_thread(job_ids, timeout=120):
     for job_id in job_ids:
         thread = threading.Thread(target=bulkjob.close_job, args=(job_id,))
         thread.start()
+
 
 def handle_bulk_operation_thread(sobject, inputfile, operation, timeout=120):
     settings = context.get_settings()
@@ -718,6 +734,7 @@ def handle_bulk_operation_thread(sobject, inputfile, operation, timeout=120):
     progress_message = operation + " " + sobject
     ThreadProgress(bulkapi, thread, progress_message, progress_message + " Succeed")
 
+
 def handle_backup_sobject_thread(sobject, soql=None, timeout=120):
     settings = context.get_settings()
     bulkapi = BulkApi(settings, sobject, soql)
@@ -726,15 +743,16 @@ def handle_backup_sobject_thread(sobject, soql=None, timeout=120):
     wait_message = "Export Records of " + sobject
     ThreadProgress(bulkapi, thread, wait_message, wait_message + " Succeed")
 
+
 def handle_backup_all_sobjects_thread(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
 
         result = api.result
         if not result or not result["success"]: return
-        
+
         threads = []
         for sobject_describe in api.result["sobjects"]:
             if "name" not in sobject_describe: continue
@@ -753,12 +771,13 @@ def handle_backup_all_sobjects_thread(timeout=120):
     ThreadProgress(api, thread, "Describe Global", "Describe Global Succeed")
     handle_thread(thread, timeout)
 
+
 def handle_export_workflows(settings, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         # If succeed
         sObjects = []
         for sd in api.result["sobjects"]:
@@ -774,6 +793,7 @@ def handle_export_workflows(settings, timeout=120):
     thread.start()
     ThreadProgress(api, thread, "Export All Workflows", "Outputdir: " + outputdir)
     handle_thread(thread, 10)
+
 
 def handle_export_validation_rules(settings, timeout=120):
     def handle_thread(thread, timeout):
@@ -796,12 +816,13 @@ def handle_export_validation_rules(settings, timeout=120):
     ThreadProgress(api, thread, "Export All Validation Rules", "Validation Rules Export Succeed")
     handle_thread(thread, 10)
 
+
 def handle_export_customfield(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         # If succeed
         result = api.result
         if not result or not result["success"]: return
@@ -809,7 +830,7 @@ def handle_export_customfield(timeout=120):
         # Write list to csv
         outputdir = os.path.join(settings["workspace"], ".export")
         if not os.path.exists(outputdir): os.makedirs(outputdir)
-        records = sorted(result["records"], key=lambda k : k['TableEnumOrId'])
+        records = sorted(result["records"], key=lambda k: k['TableEnumOrId'])
         outputfile = os.path.join(outputdir, "CustomField.csv")
         util.list2csv(outputfile, records)
 
@@ -824,12 +845,13 @@ def handle_export_customfield(timeout=120):
     ThreadProgress(api, thread, 'Exporting CustomFields', "Exporting CustomFields Succeed")
     handle_thread(thread, 10)
 
+
 def handle_export_role_hierarchy(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         # If succeed
         result = api.result
         if not result or not result["success"]: return
@@ -843,21 +865,22 @@ def handle_export_role_hierarchy(timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    soql = "SELECT Id, ParentRoleId, Name, " +\
-        "(SELECT Id, FirstName, LastName, Username FROM Users " +\
-        " WHERE IsActive = true AND Profile.UserLicense.Name = 'Salesforce') " +\
-        "FROM UserRole WHERE PortalType = 'None'"
+    soql = "SELECT Id, ParentRoleId, Name, " + \
+           "(SELECT Id, FirstName, LastName, Username FROM Users " + \
+           " WHERE IsActive = true AND Profile.UserLicense.Name = 'Salesforce') " + \
+           "FROM UserRole WHERE PortalType = 'None'"
     thread = threading.Thread(target=api.query_all, args=(soql,))
     thread.start()
     ThreadProgress(api, thread, 'Exporting Role Hierarchy', "Role Hierarchy Exporting Succeed")
     handle_thread(thread, 10)
+
 
 def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, vertical, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         # If succeed
         result = api.result
         if not result or not result["success"]: return
@@ -880,18 +903,19 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
     )
     api = ToolingApi(settings)
     url = "/sobjects/%s/describe/layouts/%s" % (sobject, recordtype_id)
-    thread = threading.Thread(target=api.get, args=(url, ))
+    thread = threading.Thread(target=api.get, args=(url,))
     thread.start()
     wait_message = "Export Data Template of %s=>%s" % (sobject, recordtype_name)
     ThreadProgress(api, thread, wait_message, "Outputdir: " + output_file_dir)
     handle_thread(thread, 120)
+
 
 def handle_export_query_to_csv(tooling, soql, csv_name, data=None, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
-        
+
         result = api.result
         if "success" in result and not result["success"]:
             return
@@ -902,31 +926,32 @@ def handle_export_query_to_csv(tooling, soql, csv_name, data=None, timeout=120):
         outputfile = os.path.join(outputdir, "%s.csv" % csv_name)
         with open(outputfile, "wb") as fp:
             fp.write(util.query_to_csv(result, soql))
-            
+
         view = sublime.active_window().open_file(outputfile)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.query_all, args=(soql, tooling, ))
+    thread = threading.Thread(target=api.query_all, args=(soql, tooling,))
     thread.start()
     progress_message = "Export Query To %s.csv" % csv_name
     ThreadProgress(api, thread, progress_message, progress_message + " Succeed")
     handle_new_view_thread(thread, timeout)
+
 
 def handle_execute_rest_test(operation, url, data=None, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
-        
+
         result = api.result
-        
+
         # If succeed
-        if "list" in result: 
+        if "list" in result:
             result = result["list"]
-        if "str"  in result:
+        if "str" in result:
             result = result["str"]
-        
+
         # If response result is just like '"{\\"name\\":\\"test\\"}"'
         # we will remove the \\ and convert it to json automatically
         if settings.get("remove_slash_for_rest_response", False):
@@ -941,13 +966,13 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         # Remove the useless success attribute
         if isinstance(result, dict) and "success" in result:
             del result["success"]
-        
+
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
         view.set_syntax_file("Packages/JavaScript/JSON.tmLanguage")
         time_stamp = time.strftime("%H:%M:%S", time.localtime(time.time()))
         view.run_command("new_view", {
-            "name": "Rest %s-%s" % (operation, time_stamp), 
+            "name": "Rest %s-%s" % (operation, time_stamp),
             "input": json.dumps(result, ensure_ascii=False, indent=4)
         })
 
@@ -967,7 +992,7 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
         "Search": api.search,
         "Quick Search": api.quick_search
     }
-    
+
     target = http_methods_target[operation]
     if operation in ['Put', 'Post', 'Patch']:
         thread = threading.Thread(target=target, args=(url, data,))
@@ -980,16 +1005,17 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
     ThreadProgress(api, thread, progress_message, progress_message + " Succeed", show_error=False)
     handle_new_view_thread(thread, timeout)
 
+
 def handle_execute_query(soql, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
-        
+
         # If succeed
         result = api.result
         if not result["success"]: return
-        
+
         # No error, just display log in a new view
         view = sublime.active_window().new_file()
         view.run_command("new_view", {
@@ -1007,12 +1033,13 @@ def handle_execute_query(soql, timeout=120):
     ThreadProgress(api, thread, "Execute Query", "Execute Query Succeed")
     handle_new_view_thread(thread, timeout)
 
+
 def handle_execute_anonymous(apex_string, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_new_view_thread(thread, timeout), timeout)
             return
-        
+
         # If succeed
         result = api.result
         if not result["success"]: return
@@ -1033,10 +1060,11 @@ def handle_execute_anonymous(apex_string, timeout=120):
 
     settings = context.get_settings()
     api = ApexApi(settings)
-    thread = threading.Thread(target=api.execute_anonymous, args=(apex_string, ))
+    thread = threading.Thread(target=api.execute_anonymous, args=(apex_string,))
     thread.start()
     ThreadProgress(api, thread, "Execute Anonymous", "Execute Anonymous Succeed")
     handle_new_view_thread(thread, timeout)
+
 
 def handle_fetch_debug_logs(user_full_name, user_id, timeout=120):
     def handle_thread(thread, timeout):
@@ -1045,7 +1073,7 @@ def handle_fetch_debug_logs(user_full_name, user_id, timeout=120):
             return
 
         result = api.result
-        if not result or "records" not in result: 
+        if not result or "records" not in result:
             return
 
         records = result["records"]
@@ -1054,11 +1082,12 @@ def handle_fetch_debug_logs(user_full_name, user_id, timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.query_logs, args=(settings["last_n_logs"], user_id, ))
+    thread = threading.Thread(target=api.query_logs, args=(settings["last_n_logs"], user_id,))
     thread.start()
-    ThreadProgress(api, thread, "List Debug Logs for " + user_full_name, 
-        "List Debug Logs for " + user_full_name + " Succeed")
-    handle_thread(thread, timeout)    
+    ThreadProgress(api, thread, "List Debug Logs for " + user_full_name,
+                   "List Debug Logs for " + user_full_name + " Succeed")
+    handle_thread(thread, timeout)
+
 
 def handle_create_debug_log(user_name, user_id, timeout=120):
     def handle_thread(thread, timeout):
@@ -1068,22 +1097,23 @@ def handle_create_debug_log(user_name, user_id, timeout=120):
 
         result = api.result
         if not result["success"]: return
-        print (result)
+        print(result)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.create_trace_flag, args=(user_id, ))
+    thread = threading.Thread(target=api.create_trace_flag, args=(user_id,))
     thread.start()
-    ThreadProgress(api, thread, "Create Debug Log for " + user_name, 
-        "Create Debug Log for " + user_name + " Succeed")
+    ThreadProgress(api, thread, "Create Debug Log for " + user_name,
+                   "Create Debug Log for " + user_name + " Succeed")
     handle_thread(thread, timeout)
+
 
 def handle_view_debug_log_detail(log_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         if not api.result["success"]: return
 
         view = sublime.active_window().new_file()
@@ -1096,11 +1126,12 @@ def handle_view_debug_log_detail(log_id, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
     url = "/sobjects/ApexLog/" + log_id + "/Body"
-    thread = threading.Thread(target=api.retrieve_body, args=(url, ))
+    thread = threading.Thread(target=api.retrieve_body, args=(url,))
     thread.start()
-    ThreadProgress(api, thread, "Get Log Detail of " + log_id, 
-        "Get Log Detail of " + log_id + " Succeed")
+    ThreadProgress(api, thread, "Get Log Detail of " + log_id,
+                   "Get Log Detail of " + log_id + " Succeed")
     handle_thread(thread, timeout)
+
 
 def handle_run_test(class_name, class_id, timeout=120):
     def handle_thread(thread, timeout):
@@ -1126,14 +1157,14 @@ def handle_run_test(class_name, class_id, timeout=120):
             "view_name": "Test Result",
             "input": test_result
         })
-        
+
         # Keep the history in the local history rep
         util.add_operation_history('Test/' + class_name, test_result)
 
         # After run test succeed, get ApexCodeCoverageAggreate
-        query = "SELECT ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage " +\
+        query = "SELECT ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage " + \
                 "FROM ApexCodeCoverageAggregate"
-        thread = threading.Thread(target=api.query, args=(query, True, ))
+        thread = threading.Thread(target=api.query, args=(query, True,))
         thread.start()
         wait_message = "Get Code Coverage of " + class_name
         ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
@@ -1146,7 +1177,8 @@ def handle_run_test(class_name, class_id, timeout=120):
 
         # If error, just skip
         result = api.result
-        if "success" in result and not result["success"]: return
+        if "success" in result and not result["success"]:
+            return
 
         code_coverage = util.parse_code_coverage(result)
         view.run_command("new_dynamic_view", {
@@ -1158,10 +1190,11 @@ def handle_run_test(class_name, class_id, timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.run_test, args=(class_id, ))
+    thread = threading.Thread(target=api.run_test, args=(class_id,))
     thread.start()
     ThreadProgress(api, thread, "Run Test Class " + class_name, "Run Test for " + class_name + " Succeed")
     handle_thread(thread, timeout)
+
 
 def handle_run_sync_test(class_names, test_names, timeout=120):
     def handle_thread(thread, timeout):
@@ -1188,23 +1221,23 @@ def handle_run_sync_test(class_names, test_names, timeout=120):
             })
 
         # Keep the coverage to local cache
-        codeCoverages = result["codeCoverage"]
-        cache_dir = os.path.join(settings["workspace"], ".config")
-        cache_file = os.path.join(cache_dir, "coverage.json")
-
-        coverages = {}
-        if not os.path.exists(cache_dir):
-            os.makedirs(cache_dir)
-        elif os.path.isfile(cache_file):
-            coverages = json.loads(open(cache_file).read())
-
-        # Upsert exist code coverage info
-        for codeCoverage in codeCoverages:
-            lowerName = codeCoverage["name"].lower()
-            coverages[lowerName] = codeCoverage
-
-        with open(cache_file, "w") as fp:
-            fp.write(json.dumps(coverages, indent=4))
+        # codeCoverages = result["codeCoverage"]
+        # cache_dir = os.path.join(settings["workspace"], ".config")
+        # cache_file = os.path.join(cache_dir, "coverage.json")
+        #
+        # coverages = {}
+        # if not os.path.exists(cache_dir):
+        #     os.makedirs(cache_dir)
+        # elif os.path.isfile(cache_file):
+        #     coverages = json.loads(open(cache_file).read())
+        #
+        # # Upsert exist code coverage info
+        # for codeCoverage in codeCoverages:
+        #     lowerName = codeCoverage["name"].lower()
+        #     coverages[lowerName] = codeCoverage
+        #
+        # with open(cache_file, "w") as fp:
+        #     fp.write(json.dumps(coverages, indent=4))
 
         # Get the latest debug log
         sublime.active_window().run_command('fetch_debug_log', {
@@ -1221,6 +1254,34 @@ def handle_run_sync_test(class_names, test_names, timeout=120):
     ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
     handle_thread(thread, timeout)
 
+
+def handle_fetch_code_coverage(file_name, body, timeout=120):
+    def handle_thread(thread, timeout):
+        if thread.is_alive():
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            return
+
+        # If succeed
+        result = api.result
+        if "size" not in result or result["size"] == 0:
+            return Printer.get("error").write("No code coverage for %s, " % file_name +
+                                              "please run related test class before view code coverage")
+
+        record = result["records"][0]
+        util.view_coverage(file_name, record, body)
+
+    # Setup and start the thread
+    settings = context.get_settings()
+    api = ToolingApi(settings)
+    q_str = "Select ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage" + \
+            " From ApexCodeCoverageAggregate Where ApexClassOrTrigger.Name = '%s'" % file_name
+    thread = threading.Thread(target=api.query, args=(q_str, True))
+    thread.start()
+    wait_message = "Get Code Coverage of " + file_name
+    ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
+    handle_thread(thread, timeout)
+
+
 def handle_generate_sobject_soql(sobject, filter, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
@@ -1229,7 +1290,7 @@ def handle_generate_sobject_soql(sobject, filter, timeout=120):
 
         # If succeed
         result = api.result
-        
+
         # Error Message are prcoessed in ThreadProgress
         if not result["success"]: return
 
@@ -1246,14 +1307,15 @@ def handle_generate_sobject_soql(sobject, filter, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
     if filter != "all":
-        args = (sobject, filter, )
+        args = (sobject, filter,)
     else:
-        args = (sobject, )
+        args = (sobject,)
     thread = threading.Thread(target=api.combine_soql, args=args)
     thread.start()
     wait_message = 'Generate SOQL for ' + sobject
     ThreadProgress(api, thread, wait_message, wait_message + ' Succeed')
     handle_new_view_thread(thread, timeout)
+
 
 def handle_describe_sobject(sobject, timeout=120):
     def handle_new_view_thread(thread, timeout):
@@ -1263,7 +1325,7 @@ def handle_describe_sobject(sobject, timeout=120):
 
         # If succeed
         result = api.result
-        
+
         # Error Message are prcoessed in ThreadProgress
         if not result["success"]: return
 
@@ -1283,10 +1345,11 @@ def handle_describe_sobject(sobject, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
     sobject_url = "/sobjects/" + sobject + "/describe"
-    thread = threading.Thread(target=api.get, args=(sobject_url, ))
+    thread = threading.Thread(target=api.get, args=(sobject_url,))
     thread.start()
     ThreadProgress(api, thread, 'Describe ' + sobject, 'Describe ' + sobject + ' Succeed')
     handle_new_view_thread(thread, timeout)
+
 
 def handle_export_specified_workbooks(sobjects, timeout=120):
     settings = context.get_settings()
@@ -1297,19 +1360,20 @@ def handle_export_specified_workbooks(sobjects, timeout=120):
     chunked_sobjects = util.list_chunks(sobjects, math.ceil(len(sobjects) / mcc))
 
     for cs in chunked_sobjects:
-        thread = threading.Thread(target=api.generate_workbook, args=(cs, ))
+        thread = threading.Thread(target=api.generate_workbook, args=(cs,))
         threads.append(thread)
         thread.start()
 
-    ThreadsProgress(threads, "Generating Sobjects Workbook", 
-        "Sobjects Workbook are Generated")
+    ThreadsProgress(threads, "Generating Sobjects Workbook",
+                    "Sobjects Workbook are Generated")
+
 
 def handle_export_all_workbooks(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         # Exception Process
         if not api.result["success"]: return
 
@@ -1323,7 +1387,7 @@ def handle_export_all_workbooks(timeout=120):
         chunked_sobjects = util.list_chunks(sobjects, math.ceil(len(sobjects) / mcc))
 
         for sobjects in chunked_sobjects:
-            thread = threading.Thread(target=api.generate_workbook, args=(sobjects, ))
+            thread = threading.Thread(target=api.generate_workbook, args=(sobjects,))
             thread.start()
 
     settings = context.get_settings()
@@ -1339,7 +1403,7 @@ def handle_new_project(is_update=False, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         # If failed, but something may happen,
         # for example, user password is expired
         result = api.result
@@ -1363,8 +1427,8 @@ def handle_new_project(is_update=False, timeout=120):
             if not os.path.exists(outputdir): os.makedirs(outputdir)
 
         # Extract the zipFile to extract_to
-        thread = threading.Thread(target=util.extract_encoded_zipfile, 
-            args=(result["zipFile"], extract_to, ))
+        thread = threading.Thread(target=util.extract_encoded_zipfile,
+                                  args=(result["zipFile"], extract_to,))
         thread.start()
 
         # Apex Code Cache
@@ -1372,15 +1436,15 @@ def handle_new_project(is_update=False, timeout=120):
             util.reload_file_attributes(result["fileProperties"], settings)
         else:
             if settings["debug_mode"]:
-                print ('[Debug] fileProperties:\n' + json.dumps(result, indent=4))
+                print('[Debug] fileProperties:\n' + json.dumps(result, indent=4))
 
         # Hide panel
         sublime.set_timeout_async(Printer.get("log").hide_panel, 500)
 
         # Reload sObject Cache and SymbolTables
-        if not is_update: 
+        if not is_update:
             handle_reload_sobjects_completions()
-            
+
             if settings["reload_symbol_tables_when_create_project"]:
                 handle_reload_symbol_tables()
 
@@ -1399,9 +1463,9 @@ def handle_new_project(is_update=False, timeout=120):
         types[xml_name] = ["*"]
 
     thread = threading.Thread(target=api.retrieve, args=({
-        "types": types,
-        "package_names": settings["allowed_packages"]
-    }, ))
+                                                             "types": types,
+                                                             "package_names": settings["allowed_packages"]
+                                                         },))
     thread.start()
     wating_message = ("Creating New " if not is_update else "Updating ") + " Project"
     ThreadProgress(api, thread, wating_message, wating_message + " Finished")
@@ -1411,7 +1475,7 @@ def handle_new_project(is_update=False, timeout=120):
 def handle_describe_metadata(callback_options, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
 
         # Exception is processed in ThreadProgress
@@ -1447,18 +1511,19 @@ def handle_describe_metadata(callback_options, timeout=120):
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
-    thread = threading.Thread(target=api._invoke_method, args=("describeMetadata", ))
+    thread = threading.Thread(target=api._invoke_method, args=("describeMetadata",))
     thread.start()
     handle_thread(thread, timeout)
-    ThreadProgress(api, thread, "Describe Metadata of v%s.0" % settings["api_version"], 
-        "Describe Metadata Finished")
+    ThreadProgress(api, thread, "Describe Metadata of v%s.0" % settings["api_version"],
+                   "Describe Metadata Finished")
+
 
 def handle_rename_metadata(file_name, meta_type, old_name, new_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         # If not succeed, just stop
         if not api.result or not api.result["success"]: return
         result = api.result
@@ -1472,7 +1537,7 @@ def handle_rename_metadata(file_name, meta_type, old_name, new_name, timeout=120
     settings = context.get_settings()
     api = MetadataApi(settings)
     options = {"type": meta_type, "old_name": old_name, "new_name": new_name}
-    thread = threading.Thread(target=api._invoke_method, args=("renameMetadata", options, ))
+    thread = threading.Thread(target=api._invoke_method, args=("renameMetadata", options,))
     thread.start()
     handle_thread(thread, timeout)
     message = "Renaming %s from %s to %s" % (
@@ -1480,10 +1545,11 @@ def handle_rename_metadata(file_name, meta_type, old_name, new_name, timeout=120
     )
     ThreadProgress(api, thread, message, "Renaming Finished")
 
+
 def handle_reload_project_cache(types, callback_command, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
 
         if not api.result or not api.result["success"]: return
@@ -1509,47 +1575,49 @@ def handle_reload_project_cache(types, callback_command, timeout=120):
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
-    thread = threading.Thread(target=api.prepare_members, args=(types, True, ))
+    thread = threading.Thread(target=api.prepare_members, args=(types, True,))
     thread.start()
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Reloading Project Cache", "Reload Project Cache Succeed")
 
+
 def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_xml=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         # If source_org is not None, we need to switch project back
         if settings["switch_back_after_migration"] and source_org:
             util.switch_project(source_org)
-        
+
         # Extract the zipFile to extract_to
         if api.result and api.result["success"]:
-            thread = threading.Thread(target=util.extract_encoded_zipfile, 
-                args=(api.result["zipFile"], extract_to, ignore_package_xml, ))
+            thread = threading.Thread(target=util.extract_encoded_zipfile,
+                                      args=(api.result["zipFile"], extract_to, ignore_package_xml,))
             thread.start()
 
             # Apex Code Cache
             if isinstance(api.result.get("fileProperties", None), list):
                 util.reload_file_attributes(
-                    api.result["fileProperties"], 
+                    api.result["fileProperties"],
                     settings, append=True
                 )
 
     # Start to request
     settings = context.get_settings()
     api = MetadataApi(settings)
-    thread = threading.Thread(target=api.retrieve, args=({"types": types}, ))
+    thread = threading.Thread(target=api.retrieve, args=({"types": types},))
     thread.start()
     handle_thread(thread, timeout)
-    ThreadProgress(api, thread, "Retrieve File From Server", 
-        "Retrieve File From Server Succeed")
+    ThreadProgress(api, thread, "Retrieve File From Server",
+                   "Retrieve File From Server Succeed")
+
 
 def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
 
         # Set Thread alive flag to False
@@ -1570,13 +1638,13 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
                 Printer.get('log').write("Start to keep local change history")
 
                 # Get Workspace, if not exist, make it
-                workspace = settings["workspace"]+"/.history/"+component_attribute["type"]
+                workspace = settings["workspace"] + "/.history/" + component_attribute["type"]
                 if not os.path.exists(workspace):
                     os.makedirs(workspace)
 
                 # Backup current file
                 time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
-                outputdir = workspace+"/"+component_name+"-"+time_stamp+"-history"+extension
+                outputdir = workspace + "/" + component_name + "-" + time_stamp + "-history" + extension
                 with open(outputdir, "wb") as fp:
                     fp.write(body.encode("utf-8"))
 
@@ -1593,7 +1661,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
             view = util.get_view_by_file_name(file_name)
             if view:
                 component_id = component_attribute["id"]
-                view.run_command("remove_check_point", {"mark":component_id+"build_error"})
+                view.run_command("remove_check_point", {"mark": component_id + "build_error"})
 
             # If succeed, just hide it in several seconds later
             delay_seconds = settings["delay_seconds_for_hidden_output_panel_when_succeed"]
@@ -1614,8 +1682,8 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
             if "problem" not in result: return
 
             message = "Compile Error for %s: %s at line %s column %s" % (
-                file_base_name, 
-                result["problem"], 
+                file_base_name,
+                result["problem"],
                 result["lineNumber"],
                 result["columnNumber"]
             )
@@ -1635,11 +1703,11 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
                 line = result["lineNumber"]
             else:
                 return
-                
+
             if isinstance(line, list): line = line[0]
             if extension == ".page" and line < 2: return
             view.run_command("goto_line", {"line": line})
-            view.run_command("expand_selection", {"to":"line"})
+            view.run_command("expand_selection", {"to": "line"})
 
             if hasattr(view, 'show_popup'):
                 error = """
@@ -1650,8 +1718,8 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
                         </p>
                     </div>
                 """ % (
-                    file_base_name, 
-                    result["problem"], 
+                    file_base_name,
+                    result["problem"],
                     result["lineNumber"],
                     result["columnNumber"]
                 )
@@ -1659,14 +1727,14 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
 
             # Add highlight for error line and remove the highlight after several seconds
             component_id = component_attribute["id"]
-            view.run_command("set_check_point", {"mark":component_id+"build_error"})
+            view.run_command("set_check_point", {"mark": component_id + "build_error"})
 
     component_attribute, component_name = util.get_component_attribute(file_name)
     body = open(file_name, encoding="utf-8").read()
 
     # Component Full Name
     extension = component_attribute["extension"]
-    file_base_name =  component_name + extension
+    file_base_name = component_name + extension
 
     # Log start_time
     start_time = datetime.datetime.now()
@@ -1677,7 +1745,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     if username + file_base_name in globals():
         is_thread_alive = globals()[username + file_base_name]
         if is_thread_alive:
-            print ('%s is in process' % file_base_name);
+            print('%s is in process' % file_base_name);
             return
 
     # Open panel
@@ -1690,7 +1758,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     else:
         target = api.save_to_server
     thread = threading.Thread(target=target,
-                              args=(component_attribute, body, is_check_only, ))
+                              args=(component_attribute, body, is_check_only,))
     thread.start()
 
     # If saving thread is started, set the flag to True
@@ -1701,12 +1769,13 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     ThreadProgress(api, thread, wait_message, wait_message + " Succeed", show_error=False)
     handle_thread(thread, timeout)
 
+
 def handle_create_component(data, component_name, component_type, markup_or_body, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         # If create Succeed
         result = api.result
 
@@ -1721,7 +1790,7 @@ def handle_create_component(data, component_name, component_type, markup_or_body
         # Get the created component id
         component_id = result.get("id")
         extension = "." + settings[component_type]["suffix"]
-        
+
         # Save it to component.sublime-settings
         s = sublime.load_settings(COMPONENT_METADATA_SETTINGS)
         username = settings["username"]
@@ -1730,7 +1799,7 @@ def handle_create_component(data, component_name, component_type, markup_or_body
         # Prevent exception for creating component if no component in org
         if component_type not in components_dict:
             if not components_dict:
-                components_dict = {component_type : {}}
+                components_dict = {component_type: {}}
             else:
                 components_dict[component_type] = {}
 
@@ -1752,46 +1821,47 @@ def handle_create_component(data, component_name, component_type, markup_or_body
         sublime.save_settings(COMPONENT_METADATA_SETTINGS)
 
         # After new component is stored into cache, reload cache in globals()
-        sublime.set_timeout(lambda:util.load_metadata_cache(True), 50)
+        sublime.set_timeout(lambda: util.load_metadata_cache(True), 50)
 
         # Create Meta.xml File
         if component_type in ["ApexClass", "ApexTrigger"]:
-            meta_file_content = ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +\
-                "<{0} xmlns=\"http://soap.sforce.com/2006/04/metadata\">\n" +\
-                "    <apiVersion>{1}.0</apiVersion>\n" +\
-                "    <status>Active</status>\n" +\
-                "</{0}>").format(component_type, settings["api_version"])
+            meta_file_content = ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + \
+                                 "<{0} xmlns=\"http://soap.sforce.com/2006/04/metadata\">\n" + \
+                                 "    <apiVersion>{1}.0</apiVersion>\n" + \
+                                 "    <status>Active</status>\n" + \
+                                 "</{0}>").format(component_type, settings["api_version"])
 
         elif component_type in ["ApexPage", "ApexComponent"]:
-            meta_file_content = ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +\
-                "<{0} xmlns=\"http://soap.sforce.com/2006/04/metadata\">\n" +\
-                "    <apiVersion>{1}.0</apiVersion>\n" +\
-                "    <label>{2}</label>\n" +\
-                "</{0}>").format(component_type, settings["api_version"], component_name)
+            meta_file_content = ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + \
+                                 "<{0} xmlns=\"http://soap.sforce.com/2006/04/metadata\">\n" + \
+                                 "    <apiVersion>{1}.0</apiVersion>\n" + \
+                                 "    <label>{2}</label>\n" + \
+                                 "</{0}>").format(component_type, settings["api_version"], component_name)
 
         # Generate new meta.xml file
-        with open(file_name+"-meta.xml", "w") as fp:
+        with open(file_name + "-meta.xml", "w") as fp:
             fp.write(meta_file_content)
 
         # After all are finished, we need to keep the lastModifiedDate
         handle_set_component_attribute(attributes)
-    
+
     settings = context.get_settings()
     api = ToolingApi(settings)
     post_url = "/sobjects/" + component_type
-    thread = threading.Thread(target=api.post, args=(post_url, data, ))
+    thread = threading.Thread(target=api.post, args=(post_url, data,))
     thread.start()
     fullName = os.path.basename(file_name)
-    ThreadProgress(api, thread, "Creating Component %s" % fullName, 
-        "Creating Component %s Succeed" % fullName)
+    ThreadProgress(api, thread, "Creating Component %s" % fullName,
+                   "Creating Component %s Succeed" % fullName)
     handle_thread(thread, timeout)
+
 
 def handle_set_component_attribute(attributes, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         result = api.result
         if result["success"] and result["records"]:
             lastModifiedDate = result["records"][0]["LastModifiedDate"]
@@ -1807,54 +1877,57 @@ def handle_set_component_attribute(attributes, timeout=120):
     soql = "SELECT LastModifiedDate FROM %s WHERE Id = '%s'" % (
         attributes["type"], attributes["id"]
     )
-    thread = threading.Thread(target=api.query, args=(soql, True, ))
+    thread = threading.Thread(target=api.query, args=(soql, True,))
     thread.start()
     handle_thread(thread, timeout)
+
 
 def handle_refresh_static_resource(component_attribute, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         if not api.result["success"]: return
-        with open (file_name, "wb") as fp:
+        with open(file_name, "wb") as fp:
             fp.write(api.result["body"].encode("utf-8"))
 
     settings = context.get_settings()
     api = ToolingApi(settings)
     url = component_attribute["url"] + "/body"
-    thread = threading.Thread(target=api.retrieve_body, args=(url, ))
+    thread = threading.Thread(target=api.retrieve_body, args=(url,))
     thread.start()
     ThreadProgress(api, thread, 'Refresh StaticResource', 'Refresh StaticResource Succeed')
     handle_thread(thread, timeout)
-    
+
+
 def handle_create_static_resource(data, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
-        if not api.result["success"]: 
+
+        if not api.result["success"]:
             return
-        print (api.result)
+        print(api.result)
 
     settings = context.get_settings()
     api = ToolingApi(settings)
     url = "/tooling/sobjects/StaticResource"
-    thread = threading.Thread(target=api.post, args=(url, data, ))
+    thread = threading.Thread(target=api.post, args=(url, data,))
     thread.start()
     ThreadProgress(api, thread, 'Creating StaticResource', 'Creating StaticResource Succeed')
     handle_thread(thread, timeout)
 
+
 def handle_diff_with_server(component_attribute, file_name, source_org=None, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         result = api.result
-        
+
         # If error, just skip, error is processed in ThreadProgress
         if not result["success"]: return
 
@@ -1867,35 +1940,37 @@ def handle_diff_with_server(component_attribute, file_name, source_org=None, tim
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.get, args=(component_attribute["url"], ))
+    thread = threading.Thread(target=api.get, args=(component_attribute["url"],))
     thread.start()
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, 'Diff With Server', 'Diff With Server Succeed')
 
+
 def handle_refresh_file_from_server(attr, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
-        
+
         result = api.result
-        if not result["success"]: 
+        if not result["success"]:
             return
-        
+
         with open(file_name, "wb") as fp:
             fp.write(result[attr["body"]].encode("utf-8"))
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.get, args=(attr["url"], ))
+    thread = threading.Thread(target=api.get, args=(attr["url"],))
     thread.start()
     ThreadProgress(api, thread, 'Refreshing %s' % os.path.basename(file_name), 'Refresh Succeed')
     handle_thread(thread, timeout)
 
+
 def handle_delete_component(component_url, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
-            sublime.set_timeout(lambda:handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
             return
 
         # If succeed
@@ -1913,18 +1988,18 @@ def handle_delete_component(component_url, file_name, timeout=120):
         os.remove(file_name)
 
         # Remove the related cls-meta.xml
-        if os.path.exists(file_name+"-meta.xml"):
-            view = util.get_view_by_file_name(file_name+"-meta.xml")
+        if os.path.exists(file_name + "-meta.xml"):
+            view = util.get_view_by_file_name(file_name + "-meta.xml")
             if view:
                 window.focus_view(view)
                 window.run_command("close")
-            os.remove(file_name+"-meta.xml")
+            os.remove(file_name + "-meta.xml")
 
     settings = context.get_settings()
     api = ToolingApi(settings)
-    thread = threading.Thread(target=api.delete, args=(component_url, ))
+    thread = threading.Thread(target=api.delete, args=(component_url,))
     thread.start()
     file_base_name = os.path.basename(file_name)
     ThreadProgress(api, thread, "Deleting " + file_base_name,
-        "Delete " + file_base_name + " Succeed")
+                   "Delete " + file_base_name + " Succeed")
     handle_thread(thread, timeout)
