@@ -247,6 +247,9 @@ def get_completion_from_cache(settings, component_type, is_lightning=False):
     return completion_list
 
 def view_coverage(name, file_name, body):
+    """
+    @deprecated
+    """
     settings = context.get_settings()
     cache_file = os.path.join(settings["workspace"], ".config", "coverage.json")
     coverages = {}

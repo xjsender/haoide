@@ -711,7 +711,8 @@ class RemoveCheckPointCommand(sublime_plugin.TextCommand):
 
 class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        util.view_coverage(self.attributes["name"], self.file_name, self.body)
+        # util.view_coverage(self.attributes["name"], self.file_name, self.body)
+        processor.handle_fetch_code_coverage(self.attributes["name"], self.body)
 
     def is_enabled(self):
         # Must Be File
@@ -740,8 +741,7 @@ class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
         return True
 
     def is_visible(self):
-        # return self.is_enabled()
-        return False
+        return self.is_enabled()
 
 
 class ViewSelectedCodeCoverageCommand(sublime_plugin.TextCommand):
@@ -1935,7 +1935,7 @@ class AboutCommand(sublime_plugin.ApplicationCommand):
     def run(command):
         package_info = sublime.load_settings("package.sublime-settings")
 
-        version_info = "\n%s\n\n%s\n\nCopyright © 2013-2016 By %s\n\tDev Channel, Build v%s" % (
+        version_info = "\n%s\n\n%s\n\nCopyright © 2013-2019 By %s\n\tDev Channel, Build v%s" % (
             package_info.get("description"),
             package_info.get("homepage"),
             package_info.get("author"),
