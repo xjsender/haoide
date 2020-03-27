@@ -246,60 +246,56 @@ def get_completion_from_cache(settings, component_type, is_lightning=False):
 
     return completion_list
 
-def view_coverage(name, file_name, body):
+def view_coverage(file_name, record, body):
     """
-    @deprecated
+    View Apex Class/Trigger code coverage like developer console UI
+
+    @param file_name: name of the apex class/trigger file
+    @param record: dict of {Coverage:{coveredLines:[], uncoveredLines:[]}, NumLinesUncovered:0, NumLinesCovered:0}
+    @param body: the apex class/trigger file body
+    @return: a new view with code coverage information
     """
-    settings = context.get_settings()
-    cache_file = os.path.join(settings["workspace"], ".config", "coverage.json")
-    coverages = {}
-    if os.path.isfile(cache_file):
-        coverages = json.loads(open(cache_file).read())
-    coverage = coverages.get(name.lower(), {})
+    coverage = record.get("Coverage")
 
-    if not coverage:
-        return Printer.get("error").write("No code coverage cache, " +\
-            "please execute `Run Sync Test` on related test class before view code coverage")
-
-    numLocationsNotCovered = coverage["numLocationsNotCovered"]
-    numLocations = coverage["numLocations"]
-    numLocationsCovered = numLocations - numLocationsNotCovered
-    linesNotCovered = []
-    # linesNotCovered = [l["line"] for l in coverage["locationsNotCovered"]]
-    if numLocations == 0:
-        return Printer.get("error").write("There is no code coverage")
+    num_lines_uncovered = record.get("NumLinesUncovered", 0)
+    num_lines_cover = record.get("NumLinesCovered", 0)
+    num_lines = num_lines_uncovered + num_lines_cover
+    if num_lines == 0:
+        return Printer.get("error").write("There is no code coverage (0% coverage)")
 
     # Append coverage statistic info
     coverage_statistic = "%s Coverage: %.2f%%(%s/%s)" % (
-        name, numLocationsCovered / numLocations * 100, 
-        numLocationsCovered, numLocations
+        file_name, num_lines_cover / num_lines * 100,
+        num_lines_cover, num_lines
     )
-    
+
     # If has coverage, just add coverage info to new view
     view = sublime.active_window().new_file()
     view.run_command("new_view", {
         "name": coverage_statistic,
         "input": body
     })
-    
+
     # Calculate line coverage
+    lines_uncovered = coverage.get("uncoveredLines")
+    lines_covered = coverage.get("coveredLines")
     split_lines = view.lines(sublime.Region(0, view.size()))
     uncovered_region = []
     covered_region = []
     for region in split_lines:
         # The first four Lines are the coverage info
         line = view.rowcol(region.begin() + 1)[0] + 1
-        if line in linesNotCovered:
+        if line in lines_uncovered:
             uncovered_region.append(region)
-        else:
+        elif line in lines_covered:
             covered_region.append(region)
 
     # Append body with uncovered line
     view.add_regions("numLocationsNotCovered", uncovered_region, "invalid", "dot",
-        sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
+                     sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
 
     view.add_regions("numLocationsCovered", covered_region, "comment", "cross",
-        sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
+                     sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
 
 
 def get_local_timezone_offset():
@@ -2118,16 +2114,27 @@ def parse_all(apex):
             
     return apex_completions
 
+
 def parse_code_coverage(result):
     records = {}
-    for record in result["records"]:
-        name = record["ApexClassOrTrigger"]["Name"]
+    for _record in result["records"]:
+        name = _record["ApexClassOrTrigger"]["Name"]
         records[name] = {
-            "NumLinesCovered" : record["NumLinesCovered"],
-            "NumLinesUncovered": record["NumLinesUncovered"]
+            "NumLinesCovered": _record["NumLinesCovered"],
+            "NumLinesUncovered": _record["NumLinesUncovered"],
+            "Coverage": _record.get("Coverage")
         }
 
-    code_coverage_desc = message.SEPRATE.format("TriggerOrClass Code Coverage:")
+    code_coverage_desc =("Trigger Or Class Code Coverage:\n" +
+                         "Select Apex trigger or class name and " +
+                         "view code coverage by context menu\n")
+
+    # Keep the coverage to local cache, will overwrite the old one
+    settings = context.get_settings()
+    cache_dir = os.path.join(settings["workspace"], ".config")
+    cache_file = os.path.join(cache_dir, "coverage.json")
+    with open(cache_file, "w") as fp:
+        fp.write(json.dumps(records, indent=4))
 
     columns = ""
     header_width = {
@@ -2141,7 +2148,7 @@ def parse_code_coverage(result):
         row = ""
         row += "%-*s" % (header_width["Name"], name)
         coverage = records[name]
-        if not coverage["NumLinesCovered"] or not coverage["NumLinesUncovered"]:
+        if coverage.get("NumLinesCovered", 0) + coverage.get("NumLinesUncovered", 0) == 0:
             continue
         covered_lines = coverage["NumLinesCovered"]
         total_lines = covered_lines + coverage["NumLinesUncovered"]
@@ -2150,7 +2157,8 @@ def parse_code_coverage(result):
         row += "%-*s" % (header_width["Lines"], "%s/%s" % (covered_lines, total_lines))
         code_coverage += row + "\n"
 
-    return message.SEPRATE.format(code_coverage_desc + columns + "\n"*2 + code_coverage)
+    return message.SEPRATE.format(code_coverage_desc + "-"*79 + "\n" +
+                                  columns + "\n"*2 + code_coverage)
 
 def parse_sync_test_coverage(result):
     successes = result["successes"]
@@ -2260,14 +2268,14 @@ def parse_test_result(test_result):
     return_result = class_name + test_result_desc + test_result_content[:-1]
 
     # Parse Debug Log Part
-    info = "You can choose the LogId and view log detail " +\
+    info = "Select LogId and view log detail " +\
         "in Sublime or Salesforce by context menu"
-    debug_log_desc = message.SEPRATE.format(info)
     debug_log_content = "LogId: "
     if len(test_result) > 0 and test_result[0]["ApexLogId"] != None:
         debug_log_content += test_result[0]["ApexLogId"]
 
-    return_result += debug_log_desc + debug_log_content
+    debug_log_content += '\n' + info
+    return_result += message.SEPRATE.format(debug_log_content)
 
     return return_result
 

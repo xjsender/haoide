@@ -1177,7 +1177,8 @@ def handle_run_test(class_name, class_id, timeout=120):
 
         # If error, just skip
         result = api.result
-        if "success" in result and not result["success"]: return
+        if "success" in result and not result["success"]:
+            return
 
         code_coverage = util.parse_code_coverage(result)
         view.run_command("new_dynamic_view", {
@@ -1267,54 +1268,13 @@ def handle_fetch_code_coverage(file_name, body, timeout=120):
                                               "please run related test class before view code coverage")
 
         record = result["records"][0]
-        coverage = record.get("Coverage")
-
-        num_lines_uncovered = record.get("NumLinesUncovered", 0)
-        num_lines_cover = record.get("NumLinesCovered", 0)
-        num_lines = num_lines_uncovered + num_lines_cover
-        if num_lines == 0:
-            return Printer.get("error").write("There is no code coverage (0% coverage)")
-
-        # Append coverage statistic info
-        coverage_statistic = "%s Coverage: %.2f%%(%s/%s)" % (
-            file_name, num_lines_cover / num_lines * 100,
-            num_lines_cover, num_lines
-        )
-
-        # If has coverage, just add coverage info to new view
-        view = sublime.active_window().new_file()
-        view.run_command("new_view", {
-            "name": coverage_statistic,
-            "input": body
-        })
-
-        # Calculate line coverage
-        lines_uncovered = coverage.get("uncoveredLines")
-        lines_covered = coverage.get("coveredLines")
-        split_lines = view.lines(sublime.Region(0, view.size()))
-        uncovered_region = []
-        covered_region = []
-        for region in split_lines:
-            # The first four Lines are the coverage info
-            line = view.rowcol(region.begin() + 1)[0] + 1
-            if line in lines_uncovered:
-                uncovered_region.append(region)
-            elif line in lines_covered:
-                covered_region.append(region)
-
-        # Append body with uncovered line
-        view.add_regions("numLocationsNotCovered", uncovered_region, "invalid", "dot",
-                         sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
-
-        view.add_regions("numLocationsCovered", covered_region, "comment", "cross",
-                         sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
+        util.view_coverage(file_name, record, body)
 
     # Setup and start the thread
     settings = context.get_settings()
     api = ToolingApi(settings)
-    q_str = "Select Id, ApexTestClassId, TestMethodName, ApexClassOrTriggerId," + \
-            " ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage" + \
-            " From ApexCodeCoverage Where ApexClassOrTrigger.Name = '%s'" % file_name
+    q_str = "Select ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, Coverage" + \
+            " From ApexCodeCoverageAggregate Where ApexClassOrTrigger.Name = '%s'" % file_name
     thread = threading.Thread(target=api.query, args=(q_str, True))
     thread.start()
     wait_message = "Get Code Coverage of " + file_name

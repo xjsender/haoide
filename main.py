@@ -711,7 +711,6 @@ class RemoveCheckPointCommand(sublime_plugin.TextCommand):
 
 class ViewCodeCoverageCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        # util.view_coverage(self.attributes["name"], self.file_name, self.body)
         processor.handle_fetch_code_coverage(self.attributes["name"], self.body)
 
     def is_enabled(self):
@@ -973,14 +972,18 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
 
         return True
 
+
 class CancelDeployment(sublime_plugin.TextCommand):
     def run(self, edit):
         processor.handle_cancel_deployment_thread(self.sel_text)
 
     def is_enabled(self):
-        sel = self.view.sel()[0]
-        self.sel_text = self.view.substr(self.view.word(sel.begin()))
+        if len(self.view.sel()) == 0:
+            return False
+        region = self.view.sel()[0]
+        self.sel_text = self.view.substr(self.view.word(region.begin()))
         return self.sel_text.startswith("0Af")
+
 
 class DestructFileFromServer(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -1693,7 +1696,11 @@ class RunSyncTest(sublime_plugin.TextCommand):
     def is_visible(self):
         return self.is_enabled()
 
+
 class RunAsyncTest(sublime_plugin.WindowCommand):
+    """
+    @deprecated
+    """
     def __init__(self, *args, **kwargs):
         super(RunAsyncTest, self).__init__(*args, **kwargs)
 
@@ -1718,7 +1725,11 @@ class RunAsyncTest(sublime_plugin.WindowCommand):
     def is_visible(self):
         return self.is_enabled()
 
+
 class RunTestCommand(sublime_plugin.TextCommand):
+    """
+    Run Async Test
+    """
     def run(self, view):
         # Get component_attribute by file_name
         attributes = util.get_file_attributes(self.view.file_name())
@@ -1800,20 +1811,66 @@ class FetchDebugLogCommand(sublime_plugin.WindowCommand):
         user_id = self.users[user_name]
         processor.handle_fetch_debug_logs(user_name, user_id)
 
+
 class ViewDebugLogDetail(sublime_plugin.TextCommand):
     def run(self, view):
         processor.handle_view_debug_log_detail(self.log_id)
 
     def is_enabled(self):
         # Choose the valid Id, you will see this command
-        sel = self.view.sel()[0]
-        self.log_id = self.view.substr(self.view.word(sel.begin()))
+        # make sure selection has region in it
+        if len(self.view.sel()) == 0:
+            return False
+        region = self.view.sel()[0]
+        self.log_id = self.view.substr(self.view.word(region.begin()))
 
         if len(self.log_id) != 15 and len(self.log_id) != 18: return False
         if not re.compile(r'^[a-zA-Z0-9]*$').match(self.log_id): return False
         if not self.log_id.startswith("07L"): return False
 
         return True
+
+
+class ViewCodeCoverageAfterSyncTest(sublime_plugin.TextCommand):
+    def run(self, edit):
+        # get code coverage cache
+        settings = context.get_settings()
+        work_dir = os.path.join(settings["workspace"])
+        cache_file = os.path.join(work_dir, ".config", "coverage.json")
+        if not os.path.isfile(cache_file):
+            return
+        coverages = json.loads(open(cache_file).read())
+        record = coverages.get(self.file_name)
+
+        # get file content, may be apex class or trigger
+        class_path = os.path.join(work_dir, 'src',
+                                  'classes', self.file_name+'.cls')
+        trigger_path = os.path.join(work_dir, 'src',
+                                    'triggers', self.file_name + '.trigger')
+        _path = class_path if os.path.isfile(class_path) else trigger_path
+        with open(_path, encoding="utf-8") as fp:
+            file_content = fp.read()
+        if record and record.get("Coverage"):
+            util.view_coverage(self.file_name, record, file_content)
+
+    def is_enabled(self):
+        if len(self.view.sel()) == 0 or self.view.name() != 'Test Result':
+            return False
+        region = self.view.sel()[0]
+
+        # Make sure only enable for classes or triggers
+        start_reg = self.view.find('Trigger Or Class Code Coverage:', 0)
+        start_r, _ = self.view.rowcol(start_reg.begin())
+        r, _ = self.view.rowcol(region.begin())
+        if r - start_r < 4:
+            return False
+        self.file_name = self.view.substr(self.view.word(region.begin()))
+        if not re.compile(r'^[\w]+$').match(self.file_name):
+            return False
+        return self.file_name and self.file_name[0].isalpha()
+
+    def is_visible(self):
+        return self.view.name() == 'Test Result'
 
 class ViewDebugOnly(sublime_plugin.TextCommand):
     def run(self, view):
