@@ -1,7 +1,17 @@
 .. :changelog:
 
 Release History
----------------
+-----------------
+
+
+Release 3.5.8 (2020-03-28)
+++++++++++++++++++++++++++++++++++++
+
+* Refined Code coverage functionality:
+   - View code coverage for certain Apex class/trigger file via context menu
+   - View code coverage from (async) Test Result via context menu
+* Miscellaneous bug fix and update
+
 
 Release 3.5.7 (2020-03-26)
 ++++++++++++++++++++++++++++++++++++
