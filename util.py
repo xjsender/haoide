@@ -36,8 +36,8 @@ def load_templates():
         os.makedirs(target_dir)
 
     templates_dir = os.path.join(target_dir, "templates.json")
-    lwc_dir = os.path.join(target_dir, "Lwc") # Check exist lwc logic
-    lwc_ele_dir = os.path.join(target_dir, "LwcElement") # Check exist lwc element logic
+    lwc_dir = os.path.join(target_dir, "Lwc")  # Check exist lwc logic
+    lwc_ele_dir = os.path.join(target_dir, "LwcElement")  # Check exist lwc element logic
 
     # for the updating of Lwc, old project should update the template files
     if not os.path.isfile(templates_dir) or not os.path.exists(lwc_dir) or not os.path.exists(lwc_ele_dir):

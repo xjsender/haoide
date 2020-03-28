@@ -1848,6 +1848,8 @@ class ViewCodeCoverageAfterSyncTest(sublime_plugin.TextCommand):
         trigger_path = os.path.join(work_dir, 'src',
                                     'triggers', self.file_name + '.trigger')
         _path = class_path if os.path.isfile(class_path) else trigger_path
+        if not os.path.isfile(_path):
+            return
         with open(_path, encoding="utf-8") as fp:
             file_content = fp.read()
         if record and record.get("Coverage"):
