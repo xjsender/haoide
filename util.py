@@ -1687,13 +1687,21 @@ def extract_zipfile(zipfile_path, extract_to):
 
     zfile.close()
 
+
 def extract_file(zipfile_path, extract_to, ignore_package_xml=False):
-    zfile = zipfile.ZipFile(zipfile_path, 'r')
-    for filename in zfile.namelist():
+    """
+    extract packaged Zip file from metadata API
+    @param zipfile_path:
+    @param extract_to:
+    @param ignore_package_xml:
+    @return:
+    """
+    zip_file = zipfile.ZipFile(zipfile_path, 'r')
+    for filename in zip_file.namelist():
         if filename.endswith('/'): 
             continue
 
-        if ignore_package_xml and filename == "unpackaged/package.xml": 
+        if ignore_package_xml and filename == "unpackaged/package.xml":
             continue
 
         if filename.startswith("unpackaged"):
@@ -1705,9 +1713,9 @@ def extract_file(zipfile_path, extract_to, ignore_package_xml=False):
             os.makedirs(os.path.dirname(f))
 
         with open(f, "wb") as fp:
-            fp.write(zfile.read(filename))
+            fp.write(zip_file.read(filename))
 
-    zfile.close()
+    zip_file.close()
 
 def extract_zip(base64String, extract_to):
     """
@@ -1801,6 +1809,8 @@ def reload_file_attributes(file_properties, settings=None, append=False):
         "ApexPage": "Markup",
         "ApexComponent": "Markup"
     }
+
+    # print(file_properties)
 
     # If the package only contains `package.xml`
     if isinstance(file_properties, dict): 
@@ -2194,8 +2204,9 @@ def parse_sync_test_coverage(result):
             allrows.append("\n".join(success_row))
 
     allrows.append("~" * 80)
-    allrows.append("Follow the instruction as below, you can quickly view code coverage,")
-    allrows.append("    * Put focus on code name, hold down 'alt' and Dblclick the 'Left Mouse'")
+    allrows.append("Apex Class Or Trigger Code Coverage Statistics:")
+    # allrows.append("Follow the instruction as below, you can quickly view code coverage,")
+    # allrows.append("    * Put focus on code name, hold down 'alt' and Dblclick the 'Left Mouse'")
 
     header_width = {
         "Type": 15, "Name": 50, "Percent": 10, "Lines": 10
@@ -3148,7 +3159,8 @@ def check_enabled(file_name, check_cache=True):
 
     * Bool -- check whether current file is apex code file and has local cache
     """
-    if not file_name: return False
+    if not file_name:
+        return False
 
     # Get toolingapi settings
     settings = context.get_settings()
@@ -3593,7 +3605,7 @@ def export_profile_settings():
                 if sobject in profile_settings[profile]["objectPermissions"]:
                     object_permission = profile_settings[profile]["objectPermissions"][sobject]
                     for crud in cruds:
-                        rows.append("√" if object_permission[crud] == "true" else "")
+                        rows.append("True" if object_permission[crud] == "true" else "")
                 else:
                     for crud in cruds:
                         rows.append("")

@@ -958,7 +958,7 @@ class ToolingApi():
         # Component Attribute
         component_type = component_attribute["type"]
         component_id = component_attribute["id"]
-        component_body = component_attribute["body"]
+        # component_body = component_attribute["body"]
 
         if self.settings["check_save_conflict"] and not is_check_only and check_save_conflict:
             Printer.get('log').write("Start to check saving conflict")
@@ -1159,45 +1159,54 @@ class ToolingApi():
         # Result used in thread invoke
         self.result = return_result
 
-    def save_aura_to_server(self, component_attribute, body, check_save_conflict=True):
-        """ Save AuraDefinition such as Lightning component makeup, controller and helper
+    def save_lightning_to_server(self, component_attribute, body, check_save_conflict=True):
+        """
+        Save Lightning AuraDefinition or LightningComponentResource such as component makeup, controller and helper or
+        Lightning Web component teampl to Salesforce
 
         Arguments:
-
-        * component_attribute - attribute of component, e.g., component id, url
-        * body -- Code content
-        * check_save_conflict -- indicate whether to check saving conflict
+        @param component_attribute: attribute of component, e.g., component id, url
+        @param body: Code content
+        @param check_save_conflict: indicate whether to check saving conflict
+        @return: saving result
         """
 
         def handle_error_message(result):
+            if self.settings["debug_mode"]:
+                print('Error: ', result)
             _result = dict()
             _result["success"] = False
             _result["errorCode"] = result["errorCode"]
-            if "\n" in result["message"]:
-                error_messages = result["message"].split('\n')
-                if "CSS Parser" in error_messages[0] :
-                    error_msg = error_messages[2]
-                    _result["problem"] = error_msg
-                    error_line_info = error_msg[error_msg.find("(")+1: error_msg.find(")")]
-                    _result["lineNumber"] = error_line_info.split(",")[0][5:]
-                    _result["columnNumber"] = error_line_info.split(",")[1][5:]
+            try:
+                if "\n" in result["message"]:
+                    error_messages = result["message"].split('\n')
+                    if "CSS Parser" in error_messages[0] :
+                        error_msg = error_messages[2]
+                        _result["problem"] = error_msg
+                        error_line_info = error_msg[error_msg.find("(")+1: error_msg.find(")")]
+                        _result["lineNumber"] = error_line_info.split(",")[0][5:]
+                        _result["columnNumber"] = error_line_info.split(",")[1][5:]
+                    else:
+                        error_base_info = error_messages[0].split(': ')
+                        error_line_info = error_base_info[1].split(':')[1]
+                        error_line_info = error_line_info[1 : len(error_line_info) - 1]
+                        _result['id'] = error_base_info[0]
+                        _result["lineNumber"] = error_line_info.split(',')[0]
+                        _result["columnNumber"] = error_line_info.split(',')[1]
+                        _result["problem"] = error_messages[1]
                 else:
-                    error_base_info = error_messages[0].split(': ')
-                    error_line_info = error_base_info[1].split(':')[1]
-                    error_line_info = error_line_info[1 : len(error_line_info) - 1]
-                    _result['id'] = error_base_info[0]
-                    _result["lineNumber"] = error_line_info.split(',')[0]
-                    _result["columnNumber"] = error_line_info.split(',')[1]
-                    _result["problem"] = error_messages[1]
-            else:
-                _result["problem"] = result["message"]
-                _result['id'] = result["message"].split(':')[0]
-                m = re.search(r'\[\d+,\s*\d+\]', result["message"])
-                if m:
-                    col_row = m.group(0)
-                    col_row = col_row[1:len(col_row)-1]
-                    _result["lineNumber"] = col_row.split(',')[0]
-                    _result["columnNumber"] = col_row.split(',')[1]
+                    _result["problem"] = result["message"]
+                    _result['id'] = result["message"].split(':')[0]
+                    m = re.search(r'\[\d+,\s*\d+\]', result["message"])
+                    if m:
+                        col_row = m.group(0)
+                        col_row = col_row[1:len(col_row)-1]
+                        _result["lineNumber"] = col_row.split(',')[0]
+                        _result["columnNumber"] = col_row.split(',')[1]
+            except Exception as _ex:
+                if self.settings["debug_mode"]:
+                    print('Error parsing error result: ', _ex)
+                _result["message"] = result["message"]
             return _result
 
         # 1. Firstly Login
@@ -1207,10 +1216,10 @@ class ToolingApi():
             return self.result
 
         # Component Attribute
-        # component_type = component_attribute["type"]
-        component_type = 'AuraDefinition'
+        bundle_type = component_attribute["type"]
+        component_type = 'AuraDefinition' if bundle_type == "AuraDefinitionBundle" else 'LightningComponentResource'
         component_id = component_attribute["id"]
-        component_url = self.base_url + '/tooling/sobjects/AuraDefinition/' + component_id
+        component_url = self.base_url + '/tooling/sobjects/' + component_type + '/' + component_id
 
         # 2. Check conflict
         if self.settings["check_save_conflict"] and check_save_conflict:
