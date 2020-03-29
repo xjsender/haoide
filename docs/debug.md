@@ -69,11 +69,14 @@ There has a ```log_levels``` setting in the default settings to control the anon
 - Put the focus in the LogId got by fetch command, press <kbd>alt</kbd> and click left button, the debug log detail will be retrieved and displayed in the new view.
 
 ## Run Test
-* This feature will be deprecated in the release v3.1.5, because this feature is executed in async way, it's very slow.
+* Click ``HaoIDE > Run Test Class`` in the context menu or press <kbd>ctrl+alt+t</kbd> in opened test class file
+* You can get the *Test Result* and related coverage report after the test run async
+* In the Test Result file, you can view the debug log or certain class/trigger code coverage via contest menu command
+* The coverage information will be kept in ``.config/coverages.json`` cache file, when you execute ``view_code_coverage`` command next time, plugin will read code coverage information from here
 
 ## Run Sync Test
 * Click ``HaoIDE > Run Sync Test`` in the context menu or press <kbd>alt/command + shift + u</kbd>, you can get the test run result and related coverage report
-* The coverage information will be kept in ``.config/coverages.json`` cache file, when you execute ``view_code_coverage`` command next time, plugin will read code coverage information from here
+* You cannot get certain class/trigger code coverage since Salesforce Tooling API does not return Correct code coverage now
 
 ## View Code Coverage
 * This feature just works when api version is >= 29.0

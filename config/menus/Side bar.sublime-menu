@@ -153,13 +153,6 @@
                 "args": {"dirs": [], "element": "SVG"}
             },
 
-            // do not support additional js current
-            // {
-//                 "caption": "Add Lwc Additional JS",
-//                 "command": "create_lwc_element",
-//                 "args": {"dirs": [], "element": "AdditionalJS"}
-//             },
-
             {"caption": "-"},
 
             {

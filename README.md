@@ -43,15 +43,16 @@ If you don't want to keep your user credential information in the plugin , you j
 * <a href="/docs/debug.md" target="_blank">Debug and Test</a>
 * <a href="/docs/retrieve.md" target="_blank">Retrieve</a>
 * <a href="/docs/deploy.md" target="_blank">Deploy</a>
+* <a href="https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif" target="_blank">Lightning Aura Component Development</a>
+* <a href="/docs/lwc.md" target="_blank">Lightning Web Component Development</a>
 * <a href="/docs/staticresource.md" target="_blank">Static Resource Bundle</a>
 * <a href="/docs/export.md" target="_blank">Export CSV</a>
 * <a href="/docs/utilities.md" target="_blank">Salesforce Utilities</a>
 * <a href="/docs/json2apex.md" target="_blank">Convert JSON to Apex</a>
-* <a href="/docs/rest.md" target="_blank">REST Test</a>
+* <a href="/docs/rest.md" target="_blank">REST API Support</a>
 * <a href="/docs/dataloader.md" target="_blank">Data Loader</a>
 * <a href="/docs/document.md" target="_blank">Document Quick Reference</a>
 * <a href="/docs/plugin.md" target="_blank">Plugin Operation</a>
-* <a href="https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif" target="_blank">Lightning Development</a>
 * <a href="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif" target="_blank">Completions Demo</a>
 * <a href="http://docs.python-requests.org/en/latest/user/advanced/#proxies" target="_blank">Request Proxies</a>
 
