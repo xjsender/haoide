@@ -1582,9 +1582,9 @@ def handle_reload_project_cache(types, callback_command, timeout=120):
 
 
 def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_xml=False, timeout=120):
-    def handle_thread(thread, timeout):
-        if thread.is_alive():
-            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+    def handle_thread(_thread, timeout):
+        if _thread.is_alive():
+            sublime.set_timeout(lambda: handle_thread(_thread, timeout), timeout)
             return
 
         # If source_org is not None, we need to switch project back
@@ -1593,11 +1593,11 @@ def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_x
 
         # Extract the zipFile to extract_to
         if api.result and api.result["success"]:
-            thread = threading.Thread(target=util.extract_encoded_zipfile,
-                                      args=(api.result["zipFile"], extract_to, ignore_package_xml,))
-            thread.start()
+            _thread = threading.Thread(target=util.extract_encoded_zipfile,
+                                       args=(api.result["zipFile"], extract_to, ignore_package_xml,))
+            _thread.start()
 
-            # Apex Code Cache
+            # Code Cache
             if isinstance(api.result.get("fileProperties", None), list):
                 util.reload_file_attributes(
                     api.result["fileProperties"],
@@ -1610,11 +1610,19 @@ def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_x
     thread = threading.Thread(target=api.retrieve, args=({"types": types},))
     thread.start()
     handle_thread(thread, timeout)
-    ThreadProgress(api, thread, "Retrieve File From Server",
+    ThreadProgress(api, thread,
+                   "Retrieve File From Server",
                    "Retrieve File From Server Succeed")
 
 
 def handle_save_to_server(file_name, is_check_only=False, timeout=120):
+    """
+    Handle Save metadata to Salesforce
+    @param file_name: file name with path format
+    @param is_check_only: only check the file from Salesforce, do not really save
+    @param timeout: timeout in seconds
+    @return: None
+    """
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -1679,15 +1687,18 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
         # Because error line in page is always at the line 1, so just work in class or trigger
         elif "success" in result and not result["success"]:
             # Maybe network issue
-            if "problem" not in result: return
+            _message = "Unknown Problem!"
+            if "problem" in result:
+                _message = "Compile Error for %s: %s at line %s column %s" % (
+                    file_base_name,
+                    result["problem"],
+                    result["lineNumber"],
+                    result["columnNumber"]
+                )
+            elif "message" in result:
+                _message = result["message"]
 
-            message = "Compile Error for %s: %s at line %s column %s" % (
-                file_base_name,
-                result["problem"],
-                result["lineNumber"],
-                result["columnNumber"]
-            )
-            Printer.get('log').write(message)
+            Printer.get('log').write(_message)
 
             # Get the active view
             view = util.get_view_by_file_name(file_name)
@@ -1753,8 +1764,10 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     Printer.get('log').write_start().write("Start to %s %s" % (compile_or_save, file_base_name))
 
     api = ToolingApi(settings)
-    if component_attribute["type"] in ["AuraDefinitionBundle", "AuraDefinition"]:
-        target = api.save_aura_to_server
+    lngt_meta_type = ["AuraDefinitionBundle", "AuraDefinition",
+                      "LightningComponentBundle", "LightningComponentResource"]
+    if component_attribute["type"] in lngt_meta_type:
+        target = api.save_lightning_to_server
     else:
         target = api.save_to_server
     thread = threading.Thread(target=target,

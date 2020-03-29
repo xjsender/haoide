@@ -1848,6 +1848,8 @@ class ViewCodeCoverageAfterSyncTest(sublime_plugin.TextCommand):
         trigger_path = os.path.join(work_dir, 'src',
                                     'triggers', self.file_name + '.trigger')
         _path = class_path if os.path.isfile(class_path) else trigger_path
+        if not os.path.isfile(_path):
+            return
         with open(_path, encoding="utf-8") as fp:
             file_content = fp.read()
         if record and record.get("Coverage"):
@@ -2292,7 +2294,11 @@ class CreateComponentCommand(sublime_plugin.WindowCommand):
                                                 self.markup_or_body, 
                                                 file_name)
 
+
 class SaveToServer(sublime_plugin.TextCommand):
+    """
+    Save Metadata to Server using Tooling API or Metadata API
+    """
     def run(self, edit, is_check_only=False):
         # Check whether need confirm
         settings = context.get_settings()
@@ -2309,9 +2315,10 @@ class SaveToServer(sublime_plugin.TextCommand):
         processor.handle_save_to_server(self.view.file_name(), is_check_only)
 
     def is_enabled(self):
-        if not self.view or not self.view.file_name(): return False
+        if not self.view or not self.view.file_name():
+            return False
         attributes = util.get_file_attributes(self.view.file_name())
-        if attributes["metadata_folder"] not in ["classes", "components", "pages", "triggers", "aura"]:
+        if attributes["metadata_folder"] not in ["classes", "components", "pages", "triggers", "aura", "lwc"]:
             return False
             
         return util.check_enabled(self.view.file_name())
