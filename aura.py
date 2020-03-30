@@ -145,7 +145,6 @@ class PreviewThisAppInServer(sublime_plugin.TextCommand):
 class RetrieveLightningFromServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(RetrieveLightningFromServer, self).__init__(*args, **kwargs)
-        self.settings = context.get_settings()
 
     def run(self, dirs):
         message = "Are you sure you really want to continue refreshing"
@@ -157,6 +156,7 @@ class RetrieveLightningFromServer(sublime_plugin.WindowCommand):
             )
 
     def is_visible(self, dirs):
+        self.settings = context.get_settings()
         self.types = {}
         if len(dirs) == 0:
             return False
@@ -196,7 +196,8 @@ class DestructLightningFromServer(sublime_plugin.WindowCommand):
         super(DestructLightningFromServer, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        if sublime.ok_cancel_dialog("Confirm to continue?"):
+        if sublime.ok_cancel_dialog("This will Delete the whole folder both from the server and local!" +
+                                    " Confirm to continue?"):
             processor.handle_destructive_files(dirs, ignore_folder=False)
 
     def is_visible(self, dirs):

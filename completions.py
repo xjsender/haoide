@@ -659,7 +659,8 @@ class PageCompletions(sublime_plugin.EventListener):
             meta_type = None
         else:
             is_lightning = True if file_name.split(".")[-1] in ["app", "cmp", "evt", "html", "js"] else False
-            meta_type = util.get_meta_type(file_name)
+            attributes = util.get_file_attributes(file_name)
+            meta_type = attributes["metadata_folder"]
 
         # Get tag definition of Visualforce page or Lightning aura component or Lightning Web component
         tag_defs = []
