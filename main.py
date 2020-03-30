@@ -458,7 +458,8 @@ class ReloadSymbolTableCacheCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         message = "Are you sure you really want to reload symbol table cache?"
-        if not sublime.ok_cancel_dialog(message, "Confirm Reload"): return
+        if not sublime.ok_cancel_dialog(message, "Confirm Reload"):
+            return
         processor.handle_reload_symbol_tables()
 
 
@@ -882,7 +883,11 @@ class RenameMetadata(sublime_plugin.TextCommand):
 
         return True
 
+
 class RetrieveFileFromServer(sublime_plugin.TextCommand):
+    """
+    Retrieve Single File From Salesforce
+    """
     def run(self, edit, switch=True):
         files = [self.view.file_name()]
         sublime.active_window().run_command("retrieve_files_from_server", {
@@ -904,17 +909,21 @@ class RetrieveFileFromServer(sublime_plugin.TextCommand):
     def is_visible(self):
         return self.is_enabled()
 
+
 class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
+    """
+    Retrieve List of files from Salesforce
+    """
     def __init__(self, *args, **kwargs):
         super(RetrieveFilesFromServer, self).__init__(*args, **kwargs)
 
     def run(self, files, switch=True, source_org=None, confirmed=False, extract_to=None):
         # Prevent duplicate confirmation
         if not confirmed:
-            message = "Confirm retrieving %s from server?" % (
+            _message = "Confirm retrieving %s from server?" % (
                 "these files" if len(files) > 1 else "this file"
             )
-            if not sublime.ok_cancel_dialog(message, "Confirm?"): 
+            if not sublime.ok_cancel_dialog(_message, "Confirm?"):
                 return
 
         settings = context.get_settings()
@@ -949,7 +958,7 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
                 name = "%s/%s" % (attributes["folder"], attributes["name"])
 
             # If file is AuraDefinitionBundle, we need to add folder
-            if metadata_folder == "aura":
+            if metadata_folder in ["aura", "lwc"]:
                 name = "%s" % attributes["folder"]
 
             if metadata_object in types:
@@ -957,14 +966,16 @@ class RetrieveFilesFromServer(sublime_plugin.WindowCommand):
             else:
                 types[metadata_object] = [name]
 
-        processor.handle_retrieve_package(types, extract_to, 
-            source_org=source_org, ignore_package_xml=True)
+        processor.handle_retrieve_package(types, extract_to,
+                                          source_org=source_org, ignore_package_xml=True)
 
     def is_visible(self, files):
-        if not files: return False
+        if not files:
+            return False
         settings = context.get_settings()
         for _file in files:
-            if not os.path.isfile(_file): continue # Ignore folder
+            if not os.path.isfile(_file):
+                continue  # Ignore folder
             metadata_folder = util.get_metadata_folder(_file)
             if metadata_folder not in settings["all_metadata_folders"]: return False
             if not util.check_enabled(_file, check_cache=False): 
@@ -1175,6 +1186,9 @@ class DeployFileToServer(sublime_plugin.TextCommand):
         return self.is_enabled()
 
 class DeployFileToThisServer(sublime_plugin.TextCommand):
+    """
+    Deploy a opened file to current active Salesforce org
+    """
     def run(self, edit):
         files = [self.view.file_name()]
         sublime.active_window().run_command("deploy_files_to_server", {

@@ -1,1 +1,2 @@
-//sample additional js file
+export class {class_name} {
+}

@@ -3751,20 +3751,3 @@ def convert_csv_to_json(csvfile, xmlNodes):
     os.remove(tempjson)
 
     return rjson
-
-
-def get_meta_type(file_name):
-    """
-    Get Metadata type from file name
-    return: aura/lwc/classes/objects etc.
-    """
-    paths = []
-    path, file_name = os.path.split(file_name)
-    while os.path.isdir(path):
-        path, crr_dir = os.path.split(path)
-        if crr_dir == 'src':
-            break
-        paths.append(crr_dir)
-
-    # return the sub-directory of src, that is the meta type
-    return paths[-1]

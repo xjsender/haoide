@@ -153,6 +153,12 @@
                 "args": {"dirs": [], "element": "SVG"}
             },
 
+            {
+                "caption": "Add Additional JavaScript File",
+                "command": "create_lwc_element",
+                "args": {"dirs": [], "element": "AdditionalJS"}
+            },
+
             {"caption": "-"},
 
             {

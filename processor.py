@@ -592,7 +592,7 @@ def handle_deploy_thread(base64_encoded_zip,
         result = api.result
         body = result["body"]
         if body["status"] == "Succeeded" and update_meta:
-            handle_update_aura_meta(body, element)
+            handle_update_lightning_meta(body, element)
 
     settings = context.get_settings()
     api = MetadataApi(settings)
@@ -606,13 +606,13 @@ def handle_deploy_thread(base64_encoded_zip,
     handle_thread(thread, timeout)
 
 
-def handle_update_aura_meta(body, element, timeout=120, type="AuraDefinitionBundle"):
+def handle_update_lightning_meta(body, element, timeout=120):
     """
 
     :param body: body data returned from SOAP API
-    :param element: Aura type in `COMPONENT`, `CONTROLLER`, `HELPER`, `SVG`...
+    :param element: Aura Bunlde type in `COMPONENT`, `CONTROLLER`, `HELPER`, `SVG`...
     :param timeout: timeout in second
-    :param type: type
+    :param cmp_type: type
     :return:
     """
 
@@ -628,22 +628,38 @@ def handle_update_aura_meta(body, element, timeout=120, type="AuraDefinitionBund
         if result["totalSize"] == 0:
             Printer.get("log").write("There is no component data")
             return
-        elif result["totalSize"] == 1:
+        elif result["totalSize"] == 1 and bundle_type == "AuraDefinitionBundle":
+            # save single aura definition file
             record = result["records"][0]
             cmp_meta = {
                 "name": full_name[:full_name.find('.')],
                 "extension": full_name[full_name.find('.'):],
                 "id": record["Id"],
                 "lastModifiedDate": record["LastModifiedDate"],
-                "type": type,
+                "type": bundle_type,
                 "DefType": record["DefType"]
             }
-            components_dict[type][full_name.lower()] = cmp_meta
+            components_dict[bundle_type][full_name.lower()] = cmp_meta
+            s.set(username, components_dict)
+            sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
+        elif bundle_type == "LightningComponentBundle":
+            # save multiple Lightning Component Resource files
+            for record in result["records"]:
+                _lwc, bundle_name, full_name = record["FilePath"].split("/")  # lwc/t2/t2.js-meta.xml
+
+                cmp_meta = {
+                    "name": full_name[:full_name.find('.')],  # t2.js-meta
+                    "extension": full_name[full_name.find('.'):],  # .xml
+                    "id": record["Id"],
+                    "lastModifiedDate": record["LastModifiedDate"],
+                    "type": bundle_type
+                }
+                components_dict[bundle_type][full_name.lower()] = cmp_meta
             s.set(username, components_dict)
             sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
-            # Refresh metadata settings
-            sublime.set_timeout(lambda: util.load_metadata_cache(True, settings["username"]), 5)
+        # Refresh metadata settings
+        sublime.set_timeout(lambda: util.load_metadata_cache(True, settings["username"]), 5)
 
     settings = context.get_settings()
     username = settings["username"]
@@ -656,21 +672,27 @@ def handle_update_aura_meta(body, element, timeout=120, type="AuraDefinitionBund
         component_successes = [component_successes]
 
     for item in component_successes:
-        if item["componentType"] == "AuraDefinitionBundle":
+        bundle_type = item["componentType"]
+        if bundle_type in ["AuraDefinitionBundle", "LightningComponentBundle"]:
             base_name = item["fullName"]
-            full_name = base_name + context.EXT_DICT.get(element.lower())
+            full_name = (base_name + context.EXT_DICT.get(element.lower())) \
+                if element is not None and bundle_type == "AuraDefinitionBundle" else ""
             components_dict = s.get(username, {})
 
             # Prevent exception if no component in org
-            if type not in components_dict:
-                components_dict = {type: {}}
+            if bundle_type not in components_dict:
+                components_dict = {bundle_type: {}}
 
             # Build components dict
             api = ToolingApi(settings)
-            query_str = "SELECT Id, DefType, LastModifiedDate, LastModifiedById " + \
-                        "FROM AuraDefinition WHERE AuraDefinitionBundleId = '%s' and DefType = '%s'" % (
-                            item['id'], element.upper())
-            thread = threading.Thread(target=api.query, args=(query_str,))
+            query_str = "SELECT Id, Format, LastModifiedDate, LastModifiedById "
+            if bundle_type == 'AuraDefinitionBundle':
+                query_str += ", DefType FROM AuraDefinition WHERE AuraDefinitionBundleId = '%s' and DefType = '%s'"\
+                             % (item['id'], element.upper())
+            elif bundle_type == 'LightningComponentBundle':
+                query_str += ", FilePath FROM LightningComponentResource WHERE LightningComponentBundleId = '%s'"\
+                             % (item['id'])
+            thread = threading.Thread(target=api.query, args=(query_str, True))
             thread.start()
             ThreadProgress(api, thread, "Update Component Metadata", "Update Component Metadata Finished")
             handle_thread(thread, full_name, timeout)
@@ -1096,8 +1118,8 @@ def handle_create_debug_log(user_name, user_id, timeout=120):
             return
 
         result = api.result
-        if not result["success"]: return
-        print(result)
+        if not result["success"]:
+            return
 
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -1598,6 +1620,7 @@ def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_x
             _thread.start()
 
             # Code Cache
+            # print("fileProperties:", api.result.get("fileProperties", None))
             if isinstance(api.result.get("fileProperties", None), list):
                 util.reload_file_attributes(
                     api.result["fileProperties"],

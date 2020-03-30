@@ -3,6 +3,24 @@
 Release History
 -----------------
 
+Release 3.6.0 (2020-03-30)
+++++++++++++++++++++++++++++++++++++
+* Implemented Save lwc file to Server last one
+    - Now you can save ``lwc`` HTML markup, JavaScript code, CSS file, SVG resource and **Additional JS files** to Salesforce directly by ``HaoIDE``
+* Update component metadata after Creating Lightning Web Component or `lwc` resource like CSS, SVG, Additional JS files
+* Updated related documentations.
+* Miscellaneous bug fix and refinement.
+
+
+Release 3.5.9 (2020-03-29)
+++++++++++++++++++++++++++++++++++++
+
+* Implemented Save lwc file to Server
+    - Now you can save ``lwc`` HTML markup, JavaScript code, CSS file, SVG resource and additional JS files to Salesforce separately
+* Update documents
+    - updated documentations on auto completion, debug, lwc and etc.
+* Miscellaneous bug fix and refinement
+
 
 Release 3.5.8 (2020-03-28)
 ++++++++++++++++++++++++++++++++++++

@@ -18,6 +18,7 @@ class MetadataApi:
     def __init__(self, settings, **kwargs):
         self.settings = settings
         self.api_version = settings["api_version"]
+        self.deploy_options = settings["deploy_options"]
         self.soap = SOAP(settings)
         self.session = None
         self.result = None
@@ -550,14 +551,15 @@ class MetadataApi:
         start_time = datetime.datetime.now()
 
         # Populate the soap_body with actual options
-        deploy_options = self.settings["deploy_options"]
-        
+        # move the deploy options in to class attributes from better manipulate
+        # deploy_options = self.settings["deploy_options"]
+
         # If just checkOnly, output VALIDATE, otherwise, output DEPLOY
-        deploy_or_validate = "validate" if deploy_options["checkOnly"] else "deploy"
+        deploy_or_validate = "validate" if self.deploy_options["checkOnly"] else "deploy"
 
         # [sf:deploy]
         Printer.get('log').write_start().write("[sf:%s] Start request for a deploy..." % deploy_or_validate)
-        options = deploy_options
+        options = self.deploy_options
         options["zipfile"] = base64_zip
 
         # If testLevel is Run Specified Test, 
