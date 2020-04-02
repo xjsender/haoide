@@ -525,16 +525,27 @@ def handle_reload_sobjects_completions(timeout=120):
 
 
 def handle_destructive_files(dirs_or_files, ignore_folder=True, timeout=120):
-    def handle_thread(thread, timeout=120):
+    """
+    Destruct File(s) from Salesforce org and remove from local disk via Metadata API
+    @param dirs_or_files: lightning direcotry(bundle) or files
+    @param ignore_folder: ignore the folder itself
+    @param timeout: timeout in second
+    @return: None
+    """
+
+    def handle_destruct_thread(thread, timeout=120):
         if thread.is_alive():
-            sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
+            sublime.set_timeout(lambda: handle_destruct_thread(thread, timeout), timeout)
             return
 
         # After succeed, remove dirs_or_files and related *-meta.xml from local
         if "body" in api.result and api.result["body"]["status"] == "Succeeded":
+            # Remove Component metadata cache
+            util.delete_component_attribute(dirs_or_files)
+
+            # Remove file from local disk and close the related view
             win = sublime.active_window()
             for _file_or_dir in dirs_or_files:
-                # Remove file from local disk and close the related view
                 view = util.get_view_by_file_name(_file_or_dir)
                 if view:
                     win.focus_view(view)
@@ -560,7 +571,7 @@ def handle_destructive_files(dirs_or_files, ignore_folder=True, timeout=120):
     thread = threading.Thread(target=api.deploy, args=(base64_encoded_zip,))
     thread.start()
     ThreadProgress(api, thread, "Destructing Files", "Destructing Files Succeed")
-    handle_thread(thread, timeout)
+    handle_destruct_thread(thread, timeout)
 
 
 def handle_destructive_package_xml(types, timeout=120):
@@ -578,8 +589,18 @@ def handle_destructive_package_xml(types, timeout=120):
     handle_thread(thread, timeout)
 
 
-def handle_deploy_thread(base64_encoded_zip,
-                         source_org=None, element=None, chosen_classes=[], timeout=120, update_meta=False):
+def handle_deploy_thread(base64_encoded_zip, source_org=None, element=None,
+                         chosen_classes=[], timeout=120, update_meta=False):
+    """
+    Deploy code to specified Salesforce org via Metadata API
+    @param base64_encoded_zip: code content in base64 encoded
+    @param source_org: destination Salesforce org
+    @param element: aura element in [Application, Component, Event, Controller, Helper,etc.]
+    @param chosen_classes:
+    @param timeout: timeout in second
+    @param update_meta: whether update component metadata after deployed
+    @return: None
+    """
     def handle_thread(thread, timeout=120):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -608,9 +629,9 @@ def handle_deploy_thread(base64_encoded_zip,
 
 def handle_update_lightning_meta(body, element, timeout=120):
     """
-
+    Update lightning aura/web component metadata via Tooling API after creation
     :param body: body data returned from SOAP API
-    :param element: Aura Bunlde type in `COMPONENT`, `CONTROLLER`, `HELPER`, `SVG`...
+    :param element: Aura bundle type in `COMPONENT`, `CONTROLLER`, `HELPER`, `SVG`...
     :param timeout: timeout in second
     :param cmp_type: type
     :return:
@@ -640,8 +661,6 @@ def handle_update_lightning_meta(body, element, timeout=120):
                 "DefType": record["DefType"]
             }
             components_dict[bundle_type][full_name.lower()] = cmp_meta
-            s.set(username, components_dict)
-            sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
         elif bundle_type == "LightningComponentBundle":
             # save multiple Lightning Component Resource files
             for record in result["records"]:
@@ -655,11 +674,13 @@ def handle_update_lightning_meta(body, element, timeout=120):
                     "type": bundle_type
                 }
                 components_dict[bundle_type][full_name.lower()] = cmp_meta
+
+        # Save and reload component metadata
+        if result["totalSize"] >= 1:
             s.set(username, components_dict)
             sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
-
-        # Refresh metadata settings
-        sublime.set_timeout(lambda: util.load_metadata_cache(True, settings["username"]), 5)
+            # Refresh metadata settings
+            sublime.set_timeout(lambda: util.load_metadata_cache(True, settings["username"]), 5)
 
     settings = context.get_settings()
     username = settings["username"]
@@ -1604,6 +1625,15 @@ def handle_reload_project_cache(types, callback_command, timeout=120):
 
 
 def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_xml=False, timeout=120):
+    """
+    Retrieve package via Metadata API
+    @param types: metadata type dict like {"AuraDefinitionBundle":["aura1", "aura2"]}
+    @param extract_to: target settings["workspace"]
+    @param source_org: source Salesforce org
+    @param ignore_package_xml: ignore package xml file
+    @param timeout: timeout in seconds
+    @return: None
+    """
     def handle_thread(_thread, timeout):
         if _thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(_thread, timeout), timeout)
@@ -1619,7 +1649,7 @@ def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_x
                                        args=(api.result["zipFile"], extract_to, ignore_package_xml,))
             _thread.start()
 
-            # Code Cache
+            # Code Cache in component metadata settings for saving file to server functionality
             # print("fileProperties:", api.result.get("fileProperties", None))
             if isinstance(api.result.get("fileProperties", None), list):
                 util.reload_file_attributes(
@@ -1640,7 +1670,7 @@ def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_x
 
 def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     """
-    Handle Save metadata to Salesforce
+    Handle Save metadata to Salesforce via Tooling API
     @param file_name: file name with path format
     @param is_check_only: only check the file from Salesforce, do not really save
     @param timeout: timeout in seconds
@@ -1675,8 +1705,8 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
 
                 # Backup current file
                 time_stamp = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
-                outputdir = workspace + "/" + component_name + "-" + time_stamp + "-history" + extension
-                with open(outputdir, "wb") as fp:
+                output_dir = workspace + "/" + component_name + "-" + time_stamp + "-history" + extension
+                with open(output_dir, "wb") as fp:
                     fp.write(body.encode("utf-8"))
 
             # Output succeed message in the console
@@ -1709,6 +1739,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
         # If not succeed, just go to the error line
         # Because error line in page is always at the line 1, so just work in class or trigger
         elif "success" in result and not result["success"]:
+            print('error result', result)
             # Maybe network issue
             _message = "Unknown Problem!"
             if "problem" in result:
@@ -1763,6 +1794,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
             component_id = component_attribute["id"]
             view.run_command("set_check_point", {"mark": component_id + "build_error"})
 
+    # 1. Get component attribute and body content
     component_attribute, component_name = util.get_component_attribute(file_name)
     body = open(file_name, encoding="utf-8").read()
 
@@ -1779,7 +1811,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     if username + file_base_name in globals():
         is_thread_alive = globals()[username + file_base_name]
         if is_thread_alive:
-            print('%s is in process' % file_base_name);
+            print('%s is in process' % file_base_name)
             return
 
     # Open panel
@@ -1807,6 +1839,16 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
 
 
 def handle_create_component(data, component_name, component_type, markup_or_body, file_name, timeout=120):
+    """
+    Handle create Apex Class/Trigger/Page/Component via Tooling API
+    @param data: component data to create, dict like {"name": "Aclass.cls", "body": content_body}
+    @param component_name: component name without extension
+    @param component_type: component type in [ApexClass, ApexPage, ApexTrigger, ApexComponent]
+    @param markup_or_body: content of the code
+    @param file_name: os file path
+    @param timeout: timeout in second
+    @return: None
+    """
     def handle_thread(thread, timeout):
         if thread.is_alive():
             sublime.set_timeout(lambda: handle_thread(thread, timeout), timeout)
@@ -1850,7 +1892,7 @@ def handle_create_component(data, component_name, component_type, markup_or_body
             "type": component_type,
             "is_test": lower_name.startswith("test") or lower_name.endswith("test")
         }
-        components_dict[component_type][fullName.lower()] = attributes
+        components_dict[component_type][full_name.lower()] = attributes
         s.set(username, components_dict)
 
         # Save settings and show success message
@@ -1886,9 +1928,9 @@ def handle_create_component(data, component_name, component_type, markup_or_body
     post_url = "/sobjects/" + component_type
     thread = threading.Thread(target=api.post, args=(post_url, data,))
     thread.start()
-    fullName = os.path.basename(file_name)
-    ThreadProgress(api, thread, "Creating Component %s" % fullName,
-                   "Creating Component %s Succeed" % fullName)
+    full_name = os.path.basename(file_name)
+    ThreadProgress(api, thread, "Creating Component %s" % full_name,
+                   "Creating Component %s Succeed" % full_name)
     handle_thread(thread, timeout)
 
 
