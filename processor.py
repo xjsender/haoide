@@ -1466,7 +1466,7 @@ def handle_new_project(is_update=False, timeout=120):
 
         # Makedir for subscribed meta types
         for metadata_folder in settings["subscribed_metadata_folders"]:
-            outputdir = os.path.join(extract_to, "src", metadata_folder);
+            outputdir = os.path.join(extract_to, "src", metadata_folder)
             if not os.path.exists(outputdir): os.makedirs(outputdir)
 
         # Extract the zipFile to extract_to
