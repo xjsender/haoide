@@ -3,6 +3,15 @@
 Release History
 -----------------
 
+
+Build 3.6.1 (2021-01-13)
+++++++++++++++++++++++++++++++++++++
+* Removed component metadata cache after destructing
+* Updated new Apex classes in Salesforce release v50.0
+* Updated documentations, added Issue Report Guidance
+* Miscellaneous bug fixings and refinements
+
+
 Release 3.6.0 (2020-03-30)
 ++++++++++++++++++++++++++++++++++++
 * Implemented Save lwc file to Server last one
