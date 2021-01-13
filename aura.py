@@ -196,12 +196,13 @@ class DestructLightningFromServer(sublime_plugin.WindowCommand):
         super(DestructLightningFromServer, self).__init__(*args, **kwargs)
 
     def run(self, dirs):
-        if sublime.ok_cancel_dialog("This will Delete the whole folder both from the server and local!" +
-                                    " Confirm to continue?"):
+        _, bundle_name = os.path.split(dirs[0])
+        if sublime.ok_cancel_dialog("This will Delete %s !" % bundle_name + " Confirm to continue?"):
             processor.handle_destructive_files(dirs, ignore_folder=False)
 
     def is_visible(self, dirs):
-        if len(dirs) == 0: return False
+        if len(dirs) == 0:
+            return False
         self.settings = context.get_settings()
         for _dir in dirs:
             attributes = util.get_file_attributes(_dir)
@@ -226,7 +227,7 @@ class CreateLightningElement(sublime_plugin.WindowCommand):
         template = templates.get("AuraElement").get(element)
         settings = context.get_settings()
         templates_path = os.path.join(settings["workspace"],
-            ".templates", template["directory"])
+                                      ".templates", template["directory"])
         with open(templates_path) as fp:
             body = fp.read()
 
@@ -297,7 +298,7 @@ class CreateLightningDefinition(sublime_plugin.WindowCommand):
     def run(self, _type=""):
         self._type = _type
         self.window.show_input_panel("Please Input %s Name: " % _type,
-            "", self.on_input, None, None)
+                                     "", self.on_input, None, None)
 
     def on_input(self, lightning_name):
         # Create component to local according to user input
@@ -305,7 +306,7 @@ class CreateLightningDefinition(sublime_plugin.WindowCommand):
             message = 'Invalid format, do you want to try again?'
             if not sublime.ok_cancel_dialog(message): return
             self.window.show_input_panel("Please Input %s Name: " % self._type,
-                "", self.on_input, None, None)
+                                         "", self.on_input, None, None)
             return
 
         # Get settings
@@ -326,10 +327,10 @@ class CreateLightningDefinition(sublime_plugin.WindowCommand):
             message = "%s is already exist, do you want to try again?" % lightning_name
             if not sublime.ok_cancel_dialog(message, "Try Again?"): return
             self.window.show_input_panel("Please Input Lightning Name: ",
-                "", self.on_input, None, None)
+                                         "", self.on_input, None, None)
             return
 
-        lightning_file = os.path.join(component_dir, lightning_name+template["extension"])
+        lightning_file = os.path.join(component_dir, lightning_name + template["extension"])
 
         # Create Aura lightning file
         with open(lightning_file, "w") as fp:

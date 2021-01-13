@@ -158,7 +158,8 @@ class CreateLwcElement(sublime_plugin.WindowCommand):
                                       ".templates", template["directory"])
 
         extension = template["extension"]
-        element_name = (self.lwc_name if js_file_name is None else self.lwc_name + js_file_name) + extension
+        element_name = self.lwc_name if js_file_name is None else js_file_name
+        element_name += extension
 
         # Combine lwc element component name
         element_file = os.path.join(self._dir, element_name)

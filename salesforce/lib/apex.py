@@ -697,6 +697,7 @@ apex_namespaces = {
         "Separator"
     ], 
     "System": [
+        "AccessType",
         "XmlException", 
         "RequiredFeatureMissingException", 
         "SearchException", 
@@ -737,7 +738,8 @@ apex_namespaces = {
         "ApexPages", 
         "Approval", 
         "QuickAction", 
-        "SObject", 
+        "SObject",
+        "SObjectAccessDecision",
         "AssertException", 
         "Date", 
         "Messaging", 
@@ -829,7 +831,8 @@ apex_namespaces = {
         "QueueableContextImpl", 
         "Site",
         "UserManagement",
-        "Callable"
+        "Callable",
+        "Security",
     ], 
     "Canvas": [
         "CanvasRenderException", 
@@ -864,14 +867,15 @@ apex_namespaces = {
         "EmailFileAttachment", 
         "AttachmentRetrievalOption", 
         "InboundEmailResult", 
-        "InboundEmail", 
-        "RenderEmailTemplateError", 
+        "InboundEmail",
         "EmailToSalesforceHandler", 
         "SingleEmailMessage", 
         "TextAttachment", 
         "PushNotification", 
-        "PushNotificationPayload", 
-        "RenderEmailTemplateBodyResult", 
+        "PushNotificationPayload",
+        "CustomNotification",
+        "RenderEmailTemplateBodyResult",
+        "RenderEmailTemplateError",
         "MassEmailMessage"
     ], 
     "DataProtection": [
@@ -3082,7 +3086,25 @@ apex_completions = {
         }, 
         "namespace": "Messaging", 
         "properties": {}
-    }, 
+    },
+    "customnotification": {
+        "constructors": {
+            "CustomNotification()\t": "CustomNotification()$0",
+            "CustomNotification(String typeId, String sender, String title, String body, String targetId, String targetPageRef)\t": "CustomNotification(${1:String typeId}, ${2:String sender}, ${3:String title}, ${4:String body}, ${5:String targetId}, ${6:String targetPageRef})$0"
+        },
+        "name": "CustomNotification",
+        "methods": {
+            "send(Set<String> users)\tvoid": "send(${1:Set<String> users})$0",
+            "setNotificationTypeId(String id)\tvoid": "setNotificationTypeId(${1:String id})$0",
+            "setTitle(String title)\tvoid": "setTitle(${1:String title})$0",
+            "setBody(String body)\tvoid": "setBody(${1:String body})$0",
+            "setSenderId(String id)\tvoid": "setSenderId(${1:String id})$0",
+            "setTargetId(String targetId)\tvoid": "setTargetId(${1:String targetId})$0",
+            "setTargetPageRef(String pageRef)\tvoid": "setTargetPageRef(${1:String pageRef})$0",
+        },
+        "namespace": "Messaging",
+        "properties": {}
+    },
     "sortorder": [
         {
             "constructors": {}, 
@@ -9658,7 +9680,13 @@ apex_completions = {
             "getLimitFieldsDescribes()\tInteger": "getLimitFieldsDescribes()$0", 
             "getChildRelationshipsDescribes()\tInteger": "getChildRelationshipsDescribes()$0", 
             "getHeapSize()\tInteger": "getHeapSize()$0", 
-            "getPickListDescribes()\tInteger": "getPickListDescribes()$0"
+            "getPickListDescribes()\tInteger": "getPickListDescribes()$0",
+            "getMobilePushApexCalls()\tInteger": "getMobilePushApexCalls()$0",
+            "getLimitMobilePushApexCalls()\tInteger": "getLimitMobilePushApexCalls()$0",
+            "getPublishImmediateDML()\tInteger": "getPublishImmediateDML()$0",
+            "getLimitPublishImmediateDML()\tInteger": "getLimitPublishImmediateDML()$0",
+            "getQueueableJobs()\tInteger": "getQueueableJobs()$0",
+            "getLimitQueueableJobs()\tInteger": "getLimitQueueableJobs()$0",
         }, 
         "namespace": "Limits", 
         "name": "Limits"
@@ -23310,5 +23338,38 @@ apex_completions = {
         "properties": {
             "fileCount": "fileCount$0"
         }
-    }
+    },
+    "security": {
+        "constructors": {},
+        "name": "Security",
+        "methods": {
+            "stripInaccessible(System.AccessType accessCheckType, List<SObject> sourceRecords, Boolean enforceRootObjectCRUD)\tSystem.SObjectAccessDecision": "stripInaccessible(${1:System.AccessType accessCheckType}, ${2:List<SObject> sourceRecords}, ${3:Boolean enforceRootObjectCRUD})$0",
+            "stripInaccessible(System.AccessType accessCheckType, List<SObject> sourceRecords)\tSystem.SObjectAccessDecision": "stripInaccessible(${1:System.AccessType accessCheckType}, ${2:List<SObject> sourceRecords})$0",
+        },
+        "namespace": "System",
+        "properties": {}
+    },
+    "accesstype": {
+        "constructors": {},
+        "name": "AccessType",
+        "methods": {},
+        "namespace": "System",
+        "properties": {
+            "CREATABLE": "CREATABLE$0",
+            "READABLE": "READABLE$0",
+            "UPDATABLE": "UPDATABLE$0",
+            "UPSERTABLE": "UPSERTABLE$0",
+        }
+    },
+    "sobjectaccessdecision": {
+        "constructors": {},
+        "name": "SObjectAccessDecision",
+        "methods": {
+            "getModifiedIndexes()\tSet<Integer>": "getModifiedIndexes()$0",
+            "getRecords()\tList<SObject>": "getRecords()$0",
+            "getRemovedFields()\tMap<String,Set<String>>": "getRemovedFields()$0",
+        },
+        "namespace": "System",
+        "properties": {}
+    },
 }

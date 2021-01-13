@@ -31,13 +31,17 @@ def load_sobject_cache(reload_cache=False, username=None):
 
 
 class PackageCompletions(sublime_plugin.EventListener):
+    """
+    Completions for Package.xml
+    """
     def on_query_completions(self, view, prefix, locations):
         if not view.match_selector(locations[0], "text.xml"):
             return []
 
         # Check whether current file is package file
         pattern = "<types>[\\s.*<>\\-\\w/\\%1-9]+</types>"
-        if not view.find_all(pattern): return
+        if not view.find_all(pattern):
+            return
 
         location = locations[0]
         pt = locations[0] - len(prefix) - 1
