@@ -10,6 +10,7 @@
         "characters": ".<: =#\"",
         "selector": "text.html - source"
     }, {
-        "selector": "source.js", "characters": "."
+        "selector": "source.js,source.ts", 
+        "characters": "/."
     }]
 }

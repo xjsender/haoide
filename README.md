@@ -1,7 +1,7 @@
 # Sublime IDE for Salesforce
-This plugin supports [Sublime Text 3](http://www.sublimetext.com/3) for windows and OSX, not tested for Linux.
+This plugin supports [Sublime Text 3](http://www.sublimetext.com/3) for windows and OSX, has not enough testing for Linux yet.
 
-All of my motivation on this plugin come from your star, if you think this plugin is helpful in your daily work, please **star** this plugin.
+All of our motivation on this plugin come from your star, if you think this plugin is helpful in your daily work, please **star** this plugin.
 
 # Installation
 
@@ -14,7 +14,7 @@ Or, You can follow the step-by-step [instruction](https://meighanrockssf.wordpre
 # Project Configuration
 After you have installed this plugin successfully, you can follow <a href="/docs/project.md" target="_blank">Project Configuration</a> to configure your own project.
 
-If you don't want to keep your user credential information in the plugin , you just need to do it as below format, plugin will lanuch the browser to start OAuth2 Login process,
+If you don't want to keep your user credential information in the plugin , you just need to do it as below format, plugin will launch the browser to start OAuth2 Login process,
 ```javascript
 "projects": {
   "pro-sublime": {
@@ -43,15 +43,16 @@ If you don't want to keep your user credential information in the plugin , you j
 * <a href="/docs/debug.md" target="_blank">Debug and Test</a>
 * <a href="/docs/retrieve.md" target="_blank">Retrieve</a>
 * <a href="/docs/deploy.md" target="_blank">Deploy</a>
+* <a href="https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif" target="_blank">Lightning Aura Component Development</a>
+* <a href="/docs/lwc.md" target="_blank">Lightning Web Component Development</a>
 * <a href="/docs/staticresource.md" target="_blank">Static Resource Bundle</a>
 * <a href="/docs/export.md" target="_blank">Export CSV</a>
 * <a href="/docs/utilities.md" target="_blank">Salesforce Utilities</a>
 * <a href="/docs/json2apex.md" target="_blank">Convert JSON to Apex</a>
-* <a href="/docs/rest.md" target="_blank">REST Test</a>
+* <a href="/docs/rest.md" target="_blank">REST API Support</a>
 * <a href="/docs/dataloader.md" target="_blank">Data Loader</a>
 * <a href="/docs/document.md" target="_blank">Document Quick Reference</a>
 * <a href="/docs/plugin.md" target="_blank">Plugin Operation</a>
-* <a href="https://github.com/xjsender/SublimeApexScreenshot/raw/master/LightingDevelopment.gif" target="_blank">Lighting Development</a>
 * <a href="https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/Completions.gif" target="_blank">Completions Demo</a>
 * <a href="http://docs.python-requests.org/en/latest/user/advanced/#proxies" target="_blank">Request Proxies</a>
 
@@ -62,6 +63,12 @@ If you don't want to keep your user credential information in the plugin , you j
   > - [xmlformatter](https://pypi.python.org/pypi/xmlformatter/)
   > - [Salesforce oAuth2](https://github.com/neworganizing/salesforce-oauth2)
   > - [SalesforceXyTools](https://github.com/exiahuang/SalesforceXyTools)
+
+# Feedback & Contribution
+Feel free to open issues, but you should refer to the <a href="/docs/issue.md" target="_blank">Raise Issue</a> before
+reporting any bug.
+
+well welcome to any contribution, open an issue for discussion before draft you code.
 
 # Q&A
 + ``Refresh Package`` vs ``Update Project``
@@ -77,7 +84,7 @@ If you don't want to keep your user credential information in the plugin , you j
     * ``Deploy to Server`` is achieved by ``Metadata API`` tech, which is usually used to develop none-apex in sandbox, deploy any components into different org or production
 
 + What's the usage of ``Update Project Pattern`` command?
-    * Everytime when you udpate the ``file_exclude_patterns`` or ``folder_exclude_patterns``, you must execute ``Update Project Pattern`` command to ensure it is working.
+    * Everytime when you update the ``file_exclude_patterns`` or ``folder_exclude_patterns``, you must execute ``Update Project Pattern`` command to ensure it is working.
     * Everytime when the default project doesn't appeared in the sidebar panel, you an use this command to show the default project.
 
 + If you failed to deploy package after release 3.3.7

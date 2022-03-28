@@ -4,6 +4,10 @@
     <target>lightning__AppPage</target>
     <target>lightning__RecordPage</target>
     <target>lightning__HomePage</target>
+    <target>lightning__Inbox</target>
+    <target>lightningCommunity__Page</target>
+    <target>lightningCommunity__Default</target>
+    <target>lightningSnapin__ChatMessage</target>
 </targets>
 ]]></content>
     <tabTrigger>targets</tabTrigger>

@@ -64,6 +64,12 @@
         </tr>
         <tr>
             <td>Apex</td>
+            <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/Apex/Class Header - class header.sublime-snippet" target="_blank">ch</a></td>
+            <td>source.java, source.apex</td>
+            <td>Class Header</td>
+        </tr>
+        <tr>
+            <td>Apex</td>
             <td><a href="https://github.com/xjsender/haoide/blob/master/config/snippets/Apex/Class Body - class comments.sublime-snippet" target="_blank">class comments</a></td>
             <td>source.java, source.apex</td>
             <td>Class Comments</td>

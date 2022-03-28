@@ -1,25 +1,79 @@
 .. :changelog:
 
 Release History
+-----------------
 
----------------
+
+Build 3.6.1 (2021-01-13)
+++++++++++++++++++++++++++++++++++++
+* Removed component metadata cache after destructing
+* Updated new Apex classes in Salesforce release v50.0
+* Updated documentations, added Issue Report Guidance
+* Miscellaneous bug fixings and refinements
+
+
+Release 3.6.0 (2020-03-30)
+++++++++++++++++++++++++++++++++++++
+* Implemented Save lwc file to Server last one
+    - Now you can save ``lwc`` HTML markup, JavaScript code, CSS file, SVG resource and **Additional JS files** to Salesforce directly by ``HaoIDE``
+* Update component metadata after Creating Lightning Web Component or `lwc` resource like CSS, SVG, Additional JS files
+* Updated related documentations.
+* Miscellaneous bug fix and refinement.
+
+
+Release 3.5.9 (2020-03-29)
+++++++++++++++++++++++++++++++++++++
+
+* Implemented Save lwc file to Server
+    - Now you can save ``lwc`` HTML markup, JavaScript code, CSS file, SVG resource and additional JS files to Salesforce separately
+* Update documents
+    - updated documentations on auto completion, debug, lwc and etc.
+* Miscellaneous bug fix and refinement
+
+
+Release 3.5.8 (2020-03-28)
+++++++++++++++++++++++++++++++++++++
+
+* Refined Code coverage functionality:
+   - View code coverage for certain Apex class/trigger file via context menu
+   - View code coverage from (async) Test Result via context menu
+* Miscellaneous bug fix and update
+
+
+Release 3.5.7 (2020-03-26)
+++++++++++++++++++++++++++++++++++++
+
+* Refine Creating Lightning Web Component (``lwc``) process
+* Add Retrieving, Destructing, Deploying lwc from both sidebar and context menu
+* Add Creating CSS style, SVG file for lwc in context menu
+* Fix auto completion for aura component bug
+* Fix issue #198
+
+
+Release 3.5.4 (2019-07-31)
+++++++++++++++++++++++++++++++++++++
+* Add component tag attr desc completion when hover on attr
+* Add user interface api doc reference toc
+* lwc supports label, staticresource, custom object and fields import
+* Enhancement for lwc boolean attr completion
+* Fix bug for meta file deployment
 
 
 Release 3.5.4 (2018-02-12)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #172
 * Fix issue #173
 
 
 Release 3.5.3 (2018-02-06)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Add missing base components from lightning developer guide by script: https://gist.github.com/xjsender/265d237fbeafebabff6c8669f9359fff#file-read-json-from-lightning-compnent-js
 * Add $A.localizationService lib
 * Fix some minor bugs
 
 
 Release 3.5.2 (2018-02-03)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Support oAuth2 Login, check https://github.com/xjsender/haoide#project-configuration for guide
 * Add Lightning event methods completion
 * Add customlabel and staticresource completions for lightning component
@@ -34,12 +88,12 @@ Release 3.5.2 (2018-02-03)
 
 
 Release 3.5.1 (2018-01-25)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Basic completion support for component controller or helper
 
 
 Release 3.5.0 (2018-01-21)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Add aura component and attribute completion, contributed by @lushang
 * Add some missed base component
 * Add lightning component implements completion
@@ -52,7 +106,7 @@ Release 3.5.0 (2018-01-21)
 
 
 Release 3.4.7 (2017-07-29)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Really and still busy on project delivery work in the past year, will continue in the next days.
 * New Fetaure: Combine package.xml in selected folders
 * New Feature: Custom Label completion support, which is fetched from ``project/.config/package.json`` by ``Reload Project Cache`` command
@@ -61,7 +115,7 @@ Release 3.4.7 (2017-07-29)
 
 
 Release 3.4.6 (2016-09-26)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Deliver enhancement for issue #132
 * Deliver enhancement for issue #134
 * Deliver enhancement for issue #140
@@ -69,7 +123,7 @@ Release 3.4.6 (2016-09-26)
 
 
 Release 3.4.5 (2016-06-16)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix bug: sublime will be closed when view debug log by logId with pressing alt + dblclick left mouse
 * Fix issue #126
 * Deliver feature #119
@@ -77,12 +131,12 @@ Release 3.4.5 (2016-06-16)
 
 
 Release 3.4.4 (2016-06-11)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix Urgent ``FileNotFoundError`` problem when create new code
 
 
 Release 3.4.3 (2016-06-06)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Hide ``execute query`` command in the context menu, use ``REST TEST Query`` instead
 * Rename Snippet ``HttpRequest - Authorization Basic Credentials.sublime-snippet`` to ``HttpRequest - Callout.sublime-snippet``
 * Add new snippet named ``Page - loading action status.sublime-snippet``
@@ -93,12 +147,12 @@ Release 3.4.3 (2016-06-06)
 
 
 Release 3.4.2 (2016-05-23)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Change api version back to 35, fix issue #116
 
 
 Release 3.4.1 (2016-05-23)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #113
 * Fix issue #115
 * Fix Bug for conflict checking bug caused by solution for issue #108
@@ -107,7 +161,7 @@ Release 3.4.1 (2016-05-23)
 
 
 Release 3.4.0 (2016-05-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Deliver enhancement for issue #108
 - Deliver enhancement for issue #111
 - Fix bug when test class failed caused by dependency compilation
@@ -126,7 +180,7 @@ Release 3.4.0 (2016-05-20)
 
 
 Release 3.3.9 (2016-04-18)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Force login every two hours
 * Add retry operation for list package if session is expired
 * Change display format for REST TEST Response, add a new setting ``remove_slash_for_rest_response``
@@ -138,7 +192,7 @@ Release 3.3.9 (2016-04-18)
 
 
 Release 3.3.8 (2016-04-12)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Enhancement for code template, welcome new template pull request
 * Add runSpecifiedTest support for deploying files
 * Change mousemap key mapping, see more detail at Q&A
@@ -146,7 +200,7 @@ Release 3.3.8 (2016-04-12)
 
 
 Release 3.3.7 (2016-03-28)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #88
 * Fix issue #99, problem of ``reload document``
 * Deliver enhancement for issue #96
@@ -154,7 +208,7 @@ Release 3.3.7 (2016-03-28)
 
 
 Release 3.3.6 (2016-03-28)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #98
 * Add ``Return to First Step`` feature when open documentation by type
 * Remove build-in reference settings which is replaced ``Reload Salesforce Document``
@@ -163,7 +217,7 @@ Release 3.3.6 (2016-03-28)
 
 
 Release 3.3.5 (2016-03-26)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Greatly improve performance of code completion
 * Fix invalid scope problem for custom class completion
 * Enhancement for document reference
@@ -171,7 +225,7 @@ Release 3.3.5 (2016-03-26)
 
 
 Release 3.3.4 (2016-03-23)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #93
 * Fix issue #97
 * Optimize for methods in ``metadata.py``
@@ -179,19 +233,19 @@ Release 3.3.4 (2016-03-23)
 
 
 Release 3.3.3 (2016-03-14)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #94
 * Enhance ``refresh package`` command
 * Add package.xml update support for command ``build_package_xml``
 
 
 Release 3.3.2 (2016-03-12)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #92
 
 
 Release 3.3.1 (2016-03-11)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Rename ``deploy_package_to_server`` command to ``deploy_package``
 * Add new command ``refresh_package``, see issue #91 for detail
 * Add LastModifiedBy check for conflict check logic, see issue #89
@@ -199,14 +253,14 @@ Release 3.3.1 (2016-03-11)
 
 
 Release 3.3.0 (2016-03-11)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Deliver enhancement #91
 * Fix bug issue #92
 * Fix package.xml onload XML parse exception
 
 
 Release 3.2.9 (2016-03-10)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Enhancement for ``role hierarchy exporting``
 * Add new settings ``include_users_in_role_hierarchy`` to control whether including user in the CSV
 * Deliver new feature, see issue #89
@@ -215,7 +269,7 @@ Release 3.2.9 (2016-03-10)
 
 
 Release 3.2.8 (2016-02-26)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #88
 * Fix bug for ``export workflow rules`` feature
 * Add parameter ``vertical`` for ``export_data_template`` command for exporting Layout Workbook
@@ -224,55 +278,55 @@ Release 3.2.8 (2016-02-26)
 
 
 Release 3.2.7 (2015-12-21)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #86
 
 
 Release 3.2.6 (2015-12-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #84
 * Fix issue #85
 * New ``Export > Export Role Hierarchy`` command
 
 
 Release 3.2.5 (2015-12-15)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix urgent bug issue #83
 * Fix urgent bug for sobject cache reloading
 * Remove ``allowed_sobjects`` setting
 
 
 Release 3.2.4 (2015-12-09)
-++++++++++++++++++
-* Enhancement for lighting development
+++++++++++++++++++++++++++++++++++++
+* Enhancement for lightning development
 * Add new command for creating ``SVG`` and ``design``
-* Update lighting related library
+* Update lightning related library
 * Change default ``api_version`` from ``34`` to ``35``
 
 
 Release 3.2.3 (2015-12-01)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
-    Fix bug for lighting development when deploying cmp or app
+    Fix bug for lightning development when deploying cmp or app
 
 * Enhancement:
-    - Display the lighting type in the input panel when creating lighting components
+    - Display the lightning type in the input panel when creating lightning components
     - Change ``No change`` to ``no difference`` in non-difference message when executing ``diff_with_server`` command
 
 * Update:
-    - Remove four commands ``create_lighting_application``, ``create_lighting_component``, ``create_lighting_interface``, ``create_lighting_event``, bind the four features to ``create_lighting_definition`` by difference ``_type``
+    - Remove four commands ``create_lightning_application``, ``create_lightning_component``, ``create_lightning_interface``, ``create_lightning_event``, bind the four features to ``create_lightning_definition`` by difference ``_type``
     - Optimize completion for Boolean attribute in the html related page
     - Stop keeping useless ``settings.json`` to ``.config`` folder
 
 
 Release 3.2.2 (2015-11-19)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Fix TypeError when export soql to csv
     - Fix aura app preview problem
     - Fix bug for missing standard Objects when retrieve all
     - Fix bug for `deploy selected open files` fetaure
-    - Fix instance parse problem for lighting app preview
+    - Fix instance parse problem for lightning app preview
     - Fix bug of aura helperjs or controoler deploy
 
 * New Feature:
@@ -284,25 +338,25 @@ Release 3.2.2 (2015-11-19)
 
 
 Release 3.2.1 (2015-11-10)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #81
 
 
 Release 3.2.0 (2015-10-07)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Deliver enhancement #73
 * Deliver enhancement #77
 
 
 Release 3.1.9 (2015-08-26)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #71, export workbooks by user input
 * Fix bug for visibility problem of ``Retrieve Package.xml``
 * Add bootstrap3 support for styleClass attribute of salesforce standard components
 
 
 Release 3.1.8 (2015-08-08)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Fix bug for bootstrap3 completion
     - Fix bug for ``toggle_metadata_objects`` command if project is not initiated
@@ -326,7 +380,7 @@ Release 3.1.8 (2015-08-08)
 
 
 Release 3.1.7 (2015-08-05)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Enhancement:
     - Add `with sharing` for `Utility Class` in template
     - When you want to view code coverage, if you didn't download code, you can't view code coverage and you will get the reminder message in the status bar
@@ -347,7 +401,7 @@ Release 3.1.7 (2015-08-05)
 
 
 Release 3.1.6 (2015-07-29)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug fix:
     - If controller name is same with page name, there will have problem when view code coverage
     - Fix bug when file is loaded
@@ -361,7 +415,7 @@ Release 3.1.6 (2015-07-29)
 
 
 Release 3.1.5 (2015-07-27)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * New Feature:
     - Add bootstrap3 support for html class completion
     - Add a new setting ``disable_bootstrap_completion`` to control bootstrap completion
@@ -375,7 +429,7 @@ Release 3.1.5 (2015-07-27)
 
 
 Release 3.1.4 (2015-07-25)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Fix issue #23?
     - Fix issue #58
@@ -387,8 +441,8 @@ Release 3.1.4 (2015-07-25)
     - Add keymap for some frequently-used commands
     - Add visibility control for some CURD command on code file
     - Aura related features
-    - Merge ``Deploy Lighting To Server`` command with ``Deploy File to Server`` command
-    - Merge ``Retrieve Lighting To Server`` command with ``Retrieve File to Server`` command
+    - Merge ``Deploy Lightning To Server`` command with ``Deploy File to Server`` command
+    - Merge ``Retrieve Lightning To Server`` command with ``Retrieve File to Server`` command
     - Use file full name as key in ``component_metadata.sublime-settings``, originally, we use name as key, for example, originally, ``AccountController`` is key, now is ``AccountController.cls``
     - Change ``Diff With Server`` command to just visible when code file is ``classes, triggers, components or pages``
 
@@ -404,18 +458,18 @@ Release 3.1.4 (2015-07-25)
 
 
 Release 3.1.3 (2015-07-18)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #54
 * Fix issue #56
 
 
 Release 3.1.2 (2015-07-17)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #55
 
 
 Release 3.1.1 (2015-07-16)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug fix:
     - Fix a issue for ``save_to_server`` command when ``api_version`` is less than 29
     - Fix problem in ``Class Body - test data util body-sublime-snippet.sublime-snippet``
@@ -434,7 +488,7 @@ Release 3.1.1 (2015-07-16)
 
 
 Release 3.1.0 (2015-07-09)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Enhancement:
     - Sometimes, the inner class name is same with standard class or sObject, if this inner class is matched, ignore the standard completion
     - Add Notation [EU] for external or unique field in field completion, ``E`` means External, ``U`` means Unique
@@ -454,7 +508,7 @@ Release 3.1.0 (2015-07-09)
 
 
 Release 3.0.9 (2015-07-01)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Fix bug for snippet ``SOQL - SELECT * FROM.sublime-snippet``
     - Fix bug for ``extract_to_here`` command
@@ -465,7 +519,7 @@ Release 3.0.9 (2015-07-01)
 
 
 Release 3.0.8 (2015-06-28)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Fix bug when build package.xml for whole org
 
@@ -481,7 +535,7 @@ Release 3.0.8 (2015-06-28)
 
 
 Release 3.0.7 (2015-06-26)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Fix issue #46
     - Fix bugs caused by ``describe_global`` change in the ``tooling.py``
@@ -496,7 +550,7 @@ Release 3.0.7 (2015-06-26)
 
 
 Release 3.0.6 (2015-06-23)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Merge pull request #42 by @pgAdmin(https://github.com/pgAdmin)
     - Merge pull request #43 by @reyesml(https://github.com/reyesml), fixed issue #6
@@ -504,7 +558,7 @@ Release 3.0.6 (2015-06-23)
 
 
 Release 3.0.5 (2015-06-15)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Custom component attributes completion bug when component file is not exist in the target path
 
@@ -513,7 +567,7 @@ Release 3.0.5 (2015-06-15)
 
 
 Release 3.0.4 (2015-06-15)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Fix bug for issue #41
     - Fix bug for ``delete_file_from_server`` keybinding for windows
@@ -535,7 +589,7 @@ Release 3.0.4 (2015-06-15)
 
 
 Release 3.0.3 (2015-06-11)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Fix duplicate save check bug caused by release 3.0.2
     - Fix fields completion bug for cross sObjects between tooling and non-tooling, for example ``User``, ``RecordType``
@@ -549,7 +603,7 @@ Release 3.0.3 (2015-06-11)
 
 
 Release 3.0.2 (2015-06-07)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug fix:
     - Fix NoneType exception in the console when open context menu, this is caused by release 3.0.1
     - Fix bug for ``Debug > Track All Debug Logs`` in the main menu
@@ -572,7 +626,7 @@ Release 3.0.2 (2015-06-07)
 
 
 Release 3.0.1 (2015-06-04)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug fix:
     - Fix bug #39
     - Fix bug #40
@@ -594,7 +648,7 @@ Release 3.0.1 (2015-06-04)
 
 
 Release 3.0.0 (2015-05-26)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug fix:
     - Fix bug #38
     - Fix bug for SOQL fields completion
@@ -605,7 +659,7 @@ Release 3.0.0 (2015-05-26)
 
 
 Release 2.9.9 (2015-05-25)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Enhancement
     - SOQL fields completion, see demo at plugin home page
 
@@ -614,7 +668,7 @@ Release 2.9.9 (2015-05-25)
     
 
 Release 2.9.8 (2015-05-24)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Update:
     - Update the plugin install message for package control
 
@@ -631,7 +685,7 @@ Release 2.9.8 (2015-05-24)
 
 
 Release 2.9.7 (2015-05-22)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Fix issue #36
     - Fix bug for ``childXmlNames`` parsing and ``childXmlNames`` completion for package.xml
@@ -655,7 +709,7 @@ Release 2.9.7 (2015-05-22)
 
 
 Release 2.9.6 (2015-05-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Fix issue #33
     - Fix issue #35
@@ -677,7 +731,7 @@ Release 2.9.6 (2015-05-20)
 
 
 Release 2.9.5 (2015-05-16)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Enhancement:
     - Add callback for ``toggle_metadata_objects`` if ``.config/metadata.json`` is not exist
     - Move ``export_query_to_csv`` command from context menu to ``Data Loader`` in the main menu, add check logic for input soql and allow to try again.
@@ -701,7 +755,7 @@ Release 2.9.5 (2015-05-16)
 
 
 Release 2.9.4 (2015-05-13)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - If there is only one member, just remove the type and the related member when ``build package xml``
     - When execute ``query_to_csv`` command and field value contains ``"`` or ``,``
@@ -722,7 +776,7 @@ Release 2.9.4 (2015-05-13)
 
 
 Release 2.9.3 (2015-05-11)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Enhancement:
     - Package.xml completion read cache from ``.config/package.json``, no longer read cache from project file
     - Sort for items in quick panel of package.xml building
@@ -734,7 +788,7 @@ Release 2.9.3 (2015-05-11)
 
 
 Release 2.9.2 (2015-05-10)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Bug Fix:
     - Fix bug for ``combine_soql`` which is invoked by ``Generate SOQL`` and ``Bulk Query``
     - Fix bug for ``export_profile`` command
@@ -764,7 +818,7 @@ Release 2.9.2 (2015-05-10)
 
 
 Release 2.9.1 (2015-05-05)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix bug for ``switch_project``, see issue #24
 * Enhancement for speeding up ``Save To Server`` operation
 * Rename ``save_component`` command to ``save_to_server``
@@ -775,7 +829,7 @@ Release 2.9.1 (2015-05-05)
 
 
 Release 2.9.0 (2015-05-03)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix bug for messy code in debug log detail
 * Enhancement for not refreshing sidebar when ``retrieve_files_from_other_server``
 * Enhancement for adding folder name to retrieve request when ``list_package`` for folders
@@ -792,7 +846,7 @@ Release 2.9.0 (2015-05-03)
 
 
 Release 2.8.9 (2015-04-28)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix urgent bug for issue #22
 * Enhancement for speeding up ``Save To Server`` operation
 * Enhancement for supporting ``list_package`` when execute retrieve operation
@@ -803,7 +857,7 @@ Release 2.8.9 (2015-04-28)
 
 
 Release 2.8.8 (2015-04-26)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix bug: If user don't have `Author Apex` privilege, plugin will give wrong information
 * Fix bug: Show alert message if no available package.xml to combine
 * Enhancement: Issue 15 about linking ``sublime-project`` with plugin project, deliver Windows solution but keep unchanged for OSX
@@ -814,7 +868,7 @@ Release 2.8.8 (2015-04-26)
 
 
 Release 2.8.7 (2015-04-22)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix plugin loading NoneType issue
 * Combine ``retrieve_package_file`` and ``retrieve_package_xml`` command to only ``retrieve_package_xml``
 * Allow user to input extractTo path, enhancement for issue #19
@@ -823,7 +877,7 @@ Release 2.8.7 (2015-04-22)
 
 
 Release 2.8.6 (2015-04-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Optimization for parsing project name by path or file
 * Change the default workspace of plugin level to empty
 * Change the workspace to optional, if workspace of plugin level and project level are both empty, plugin will save the project to ``<packages_path>/User/HaoIDE``, 
@@ -835,7 +889,7 @@ Release 2.8.6 (2015-04-20)
 
 
 Release 2.8.5 (2015-04-10)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Biggest optimization for variable completion:
     - Exclude comment statement
     - Choose the nearest matched one
@@ -844,7 +898,7 @@ Release 2.8.5 (2015-04-10)
 
 
 Release 2.8.4 (2015-04-09)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Add error popup display for latest version of sublime
 * Add a new settings ``disable_html_completion`` to disable html completion
 * Set default value of ``disable_html_completion`` as true because of conflict with sublime
@@ -859,13 +913,13 @@ Release 2.8.4 (2015-04-09)
 
 
 Release 2.8.3 (2015-04-02)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * If no CRUD privilege on profile object, just leave blank in the output csv
 * Add field FLS export feature, it's a wonderful feature for document
 
 
 Release 2.8.2 (2015-03-28)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix package.xml completion bug if file name contains multiple dot
 * Fix package.xml completion bug if there have extracted zip resource
 * Pull request for #14
@@ -875,19 +929,19 @@ Release 2.8.2 (2015-03-28)
 
 
 Release 2.8.1 (2015-03-05)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #6
 * Enhancement for issue #13
 
 
 Release 2.8.0 (2015-02-11)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #11, #12
 * Add two commands ``Retrieve All`` and ``Retrieve sObject and Workflow`` in the command palette
 
 
 Release 2.7.9 (2015-02-06)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #4
 * Fix issue #7
 * Enhancement for ``diff_with_server``, allow diff compare with different project
@@ -896,19 +950,19 @@ Release 2.7.9 (2015-02-06)
 
 
 Release 2.7.8 (2015-02-02)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Rename ``refresh_component`` command to ``refresh_file_from_server``
 * Rename ``refresh_selected_components`` command to ``refresh_files_from_server``
 * Rename ``delete_selected_components`` command to ``delete_files_from_server``
 * Add a new command for ``retrieve file from other server`` for retrieve file from different project.
-* Add a settings ``switch_back_after_migration`` to control whether switch back to original project after ``deploy to server``, ``deploy package to server``, ``deploy lighting to server`` or ``retrieve file from other server``, issue haoide:#3
+* Add a settings ``switch_back_after_migration`` to control whether switch back to original project after ``deploy to server``, ``deploy package to server``, ``deploy lightning to server`` or ``retrieve file from other server``, issue haoide:#3
 * Fix issue #5
 * Move ``pretty_json`` command from context menu to ``HaoIDE > Utilities > JSON Pretty`` in the main menu
 * Update README.MD
 
 
 Release 2.7.7 (2015-01-22)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix bug for ``Package.xml Completion``
 * Enhancement: display error column in XML if deploy failed
 * Enhancement for ``json_to_apex``
@@ -920,7 +974,7 @@ Release 2.7.7 (2015-01-22)
 
 
 Release 2.7.6 (2015-01-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Enhancement for ``create_trace_flag`` command
 * Add a enabled check logic for ``export profiles`` command
 * Add a new ``haoide > Utilities > Convert JSON to Apex`` command for converting JSON to Apex
@@ -929,7 +983,7 @@ Release 2.7.6 (2015-01-20)
 
 
 Release 2.7.5 (2015-01-18)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix bug: messy code when view debug log detail in sublime
 * Fix bug: timeout exception is not caught when save component
 * Enhancement for completions
@@ -939,7 +993,7 @@ Release 2.7.5 (2015-01-18)
 
 
 Release 2.7.4 (2015-01-16)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix bug for issue #75
 * Update ``Chanel`` to ``Channel`` in the plugin copyright information
 * Update license information
@@ -951,7 +1005,7 @@ Release 2.7.4 (2015-01-16)
 
 
 Release 2.7.3 (2015-01-14)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix bug for ``extract here`` command
 * Fix bug for ``bulk api`` caused by release 2.7.2
 * Fix long-term bug for inProgress message of deployment
@@ -963,7 +1017,7 @@ Release 2.7.3 (2015-01-14)
 
 
 Release 2.7.2 (2015-01-12)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix bug for issue #74
 * Fix bug for ``cancel_deployment``
 * Fix bug for ``reload symbol table`` when symbol_table is None
@@ -975,7 +1029,7 @@ Release 2.7.2 (2015-01-12)
 
 
 Release 2.7.1 (2015-01-09)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Enhancement for ``standardController completion`` in ``<apex:page standardController=""``
 * Enhancement for ``{!acc.} completion`` in visualforce page
 * Enhancement for ``diff module``
@@ -983,7 +1037,7 @@ Release 2.7.1 (2015-01-09)
 
 
 Release 2.7.0 (2015-01-03)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Rearrange the menu items of ``Login To`` in alphabetical order
 * New format: ``LastName + FirstName => Email`` for ``Debug Log User List``
 * Milestone change for soap body request
@@ -997,21 +1051,21 @@ Release 2.7.0 (2015-01-03)
 
 
 Release 2.6.0 (2014-12-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Enhancement for ``refresh_folder``
 * Enhancement for ``retrieve_all`` and ``retrieve_sobjects_and_workflows``
 * Move export csv files to ``.export`` folder, for example, CustomFields, ValidationRules, Workflows and Workbooks, etc.
 
 
 Release 2.5.9 (2014-12-17)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Completion enhancement for building package.xml
 * Fix duplicate MetadataContainerId for issue #69
 * `Build Package.xml Demo <https://raw.githubusercontent.com/xjsender/SublimeApexScreenshot/master/BuildPackageXML.gif>`_
 
 
 Release 2.5.8 (2014-12-15)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Add all ``sharingRules`` metadata types to default components setting
 * Rename ``.package`` to ``.deploy`` for ``deploy to server`` execution
 * Remove ``subscribe_component`` and ``unsubscribe_component`` commands
@@ -1023,7 +1077,7 @@ Release 2.5.8 (2014-12-15)
 
 
 Release 2.5.7 (2014-12-14)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix Bug for creating extension or controller after input # in visualforce page
 * Adjust the location of ``Cache`` menu item
 * Add a new command for ``retrieve package.xml`` in sidebar menu
@@ -1038,28 +1092,28 @@ Release 2.5.7 (2014-12-14)
 
 
 Release 2.5.6 (2014-12-13)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix Bug for issue #65
 * Fix Bug for issue #66
 * Enhancement for issue #48, after deployed, the `package.xml` is saved to `.package` in workspace
 * Before files are deployed to server, save them to local
-* When you deploy any lighting element, just deploy the whole lighting component
+* When you deploy any lightning element, just deploy the whole lightning component
 * Convert StartTime of debug log to local time by timezone module
 
 
 Release 2.5.5 (2014-12-09)
-++++++++++++++++++
-* Fix Bug for creating Lighting Component Element
+++++++++++++++++++++++++++++++++++++
+* Fix Bug for creating Lightning Component Element
 * When deploy failed due to lower code coverage, display the coverage warning message
 * When new component is created, create the meta.xml file for it
-* Hide ``Retrieve Lighting from Server`` command when chosen folder is not aura folder
-* Hide ``Destruct Lighting from Server`` command when chosen folder is not aura folder
+* Hide ``Retrieve Lightning from Server`` command when chosen folder is not aura folder
+* Hide ``Destruct Lightning from Server`` command when chosen folder is not aura folder
 * Hide ``Extract to Here`` command if file extension is not `zip` or `resource`
 * Update the Documentation
 
 
 Release 2.5.4 (2014-12-07)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Add `dateutil` module for supporting timezone converting
 * Fix Bug for `track debug log`
 * Trim the space for `REST URI` automatically
@@ -1068,45 +1122,45 @@ Release 2.5.4 (2014-12-07)
 
 
 Release 2.5.3 (2014-12-05)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Adjust the context menu from most bottom to center
 * Adjust the sidebar menu from most bottom to center
 * Fix Bug for issue #62: 'module' object has no attribute 'populate_classes'
 * Fix Bug for issue #61: KeyError: 'name' in `get_component_completion`
 * Fix Bug for issue #60: Error with 'Update Project'
-* Add lighting component description for `Lighting Component` development
+* Add lightning component description for `Lightning Component` development
 
 
 Release 2.5.2 (2014-11-27)
-++++++++++++++++++
-* After new lighting component is created, deploy it to server
+++++++++++++++++++++++++++++++++++++
+* After new lightning component is created, deploy it to server
 * Add a new command for ``pretty json`` in the context menu
 * hide the status message in progress bar when track self debug log after save succeed
 
 
 Release 2.5.1 (2014-11-26)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix Bug: NoneType Exception when destruct files from server
 * Fix Bug: when saving component, the active view is not file
 * Add a new settings ``track_log_after_saved`` to control whether track log after save succeed
 
 
 Release 2.5.0 (2014-11-26)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix Bug: when delete component, if there is a open view which is not bind to file, it will throw TypeError: argument of type 'NoneType' is not iterable, and then, file is deleted from server but local file is not removed
 * Fix Bug: After folder is refreshed or project is updated, update the component cache
-* Add `Lighting Component` document reference
-* Add `Lighting Component` component tags to completions
-* Add `Lighting Component` to `components` settings and set it as default subscribed component
-* Add `Lighting Component` update feature
-* Add `Lighting Component` components update feature
-* Add `Lighting Component` component create feature
-* Add `Lighting Component` component destruct feature
+* Add `Lightning Component` document reference
+* Add `Lightning Component` component tags to completions
+* Add `Lightning Component` to `components` settings and set it as default subscribed component
+* Add `Lightning Component` update feature
+* Add `Lightning Component` components update feature
+* Add `Lightning Component` component create feature
+* Add `Lightning Component` component destruct feature
 * Change default ``api_version`` from 31 to 32
 * Remove ``Open Coverage Panel`` menu item in the main menu
 * Add ``duration`` column for debug logs and rearrange it's columns order
 * Add new document reference for ``Analytic Api``, ``Analytics Cloud Dashboard JSON``, ``Security Implementation`` 
-  and ``Lighting Component``
+  and ``Lightning Component``
 * Add new command for viewing release notes
 * Rename ``Extract Static Resource`` command to ``Extract To Here``, which command can be used to extract all zip source file but not only static resource for Salesforce
 * Add ``settings`` to ``components`` settings
@@ -1114,7 +1168,7 @@ Release 2.5.0 (2014-11-26)
 
 
 Release 2.4.0 (2014-11-18)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Fix issue #55
 * Fix issue: non-english words are encoded to Unicode in result of ``Rest Test``
 * Fix issue: when read local cache of record type, ``global name 'users' is not defined`` exception
@@ -1125,7 +1179,7 @@ Release 2.4.0 (2014-11-18)
 
 
 Release 2.3.0 (2014-11-14)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 * Use local ``<workspace>/.config/session.json`` to reuse session but not globals() again
 * Use local ``<workspace>/.config/recordtype.json`` to ``record type`` but not globals() again
 * Use local ``<workspace>/.config/users.json`` to ``users`` but not globals() again
@@ -1136,7 +1190,7 @@ Release 2.3.0 (2014-11-14)
 
 
 Release 2.2.0 (2014-11-12)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 Fix Issue:
 
 * Fix issue: TypeError: string indices must be integers when refreshed folder is empty
@@ -1157,7 +1211,7 @@ New Feature:
 
 
 Release 2.1.0 (2014-11-10)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix Bug: ``IndexError: list index out of range`` caused by release 2.0.0
 + Fix Bug for test class judgment: test class is that starts with `test` or ends with `test`
 + Add a new apex.py module, move execute_anonymous method from metadata.py to apex.py
@@ -1169,7 +1223,7 @@ Release 2.1.0 (2014-11-10)
 
 
 Release 2.0.0 (2014-11-08)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix minor bug for ``Duplicate Save Execution of Same Component``
 + Remove useless message from ``message.py``
 + Add a space between parameters for completion of standard apex class 
@@ -1183,7 +1237,7 @@ Release 2.0.0 (2014-11-08)
 
 
 Release 1.9.0 (2014-11-04)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix issue #50
 + Fix minor issue for ``delete_component``
 + Fix potential issue for retrieve and deploy
@@ -1194,14 +1248,14 @@ Release 1.9.0 (2014-11-04)
 
 
 Release 1.8.0 (2014-11-03)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + In order to prevent UI freeze, use thread to extract encoded zipFile to path
 + Solution for issue #49, add a new settings ``maximum_concurrent_connections`` to control concurrent connections
 + In order to prevent UI freeze, set default value of ``maximum_concurrent_connections`` to ``30``
 
 
 Release 1.7.0 (2014-10-31)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix Bug: If just compile component but not save, no need to keep history
 + Fix Bug: SOQL Field Completion problem if there is more than one character between from and sObject
 + Fix Bug: Replace all `LIST` to `List`
@@ -1209,7 +1263,7 @@ Release 1.7.0 (2014-10-31)
 
 
 Release 1.6.0 (2014-10-25)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix Bug: issue #44 caused by release 1.5.0
 + Fix Bug: display ExpatError when retrieve package
 + Fix Bug: display json parse error message when execute rest test
@@ -1223,14 +1277,14 @@ Release 1.6.0 (2014-10-25)
 
 
 Release 1.5.0 (2014-10-21)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix Bug for package import error in ``bulk api``
 + Add more detailed action summary for ``save component``, issue #45, issue #46
 + Add description for ``quick controller`` in README.MD
 
 
 Release 1.4.0 (2014-10-18)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix bug for completion: No completions for ``strMap`` if there has ``// Populate Map\nMap<String, String> strMap = new Map<String, String>();``
 + Fix Bug: ``deploy open files to server``
 + Add a new command for ``preview_page`` in the command palette
@@ -1239,14 +1293,14 @@ Release 1.4.0 (2014-10-18)
 
 
 Release 1.3.0 (2014-10-14)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix Minor bug for standard class completion: duplicate class in different namespace, for example, Communities, TimeZone, UnsupportedOperationException, Test, QueryException, Action
 + Fix Critical bug: non code file can't be retrieve from server, now, objects, reports and others can be retrieve from server
 + Fix Critical bug: Deploy exception after session cache is expired
 
 
 Release 1.2.0 (2014-10-11)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + ``get_static_resource_body`` settings is deprecated
 + Change default ``api_version`` from ``30`` to ``31``
 + Add a new command ``deploy open files to server`` in the main menu, which is used to deploy open files in the sublime to target server
@@ -1257,7 +1311,7 @@ Release 1.2.0 (2014-10-11)
 
 
 Release 1.1.0 (2014-10-09)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix Bug for Windows: After ``export`` is finished, refresh the project folders to ensure the new folder is shown in the sidebar
 + Fix Bug: display deploy failed message if deploy is failed.
 + Fix Bug: symbol table is null when iterate symbol table
@@ -1265,17 +1319,17 @@ Release 1.1.0 (2014-10-09)
 
 
 Release 1.0.9 (2014-10-04)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix Bug: After open a new view, open context menu, it will throw NoneType exception
 
 
 Release 1.0.8 (2014-10-02)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix issue at ``https://success.salesforce.com/answers?id=90630000000gxvwAAA``
 
 
 Release 1.0.7 (2014-09-30)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix Minor Bug for windows: After ``.config`` is generated, invoke the sublime command: ``refresh_folder_list``
 + Enhancement for checking whether current project is active project
 + Fix Critical Bug: If session is expired, we want to refresh the folder or update project, the console will always stop at  the step of ``[sf:retrieve] Start request for a retrieve...``
@@ -1283,7 +1337,7 @@ Release 1.0.7 (2014-09-30)
 
 
 Release 1.0.6 (2014-09-28)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix Minor Bug: After ``retrieve_package_file`` is succeed, hide the output panel
 + Fix Minor Bug: If current project is not ``active project``, disable the ``Retrieve Files From Server`` functionality
 + Fix Minor Bug: If current project is not ``active project``, disable the ``Retrieve File From Server`` functionality
@@ -1291,14 +1345,14 @@ Release 1.0.6 (2014-09-28)
 
 
 Release 1.0.5 (2014-09-27)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix bug: Exception when ``new project`` in a new org
 + Fix bug: If there is no any trigger, after ``new project``, the folder of ``trigger`` is not created.
 + Fix bug: ``subscribed_meta_folders`` and ``meta_folders`` in settings are not correct
 
 
 Release 1.0.4 (2014-09-25)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix urgent issue #40
 + Remove the useless soap related codes, for example, ``retrieve_apex_code_body``, ``retrieve_static_resource_body`` and so on
 + Fix minor bug: Don't allow to refresh or delete ``*-meta.xml`` file
@@ -1317,14 +1371,14 @@ Release 1.0.4 (2014-09-25)
 
 
 Release 1.0.3 (2014-09-24)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + After ``Update Project`` is finished, remove the original ``src`` tree and then extract the zipFile to ``src``
 + After ``Refresh Folder`` is finished, remove the original folders and then extract the zipFile to specified folders
 + Fix urgent bug: if no project in sidebar and sidebar is hidden, after ``new project`` or ``update project``, the sidebar is not open automatically.
 
 
 Release 1.0.2 (2014-09-23)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Update the default value of ``checkOnly`` in ``deploy_options`` settings from ``true`` to ``false``
 + Fix Urgent bug: If one class is created in the server, after ``refresh folder``, cache of this folder will override all components
 + Remove some useless ``print`` statement
@@ -1335,7 +1389,7 @@ Release 1.0.2 (2014-09-23)
 
 
 Release 1.0.1 (2014-09-22)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Add ``LogLength`` column to result of ``fetch debug logs``
 + Update default value of ``display_field_name_and_label`` setting from ``false`` to ``true``
 + Remove the ``\n`` from success message in ``document.py``
@@ -1345,7 +1399,7 @@ Release 1.0.1 (2014-09-22)
 
 
 Release 1.0.0 (2014-09-21)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Add a new command ``Deploy To Server`` in the context menu
 + Fix bug for ``retrieve`` when session is expired
 + Fix bug for ``New ApexClass``, ``New ApexTrigger``, ``New ApexComponent`` and ``New ApexPage``
@@ -1355,13 +1409,13 @@ Release 1.0.0 (2014-09-21)
 
 
 Release 0.9.9 (2014-09-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Try to fix bug for ``new release messages display`` or who can tell me how to display ``release message``
 + Fix bug for ``quick go to component``
 
 
 Release 0.9.8 (2014-09-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Support multiply folder refresh
 + Add standard sObjects to CustomObject Package Members when create new project if CustomObject is subscribed
 + Update default subscribed components
@@ -1372,7 +1426,7 @@ Release 0.9.8 (2014-09-20)
 
 
 Release 0.9.7 (2014-09-19)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Milestone for Metadata Api Migration from ``Tooling Api`` for non-code meta
 + remove some time stamp for deploy
 + Functionality check for ``convert xml to json``
@@ -1385,21 +1439,21 @@ Release 0.9.7 (2014-09-19)
 
 
 Release 0.9.6 (2014-09-16)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix bug for issue #38, remove ``ownerRules``, ``criteriaBasedRules`` and ``installedPackages`` from default package.xml
 + Add a command to export CustomLables to csv
 + Update ``SOQL - SELECT FROM`` snippet
 
 
 Release 0.9.5 (2014-09-15)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Add confirm request for ``new project``
 + Add screenshot for ``Convert XML to JSON``
 + Fix KeyError Exception bug: cancel save operation if conflict.
 
 
 Release 0.9.4 (2014-09-14)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Move ``check_enabled`` from ``main.py`` to ``util.py``
 + If ``deploy status`` is in ``canceling``, continue to check deploy status until it's canceled.
 + Remove useless ``mkdir`` method from context.py
@@ -1408,14 +1462,14 @@ Release 0.9.4 (2014-09-14)
 
 
 Release 0.9.3 (2014-09-13)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Add a command to convert selection to JSON if selection is valid XML format
 + Add context menu item, commands for this command
 + Fix a bug for parsing ``apexrest`` url when executing rest test
 
 
 Release 0.9.2 (2014-09-13)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix bug when ``sosl_string`` contains ``-, ?, *``
 + Update ``query`` method in ``api.py``
 + Separate ``api.py`` to ``metadata.py`` and ``tooling.py`` and move them to new ``api`` folder
@@ -1425,12 +1479,12 @@ Release 0.9.2 (2014-09-13)
 
 
 Release 0.9.1 (2014-09-12)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix bug when code has conflict and user cancel the save operation
 
 
 Release 0.9.0 (2014-09-12)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix bug for windows sidebar folder refresh
 + Not keep ``default_project`` settings in the settings of ``.config``
 + Add ``reload_symbol_tables_when_create_project`` setting
@@ -1439,7 +1493,7 @@ Release 0.9.0 (2014-09-12)
 
 
 Release 0.8.9 (2014-09-11)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + If ``retrieve`` is in ``Queued``, thread sleep 2 seconds, else, thread sleep 1 seconds
 + If ``deploy`` is in ``Pending``, thread sleep 2 seconds, else, thread sleep 1 seconds
 + After project is switched, set status for all view of all window.
@@ -1448,25 +1502,25 @@ Release 0.8.9 (2014-09-11)
 
 
 Release 0.8.8 (2014-09-11)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix some bug for ``deploy``
 
 
 Release 0.8.7 (2014-09-10)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Update README
 + When ``New Project``, no need to select project
 + Fix bug ``c:`` completion
 
 
 Release 0.8.6 (2014-09-09)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Add ``c:`` prefix for custom component completion
 + Add space between timestamp and message in the panel
 
 
 Release 0.8.5 (2014-09-08)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Move some methods from processor.py to util.py
 + Optimize sObject Cache download
 + Add time stamp prefix for panel message
@@ -1480,7 +1534,7 @@ Release 0.8.5 (2014-09-08)
 
 
 Release 0.8.4 (2014-09-08)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + If just checkOnly, output VALIDATE, otherwise, output DEPLOY
 + Update comments for ``mousemap``
 + Big Milestone, originally, we use ``tooling api`` to download apex code, now it is changed to retrieving by ``metadata api``
@@ -1488,7 +1542,7 @@ Release 0.8.4 (2014-09-08)
 
 
 Release 0.8.3 (2014-09-07)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Rearrange the attribute position in ``soap_bodies.py``
 + Update README.MD
 + When start ``deploy`` command, if clipboard content is not valid zip file path, set path with empty, otherwise, paste it to input panel
@@ -1512,13 +1566,13 @@ Release 0.8.3 (2014-09-07)
 
 
 Release 0.8.2 (2014-09-05)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + when ``retrieve package.xml``, if file in package.xml is not found in target org, display the message
 + Add ``deploy package.zip`` command to deploy zip file
 
 
 Release 0.8.1 (2014-09-05)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Change the UI of ``retrieve``
 + Add a command ``retrieve_package`` in the main menu to retrieve metadata by specified package.xml
 + Fix a bug for ``get_static_resource_body`` when creating a new project
@@ -1527,7 +1581,7 @@ Release 0.8.1 (2014-09-05)
 
 
 Release 0.8.0 (2014-09-04)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Change ``se`` Snippet from ``SELECT Id, $2 FROM $1$0`` to ``SELECT Id$2 FROM $1$0``
 - Stop to open console when ``Refresh Selected Component``
 - Originally, press ``shift+button1*3`` to open class in background and press ``shift+button1*2`` to open class in foreground, now it is changed to ``shift+button1*3`` for background and ``shift+button1*2`` for foreground
@@ -1536,20 +1590,20 @@ Release 0.8.0 (2014-09-04)
 
 
 Patch for Release 0.7.9 (2014-09-01)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + ``output_session_info`` setting is deprecated and replaced by ``.config/session.json``
 + Do not keep ``projects`` settings in the ``.config/settings.json``, because it's private confidential
 
 
 Release 0.7.9 (2014-09-01)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix the display problem of ``Run Test`` and ``LoginTo ApexCode`` cause by History Item 1 of release 0.7.7
 + Rename the path name of ``Test Operation History`` from ``test`` to ``Test``
 + Fix bug for ``Create Component`` and ``Refresh Component Folder`` caused by History Item 1 of release 0.7.7
 
 
 Release 0.7.8 (2014-08-31)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Fix Operation History Format Problem
 + Inner class completion format ``Inner Class <Class Name>``
 + After Project is created, automatically keep the settings to ``.config`` path
@@ -1558,7 +1612,7 @@ Release 0.7.8 (2014-08-31)
 
 
 Release 0.7.7 (2014-08-30)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + In order to avoid component is not available to CRUD to server because of Sensitive Case, save the component name with lower case into local cache
 + Read custom class from ``Component Attribute Cache`` but not read them from ``Symbol Table Cache``
 + After input ``Page.``, list all custom visualforce page if have
@@ -1567,21 +1621,21 @@ Release 0.7.7 (2014-08-30)
 
 
 Release 0.7.6 (2014-08-29)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 + Deep process for result of ``Execute Rest`` if result is json string
 + Change Operation History Format
 + Add ``report_issue`` command
 
 
 Release 0.7.5 (2014-08-24)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Add snippet ``Class Body - Get Child Roles By Role``
 - ``Local Change History`` functionality is removed from events.py, just if ``save to server`` is succeed, the local change history will be kept
 - Inner class completion format ``Inner Class <Class Name>``
 
 
 Release 0.7.4 (2014-08-17)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Inner Class Completion format
 - Add compress header for ``get`` method in api.py
 - Fix ``Reload Sobject Cache`` bug caused by release 0.7.3
@@ -1589,7 +1643,7 @@ Release 0.7.4 (2014-08-17)
 
 
 Release 0.7.3 (2014-08-16)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Add MIT-LICENSE
 - Remove ``quick visualforce`` functionality
 - Rename method name ``get_toolingapi_settings`` in context.py to ``get_settings`` and update corresponding invoker
@@ -1599,7 +1653,7 @@ Release 0.7.3 (2014-08-16)
 
 
 Release 0.7.2 (2014-08-15)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Rename ``Toggle Log Panel`` menu item to ``Open Output Panel``
 - Update README.MD 
 - Add ``Preview Page`` command to preview visualforce page in server, just enabled when opening page
@@ -1607,20 +1661,20 @@ Release 0.7.2 (2014-08-15)
 
 
 Release 0.7.1 (2014-08-12)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Add ``delay_seconds_for_hidden_output_panel_when_succeed`` for control delay seconds to hide output panel when saving succeed
 - Rename setting ``delay_seconds_for_hidden_console`` to ``delay_seconds_for_hidden_output_panel_when_failed``
 
 
 Release 0.7.0 (2014-08-11)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Even if component saving is succeed, show the output panel
 - If component saving is succeed, hide the open output panel after 1.5 seconds
 - When generating workbook or describe sobject, write the type column with Formula(<Field Type>) or <Field Type>
 
 
 Release 0.6.9 (2014-08-09)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - When export workbooks, check whether input are valid, if any one is not valid, allow user to input again
 - ``Folder Refresh`` reminder message is changed
 - Add ``Update Project`` command to just update the apex code but not include sobject metadata
@@ -1634,12 +1688,12 @@ Release 0.6.9 (2014-08-09)
 
 
 Release 0.6.8 (2014-08-08)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Add remind message to show output panel
 
 
 Release 0.6.7 (2014-08-06)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Console Message --> OutputPanel Message
 - Add a new command ``Open Log Panel`` for display log panel
 - Click ``super+``` to open output panel
@@ -1647,51 +1701,51 @@ Release 0.6.7 (2014-08-06)
 
 
 Release 0.6.6 (2014-08-05)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Set ``delay_seconds_for_hidden_console`` default value from ``15`` to ``9999``
 - Update description for default settings
 - Add property and method completion for inner class
 
 
 Release 0.6.5 (2014-08-03)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Fix picklist completion bug
 - Add keymap for ``Execute Rest Test`` command
 - Remove catalog from README
 
 
 Release 0.6.4 (2014-07-30)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - fix TypeError: save_component() missing 1 required positional argument: 'is_check_only'
 - Compatible to api 31 because `compile fail response change <https://developer.salesforce.com/docs/atlas.en-us.api_tooling.meta/api_tooling/sforce_api_objects_deploydetails.htm>`_
 
 
 Release 0.6.3 (2014-07-30)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Optimize Rest Test when response result is str
 - Add ``proxies`` support, just beta
 
 
 Release 0.6.2 (2014-07-29)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Fix issue for ``Delete`` command when list in returned json result is empty
 
 
 Release 0.6.1 (2014-07-22)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - **Picklist Value** completion from ``value`` to ``value(label)``
 - **Save Conflict** functionality new format: **Modified by <LastName FirstName> at 2014-05-04 10:03:31, continue?**
 
 
 Release 0.6.0 (2014-07-19)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Add search class and its methods for apex lib
 - Fix bug for picklist value completion
 - Change ``user`` to ``User`` for issue #31
 
 
 Release 0.5.9 (2014-07-10)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Remove useless message from message.py
 - Add some buld-in emmet supported snippets
 - Add command ``quick_visualforce`` for emmet supported snippets
@@ -1699,7 +1753,7 @@ Release 0.5.9 (2014-07-10)
 
 
 Release 0.5.8 (2014-06-13)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Add a new class template ``Test Class``
 - Add description for class template quick choose panel
 - ``Clear Cache`` functionality change, display ``project name`` not ``username`` any more
@@ -1707,7 +1761,7 @@ Release 0.5.8 (2014-06-13)
 
 
 Release 0.5.7 (2014-06-05)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Optimize for opening url with browser
 - Update OSX Keymap
 - Fix bug for ``generate workbook`` in OSX
@@ -1716,7 +1770,7 @@ Release 0.5.7 (2014-06-05)
 
 
 Release 0.5.6 (2014-05-18)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Fix bug for ``SELECT * FROM Sobject``, issue #30
 - Add time stamp for ``save conflict`` confirm message
 - Optimize for ``Fetch Debug Log``
@@ -1724,7 +1778,7 @@ Release 0.5.6 (2014-05-18)
 
 
 Release 0.5.5 (2014-05-15)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Add ``*`` support for ``Rest Query``, if ``*`` query, just replace it with all fields of related sobject
 - Add doc for Wild-card Character query
 - Fix ``Run Test`` bug caused by previous release
@@ -1733,14 +1787,14 @@ Release 0.5.5 (2014-05-15)
 
 
 Release 0.5.4 (2014-05-15)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Narrow down the code coverage column of test run result
 - When run specified test class by main menu, if no test class, show the alert message
 - Try to fix issue # 23
 
 
 Release 0.5.3 (2014-05-12)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Add new snippet ``Sobject - sobject bracket``
 - Update description of ``Update Sobjects``, ``Delete Sobjects``
 - Add two commands for command ``Reload Cache`` and ``Clear Cache``
@@ -1748,13 +1802,13 @@ Release 0.5.3 (2014-05-12)
 
 
 Release 0.5.2 (2014-05-10)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Since from API 30, compound field (queryByDistance=true) can't be in soql field list
 - Fix bug for bulk api caused by release 0.5.1
 
 
 Release 0.5.1 (2014-05-10)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Fix Bug: ``Export CustomField``
 - Update OSX keymap
 - Add ``Export SOQL`` command to export sobject records by specified soql
@@ -1763,21 +1817,21 @@ Release 0.5.1 (2014-05-10)
 
 
 Release 0.5.0 (2014-05-09)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Update ``README.MD``
 - Fix bug UnicodeError for ``Export Workflows`` and ``Export Validation Rule`` in OSX
 - Remove some useless code, for example, ``Export Field Dependency``
 
 
 Release 0.4.9 (2014-05-04)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Change default setting ``delay_seconds_for_hidden_console`` from ``10`` to ``15``
 - Change default ``api_version`` from ``29`` to ``30``
 - Add command ``Retrieve Sobject And Workflow``
 
 
 Release 0.4.8 (2014-04-27)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Optimize picklist value completion
 - Remove ``.no-sublime-package``
 - Replace ``excluded_sobjects`` settings with ``allowed_sobjects`` settings
@@ -1786,7 +1840,7 @@ Release 0.4.8 (2014-04-27)
 
 
 Release 0.4.7 (2014-04-26)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Fix some flaw for trigger completion
 - Optimize Apex Completion
 - Update READMD.MD
@@ -1794,13 +1848,13 @@ Release 0.4.7 (2014-04-26)
 
 
 Release 0.4.6 (2014-04-21)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Add ``last_n_logs`` setting to control the return number by fetching logs
 - Add ``check_save_conflict`` setting to control saving conflict when LastModifiedBy is not running user
 
 
 Release 0.4.5 (2014-04-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Update snippet: ``Exception - try catch finally`` and ``Exception - try catch``
 - Add doc for api.py
 - Originally, Keyword completion will exclude the existing-variable completion, now, bug mei le.
@@ -1810,7 +1864,7 @@ Release 0.4.5 (2014-04-20)
 
 
 Release 0.4.4 (2014-04-17)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Optimize SOQL Field completion
 - Update build-in apex lib
 - Update ``query_all`` rest api from ``query`` to ``queryAll`` which is available since winter 14
@@ -1819,14 +1873,14 @@ Release 0.4.4 (2014-04-17)
 
 
 Release 0.4.3 (2014-04-16)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Add ``Search`` and ``Quick Search`` for ``Execute Rest Test``
 - Update ``README.MD``
 - When view is activated, display the default project in the sidebar
 
 
 Release 0.4.2 (2014-04-16) (Millstone for fixing some flaw in completion)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Change ``display_field_name_and_label`` setting default value to false
 - BUG: Find variable type by variable name in view (Ignore comment code)
 - BUG: Find matched block in visualforce page (the matched region must contains current cursor point)
@@ -1835,20 +1889,20 @@ Release 0.4.2 (2014-04-16) (Millstone for fixing some flaw in completion)
 
 
 Release 0.4.1 (2014-04-14)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Update ``Visualforce`` xPath and Document source code
 - Change ``api_version`` back to 29
 - Change the default test org password to updated one
 
 
 Release 0.4.0 (2014-04-14)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - ``Track Trace Flag`` expiration date verify logic change
 - Return all sobjects when call ``Global Describe`` method in api.py, originally default return value is createable and queryable sobjects 
 
 
 Release 0.3.9  (2014-04-12)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Update project folder structure, you can change it to original strcture by remove the ``src/`` from every component attribute
 - If visualforce component attribute type is ``Object`` in visualforce completion, return ``<apex:inputField value="{!}"``
@@ -1865,7 +1919,7 @@ Release 0.3.9  (2014-04-12)
 
 
 Release 0.3.8  (2014-04-03)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add ``Metadata Api`` for document reference
 - Display namespace name for standard class in completion
@@ -1874,14 +1928,14 @@ Release 0.3.8  (2014-04-03)
 
 
 Release 0.3.7  (2014-04-02)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Remove default value for ``allowed_packages``
 - Try to fix `issue #23 <https://github.com/xjsender/SublimeApex/issues/23>`_
 
 
 Release 0.3.6  (2014-03-30)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add thread progress for document reloading
 - Add confirm request for document reloading
@@ -1889,19 +1943,19 @@ Release 0.3.6  (2014-03-30)
 
 
 Release 0.3.5  (2014-03-29)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Clarify Usage of kinds of feature in README.MD
 
 
 Release 0.3.4  (2014-03-26)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Fix urgent bug for `Issue #22 <https://github.com/xjsender/SublimeApex/issues/22>`_
 
 
 Release 0.3.3  (2014-03-22)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add confirmation request for ``Refresh Component``
 - Add a new command for ``Compile Component``
@@ -1909,14 +1963,14 @@ Release 0.3.3  (2014-03-22)
 
 
 Release 0.3.2  (2014-03-22)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Upgrade ``xmltodict`` lib to latest
 - Add ``namespace`` for standard class in the completion
 
 
 **Release 0.3.1** (Milestone of Code Completion) (2014-03-22)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Fix bug: ``KeyError: 'symbol_table'`` when save component is not ``ApexClass``
 - Add some new standard class to completion
@@ -1925,7 +1979,7 @@ Release 0.3.2  (2014-03-22)
 
 
 Release 0.3.0 (2014-03-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Remove the duplicate ``New Component`` command and add ``New ApexPage`` command in the quick command palette
 - Update the apex standard class lib
@@ -1933,7 +1987,7 @@ Release 0.3.0 (2014-03-20)
 
 
 Release 0.2.9 (2014-03-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Move the fields describe part from the bottom to top in the sobject describe result
 - Change the default apex log level from ``Finest`` to ``Debug``
@@ -1942,7 +1996,7 @@ Release 0.2.9 (2014-03-20)
 
 
 Release 0.2.8 (2014-03-19)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add ``Tooling Query`` for ``Rest Explorer``
 - Add ``SOQL & SOSL`` for Salesforce Document Reference
@@ -1951,13 +2005,13 @@ Release 0.2.8 (2014-03-19)
 
 
 Release 0.2.7 (2014-03-17)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Update the tabTrigger from muti-bytes to less than 5-bytes for all snippets
 
 
 Release 0.2.6 (2014-03-16)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Fix the bug of ``Rest Post``
 - Remove ``Request``, ``Application``, ``LogLength``, ``DurationMilliseconds`` from ``List Debug Log`` columns
@@ -1966,7 +2020,7 @@ Release 0.2.6 (2014-03-16)
 
 
 Release 0.2.5 (2014-03-15)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Remove the command ``New Component`` from the side bar
 - Remove four shortcut keys for the four new component
@@ -1976,7 +2030,7 @@ Release 0.2.5 (2014-03-15)
 
 
 Release 0.2.4 (2014-03-11)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Update README.MD
 - Remove shortcut key ``Ctrl+Alt+N`` for creating new component
@@ -1984,7 +2038,7 @@ Release 0.2.4 (2014-03-11)
 
 
 Release 0.2.3 (2014-03-10)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add ``Console Toolkit``, ``Standard Objects``, ``Data Model`` and ``Tooling APi`` references to document list
 - Update Main Menu Item
@@ -1996,21 +2050,21 @@ Release 0.2.3 (2014-03-10)
 
 
 Release 0.2.2 (2014-03-07)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Remove some useless print statement in the document.py
 - Update README.MD for latest release
 
 
 Release 0.2.1 (2014-03-07)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add ``Rest Api``, ``Visualforce``, ``Chatter Api``, ``Streaming Api`` and ``Bulk Api`` to document list
 - Add methods redirect to document list
 
 
 Release 0.2.0 (2014-03-07)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Change ``default_browser_path`` setting name to ``default_chrome_path``
 - Add a new salesforce reference function from `Salesforce Reference <https://github.com/Oblongmana/sublime-salesforce-reference>`_
@@ -2018,7 +2072,7 @@ Release 0.2.0 (2014-03-07)
 
 
 Release 0.1.9 (2014-03-06)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 - Fix the static resource bug ``Can't convert 'dict' object to str implicitly``
 - When creating trigger, just list the triggerable sobject
 - If project is not created, ``New Component`` and ``Refresh Folder`` are disabled
@@ -2026,7 +2080,7 @@ Release 0.1.9 (2014-03-06)
 
 
 Pre-release 0.1.8 (2014-03-05)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - When save component and error happened, ``go to`` the error line
 - Change the ``new component`` to separate ones
@@ -2039,7 +2093,7 @@ Pre-release 0.1.8 (2014-03-05)
 
 
 Release 0.1.7 (2014-03-04)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - If project is not created, ``New Component`` and ``Refresh Folder`` are disabled
 - Allow empty json body for ``Post`` Action
@@ -2049,14 +2103,14 @@ Release 0.1.7 (2014-03-04)
 
 
 Release 0.1.6 (2014-03-01)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Update README.MD
 - Refractoring api.py
 
 
 Release 0.1.5 (2014-02-28)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Change new view event type from ``on_new_sync`` to ``on_new``
 - Set the default format for rest test result to ``JavaScript``
@@ -2064,21 +2118,21 @@ Release 0.1.5 (2014-02-28)
 
 
 Release 0.1.4 (2014-02-26)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Update comments for ``toolingapi.sublime-settings``
 - Fix the bug for ``open console``
 
 
 Release 0.1.3 (2014-02-24)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add the support the static resource refresh functionality for the side bar menu
 - Add the support the static resource refresh functionality for the context menu
 - Add ``Patch`` method for ``Rest Explorer``
 
 Release 0.1.2 (2014-02-22)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add a new setting ``default_chrome_path``
 - Optimize the ``Rest Explorer`` functionality
@@ -2086,7 +2140,7 @@ Release 0.1.2 (2014-02-22)
 
 
 Release 0.1.1 (2014-02-22)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add snippets for console toolkit
 - Add time stamp for success message of save component result
@@ -2095,7 +2149,7 @@ Release 0.1.1 (2014-02-22)
 
 
 Release 0.1.0 (2014-02-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add snippets for console toolkit
 - Update README
@@ -2103,7 +2157,7 @@ Release 0.1.0 (2014-02-20)
 
 
 Release 0.0.9 (2014-02-19)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Update the snippets for debug
 - Add a new snippet "ReRender Form in JavaScript"
@@ -2113,39 +2167,39 @@ Release 0.0.9 (2014-02-19)
 
 
 Patch for 0.0.8 (2014-02-12)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add two template for new component command: Controller and Utility Class
 - Add two snippets
 
 
 Patch for 0.0.7 (2014-02-12)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Fix bug for `Issue #11 <https://github.com/xjsender/SublimeApex/issues/11>`_
 
 
 Release 0.0.7 (2014-02-08)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Fix problem when execute anonymous return error
 - Change ``disable_keyword_completion`` from true to false
 
 
 Release 0.0.6 (2014-02-08)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Fix retrieve metadata exception
 
 
 Patch for 0.0.5 (2014-01-31)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Update README.MD
 
 
 0.0.5 (2014-01-22)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add Run All Test functionality
 - Adjust the format of test run result of single test class
@@ -2153,13 +2207,13 @@ Patch for 0.0.5 (2014-01-31)
 
 
 0.0.4 (2014-01-21)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Remove ``Widget.sublime-settings`` from plugin
 
 
 0.0.3 (2014-01-20)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Add time stamp for all error message displayed in console
 - Disable deploy metadata command
@@ -2168,13 +2222,13 @@ Patch for 0.0.5 (2014-01-31)
 
 
 Patch 0.0.2 (2014-01-11)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Change the default test project
 
 
 0.0.2 (2014-01-07)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Remove ``debug_log_headers`` and ``debug_log_headers_properties`` settings
 - Unquote and unescape the error message returned by ``Save to Server``
@@ -2182,7 +2236,7 @@ Patch 0.0.2 (2014-01-11)
 
 
 Patch for 0.0.1 (2014-01-06)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - When creating new component, if user input is not valid, user can try again if need
 - Bug: if project is not created, just create the project for the new component
@@ -2192,7 +2246,7 @@ Patch for 0.0.1 (2014-01-06)
 
 
 0.0.1 (2014-01-05)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 - Remove ``Loop - for.sublime-snippet`` snippet
 - Remove ``all_views_completions.py`` dependency lib
@@ -2200,7 +2254,7 @@ Patch for 0.0.1 (2014-01-06)
 
 
 Pre-release x.x.x (2013-12-06 -> 2013-12-31)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++
 
 - There is a long confusing term on github version control
 - Add picklist value completions feature
@@ -2228,7 +2282,7 @@ Pre-release x.x.x (2013-12-06 -> 2013-12-31)
 
 
 0.0.0 (2013-04-14)
-++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 * Birth!
 

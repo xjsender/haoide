@@ -18,6 +18,7 @@ class MetadataApi:
     def __init__(self, settings, **kwargs):
         self.settings = settings
         self.api_version = settings["api_version"]
+        self.deploy_options = settings["deploy_options"]
         self.soap = SOAP(settings)
         self.session = None
         self.result = None
@@ -179,7 +180,7 @@ class MetadataApi:
 
         Arguments:
 
-        * options -- {"types" : types, "package_names": package_names}
+        * options -- {"types" : types_dict, "package_names": package_names}
         """
         result = self.login()
         if not result or not result["success"]: 
@@ -223,8 +224,8 @@ class MetadataApi:
 
         # Post retrieve request
         try:
-            response = requests.post(self.metadata_url, soap_body, verify=False, 
-                headers=self.headers, timeout=120)
+            response = requests.post(self.metadata_url, soap_body, verify=False,
+                                     headers=self.headers, timeout=120)
         except requests.exceptions.RequestException as e:
             self.result = {
                 "Error Message":  "Network connection timeout when issuing retrieve request",
@@ -322,11 +323,13 @@ class MetadataApi:
         # Total time
         total_seconds = (datetime.datetime.now() - start_time).seconds
         Printer.get('log').write("Total time: %s seconds" % total_seconds, False)
+        # print('meta retrive result', result)
 
         self.result = result
 
     def prepare_members(self, _types, list_package_for_all=False):
-        if not self.login(): return
+        if not self.login():
+            return
 
         if list_package_for_all:
             Printer.get("log").write_start()
@@ -335,7 +338,8 @@ class MetadataApi:
         # EmailFolder, DocumentFolder, DashboardFolder and ReportFolder
         records = []
         for _type in _types:
-            if "*" not in _types[_type]: continue
+            if "*" not in _types[_type]:
+                continue
             if _type in self.settings["metadata_objects_in_folder"]:
                 # List package for ``suffix.capitalize() + 'Folder'``
                 metadata_object = _type + "Folder" if _type != "EmailTemplate" else "EmailFolder"
@@ -377,19 +381,20 @@ class MetadataApi:
 
         # In order to speed up retrieve request, we will not list package for them
         # just when we want to get full copy or build package.xml, we will list_package for all
-        #       Note: CustomObject must be retrieved by ``list_package`` request
+        # Note: CustomObject must be retrieved by ``list_package`` request
         # list package for metadata object which supports wildcard retrieve
         _types_list = []
+        # print("retrieve types: ", _types)
         if not list_package_for_all:
             if "CustomObject" in _types and "*" in _types["CustomObject"]:
                 _types_list.append("CustomObject")
 
-            print(_types)
             if "InstalledPackage" in _types and "*" in _types["InstalledPackage"]:
                 _types_list.append("InstalledPackage")
         else:
             for _type in _types:
-                if "*" not in _types[_type]: continue
+                if "*" not in _types[_type]:
+                    continue
                 if _type not in self.settings["metadata_objects_in_folder"]:
                     _types_list.append(_type)
 
@@ -546,14 +551,15 @@ class MetadataApi:
         start_time = datetime.datetime.now()
 
         # Populate the soap_body with actual options
-        deploy_options = self.settings["deploy_options"]
-        
+        # move the deploy options in to class attributes from better manipulate
+        # deploy_options = self.settings["deploy_options"]
+
         # If just checkOnly, output VALIDATE, otherwise, output DEPLOY
-        deploy_or_validate = "validate" if deploy_options["checkOnly"] else "deploy"
+        deploy_or_validate = "validate" if self.deploy_options["checkOnly"] else "deploy"
 
         # [sf:deploy]
         Printer.get('log').write_start().write("[sf:%s] Start request for a deploy..." % deploy_or_validate)
-        options = deploy_options
+        options = self.deploy_options
         options["zipfile"] = base64_zip
 
         # If testLevel is Run Specified Test, 
@@ -721,7 +727,8 @@ class MetadataApi:
                         failure.get("message")
                     ))
 
-            elif "errorMessage" in body:
+            # Unknown exception printer
+            if "errorMessage" in body:
                 Printer.get('log').write("\n" + body["errorMessage"], False)
 
             warning_messages = []

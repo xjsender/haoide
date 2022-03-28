@@ -12,9 +12,6 @@ from .salesforce.lib.panel import Printer
 class CreateLightningWebComponent(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(CreateLightningWebComponent, self).__init__(*args, **kwargs)
-        # Get settings
-        self._settings = context.get_settings()
-        self._workspace = self._settings["workspace"]
 
     def run(self, *args):
         if self._settings["api_version"] < 45:
@@ -26,7 +23,7 @@ class CreateLightningWebComponent(sublime_plugin.WindowCommand):
 
     def on_input(self, lwc_name):
         # Create component to local according to user input
-        if not re.match('^[a-zA-Z]+\\w+$', lwc_name):
+        if not re.match('^[a-z]+\\w*[A-Za-z0-9]$', lwc_name) or re.match('__+', lwc_name):
             message = 'Invalid format, do you want to try again?'
             if not sublime.ok_cancel_dialog(message):
                 return
@@ -34,7 +31,8 @@ class CreateLightningWebComponent(sublime_plugin.WindowCommand):
                                          "", self.on_input, None, None)
             return
 
-        # Build dir for new lighting web component
+        # Build dir for new Lightning web component
+        self._workspace = self._settings["workspace"]
         component_dir = os.path.join(self._workspace, "src", "lwc", lwc_name)
         if not os.path.exists(component_dir):
             os.makedirs(component_dir)
@@ -48,15 +46,18 @@ class CreateLightningWebComponent(sublime_plugin.WindowCommand):
 
         # Get template attribute
         templates = util.load_templates()
-        template_bundle = templates.get("LWC")
+        template_bundle = templates.get("Lwc")
         for tpl_name in template_bundle:
             template = template_bundle.get(tpl_name)
             with open(os.path.join(self._workspace, ".templates", template["directory"])) as fp:
                 body = fp.read()
+                # Insert lwc name and api version into files
+                body = body.replace('{class_name__c}', lwc_name)
+                body = body.replace('{api_version}', str(self._settings["api_version"]))
 
             lwc_file = os.path.join(component_dir, lwc_name + template["extension"])
 
-            # Create Aura lighting file
+            # Create Aura Lightning file
             with open(lwc_file, "w") as fp:
                 fp.write(body)
 
@@ -76,6 +77,7 @@ class CreateLightningWebComponent(sublime_plugin.WindowCommand):
         return util.check_action_enabled()
 
     def is_visible(self):
+        self._settings = context.get_settings()
         if self._settings["api_version"] < 45:
             return False
         return True
@@ -84,7 +86,6 @@ class CreateLightningWebComponent(sublime_plugin.WindowCommand):
 class DeployLwcToServer(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(DeployLwcToServer, self).__init__(*args, **kwargs)
-        self.settings = context.get_settings()
 
     def run(self, dirs, switch_project=True, source_org=None, update_meta=False):
         if switch_project:
@@ -100,10 +101,11 @@ class DeployLwcToServer(sublime_plugin.WindowCommand):
                 }
             })
 
-        base64_package = util.build_package(dirs, 'lwc')
+        base64_package = util.build_lightning_package(dirs, 'LightningComponentBundle')
         processor.handle_deploy_thread(base64_package, source_org=source_org, update_meta=update_meta)
 
     def is_visible(self, dirs, switch_project=True):
+        self.settings = context.get_settings()
         visible = True
         if not dirs or len(dirs) == 0:
             visible = False
@@ -117,3 +119,91 @@ class DeployLwcToServer(sublime_plugin.WindowCommand):
                 visible = False
 
         return visible
+
+
+class CreateLwcElement(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(CreateLwcElement, self).__init__(*args, **kwargs)
+
+    def run(self, dirs, element=""):
+        """ element: Component, Controller, Helper, Style, Documentation, Render
+        """
+
+        self.resource_type = element
+        # for adding additional JS file, user has to input name first:
+        if self.resource_type == "AdditionalJS":
+            self.window.show_input_panel("Please Input Additional JavaScript File Name: ",
+                                         "", self.on_input, None, None)
+        else:
+            self.create_resource()
+
+    def on_input(self, js_file_name):
+        # Create component to local according to user input
+        if not re.match('^[a-z]+\\w*[A-Za-z0-9]$', js_file_name) or re.match('__+', js_file_name):
+            message = 'Invalid format, do you want to try again?'
+            if not sublime.ok_cancel_dialog(message):
+                return
+            self.window.show_input_panel("Please Input Lightning Web Component Name: ",
+                                         "", self.on_input, None, None)
+            return
+
+        # Create new additional JS file
+        self.create_resource(js_file_name)
+
+    def create_resource(self, js_file_name=None):
+        # Get template attribute, generate lwc resource file path
+        templates = util.load_templates()
+        template = templates.get("LwcElement").get(self.resource_type)
+        templates_path = os.path.join(self.settings["workspace"],
+                                      ".templates", template["directory"])
+
+        extension = template["extension"]
+        element_name = self.lwc_name if js_file_name is None else js_file_name
+        element_name += extension
+
+        # Combine lwc element component name
+        element_file = os.path.join(self._dir, element_name)
+
+        # If element file is already exist, just alert
+        if os.path.isfile(element_file):
+            return self.window.open_file(element_file)
+
+        # Open template file and copy to the body, replace class name if necessary:
+        with open(templates_path) as fp:
+            body = fp.read()
+        if js_file_name is not None:
+            body = body.replace('{class_name}', js_file_name)
+
+        # Create lwc Element file
+        with open(element_file, "w") as fp:
+            fp.write(body)
+
+        # If created succeed, just open it and refresh project
+        self.window.open_file(element_file)
+        self.window.run_command("refresh_folder_list")
+
+        # Deploy Aura to server
+        self.window.run_command("deploy_lightning_to_server", {
+            "dirs": [self._dir],
+            "switch_project": False,
+            "element": self.resource_type,
+            "update_meta": True
+        })
+
+    def is_visible(self, dirs, element=""):
+        if not dirs or len(dirs) != 1:
+            return False
+        self._dir = dirs[0]
+        self.settings = context.get_settings()
+
+        # Check whether project is the active one
+        if self.settings["default_project_name"] not in self._dir:
+            return False
+
+        # Check metadata folder
+        attributes = util.get_file_attributes(self._dir)
+        if attributes["metadata_folder"] != "lwc":
+            return False
+        self.lwc_name = attributes["name"]
+
+        return True

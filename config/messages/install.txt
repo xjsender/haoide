@@ -6,7 +6,7 @@ You can install this plugin by searching ``haoide`` in package control, if you d
 
 This plugin is in improvement stage, many ideas are generated in daily work of mine or my friends, if you have any idea or find any issue, please log issue by clicking ``Report Issue`` in the main menu, thanks for you help on improving this plugin.
 
-All of my motivation on this plugin come from your star, if you think this plugin is helpful in your daily work, please **star** this plugin.
+All of our motivation on this plugin come from your star, if you think this plugin is helpful in your daily work, please **star** this plugin.
 
 # Change Logs
 + <a href="https://github.com/xjsender/haoide/blob/master/HISTORY.rst" target="_blank">Change Logs</a>

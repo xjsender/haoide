@@ -13,6 +13,7 @@ from ... import requests, util, context
 from ..login import soap_login, rest_login
 from ..lib.panel import Printer
 
+
 class ToolingApi():
     def __init__(self, settings, **kwargs):
         self.settings = settings
@@ -90,7 +91,7 @@ class ToolingApi():
             try:
                 response_result = res.json()
                 if isinstance(response_result, list):
-                    response_result = response_result[0]                    
+                    response_result = response_result[0]
             except:
                 response_result = {"Error Message": res.text}
             response_result["success"] = False
@@ -108,7 +109,7 @@ class ToolingApi():
             response_result["success"] = True
 
         return response_result
-        
+
     def head(self, component_url, timeout=120):
         """ 'head' request
 
@@ -124,11 +125,11 @@ class ToolingApi():
 
         url = self.parse_url(component_url)
         try:
-            response = requests.head(url, verify=False, 
-                headers=self.headers, timeout=timeout)
+            response = requests.head(url, verify=False,
+                                     headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout when issue REST HEAD request",
+                "Error Message": "Network connection timeout when issue REST HEAD request",
                 "success": False
             }
             return self.result
@@ -140,7 +141,7 @@ class ToolingApi():
                 self.result = result
                 return self.result
             return self.head(component_url)
-        
+
         result = self.parse_response(response)
         self.result = result
 
@@ -165,11 +166,11 @@ class ToolingApi():
         headers["Accept-Encoding"] = 'identity, deflate, compress, gzip'
 
         try:
-            response = requests.get(url, data=None, verify=False, 
-                headers=self.headers, timeout=timeout)
+            response = requests.get(url, data=None, verify=False,
+                                    headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout when issuing REST GET request",
+                "Error Message": "Network connection timeout when issuing REST GET request",
                 "success": False
             }
             return self.result
@@ -181,7 +182,7 @@ class ToolingApi():
                 self.result = result
                 return self.result
             return self.get(component_url)
-        
+
         result = self.parse_response(response)
         self.result = result
 
@@ -203,13 +204,13 @@ class ToolingApi():
             return self.result
 
         url = self.parse_url(put_url)
-        
+
         try:
-            response = requests.put(url, data=json.dumps(data), verify=False, 
-                headers=self.headers, timeout=timeout)
+            response = requests.put(url, data=json.dumps(data), verify=False,
+                                    headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network Network connection timeout when issuing REST PUT request",
+                "Error Message": "Network Network connection timeout when issuing REST PUT request",
                 "success": False
             }
             return self.result
@@ -221,7 +222,7 @@ class ToolingApi():
                 self.result = result
                 return self.result
             return self.put(put_url, data)
-        
+
         result = self.parse_response(response)
         self.result = result
 
@@ -243,13 +244,13 @@ class ToolingApi():
             return self.result
 
         url = self.parse_url(patch_url)
-        
+
         try:
-            response = requests.patch(url, data=json.dumps(data), verify=False, 
-                headers=self.headers, timeout=timeout)
+            response = requests.patch(url, data=json.dumps(data), verify=False,
+                                      headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout when issuing REST PATCH request",
+                "Error Message": "Network connection timeout when issuing REST PATCH request",
                 "success": False
             }
             return self.result
@@ -261,7 +262,7 @@ class ToolingApi():
                 self.result = result
                 return self.result
             return self.patch(patch_url, data)
-        
+
         result = self.parse_response(response)
         self.result = result
 
@@ -283,13 +284,13 @@ class ToolingApi():
             return self.result
 
         url = self.parse_url(post_url)
-        
+
         try:
-            response = requests.post(url, data=json.dumps(data), verify=False, 
-                headers=self.headers, timeout=timeout)
+            response = requests.post(url, data=json.dumps(data), verify=False,
+                                     headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout when issuing REST POST request",
+                "Error Message": "Network connection timeout when issuing REST POST request",
                 "success": False
             }
             return self.result
@@ -301,7 +302,7 @@ class ToolingApi():
                 self.result = result
                 return self.result
             return self.post(post_url, data)
-        
+
         result = self.parse_response(response)
         self.result = result
 
@@ -322,13 +323,13 @@ class ToolingApi():
             return self.result
 
         url = self.parse_url(component_url)
-        
+
         try:
-            response = requests.delete(url, data=None, verify=False, 
-                headers=self.headers, timeout=timeout)
+            response = requests.delete(url, data=None, verify=False,
+                                       headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout when issuing REST DELETE request",
+                "Error Message": "Network connection timeout when issuing REST DELETE request",
                 "success": False
             }
             return self.result
@@ -364,13 +365,13 @@ class ToolingApi():
             return self.result
 
         url = self.base_url + "/search"
-        params = {'q' : sosl}
+        params = {'q': sosl}
         try:
-            response = requests.get(url, headers=self.headers, verify=False, 
-                params=params, timeout=timeout)
+            response = requests.get(url, headers=self.headers, verify=False,
+                                    params=params, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout when issuing REST SEARCH request",
+                "Error Message": "Network connection timeout when issuing REST SEARCH request",
                 "success": False
             }
             return self.result
@@ -402,11 +403,11 @@ class ToolingApi():
         # We need to escape this special character,
         # Don't know why ?, _
         for ch in ["-", "?", "*"]:
-            sosl_string = sosl_string.replace(ch, "\\"+ch)
+            sosl_string = sosl_string.replace(ch, "\\" + ch)
 
         sosl_string = 'FIND {%s}' % sosl_string
         result = self.search(sosl_string)
-        
+
         self.result = result
         return self.result
 
@@ -439,14 +440,14 @@ class ToolingApi():
 
         # Just API 28 above support CustomField
         url = self.base_url + ("/tooling" if is_toolingapi else "") + "/query"
-        params = {'q' : soql}
+        params = {'q': soql}
 
         try:
             response = requests.get(url, data=None, verify=False, params=params,
-                headers=self.headers, timeout=timeout)
+                                    headers=self.headers, timeout=timeout)
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout when issuing QUERY request",
+                "Error Message": "Network connection timeout when issuing QUERY request",
                 "success": False
             }
             return self.result
@@ -484,7 +485,7 @@ class ToolingApi():
         if not self.login(): return
 
         result = self.query(soql, is_toolingapi)
-        
+
         # Database.com not support ApexComponent
         if not result["success"]:
             self.result = result
@@ -513,27 +514,27 @@ class ToolingApi():
         if not result["success"]:
             self.result = result
             return self.result
-        
+
         offset = 0
         result = {"totalSize": 0, "records": [], "success": result["success"]}
         describe_metadata = util.get_described_metadata(self.settings)
         namespacePrefix = describe_metadata.get("organizationNamespace", '')
-        soql =  "SELECT NamespacePrefix, SymbolTable, Name FROM ApexClass " +\
-                "WHERE NamespacePrefix = %s " % (
+        soql = "SELECT NamespacePrefix, SymbolTable, Name FROM ApexClass " + \
+               "WHERE NamespacePrefix = %s " % (
                    "'%s'" % namespacePrefix if namespacePrefix else 'null'
-                )
+               )
         while True:
             query = soql + "LIMIT %s OFFSET %s""" % (split, offset)
             previous_result = self.query(query, is_toolingapi=True)
-            if not previous_result["success"]: continue # Ignore exception
-            if previous_result["size"] == 0: break # No result
+            if not previous_result["success"]: continue  # Ignore exception
+            if previous_result["size"] == 0: break  # No result
             if self.settings["debug_mode"]:
-                print ('SOQL: %s, ' % query, 'totalSize: %s' % previous_result["size"])
+                print('SOQL: %s, ' % query, 'totalSize: %s' % previous_result["size"])
             result['totalSize'] += previous_result['totalSize']
             previous_result['records'].extend(result['records'])
             result['records'] = previous_result['records']
             offset += split
-        
+
         # Invoke for thread
         self.result = result
 
@@ -553,9 +554,9 @@ class ToolingApi():
         if not user_id: user_id = self.session["user_id"]
 
         # Query self logs
-        soql = "SELECT Id,LogUserId,LogLength,Request,Operation,Application," +\
-            "Status,DurationMilliseconds,StartTime,Location FROM ApexLog " +\
-            "WHERE LogUserId='%s' ORDER BY StartTime DESC LIMIT %s" % (user_id, last_n_logs)
+        soql = "SELECT Id,LogUserId,LogLength,Request,Operation,Application," + \
+               "Status,DurationMilliseconds,StartTime,Location FROM ApexLog " + \
+               "WHERE LogUserId='%s' ORDER BY StartTime DESC LIMIT %s" % (user_id, last_n_logs)
 
         self.result = self.query(soql, is_toolingapi=True)
         return self.result
@@ -572,12 +573,12 @@ class ToolingApi():
             self.result = result
             return self.result
 
-        fields = sorted(result["fields"], key=lambda k : k['custom'])
+        fields = sorted(result["fields"], key=lambda k: k['custom'])
         field_list = []
         for field in fields:
             # http://www.salesforce.com/us/developer/docs/api/Content/compound_fields_address.htm
             if not contains_compound and field.get("queryByDistance"): continue
-            if not action or field[action]: 
+            if not action or field[action]:
                 field_list.append(field.get("name"))
 
         # Id must be included in the field list
@@ -721,7 +722,7 @@ class ToolingApi():
 
         # Check whether traced user already has trace flag
         # If not, just create it for him/her
-        query = "SELECT Id, ExpirationDate FROM TraceFlag " +\
+        query = "SELECT Id, ExpirationDate FROM TraceFlag " + \
                 "WHERE TracedEntityId = '%s'" % (traced_entity_id)
         result = self.query(query, True)
 
@@ -734,7 +735,7 @@ class ToolingApi():
         if result["totalSize"] > 0:
             self.delete("/tooling/sobjects/TraceFlag/" + result["records"][0]["Id"])
             return self.create_trace_flag(traced_entity_id)
-        
+
         # Start to create Trace Flag
         trace_flag = self.settings["trace_flag"]
 
@@ -744,7 +745,7 @@ class ToolingApi():
             if not debug_level["success"]:
                 self.result = debug_level
                 return self.result
-            
+
             trace_flag["LogType"] = "USER_DEBUG"
             trace_flag["DebugLevelId"] = debug_level["id"]
 
@@ -766,13 +767,13 @@ class ToolingApi():
 
     def get_debug_level(self, name="haoide"):
         debug_levels = self.query(
-            "SELECT Id FROM DebugLevel WHERE DeveloperName = '%s'" % name, 
+            "SELECT Id FROM DebugLevel WHERE DeveloperName = '%s'" % name,
             is_toolingapi=True
         )
         if debug_levels["success"]:
             if debug_levels["totalSize"] > 0:
                 debug_level = debug_levels["records"][0]
-                debug_level["id"] = debug_level["Id"] # Prevent keyError problem
+                debug_level["id"] = debug_level["Id"]  # Prevent keyError problem
                 debug_level["success"] = True
                 return debug_level
 
@@ -806,7 +807,7 @@ class ToolingApi():
             response.encoding = "UTF-8"
         except requests.exceptions.RequestException as e:
             self.result = {
-                "Error Message":  "Network connection timeout when issuing RETRIVING BODY request",
+                "Error Message": "Network connection timeout when issuing RETRIVING BODY request",
                 "success": False
             }
             return self.result
@@ -818,7 +819,7 @@ class ToolingApi():
 
         result = self.parse_response(response)
         self.result = result
-        
+
         return result
 
     def run_tests_asynchronous(self, class_ids):
@@ -841,9 +842,9 @@ class ToolingApi():
         * test_names -- Apex Test Method Name List
         """
         if test_names and len(test_names) > 0:
-            data = {"tests":[{"className":class_name,"testMethods":test_names}]}
+            data = {"tests": [{"className": class_name, "testMethods": test_names}]}
         else:
-            data = {"tests":[{"className":class_name}]}
+            data = {"tests": [{"className": class_name}]}
         self.result = self.post("/tooling/runTestsSynchronous/", data)
         return self.result
 
@@ -872,12 +873,12 @@ class ToolingApi():
         time.sleep(2)
         data = {"ApexClassId": class_id}
         result = self.post("/sobjects/ApexTestQueueItem", data)
-        
+
         # Exception Process
         if not result["success"]:
             self.result = result
             return self.result
-        
+
         # Wait for the ApexTestQueueItem is over
         time.sleep(5)
         queue_item_id = result["id"]
@@ -888,7 +889,7 @@ class ToolingApi():
         if not result["success"]:
             self.result = result
             return self.result
-        
+
         # If totalSize is Zero, it means we need to wait until test is finished
         while result["totalSize"] == 0 or result["records"][0]["Status"] in ["Queued", "Processing"]:
             time.sleep(2)
@@ -898,7 +899,7 @@ class ToolingApi():
             AsyncApexJobId,Id,Message,MethodName,Outcome,QueueItemId,StackTrace,
             TestTimestamp FROM ApexTestResult WHERE QueueItemId = '%s'""" % queue_item_id
 
-         # After Test is finished, get result
+        # After Test is finished, get result
         result = self.query(test_result_soql)
 
         # Exception Process
@@ -907,7 +908,7 @@ class ToolingApi():
             return self.result
 
         result = result["records"]
-        
+
         # Combine these two result
         self.result = result
 
@@ -927,9 +928,10 @@ class ToolingApi():
                 return result
 
             workspace = self.settings.get("workspace")
-            outputdir = util.generate_workbook(result, workspace, 
-                self.settings.get("workbook_field_describe_columns"))+"/"+sobject+".csv"
-            print (sobject + " workbook outputdir: " + outputdir)
+            outputdir = util.generate_workbook(result, workspace,
+                                               self.settings.get(
+                                                   "workbook_field_describe_columns")) + "/" + sobject + ".csv"
+            print(sobject + " workbook outputdir: " + outputdir)
 
     def save_to_server(self, component_attribute, body, is_check_only, check_save_conflict=True):
         """ This method contains 5 steps:
@@ -958,12 +960,12 @@ class ToolingApi():
         # Component Attribute
         component_type = component_attribute["type"]
         component_id = component_attribute["id"]
-        component_body = component_attribute["body"]
+        # component_body = component_attribute["body"]
 
         if self.settings["check_save_conflict"] and not is_check_only and check_save_conflict:
             Printer.get('log').write("Start to check saving conflict")
-            query = "SELECT Id, LastModifiedById, LastModifiedBy.Id, " +\
-                    "LastModifiedBy.Name, LastModifiedDate, SystemModstamp " +\
+            query = "SELECT Id, LastModifiedById, LastModifiedBy.Id, " + \
+                    "LastModifiedBy.Name, LastModifiedDate, SystemModstamp " + \
                     "FROM %s WHERE Id = '%s'" % (component_type, component_id)
             result = self.query(query, True)
 
@@ -983,13 +985,13 @@ class ToolingApi():
 
             # If local date is different with server date or lastModifiedBy is not you,
             # it means there has conflict
-            lastModifiedByYou = class_attr["LastModifiedById"] == self.session["user_id"]
-            timeStampMatch = serverDateLiteral[:19] == localDateLiteral[:19]
-            if not lastModifiedByYou or not timeStampMatch:
+            last_modified_by_me = class_attr["LastModifiedById"] == self.session["user_id"]
+            time_stamp_match = serverDateLiteral[:19] == localDateLiteral[:19]
+            if not last_modified_by_me or not time_stamp_match:
                 # Used for debug
                 if self.settings["debug_mode"]:
-                    print ("localDateLiteral: " + localDateLiteral)
-                    print ("serverDateLiteral: " + serverDateLiteral)
+                    print("localDateLiteral: " + localDateLiteral)
+                    print("serverDateLiteral: " + serverDateLiteral)
 
                 message = "Modified by %s at %s, continue?" % (
                     lastModifiedBy["Name"], serverLastModifiedDateZone
@@ -1007,8 +1009,8 @@ class ToolingApi():
 
         # Get MetadataContainerId
         Printer.get('log').write("Start to fetch MetadataContainerId")
-        data = {  
-            "name": "Save" + component_type[4 : len(component_type)] + component_id
+        data = {
+            "name": "Save" + component_type[4: len(component_type)] + component_id
         }
         container_url = "/tooling/sobjects/MetadataContainer"
         result = self.post(container_url, data)
@@ -1024,11 +1026,11 @@ class ToolingApi():
                 container_id = error_message[error_message.rindex("1dc"): len(error_message)]
                 delete_result = self.delete(container_url + "/" + container_id)
                 if delete_result["success"]:
-                    sublime.set_timeout(lambda:sublime.status_message("container_id is deleted."), 10)
+                    sublime.set_timeout(lambda: sublime.status_message("container_id is deleted."), 10)
                 else:
                     self.result = delete_result
                     return delete_result
-                
+
                 # We can't reuse the container_id which caused error
                 # Post Request to get MetadataContainerId
                 return self.save_to_server(component_attribute, body, is_check_only, False)
@@ -1036,7 +1038,7 @@ class ToolingApi():
                 self.result = result
                 return self.result
 
-        # Post ApexComponentMember
+        # Save the code to server by posting Apex[Class/Page/Component]Member
         data = {
             "ContentEntityId": component_id,
             "MetadataContainerId": container_id,
@@ -1053,13 +1055,13 @@ class ToolingApi():
         }
         url = "/tooling/sobjects/" + component_type + "Member"
         member_result = self.post(url, data)
-        
+
         # Check whether user has privilege of `Author Apex`
         if "errorCode" in member_result and member_result["errorCode"] == "NOT_FOUND":
             # Before return error to console, we need to delete the container_id
             # If delete failed, next saving operation will handle it
             sublime.set_timeout_async(self.delete(container_url + "/" + container_id), 100)
-            
+
             self.result = {
                 "success": False,
                 "Error Message": "You don't have privilege on 'Author Apex'"
@@ -1087,7 +1089,7 @@ class ToolingApi():
             Printer.get('log').write("ContainerAsyncRequest is in Queued, waiting...")
             result = self.get(sync_request_url + "/" + request_id)
             state = result["State"]
-        
+
         return_result = {
             "lastModifiedDate": result["LastModifiedDate"]
         }
@@ -1114,7 +1116,7 @@ class ToolingApi():
             else:
                 compile_errors = unescape(result["CompilerErrors"])
                 compile_errors = json.loads(compile_errors)
-            
+
             return_result = {}
             if len(compile_errors) > 0:
                 return_result = compile_errors[0]
@@ -1132,7 +1134,7 @@ class ToolingApi():
                     problem = "\n".join(problem)
                 return_result["problem"] = urllib.parse.unquote(
                     unescape(problem, {
-                        "&apos;": "'", 
+                        "&apos;": "'",
                         "&quot;": '"'
                     })
                 )
@@ -1148,8 +1150,8 @@ class ToolingApi():
             if "columnNumber" not in return_result:
                 return_result["columnNumber"] = 0
 
-            return_result["success"] =  False
-        
+            return_result["success"] = False
+
         if return_result["success"] and component_type == "ApexClass":
             sublime.set_timeout_async(self.write_symbol_table_cache(member_result["id"]), 5)
 
@@ -1159,45 +1161,54 @@ class ToolingApi():
         # Result used in thread invoke
         self.result = return_result
 
-    def save_aura_to_server(self, component_attribute, body, check_save_conflict=True):
-        """ Save AuraDefinition such as Lightning component makeup, controller and helper
+    def save_lightning_to_server(self, component_attribute, body, check_save_conflict=True):
+        """
+        Save Lightning AuraDefinition or LightningComponentResource such as component makeup, controller and helper or
+        Lightning Web component resource to Salesforce
 
         Arguments:
-
-        * component_attribute - attribute of component, e.g., component id, url
-        * body -- Code content
-        * check_save_conflict -- indicate whether to check saving conflict
+        @param component_attribute: attribute of component, e.g., component id, url
+        @param body: Code content
+        @param check_save_conflict: indicate whether to check saving conflict
+        @return: saving result
         """
 
         def handle_error_message(result):
+            if self.settings["debug_mode"]:
+                print('Error: ', result)
             _result = dict()
             _result["success"] = False
             _result["errorCode"] = result["errorCode"]
-            if "\n" in result["message"]:
-                error_messages = result["message"].split('\n')
-                if "CSS Parser" in error_messages[0] :
-                    error_msg = error_messages[2]
-                    _result["problem"] = error_msg
-                    error_line_info = error_msg[error_msg.find("(")+1: error_msg.find(")")]
-                    _result["lineNumber"] = error_line_info.split(",")[0][5:]
-                    _result["columnNumber"] = error_line_info.split(",")[1][5:]
+            try:
+                if "\n" in result["message"]:
+                    error_messages = result["message"].split('\n')
+                    if "CSS Parser" in error_messages[0]:
+                        error_msg = error_messages[2]
+                        _result["problem"] = error_msg
+                        error_line_info = error_msg[error_msg.find("(") + 1: error_msg.find(")")]
+                        _result["lineNumber"] = error_line_info.split(",")[0][5:]
+                        _result["columnNumber"] = error_line_info.split(",")[1][5:]
+                    else:
+                        error_base_info = error_messages[0].split(': ')
+                        error_line_info = error_base_info[1].split(':')[1]
+                        error_line_info = error_line_info[1: len(error_line_info) - 1]
+                        _result['id'] = error_base_info[0]
+                        _result["lineNumber"] = error_line_info.split(',')[0]
+                        _result["columnNumber"] = error_line_info.split(',')[1]
+                        _result["problem"] = error_messages[1]
                 else:
-                    error_base_info = error_messages[0].split(': ')
-                    error_line_info = error_base_info[1].split(':')[1]
-                    error_line_info = error_line_info[1 : len(error_line_info) - 1]
-                    _result['id'] = error_base_info[0]
-                    _result["lineNumber"] = error_line_info.split(',')[0]
-                    _result["columnNumber"] = error_line_info.split(',')[1]
-                    _result["problem"] = error_messages[1]
-            else:
-                _result["problem"] = result["message"]
-                _result['id'] = result["message"].split(':')[0]
-                m = re.search(r'\[\d+,\s*\d+\]', result["message"])
-                if m:
-                    col_row = m.group(0)
-                    col_row = col_row[1:len(col_row)-1]
-                    _result["lineNumber"] = col_row.split(',')[0]
-                    _result["columnNumber"] = col_row.split(',')[1]
+                    _result["problem"] = result["message"]
+                    _result['id'] = result["message"].split(':')[0]
+                    m = re.search(r'\[\d+,\s*\d+\]', result["message"])
+                    if m:
+                        col_row = m.group(0)
+                        col_row = col_row[1:len(col_row) - 1]
+                        _result["lineNumber"] = col_row.split(',')[0]
+                        _result["columnNumber"] = col_row.split(',')[1]
+            except Exception as _ex:
+                if self.settings["debug_mode"]:
+                    print('Error parsing error result: ', _ex)
+                _result["message"] = result["message"]
             return _result
 
         # 1. Firstly Login
@@ -1207,10 +1218,10 @@ class ToolingApi():
             return self.result
 
         # Component Attribute
-        # component_type = component_attribute["type"]
-        component_type = 'AuraDefinition'
+        bundle_type = component_attribute["type"]
+        component_type = 'AuraDefinition' if bundle_type == "AuraDefinitionBundle" else 'LightningComponentResource'
         component_id = component_attribute["id"]
-        component_url = self.base_url + '/tooling/sobjects/AuraDefinition/' + component_id
+        component_url = self.base_url + '/tooling/sobjects/' + component_type + '/' + component_id
 
         # 2. Check conflict
         if self.settings["check_save_conflict"] and check_save_conflict:
@@ -1282,7 +1293,7 @@ class ToolingApi():
 
     def write_symbol_table_cache(self, member_id):
         # Get the symbol table from ApexClassMember
-        query = "SELECT Id, SymbolTable " +\
+        query = "SELECT Id, SymbolTable " + \
                 "FROM ApexClassMember WHERE Id ='%s'" % member_id
         member = self.query(query, True)
 
@@ -1298,7 +1309,7 @@ class ToolingApi():
         outer = util.parse_symbol_table(symbol_table)
 
         symboltable_dict[symbol_table["name"].lower()] = {
-            "outer" : outer,
+            "outer": outer,
             "name": symbol_table["name"]
         }
 

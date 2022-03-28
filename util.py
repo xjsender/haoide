@@ -27,20 +27,28 @@ from xml.sax.saxutils import unescape
 
 
 def load_templates():
+    """
+    Load code template files from haoide package to working project .templates folder
+    """
     settings = context.get_settings()
     target_dir = os.path.join(settings["workspace"], ".templates")
-    if not os.path.exists(target_dir): 
+    if not os.path.exists(target_dir):
         os.makedirs(target_dir)
 
     templates_dir = os.path.join(target_dir, "templates.json")
-    lwc_dir = os.path.join(target_dir, "lwc") # Check exist lwc logic
-    if not os.path.isfile(templates_dir) or not os.path.exists(lwc_dir):
+    lwc_dir = os.path.join(target_dir, "Lwc")  # Check exist lwc logic
+    lwc_ele_dir = os.path.join(target_dir, "LwcElement")  # Check exist lwc element logic
+
+    # for the updating of Lwc, old project should update the template files
+    if not os.path.isfile(templates_dir) or not os.path.exists(lwc_dir) or not os.path.exists(lwc_ele_dir):
+        # get the installed haoide package directory
         source_dir = os.path.join(
-            sublime.installed_packages_path(), 
+            sublime.installed_packages_path(),
             "haoide.sublime-package"
         )
 
         if os.path.isfile(source_dir):
+            # default situation, installed haoide package, copy files from zip file sub folders
             zfile = zipfile.ZipFile(source_dir, 'r')
             for filename in zfile.namelist():
                 if filename.endswith('/'):
@@ -59,8 +67,9 @@ def load_templates():
 
             zfile.close()
         else:
+            # when develop haoide, use local package templates files
             source_dir = os.path.join(
-                sublime.packages_path(), "haoide/config/templates"
+                sublime.packages_path(), "haoide2/config/templates"
             )
             copy_files_in_folder(source_dir, target_dir)
 
@@ -78,19 +87,19 @@ def copy_files_in_folder(source_dir, target_dir):
         @target_dir -- Target Directory
     """
 
-    for _file in os.listdir(source_dir): 
-        sourceFile = os.path.join(source_dir, _file) 
-        targetFile = os.path.join(target_dir, _file) 
+    for _file in os.listdir(source_dir):
+        sourceFile = os.path.join(source_dir, _file)
+        targetFile = os.path.join(target_dir, _file)
 
-        if os.path.isfile(sourceFile): 
-            if not os.path.exists(target_dir): 
-                os.makedirs(target_dir) 
+        if os.path.isfile(sourceFile):
+            if not os.path.exists(target_dir):
+                os.makedirs(target_dir)
             if not os.path.exists(targetFile) or (
                     os.path.exists(targetFile) and (
-                        os.path.getsize(targetFile) != os.path.getsize(sourceFile)
-                    )):
-                open(targetFile, "wb").write(open(sourceFile, "rb").read()) 
-        if os.path.isdir(sourceFile): 
+                    os.path.getsize(targetFile) != os.path.getsize(sourceFile)
+            )):
+                open(targetFile, "wb").write(open(sourceFile, "rb").read())
+        if os.path.isdir(sourceFile):
             copy_files_in_folder(sourceFile, targetFile)
 
 
@@ -121,7 +130,7 @@ def copy_files(attributes, target_dir):
 
             # Build target file
             target_file = os.path.join(
-                target_meta_folder, 
+                target_meta_folder,
                 attribute["fullName"]
             )
 
@@ -151,8 +160,8 @@ def copy_files(attributes, target_dir):
 
 def get_described_metadata(settings):
     cache_file = os.path.join(
-        settings["workspace"], 
-        ".config", 
+        settings["workspace"],
+        ".config",
         "metadata.json"
     )
 
@@ -213,6 +222,7 @@ def get_package_info(settings):
 
     return package
 
+
 def get_completion_from_cache(settings, component_type, is_lightning=False):
     """ Get component completion list from .config/package.json
 
@@ -229,7 +239,7 @@ def get_completion_from_cache(settings, component_type, is_lightning=False):
         members = package_cache.get(component_type, [])
         for member in members:
             completion_list.append((
-                "%s%s\t%s" % (namespace, member.get("fullName"), component_type), 
+                "%s%s\t%s" % (namespace, member.get("fullName"), component_type),
                 "%s%s" % (namespace, member.get("fullName"))
             ))
     else:
@@ -237,56 +247,57 @@ def get_completion_from_cache(settings, component_type, is_lightning=False):
 
     return completion_list
 
-def view_coverage(name, file_name, body):
-    settings = context.get_settings()
-    cache_file = os.path.join(settings["workspace"], ".config", "coverage.json")
-    coverages = {}
-    if os.path.isfile(cache_file):
-        coverages = json.loads(open(cache_file).read())
-    coverage = coverages.get(name.lower(), {})
 
-    if not coverage:
-        return Printer.get("error").write("No code coverage cache, " +\
-            "please execute `Run Sync Test` on related test class before view code coverage")
+def view_coverage(file_name, record, body):
+    """
+    View Apex Class/Trigger code coverage like developer console UI
 
-    numLocationsNotCovered = coverage["numLocationsNotCovered"]
-    numLocations = coverage["numLocations"]
-    numLocationsCovered = numLocations - numLocationsNotCovered
-    linesNotCovered = [l["line"] for l in coverage["locationsNotCovered"]]
-    if numLocations == 0:
-        return Printer.get("error").write("There is no code coverage")
+    @param file_name: name of the apex class/trigger file
+    @param record: dict of {Coverage:{coveredLines:[], uncoveredLines:[]}, NumLinesUncovered:0, NumLinesCovered:0}
+    @param body: the apex class/trigger file body
+    @return: a new view with code coverage information
+    """
+    coverage = record.get("Coverage")
+
+    num_lines_uncovered = record.get("NumLinesUncovered", 0)
+    num_lines_cover = record.get("NumLinesCovered", 0)
+    num_lines = num_lines_uncovered + num_lines_cover
+    if num_lines == 0:
+        return Printer.get("error").write("There is no code coverage (0% coverage)")
 
     # Append coverage statistic info
     coverage_statistic = "%s Coverage: %.2f%%(%s/%s)" % (
-        name, numLocationsCovered / numLocations * 100, 
-        numLocationsCovered, numLocations
+        file_name, num_lines_cover / num_lines * 100,
+        num_lines_cover, num_lines
     )
-    
+
     # If has coverage, just add coverage info to new view
     view = sublime.active_window().new_file()
     view.run_command("new_view", {
         "name": coverage_statistic,
         "input": body
     })
-    
+
     # Calculate line coverage
+    lines_uncovered = coverage.get("uncoveredLines")
+    lines_covered = coverage.get("coveredLines")
     split_lines = view.lines(sublime.Region(0, view.size()))
     uncovered_region = []
     covered_region = []
     for region in split_lines:
         # The first four Lines are the coverage info
         line = view.rowcol(region.begin() + 1)[0] + 1
-        if line in linesNotCovered:
+        if line in lines_uncovered:
             uncovered_region.append(region)
-        else:
+        elif line in lines_covered:
             covered_region.append(region)
 
     # Append body with uncovered line
     view.add_regions("numLocationsNotCovered", uncovered_region, "invalid", "dot",
-        sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
+                     sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
 
     view.add_regions("numLocationsCovered", covered_region, "comment", "cross",
-        sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
+                     sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
 
 
 def get_local_timezone_offset():
@@ -313,7 +324,7 @@ def local_datetime(server_datetime_str):
 
     * local_datetime -- local datetime with GMT offset
     """
-    
+
     offset = get_local_timezone_offset()
     local_datetime = datetime.datetime.strptime(server_datetime_str[:19], '%Y-%m-%dT%H:%M:%S')
     local_datetime += datetime.timedelta(hours=offset)
@@ -356,7 +367,7 @@ def populate_all_components():
             component_id = component_attributes[key]["id"]
             component_type = component_attributes[key]["type"]
             component_name = component_attributes[key]["name"]
-            return_component_attributes[component_type+"."+component_name] = component_id
+            return_component_attributes[component_type + "." + component_name] = component_id
 
     return return_component_attributes
 
@@ -453,7 +464,7 @@ def set_component_attribute(attributes, lastModifiedDate):
         * attributes -- component attributes
         * lastModifiedDate -- LastModifiedDate of component
     """
-    
+
     # If sobjects is exist in local cache, just return it
     settings = context.get_settings()
     username = settings["username"]
@@ -466,13 +477,14 @@ def set_component_attribute(attributes, lastModifiedDate):
     components_dict = s.get(username, {})
 
     # Prevent exception if no component in org
-    if _type not in components_dict: 
-        components_dict = {_type : {}}
+    if _type not in components_dict:
+        components_dict = {_type: {}}
 
-    # Build components dict
-    attr = components_dict[_type][fullName.lower()] 
+    # update components dict lastModifiedDate atrribute
+    attr = components_dict[_type][fullName.lower()]
     attr["lastModifiedDate"] = lastModifiedDate
-    components_dict[_type][fullName.lower()] = attr
+    #  Comment out unnecessary assignment
+    # components_dict[_type][fullName.lower()] = attr
 
     # Save settings and show success message
     s.set(username, components_dict)
@@ -547,8 +559,8 @@ def get_symbol_tables(username):
 
 
 def get_sobject_completion_list(
-        sobject_describe, 
-        prefix="", 
+        sobject_describe,
+        prefix="",
         display_fields=True,
         display_parent_relationships=True,
         display_child_relationships=True):
@@ -575,9 +587,9 @@ def get_sobject_completion_list(
     if display_parent_relationships:
         for key in sorted(sobject_describe["parentRelationships"]):
             parent_sobject = sobject_describe["parentRelationships"][key]
-            completion_list.append((prefix + key + "\t" + parent_sobject + "(c2p)", key)) 
+            completion_list.append((prefix + key + "\t" + parent_sobject + "(c2p)", key))
 
-    # Child Relationship Describe
+            # Child Relationship Describe
     if display_child_relationships:
         for key in sorted(sobject_describe["childRelationships"]):
             child_sobject = sobject_describe["childRelationships"][key]
@@ -615,7 +627,7 @@ def get_component_completion(username, component_type, tag_has_ending=False):
                 value = "c:%s%s" % (component_name, "" if tag_has_ending else "$1>")
                 completion_list.append((display, value))
             else:
-                completion_list.append((component_name+"\t"+component_type, component_name))
+                completion_list.append((component_name + "\t" + component_type, component_name))
     return completion_list
 
 
@@ -625,7 +637,7 @@ def get_component_attributes(settings, component_name, is_lightning=False):
                                      "aura", component_name, component_name + ".cmp")
     else:
         component_dir = os.path.join(settings["workspace"], "src",
-                                     "components", component_name+".component")
+                                     "components", component_name + ".component")
     attributes = []
     if os.path.isfile(component_dir):
         name, _type, description = "", "", ""
@@ -662,18 +674,20 @@ def get_component_attributes(settings, component_name, is_lightning=False):
 
     return attributes
 
+
 def get_attribute_completion(settings, component_name, is_lightning=False):
     completion_list = []
     for attribute in get_component_attributes(settings, component_name, is_lightning):
         display = "%s\t%s(%s)" % (
-            attribute["name"], 
-            attribute["description"], 
+            attribute["name"],
+            attribute["description"],
             attribute["type"].capitalize()
         )
         value = '%s="$1"$0' % attribute["name"]
         completion_list.append((display, value))
 
     return completion_list
+
 
 def convert_15_to_18(the15Id):
     """ Convert Salesforce 15 Id to 18 Id
@@ -686,21 +700,21 @@ def convert_15_to_18(the15Id):
 
     * 18 Id - converted 18 Id
     """
-    
+
     if not the15Id or len(the15Id) != 15: return the15Id
 
     cmap = {
         "00000": "A", "00001": "B", "00010": "C", "00011": "D", "00100": "E",
         "00101": "F", "00110": "G", "00111": "H", "01000": "I", "01001": "J",
-        "01010": "K", "01011": "L", "01100": "M", "01101": "N", "01110": "O", 
-        "01111": "P", "10000": "Q", "10001": "R", "10010": "S", "10011": "T", 
-        "10100": "U", "10101": "V", "10110": "W", "10111": "X", "11000": "Y", 
-        "11001": "Z", "11010": "0", "11011": "1", "11100": "2", "11101": "3", 
+        "01010": "K", "01011": "L", "01100": "M", "01101": "N", "01110": "O",
+        "01111": "P", "10000": "Q", "10001": "R", "10010": "S", "10011": "T",
+        "10100": "U", "10101": "V", "10110": "W", "10111": "X", "11000": "Y",
+        "11001": "Z", "11010": "0", "11011": "1", "11100": "2", "11101": "3",
         "11110": "4", "11111": "5"
     }
 
     chars = [cmap["".join(["1" if c.isupper() else "0" for c in char[::-1]])] \
-        for char in list_chunks(the15Id, 5)]
+             for char in list_chunks(the15Id, 5)]
 
     return the15Id + "".join(chars)
 
@@ -714,7 +728,7 @@ def list_chunks(l, n):
     * n - split size
     """
     for i in range(0, len(l), n):
-        yield l[i:i+n]
+        yield l[i:i + n]
 
 
 def dict_chunks(data, SIZE=10000):
@@ -784,7 +798,7 @@ def get_variable_type(view, pt, pattern):
     # Get the matched variable type
     matched_regions = view.find_all(pattern, sublime.IGNORECASE)
     uncomment_regions = remove_comments(view, matched_regions)
-    
+
     # Three scenarios:
     # 1. If no matched regions
     # 2. Only one matched region
@@ -794,7 +808,7 @@ def get_variable_type(view, pt, pattern):
     elif len(uncomment_regions) == 1:
         matched_region = uncomment_regions[0]
     else:
-        row_region = {} # Row => Region
+        row_region = {}  # Row => Region
         for mr in uncomment_regions:
             row, col = view.rowcol(mr.begin())
             row_region[row] = mr
@@ -814,7 +828,7 @@ def get_variable_type(view, pt, pattern):
 
     # Get the content of matched region
     matched_str = view.substr(matched_region).strip()
-    
+
     # If list, map, set
     if "<" in matched_str and ">" in matched_str:
         variable_type = matched_str.split("<")[0].strip()
@@ -851,7 +865,7 @@ def get_soql_match_region(view, pt):
             matched_region = m
             break
 
-    if not matched_region: 
+    if not matched_region:
         return (matched_region, is_between_start_and_from, sobject_name)
 
     match_str = view.substr(matched_region)
@@ -861,7 +875,7 @@ def get_soql_match_region(view, pt):
 
     if pt >= (select_pos + match_begin) and pt <= (from_pos + match_begin):
         is_between_start_and_from = True
-        sobject_name = match_str[from_pos+5:]
+        sobject_name = match_str[from_pos + 5:]
         sobject_name = sobject_name.strip()
 
     return (matched_region, is_between_start_and_from, sobject_name)
@@ -876,7 +890,7 @@ def parse_symbol_table(symbol_table):
     """
 
     completions = {}
-    if not symbol_table: 
+    if not symbol_table:
         return completions;
 
     for c in symbol_table.get('constructors', []):
@@ -887,37 +901,37 @@ def parse_symbol_table(symbol_table):
                 params.append(p["type"].capitalize() + " " + p["name"])
             paramStrings = []
             for i, p in enumerate(params):
-                paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
+                paramStrings.append("${" + str(i + 1) + ":" + params[i] + "}")
             paramString = ", ".join(paramStrings)
-            completions[modifiers+" "+c["name"]+"("+", ".join(params)+")"] =\
+            completions[modifiers + " " + c["name"] + "(" + ", ".join(params) + ")"] = \
                 "%s(%s)" % (c["name"], paramString)
         else:
-            completions[modifiers+" "+c["name"]+"()"] = c["name"]+"()${1:}"
+            completions[modifiers + " " + c["name"] + "()"] = c["name"] + "()${1:}"
 
     for c in symbol_table.get('properties', []):
         modifiers = " ".join(c.get("modifiers", []))
         property_type = c["type"].capitalize() if "type" in c and c["type"] else ""
-        completions[modifiers+" "+c["name"]+"\t"+property_type] = c["name"]
+        completions[modifiers + " " + c["name"] + "\t" + property_type] = c["name"]
 
     for c in symbol_table.get('methods', []):
         params = []
         modifiers = " ".join(c.get("modifiers", []))
         if 'parameters' in c and type(c['parameters']) is list and len(c['parameters']) > 0:
             for p in c['parameters']:
-                params.append(p["type"]+" "+p["name"])
+                params.append(p["type"] + " " + p["name"])
         if len(params) == 1:
-            completions[modifiers+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
+            completions[modifiers + " " + c["name"] + "(" + ", ".join(params) + ") \t" + c['returnType']] = \
                 "%s(${1:%s})" % (c["name"], ", ".join(params))
         elif len(params) > 1:
             paramStrings = []
             for i, p in enumerate(params):
-                paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
+                paramStrings.append("${" + str(i + 1) + ":" + params[i] + "}")
             paramString = ", ".join(paramStrings)
-            completions[modifiers+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
-                c["name"]+"("+paramString+")"
+            completions[modifiers + " " + c["name"] + "(" + ", ".join(params) + ") \t" + c['returnType']] = \
+                c["name"] + "(" + paramString + ")"
         else:
-            completions[modifiers+" "+c["name"]+"("+", ".join(params)+") \t"+c['returnType']] =\
-                c["name"]+"()${1:}"
+            completions[modifiers + " " + c["name"] + "(" + ", ".join(params) + ") \t" + c['returnType']] = \
+                c["name"] + "()${1:}"
 
     for c in symbol_table.get("innerClasses", []):
         tableDeclaration = c.get("tableDeclaration")
@@ -934,16 +948,16 @@ def parse_symbol_table(symbol_table):
                 params = []
                 if 'parameters' in con and type(con['parameters']) is list and len(con['parameters']) > 0:
                     for p in con['parameters']:
-                        params.append(p["type"].capitalize()+" "+p["name"])
+                        params.append(p["type"].capitalize() + " " + p["name"])
                     paramStrings = []
                     for i, p in enumerate(params):
-                        paramStrings.append("${"+str(i+1)+":"+params[i]+"}")
+                        paramStrings.append("${" + str(i + 1) + ":" + params[i] + "}")
                     paramString = ", ".join(paramStrings)
-                    completions[modifiers+" "+con["name"]+"("+", ".join(params)+")"] =\
-                        c["name"]+"("+paramString+")"
+                    completions[modifiers + " " + con["name"] + "(" + ", ".join(params) + ")"] = \
+                        c["name"] + "(" + paramString + ")"
                 else:
-                    completions[modifiers+" "+con["name"]+"()"] =\
-                        c["name"]+"()${1:}"
+                    completions[modifiers + " " + con["name"] + "()"] = \
+                        c["name"] + "()${1:}"
 
     return completions
 
@@ -984,20 +998,20 @@ def add_config_history(operation, content, settings, ext="json"):
     * history_content -- the content needed to keep
     """
     outputdir = os.path.join(settings["workspace"], ".config")
-    if not os.path.exists(outputdir): 
+    if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
     with open(outputdir + "/%s.%s" % (operation, ext), "w") as fp:
         fp.write(json.dumps(content, indent=4))
 
     # After write the file to local, refresh sidebar
-    sublime.set_timeout(lambda:sublime.active_window().run_command('refresh_folder_list'), 200);
-    sublime.set_timeout(lambda:sublime.active_window().run_command('refresh_folder_list'), 1300);
+    sublime.set_timeout(lambda: sublime.active_window().run_command('refresh_folder_list'), 200);
+    sublime.set_timeout(lambda: sublime.active_window().run_command('refresh_folder_list'), 1300);
 
 
 def export_report_api(rootdir):
     reports = []
-    for parent,dirnames,filenames in os.walk(rootdir):
+    for parent, dirnames, filenames in os.walk(rootdir):
         for filename in filenames:
             if not filename.endswith(".report"): continue
             report_dir = parent + "/" + filename
@@ -1143,7 +1157,7 @@ def parse_package_types(_types):
             # If no elements, don't keep it
             if not elements:
                 continue
-            
+
             # inFolder is false
             if attr["inFolder"] == "false":
                 package_types[_type] = elements
@@ -1153,7 +1167,7 @@ def parse_package_types(_types):
                 for folder in [e for e in elements if "/" not in e]:
                     folder_elements[folder] = [
                         e for e in elements if e.startswith(folder) \
-                            and "/" in e
+                                               and "/" in e
                     ]
                 package_types[_type] = folder_elements
             continue
@@ -1197,7 +1211,7 @@ def build_package_types(package_xml_content):
     metadata_types = result["Package"]["types"]
 
     # If there is only one types in package
-    if isinstance(metadata_types, dict): 
+    if isinstance(metadata_types, dict):
         metadata_types = [metadata_types]
 
     types = {}
@@ -1226,7 +1240,7 @@ def build_folder_types(dirs):
     types = {}
     for _dir in dirs:
         base, folder = os.path.split(_dir)
-        
+
         if folder not in settings: continue
         if dname not in _dir: continue
 
@@ -1259,12 +1273,12 @@ def build_package_dict(files, ignore_folder=True):
     package_dict = {}
     for f in files:
         # Ignore folder
-        if ignore_folder and not os.path.isfile(f): 
+        if ignore_folder and not os.path.isfile(f):
             continue
 
-        # Ignore "-meta.xml"
-        if f.endswith("-meta.xml"): 
-            continue
+        # Replace meta file with source file
+        if f.endswith("-meta.xml"):
+            f = f.replace("-meta.xml", "")
 
         # If ignore_folder is true and f is folder
         attributes = get_file_attributes(f)
@@ -1335,10 +1349,11 @@ def build_package_xml(settings, package_dict):
 
     return package_xml_content
 
+
 def build_destructive_package_by_files(files, ignore_folder=True):
     settings = context.get_settings()
     workspace = settings["workspace"]
-    if not os.path.exists(workspace): 
+    if not os.path.exists(workspace):
         os.makedirs(workspace)
 
     # Constucture package dict 
@@ -1346,13 +1361,13 @@ def build_destructive_package_by_files(files, ignore_folder=True):
 
     # Build destructiveChanges.xml
     destructive_xml_content = build_package_xml(settings, package_dict)
-    destructive_xml_path = workspace+"/destructiveChanges.xml"
+    destructive_xml_path = workspace + "/destructiveChanges.xml"
     with open(destructive_xml_path, "wb") as fp:
         fp.write(destructive_xml_content.encode("utf-8"))
 
     # Build package.xml
     package_xml_content = build_package_xml(settings, {})
-    package_xml_path = workspace+"/package.xml"
+    package_xml_path = workspace + "/package.xml"
     with open(package_xml_path, "wb") as fp:
         fp.write(package_xml_content.encode("utf-8"))
 
@@ -1378,6 +1393,7 @@ def build_destructive_package_by_files(files, ignore_folder=True):
 
     return base64_package
 
+
 def build_destructive_package_by_package_xml(types):
     """ Build destructive package,
     
@@ -1399,13 +1415,13 @@ def build_destructive_package_by_package_xml(types):
 
     # Build destructiveChanges.xml
     destructive_xml_content = build_package_xml(settings, types)
-    destructive_xml_path = workspace+"/destructiveChanges.xml"
+    destructive_xml_path = workspace + "/destructiveChanges.xml"
     with open(destructive_xml_path, "wb") as fp:
         fp.write(destructive_xml_content.encode("utf-8"))
 
     # Build package.xml
     package_xml_content = build_package_xml(settings, {})
-    package_xml_path = workspace+"/package.xml"
+    package_xml_path = workspace + "/package.xml"
     with open(package_xml_path, "wb") as fp:
         fp.write(package_xml_content.encode("utf-8"))
 
@@ -1451,9 +1467,9 @@ def build_deploy_package(files):
 
             # Define write_to
             write_to = (
-                metadata_folder, 
-                ("/" + f["folder"]) if f["folder"] else "", 
-                f["name"], 
+                metadata_folder,
+                ("/" + f["folder"]) if f["folder"] else "",
+                f["name"],
                 f["extension"]
             )
 
@@ -1469,17 +1485,17 @@ def build_deploy_package(files):
             else:
                 zf.write(f["dir"], "%s%s/%s.%s" % write_to)
 
-            # If -meta.xml is exist, add it to folder
-            met_xml = f["dir"] + "-meta.xml"
-            if os.path.isfile(met_xml):
-                zf.write(met_xml, "%s%s/%s.%s-meta.xml" % write_to)
+                # If -meta.xml is exist, add it to folder
+                met_xml = f["dir"] + "-meta.xml"
+                if os.path.isfile(met_xml):
+                    zf.write(met_xml, "%s%s/%s.%s-meta.xml" % write_to)
 
     # Prepare package XML content
     package_xml_content = build_package_xml(settings, package_dict)
     package_xml_content = format_xml(package_xml_content)
 
     if settings["debug_mode"]:
-        print ("{seprate}\n[Package.xml for Deployment]: \n{seprate}\n{content}\n{seprate}".format(
+        print("{seprate}\n[Package.xml for Deployment]: \n{seprate}\n{content}\n{seprate}".format(
             seprate="~" * 100,
             content=package_xml_content.decode("UTF-8")
         ))
@@ -1488,13 +1504,13 @@ def build_deploy_package(files):
     try:
         time_stamp = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
         xml_dir = os.path.join(settings["workspace"], ".deploy")
-        if not os.path.exists(xml_dir): 
+        if not os.path.exists(xml_dir):
             os.mkdir(xml_dir)
-        
+
         # http://stackoverflow.com/questions/1627198/python-mkdir-giving-me-wrong-permissions
         if not os.access(xml_dir, os.W_OK):
             os.chmod(xml_dir, 0o755)
-            
+
         xml_dir = os.path.join(xml_dir, "package-%s.xml" % time_stamp)
         with open(xml_dir, "wb") as fp:
             fp.write(package_xml_content)
@@ -1527,12 +1543,12 @@ def compress_resource_folder(resource_folder):
     static_resource_path, resource_name = os.path.split(resource_folder)
 
     # Create StaticResource File
-    static_resource_file = os.path.join(static_resource_path, resource_name+".resource")
+    static_resource_file = os.path.join(static_resource_path, resource_name + ".resource")
     zf = zipfile.ZipFile(static_resource_file, "w", zipfile.ZIP_DEFLATED)
     for dirpath, dirnames, filenames in os.walk(resource_folder):
-        basename = dirpath[len(resource_folder)+1:]
+        basename = dirpath[len(resource_folder) + 1:]
         for filename in filenames:
-            zf.write(os.path.join(dirpath, filename), basename+"/"+filename)
+            zf.write(os.path.join(dirpath, filename), basename + "/" + filename)
     zf.close()
 
     # Build package
@@ -1541,32 +1557,31 @@ def compress_resource_folder(resource_folder):
     return base64_package
 
 
-# Build zip package for Aura or LWC deployment
-def build_package(files_or_dirs, meta_type="aura"):
+def build_lightning_package(files_or_dirs, meta_type=""):
     # Build package
     settings = context.get_settings()
     workspace = settings["workspace"]
     if not os.path.exists(workspace):
         os.makedirs(workspace)
-    zipfile_path = workspace + "/aura.zip" if meta_type is 'aura' else "/lwc.zip"
+    zipfile_path = workspace + ("/aura.zip" if meta_type is 'aura' else "/lwc.zip")
     zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
 
-    aura_names = []
+    lightning_names = []
     for _file_or_dir in files_or_dirs:
         if os.path.isfile(_file_or_dir):
             base, aura_element = os.path.split(_file_or_dir)
             base, aura_name = os.path.split(base)
             base, meta_folder = os.path.split(base)
-            aura_names.append(aura_name)
+            lightning_names.append(aura_name)
             zf.write(_file_or_dir, "%s/%s/%s" % (meta_folder, aura_name, aura_element))
         else:
             base, aura_name = os.path.split(_file_or_dir)
             base, meta_folder = os.path.split(base)
-            aura_names.append(aura_name)
+            lightning_names.append(aura_name)
             for dirpath, dirnames, filenames in os.walk(_file_or_dir):
                 base, aura_name = os.path.split(dirpath)
                 if not filenames:
-                    zf.write(dirpath, meta_folder+"/"+aura_name)
+                    zf.write(dirpath, meta_folder + "/" + aura_name)
                 else:
                     for filename in filenames:
                         zf.write(os.path.join(dirpath, filename), "%s/%s/%s" % (
@@ -1586,9 +1601,12 @@ def build_package(files_or_dirs, meta_type="aura"):
             </types>
             <version>%s.0</version>
         </Package>
-    """ % ("\n".join(["<members>%s</members>" % a for a in aura_names]),
-           "AuraDefinitionBundle" if meta_type is 'aura' else "LightningComponentBundle",settings["api_version"])
-    package_xml_path = settings["workspace"]+"/package.xml"
+    """ % (
+        "\n".join(["<members>%s</members>" % a for a in lightning_names]),
+        meta_type,
+        settings["api_version"]
+    )
+    package_xml_path = settings["workspace"] + "/package.xml"
     open(package_xml_path, "wb").write(package_xml_content.encode("utf-8"))
     zf.write(package_xml_path, "package.xml")
     os.remove(package_xml_path)
@@ -1614,12 +1632,12 @@ def base64_encode(zipfile):
 
 
 def compress_package(package_dir):
-    zipfile_path = package_dir+"/archive.zip"
+    zipfile_path = package_dir + "/archive.zip"
     zf = zipfile.ZipFile(zipfile_path, "w", zipfile.ZIP_DEFLATED)
     for dirpath, dirnames, filenames in os.walk(package_dir):
-        basename = dirpath[len(package_dir)+1:]
+        basename = dirpath[len(package_dir) + 1:]
         for filename in filenames:
-            zf.write(os.path.join(dirpath, filename), basename+"/"+filename) 
+            zf.write(os.path.join(dirpath, filename), basename + "/" + filename)
     zf.close()
 
     base64_package = base64_encode(zipfile_path)
@@ -1651,6 +1669,7 @@ def extract_encoded_zipfile(encoded_zip_file, extract_to, ignore_package_xml=Fal
     # we need to refresh the sublime workspace to show it
     sublime.active_window().run_command("refresh_folder_list")
 
+
 def extract_zipfile(zipfile_path, extract_to):
     """ Extract Zip File to current folder
     """
@@ -1661,7 +1680,7 @@ def extract_zipfile(zipfile_path, extract_to):
         raise BaseException(str(ex))
         return
 
-    if not os.path.exists(extract_to): 
+    if not os.path.exists(extract_to):
         os.makedirs(extract_to)
 
     for filename in zfile.namelist():
@@ -1676,13 +1695,21 @@ def extract_zipfile(zipfile_path, extract_to):
 
     zfile.close()
 
+
 def extract_file(zipfile_path, extract_to, ignore_package_xml=False):
-    zfile = zipfile.ZipFile(zipfile_path, 'r')
-    for filename in zfile.namelist():
-        if filename.endswith('/'): 
+    """
+    extract packaged Zip file from metadata API
+    @param zipfile_path:
+    @param extract_to:
+    @param ignore_package_xml:
+    @return:
+    """
+    zip_file = zipfile.ZipFile(zipfile_path, 'r')
+    for filename in zip_file.namelist():
+        if filename.endswith('/'):
             continue
 
-        if ignore_package_xml and filename == "unpackaged/package.xml": 
+        if ignore_package_xml and filename == "unpackaged/package.xml":
             continue
 
         if filename.startswith("unpackaged"):
@@ -1694,9 +1721,10 @@ def extract_file(zipfile_path, extract_to, ignore_package_xml=False):
             os.makedirs(os.path.dirname(f))
 
         with open(f, "wb") as fp:
-            fp.write(zfile.read(filename))
+            fp.write(zip_file.read(filename))
 
-    zfile.close()
+    zip_file.close()
+
 
 def extract_zip(base64String, extract_to):
     """
@@ -1717,6 +1745,7 @@ def extract_zip(base64String, extract_to):
     os.remove(zipfile_path)
 
     return zipfile_path
+
 
 def parse_package(package_content):
     """Parse package types to specified format
@@ -1763,24 +1792,25 @@ def parse_package(package_content):
             members.append("<met:members>%s</met:members>" % t["members"])
 
         elements.append("<types>%s%s</types>" % (
-            "".join(members), 
+            "".join(members),
             "<name>%s</name>" % t["name"]
         ))
 
     return "".join(elements) + "<met:version>%s</met:version>" % result["Package"]["version"]
 
+
 def reload_file_attributes(file_properties, settings=None, append=False):
-    """ Keep the file attribute to local cache
+    """ Keep the file attribute to local cache for saving to server directly later
 
     Paramter:
-        * file_properties -- file attributes returned from server
+        * file_properties -- file attributes returned from server via Metadata API
         * settings -- whole plugin settings
         * append -- default is False, if append is false, it means local cache
                     of default project are reloaded by file properties, otherwise,
                     file properties will be appended to local cache
     """
     # Get settings
-    if not settings: 
+    if not settings:
         settings = context.get_settings()
 
     metadata_body_or_markup = {
@@ -1791,8 +1821,10 @@ def reload_file_attributes(file_properties, settings=None, append=False):
         "ApexComponent": "Markup"
     }
 
+    # print(file_properties)
+
     # If the package only contains `package.xml`
-    if isinstance(file_properties, dict): 
+    if isinstance(file_properties, dict):
         file_properties = [file_properties]
 
     component_settings = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
@@ -1810,11 +1842,11 @@ def reload_file_attributes(file_properties, settings=None, append=False):
         if metdata_object in all_components_attr:
             components_attr = all_components_attr[metdata_object]
 
-        base_name = filep['fileName'][filep['fileName'].rfind("/")+1:]
+        base_name = filep['fileName'][filep['fileName'].rfind("/") + 1:]
         last_point = base_name.rfind(".")
         name = base_name[:last_point]
-        extension = ".%s" % base_name[last_point+1:]
-        
+        extension = ".%s" % base_name[last_point + 1:]
+
         attrs = {
             "namespacePrefix": filep.get("namespacePrefix", None),
             "name": name,
@@ -1846,7 +1878,8 @@ def reload_file_attributes(file_properties, settings=None, append=False):
     sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
 
     # Reload component metadata cache in globals()
-    sublime.set_timeout(lambda:load_metadata_cache(True, settings["username"]), 5)
+    sublime.set_timeout(lambda: load_metadata_cache(True, settings["username"]), 5)
+
 
 def format_debug_logs(settings, records):
     if len(records) == 0: return "No available logs."
@@ -1893,22 +1926,23 @@ def format_debug_logs(settings, records):
     # Headers
     headers = ""
     for header in debug_log_headers:
-        headers += "%-*s" % (debug_log_headers_properties[header]["width"], 
-            debug_log_headers_properties[header]["label"])
+        headers += "%-*s" % (debug_log_headers_properties[header]["width"],
+                             debug_log_headers_properties[header]["label"])
 
     # Content
     content = ""
-    records = sorted(records, key=lambda k : k['StartTime'])
+    records = sorted(records, key=lambda k: k['StartTime'])
     for record in records:
         for header in debug_log_headers:
             if header == "StartTime":
                 content += "%-*s" % (debug_log_headers_properties[header]["width"],
-                    local_datetime(record[header]))
+                                     local_datetime(record[header]))
                 continue
             content += "%-*s" % (debug_log_headers_properties[header]["width"], record[header])
         content += "\n"
 
-    return "\n" + headers + "\n" + (len(headers) * "-") + "\n" + content[:len(content)-1]
+    return "\n" + headers + "\n" + (len(headers) * "-") + "\n" + content[:len(content) - 1]
+
 
 def format_error_message(result):
     """Format message as below format
@@ -1925,17 +1959,21 @@ def format_error_message(result):
 
     error_message = ""
     for key, value in result.items():
-        if isinstance(value, list): 
-            if value: value = value[0] 
-            else: continue
-        elif not value: continue
-        
+        if isinstance(value, list):
+            if value:
+                value = value[0]
+            else:
+                continue
+        elif not value:
+            continue
+
         error_message += "% 30s\t" % "{0}: ".format(key)
-        value = urllib.parse.unquote(unescape(none_value(value), 
-            {"&apos;": "'", "&quot;": '"'}))
+        value = urllib.parse.unquote(unescape(none_value(value),
+                                              {"&apos;": "'", "&quot;": '"'}))
         error_message += "%-30s\t" % value + "\n"
 
-    return error_message[:len(error_message)-1]
+    return error_message[:len(error_message) - 1]
+
 
 def format_waiting_message(result, header=""):
     error_message = header + "\n" + "-" * 100 + "\n"
@@ -1956,6 +1994,7 @@ def format_waiting_message(result, header=""):
             error_message += "\n"
 
     return error_message
+
 
 def format_xml(xml_string, indent="4"):
     """Return formatted XML string
@@ -1978,6 +2017,7 @@ def format_xml(xml_string, indent="4"):
 
     return content
 
+
 def none_value(value):
     """ If value is None, return "", if not, return string format of value
 
@@ -1988,7 +2028,8 @@ def none_value(value):
 
     if not value: return ""
     return "%s" % value
-    
+
+
 def is_python3x():
     """
     If python version is 3.x, return True
@@ -1996,9 +2037,12 @@ def is_python3x():
 
     return sys.version > '3'
 
+
 """
 Below three functions are used to parse completions out of box.
 """
+
+
 def parse_namespace(publicDeclarations):
     """
     from . import util
@@ -2015,6 +2059,7 @@ def parse_namespace(publicDeclarations):
         namespaces_dict[namespace] = list(publicDeclarations[namespace].keys())
 
     return namespaces_dict
+
 
 def parse_method(methods, is_method=True):
     if not methods: return {}
@@ -2037,10 +2082,11 @@ def parse_method(methods, is_method=True):
             for i in range(len(display_parameters)):
                 return_parameters.append("${%s:%s}" % (i + 1, display_parameters[i]))
 
-            methods_dict["%s(%s)\t%s" % (method["name"], ', '.join(display_parameters), returnType)] =\
+            methods_dict["%s(%s)\t%s" % (method["name"], ', '.join(display_parameters), returnType)] = \
                 "%s(%s)$0" % (method["name"], ', '.join(return_parameters))
 
     return methods_dict
+
 
 def parse_properties(properties):
     if not properties: return {}
@@ -2049,6 +2095,7 @@ def parse_properties(properties):
         properties_dict[property["name"]] = property["name"] + "$0"
 
     return properties_dict
+
 
 def parse_all(apex):
     """
@@ -2087,10 +2134,10 @@ def parse_all(apex):
             if class_name.lower() in apex_completions:
                 apex_completions[class_name.lower()] = [apex_completions[class_name.lower()]]
                 apex_completions[class_name.lower()].append({
-                    "constructors" : constructors_dict,
-                    "methods" : methods_dict,
-                    "properties" : properties_dict,
-                    "namespace" : namespace,
+                    "constructors": constructors_dict,
+                    "methods": methods_dict,
+                    "properties": properties_dict,
+                    "namespace": namespace,
                     "name": class_name
                 })
             else:
@@ -2100,19 +2147,30 @@ def parse_all(apex):
                 apex_completions[class_name.lower()]["properties"] = properties_dict
                 apex_completions[class_name.lower()]["namespace"] = namespace
                 apex_completions[class_name.lower()]["name"] = class_name
-            
+
     return apex_completions
+
 
 def parse_code_coverage(result):
     records = {}
-    for record in result["records"]:
-        name = record["ApexClassOrTrigger"]["Name"]
+    for _record in result["records"]:
+        name = _record["ApexClassOrTrigger"]["Name"]
         records[name] = {
-            "NumLinesCovered" : record["NumLinesCovered"],
-            "NumLinesUncovered": record["NumLinesUncovered"]
+            "NumLinesCovered": _record["NumLinesCovered"],
+            "NumLinesUncovered": _record["NumLinesUncovered"],
+            "Coverage": _record.get("Coverage")
         }
 
-    code_coverage_desc = message.SEPRATE.format("TriggerOrClass Code Coverage:")
+    code_coverage_desc = ("Trigger Or Class Code Coverage:\n" +
+                          "Select Apex trigger or class name and " +
+                          "view code coverage by context menu\n")
+
+    # Keep the coverage to local cache, will overwrite the old one
+    settings = context.get_settings()
+    cache_dir = os.path.join(settings["workspace"], ".config")
+    cache_file = os.path.join(cache_dir, "coverage.json")
+    with open(cache_file, "w") as fp:
+        fp.write(json.dumps(records, indent=4))
 
     columns = ""
     header_width = {
@@ -2126,7 +2184,7 @@ def parse_code_coverage(result):
         row = ""
         row += "%-*s" % (header_width["Name"], name)
         coverage = records[name]
-        if not coverage["NumLinesCovered"] or not coverage["NumLinesUncovered"]:
+        if coverage.get("NumLinesCovered", 0) + coverage.get("NumLinesUncovered", 0) == 0:
             continue
         covered_lines = coverage["NumLinesCovered"]
         total_lines = covered_lines + coverage["NumLinesUncovered"]
@@ -2135,7 +2193,9 @@ def parse_code_coverage(result):
         row += "%-*s" % (header_width["Lines"], "%s/%s" % (covered_lines, total_lines))
         code_coverage += row + "\n"
 
-    return message.SEPRATE.format(code_coverage_desc + columns + "\n"*2 + code_coverage)
+    return message.SEPRATE.format(code_coverage_desc + "-" * 79 + "\n" +
+                                  columns + "\n" * 2 + code_coverage)
+
 
 def parse_sync_test_coverage(result):
     successes = result["successes"]
@@ -2145,7 +2205,7 @@ def parse_sync_test_coverage(result):
     allrows = []
     if result["failures"]:
         allrows.append("Failed Test Methods:")
-        for failure in sorted(result["failures"], key=lambda k : k["name"]):
+        for failure in sorted(result["failures"], key=lambda k: k["name"]):
             allrows.append("~" * 80)
             failure_row = []
             failure_row.append("% 30s    %-30s    " % ("ClassName: ", failure["name"]))
@@ -2160,7 +2220,7 @@ def parse_sync_test_coverage(result):
     if result["successes"]:
         allrows.append("~" * 80)
         allrows.append("Successful Test Methods:")
-        for success in sorted(result["successes"], key=lambda k : k["name"]):
+        for success in sorted(result["successes"], key=lambda k: k["name"]):
             allrows.append("~" * 80)
             success_row = []
             success_row.append("% 30s    %-30s    " % ("ClassName: ", success["name"]))
@@ -2171,8 +2231,9 @@ def parse_sync_test_coverage(result):
             allrows.append("\n".join(success_row))
 
     allrows.append("~" * 80)
-    allrows.append("Follow the instruction as below, you can quickly view code coverage,")
-    allrows.append("    * Put focus on code name, hold down 'alt' and Dblclick the 'Left Mouse'")
+    allrows.append("Apex Class Or Trigger Code Coverage Statistics:")
+    # allrows.append("Follow the instruction as below, you can quickly view code coverage,")
+    # allrows.append("    * Put focus on code name, hold down 'alt' and Dblclick the 'Left Mouse'")
 
     header_width = {
         "Type": 15, "Name": 50, "Percent": 10, "Lines": 10
@@ -2186,7 +2247,8 @@ def parse_sync_test_coverage(result):
     coverageRows.append("".join(columns))
     coverageRows.append("~" * 80)
     codeCoverage = sorted(result["codeCoverage"], reverse=True,
-        key=lambda k : 0 if k["numLocations"] == 0 else (k["numLocations"] - k['numLocationsNotCovered']) / k["numLocations"])
+                          key=lambda k: 0 if k["numLocations"] == 0 else (k["numLocations"] - k[
+                              'numLocationsNotCovered']) / k["numLocations"])
     for coverage in codeCoverage:
         coverageRow = []
         coverageRow.append("%-*s" % (header_width["Type"], coverage["type"]))
@@ -2198,12 +2260,12 @@ def parse_sync_test_coverage(result):
         numLocationsCovered = numLocations - numLocationsNotCovered
         percent = numLocationsCovered / numLocations * 100 if numLocations != 0 else 0
         coverageRow.append("%-*s" % (
-            header_width["Percent"], 
+            header_width["Percent"],
             "%.2f%%" % percent
         ))
         coverageRow.append("%-*s" % (
             header_width["Lines"], "%s/%s" % (
-                numLocationsCovered, 
+                numLocationsCovered,
                 numLocations
             )
         ))
@@ -2213,6 +2275,7 @@ def parse_sync_test_coverage(result):
     allrows.append("\n".join(coverageRows))
 
     return "\n".join(allrows)
+
 
 def parse_test_result(test_result):
     """
@@ -2245,16 +2308,17 @@ def parse_test_result(test_result):
     return_result = class_name + test_result_desc + test_result_content[:-1]
 
     # Parse Debug Log Part
-    info = "You can choose the LogId and view log detail " +\
-        "in Sublime or Salesforce by context menu"
-    debug_log_desc = message.SEPRATE.format(info)
+    info = "Select LogId and view log detail " + \
+           "in Sublime or Salesforce by context menu"
     debug_log_content = "LogId: "
     if len(test_result) > 0 and test_result[0]["ApexLogId"] != None:
         debug_log_content += test_result[0]["ApexLogId"]
 
-    return_result += debug_log_desc + debug_log_content
+    debug_log_content += '\n' + info
+    return_result += message.SEPRATE.format(debug_log_content)
 
     return return_result
+
 
 def parse_validation_rule(settings, sobjects):
     """ Parse the validation rule in Sobject.object to csv
@@ -2272,8 +2336,8 @@ def parse_validation_rule(settings, sobjects):
     # Initiate CSV Writer and Write headers
     columns = settings["validation_rule_columns"]
     with open(outputdir + "/ValidationRules.csv", "wb") as fp:
-        fp.write(u'\ufeff'.encode('utf8')) # Write BOM Header
-        fp.write(",".join(columns).encode("utf-8") + b"\n") # Write Header
+        fp.write(u'\ufeff'.encode('utf8'))  # Write BOM Header
+        fp.write(",".join(columns).encode("utf-8") + b"\n")  # Write Header
 
     # Open workflow source file
     validation_rule_path = settings["workspace"] + "/src/objects"
@@ -2295,6 +2359,7 @@ def parse_validation_rule(settings, sobjects):
         except KeyError:
             # If one sobject doesn't have vr, We don't need do anything
             pass
+
 
 def parse_workflow_metadata(settings, sobjects):
     """Parse Sobject.workflow to csv, including rule, field update and alerts
@@ -2343,8 +2408,8 @@ def parse_workflow_metadata(settings, sobjects):
 
         # Write Header
         with open(rule_outputdir, "wb") as fp:
-            fp.write(u'\ufeff'.encode('utf8')) # Write BOM Header
-            fp.write(",".join([(c[0].upper() + c[1:]) for c in columns]).encode("utf-8") + b"\n") # Write Header
+            fp.write(u'\ufeff'.encode('utf8'))  # Write BOM Header
+            fp.write(",".join([(c[0].upper() + c[1:]) for c in columns]).encode("utf-8") + b"\n")  # Write Header
 
         # Append Body
         rule_path = settings["workspace"] + "/src/workflows"
@@ -2362,6 +2427,7 @@ def parse_workflow_metadata(settings, sobjects):
             except KeyError:
                 # If one sobject doesn't have vr, We don't need do anything
                 pass
+
 
 def write_metadata_to_csv(fp, columns, metadata, sobject):
     """ This method is invoked by function in this module
@@ -2413,7 +2479,7 @@ def write_metadata_to_csv(fp, columns, metadata, sobject):
                     else:
                         value = " ".join(cell_value) + "\n"
 
-                    cell_value = value[ : -1]
+                    cell_value = value[: -1]
                 else:
                     cell_value = ""
             elif not cell_value:
@@ -2422,8 +2488,8 @@ def write_metadata_to_csv(fp, columns, metadata, sobject):
                 cell_value = "%s" % cell_value
 
             # Unescape special code to normal
-            cell_value = urllib.parse.unquote(unescape(cell_value, 
-                {"&apos;": "'", "&quot;": '"'}))
+            cell_value = urllib.parse.unquote(unescape(cell_value,
+                                                       {"&apos;": "'", "&quot;": '"'}))
 
             # Append cell_value to list in order to write list to csv
             if '"' in cell_value:
@@ -2436,8 +2502,9 @@ def write_metadata_to_csv(fp, columns, metadata, sobject):
         row_value_bin = ",".join(row_value)
         row_values += row_value_bin.encode("utf-8") + b"\n"
 
-    fp.write(row_values) # Write Body
+    fp.write(row_values)  # Write Body
     fp.close()
+
 
 def list2csv(file_path, records, NOT_INCLUDED_COLUMNS=["urls", "attributes"]):
     """convert simple dict in list to csv
@@ -2462,6 +2529,7 @@ def list2csv(file_path, records, NOT_INCLUDED_COLUMNS=["urls", "attributes"]):
                     values.append(('"%s"' % none_value(record[strk])).encode("utf-8"))
             fp.write(b",".join(values) + b"\n")
 
+
 def json2csv(_list, NOT_INCLUDED_COLUMNS=["urls", "attributes"]):
     """convert simple dict in list to csv
 
@@ -2485,6 +2553,7 @@ def json2csv(_list, NOT_INCLUDED_COLUMNS=["urls", "attributes"]):
         csv_content += ",".join(values) + "\n";
 
     return csv_content
+
 
 def parse_data_template_vertical(output_file_dir, result):
     """Parse the data template to csv by page layout
@@ -2535,7 +2604,7 @@ def parse_data_template_vertical(output_file_dir, result):
                     for picklist in details["picklistValues"]:
                         picklist_labels.append(picklist["label"])
                         picklist_values.append(picklist["value"])
-                        
+
                     fields_picklist_labels.append('"%s"' % "\n".join(picklist_labels))
                     fields_picklist_values.append('"%s"' % "\n".join(picklist_values))
 
@@ -2549,6 +2618,7 @@ def parse_data_template_vertical(output_file_dir, result):
         fp.write(",".join(fields_required).encode("utf-8") + b"\n")
         fp.write(",".join(fields_picklist_labels).encode("utf-8") + b"\n")
         fp.write(",".join(fields_picklist_values).encode("utf-8") + b"\n")
+
 
 def parse_data_template_horizontal(output_file_dir, result):
     """Parse the data template to csv by page layout
@@ -2589,7 +2659,7 @@ def parse_data_template_horizontal(output_file_dir, result):
                     for picklist in details["picklistValues"]:
                         picklist_labels.append(picklist["label"])
                         picklist_values.append(picklist["value"])
-                    
+
                     row = []
                     row.append(details["label"])
                     row.append(details["name"])
@@ -2605,6 +2675,7 @@ def parse_data_template_horizontal(output_file_dir, result):
         fp.write(u'\ufeff'.encode('utf8'))
         fp.write("\n".join(rows).encode("utf-8"))
 
+
 def get_soql_fields(soql):
     """ Get the field list of soql
 
@@ -2619,10 +2690,10 @@ def get_soql_fields(soql):
         return []
 
     fieldstr = match.group(0).strip()[6:-4].replace("\n", "").replace("\t", "")
-    print (fieldstr.split(','))
+    print(fieldstr.split(','))
 
     fields = []
-    expr_fields = [] # Aggregate Fields
+    expr_fields = []  # Aggregate Fields
     for f in fieldstr.split(','):
         f = f.strip()
         if " " in f:
@@ -2636,15 +2707,16 @@ def get_soql_fields(soql):
     for idx in range(0, len(expr_fields)):
         fields.append('expr%s' % idx)
 
-    print (fields)
+    print(fields)
 
     return fields
+
 
 def query_to_csv(result, soql):
     records = result["records"]
     if not records:
         return b"No matched rows"
-    
+
     # Get CSV headers, 
     # If we use * to fetch all fields
     if re.compile("select\\s+\\*\\s+from[\\s\\t]+\\w+", re.I).match(soql):
@@ -2676,7 +2748,8 @@ def query_to_csv(result, soql):
         rows += ",".join(row).encode("utf-8") + b"\n"
 
     return rows
-    
+
+
 def parse_execute_anonymous_xml(result):
     """Return the formatted anonymous execute result
 
@@ -2696,13 +2769,14 @@ def parse_execute_anonymous_xml(result):
         line = result["line"]
         column = result["column"]
         compileProblem = result["compileProblem"]
-        view_result = compileProblem + " at line " + line +\
-            " column " + column
+        view_result = compileProblem + " at line " + line + \
+                      " column " + column
 
-    view_result = urllib.parse.unquote(unescape(view_result, 
-        {"&apos;": "'", "&quot;": '"'}))
+    view_result = urllib.parse.unquote(unescape(view_result,
+                                                {"&apos;": "'", "&quot;": '"'}))
 
     return view_result
+
 
 def generate_workbook(result, workspace, workbook_field_describe_columns):
     """ generate workbook for sobject according to user customized columns
@@ -2729,21 +2803,21 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
     # Create new csv file for this workbook
     # fp = open(outputdir + "/" + sobject + ".csv", "wb", newline='')
     workbook_dir = outputdir + "/" + sobject + ".csv"
-    
-    #------------------------------------------------------------
+
+    # ------------------------------------------------------------
     # Headers, all headers are capitalized
-    #------------------------------------------------------------
+    # ------------------------------------------------------------
     headers = [column.capitalize() for column in fields_key]
 
     # Write Header
     fp = open(workbook_dir, "wb")
-    fp.write(u'\ufeff'.encode('utf8')) # Write BOM Header
-    fp.write(",".join(headers).encode("utf-8") + b"\n") # Write Header
+    fp.write(u'\ufeff'.encode('utf8'))  # Write BOM Header
+    fp.write(",".join(headers).encode("utf-8") + b"\n")  # Write Header
 
-    #------------------------------------------------------------
+    # ------------------------------------------------------------
     # Fields Part (All rows are sorted by field label)
-    #------------------------------------------------------------
-    fields = sorted(fields, key=lambda k : k['label'])
+    # ------------------------------------------------------------
+    fields = sorted(fields, key=lambda k: k['label'])
     for field in fields:
         row_value_literal = b""
         row_values = []
@@ -2755,7 +2829,7 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
         for key in fields_key:
             # Get field value by field API(key)
             row_value = field.get(key)
-            
+
             if isinstance(row_value, list):
                 if key == "picklistValues":
                     value = ''
@@ -2776,8 +2850,8 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
                 row_value = field_type if key == "type" else "%s" % row_value
 
             # Unescape special code to normal
-            row_value = urllib.parse.unquote(unescape(row_value, 
-                {"&apos;": "'", "&quot;": '"'}))
+            row_value = urllib.parse.unquote(unescape(row_value,
+                                                      {"&apos;": "'", "&quot;": '"'}))
 
             # Append row_value to list in order to write list to csv
             if '"' in row_value:
@@ -2794,16 +2868,17 @@ def generate_workbook(result, workspace, workbook_field_describe_columns):
     fp.close()
 
     # Display Success Message
-    sublime.set_timeout(lambda:sublime.status_message(sobject + " workbook is generated"), 10)
+    sublime.set_timeout(lambda: sublime.status_message(sobject + " workbook is generated"), 10)
 
     # Return outputdir
     return outputdir
 
+
 record_keys = ["label", "name", "type", "length"]
 record_key_width = {
-    "label": 40, 
-    "name": 40, 
-    "type": 20, 
+    "label": 40,
+    "name": 40,
+    "type": 20,
     "length": 7
 }
 recordtype_key_width = {
@@ -2820,6 +2895,8 @@ childrelationship_key_width = {
 }
 
 seprate = 100 * "-" + "\n"
+
+
 def parse_sobject_field_result(result):
     """According to sobject describe result, display record type information, 
     child sobjects information and the field information.
@@ -2836,9 +2913,9 @@ def parse_sobject_field_result(result):
     # View Name or Header
     view_result = sobject + " Describe:\n"
 
-    #------------------------------------------------
+    # ------------------------------------------------
     # Fields Part
-    #------------------------------------------------
+    # ------------------------------------------------
     # Output totalSize Part
     fields = result.get("fields")
     view_result += seprate
@@ -2855,15 +2932,15 @@ def parse_sobject_field_result(result):
     view_result += len(columns) * "-" + "\n"
 
     # Sort fields list by lable of every field
-    fields = sorted(fields, key=lambda k : k['label'])
+    fields = sorted(fields, key=lambda k: k['label'])
 
     # Output field values
     for record in fields:
         row = ""
         for key in record_keys:
             row_value = "Formula(%s)" % record.get(key) if key == "type" \
-                and record["calculatedFormula"] else record.get(key)
-                
+                                                           and record["calculatedFormula"] else record.get(key)
+
             if not row_value:
                 row_value = ""
 
@@ -2874,9 +2951,9 @@ def parse_sobject_field_result(result):
         view_result += row + "\n"
     view_result += "\n"
 
-    #------------------------------------------------
+    # ------------------------------------------------
     # Record Type Part
-    #------------------------------------------------
+    # ------------------------------------------------
     recordtypes = result.get("recordTypeInfos")
     view_result += seprate
     view_result += "Record Type Info: \t" + str(len(recordtypes)) + "\n"
@@ -2901,7 +2978,7 @@ def parse_sobject_field_result(result):
         row = ""
         for key in recordtype_keys:
             if key not in recordtype_key_width: continue
-            
+
             # Get field value by field API
             # and convert it to str
             row_value = recordtype.get(key)
@@ -2911,14 +2988,14 @@ def parse_sobject_field_result(result):
             key_width = recordtype_key_width[key]
             row_value = "%-*s" % (key_width, row_value)
             row += row_value
-            
+
         view_result += row + "\n"
 
     view_result += "\n"
 
-    #------------------------------------------------
+    # ------------------------------------------------
     # Child Relationship
-    #------------------------------------------------
+    # ------------------------------------------------
     childRelationships = result.get("childRelationships")
     view_result += seprate
     view_result += "ChildRelationships Info: \t" + str(len(childRelationships)) + "\n"
@@ -2944,12 +3021,13 @@ def parse_sobject_field_result(result):
 
             row_value = "%-*s" % (30, row_value)
             row += row_value
-            
+
         view_result += row + "\n"
 
     view_result += "\n"
 
     return view_result
+
 
 def getUniqueElementValueFromXmlString(xmlString, elementName):
     """
@@ -2963,17 +3041,18 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
     elementsByName = xmlStringAsDom.getElementsByTagName(elementName)
     elementValue = None
     if len(elementsByName) > 0:
-        elementValue = elementsByName[0].toxml().replace('<' +\
-            elementName + '>','').replace('</' + elementName + '>','')
+        elementValue = elementsByName[0].toxml().replace('<' + \
+                                                         elementName + '>', '').replace('</' + elementName + '>', '')
     else:
         elementValue = xmlString.decode("utf-8")
     return unescape(elementValue, {"&apos;": "'", "&quot;": '"'})
+
 
 def get_response_error(response):
     # Debug Message
     settings = context.get_settings()
     if settings["debug_mode"]:
-        print (response.content)
+        print(response.content)
 
     content = response.content
     result = {"success": False}
@@ -2985,6 +3064,7 @@ def get_response_error(response):
     except:
         result["Error Message"] = response.content
     return result
+
 
 def get_path_attr(path_or_file):
     """Return project name and component folder attribute
@@ -3012,18 +3092,29 @@ def get_path_attr(path_or_file):
 
     return project_name, metadata_folder
 
+
 def get_file_attributes(file_name):
+    """
+    get file attribute from the file_name (file path)
+    @param file_name: file path, usually from view.file_name()
+    @return: dict with following attributes:
+             name(file name without extension),
+             extension,
+             full name (name with extension),
+             metadata folder(metadata type folder, like aura/class/lwc/pages/triggers),
+             folder (Lightning bundle folder, usually is the Lightning Aura/Web Component name)
+    """
     attributes = {}
     base, fullName = os.path.split(file_name)
     if "." in fullName:
         name = fullName[:fullName.rfind(".")]
-        extension = fullName[fullName.rfind(".")+1:]
+        extension = fullName[fullName.rfind(".") + 1:]
     else:
         name, extension = fullName, ""
     attributes["fullName"] = fullName
     attributes["name"] = name
     attributes["extension"] = extension
-        
+
     base, folder = os.path.split(base)
     base, metafolder_or_src = os.path.split(base)
 
@@ -3038,6 +3129,7 @@ def get_file_attributes(file_name):
         attributes["metadata_folder"] = metafolder_or_src
 
     return attributes
+
 
 def get_metadata_folder(file_name):
     """ Get the metadata_folder by file_name
@@ -3054,6 +3146,7 @@ def get_metadata_folder(file_name):
     attributes = get_file_attributes(file_name)
     return attributes["metadata_folder"]
 
+
 def load_metadata_cache(reload_cache=False, username=None):
     """ Reload component cache in globals()
     """
@@ -3064,6 +3157,7 @@ def load_metadata_cache(reload_cache=False, username=None):
         globals()["components"] = component_metadata.get(username, {})
 
     return globals()["components"]
+
 
 def get_component_attribute(file_name, switch=True, reload_cache=False):
     """
@@ -3099,7 +3193,7 @@ def get_component_attribute(file_name, switch=True, reload_cache=False):
 
     # Check whether project of current file is active project
     default_project_name = settings["default_project_name"]
-    if switch and default_project_name.lower() not in file_name.lower(): 
+    if switch and default_project_name.lower() not in file_name.lower():
         return None, None
 
     xml_name = settings[metadata_folder]["xmlName"]
@@ -3113,6 +3207,60 @@ def get_component_attribute(file_name, switch=True, reload_cache=False):
     # Return tuple
     return (component_attribute, name)
 
+
+def delete_component_attribute(dirs_or_files, switch=True):
+    """
+    Delete component metadata cache for given files or directory(Lightning bundle)
+    @param dirs_or_files: lightning direcotry(bundle) or files
+    @param switch:
+    @return:
+    """
+
+    def remove_component_cache(file_path):
+        file_attr = get_file_attributes(file_path)
+        metadata_folder = file_attr["metadata_folder"]
+        full_name = file_attr["fullName"]
+        folder = file_attr.get("folder", None)
+
+        xml_name = settings[metadata_folder]["xmlName"]
+        if xml_name in components_dict:
+            components_dict[xml_name].pop(full_name.lower(), None)
+            # Following code will be useful for future component attribute structure
+            if folder:
+                components_dict[xml_name].pop(folder.lower() + full_name.lower(), None)
+
+    settings = context.get_settings()
+    username = settings["username"]
+    s = sublime.load_settings(context.COMPONENT_METADATA_SETTINGS)
+    if not s.has(username):
+        return
+    components_dict = s.get(username, {})
+
+    # Check whether project of current file is active project
+    for _path in dirs_or_files:
+        default_project_name = settings["default_project_name"]
+        if switch and default_project_name.lower() not in _path.lower():
+            print('not all current project')
+            return
+
+    # loop through the files and delete component cache
+    for _path in dirs_or_files:
+        # delete the component metadata for the file
+        if os.path.isfile(_path):
+            remove_component_cache(_path)
+        else:
+            files = [f for f in os.listdir(_path) if os.path.isfile(os.path.join(_path, f))]
+            for _file in files:
+                remove_component_cache(os.path.join(_path, _file))
+
+    # Update component metadata
+    s.set(username, components_dict)
+    sublime.save_settings(context.COMPONENT_METADATA_SETTINGS)
+
+    # Reload component metadata cache in globals()
+    sublime.set_timeout(lambda: load_metadata_cache(True, settings["username"]), 5)
+
+
 def check_enabled(file_name, check_cache=True):
     """
     Check whether file is ApexTrigger, ApexComponent, ApexPage or ApexClass
@@ -3125,7 +3273,8 @@ def check_enabled(file_name, check_cache=True):
 
     * Bool -- check whether current file is apex code file and has local cache
     """
-    if not file_name: return False
+    if not file_name:
+        return False
 
     # Get toolingapi settings
     settings = context.get_settings()
@@ -3133,7 +3282,7 @@ def check_enabled(file_name, check_cache=True):
     # Check whether current file is subscribed component
     attributes = get_file_attributes(file_name)
     metadata_folder = attributes["metadata_folder"]
-    if metadata_folder not in settings["all_metadata_folders"]: 
+    if metadata_folder not in settings["all_metadata_folders"]:
         sublime.status_message("Not valid SFDC component")
         return False
 
@@ -3146,23 +3295,25 @@ def check_enabled(file_name, check_cache=True):
     # Check whether active component is in active project
     if check_cache:
         component_attribute, component_name = get_component_attribute(file_name)
-        if not component_attribute: 
+        if not component_attribute:
             sublime.status_message("Not found the attribute of this component")
             return False
-    
+
     return True
+
 
 def display_active_project(view):
     """ Display the default project name in the sidebar
     """
 
     settings = context.get_settings()
-    if not settings: return # Fix plugin loading issue
+    if not settings: return  # Fix plugin loading issue
     display_message = "Default Project => %s (v%s.0)" % (
         settings["default_project_name"],
         settings["api_version"]
     )
     view.set_status('default_project', display_message)
+
 
 def switch_project(target):
     """ Set the default project to the chosen one
@@ -3201,10 +3352,11 @@ def switch_project(target):
 
     # Reload cache for completions
     from . import completions
-    sublime.set_timeout(lambda:completions.load_sobject_cache(True), 50)
+    sublime.set_timeout(lambda: completions.load_sobject_cache(True), 50)
 
     # Reload cache for component metadata
-    sublime.set_timeout(lambda:load_metadata_cache(True), 50)
+    sublime.set_timeout(lambda: load_metadata_cache(True), 50)
+
 
 def add_project_to_workspace(settings):
     """Add new project folder to workspace
@@ -3226,7 +3378,7 @@ def add_project_to_workspace(settings):
     if not os.path.exists(workspace): os.makedirs(workspace)
     project_file_path = os.path.join(workspace, "%s.sublime-project" % dpn)
     with open(project_file_path, "wb") as fp:
-        fp.write(json.dumps({"folders":[switch_to_folder]}, indent=4).encode("utf-8"))
+        fp.write(json.dumps({"folders": [switch_to_folder]}, indent=4).encode("utf-8"))
 
     project_data = sublime.active_window().project_data()
     if not project_data: project_data = {}
@@ -3238,9 +3390,9 @@ def add_project_to_workspace(settings):
         folder_path = folder["path"]
 
         # Parse windows path to AS-UNIX
-        if "\\" in folder_path: 
+        if "\\" in folder_path:
             folder_path = folder_path.replace("\\", "/")
-        if "\\" in workspace: 
+        if "\\" in workspace:
             workspace = workspace.replace("\\", "/")
 
         if folder_path == workspace:
@@ -3304,6 +3456,7 @@ def get_completion_list(meta_type, meta_folder):
 
     return completion_list
 
+
 def get_metadata_elements(metadata_dir, suffix=None):
     """ Get the name list by specified metadataObject
     
@@ -3329,11 +3482,12 @@ def get_metadata_elements(metadata_dir, suffix=None):
 
     return elements
 
+
 def export_role_hierarchy(records):
     settings = context.get_settings()
 
-    top_roles = [] # Role hierarchy
-    rolemap = {} # Define roleId => role
+    top_roles = []  # Role hierarchy
+    rolemap = {}  # Define roleId => role
     for r in records:
         # Build map
         rolemap[r["Id"]] = r
@@ -3343,20 +3497,21 @@ def export_role_hierarchy(records):
 
     # Start to write role name to csv
     rows = []
-    for role in sorted(top_roles, key=lambda k : k['Name']):
+    for role in sorted(top_roles, key=lambda k: k['Name']):
         rows.append(role["Name"])
-        append_child_roles(rolemap, role["Id"], rows, 1, 
-            settings["include_users_in_role_hierarchy"])
+        append_child_roles(rolemap, role["Id"], rows, 1,
+                           settings["include_users_in_role_hierarchy"])
 
-    outputdir = settings["workspace"]+ "/.export/Role"
+    outputdir = settings["workspace"] + "/.export/Role"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
-    outputfile = outputdir+"/hierarchy.csv"
+    outputfile = outputdir + "/hierarchy.csv"
     with open(outputfile, "wb") as fp:
         fp.write("\n".join(rows).encode("utf-8"))
 
     return outputfile
+
 
 def append_child_roles(rolemap, role_id, rows, level, include_users):
     child_roles = []
@@ -3364,7 +3519,7 @@ def append_child_roles(rolemap, role_id, rows, level, include_users):
         if role["ParentRoleId"] == role_id:
             child_roles.append(role)
 
-    for role in sorted(child_roles, key=lambda k : k['Name']):
+    for role in sorted(child_roles, key=lambda k: k['Name']):
         row = level * "," + role["Name"]
 
         # If include_users is true, Include active user list after role name
@@ -3387,6 +3542,7 @@ def append_child_roles(rolemap, role_id, rows, level, include_users):
 
         append_child_roles(rolemap, role["Id"], rows, level + 1, include_users)
 
+
 def export_profile_settings():
     settings = context.get_settings()
 
@@ -3397,7 +3553,7 @@ def export_profile_settings():
         return
 
     Printer.get("log").write_start().write("Start to read all file name in profile folder")
-    profiles = get_metadata_elements(profile_dir)
+    profiles = get_metadata_elements(profile_dir, 'profile')
 
     profile_settings = {}
     sobject_names = []
@@ -3408,9 +3564,9 @@ def export_profile_settings():
         # Escape profile name, for example, 
         # "Custom%3A Sales Profile" changed to "Custom: Sales Profile"
         unquoted_profile = urllib.parse.unquote(unescape(profile, {"&apos;": "'", "&quot;": '"'}))
-        Printer.get("log").write("Parsing the profile security settings of "+unquoted_profile)
+        Printer.get("log").write("Parsing the profile security settings of " + unquoted_profile)
 
-        profile_file = os.path.join(profile_dir, profile+".profile")
+        profile_file = os.path.join(profile_dir, profile + ".profile")
         result = xmltodict.parse(open(profile_file, "rb").read())
         result = result["Profile"]
 
@@ -3423,7 +3579,7 @@ def export_profile_settings():
             object_permissions = result["objectPermissions"]
 
             # Some profiles just only have one objectPermissions
-            if isinstance(result["objectPermissions"], dict): 
+            if isinstance(result["objectPermissions"], dict):
                 object_permissions = [object_permissions]
 
             for op in object_permissions:
@@ -3490,23 +3646,23 @@ def export_profile_settings():
 
     # Get the unescaped profiles
     profiles = sorted(list(profile_settings.keys()))
-    
+
     #########################################
     # 1. Export objectPermissions
     #########################################
     # Define object CRUD
     cruds = [
-        "allowRead", "allowCreate", "allowEdit", 
-        "allowDelete", "modifyAllRecords", 
+        "allowRead", "allowCreate", "allowEdit",
+        "allowDelete", "modifyAllRecords",
         "viewAllRecords"
     ]
 
     crud_literal = {
-        "allowCreate": "C", 
-        "allowRead": "R", 
-        "allowEdit": "U", 
-        "allowDelete": "D", 
-        "modifyAllRecords": "M", 
+        "allowCreate": "C",
+        "allowRead": "R",
+        "allowEdit": "U",
+        "allowDelete": "D",
+        "modifyAllRecords": "M",
         "viewAllRecords": "V"
     }
 
@@ -3538,54 +3694,54 @@ def export_profile_settings():
 
         all_rows.append(",".join(rows))
 
-    # cruds_translation = {
-    #     "allowRead": "Read", 
-    #     "allowCreate": "Create", 
-    #     "allowEdit": "Edit", 
-    #     "allowDelete": "Delete", 
-    #     "modifyAllRecords": "ModifyAll", 
-    #     "viewAllRecords": "ViewAll"
-    # }
+    cruds_translation = {
+        "allowRead": "Read",
+        "allowCreate": "Create",
+        "allowEdit": "Edit",
+        "allowDelete": "Delete",
+        "modifyAllRecords": "ModifyAll",
+        "viewAllRecords": "ViewAll"
+    }
 
-    # # Define the column that contains profile
-    # profile_headers = ["Object"]
-    # for profile in profiles:
-    #     profile_headers.append(profile)
-    #     for i in range(len(cruds) - 1):
-    #         profile_headers.append("")
+    # Define the column that contains profile
+    profile_headers = ["SObject"]
+    for profile in profiles:
+        profile_headers.append(profile)
+        for i in range(len(cruds) - 1):
+            profile_headers.append("")
 
-    # # Define the column
-    # crud_headers = [""]
-    # for profile in profiles:
-    #     for crud in cruds:
-    #         crud_headers.append(cruds_translation[crud])
+    # Define the column
+    crud_headers = [""]
+    for profile in profiles:
+        for crud in cruds:
+            crud_headers.append(cruds_translation[crud])
 
-    # sobject_names = sorted(sobject_names)
-    # all_rows = [",".join(profile_headers), ",".join(crud_headers)]
-    # for sobject in sobject_names:
-    #     rows = [sobject]
-    #     for profile in profiles:
-    #         # Some standard sObject is not configurable
-    #         if "objectPermissions" in profile_settings[profile]:
-    #             if sobject in profile_settings[profile]["objectPermissions"]:
-    #                 object_permission = profile_settings[profile]["objectPermissions"][sobject]
-    #                 for crud in cruds:
-    #                     rows.append("√" if object_permission[crud] == "true" else "")
-    #             else:
-    #                 for crud in cruds:
-    #                     rows.append("")
-    #         else:
-    #             for crud in cruds:
-    #                 rows.append("")
+    sobject_names = sorted(sobject_names)
+    all_rows = [",".join(profile_headers), ",".join(crud_headers)]
+    for sobject in sobject_names:
+        rows = [sobject]
+        for profile in profiles:
+            # Some standard sObject is not configurable
+            if "objectPermissions" in profile_settings[profile]:
+                if sobject in profile_settings[profile]["objectPermissions"]:
+                    object_permission = profile_settings[profile]["objectPermissions"][sobject]
+                    for crud in cruds:
+                        rows.append("True" if object_permission[crud] == "true" else "")
+                else:
+                    for crud in cruds:
+                        rows.append("")
+            else:
+                for crud in cruds:
+                    rows.append("")
 
-    #     all_rows.append(",".join(rows))
+        all_rows.append(",".join(rows))
 
-    outputdir = settings["workspace"]+ "/.export/profile"
+    outputdir = settings["workspace"] + "/.export/profile"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
-    Printer.get("log").write("Writing profile object security to "+outputdir)
-    with open(outputdir+"/ObjectPermissions.csv", "wb") as fp:
+    Printer.get("log").write("Writing profile object security to " + outputdir)
+    with open(outputdir + "/ObjectPermissions.csv", "wb") as fp:
         fp.write("\n".join(all_rows).encode("utf-8"))
 
     #########################################
@@ -3611,8 +3767,8 @@ def export_profile_settings():
 
         all_rows.append(",".join(rows))
 
-    Printer.get("log").write("Writing profile tab visibility to "+outputdir)
-    with open(outputdir+"/TabVisibilities.csv", "wb") as fp:
+    Printer.get("log").write("Writing profile tab visibility to " + outputdir)
+    with open(outputdir + "/TabVisibilities.csv", "wb") as fp:
         fp.write("\n".join(all_rows).encode("utf-8"))
 
     #########################################
@@ -3628,7 +3784,8 @@ def export_profile_settings():
     for permission_name in permission_names:
         rows = [permission_name]
         for profile in profiles:
-            if permission_name in profile_settings[profile]["userPermissions"]:
+            prf_setting = profile_settings[profile]
+            if prf_setting.get('userPermissions') is not None and permission_name in prf_setting.get('userPermissions'):
                 if profile_settings[profile]["userPermissions"][permission_name] == "true":
                     rows.append("√")
                 else:
@@ -3638,8 +3795,8 @@ def export_profile_settings():
 
         all_rows.append(",".join(rows))
 
-    Printer.get("log").write("Writing profile user permission to "+outputdir)
-    with open(outputdir+"/UserPermissions.csv", "wb") as fp:
+    Printer.get("log").write("Writing profile user permission to " + outputdir)
+    with open(outputdir + "/UserPermissions.csv", "wb") as fp:
         fp.write("\n".join(all_rows).encode("utf-8"))
 
     #########################################
@@ -3680,13 +3837,14 @@ def export_profile_settings():
             # Every field is separated line
             all_rows.append(",".join(rows))
 
-    outputdir = settings["workspace"]+ "/.export/profile"
+    outputdir = settings["workspace"] + "/.export/profile"
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
-    Printer.get("log").write("Writing profile object security to "+outputdir)
-    with open(outputdir+"/FieldLevelSecurity.csv", "wb") as fp:
+    Printer.get("log").write("Writing profile object security to " + outputdir)
+    with open(outputdir + "/FieldLevelSecurity.csv", "wb") as fp:
         fp.write("\n".join(all_rows).encode("utf-8"))
+
 
 def build_metadata(csvfile, options):
     """ Convert JSON to custom labels metadata """
@@ -3700,11 +3858,12 @@ def build_metadata(csvfile, options):
 
     return xmltodict.unparse(custom_labels_json)
 
+
 def convert_csv_to_json(csvfile, xmlNodes):
     """ Convert CSV to JSON format"""
 
-    fp = open(csvfile, "rt", encoding="utf8"); # Open CSV file
-    next(fp) # Ignore header
+    fp = open(csvfile, "rt", encoding="utf8");  # Open CSV file
+    next(fp)  # Ignore header
     csv_reader = csv.DictReader(fp, xmlNodes)
 
     tempjson = os.path.join(os.path.split(csvfile)[0], "temp.json")

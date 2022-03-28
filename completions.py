@@ -10,6 +10,7 @@ from .salesforce import xmltodict
 from .salesforce.lib import apex
 from .salesforce.lib import vf
 from .salesforce.lib import lightning
+from .salesforce.lib import lwc
 from .salesforce.lib import html
 from .salesforce.lib import bootstrap
 from .salesforce.lib import slds
@@ -30,13 +31,17 @@ def load_sobject_cache(reload_cache=False, username=None):
 
 
 class PackageCompletions(sublime_plugin.EventListener):
+    """
+    Completions for Package.xml
+    """
     def on_query_completions(self, view, prefix, locations):
         if not view.match_selector(locations[0], "text.xml"):
             return []
 
         # Check whether current file is package file
         pattern = "<types>[\\s.*<>\\-\\w/\\%1-9]+</types>"
-        if not view.find_all(pattern): return
+        if not view.find_all(pattern):
+            return
 
         location = locations[0]
         pt = locations[0] - len(prefix) - 1
@@ -435,7 +440,7 @@ class ApexCompletions(sublime_plugin.EventListener):
 
         return completion_list
 
-class LightningCompletions(sublime_plugin.EventListener):
+class AuraCompletions(sublime_plugin.EventListener):
     """ Lightning Javascript completion
 
     1. Standard Event Completion
@@ -566,6 +571,64 @@ class LightningCompletions(sublime_plugin.EventListener):
 
         return completion_list
 
+
+class LwcCompletions(sublime_plugin.EventListener):
+    def on_query_completions(self, view, prefix, locations):
+        # Only trigger within JS
+        if not view.match_selector(locations[0], "source.js"):
+            return
+
+        settings = context.get_settings()
+        workspace = settings["workspace"]
+        username = settings["username"]
+
+        metadata = load_sobject_cache(username=username)
+        sobjects_describe = metadata.get("sobjects", {})
+
+        pt = locations[0] - len(prefix) - 1
+        ch = view.substr(sublime.Region(pt, pt + 1))
+        var_name = view.substr(view.word(pt-1))
+
+        completion_list = []
+        if ch == "/":
+            # Add salesforce meta resource
+            if var_name == "salesforce":
+                modules = [
+                    "apex", "apexContinuation", "contentAssertUrl",
+                    "i18n", "label", "resourceUrl", "schema", "user"
+                ]
+
+                for module in modules:
+                    completion_list.append((
+                        "%s\tModule" % module, module
+                    ))
+
+                return completion_list
+
+            if var_name == "schema":
+                for key, desc in sobjects_describe.items():
+                    sobject = desc["name"]
+
+                    # Add sobject schema
+                    completion_list.append((sobject + "\tsObject", sobject))
+
+                    # Add sobject field schema
+                    for k, v in desc["fields"].items():
+                        completion_list.append((
+                            "%s.%s" % (sobject, k),
+                            "%s.%s" % (sobject, v)
+                        ))
+            elif var_name == "resourceUrl":
+                completion_list = util.get_completion_from_cache(
+                    settings, "StaticResource", True
+                )
+            elif var_name == "label":
+                completion_list = util.get_completion_from_cache(
+                    settings, "CustomLabel", True
+                )
+
+        return completion_list
+
 class PageCompletions(sublime_plugin.EventListener):
     """ There are three kinds of completion, Visualforce, Html and Custom Lightning component
     Visualforce Lib is based on Mavensmate
@@ -597,11 +660,20 @@ class PageCompletions(sublime_plugin.EventListener):
         file_name = view.file_name()
         if not file_name :
             is_lightning = False
+            meta_type = None
         else:
             is_lightning = True if file_name.split(".")[-1] in ["app", "cmp", "evt", "html", "js"] else False
+            attributes = util.get_file_attributes(file_name)
+            meta_type = attributes["metadata_folder"]
 
-        # Get tag definition of Visualforce page or Lightning component
-        tag_defs = lightning.tag_defs if is_lightning else vf.tag_defs
+        # Get tag definition of Visualforce page or Lightning aura component or Lightning Web component
+        tag_defs = []
+        if meta_type == 'aura':
+            tag_defs = lightning.tag_defs
+        elif meta_type == 'lwc':
+            tag_defs = lwc.tag_defs
+        elif meta_type in ['pages', 'components']:
+            tag_defs = vf.tag_defs
 
         # In order to speed up code completion,
         # store the "metadata" into globals()
@@ -796,7 +868,7 @@ class PageCompletions(sublime_plugin.EventListener):
                     if not mr.contains(pt):
                         continue
                     class_name = view.substr(mr).split("=")[0]
-                    if class_name.lower() == "class":
+                    if class_name.lower() in ["class", "icon-class"]:
                         for class_name in slds.classes:
                             completion_list.append(("%s\tSLDS" % class_name, class_name))
                         break
@@ -824,13 +896,20 @@ class PageCompletions(sublime_plugin.EventListener):
 
                     # Get the Attribute Values
                     if matched_tag in tag_defs and matched_attr_name in tag_defs[matched_tag]["attribs"]:
-                        tag_attribute = tag_defs[matched_tag]["attribs"][matched_attr_name]
+                        tag_def = tag_defs[matched_tag]
+                        tag_attribute = tag_def["attribs"][matched_attr_name]
 
-                        # If attr type boolean, add {!} to it
+                        # If attr type boolean, add {!} or {} to it according to type
                         if tag_attribute["type"] == "Boolean":
-                            completion_list.append(("{!}" + "\t" + matched_attr_name, '"{!$1}"$0'))
-                            completion_list.append(("true" + "\t" + matched_attr_name, '"true"$0'))
-                            completion_list.append(("false" + "\t" + matched_attr_name, '"false"$0'))
+                            if tag_def["type"] == "aura":
+                                completion_list.append(("{!}" + "\t" + matched_attr_name, '"{!$1}"$0'))
+
+                            if tag_def["type"] == "lwc":
+                                completion_list.append(("{}" + "\t" + matched_attr_name, '{$1}$0'))
+
+                            if tag_def["type"] in ["aura", "lwc"]:
+                                completion_list.append(("true" + "\t" + matched_attr_name, '"true"$0'))
+                                completion_list.append(("false" + "\t" + matched_attr_name, '"false"$0'))
 
                         if "values" in tag_attribute:
                             for value in tag_attribute["values"]:
@@ -896,7 +975,7 @@ class PageCompletions(sublime_plugin.EventListener):
                     if not mr.contains(pt):
                         continue
                     class_name = view.substr(mr).split("=")[0]
-                    print (class_name)
+                    # print (class_name)
                     if class_name.lower() == "class":
                         for class_name in slds.classes:
                             completion_list.append(("%s\tSLDS" % class_name, class_name))

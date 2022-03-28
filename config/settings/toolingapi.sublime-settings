@@ -103,7 +103,7 @@
     "maximum_concurrent_connections": 30,
 
     // API version
-    "api_version" : 35,
+    "api_version" : 46,
 
     // Browser Path Setting,
     // You should set a valid browser path, otherwise, it will have problem.
@@ -532,6 +532,7 @@
         "Force.com Workbook": "workbook",
         "Integration Workbook": "integration_workbook",
         "Identity Implementation Guide": "identityImplGuide",
-        "Formulas Quick Reference": "salesforce_formulas_cheatsheet"
+        "Formulas Quick Reference": "salesforce_formulas_cheatsheet",
+        "User Interface API Developer Guide": "uiapi"
     }
 }
