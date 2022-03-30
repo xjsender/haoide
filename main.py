@@ -306,7 +306,8 @@ class DiffWithServer(sublime_plugin.TextCommand):
 
         self.settings = context.get_settings()
         self.attributes = util.get_file_attributes(self.file_name)
-        if self.attributes["metadata_folder"] not in ["classes", "triggers", "pages", "components"]:
+        diffable_attrbs = ["classes", "triggers", "pages", "components", "aura", "lwc"]
+        if self.attributes["metadata_folder"] not in diffable_attrbs:
             return False
 
         return True

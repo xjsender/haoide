@@ -43,9 +43,10 @@ class SFDCEventListener(sublime_plugin.EventListener):
 
     def on_new(self, view):
         """
-        1. Eveytime when you open a new view, default syntax is Apex
+        1. Everytime when you open a new view, default syntax is Apex
         2. Set Status with current default project
         """
+
         view.set_syntax_file("Packages/Java/Java.tmLanguage")
         util.display_active_project(view)
 

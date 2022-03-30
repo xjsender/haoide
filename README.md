@@ -101,3 +101,9 @@ well welcome to any contribution, open an issue for discussion before draft you 
   * Press ``alt`` + Click ``left mouse button``: Retrieve debug log detail by id
   * Press ``alt`` + DblClick ``left mouse button``: View code coverage by name
   * Press ``alt`` + Triple Click ``left mouse button``: Cancel deployment by Id
+
+# Development Reference
+
+- [Sublime Test Documentation](https://www.sublimetext.com/docs/index.html)
+- [API Reference](https://www.sublimetext.com/docs/api_reference.html)
+- [Sublime Text Community Documentation](https://docs.sublimetext.io/guide/extensibility/plugins/)

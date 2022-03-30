@@ -1821,7 +1821,12 @@ def reload_file_attributes(file_properties, settings=None, append=False):
         "ApexComponent": "Markup"
     }
 
-    # print(file_properties)
+    lightning_body = {
+        "AuraDefinitionBundle": "AuraDefinition",
+        "LightningComponentBundle": "LightningComponentResource"
+    }
+
+    # print(json.dumps(file_properties))
 
     # If the package only contains `package.xml`
     if isinstance(file_properties, dict):
@@ -1862,6 +1867,13 @@ def reload_file_attributes(file_properties, settings=None, append=False):
             attrs["body"] = metadata_body_or_markup[metdata_object]
             attrs["url"] = "/services/data/v%s.0/sobjects/%s/%s" % (
                 settings["api_version"], metdata_object, filep["id"]
+            )
+        elif metdata_object in lightning_body:
+            attrs["body"] = 'Source'
+            attrs["url"] = "/services/data/v%s.0/tooling/sobjects/%s/%s" % (
+                settings["api_version"],
+                lightning_body.get(metdata_object),
+                filep["id"]
             )
 
         # Check whether component is Test Class or not
@@ -3199,13 +3211,23 @@ def get_component_attribute(file_name, switch=True, reload_cache=False):
     xml_name = settings[metadata_folder]["xmlName"]
     username = settings["username"]
     components = load_metadata_cache(reload_cache=reload_cache, username=username)
+    lightning_cmps = {
+        "AuraDefinitionBundle": "AuraDefinition",
+        "LightningComponentBundle": "LightningComponentResource"
+    }
     try:
-        component_attribute = components[xml_name][fullName.lower()]
+        cmp_attr = components[xml_name][fullName.lower()]
+        if 'url' not in cmp_attr and cmp_attr['type'] in lightning_cmps:
+            cmp_attr['url'] = "/services/data/v%s.0/tooling/sobjects/%s/%s" % (
+                settings["api_version"],
+                lightning_cmps.get(cmp_attr['type']),
+                cmp_attr["id"]
+            )
     except:
-        component_attribute, name = None, None
+        cmp_attr, name = None, None
 
     # Return tuple
-    return (component_attribute, name)
+    return cmp_attr, name
 
 
 def delete_component_attribute(dirs_or_files, switch=True):

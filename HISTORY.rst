@@ -4,6 +4,12 @@ Release History
 -----------------
 
 
+Build 3.6.2 (2022-03-30)
+++++++++++++++++++++++++++++++++++++
+* Added diff functionality for aura and lwc component
+* Allow developer check conflict before save lightning components
+* Miscellaneous bug fix and refinements
+
 Build 3.6.1 (2021-01-13)
 ++++++++++++++++++++++++++++++++++++
 * Removed component metadata cache after destructing
