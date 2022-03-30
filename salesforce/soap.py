@@ -46,7 +46,7 @@ class SOAP:
             formatted_body = formatter.format_string(request_body)
         except Exception as ex:
             if self.settings["debug_mode"]: 
-                print ("[Format Request Body] " + str(ex))
+                print("[Format Request Body] " + str(ex))
             formatted_body = request_body
 
         return formatted_body
@@ -55,7 +55,7 @@ class SOAP:
     def create_request(self, request_type, options={}):
         soap_body = getattr(self, "create_%s_request" % request_type)(options)
         if self.settings["debug_mode"]:
-            print ("[Debug for {request_type}]: \n{seprate}\n{content}\n{seprate}".format(
+            print("[Debug for {request_type}]: \n{seprate}\n{content}\n{seprate}".format(
                 seprate="~" * 100,
                 request_type=request_type,
                 content=soap_body.decode("UTF-8")

@@ -1737,7 +1737,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
             handle_set_component_attribute(component_attribute)
 
         # If not succeed, just go to the error line
-        # Because error line in page is always at the line 1, so just work in class or trigger
+        # Only works in class or trigger since error line in page is always at the line 1
         elif "success" in result and not result["success"]:
             print('error result', result)
             # Maybe network issue
@@ -1759,8 +1759,8 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
 
             # Check current view the saving code file
             if not view or not view.file_name(): return
-            if not file_base_name in view.file_name(): return
-            if not extension in [".trigger", ".cls", ".page", ".cmp", '.js', '.css']: return
+            if file_base_name not in view.file_name(): return
+            if extension not in [".trigger", ".cls", ".page", ".cmp", '.js', '.css']: return
 
             if "line" in result:
                 line = result["line"]
@@ -1941,6 +1941,7 @@ def handle_set_component_attribute(attributes, timeout=120):
             return
 
         result = api.result
+
         if result["success"] and result["records"]:
             lastModifiedDate = result["records"][0]["LastModifiedDate"]
             util.set_component_attribute(attributes, lastModifiedDate)
@@ -1952,8 +1953,13 @@ def handle_set_component_attribute(attributes, timeout=120):
 
     settings = context.get_settings()
     api = ToolingApi(settings)
+    cmp_type = attributes["type"]
+    if cmp_type == "AuraDefinitionBundle":
+        cmp_type = 'AuraDefinition'
+    elif cmp_type == 'LightningComponentBundle':
+        cmp_type = "LightningComponentResource"
     soql = "SELECT LastModifiedDate FROM %s WHERE Id = '%s'" % (
-        attributes["type"], attributes["id"]
+        cmp_type, attributes["id"]
     )
     thread = threading.Thread(target=api.query, args=(soql, True,))
     thread.start()
@@ -2007,7 +2013,8 @@ def handle_diff_with_server(component_attribute, file_name, source_org=None, tim
         result = api.result
 
         # If error, just skip, error is processed in ThreadProgress
-        if not result["success"]: return
+        if not result["success"]:
+            return
 
         # Diff Change Compare
         diff.diff_changes(file_name, result)

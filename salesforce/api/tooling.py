@@ -1161,7 +1161,7 @@ class ToolingApi():
         # Result used in thread invoke
         self.result = return_result
 
-    def save_lightning_to_server(self, component_attribute, body, check_save_conflict=True):
+    def save_lightning_to_server(self, component_attribute, body, is_check_only, check_save_conflict=True):
         """
         Save Lightning AuraDefinition or LightningComponentResource such as component makeup, controller and helper or
         Lightning Web component resource to Salesforce
@@ -1169,6 +1169,7 @@ class ToolingApi():
         Arguments:
         @param component_attribute: attribute of component, e.g., component id, url
         @param body: Code content
+        @param is_check_only: is check only
         @param check_save_conflict: indicate whether to check saving conflict
         @return: saving result
         """
@@ -1219,12 +1220,16 @@ class ToolingApi():
 
         # Component Attribute
         bundle_type = component_attribute["type"]
-        component_type = 'AuraDefinition' if bundle_type == "AuraDefinitionBundle" else 'LightningComponentResource'
+        component_type = 'AuraDefinition' \
+            if bundle_type == "AuraDefinitionBundle" \
+            else 'LightningComponentResource'
         component_id = component_attribute["id"]
-        component_url = self.base_url + '/tooling/sobjects/' + component_type + '/' + component_id
+        component_url = self.base_url + \
+            '/tooling/sobjects/%s/%s' % (component_type, component_id)
 
         # 2. Check conflict
-        if self.settings["check_save_conflict"] and check_save_conflict:
+        if self.settings["check_save_conflict"] and not is_check_only \
+                and check_save_conflict and "url" in component_attribute:
             Printer.get('log').write("Start to check saving conflict")
             query = "SELECT Id, LastModifiedById, LastModifiedBy.Id, " + \
                     "LastModifiedBy.Name, LastModifiedDate, SystemModstamp " + \
@@ -1274,7 +1279,7 @@ class ToolingApi():
         data = {
             "Source": body
         }
-        result = self.patch(component_url, data)
+        result = self.patch(component_url, data)  # {"str": "", "success": true}
         return_result = {
             "success": False,
             "problem": '',
