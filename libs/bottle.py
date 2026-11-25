@@ -81,7 +81,7 @@ if py3k:
     from urllib.parse import urlencode, quote as urlquote, unquote as urlunquote
     urlunquote = functools.partial(urlunquote, encoding='latin1')
     from http.cookies import SimpleCookie
-    from collections import MutableMapping as DictMixin
+    from collections.abc import MutableMapping as DictMixin
     import pickle
     from io import BytesIO
     basestring = str
@@ -105,7 +105,7 @@ else: # 2.x
         def next(it): return it.next()
         bytes = str
     else: # 2.6, 2.7
-        from collections import MutableMapping as DictMixin
+        from collections.abc import MutableMapping as DictMixin
     json_loads = json_lds
 
 # Some helpers for string/byte handling
@@ -2235,7 +2235,7 @@ def yieldroutes(func):
     """
     import inspect # Expensive module. Only import if necessary.
     path = '/' + func.__name__.replace('__','/').lstrip('/')
-    spec = inspect.getargspec(func)
+    spec = inspect.getfullargspec(func)
     argc = len(spec[0]) - len(spec[3] or [])
     path += ('/:%s' * argc) % tuple(spec[0][:argc])
     yield path

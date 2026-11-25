@@ -13,7 +13,7 @@ import string
 import time
 import sys
 import os
-import collections
+import collections.abc
 
 try:
     from io import StringIO
@@ -312,8 +312,8 @@ class parser(object):
         if res.weekday is not None and not res.day:
             ret = ret+relativedelta.relativedelta(weekday=res.weekday)
         if not ignoretz:
-            if isinstance(tzinfos, collections.Callable) or tzinfos and res.tzname in tzinfos:
-                if isinstance(tzinfos, collections.Callable):
+            if isinstance(tzinfos, collections.abc.Callable) or tzinfos and res.tzname in tzinfos:
+                if isinstance(tzinfos, collections.abc.Callable):
                     tzdata = tzinfos(res.tzname, res.tzoffset)
                 else:
                     tzdata = tzinfos.get(res.tzname)
